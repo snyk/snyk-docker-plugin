@@ -8,15 +8,15 @@
   },
   "main": "lib/index.js",
   "scripts": {
-    "lint": "jscs `find ./lib -name '*.js'` -v && jscs `find ./test -name '*.js'` -v",
-    "test": "tap `find ./test -name '*.test.js'` --timeout=300",
+    "lint": "jscs lib test -v",
+    "test": "tap test/*.test.js --timeout=300",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "author": "snyk.io",
   "license": "Apache-2.0",
   "devDependencies": {
     "jscs": "^3.0.7",
-    "semantic-release": "^6.3.6",
+    "semantic-release": "^12.4.1",
     "tap": "^10.7.0",
     "tap-only": "0.0.5"
   }
