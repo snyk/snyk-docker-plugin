@@ -16,7 +16,7 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "jscs": "^3.0.7",
-    "semantic-release": "^12.4.1",
+    "semantic-release": "^6.3.6",
     "tap": "^10.7.0",
     "tap-only": "0.0.5"
   }
