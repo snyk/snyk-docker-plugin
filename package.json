@@ -13,7 +13,7 @@
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "snyk-docker-analyzer": {
-    "version": "1.0.0"
+    "version": "1.0.2"
   },
   "author": "snyk.io",
   "license": "Apache-2.0",
@@ -26,7 +26,7 @@
   "dependencies": {
     "fs-extra": "^5.0.0",
     "pkginfo": "^0.4.1",
-    "request": "^2.85.0",
-    "request-progress": "^3.0.0"
+    "progress": "^2.0.0",
+    "request": "^2.85.0"
   }
 }
