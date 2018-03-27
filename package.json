@@ -12,6 +12,9 @@
     "test": "tap test/*.test.js --timeout=300",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
+  "snyk-docker-analyzer": {
+    "version": "1.0.2"
+  },
   "author": "snyk.io",
   "license": "Apache-2.0",
   "devDependencies": {
@@ -19,5 +22,11 @@
     "semantic-release": "^6.3.6",
     "tap": "^10.7.0",
     "tap-only": "0.0.5"
+  },
+  "dependencies": {
+    "fs-extra": "^5.0.0",
+    "pkginfo": "^0.4.1",
+    "progress": "^2.0.0",
+    "request": "^2.85.0"
   }
 }
