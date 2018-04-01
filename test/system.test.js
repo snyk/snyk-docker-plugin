@@ -69,6 +69,52 @@ test('inspect nginx:1.13.10', function (t) {
         },
       }, 'deps');
     });
+});
+
+test('inspect redis:3.2.11-alpine', function (t) {
+  const imgName = 'redis';
+  const imgTag = '3.2.11-alpine';
+  const img = imgName + ':' + imgTag;
+  return dockerPull(img)
+    .then(function () {
+      return plugin.inspect('.', img);
+    })
+    .then(function (res) {
+      const plugin = res.plugin;
+      const pkg = res.package;
+
+      t.equal(plugin.name, 'snyk-docker-plugin', 'name');
+      t.equal(plugin.targetFile, img, 'targetFile');
+
+      t.match(pkg, {
+        name: imgName,
+        version: imgTag,
+        packageFormatVersion: 'apk:0.0.1',
+        from: [imgName + '@' + imgTag],
+      }, 'root pkg');
+
+      const deps = pkg.dependencies;
+
+      t.equal(Object.keys(deps).length, 13, 'expected number of deps');
+      t.match(deps, {
+        busybox: {
+          name: 'busybox',
+          version: '1.27.2-r7',
+          from: [
+            imgName + '@' + imgTag,
+            'busybox@1.27.2-r7',
+          ],
+        },
+        'libressl2.6-libcrypto': {
+          name: 'libressl2.6-libcrypto',
+          version: '2.6.3-r0',
+        },
+        zlib: {
+          name: 'zlib',
+          version: '1.2.11-r1',
+        },
+      }, 'deps');
+    });
 
 });
 
