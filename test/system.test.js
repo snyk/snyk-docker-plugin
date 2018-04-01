@@ -9,7 +9,7 @@ test('Test for non exists docker', function (t) {
   })
 });
 
-test('inspect nginx:1.13.19', function (t) {
+test('inspect nginx:1.13.10', function (t) {
   const imgName = 'nginx';
   const imgTag = '1.13.10';
   const img = imgName + ':' + imgTag;
@@ -18,8 +18,6 @@ test('inspect nginx:1.13.19', function (t) {
       return plugin.inspect('.', img);
     })
     .then(function (res) {
-      console.log('KOKO', JSON.stringify(res, 0, 2));
-
       const plugin = res.plugin;
       const pkg = res.package;
 
@@ -43,7 +41,7 @@ test('inspect nginx:1.13.19', function (t) {
           from: [
             'nginx@1.13.10',
             'acl@2.2.52-3+b1',
-          ]
+          ],
         },
         adduser: {
           name: 'adduser',
@@ -51,15 +49,15 @@ test('inspect nginx:1.13.19', function (t) {
           from: [
             'nginx@1.13.10',
             'adduser@3.115',
-          ]
+          ],
         },
         'nginx-module-xslt': {
           name: 'nginx-module-xslt',
           version: '1.13.10-1~stretch',
           from: [
             'nginx@1.13.10',
-            'nginx-module-xslt@1.13.10-1~stretch'
-          ]
+            'nginx-module-xslt@1.13.10-1~stretch',
+          ],
         },
         openssl: {
           name: 'openssl',
@@ -67,7 +65,7 @@ test('inspect nginx:1.13.19', function (t) {
           from: [
             'nginx@1.13.10',
             'openssl@1.1.0f-3+deb9u1',
-          ]
+          ],
         },
       }, 'deps');
     });
