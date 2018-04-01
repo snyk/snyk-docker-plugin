@@ -1,5 +1,5 @@
 {
-  "name": "snyk-docker-plugin",
+  "name": "@snyk/snyk-docker-plugin",
   "description": "Snyk CLI docker plugin",
   "homepage": "https://github.com/snyk/snyk-docker-plugin",
   "repository": {
@@ -28,5 +28,8 @@
     "pkginfo": "^0.4.1",
     "progress": "^2.0.0",
     "request": "^2.85.0"
+  },
+  "publishConfig": {
+    "access": "restricted"
   }
 }
