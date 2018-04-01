@@ -13,7 +13,7 @@ test('inspect nginx:1.13.10', function (t) {
   const imgName = 'nginx';
   const imgTag = '1.13.10';
   const img = imgName + ':' + imgTag;
-  return dockerPull(img)
+  return dockerPull(t, img)
     .then(function () {
       return plugin.inspect('.', img);
     })
@@ -75,7 +75,7 @@ test('inspect redis:3.2.11-alpine', function (t) {
   const imgName = 'redis';
   const imgTag = '3.2.11-alpine';
   const img = imgName + ':' + imgTag;
-  return dockerPull(img)
+  return dockerPull(t, img)
     .then(function () {
       return plugin.inspect('.', img);
     })
@@ -115,9 +115,63 @@ test('inspect redis:3.2.11-alpine', function (t) {
         },
       }, 'deps');
     });
-
 });
 
-function dockerPull(name) {
+test('inspect centos', function (t) {
+  const imgName = 'centos';
+  const imgTag = '7.4.1708';
+  const img = imgName + ':' + imgTag;
+  return dockerPull(t, img)
+    .then(function () {
+      return plugin.inspect('.', img);
+    })
+    .then(function (res) {
+      console.log('KOKO', JSON.stringify(res, 0, 2));
+      const plugin = res.plugin;
+      const pkg = res.package;
+
+      t.equal(plugin.name, 'snyk-docker-plugin', 'name');
+      t.equal(plugin.targetFile, img, 'targetFile');
+
+      t.match(pkg, {
+        name: imgName,
+        version: imgTag,
+        packageFormatVersion: 'rpm:0.0.1',
+        from: [imgName + '@' + imgTag],
+      }, 'root pkg');
+
+      const deps = pkg.dependencies;
+
+      t.equal(Object.keys(deps).length, 145, 'expected number of deps');
+      t.match(deps, {
+        'openssl-libs': {
+          name: 'openssl-libs',
+          version: '1.0.2k',
+          from: [
+            imgName + '@' + imgTag,
+            'openssl-libs@1.0.2k',
+          ],
+        },
+        passwd: {
+          name: 'passwd',
+          version: '0.79',
+        },
+        systemd: {
+          name: 'systemd',
+          version: '219',
+        },
+        dracut: {
+          name: 'dracut',
+          version: '033', // TODO: what is this weird version
+        },
+        iputils: {
+          version: '20160308',
+        },
+      }, 'deps');
+    });
+});
+
+function dockerPull(t, name) {
+  t.comment('pulling ' + name);
   return subProcess.execute('docker', ['image', 'pull', name]);
 }
