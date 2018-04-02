@@ -1,10 +1,64 @@
-var test = require('tap-only');
+const test = require('tap-only');
+const nock = require('nock');
+const fsExtra = require('fs-extra');
+const pathUtil = require('path');
 
-var plugin = require('../lib');
-var subProcess = require('../lib/sub-process');
+const plugin = require('../lib');
+const subProcess = require('../lib/sub-process');
 
-test('Test for non exists docker', function (t) {
-  return plugin.inspect('.', 'non-exists:latest').catch((error) => {
+test('throws if cant fetch analyzer', function (t) {
+  t.tearDown(() => {
+    nock.restore();
+  });
+
+  const downloadServer = nock('https://s3.amazonaws.com')
+    .get(/.*/)
+    .reply(400);
+
+  fsExtra.removeSync(
+    pathUtil.join(__dirname, '../bin/'));
+
+  return plugin.inspect('.', 'debain:6')
+    .catch((err) => {
+      t.true(nock.isDone(), 'tried to download analyzer');
+      t.is(err.statusCode, 400, 'expected statusCode');
+      t.match(err.message, /bad.*http.*download/i, 'expected error message');
+    });
+});
+
+test('fetches analyzer only if doesnt exist', function (t) {
+  t.tearDown(() => {
+    nock.restore();
+  });
+
+  const binFolder = pathUtil.join(__dirname, '../bin/');
+
+  fsExtra.removeSync(binFolder);
+  t.false(fsExtra.existsSync(binFolder), 'bin folder is deleted');
+
+  return plugin.inspect('.', 'not-here:latest')
+    .catch(() => {
+      // TODO: check also file exists and not empty
+      t.true(fsExtra.existsSync(binFolder), 'bin folder was created');
+
+      if (!nock.isActive()) {
+        nock.activate();
+      }
+      nock('https://s3.amazonaws.com')
+        .get(/.*/)
+        .reply(400);
+
+      return plugin.inspect('.', 'not-there:1.2.3')
+    })
+    .catch(() => {
+      t.false(nock.isDone(), 'didnt try to download analyzer');
+      nock.restore();
+    })
+});
+
+test('inspect an image that doesnt exist', function (t) {
+  return plugin.inspect('.', 'not-here:latest').catch((err) => {
+    t.match(err.message, 'does not exist');
     t.pass('failed as expected');
   })
 });
@@ -118,63 +172,58 @@ test('inspect redis:3.2.11-alpine', function (t) {
 });
 
 
-// TODO: this is commented out because we fail to extract the centos docker,
-// the issue exists also in container-diff:
-//  https://github.com/GoogleCloudPlatform/container-diff/issues/168
+test('inspect centos', function (t) {
+  const imgName = 'centos';
+  const imgTag = '7.4.1708';
+  const img = imgName + ':' + imgTag;
+  return dockerPull(t, img)
+    .then(function () {
+      return plugin.inspect('.', img);
+    })
+    .then(function (res) {
+      const plugin = res.plugin;
+      const pkg = res.package;
 
-// t.todo('inspect centos', function (t) {
-//   const imgName = 'centos';
-//   const imgTag = '7.4.1708';
-//   const img = imgName + ':' + imgTag;
-//   return dockerPull(t, img)
-//     .then(function () {
-//       return plugin.inspect('.', img);
-//     })
-//     .then(function (res) {
-//       console.log('KOKO', JSON.stringify(res, 0, 2));
-//       const plugin = res.plugin;
-//       const pkg = res.package;
+      t.equal(plugin.name, 'snyk-docker-plugin', 'name');
+      t.equal(plugin.targetFile, img, 'targetFile');
 
-//       t.equal(plugin.name, 'snyk-docker-plugin', 'name');
-//       t.equal(plugin.targetFile, img, 'targetFile');
+      t.match(pkg, {
+        name: imgName,
+        version: imgTag,
+        packageFormatVersion: 'rpm:0.0.1',
+        from: [imgName + '@' + imgTag],
+      }, 'root pkg');
 
-//       t.match(pkg, {
-//         name: imgName,
-//         version: imgTag,
-//         packageFormatVersion: 'rpm:0.0.1',
-//         from: [imgName + '@' + imgTag],
-//       }, 'root pkg');
+      const deps = pkg.dependencies;
 
-//       const deps = pkg.dependencies;
-
-//       t.equal(Object.keys(deps).length, 145, 'expected number of deps');
-//       t.match(deps, {
-//         'openssl-libs': {
-//           name: 'openssl-libs',
-//           version: '1.0.2k',
-//           from: [
-//             imgName + '@' + imgTag,
-//             'openssl-libs@1.0.2k',
-//           ],
-//         },
-//         passwd: {
-//           name: 'passwd',
-//           version: '0.79',
-//         },
-//         systemd: {
-//           name: 'systemd',
-//           version: '219',
-//         },
-//         dracut: {
-//           name: 'dracut',
-//           version: '033', // TODO: what is this weird version
-//         },
-//         iputils: {
-//           version: '20160308',
-//         },
-//       }, 'deps');
-//     });
-// });
+      t.equal(Object.keys(deps).length, 145, 'expected number of deps');
+      t.match(deps, {
+        'openssl-libs': {
+          name: 'openssl-libs',
+          version: '1.0.2k',
+          from: [
+            imgName + '@' + imgTag,
+            'openssl-libs@1.0.2k',
+          ],
+        },
+        passwd: {
+          name: 'passwd',
+          version: '0.79',
+        },
+        systemd: {
+          name: 'systemd',
+          version: '219',
+        },
+        dracut: {
+          name: 'dracut',
+          version: '033', // TODO: what is this weird version
+        },
+        iputils: {
+          version: '20160308',
+        },
+      }, 'deps');
+    });
+});
 
 function dockerPull(t, name) {
   t.comment('pulling ' + name);
