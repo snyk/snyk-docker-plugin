@@ -1,10 +1,64 @@
-var test = require('tap-only');
+const test = require('tap-only');
+const nock = require('nock');
+const fsExtra = require('fs-extra');
+const pathUtil = require('path');
 
-var plugin = require('../lib');
-var subProcess = require('../lib/sub-process');
+const plugin = require('../lib');
+const subProcess = require('../lib/sub-process');
 
-test('Test for non exists docker', function (t) {
-  return plugin.inspect('.', 'non-exists:latest').catch((error) => {
+test('throws if cant fetch analyzer', function (t) {
+  t.tearDown(() => {
+    nock.restore();
+  });
+
+  const downloadServer = nock('https://s3.amazonaws.com')
+    .get(/.*/)
+    .reply(400);
+
+  fsExtra.removeSync(
+    pathUtil.join(__dirname, '../bin/'));
+
+  return plugin.inspect('.', 'debain:6')
+    .catch((err) => {
+      t.true(nock.isDone(), 'tried to download analyzer');
+      t.is(err.statusCode, 400, 'expected statusCode');
+      t.match(err.message, /bad.*http.*download/i, 'expected error message');
+    });
+});
+
+test('fetches analyzer only if doesnt exist', function (t) {
+  t.tearDown(() => {
+    nock.restore();
+  });
+
+  const binFolder = pathUtil.join(__dirname, '../bin/');
+
+  fsExtra.removeSync(binFolder);
+  t.false(fsExtra.existsSync(binFolder), 'bin folder is deleted');
+
+  return plugin.inspect('.', 'not-here:latest')
+    .catch(() => {
+      // TODO: check also file exists and not empty
+      t.true(fsExtra.existsSync(binFolder), 'bin folder was created');
+
+      if (!nock.isActive()) {
+        nock.activate();
+      }
+      nock('https://s3.amazonaws.com')
+        .get(/.*/)
+        .reply(400);
+
+      return plugin.inspect('.', 'not-there:1.2.3')
+    })
+    .catch(() => {
+      t.false(nock.isDone(), 'didnt try to download analyzer');
+      nock.restore();
+    })
+});
+
+test('inspect an image that doesnt exist', function (t) {
+  return plugin.inspect('.', 'not-here:latest').catch((err) => {
+    t.match(err.message, 'does not exist');
     t.pass('failed as expected');
   })
 });
