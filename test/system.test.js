@@ -181,7 +181,6 @@ test('inspect centos', function (t) {
       return plugin.inspect('.', img);
     })
     .then(function (res) {
-      console.log('KOKO', JSON.stringify(res, 0, 2));
       const plugin = res.plugin;
       const pkg = res.package;
 
