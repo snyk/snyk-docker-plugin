@@ -172,63 +172,59 @@ test('inspect redis:3.2.11-alpine', function (t) {
 });
 
 
-// TODO: this is commented out because we fail to extract the centos docker,
-// the issue exists also in container-diff:
-//  https://github.com/GoogleCloudPlatform/container-diff/issues/168
+test('inspect centos', function (t) {
+  const imgName = 'centos';
+  const imgTag = '7.4.1708';
+  const img = imgName + ':' + imgTag;
+  return dockerPull(t, img)
+    .then(function () {
+      return plugin.inspect('.', img);
+    })
+    .then(function (res) {
+      console.log('KOKO', JSON.stringify(res, 0, 2));
+      const plugin = res.plugin;
+      const pkg = res.package;
 
-// t.todo('inspect centos', function (t) {
-//   const imgName = 'centos';
-//   const imgTag = '7.4.1708';
-//   const img = imgName + ':' + imgTag;
-//   return dockerPull(t, img)
-//     .then(function () {
-//       return plugin.inspect('.', img);
-//     })
-//     .then(function (res) {
-//       console.log('KOKO', JSON.stringify(res, 0, 2));
-//       const plugin = res.plugin;
-//       const pkg = res.package;
+      t.equal(plugin.name, 'snyk-docker-plugin', 'name');
+      t.equal(plugin.targetFile, img, 'targetFile');
 
-//       t.equal(plugin.name, 'snyk-docker-plugin', 'name');
-//       t.equal(plugin.targetFile, img, 'targetFile');
+      t.match(pkg, {
+        name: imgName,
+        version: imgTag,
+        packageFormatVersion: 'rpm:0.0.1',
+        from: [imgName + '@' + imgTag],
+      }, 'root pkg');
 
-//       t.match(pkg, {
-//         name: imgName,
-//         version: imgTag,
-//         packageFormatVersion: 'rpm:0.0.1',
-//         from: [imgName + '@' + imgTag],
-//       }, 'root pkg');
+      const deps = pkg.dependencies;
 
-//       const deps = pkg.dependencies;
-
-//       t.equal(Object.keys(deps).length, 145, 'expected number of deps');
-//       t.match(deps, {
-//         'openssl-libs': {
-//           name: 'openssl-libs',
-//           version: '1.0.2k',
-//           from: [
-//             imgName + '@' + imgTag,
-//             'openssl-libs@1.0.2k',
-//           ],
-//         },
-//         passwd: {
-//           name: 'passwd',
-//           version: '0.79',
-//         },
-//         systemd: {
-//           name: 'systemd',
-//           version: '219',
-//         },
-//         dracut: {
-//           name: 'dracut',
-//           version: '033', // TODO: what is this weird version
-//         },
-//         iputils: {
-//           version: '20160308',
-//         },
-//       }, 'deps');
-//     });
-// });
+      t.equal(Object.keys(deps).length, 145, 'expected number of deps');
+      t.match(deps, {
+        'openssl-libs': {
+          name: 'openssl-libs',
+          version: '1.0.2k',
+          from: [
+            imgName + '@' + imgTag,
+            'openssl-libs@1.0.2k',
+          ],
+        },
+        passwd: {
+          name: 'passwd',
+          version: '0.79',
+        },
+        systemd: {
+          name: 'systemd',
+          version: '219',
+        },
+        dracut: {
+          name: 'dracut',
+          version: '033', // TODO: what is this weird version
+        },
+        iputils: {
+          version: '20160308',
+        },
+      }, 'deps');
+    });
+});
 
 function dockerPull(t, name) {
   t.comment('pulling ' + name);
