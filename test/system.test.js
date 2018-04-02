@@ -18,7 +18,7 @@ test('throws if cant fetch analyzer', function (t) {
   fsExtra.removeSync(
     pathUtil.join(__dirname, '../bin/'));
 
-  return plugin.inspect('.', 'debain:6')
+  return plugin.inspect('debian:6')
     .catch((err) => {
       t.true(nock.isDone(), 'tried to download analyzer');
       t.is(err.statusCode, 400, 'expected statusCode');
@@ -36,7 +36,7 @@ test('fetches analyzer only if doesnt exist', function (t) {
   fsExtra.removeSync(binFolder);
   t.false(fsExtra.existsSync(binFolder), 'bin folder is deleted');
 
-  return plugin.inspect('.', 'not-here:latest')
+  return plugin.inspect('not-here:latest')
     .catch(() => {
       // TODO: check also file exists and not empty
       t.true(fsExtra.existsSync(binFolder), 'bin folder was created');
@@ -48,7 +48,7 @@ test('fetches analyzer only if doesnt exist', function (t) {
         .get(/.*/)
         .reply(400);
 
-      return plugin.inspect('.', 'not-there:1.2.3')
+      return plugin.inspect('not-there:1.2.3')
     })
     .catch(() => {
       t.false(nock.isDone(), 'didnt try to download analyzer');
@@ -57,7 +57,7 @@ test('fetches analyzer only if doesnt exist', function (t) {
 });
 
 test('inspect an image that doesnt exist', function (t) {
-  return plugin.inspect('.', 'not-here:latest').catch((err) => {
+  return plugin.inspect('not-here:latest').catch((err) => {
     t.match(err.message, 'does not exist');
     t.pass('failed as expected');
   })
@@ -69,14 +69,13 @@ test('inspect nginx:1.13.10', function (t) {
   const img = imgName + ':' + imgTag;
   return dockerPull(t, img)
     .then(function () {
-      return plugin.inspect('.', img);
+      return plugin.inspect(img);
     })
     .then(function (res) {
       const plugin = res.plugin;
       const pkg = res.package;
 
       t.equal(plugin.name, 'snyk-docker-plugin', 'name');
-      t.equal(plugin.targetFile, img, 'targetFile');
 
       t.match(pkg, {
         name: imgName,
@@ -131,14 +130,13 @@ test('inspect redis:3.2.11-alpine', function (t) {
   const img = imgName + ':' + imgTag;
   return dockerPull(t, img)
     .then(function () {
-      return plugin.inspect('.', img);
+      return plugin.inspect(img);
     })
     .then(function (res) {
       const plugin = res.plugin;
       const pkg = res.package;
 
       t.equal(plugin.name, 'snyk-docker-plugin', 'name');
-      t.equal(plugin.targetFile, img, 'targetFile');
 
       t.match(pkg, {
         name: imgName,
@@ -178,14 +176,13 @@ test('inspect centos', function (t) {
   const img = imgName + ':' + imgTag;
   return dockerPull(t, img)
     .then(function () {
-      return plugin.inspect('.', img);
+      return plugin.inspect(img);
     })
     .then(function (res) {
       const plugin = res.plugin;
       const pkg = res.package;
 
       t.equal(plugin.name, 'snyk-docker-plugin', 'name');
-      t.equal(plugin.targetFile, img, 'targetFile');
 
       t.match(pkg, {
         name: imgName,
