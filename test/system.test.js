@@ -197,26 +197,26 @@ test('inspect centos', function (t) {
       t.match(deps, {
         'openssl-libs': {
           name: 'openssl-libs',
-          version: '1.0.2k',
+          version: '1:1.0.2k-8.el7',
           from: [
             imgName + '@' + imgTag,
-            'openssl-libs@1.0.2k',
+            'openssl-libs@1:1.0.2k-8.el7',
           ],
         },
         passwd: {
           name: 'passwd',
-          version: '0.79',
+          version: '0.79-4.el7',
         },
         systemd: {
           name: 'systemd',
-          version: '219',
+          version: '219-42.el7',
         },
         dracut: {
           name: 'dracut',
-          version: '033', // TODO: what is this weird version
+          version: '033-502.el7', // TODO: make sure we handle this well
         },
         iputils: {
-          version: '20160308',
+          version: '20160308-10.el7',
         },
       }, 'deps');
     });
