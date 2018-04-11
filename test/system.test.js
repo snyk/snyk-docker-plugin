@@ -11,8 +11,8 @@ test('throws if cant fetch analyzer', function (t) {
     nock.restore();
   });
 
-  const downloadServer = nock('https://s3.amazonaws.com')
-    .get(/.*/)
+  const downloadServer = nock('https://snyk.io')
+    .get(/\/resources\/.*/)
     .reply(400);
 
   fsExtra.removeSync(
@@ -44,8 +44,8 @@ test('fetches analyzer only if doesnt exist', function (t) {
       if (!nock.isActive()) {
         nock.activate();
       }
-      nock('https://s3.amazonaws.com')
-        .get(/.*/)
+      nock('https://snyk.io')
+        .get(/\/resources\/.*/)
         .reply(400);
 
       return plugin.inspect('not-there:1.2.3')
