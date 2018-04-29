@@ -81,7 +81,6 @@ test('inspect nginx:1.13.10', function (t) {
         name: imgName,
         version: imgTag,
         packageFormatVersion: 'deb:0.0.1',
-        from: [imgName + '@' + imgTag],
       }, 'root pkg');
 
       const deps = pkg.dependencies;
@@ -91,34 +90,18 @@ test('inspect nginx:1.13.10', function (t) {
         acl: {
           name: 'acl',
           version: '2.2.52-3+b1',
-          from: [
-            'nginx@1.13.10',
-            'acl@2.2.52-3+b1',
-          ],
         },
         adduser: {
           name: 'adduser',
           version: '3.115',
-          from: [
-            'nginx@1.13.10',
-            'adduser@3.115',
-          ],
         },
         'nginx-module-xslt': {
           name: 'nginx-module-xslt',
           version: '1.13.10-1~stretch',
-          from: [
-            'nginx@1.13.10',
-            'nginx-module-xslt@1.13.10-1~stretch',
-          ],
         },
         openssl: {
           name: 'openssl',
           version: '1.1.0f-3+deb9u1',
-          from: [
-            'nginx@1.13.10',
-            'openssl@1.1.0f-3+deb9u1',
-          ],
         },
       }, 'deps');
     });
@@ -142,7 +125,6 @@ test('inspect redis:3.2.11-alpine', function (t) {
         name: imgName,
         version: imgTag,
         packageFormatVersion: 'apk:0.0.1',
-        from: [imgName + '@' + imgTag],
       }, 'root pkg');
 
       const deps = pkg.dependencies;
@@ -152,10 +134,6 @@ test('inspect redis:3.2.11-alpine', function (t) {
         busybox: {
           name: 'busybox',
           version: '1.27.2-r7',
-          from: [
-            imgName + '@' + imgTag,
-            'busybox@1.27.2-r7',
-          ],
         },
         'libressl2.6-libcrypto': {
           name: 'libressl2.6-libcrypto',
@@ -188,7 +166,6 @@ test('inspect centos', function (t) {
         name: imgName,
         version: imgTag,
         packageFormatVersion: 'rpm:0.0.1',
-        from: [imgName + '@' + imgTag],
       }, 'root pkg');
 
       const deps = pkg.dependencies;
@@ -198,10 +175,6 @@ test('inspect centos', function (t) {
         'openssl-libs': {
           name: 'openssl-libs',
           version: '1:1.0.2k-8.el7',
-          from: [
-            imgName + '@' + imgTag,
-            'openssl-libs@1:1.0.2k-8.el7',
-          ],
         },
         passwd: {
           name: 'passwd',
