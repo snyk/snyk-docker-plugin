@@ -58,7 +58,7 @@ test('fetches analyzer only if doesnt exist', function (t) {
 
 test('inspect an image that doesnt exist', function (t) {
   return plugin.inspect('not-here:latest').catch((err) => {
-    t.match(err.message, 'does not exist');
+    t.match(err.message, 'Docker image was not found:');
     t.pass('failed as expected');
   })
 });
