@@ -81,14 +81,18 @@ test('inspect nginx:1.13.10', function (t) {
         name: imgName,
         version: imgTag,
         packageFormatVersion: 'deb:0.0.1',
+        dockerOSRelease: {
+          name: 'debian',
+          version: '9',
+        },
       }, 'root pkg');
 
       const deps = pkg.dependencies;
 
-      t.equal(Object.keys(deps).length, 80, 'expected number of deps');
+      t.equal(Object.keys(deps).length, 108, 'expected number of deps');
       t.match(deps, {
-        acl: {
-          name: 'acl',
+        'acl/libacl1': {
+          name: 'acl/libacl1',
           version: '2.2.52-3+b1',
         },
         adduser: {
@@ -99,8 +103,8 @@ test('inspect nginx:1.13.10', function (t) {
           name: 'nginx-module-xslt',
           version: '1.13.10-1~stretch',
         },
-        openssl: {
-          name: 'openssl',
+        'openssl/libssl1.1': {
+          name: 'openssl/libssl1.1',
           version: '1.1.0f-3+deb9u1',
         },
       }, 'deps');
@@ -125,6 +129,10 @@ test('inspect redis:3.2.11-alpine', function (t) {
         name: imgName,
         version: imgTag,
         packageFormatVersion: 'apk:0.0.1',
+        dockerOSRelease: {
+          name: 'alpine',
+          version: '3.7.0',
+        },
       }, 'root pkg');
 
       const deps = pkg.dependencies;
@@ -166,6 +174,10 @@ test('inspect centos', function (t) {
         name: imgName,
         version: imgTag,
         packageFormatVersion: 'rpm:0.0.1',
+        dockerOSRelease: {
+          name: 'centos',
+          version: '7',
+        },
       }, 'root pkg');
 
       const deps = pkg.dependencies;
