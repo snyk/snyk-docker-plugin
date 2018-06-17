@@ -89,10 +89,10 @@ test('inspect nginx:1.13.10', function (t) {
 
       const deps = pkg.dependencies;
 
-      t.equal(Object.keys(deps).length, 80, 'expected number of deps');
+      t.equal(Object.keys(deps).length, 108, 'expected number of deps');
       t.match(deps, {
-        acl: {
-          name: 'acl',
+        'acl/libacl1': {
+          name: 'acl/libacl1',
           version: '2.2.52-3+b1',
         },
         adduser: {
@@ -103,8 +103,8 @@ test('inspect nginx:1.13.10', function (t) {
           name: 'nginx-module-xslt',
           version: '1.13.10-1~stretch',
         },
-        openssl: {
-          name: 'openssl',
+        'openssl/libssl1.1': {
+          name: 'openssl/libssl1.1',
           version: '1.1.0f-3+deb9u1',
         },
       }, 'deps');
