@@ -81,6 +81,10 @@ test('inspect nginx:1.13.10', function (t) {
         name: imgName,
         version: imgTag,
         packageFormatVersion: 'deb:0.0.1',
+        dockerOSRelease: {
+          name: 'debian',
+          version: '9',
+        },
       }, 'root pkg');
 
       const deps = pkg.dependencies;
@@ -125,6 +129,10 @@ test('inspect redis:3.2.11-alpine', function (t) {
         name: imgName,
         version: imgTag,
         packageFormatVersion: 'apk:0.0.1',
+        dockerOSRelease: {
+          name: 'alpine',
+          version: '3.7.0',
+        },
       }, 'root pkg');
 
       const deps = pkg.dependencies;
@@ -166,6 +174,10 @@ test('inspect centos', function (t) {
         name: imgName,
         version: imgTag,
         packageFormatVersion: 'rpm:0.0.1',
+        dockerOSRelease: {
+          name: 'centos',
+          version: '7',
+        },
       }, 'root pkg');
 
       const deps = pkg.dependencies;
