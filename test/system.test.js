@@ -75,7 +75,8 @@ test('inspect nginx:1.13.10', function (t) {
       const plugin = res.plugin;
       const pkg = res.package;
 
-      t.equal(plugin.name, 'snyk-docker-plugin', 'name');
+      t.equal(plugin.name, 'snyk-docker-plugin', 'plugin name');
+      t.equal(plugin['project-name'], img, `project-name is ${img}`);
 
       t.match(pkg, {
         name: imgName,
@@ -123,7 +124,8 @@ test('inspect redis:3.2.11-alpine', function (t) {
       const plugin = res.plugin;
       const pkg = res.package;
 
-      t.equal(plugin.name, 'snyk-docker-plugin', 'name');
+      t.equal(plugin.name, 'snyk-docker-plugin', 'plugin name');
+      t.equal(plugin['project-name'], img, `project-name is ${img}`);
 
       t.match(pkg, {
         name: imgName,
@@ -168,7 +170,8 @@ test('inspect centos', function (t) {
       const plugin = res.plugin;
       const pkg = res.package;
 
-      t.equal(plugin.name, 'snyk-docker-plugin', 'name');
+      t.equal(plugin.name, 'snyk-docker-plugin', 'plugin name');
+      t.equal(plugin['project-name'], img, `project-name is ${img}`);
 
       t.match(pkg, {
         name: imgName,
