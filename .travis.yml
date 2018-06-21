@@ -10,8 +10,9 @@ node_js:
 cache:
   directories:
     - node_modules
-script:
+install:
   - npm install
+script:
   - npm run lint
   - npm test
 jobs:
