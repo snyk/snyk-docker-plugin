@@ -1,4 +1,6 @@
 .github
 .jscsrc
 .travis.yml
-/test
+appveyor.yml
+test/
+bin/
