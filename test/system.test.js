@@ -11,7 +11,7 @@ test('throws if cant fetch analyzer', function (t) {
     nock.restore();
   });
 
-  const downloadServer = nock('https://snyk.io')
+  nock('https://snyk.io')
     .get(/\/resources\/.*/)
     .reply(400);
 
@@ -87,27 +87,80 @@ test('inspect nginx:1.13.10', function (t) {
         },
       }, 'root pkg');
 
-      const deps = pkg.dependencies;
+      t.equal(uniquePkgSepcs(pkg).length, 110,
+        'expected number of total unique deps');
 
-      t.equal(Object.keys(deps).length, 108, 'expected number of deps');
+      const deps = pkg.dependencies;
+      t.equal(Object.keys(deps).length, 48, 'expected number of direct deps');
       t.match(deps, {
-        'acl/libacl1': {
-          name: 'acl/libacl1',
-          version: '2.2.52-3+b1',
-        },
-        adduser: {
-          name: 'adduser',
-          version: '3.115',
+        nginx: {
+          version: '1.13.10-1~stretch',
+          dependencies: {
+            adduser: {
+              name: 'adduser',
+              version: '3.115',
+            },
+            'openssl/libssl1.1': {
+              name: 'openssl/libssl1.1',
+              version: '1.1.0f-3+deb9u1',
+            },
+            'lsb/lsb-base': {
+              version: '9.20161125',
+            },
+          },
         },
         'nginx-module-xslt': {
           name: 'nginx-module-xslt',
           version: '1.13.10-1~stretch',
+          dependencies: {
+            libxml2: {
+              version: '2.9.4+dfsg1-2.2+deb9u2',
+            },
+            nginx: {
+              version: '1.13.10-1~stretch',
+              dependencies: {
+                'lsb/lsb-base': {
+                  version: '9.20161125',
+                },
+              },
+            },
+          },
         },
-        'openssl/libssl1.1': {
-          name: 'openssl/libssl1.1',
-          version: '1.1.0f-3+deb9u1',
+        'gettext/gettext-base': {
+          version: '0.19.8.1-2',
         },
-      }, 'deps');
+        'shadow/login': {
+          // a package marked as "Auto-Installed", but not dependant upon:
+          name: 'shadow/login',
+          version: '1:4.4-4.1',
+        },
+        'gnupg2/gpgv': {
+          // a package marked as "Auto-Installed", but not dependant upon:
+          version: '2.1.18-8~deb9u1',
+          dependencies: {
+            libgcrypt20: {
+              version: '1.7.6-2+deb9u2',
+            },
+          },
+        },
+      }, 'regular deps seem ok');
+
+      const commonDeps = deps['meta-common-packages'].dependencies;
+      t.equal(Object.keys(commonDeps).length, 19,
+        'expected number of common deps under meta pkg');
+
+      t.match(commonDeps, {
+        'zlib/zlib1g': {
+          name: 'zlib/zlib1g',
+          version: '1:1.2.8.dfsg-5',
+        },
+        debconf: {
+          version: '1.5.61',
+        },
+        dpkg: {
+          version: '1.18.24',
+        },
+      }, 'meta-common-packages seems fine')
     });
 });
 
@@ -210,4 +263,22 @@ test('inspect centos', function (t) {
 function dockerPull(t, name) {
   t.comment('pulling ' + name);
   return subProcess.execute('docker', ['image', 'pull', name]);
+}
+
+function uniquePkgSepcs(tree) {
+  var uniq = new Set();
+
+  var scan = function (pkg) {
+    var spec = pkg.name + '@' + pkg.version;
+    uniq.add(spec);
+
+    var deps = pkg.dependencies || {};
+    Object.keys(deps).forEach(function (name) {
+      scan(deps[name]);
+    });
+  }
+
+  scan(tree);
+
+  return Array.from(uniq);
 }
