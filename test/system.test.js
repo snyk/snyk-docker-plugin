@@ -119,11 +119,6 @@ test('inspect nginx:1.13.10', function (t) {
             },
             nginx: {
               version: '1.13.10-1~stretch',
-              dependencies: {
-                'lsb/lsb-base': {
-                  version: '9.20161125',
-                },
-              },
             },
           },
         },
@@ -134,17 +129,16 @@ test('inspect nginx:1.13.10', function (t) {
           // a package marked as "Auto-Installed", but not dependant upon:
           name: 'shadow/login',
           version: '1:4.4-4.1',
-        },
-        'gnupg2/gpgv': {
-          // a package marked as "Auto-Installed", but not dependant upon:
-          version: '2.1.18-8~deb9u1',
           dependencies: {
-            libgcrypt20: {
-              version: '1.7.6-2+deb9u2',
+            'pam/libpam-runtime': {
+              version: '1.1.8-3.6',
             },
           },
         },
       }, 'regular deps seem ok');
+
+      t.false(deps['nginx-module-xslt'].dependencies.nginx.dependencies,
+        'nginx-module-xslt -> ngxinx has do deps')
 
       const commonDeps = deps['meta-common-packages'].dependencies;
       t.equal(Object.keys(commonDeps).length, 19,
