@@ -76,6 +76,7 @@ test('inspect nginx:1.13.10', function (t) {
       const pkg = res.package;
 
       t.equal(plugin.name, 'snyk-docker-plugin', 'name');
+      t.equal(plugin.packageManager, 'deb', 'returns deb package manager');
 
       t.match(pkg, {
         name: imgName,
@@ -177,6 +178,7 @@ test('inspect redis:3.2.11-alpine', function (t) {
       const pkg = res.package;
 
       t.equal(plugin.name, 'snyk-docker-plugin', 'name');
+      t.equal(plugin.packageManager, 'apk', 'returns apk package manager');
 
       t.match(pkg, {
         name: imgName,
@@ -222,6 +224,7 @@ test('inspect centos', function (t) {
       const pkg = res.package;
 
       t.equal(plugin.name, 'snyk-docker-plugin', 'name');
+      t.equal(plugin.packageManager, 'rpm', 'returns rpm package manager');
 
       t.match(pkg, {
         name: imgName,
