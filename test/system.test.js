@@ -82,7 +82,7 @@ test('inspect nginx:1.13.10', function (t) {
         name: imgName,
         version: imgTag,
         packageFormatVersion: 'deb:0.0.1',
-        dockerOSRelease: {
+        targetOS: {
           name: 'debian',
           version: '9',
         },
@@ -178,7 +178,7 @@ test('inspect redis:3.2.11-alpine', function (t) {
         name: imgName,
         version: imgTag,
         packageFormatVersion: 'apk:0.0.1',
-        dockerOSRelease: {
+        targetOS: {
           name: 'alpine',
           version: '3.7.0',
         },
@@ -224,7 +224,7 @@ test('inspect centos', function (t) {
         name: imgName,
         version: imgTag,
         packageFormatVersion: 'rpm:0.0.1',
-        dockerOSRelease: {
+        targetOS: {
           name: 'centos',
           version: '7',
         },
