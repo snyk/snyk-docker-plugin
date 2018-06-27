@@ -67,8 +67,14 @@ test('inspect nginx:1.13.10', function (t) {
   const imgName = 'nginx';
   const imgTag = '1.13.10';
   const img = imgName + ':' + imgTag;
+
+  var expectedImageId;
   return dockerPull(t, img)
     .then(function () {
+      return dockerGetImageId(t, img);
+    })
+    .then(function (imageId) {
+      expectedImageId = imageId;
       return plugin.inspect(img);
     })
     .then(function (res) {
@@ -76,7 +82,8 @@ test('inspect nginx:1.13.10', function (t) {
       const pkg = res.package;
 
       t.equal(plugin.name, 'snyk-docker-plugin', 'name');
-      t.equal(plugin.dockerImageId.length, 'sha256:'.length + 64)
+      t.equal(plugin.dockerImageId, expectedImageId,
+          'image id is correct: ' + plugin.dockerImageId);
       t.equal(plugin.packageManager, 'deb', 'returns deb package manager');
 
       t.match(pkg, {
@@ -164,8 +171,14 @@ test('inspect redis:3.2.11-alpine', function (t) {
   const imgName = 'redis';
   const imgTag = '3.2.11-alpine';
   const img = imgName + ':' + imgTag;
+
+  var expectedImageId;
   return dockerPull(t, img)
     .then(function () {
+      return dockerGetImageId(t, img);
+    })
+    .then(function (imageId) {
+      expectedImageId = imageId;
       return plugin.inspect(img);
     })
     .then(function (res) {
@@ -173,7 +186,8 @@ test('inspect redis:3.2.11-alpine', function (t) {
       const pkg = res.package;
 
       t.equal(plugin.name, 'snyk-docker-plugin', 'name');
-      t.equal(plugin.dockerImageId.length, 'sha256:'.length + 64)
+      t.equal(plugin.dockerImageId, expectedImageId,
+          'image id is correct: ' + plugin.dockerImageId);
       t.equal(plugin.packageManager, 'apk', 'returns apk package manager');
 
       t.match(pkg, {
@@ -211,8 +225,14 @@ test('inspect centos', function (t) {
   const imgName = 'centos';
   const imgTag = '7.4.1708';
   const img = imgName + ':' + imgTag;
+
+  var expectedImageId;
   return dockerPull(t, img)
     .then(function () {
+      return dockerGetImageId(t, img);
+    })
+    .then(function (imageId) {
+      expectedImageId = imageId;
       return plugin.inspect(img);
     })
     .then(function (res) {
@@ -220,7 +240,8 @@ test('inspect centos', function (t) {
       const pkg = res.package;
 
       t.equal(plugin.name, 'snyk-docker-plugin', 'name');
-      t.equal(plugin.dockerImageId.length, 'sha256:'.length + 64)
+      t.equal(plugin.dockerImageId, expectedImageId,
+          'image id is correct: ' + plugin.dockerImageId);
       t.equal(plugin.packageManager, 'rpm', 'returns rpm package manager');
 
       t.match(pkg, {
@@ -263,6 +284,20 @@ test('inspect centos', function (t) {
 function dockerPull(t, name) {
   t.comment('pulling ' + name);
   return subProcess.execute('docker', ['image', 'pull', name]);
+}
+
+function dockerGetImageId(t, name) {
+  return subProcess.execute('docker', ['inspect', name])
+    .then(function (output) {
+      var inspection = JSON.parse(output);
+
+      var id = inspection[0].Id;
+
+      t.equal(id.length, 'sha256:'.length + 64,
+        'image id from `docker inspect` looks like what we expect');
+
+      return id;
+    });
 }
 
 function uniquePkgSepcs(tree) {
