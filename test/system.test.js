@@ -2,9 +2,12 @@ const test = require('tap-only');
 const nock = require('nock');
 const fsExtra = require('fs-extra');
 const pathUtil = require('path');
+const tempDir = require('temp-dir');
 
 const plugin = require('../lib');
 const subProcess = require('../lib/sub-process');
+
+const BIN_FOLDER = pathUtil.join(tempDir, 'snyk-docker-analyzer');
 
 test('throws if cant fetch analyzer', function (t) {
   t.tearDown(() => {
@@ -15,8 +18,7 @@ test('throws if cant fetch analyzer', function (t) {
     .get(/\/resources\/.*/)
     .reply(400);
 
-  fsExtra.removeSync(
-    pathUtil.join(__dirname, '../bin/'));
+  fsExtra.removeSync(BIN_FOLDER);
 
   return plugin.inspect('debian:6')
     .catch((err) => {
@@ -31,15 +33,14 @@ test('fetches analyzer only if doesnt exist', function (t) {
     nock.restore();
   });
 
-  const binFolder = pathUtil.join(__dirname, '../bin/');
 
-  fsExtra.removeSync(binFolder);
-  t.false(fsExtra.existsSync(binFolder), 'bin folder is deleted');
+  fsExtra.removeSync(BIN_FOLDER);
+  t.false(fsExtra.existsSync(BIN_FOLDER), 'bin folder is deleted');
 
   return plugin.inspect('not-here:latest')
     .catch(() => {
       // TODO: check also file exists and not empty
-      t.true(fsExtra.existsSync(binFolder), 'bin folder was created');
+      t.true(fsExtra.existsSync(BIN_FOLDER), 'bin folder was created');
 
       if (!nock.isActive()) {
         nock.activate();
