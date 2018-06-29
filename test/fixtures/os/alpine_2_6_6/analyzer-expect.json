@@ -1,0 +1,195 @@
+{
+  "imageId": "sha256:fake",
+  "osRelease": {
+    "name": "alpine",
+    "version": "2.6.6"
+  },
+  "results": [
+    {
+      "Image": "alpine:2.6",
+      "AnalyzeType": "Apk",
+      "Analysis": [
+        {
+          "Name": "libc",
+          "Version": "0.9.33.2-r22",
+          "Source": null,
+          "Provides": [
+            "so:ld64-uClibc.so.0.9.32",
+            "so:libc.so.0.9.32",
+            "so:libcrypt.so.0.9.32",
+            "so:libdl.so.0.9.32",
+            "so:libm.so.0.9.32",
+            "so:libresolv.so.0.9.32",
+            "so:libubacktrace.so.0.9.32",
+            "so:libutil.so.0.9.32"
+          ],
+          "Deps": {
+            "libc0.9.32": true
+          },
+          "AutoInstalled": null
+        },
+        {
+          "Name": "busybox",
+          "Version": "1.21.1-r2",
+          "Source": null,
+          "Provides": [],
+          "Deps": {
+            "so:libc.so.0.9.32": true,
+            "so:libcrypt.so.0.9.32": true,
+            "so:libm.so.0.9.32": true
+          },
+          "AutoInstalled": null
+        },
+        {
+          "Name": "alpine-baselayout",
+          "Version": "2.2.0-r6",
+          "Source": null,
+          "Provides": [],
+          "Deps": {
+            "busybox": true,
+            "so:libc.so.0.9.32": true
+          },
+          "AutoInstalled": null
+        },
+        {
+          "Name": "openrc",
+          "Version": "0.11.8-r0",
+          "Source": null,
+          "Provides": [
+            "so:libeinfo.so.1",
+            "so:librc.so.1"
+          ],
+          "Deps": {
+            "busybox": true,
+            "so:libc.so.0.9.32": true,
+            "so:libdl.so.0.9.32": true,
+            "so:libutil.so.0.9.32": true
+          },
+          "AutoInstalled": null
+        },
+        {
+          "Name": "alpine-conf",
+          "Version": "2.12.0-r6",
+          "Source": null,
+          "Provides": [],
+          "Deps": {
+            "openrc": true,
+            "so:libc.so.0.9.32": true
+          },
+          "AutoInstalled": null
+        },
+        {
+          "Name": "zlib",
+          "Version": "1.2.8-r0",
+          "Source": null,
+          "Provides": [
+            "so:libz.so.1"
+          ],
+          "Deps": {
+            "so:libc.so.0.9.32": true
+          },
+          "AutoInstalled": null
+        },
+        {
+          "Name": "libcrypto1.0",
+          "Version": "1.0.1m-r0",
+          "Source": null,
+          "Provides": [
+            "so:libcrypto.so.1.0.0"
+          ],
+          "Deps": {
+            "so:libc.so.0.9.32": true,
+            "so:libdl.so.0.9.32": true,
+            "so:libz.so.1": true,
+            "openssl": true,
+            "libcrypto": true
+          },
+          "AutoInstalled": null
+        },
+        {
+          "Name": "apk-tools",
+          "Version": "2.4.0-r1",
+          "Source": null,
+          "Provides": [],
+          "Deps": {
+            "so:libc.so.0.9.32": true,
+            "so:libcrypto.so.1.0.0": true,
+            "so:libz.so.1": true
+          },
+          "AutoInstalled": null
+        },
+        {
+          "Name": "busybox-initscripts",
+          "Version": "2.2-r15",
+          "Source": null,
+          "Provides": [],
+          "Deps": {
+            "busybox": true,
+            "alpine-baselayout": true
+          },
+          "AutoInstalled": null
+        },
+        {
+          "Name": "uclibc-utils",
+          "Version": "0.9.33.2-r22",
+          "Source": null,
+          "Provides": [],
+          "Deps": {
+            "busybox": true,
+            "so:libc.so.0.9.32": true,
+            "uclibc": true,
+            "libc0.9.32": true
+          },
+          "AutoInstalled": null
+        },
+        {
+          "Name": "libc-utils",
+          "Version": "0.1-r0",
+          "Source": null,
+          "Provides": [],
+          "Deps": {
+            "uclibc-utils": true
+          },
+          "AutoInstalled": null
+        },
+        {
+          "Name": "alpine-keys",
+          "Version": "1.0-r0",
+          "Source": null,
+          "Provides": [],
+          "Deps": {
+            "alpine-base": true
+          },
+          "AutoInstalled": null
+        },
+        {
+          "Name": "alpine-base",
+          "Version": "2.6.6-r0",
+          "Source": null,
+          "Provides": [],
+          "Deps": {
+            "alpine-baselayout": true,
+            "alpine-conf": true,
+            "apk-tools": true,
+            "busybox": true,
+            "busybox-initscripts": true,
+            "openrc": true,
+            "libc-utils": true,
+            "alpine-keys": true
+          },
+          "AutoInstalled": null
+        }
+      ]
+    },
+    {
+      "Analysis": [],
+      "AnalyzeType": "Apt",
+      "Image": "alpine:2.6"
+    },
+    {
+      "Analysis": [],
+      "AnalyzeType": "Rpm",
+      "Image": "alpine:2.6"
+    }
+  ]
+}

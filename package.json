@@ -1,33 +1,41 @@
 {
   "name": "snyk-docker-plugin",
   "description": "Snyk CLI docker plugin",
+  "author": "snyk.io",
+  "license": "Apache-2.0",
   "homepage": "https://github.com/snyk/snyk-docker-plugin",
   "repository": {
     "type": "git",
     "url": "https://github.com/snyk/snyk-docker-plugin"
   },
-  "main": "lib/index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "lint": "eslint -c .eslintrc lib test",
-    "test": "tap test/*.test.js -R spec --timeout=300",
-    "semantic-release": "semantic-release"
+    "build": "tsc",
+    "build-watch": "tsc -w",
+    "lint": "tslint --project tsconfig.json --format stylish",
+    "semantic-release": "semantic-release",
+    "test": "npm run lint && npm run unit-test",
+    "unit-test": "tap test/system test/lib -R=spec --timeout=300",
+    "prepare": "npm run build"
   },
   "snyk-docker-analyzer": {
     "version": "1.5.2"
-  },
-  "author": "snyk.io",
-  "license": "Apache-2.0",
-  "devDependencies": {
-    "eslint": "^4.11.0",
-    "nock": "^9.2.3",
-    "semantic-release": "^15",
-    "tap": "^12.0.1",
-    "tap-only": "0.0.5"
   },
   "dependencies": {
     "debug": "^3.1.0",
     "fs-extra": "^5.0.0",
     "needle": "^2.0.1",
     "temp-dir": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^10.5.1",
+    "@types/sinon": "^5.0.1",
+    "nock": "^9.4.1",
+    "semantic-release": "^15",
+    "sinon": "^6.1.0",
+    "tap": "^12.0.1",
+    "ts-node": "^7.0.0",
+    "tslint": "^5.10.0",
+    "typescript": "^2.9.2"
   }
 }
