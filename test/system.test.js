@@ -64,6 +64,25 @@ test('inspect an image that doesnt exist', function (t) {
   })
 });
 
+test('inspect an image with an unsupported pkg manager', function (t) {
+  const imgName = 'base/archlinux';
+  const imgTag = '2018.06.01';
+  const img = imgName + ':' + imgTag;
+
+  return dockerPull(t, img)
+    .then(function () {
+      return plugin.inspect(img);
+    })
+    .then(function () {
+      t.fail('should have failed');
+    })
+    .catch(function (err) {
+      t.match(err.message,
+        'Failed to detect a supported Linux package manager (deb/rpm/apk)',
+        'error msg is correct');
+    })
+});
+
 test('inspect nginx:1.13.10', function (t) {
   const imgName = 'nginx';
   const imgTag = '1.13.10';

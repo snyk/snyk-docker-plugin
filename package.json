@@ -13,7 +13,7 @@
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "snyk-docker-analyzer": {
-    "version": "1.5.1"
+    "version": "1.5.2"
   },
   "author": "snyk.io",
   "license": "Apache-2.0",
