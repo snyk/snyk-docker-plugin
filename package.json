@@ -18,19 +18,12 @@
     "unit-test": "tap test/system test/lib -R=spec --timeout=300",
     "prepare": "npm run build"
   },
-  "snyk-docker-analyzer": {
-    "version": "1.5.2"
-  },
   "dependencies": {
-    "debug": "^3.1.0",
-    "fs-extra": "^5.0.0",
-    "needle": "^2.0.1",
-    "temp-dir": "^1.0.0"
+    "debug": "^3.1.0"
   },
   "devDependencies": {
     "@types/node": "^10.5.1",
     "@types/sinon": "^5.0.1",
-    "nock": "^9.4.1",
     "semantic-release": "^15",
     "sinon": "^6.1.0",
     "tap": "^12.0.1",

@@ -3,66 +3,13 @@
 // See: https://github.com/tapjs/node-tap/issues/313#issuecomment-250067741
 
 import {test} from 'tap';
-import nock from 'nock';
-import tempDir from 'temp-dir';
-import * as fsExtra from 'fs-extra';
-import * as pathUtil from 'path';
 
 import * as plugin from '../../lib';
 import * as subProcess from '../../lib/sub-process';
 
-const BIN_FOLDER = pathUtil.join(tempDir, 'snyk-docker-analyzer');
-
-test('throws if cant fetch analyzer', t => {
-  t.tearDown(() => {
-    nock.restore();
-  });
-
-  nock('https://snyk.io')
-    .get(/\/resources\/.*/)
-    .reply(400);
-
-  fsExtra.removeSync(BIN_FOLDER);
-
-  return plugin.inspect('debian:6')
-    .catch((err) => {
-      t.true(nock.isDone(), 'tried to download analyzer');
-      t.is(err.statusCode, 400, 'expected statusCode');
-      t.match(err.message, /bad.*http.*download/i, 'expected error message');
-    });
-});
-
-test('fetches analyzer only if doesnt exist', t => {
-  t.tearDown(() => {
-    nock.restore();
-  });
-
-  fsExtra.removeSync(BIN_FOLDER);
-  t.false(fsExtra.existsSync(BIN_FOLDER), 'bin folder is deleted');
-
-  return plugin.inspect('not-here:latest')
-    .catch(() => {
-      // TODO: check also file exists and not empty
-      t.true(fsExtra.existsSync(BIN_FOLDER), 'bin folder was created');
-
-      if (!nock.isActive()) {
-        nock.activate();
-      }
-      nock('https://snyk.io')
-        .get(/\/resources\/.*/)
-        .reply(400);
-
-      return plugin.inspect('not-there:1.2.3');
-    })
-    .catch(() => {
-      t.false(nock.isDone(), 'didnt try to download analyzer');
-      nock.restore();
-    });
-});
-
 test('inspect an image that doesnt exist', t => {
   return plugin.inspect('not-here:latest').catch((err) => {
-    t.match(err.message, 'Docker image was not found locally:');
+    t.same(err.message, 'Docker image was not found locally: not-here:latest');
     t.pass('failed as expected');
   });
 });
@@ -123,21 +70,27 @@ test('inspect nginx:1.13.10', t => {
         'expected number of total unique deps');
 
       const deps = pkg.dependencies;
+      // Note: this test is now a bit fragile due to dep-tree-pruning
       t.equal(Object.keys(deps).length, 48, 'expected number of direct deps');
       t.match(deps, {
-        nginx: {
-          version: '1.13.10-1~stretch',
+        'nginx-module-njs': {
+          version: '1.13.10.0.1.15-1~stretch',
           dependencies: {
-            adduser: {
-              name: 'adduser',
-              version: '3.115',
-            },
-            'openssl/libssl1.1': {
-              name: 'openssl/libssl1.1',
-              version: '1.1.0f-3+deb9u1',
-            },
-            'lsb/lsb-base': {
-              version: '9.20161125',
+            nginx: {
+              version: '1.13.10-1~stretch',
+              dependencies: {
+                adduser: {
+                  name: 'adduser',
+                  version: '3.115',
+                },
+                'openssl/libssl1.1': {
+                  name: 'openssl/libssl1.1',
+                  version: '1.1.0f-3+deb9u1',
+                },
+                'lsb/lsb-base': {
+                  version: '9.20161125',
+                },
+              },
             },
           },
         },

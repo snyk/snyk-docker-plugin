@@ -24,7 +24,7 @@ test('analyze', async t => {
   const examples = [
     {
       description: 'Not applicable line',
-      dpkgManifestLines: ['Garbage: Garbage: garbage info'],
+      dpkgManifestLines: ['Garbage: garbage info'],
       extManifestLines: [],
       expectedPackages: [],
     },
@@ -144,6 +144,31 @@ test('analyze', async t => {
             'libtinfo5': true,
             'libc6': true,
             'multiarch-support': true,
+          },
+        },
+      ],
+    },
+    {
+      description: 'Depends',
+      dpkgManifestLines: [
+        'Package: nginx',
+        'Version: 1.13.10-1~stretch',
+        'Depends: init-system-helpers (>= 1.18~), libc6 (>= 2.17), libpcre3, libssl1.1 (>= 1.1.0), zlib1g (>= 1:1.1.4), lsb-base (>= 3.0-6), adduser',
+      ],
+      extManifestLines: [],
+      expectedPackages: [
+        {
+          ...defaultPkgProps,
+          Name: 'nginx',
+          Version: '1.13.10-1~stretch',
+          Deps: {
+            'init-system-helpers': true,
+            'libc6': true,
+            'libpcre3': true,
+            'libssl1.1': true,
+            'zlib1g': true,
+            'lsb-base': true,
+            'adduser': true,
           },
         },
       ],

@@ -5,6 +5,10 @@ export {
 };
 
 async function detect(targetImage) {
-  const info = await subProcess.execute('docker', ['inspect', targetImage]);
-  return JSON.parse(info)[0].Id;
+  try {
+    const info = await subProcess.execute('docker', ['inspect', targetImage]);
+    return JSON.parse(info)[0].Id;
+  } catch (error) {
+    throw new Error(`Docker image was not found locally: ${targetImage}`);
+  }
 }
