@@ -8,7 +8,7 @@
   },
   "main": "lib/index.js",
   "scripts": {
-    "lint": "jscs lib test -v",
+    "lint": "eslint -c .eslintrc lib test",
     "test": "tap test/*.test.js -R spec --timeout=300",
     "semantic-release": "semantic-release"
   },
@@ -18,7 +18,7 @@
   "author": "snyk.io",
   "license": "Apache-2.0",
   "devDependencies": {
-    "jscs": "^3.0.7",
+    "eslint": "^4.11.0",
     "nock": "^9.2.3",
     "semantic-release": "^15",
     "tap": "^12.0.1",

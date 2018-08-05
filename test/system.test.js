@@ -49,19 +49,19 @@ test('fetches analyzer only if doesnt exist', function (t) {
         .get(/\/resources\/.*/)
         .reply(400);
 
-      return plugin.inspect('not-there:1.2.3')
+      return plugin.inspect('not-there:1.2.3');
     })
     .catch(() => {
       t.false(nock.isDone(), 'didnt try to download analyzer');
       nock.restore();
-    })
+    });
 });
 
 test('inspect an image that doesnt exist', function (t) {
   return plugin.inspect('not-here:latest').catch((err) => {
     t.match(err.message, 'Docker image was not found locally:');
     t.pass('failed as expected');
-  })
+  });
 });
 
 test('inspect an image with an unsupported pkg manager', function (t) {
@@ -80,7 +80,7 @@ test('inspect an image with an unsupported pkg manager', function (t) {
       t.match(err.message,
         'Failed to detect a supported Linux package manager (deb/rpm/apk)',
         'error msg is correct');
-    })
+    });
 });
 
 test('inspect nginx:1.13.10', function (t) {
@@ -103,7 +103,7 @@ test('inspect nginx:1.13.10', function (t) {
 
       t.equal(plugin.name, 'snyk-docker-plugin', 'name');
       t.equal(plugin.dockerImageId, expectedImageId,
-          'image id is correct: ' + plugin.dockerImageId);
+        'image id is correct: ' + plugin.dockerImageId);
       t.equal(plugin.packageManager, 'deb', 'returns deb package manager');
 
       t.match(pkg, {
@@ -166,7 +166,7 @@ test('inspect nginx:1.13.10', function (t) {
       }, 'regular deps seem ok');
 
       t.false(deps['nginx-module-xslt'].dependencies.nginx.dependencies,
-        'nginx-module-xslt -> ngxinx has do deps')
+        'nginx-module-xslt -> ngxinx has do deps');
 
       const commonDeps = deps['meta-common-packages'].dependencies;
       t.equal(Object.keys(commonDeps).length, 19,
@@ -183,7 +183,7 @@ test('inspect nginx:1.13.10', function (t) {
         dpkg: {
           version: '1.18.24',
         },
-      }, 'meta-common-packages seems fine')
+      }, 'meta-common-packages seems fine');
     });
 });
 
@@ -207,7 +207,7 @@ test('inspect redis:3.2.11-alpine', function (t) {
 
       t.equal(plugin.name, 'snyk-docker-plugin', 'name');
       t.equal(plugin.dockerImageId, expectedImageId,
-          'image id is correct: ' + plugin.dockerImageId);
+        'image id is correct: ' + plugin.dockerImageId);
       t.equal(plugin.packageManager, 'apk', 'returns apk package manager');
 
       t.match(pkg, {
@@ -261,7 +261,7 @@ test('inspect centos', function (t) {
 
       t.equal(plugin.name, 'snyk-docker-plugin', 'name');
       t.equal(plugin.dockerImageId, expectedImageId,
-          'image id is correct: ' + plugin.dockerImageId);
+        'image id is correct: ' + plugin.dockerImageId);
       t.equal(plugin.packageManager, 'rpm', 'returns rpm package manager');
 
       t.match(pkg, {
@@ -331,7 +331,7 @@ function uniquePkgSepcs(tree) {
     Object.keys(deps).forEach(function (name) {
       scan(deps[name]);
     });
-  }
+  };
 
   scan(tree);
 
