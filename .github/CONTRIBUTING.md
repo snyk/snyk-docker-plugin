@@ -31,15 +31,18 @@ To release a major you need to add `BREAKING CHANGE: ` to the start of the body 
 
 ## Code standards
 
-Ensure that your code adheres to the included `.jshintrc` and `.jscsrc` configs.
+Ensure that your code adheres to the included `.eslintrc` config by running `npm run lint`.
 
 ## Sending pull requests
 
-- new command line options are generally discouraged unless there's a *really* good reason
 - add tests for newly added code (and try to mirror directory and file structure if possible)
 - spell check
-- PRs will not be code reviewed unless all tests are passing
+- PRs will not be code reviewed unless all tests are passing (run `npm test`)
 
-*Important:* when fixing a bug, please commit a **failing test** first so that Travis CI (or I can) can show the code failing. Once that commit is in place, then commit the bug fix, so that we can test *before* and *after*.
+*Important:* when fixing a bug, please commit a **failing test** first demonstrate the current code is failing. Once that commit is in place, then commit the bug fix, so that we can test *before* and *after*.
 
 Remember that you're developing for multiple platforms and versions of node, so if the tests pass on your Mac or Linux or Windows machine, it *may* not pass elsewhere.
+
+## Contributor Agreement
+
+A pull-request will only be considered for merging into the upstream codebase after you have signed our [contributor agreement](https://github.com/snyk/snyk-docker-plugin/blob/master/Contributor-Agreement.md), assigning us the rights to the contributed code and granting you a license to use it in return. If you submit a pull request, you will be prompted to review and sign the agreement with one click (we use [CLA assistant](https://cla-assistant.io/)).
