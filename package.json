@@ -25,9 +25,9 @@
     "tap-only": "0.0.5"
   },
   "dependencies": {
-    "fs-extra": "^5.0.0",
     "debug": "^3.1.0",
-    "request": "^2.87.0",
+    "fs-extra": "^5.0.0",
+    "needle": "^2.0.1",
     "temp-dir": "^1.0.0"
   }
 }
