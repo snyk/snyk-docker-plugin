@@ -29,9 +29,10 @@ test('analyzer', async t => {
 
   // Stub Docker cat file
   execStub.withArgs('docker', [
-    'run', '--rm', sinon.match.any, 'cat', sinon.match.any,
+    'run', '--rm', '--entrypoint', '""', '--network', 'none',
+    sinon.match.any, 'cat', sinon.match.any,
   ])
-    .callsFake(async (docker, [run, rm, image, cat, file]) => {
+    .callsFake(async (docker, [run, rm, entry, empty, network, none, image, cat, file]) => {
       try {
         const example = examples[image];
         return readOsFixtureFile(example.dir, 'fs', file);
@@ -42,8 +43,7 @@ test('analyzer', async t => {
 
   // Stub Docker `run rpm` command
   execStub.withArgs('docker', [
-    'run',
-    '--rm',
+    'run', '--rm', '--entrypoint', '""', '--network', 'none',
     sinon.match.any,
     'rpm',
     '--nodigest',
@@ -52,7 +52,7 @@ test('analyzer', async t => {
     '--qf',
     '"%{NAME}\t%|EPOCH?{%{EPOCH}:}|%{VERSION}-%{RELEASE}\t%{SIZE}\n"',
   ])
-    .callsFake(async (docker, [run, rm, image]) => {
+    .callsFake(async (docker, [run, rm, entry, empty, network, none, image]) => {
       try {
         const example = examples[image];
         return readOsFixtureFile(example.dir, 'rpm-output.txt');

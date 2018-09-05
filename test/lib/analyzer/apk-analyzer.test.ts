@@ -147,7 +147,8 @@ test('analyze', async t => {
       const execStub = sinon.stub(subProcess, 'execute');
 
       execStub.withArgs('docker', [
-        'run', '--rm', sinon.match.any, 'cat', '/lib/apk/db/installed',
+        'run', '--rm', '--entrypoint', '""', '--network', 'none',
+        sinon.match.any, 'cat', '/lib/apk/db/installed',
       ]).resolves(example.manifestLines.join('\n'));
 
       t.teardown(() => execStub.restore());

@@ -8,7 +8,7 @@ export {
   analyze,
 };
 
-function analyze(targetImage) {
+function analyze(targetImage: string) {
   return Promise.all([
     imageIdDetector.detect(targetImage),
     osReleaseDetector.detect(targetImage),

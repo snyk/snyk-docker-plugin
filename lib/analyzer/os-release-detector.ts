@@ -1,45 +1,35 @@
-import * as subProcess from '../sub-process';
+import { Docker } from '../docker';
+import { OSRelease } from './types';
 
 export {
   detect,
 };
 
-async function dockerCat(targetImage, file): Promise<string> {
-  try {
-    return await subProcess.execute('docker', [
-      'run', '--rm', targetImage, 'cat', file,
-    ]);
-  } catch (stderr) {
-    if (typeof stderr === 'string' && stderr.indexOf('No such file') >= 0) {
-      return '';
-    }
-    throw new Error(stderr);
-  }
-}
+async function detect(targetImage: string): Promise<OSRelease> {
+  const docker = new Docker(targetImage);
 
-async function detect(targetImage) {
-  let osRelease = await tryOSRelease(targetImage);
+  let osRelease = await tryOSRelease(docker);
 
   // First generic fallback
   if (!osRelease) {
-    osRelease = await tryLSBRelease(targetImage);
+    osRelease = await tryLSBRelease(docker);
   }
 
   // Fallbacks for specific older distributions
   if (!osRelease) {
-    osRelease = await tryDebianVersion(targetImage);
+    osRelease = await tryDebianVersion(docker);
   }
 
   if (!osRelease) {
-    osRelease = await tryAlpineRelease(targetImage);
+    osRelease = await tryAlpineRelease(docker);
   }
 
   if (!osRelease) {
-    osRelease = await tryOracleRelease(targetImage);
+    osRelease = await tryOracleRelease(docker);
   }
 
   if (!osRelease) {
-    osRelease = await tryRedHatRelease(targetImage);
+    osRelease = await tryRedHatRelease(docker);
   }
 
   if (!osRelease) {
@@ -54,8 +44,8 @@ async function detect(targetImage) {
   return osRelease;
 }
 
-async function tryOSRelease(targetImage) {
-  const text = await dockerCat(targetImage, '/etc/os-release');
+async function tryOSRelease(docker: Docker): Promise<OSRelease|null> {
+  const text = await docker.catSafe('/etc/os-release');
   if (!text) {
     return null;
   }
@@ -69,8 +59,8 @@ async function tryOSRelease(targetImage) {
   return { name, version };
 }
 
-async function tryLSBRelease(targetImage) {
-  const text = await dockerCat(targetImage, '/etc/lsb-release');
+async function tryLSBRelease(docker: Docker): Promise<OSRelease|null> {
+  const text = await docker.catSafe('/etc/lsb-release');
   if (!text) {
     return null;
   }
@@ -84,8 +74,8 @@ async function tryLSBRelease(targetImage) {
   return { name, version };
 }
 
-async function tryDebianVersion(targetImage) {
-  let text = await dockerCat(targetImage, '/etc/debian_version');
+async function tryDebianVersion(docker: Docker): Promise<OSRelease|null> {
+  let text = await docker.catSafe('/etc/debian_version');
   if (!text) {
     return null;
   }
@@ -96,8 +86,8 @@ async function tryDebianVersion(targetImage) {
   return { name: 'debian', version: text.split('.')[0] };
 }
 
-async function tryAlpineRelease(targetImage) {
-  let text = await dockerCat(targetImage, '/etc/alpine-release');
+async function tryAlpineRelease(docker: Docker): Promise<OSRelease|null> {
+  let text = await docker.catSafe('/etc/alpine-release');
   if (!text) {
     return null;
   }
@@ -108,8 +98,8 @@ async function tryAlpineRelease(targetImage) {
   return { name: 'alpine', version: text };
 }
 
-async function tryRedHatRelease(targetImage) {
-  const text = await dockerCat(targetImage, '/etc/redhat-release');
+async function tryRedHatRelease(docker: Docker): Promise<OSRelease|null> {
+  const text = await docker.catSafe('/etc/redhat-release');
   if (!text) {
     return null;
   }
@@ -123,8 +113,8 @@ async function tryRedHatRelease(targetImage) {
   return { name, version };
 }
 
-async function tryOracleRelease(targetImage) {
-  const text = await dockerCat(targetImage, '/etc/oracle-release');
+async function tryOracleRelease(docker: Docker): Promise<OSRelease|null> {
+  const text = await docker.catSafe('/etc/oracle-release');
   if (!text) {
     return null;
   }

@@ -1,10 +1,11 @@
-import * as subProcess from '../sub-process';
+import { Docker } from '../docker';
+import { AnalyzerPkg } from './types';
 
 export {
   analyze,
 };
 
-function analyze(targetImage) {
+function analyze(targetImage: string) {
   return getPackages(targetImage)
     .then(pkgs => ({
       Image: targetImage,
@@ -13,40 +14,33 @@ function analyze(targetImage) {
     }));
 }
 
-function getPackages(targetImage) {
-  return subProcess.execute('docker', [
-    'run', '--rm', targetImage, 'cat', '/lib/apk/db/installed',
-  ])
-    .catch(stderr => {
-      if (typeof stderr === 'string' && stderr.indexOf('No such file') >= 0) {
-        return '';
-      }
-      throw new Error(stderr);
-    })
+function getPackages(targetImage: string) {
+  return new Docker(targetImage)
+    .catSafe('/lib/apk/db/installed')
     .then(parseFile);
 }
 
-function parseFile(text) {
-  const pkgs = [];
-  let curPkg = null;
+function parseFile(text: string) {
+  const pkgs: AnalyzerPkg[] = [];
+  let curPkg: any = null;
   for (const line of text.split('\n')) {
     curPkg = parseLine(line, curPkg, pkgs);
   }
   return pkgs;
 }
 
-function parseLine(text, curPkg, pkgs) {
+function parseLine(text: string, curPkg: AnalyzerPkg, pkgs: AnalyzerPkg[]) {
   const key = text.charAt(0);
   const value = text.substr(2);
   switch (key) {
     case 'P': // Package
       curPkg = {
         Name: value,
-        Version: null,
-        Source: null,
+        Version: undefined,
+        Source: undefined,
         Provides: [],
         Deps: {},
-        AutoInstalled: null,
+        AutoInstalled: undefined,
       };
       pkgs.push(curPkg);
       break;

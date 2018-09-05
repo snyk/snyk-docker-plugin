@@ -113,9 +113,10 @@ test('os release detection', async t => {
 
   const execStub = sinon.stub(subProcess, 'execute');
   execStub.withArgs('docker', [
-    'run', '--rm', sinon.match.any, 'cat', sinon.match.any,
+    'run', '--rm', '--entrypoint', '""', '--network', 'none',
+    sinon.match.any, 'cat', sinon.match.any,
   ])
-    .callsFake(async (docker, [run, rm, image, cat, file]) => {
+    .callsFake(async (docker, [run, rm, entry, empty, network, none, image, cat, file]) => {
       try {
         const example = examples[image];
         return readOsFixtureFile(example.dir, 'fs', file);
@@ -159,9 +160,10 @@ test('failed detection', async t => {
 
   const execStub = sinon.stub(subProcess, 'execute');
   execStub.withArgs('docker', [
-    'run', '--rm', sinon.match.any, 'cat', sinon.match.any,
+    'run', '--rm', '--entrypoint', '""', '--network', 'none',
+    sinon.match.any, 'cat', sinon.match.any,
   ])
-    .callsFake(async (docker, [run, rm, image, cat, file]) => {
+    .callsFake(async (docker, [run, rm, entry, empty, network, none, image, cat, file]) => {
       try {
         const example = examples[image];
         return readOsFixtureFile(example.dir, 'fs', file);

@@ -4,7 +4,7 @@ export {
   detect,
 };
 
-async function detect(targetImage) {
+async function detect(targetImage: string): Promise<string> {
   try {
     const info = await subProcess.execute('docker', ['inspect', targetImage]);
     return JSON.parse(info)[0].Id;

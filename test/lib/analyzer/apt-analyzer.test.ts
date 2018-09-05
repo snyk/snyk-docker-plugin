@@ -349,11 +349,13 @@ test('analyze', async t => {
       const execStub = sinon.stub(subProcess, 'execute');
 
       execStub.withArgs('docker', [
-        'run', '--rm', sinon.match.any, 'cat', '/var/lib/dpkg/status',
+        'run', '--rm', '--entrypoint', '""', '--network', 'none',
+        sinon.match.any, 'cat', '/var/lib/dpkg/status',
       ]).resolves(example.dpkgManifestLines.join('\n'));
 
       execStub.withArgs('docker', [
-        'run', '--rm', sinon.match.any, 'cat', '/var/lib/apt/extended_states',
+        'run', '--rm', '--entrypoint', '""', '--network', 'none',
+        sinon.match.any, 'cat', '/var/lib/apt/extended_states',
       ]).resolves(example.extManifestLines.join('\n'));
 
       t.teardown(() => execStub.restore());

@@ -1,10 +1,11 @@
-import * as subProcess from '../sub-process';
+import { Docker } from '../docker';
+import { AnalyzerPkg } from './types';
 
 export {
   analyze,
 };
 
-async function analyze(targetImage) {
+async function analyze(targetImage: string) {
   const pkgs = await getPackages(targetImage);
   return {
     Image: targetImage,
@@ -13,12 +14,8 @@ async function analyze(targetImage) {
   };
 }
 
-function getPackages(targetImage) {
-  return subProcess.execute('docker', [
-    'run',
-    '--rm',
-    targetImage,
-    'rpm',
+function getPackages(targetImage: string) {
+  return new Docker(targetImage).run('rpm', [
     '--nodigest',
     '--nosignature',
     '-qa',
@@ -34,24 +31,24 @@ function getPackages(targetImage) {
     .then(parseOutput);
 }
 
-function parseOutput(text) {
-  const pkgs = [];
+function parseOutput(text: string) {
+  const pkgs: AnalyzerPkg[] = [];
   for (const line of text.split('\n')) {
     parseLine(line, pkgs);
   }
   return pkgs;
 }
 
-function parseLine(text: string, pkgs) {
+function parseLine(text: string, pkgs: AnalyzerPkg[]) {
   const [name, version, size] = text.split('\t');
   if (name && version && size) {
-    const pkg = {
+    const pkg: AnalyzerPkg = {
       Name: name,
       Version: version,
-      Source: null,
+      Source: undefined,
       Provides: [],
       Deps: {},
-      AutoInstalled: null,
+      AutoInstalled: undefined,
     };
     pkgs.push(pkg);
   }

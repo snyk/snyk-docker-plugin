@@ -56,8 +56,7 @@ test('analyze', async t => {
       const execStub = sinon.stub(subProcess, 'execute');
 
       execStub.withArgs('docker', [
-        'run',
-        '--rm',
+        'run', '--rm', '--entrypoint', '""', '--network', 'none',
         sinon.match.any,
         'rpm',
         '--nodigest',
@@ -97,8 +96,7 @@ test('no rpm', async t => {
       const execStub = sinon.stub(subProcess, 'execute');
 
       execStub.withArgs('docker', [
-        'run',
-        '--rm',
+        'run', '--rm', '--entrypoint', '""', '--network', 'none',
         sinon.match.any,
         'rpm',
         '--nodigest',
