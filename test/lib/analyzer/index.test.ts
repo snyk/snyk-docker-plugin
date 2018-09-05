@@ -6,11 +6,11 @@
 // tslint:disable:no-string-throw
 
 import { test } from 'tap';
-import sinon from 'sinon';
-import fs from 'fs';
-import path from 'path';
+import * as sinon from 'sinon';
+import * as fs from 'fs';
+import * as path from 'path';
 
-import subProcess from '../../../lib/sub-process';
+import * as subProcess from '../../../lib/sub-process';
 import * as analyzer from '../../../lib/analyzer';
 import * as imageIdDetector from '../../../lib/analyzer/image-id-detector';
 

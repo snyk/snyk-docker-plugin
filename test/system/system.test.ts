@@ -288,7 +288,7 @@ function uniquePkgSpecs(tree) {
     Object.keys(deps).forEach((name) => {
       scan(deps[name]);
     });
-  };
+  }
 
   scan(tree);
 

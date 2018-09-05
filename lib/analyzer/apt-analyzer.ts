@@ -1,4 +1,4 @@
-import subProcess from '../sub-process';
+import * as subProcess from '../sub-process';
 
 export {
   analyze,

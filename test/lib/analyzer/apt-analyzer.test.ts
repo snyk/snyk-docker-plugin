@@ -6,9 +6,9 @@
 // tslint:disable:object-literal-key-quotes
 
 import { test } from 'tap';
-import sinon from 'sinon';
+import * as sinon from 'sinon';
 
-import subProcess from '../../../lib/sub-process';
+import * as subProcess from '../../../lib/sub-process';
 import * as analyzer from '../../../lib/analyzer/apt-analyzer';
 
 test('analyze', async t => {
