@@ -18,7 +18,8 @@
     "prepare": "npm run build"
   },
   "dependencies": {
-    "debug": "^3"
+    "debug": "^3",
+    "tslib": "^1"
   },
   "devDependencies": {
     "@types/node": "^8",
