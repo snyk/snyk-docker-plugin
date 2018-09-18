@@ -11,9 +11,8 @@ cache:
   directories:
     - node_modules
 install:
-  - npm install
+  - npm install --quiet
 script:
-  - npm run lint
   - npm test
 jobs:
   include:
@@ -21,7 +20,7 @@ jobs:
       node_js: "8"
       script: skip
       after_success:
-        - TRAVIS_JOB_NUMBER=WORKAROUND.1 npm run semantic-release
+        - npx semantic-release
 branches:
   only:
     - master

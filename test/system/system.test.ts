@@ -1,103 +1,53 @@
-const test = require('tap-only');
-const nock = require('nock');
-const fsExtra = require('fs-extra');
-const pathUtil = require('path');
-const tempDir = require('temp-dir');
+#!/usr/bin/env node_modules/.bin/ts-node
+// Shebang is required, and file *has* to be executable: chmod +x file.test.js
+// See: https://github.com/tapjs/node-tap/issues/313#issuecomment-250067741
 
-const plugin = require('../lib');
-const subProcess = require('../lib/sub-process');
+import {test} from 'tap';
 
-const BIN_FOLDER = pathUtil.join(tempDir, 'snyk-docker-analyzer');
+import * as plugin from '../../lib';
+import * as subProcess from '../../lib/sub-process';
 
-test('throws if cant fetch analyzer', function (t) {
-  t.tearDown(() => {
-    nock.restore();
-  });
-
-  nock('https://snyk.io')
-    .get(/\/resources\/.*/)
-    .reply(400);
-
-  fsExtra.removeSync(BIN_FOLDER);
-
-  return plugin.inspect('debian:6')
-    .catch((err) => {
-      t.true(nock.isDone(), 'tried to download analyzer');
-      t.is(err.statusCode, 400, 'expected statusCode');
-      t.match(err.message, /bad.*http.*download/i, 'expected error message');
-    });
-});
-
-test('fetches analyzer only if doesnt exist', function (t) {
-  t.tearDown(() => {
-    nock.restore();
-  });
-
-
-  fsExtra.removeSync(BIN_FOLDER);
-  t.false(fsExtra.existsSync(BIN_FOLDER), 'bin folder is deleted');
-
-  return plugin.inspect('not-here:latest')
-    .catch(() => {
-      // TODO: check also file exists and not empty
-      t.true(fsExtra.existsSync(BIN_FOLDER), 'bin folder was created');
-
-      if (!nock.isActive()) {
-        nock.activate();
-      }
-      nock('https://snyk.io')
-        .get(/\/resources\/.*/)
-        .reply(400);
-
-      return plugin.inspect('not-there:1.2.3');
-    })
-    .catch(() => {
-      t.false(nock.isDone(), 'didnt try to download analyzer');
-      nock.restore();
-    });
-});
-
-test('inspect an image that doesnt exist', function (t) {
+test('inspect an image that doesnt exist', t => {
   return plugin.inspect('not-here:latest').catch((err) => {
-    t.match(err.message, 'Docker image was not found locally:');
+    t.same(err.message, 'Docker image was not found locally: not-here:latest');
     t.pass('failed as expected');
   });
 });
 
-test('inspect an image with an unsupported pkg manager', function (t) {
+test('inspect an image with an unsupported pkg manager', t => {
   const imgName = 'base/archlinux';
   const imgTag = '2018.06.01';
   const img = imgName + ':' + imgTag;
 
   return dockerPull(t, img)
-    .then(function () {
+    .then(() => {
       return plugin.inspect(img);
     })
-    .then(function () {
+    .then(() => {
       t.fail('should have failed');
     })
-    .catch(function (err) {
+    .catch((err) => {
       t.match(err.message,
         'Failed to detect a supported Linux package manager (deb/rpm/apk)',
         'error msg is correct');
     });
 });
 
-test('inspect nginx:1.13.10', function (t) {
+test('inspect nginx:1.13.10', t => {
   const imgName = 'nginx';
   const imgTag = '1.13.10';
   const img = imgName + ':' + imgTag;
 
-  var expectedImageId;
+  let expectedImageId;
   return dockerPull(t, img)
-    .then(function () {
+    .then(() => {
       return dockerGetImageId(t, img);
     })
-    .then(function (imageId) {
+    .then((imageId) => {
       expectedImageId = imageId;
       return plugin.inspect(img);
     })
-    .then(function (res) {
+    .then((res) => {
       const plugin = res.plugin;
       const pkg = res.package;
 
@@ -116,25 +66,31 @@ test('inspect nginx:1.13.10', function (t) {
         },
       }, 'root pkg');
 
-      t.equal(uniquePkgSepcs(pkg).length, 110,
+      t.equal(uniquePkgSpecs(pkg).length, 110,
         'expected number of total unique deps');
 
       const deps = pkg.dependencies;
+      // Note: this test is now a bit fragile due to dep-tree-pruning
       t.equal(Object.keys(deps).length, 48, 'expected number of direct deps');
       t.match(deps, {
-        nginx: {
-          version: '1.13.10-1~stretch',
+        'nginx-module-njs': {
+          version: '1.13.10.0.1.15-1~stretch',
           dependencies: {
-            adduser: {
-              name: 'adduser',
-              version: '3.115',
-            },
-            'openssl/libssl1.1': {
-              name: 'openssl/libssl1.1',
-              version: '1.1.0f-3+deb9u1',
-            },
-            'lsb/lsb-base': {
-              version: '9.20161125',
+            nginx: {
+              version: '1.13.10-1~stretch',
+              dependencies: {
+                adduser: {
+                  name: 'adduser',
+                  version: '3.115',
+                },
+                'openssl/libssl1.1': {
+                  name: 'openssl/libssl1.1',
+                  version: '1.1.0f-3+deb9u1',
+                },
+                'lsb/lsb-base': {
+                  version: '9.20161125',
+                },
+              },
             },
           },
         },
@@ -187,21 +143,21 @@ test('inspect nginx:1.13.10', function (t) {
     });
 });
 
-test('inspect redis:3.2.11-alpine', function (t) {
+test('inspect redis:3.2.11-alpine', t => {
   const imgName = 'redis';
   const imgTag = '3.2.11-alpine';
   const img = imgName + ':' + imgTag;
 
-  var expectedImageId;
+  let expectedImageId;
   return dockerPull(t, img)
-    .then(function () {
+    .then(() => {
       return dockerGetImageId(t, img);
     })
-    .then(function (imageId) {
+    .then((imageId) => {
       expectedImageId = imageId;
       return plugin.inspect(img);
     })
-    .then(function (res) {
+    .then((res) => {
       const plugin = res.plugin;
       const pkg = res.package;
 
@@ -240,22 +196,21 @@ test('inspect redis:3.2.11-alpine', function (t) {
     });
 });
 
-
-test('inspect centos', function (t) {
+test('inspect centos', t => {
   const imgName = 'centos';
   const imgTag = '7.4.1708';
   const img = imgName + ':' + imgTag;
 
-  var expectedImageId;
+  let expectedImageId;
   return dockerPull(t, img)
-    .then(function () {
+    .then(() => {
       return dockerGetImageId(t, img);
     })
-    .then(function (imageId) {
+    .then((imageId) => {
       expectedImageId = imageId;
       return plugin.inspect(img);
     })
-    .then(function (res) {
+    .then((res) => {
       const plugin = res.plugin;
       const pkg = res.package;
 
@@ -308,10 +263,10 @@ function dockerPull(t, name) {
 
 function dockerGetImageId(t, name) {
   return subProcess.execute('docker', ['inspect', name])
-    .then(function (output) {
-      var inspection = JSON.parse(output);
+    .then((output) => {
+      const inspection = JSON.parse(output);
 
-      var id = inspection[0].Id;
+      const id = inspection[0].Id;
 
       t.equal(id.length, 'sha256:'.length + 64,
         'image id from `docker inspect` looks like what we expect');
@@ -320,20 +275,22 @@ function dockerGetImageId(t, name) {
     });
 }
 
-function uniquePkgSepcs(tree) {
-  var uniq = new Set();
+function uniquePkgSpecs(tree) {
+  const uniq: string[] = [];
 
-  var scan = function (pkg) {
-    var spec = pkg.name + '@' + pkg.version;
-    uniq.add(spec);
+  function scan(pkg: any) {
+    const spec: string = pkg.name + '@' + pkg.version;
+    if (uniq.indexOf(spec) === -1) {
+      uniq.push(spec);
+    }
 
-    var deps = pkg.dependencies || {};
-    Object.keys(deps).forEach(function (name) {
+    const deps = pkg.dependencies || {};
+    Object.keys(deps).forEach((name) => {
       scan(deps[name]);
     });
-  };
+  }
 
   scan(tree);
 
-  return Array.from(uniq);
+  return uniq;
 }

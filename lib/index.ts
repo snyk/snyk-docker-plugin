@@ -1,39 +1,37 @@
-var subProcess = require('./sub-process');
-var fetchSnykDockerAnalyzer = require('./fetch-snyk-docker-analyzer');
-var debug = require('debug')('snyk');
+const debug = require('debug')('snyk');
 
-module.exports = {
-  inspect: inspect,
+import * as analyzer from './analyzer';
+import * as subProcess from './sub-process';
+
+export {
+  inspect,
 };
 
-function inspect(root) {
-  var targetImage = root;
-  return fetchSnykDockerAnalyzer()
-    .then(function (analyzerBinaryPath) {
-      return Promise.all([
-        getRuntime(),
-        getDependencies(analyzerBinaryPath, targetImage),
-      ])
-        .then(function (result) {
-          var metadata = {
-            name: 'snyk-docker-plugin',
-            runtime: result[0],
-            packageManager: result[1].packageManager,
-            dockerImageId: result[1].imageId,
-          };
-          var package = result[1].package;
-          return {
-            plugin: metadata,
-            package: package,
-          };
-        });
+function inspect(root: string, targetFile?: string, options?: any) {
+  const targetImage = root;
+  return Promise.all([
+    getRuntime(),
+    getDependencies(targetImage),
+  ])
+    .then((result) => {
+      const metadata = {
+        name: 'snyk-docker-plugin',
+        runtime: result[0],
+        packageManager: result[1].packageManager,
+        dockerImageId: result[1].imageId,
+      };
+      const pkg = result[1].package;
+      return {
+        plugin: metadata,
+        package: pkg,
+      };
     });
 }
 
 function getRuntime() {
   return subProcess.execute('docker', ['version'])
-    .then(function (output) {
-      var versionMatch = /Version:\s+(.*)\n/.exec(output);
+    .then((output) => {
+      const versionMatch = /Version:\s+(.*)\n/.exec(output);
       if (versionMatch) {
         return 'docker ' + versionMatch[1];
       }
@@ -41,7 +39,7 @@ function getRuntime() {
     });
 }
 
-function handleCommonErrors(error, targetImage) {
+function handleCommonErrors(error, targetImage: string) {
   if (error.indexOf('command not found') !== -1) {
     throw new Error('Snyk docker CLI was not found');
   }
@@ -49,14 +47,14 @@ function handleCommonErrors(error, targetImage) {
     throw new Error('Cannot connect to the Docker daemon. Is the docker'
     + ' daemon running?');
   }
-  var ERROR_LOADING_IMAGE_STR = 'Error loading image from docker engine:';
+  const ERROR_LOADING_IMAGE_STR = 'Error loading image from docker engine:';
   if (error.indexOf(ERROR_LOADING_IMAGE_STR) !== -1) {
     if (error.indexOf('reference does not exist') !== -1) {
       throw new Error(
         `Docker image was not found locally: ${targetImage}`);
     }
     if (error.indexOf('permission denied while trying to connect') !== -1) {
-      var errString = error.split(ERROR_LOADING_IMAGE_STR)[1];
+      let errString = error.split(ERROR_LOADING_IMAGE_STR)[1];
       errString = (errString || '').slice(0, -2); // remove trailing \"
       throw new Error(
         'Permission denied connecting to docker daemon. ' +
@@ -72,44 +70,38 @@ function handleCommonErrors(error, targetImage) {
   }
 }
 
-function getDependencies(analyzerBinaryPath, targetImage) {
-  var result;
-  return subProcess.execute(
-    analyzerBinaryPath,
-    buildArgs(targetImage)
-  )
-    .then(function (output) {
+function getDependencies(targetImage: string) {
+  let result;
+  return analyzer.analyze(targetImage)
+    .then((output) => {
       result = parseAnalysisResults(output);
       return buildTree(
         targetImage, result.type, result.depInfosList, result.targetOS);
     })
-    .then(function (package) {
+    .then((pkg) => {
       return {
-        package: package,
+        package: pkg,
         packageManager: result.type,
         imageId: result.imageId,
       };
     })
-    .catch(function (error) {
+    .catch((error) => {
       if (typeof error === 'string') {
         debug(`Error while running analyzer: '${error}'`);
         handleCommonErrors(error, targetImage);
-        var errorMsg = error;
-        var errorMatch = /msg="(.*)"/g.exec(errorMsg);
+        let errorMsg = error;
+        const errorMatch = /msg="(.*)"/g.exec(errorMsg);
         if (errorMatch) {
           errorMsg = errorMatch[1];
         }
         throw new Error(errorMsg);
       }
-
       throw error;
     });
 }
 
-function parseAnalysisResults(analysisOut) {
-  var analysisJson = JSON.parse(analysisOut);
-
-  var analysisResult = analysisJson.results.filter(function (res) {
+function parseAnalysisResults(analysisJson) {
+  const analysisResult = analysisJson.results.filter((res) => {
     return res.Analysis && res.Analysis.length > 0;
   })[0];
 
@@ -118,7 +110,7 @@ function parseAnalysisResults(analysisOut) {
       'Failed to detect a supported Linux package manager (deb/rpm/apk)');
   }
 
-  var depType;
+  let depType;
   switch (analysisResult.AnalyzeType) {
     case 'Apt': {
       depType = 'deb';
@@ -138,47 +130,47 @@ function parseAnalysisResults(analysisOut) {
 }
 
 function buildTree(targetImage, depType, depInfosList, targetOS) {
-  var targetSplit = targetImage.split(':');
-  var imageName = targetSplit[0];
-  var imageVersion = targetSplit[1] ? targetSplit[1] : 'latest';
+  const targetSplit = targetImage.split(':');
+  const imageName = targetSplit[0];
+  const imageVersion = targetSplit[1] ? targetSplit[1] : 'latest';
 
-  var root = {
+  const root = {
     name: imageName,
     version: imageVersion,
-    targetOS: targetOS,
+    targetOS,
     packageFormatVersion: depType + ':0.0.1',
     dependencies: {},
   };
 
-  var depsMap = depInfosList.reduce(function (acc, depInfo) {
-    var name = depInfo.Name;
+  const depsMap = depInfosList.reduce((acc, depInfo) => {
+    const name = depInfo.Name;
     acc[name] = depInfo;
     return acc;
   }, {});
 
-  var virtualDepsMap = depInfosList.reduce(function (acc, depInfo) {
-    var providesNames = depInfo.Provides || [];
-    providesNames.forEach(function (name) {
+  const virtualDepsMap = depInfosList.reduce((acc, depInfo) => {
+    const providesNames = depInfo.Provides || [];
+    providesNames.forEach((name) => {
       acc[name] = depInfo;
     });
     return acc;
   }, {});
 
-  var depsCounts = {};
-  depInfosList.forEach(function (depInfo) {
+  const depsCounts = {};
+  depInfosList.forEach((depInfo) => {
     countDepsRecursive(
       depInfo.Name, new Set(), depsMap, virtualDepsMap, depsCounts);
   });
-  var DEP_FREQ_THRESHOLD = 100;
-  var tooFrequentDepNames = Object.keys(depsCounts)
-    .filter(function (depName) {
+  const DEP_FREQ_THRESHOLD = 100;
+  const tooFrequentDepNames = Object.keys(depsCounts)
+    .filter((depName) => {
       return depsCounts[depName] > DEP_FREQ_THRESHOLD;
     });
 
-  var attachDeps = function (depInfos) {
-    var depNamesToSkip = new Set(tooFrequentDepNames);
-    depInfos.forEach(function (depInfo) {
-      var subtree = buildTreeRecurisve(
+  const attachDeps = (depInfos) => {
+    const depNamesToSkip = new Set(tooFrequentDepNames);
+    depInfos.forEach((depInfo) => {
+      const subtree = buildTreeRecurisve(
         depInfo.Name, new Set(), depsMap, virtualDepsMap, depNamesToSkip);
       if (subtree) {
         root.dependencies[subtree.name] = subtree;
@@ -187,33 +179,33 @@ function buildTree(targetImage, depType, depInfosList, targetOS) {
   };
 
   // attach (as direct deps) pkgs not marked auto-installed:
-  var manuallyInstalledDeps = depInfosList.filter(function (depInfo) {
+  const manuallyInstalledDeps = depInfosList.filter((depInfo) => {
     return !depInfo.AutoInstalled;
   });
   attachDeps(manuallyInstalledDeps);
 
   // attach (as direct deps) pkgs marked as auto-insatalled,
   //  but not dependant upon:
-  var notVisitedDeps = depInfosList.filter(function (depInfo) {
-    var depName = depInfo.Name;
+  const notVisitedDeps = depInfosList.filter((depInfo) => {
+    const depName = depInfo.Name;
     return !(depsMap[depName]._visited);
   });
   attachDeps(notVisitedDeps);
 
   // group all the "too frequest" deps under a meta package:
   if (tooFrequentDepNames.length > 0) {
-    var tooFrequentDeps = tooFrequentDepNames.map(function (name) {
+    const tooFrequentDeps = tooFrequentDepNames.map((name) => {
       return depsMap[name];
     });
 
-    var metaSubtree = {
+    const metaSubtree = {
       name: 'meta-common-packages',
       version: 'meta',
       dependencies: {},
     };
 
-    tooFrequentDeps.forEach(function (depInfo) {
-      var pkg = {
+    tooFrequentDeps.forEach((depInfo) => {
+      const pkg = {
         name: depFullName(depInfo),
         version: depInfo.Version,
       };
@@ -228,19 +220,23 @@ function buildTree(targetImage, depType, depInfosList, targetOS) {
 
 function buildTreeRecurisve(
   depName, ancestors, depsMap, virtualDepsMap, depNamesToSkip) {
-  var depInfo = depsMap[depName] || virtualDepsMap[depName];
+  const depInfo = depsMap[depName] || virtualDepsMap[depName];
   if (!depInfo) {
     return null;
   }
 
   // "realName" as the argument depName might be a virtual pkg
-  var realName = depInfo.Name;
-  var fullName = depFullName(depInfo);
+  const realName = depInfo.Name;
+  const fullName = depFullName(depInfo);
   if (ancestors.has(fullName) || depNamesToSkip.has(realName)) {
     return null;
   }
 
-  var tree = {
+  const tree: {
+    name: string;
+    version: string;
+    dependencies?: any;
+  } = {
     name: fullName,
     version: depInfo.Version,
   };
@@ -250,12 +246,12 @@ function buildTreeRecurisve(
   }
   depInfo._visited = true;
 
-  var newAncestors = (new Set(ancestors)).add(fullName);
+  const newAncestors = (new Set(ancestors)).add(fullName);
 
-  var deps = depInfo.Deps || {};
-  Object.keys(deps).forEach(function (depName) {
-    var subTree = buildTreeRecurisve(
-      depName, newAncestors, depsMap, virtualDepsMap, depNamesToSkip);
+  const deps = depInfo.Deps || {};
+  Object.keys(deps).forEach((name) => {
+    const subTree = buildTreeRecurisve(
+      name, newAncestors, depsMap, virtualDepsMap, depNamesToSkip);
     if (subTree) {
       if (!tree.dependencies) {
         tree.dependencies = {};
@@ -269,36 +265,31 @@ function buildTreeRecurisve(
 
 function countDepsRecursive(
   depName, ancestors, depsMap, virtualDepsMap, depCounts) {
-  var depInfo = depsMap[depName] || virtualDepsMap[depName];
+  const depInfo = depsMap[depName] || virtualDepsMap[depName];
   if (!depInfo) {
     return;
   }
 
   // "realName" as the argument depName might be a virtual pkg
-  var realName = depInfo.Name;
+  const realName = depInfo.Name;
   if (ancestors.has(realName)) {
     return;
   }
 
   depCounts[realName] = (depCounts[realName] || 0) + 1;
 
-  var newAncestors = (new Set(ancestors)).add(realName);
-  var deps = depInfo.Deps || {};
-  Object.keys(deps).forEach(function (depName) {
+  const newAncestors = (new Set(ancestors)).add(realName);
+  const deps = depInfo.Deps || {};
+  Object.keys(deps).forEach((name) => {
     countDepsRecursive(
-      depName, newAncestors, depsMap, virtualDepsMap, depCounts);
+      name, newAncestors, depsMap, virtualDepsMap, depCounts);
   });
 }
 
 function depFullName(depInfo) {
-  var fullName = depInfo.Name;
+  let fullName = depInfo.Name;
   if (depInfo.Source) {
     fullName = depInfo.Source + '/' + fullName;
   }
   return fullName;
-}
-
-function buildArgs(targetImage) {
-  var args = ['analyze', targetImage];
-  return args;
 }
