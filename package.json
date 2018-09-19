@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "debug": "^3",
+    "docker-file-parser": "^1.0.4",
     "tslib": "^1"
   },
   "devDependencies": {
