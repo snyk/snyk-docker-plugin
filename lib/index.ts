@@ -2,6 +2,7 @@ const debug = require('debug')('snyk');
 
 import * as analyzer from './analyzer';
 import * as subProcess from './sub-process';
+import * as dockerFile from './docker-file';
 
 export {
   inspect,
@@ -12,6 +13,7 @@ function inspect(root: string, targetFile?: string, options?: any) {
   return Promise.all([
     getRuntime(),
     getDependencies(targetImage),
+    dockerFile.getBaseImageName(targetFile),
   ])
     .then((result) => {
       const metadata = {
@@ -20,7 +22,9 @@ function inspect(root: string, targetFile?: string, options?: any) {
         packageManager: result[1].packageManager,
         dockerImageId: result[1].imageId,
       };
-      const pkg = result[1].package;
+      const pkg: any = result[1].package;
+      pkg.docker = pkg.docker || {};
+      pkg.docker.baseImage = result[2];
       return {
         plugin: metadata,
         package: pkg,
