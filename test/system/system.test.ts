@@ -3,11 +3,15 @@
 // See: https://github.com/tapjs/node-tap/issues/313#issuecomment-250067741
 
 import {test} from 'tap';
+import * as path from 'path';
 
 import * as plugin from '../../lib';
 import * as subProcess from '../../lib/sub-process';
 
-test('inspect an image that doesnt exist', t => {
+const getDockerfileFixturePath = (folder) => path.join(
+  __dirname, '../fixtures/dockerfiles/library', folder, 'Dockerfile');
+
+test('inspect an image that does not exist', t => {
   return plugin.inspect('not-here:latest').catch((err) => {
     t.same(err.message, 'Docker image was not found locally: not-here:latest');
     t.pass('failed as expected');
@@ -37,6 +41,7 @@ test('inspect nginx:1.13.10', t => {
   const imgName = 'nginx';
   const imgTag = '1.13.10';
   const img = imgName + ':' + imgTag;
+  const dockerFileLocation = getDockerfileFixturePath('nginx');
 
   let expectedImageId;
   return dockerPull(t, img)
@@ -45,7 +50,7 @@ test('inspect nginx:1.13.10', t => {
     })
     .then((imageId) => {
       expectedImageId = imageId;
-      return plugin.inspect(img);
+      return plugin.inspect(img, dockerFileLocation);
     })
     .then((res) => {
       const plugin = res.plugin;
@@ -63,6 +68,9 @@ test('inspect nginx:1.13.10', t => {
         targetOS: {
           name: 'debian',
           version: '9',
+        },
+        docker: {
+          baseImage: 'debian:stretch-slim',
         },
       }, 'root pkg');
 
@@ -147,6 +155,7 @@ test('inspect redis:3.2.11-alpine', t => {
   const imgName = 'redis';
   const imgTag = '3.2.11-alpine';
   const img = imgName + ':' + imgTag;
+  const dockerFileLocation = getDockerfileFixturePath('redis');
 
   let expectedImageId;
   return dockerPull(t, img)
@@ -155,7 +164,7 @@ test('inspect redis:3.2.11-alpine', t => {
     })
     .then((imageId) => {
       expectedImageId = imageId;
-      return plugin.inspect(img);
+      return plugin.inspect(img, dockerFileLocation);
     })
     .then((res) => {
       const plugin = res.plugin;
@@ -173,6 +182,9 @@ test('inspect redis:3.2.11-alpine', t => {
         targetOS: {
           name: 'alpine',
           version: '3.7.0',
+        },
+        docker: {
+          baseImage: 'alpine:3.7',
         },
       }, 'root pkg');
 
@@ -200,6 +212,7 @@ test('inspect centos', t => {
   const imgName = 'centos';
   const imgTag = '7.4.1708';
   const img = imgName + ':' + imgTag;
+  const dockerFileLocation = getDockerfileFixturePath('centos');
 
   let expectedImageId;
   return dockerPull(t, img)
@@ -208,7 +221,7 @@ test('inspect centos', t => {
     })
     .then((imageId) => {
       expectedImageId = imageId;
-      return plugin.inspect(img);
+      return plugin.inspect(img, dockerFileLocation);
     })
     .then((res) => {
       const plugin = res.plugin;
@@ -226,6 +239,9 @@ test('inspect centos', t => {
         targetOS: {
           name: 'centos',
           version: '7',
+        },
+        docker: {
+          baseImage: 'scratch',
         },
       }, 'root pkg');
 
