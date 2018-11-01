@@ -62,7 +62,7 @@ test('inspect nginx:1.13.10', t => {
       t.equal(plugin.packageManager, 'deb', 'returns deb package manager');
 
       t.match(pkg, {
-        name: imgName,
+        name: 'docker-image|' + imgName,
         version: imgTag,
         packageFormatVersion: 'deb:0.0.1',
         targetOS: {
@@ -176,7 +176,7 @@ test('inspect redis:3.2.11-alpine', t => {
       t.equal(plugin.packageManager, 'apk', 'returns apk package manager');
 
       t.match(pkg, {
-        name: imgName,
+        name: 'docker-image|' + imgName,
         version: imgTag,
         packageFormatVersion: 'apk:0.0.1',
         targetOS: {
@@ -233,7 +233,7 @@ test('inspect centos', t => {
       t.equal(plugin.packageManager, 'rpm', 'returns rpm package manager');
 
       t.match(pkg, {
-        name: imgName,
+        name: 'docker-image|' + imgName,
         version: imgTag,
         packageFormatVersion: 'rpm:0.0.1',
         targetOS: {
