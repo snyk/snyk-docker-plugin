@@ -139,7 +139,8 @@ function buildTree(targetImage, depType, depInfosList, targetOS) {
   const imageVersion = targetSplit[1] ? targetSplit[1] : 'latest';
 
   const root = {
-    name: imageName,
+    // don't use the real image name to avoid scanning it as an issue
+    name: 'docker-image|' + imageName,
     version: imageVersion,
     targetOS,
     packageFormatVersion: depType + ':0.0.1',
