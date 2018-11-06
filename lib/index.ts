@@ -133,10 +133,19 @@ function parseAnalysisResults(analysisJson) {
   };
 }
 
+function parseImageName(imageName) {
+  const slashSplit = imageName.split('/');
+  const colonSplit = imageName.split(':');
+
+  const name = slashSplit[1]
+      ? `${slashSplit[0]}/${slashSplit[1]}`
+      : imageName.split(':')[0];
+  const version = colonSplit[colonSplit.length - 1];
+  return [name, version];
+}
+
 function buildTree(targetImage, depType, depInfosList, targetOS) {
-  const targetSplit = targetImage.split(':');
-  const imageName = targetSplit[0];
-  const imageVersion = targetSplit[1] ? targetSplit[1] : 'latest';
+  const [imageName, imageVersion] = parseImageName(targetImage);
 
   const root = {
     // don't use the real image name to avoid scanning it as an issue
