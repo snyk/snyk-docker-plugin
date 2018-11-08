@@ -208,6 +208,54 @@ test('inspect redis:3.2.11-alpine', t => {
     });
 });
 
+test('inspect image with hostname ' +
+  'localhost:5000/redis:3.2.11-alpine', async t => {
+  const imgName = 'redis';
+  const imgTag = '3.2.11-alpine';
+  const img = imgName + ':' + imgTag;
+  const dockerFileLocation = getDockerfileFixturePath('redis');
+  const hostAndImgName = 'localhost:5000/' + imgName;
+  const hostAndImg = hostAndImgName + ':' + imgTag;
+
+  await dockerPull(t, img);
+  await dockerTag(t, img, hostAndImg);
+  await dockerGetImageId(t, hostAndImg);
+  const res = await plugin.inspect(hostAndImg, dockerFileLocation);
+
+  t.match(res.package, {
+    name: 'docker-image|' + hostAndImgName,
+    version: imgTag,
+    packageFormatVersion: 'apk:0.0.1',
+    targetOS: {
+      name: 'alpine',
+      version: '3.7.0',
+    },
+    docker: {
+      baseImage: 'alpine:3.7',
+    },
+  }, 'root pkg');
+});
+
+test('inspect image with hostname plus additional namespacing: ' +
+  'localhost:5000/redis:3.2.11-alpine', async t => {
+  const imgName = 'redis';
+  const imgTag = '3.2.11-alpine';
+  const img = imgName + ':' + imgTag;
+  const dockerFileLocation = getDockerfileFixturePath('redis');
+  const hostAndImgName = 'localhost:5000/foo/' + imgName;
+  const hostAndImg = hostAndImgName + ':' + imgTag;
+
+  await dockerPull(t, img);
+  await dockerTag(t, img, hostAndImg);
+  await dockerGetImageId(t, hostAndImg);
+  const res = await plugin.inspect(hostAndImg, dockerFileLocation);
+
+  t.match(res.package, {
+    name: 'docker-image|' + hostAndImgName,
+    version: imgTag,
+  }, 'root pkg');
+});
+
 test('inspect centos', t => {
   const imgName = 'centos';
   const imgTag = '7.4.1708';
@@ -275,6 +323,11 @@ test('inspect centos', t => {
 function dockerPull(t, name) {
   t.comment('pulling ' + name);
   return subProcess.execute('docker', ['image', 'pull', name]);
+}
+
+function dockerTag(t, fromName, toName) {
+  t.comment('re-tagging ' + fromName + ' as ' + toName);
+  return subProcess.execute('docker', ['tag', fromName, toName]);
 }
 
 function dockerGetImageId(t, name) {

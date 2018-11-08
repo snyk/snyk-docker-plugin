@@ -134,9 +134,26 @@ function parseAnalysisResults(analysisJson) {
 }
 
 function buildTree(targetImage, depType, depInfosList, targetOS) {
-  const targetSplit = targetImage.split(':');
-  const imageName = targetSplit[0];
-  const imageVersion = targetSplit[1] ? targetSplit[1] : 'latest';
+  // A tag can only occur in the last section of a docker image name, so
+  // check any colon separator after the final '/'. If there are no '/',
+  // which is common when using Docker's official images such as
+  // "debian:stretch", just check for ':'
+  const finalSlash = targetImage.lastIndexOf('/');
+  const hasVersion =
+    (finalSlash >= 0 && targetImage.slice(finalSlash).includes(':'))
+    || targetImage.includes(':');
+
+  // Defaults for simple images from dockerhub, like "node" or "centos"
+  let imageName = targetImage;
+  let imageVersion = 'latest';
+
+  // If we have a version, split on the last ':' to avoid the optional
+  // port on a hostname (i.e. localhost:5000)
+  if (hasVersion) {
+    const versionSeparator = targetImage.lastIndexOf(':');
+    imageName = targetImage.slice(0, versionSeparator);
+    imageVersion = targetImage.slice(versionSeparator + 1);
+  }
 
   const root = {
     // don't use the real image name to avoid scanning it as an issue
