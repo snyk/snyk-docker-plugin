@@ -18,16 +18,16 @@
     "prepare": "npm run build"
   },
   "dependencies": {
-    "debug": "^3",
-    "tslib": "^1"
+    "debug": "^4.1.0",
+    "tslib": "^1.9.3"
   },
   "devDependencies": {
-    "@types/node": "^8",
-    "@types/sinon": "^5",
-    "sinon": "^6",
-    "tap": "^12",
+    "@types/node": "^8.10.37",
+    "@types/sinon": "^5.0.5",
+    "sinon": "^7.1.1",
+    "tap": "^12.1.0",
     "ts-node": "^7",
     "tslint": "^5",
-    "typescript": "^3"
+    "typescript": "^3.1.6"
   }
 }
