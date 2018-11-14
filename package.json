@@ -19,11 +19,12 @@
   },
   "dependencies": {
     "debug": "^3",
+    "dockerfile-ast": "0.0.12",
     "tslib": "^1"
   },
   "devDependencies": {
     "@types/node": "^8",
-    "@types/sinon": "^5",
+    "@types/sinon": "5.0.5",
     "sinon": "^6",
     "tap": "^12",
     "ts-node": "^7",

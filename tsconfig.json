@@ -29,6 +29,9 @@
     // "strictPropertyInitialization": true,  /* Enable strict checking of property initialization in classes. */
     // "noImplicitThis": true,                /* Raise error on 'this' expressions with an implied 'any' type. */
     "alwaysStrict": false,                    /* Parse in strict mode and emit "use strict" for each source file. */
+    // skipLibCheck can be removed when dockerfile-ast uses "strict: true",
+    // See:https://github.com/rcjsuen/dockerfile-ast/issues/46
+    "skipLibCheck": true,
 
     /* Additional Checks */
     // "noUnusedLocals": true,                /* Report errors on unused locals. */
