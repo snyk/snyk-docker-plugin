@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import { DockerfileParser } from 'dockerfile-ast';
 
 export { getBaseImageName };
 
@@ -10,15 +11,32 @@ async function getBaseImageName(targetFile?: string):
   }
 
   const contents = await readFile(targetFile);
+  const dockerfile = DockerfileParser.parse(contents);
+  const from = dockerfile.getFROMs().pop();
 
-  const results: string[] = [];
-  const FROM_RE = /^FROM ([^\s]+)[\s\S]*?$/gim;
-  let match: RegExpExecArray|null;
-  while (match = FROM_RE.exec(contents)) {
-    results.push(match[1]);
+  if (!from) {
+    return undefined;
   }
 
-  return results.length ? results.pop() : undefined;
+  const fromVariables = from.getVariables();
+  let baseImage = from.getImage() as string;
+
+  if (fromVariables) {
+    const resolvedVariables = fromVariables.reduce(
+      (resolvedVars, variable) => {
+        const line = variable.getRange().start.line;
+        const name = variable.getName();
+        resolvedVars[name] = dockerfile.resolveVariable(name, line);
+        return resolvedVars;
+      }, {});
+
+    Object.keys(resolvedVariables).forEach((variable) => {
+      baseImage = baseImage.replace(
+        `\$\{${variable}\}`, resolvedVariables[variable]);
+    });
+  }
+
+  return baseImage;
 }
 
 async function readFile(path: string) {

@@ -51,6 +51,11 @@ test('getBaseImageName for', async (t) => {
       fixture: 'invalid',
       expected: undefined,
     },
+    {
+      description: 'a Dockerfile with multiple ARGs',
+      fixture: 'with-args',
+      expected: 'node:dubnium',
+    },
   ];
   for (const example of examples) {
     await t.test(example.description, async (t) => {
