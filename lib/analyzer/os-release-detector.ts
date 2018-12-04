@@ -37,7 +37,7 @@ async function detect(targetImage: string): Promise<OSRelease> {
   }
 
   // Oracle Linux identifies itself as "ol"
-  if (osRelease.name === 'ol') {
+  if (osRelease.name.trim() === 'ol') {
     osRelease.name = 'oracle';
   }
 
@@ -125,5 +125,6 @@ async function tryOracleRelease(docker: Docker): Promise<OSRelease|null> {
   }
   const name = idRes[1].replace(/"/g, '').toLowerCase();
   const version = versionRes[1].replace(/"/g, '');
+
   return { name, version };
 }
