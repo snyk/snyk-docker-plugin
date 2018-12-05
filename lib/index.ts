@@ -3,6 +3,9 @@ const debug = require('debug')('snyk');
 import * as analyzer from './analyzer';
 import * as subProcess from './sub-process';
 import * as dockerFile from './docker-file';
+import {
+  DockerFilePackages,
+} from './instruction-parser';
 
 export {
   inspect,
@@ -13,7 +16,7 @@ function inspect(root: string, targetFile?: string, options?: any) {
   return Promise.all([
     getRuntime(),
     getDependencies(targetImage),
-    dockerFile.getBaseImageName(targetFile),
+    dockerFile.analyseDockerfile(targetFile),
   ])
     .then((result) => {
       const metadata = {
@@ -23,14 +26,60 @@ function inspect(root: string, targetFile?: string, options?: any) {
         dockerImageId: result[1].imageId,
       };
       const pkg: any = result[1].package;
+      const dockerfileAnalysis = result[2];
+      const dockerfilePackages = dockerfileAnalysis
+        ? getDockerfileDependencies(dockerfileAnalysis.dockerfilePackages,
+                                    pkg.dependencies)
+        : [];
+
       pkg.docker = pkg.docker || {};
-      pkg.docker.baseImage = result[2];
       pkg.docker.binaries = result[1].binaries;
+      pkg.docker = {
+        ...pkg.docker,
+        ...dockerfileAnalysis,
+        dockerfilePackages,
+      };
+
       return {
         plugin: metadata,
         package: pkg,
       };
     });
+}
+
+// Iterate over the dependencies list; if one is introduced by the dockerfile,
+// flatten its dependencies and append them to the list of dockerfile
+// packages. This gives us a reference of all transitive deps installed via
+// the dockerfile, and the instruction that installed it.
+function getDockerfileDependencies(
+  dockerfilePackages: DockerFilePackages,
+  dependencies,
+): DockerFilePackages {
+  for (const dependencyName in dependencies) {
+    if (dependencies.hasOwnProperty(dependencyName)) {
+      const sourceOrName = dependencyName.split('/')[0];
+      const dockerfilePackage = dockerfilePackages[sourceOrName];
+
+      if (dockerfilePackage) {
+        collectDeps(dependencies[dependencyName]).forEach((dep) => {
+          dockerfilePackages[dep.split('/')[0]] = { ...dockerfilePackage };
+        });
+      }
+    }
+  }
+
+  return dockerfilePackages;
+}
+
+function collectDeps(pkg) {
+  // ES5 doesn't have Object.values, so replace with Object.keys() and map()
+  return pkg.dependencies
+    ? Object.keys(pkg.dependencies)
+      .map((name) => pkg.dependencies[name])
+      .reduce((allDeps, pkg) => {
+        return [...allDeps, ...collectDeps(pkg)];
+      }, Object.keys(pkg.dependencies))
+    : [];
 }
 
 function getRuntime() {

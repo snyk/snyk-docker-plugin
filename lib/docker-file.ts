@@ -1,10 +1,19 @@
 import * as fs from 'fs';
-import { DockerfileParser } from 'dockerfile-ast';
+import { DockerfileParser, Instruction } from 'dockerfile-ast';
+import {
+  getPackagesFromRunInstructions,
+  DockerFilePackages,
+} from './instruction-parser';
 
-export { getBaseImageName };
+export { analyseDockerfile };
 
-async function getBaseImageName(targetFile?: string):
-  Promise<string|undefined> {
+interface DockerFileAnalysis {
+  baseImage?: string;
+  dockerfilePackages: DockerFilePackages;
+}
+
+async function analyseDockerfile(targetFile?: string):
+  Promise<DockerFileAnalysis|undefined> {
 
   if (!targetFile) {
     return undefined;
@@ -13,30 +22,39 @@ async function getBaseImageName(targetFile?: string):
   const contents = await readFile(targetFile);
   const dockerfile = DockerfileParser.parse(contents);
   const from = dockerfile.getFROMs().pop();
+  const runInstructions = dockerfile.getInstructions()
+    .filter((instruction) => {
+      return instruction.getInstruction() === 'RUN';
+    })
+    .map((instruction) => instruction.toString());
+  const dockerfilePackages = getPackagesFromRunInstructions(runInstructions);
 
-  if (!from) {
-    return undefined;
+  let baseImage;
+
+  if (from) {
+    const fromVariables = from.getVariables();
+    baseImage = from.getImage() as string;
+
+    if (fromVariables) {
+      const resolvedVariables = fromVariables.reduce(
+        (resolvedVars, variable) => {
+          const line = variable.getRange().start.line;
+          const name = variable.getName();
+          resolvedVars[name] = dockerfile.resolveVariable(name, line);
+          return resolvedVars;
+        }, {});
+
+      Object.keys(resolvedVariables).forEach((variable) => {
+        baseImage = baseImage.replace(
+          `\$\{${variable}\}`, resolvedVariables[variable]);
+      });
+    }
   }
 
-  const fromVariables = from.getVariables();
-  let baseImage = from.getImage() as string;
-
-  if (fromVariables) {
-    const resolvedVariables = fromVariables.reduce(
-      (resolvedVars, variable) => {
-        const line = variable.getRange().start.line;
-        const name = variable.getName();
-        resolvedVars[name] = dockerfile.resolveVariable(name, line);
-        return resolvedVars;
-      }, {});
-
-    Object.keys(resolvedVariables).forEach((variable) => {
-      baseImage = baseImage.replace(
-        `\$\{${variable}\}`, resolvedVariables[variable]);
-    });
-  }
-
-  return baseImage;
+  return {
+    baseImage,
+    dockerfilePackages,
+  };
 }
 
 async function readFile(path: string) {
