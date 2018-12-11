@@ -61,6 +61,22 @@ test('analyzer', async t => {
       }
     });
 
+  // Stub Docker `node --version` command
+    execStub.withArgs('docker', [
+      'run', '--rm', '--entrypoint', '""', '--network', 'none',
+      sinon.match.any,
+      'node',
+      '--version',
+    ])
+      .callsFake(async (docker, [run, rm, entry, empty, network, none, image]) => {
+        try {
+          const example = examples[image];
+          return readOsFixtureFile(example.dir, 'node-version.txt');
+        } catch {
+          throw 'docker: Error running `docker node --version`';
+        }
+      });
+
   const imageIdStub = sinon.stub(imageIdDetector, 'detect')
     .resolves('sha256:fake');
 

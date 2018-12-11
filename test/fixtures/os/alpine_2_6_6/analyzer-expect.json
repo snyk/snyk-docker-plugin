@@ -191,5 +191,15 @@
       "AnalyzeType": "Rpm",
       "Image": "alpine:2.6"
     }
-  ]
+  ],
+  "binaries": {
+  "Analysis": [
+    {
+      "name": "node",
+      "version": "6.15.1"
+    }
+    ],
+    "AnalyzeType": "binaries",
+    "Image": "alpine:2.6"
+  }
 }
