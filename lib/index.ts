@@ -25,6 +25,7 @@ function inspect(root: string, targetFile?: string, options?: any) {
       const pkg: any = result[1].package;
       pkg.docker = pkg.docker || {};
       pkg.docker.baseImage = result[2];
+      pkg.docker.binaries = result[1].binaries;
       return {
         plugin: metadata,
         package: pkg,
@@ -87,6 +88,7 @@ function getDependencies(targetImage: string) {
         package: pkg,
         packageManager: result.type,
         imageId: result.imageId,
+        binaries: result.binaries,
       };
     })
     .catch((error) => {
@@ -130,6 +132,7 @@ function parseAnalysisResults(analysisJson) {
     targetOS: analysisJson.osRelease,
     type: depType,
     depInfosList: analysisResult.Analysis,
+    binaries: analysisJson.binaries,
   };
 }
 

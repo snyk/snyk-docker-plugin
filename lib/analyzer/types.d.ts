@@ -13,3 +13,8 @@ export interface OSRelease {
   name: string;
   version: string;
 }
+
+export interface Binary {
+  name: string;
+  version: string;
+}
