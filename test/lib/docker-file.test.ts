@@ -14,54 +14,72 @@ const getDockerfileFixture = (folder: string) => path.join(
   'Dockerfile');
 
 test('Dockerfile not supplied', async (t) => {
-  t.equal(await dockerFile.getBaseImageName(), undefined, 'returns undefined');
+  t.equal(await dockerFile.analyseDockerfile(), undefined, 'returns undefined');
 });
 
 test('Dockerfile not found', async (t) => {
   t.rejects(
-    () => dockerFile.getBaseImageName('missing/Dockerfile'),
+    () => dockerFile.analyseDockerfile('missing/Dockerfile'),
     new Error('ENOENT: no such file or directory, open \'missing/Dockerfile\''),
     'rejects with');
 });
 
-test('getBaseImageName for', async (t) => {
+test('Analyses dockerfiles', async (t) => {
   const examples = [
     {
       description: 'a simple Dockerfile',
       fixture: 'simple',
-      expected: 'ubuntu:bionic',
+      expected: {
+        baseImage: 'ubuntu:bionic',
+        dockerfilePackages: {},
+      },
     },
     {
       description: 'a multi-stage Dockerfile',
       fixture: 'multi-stage',
-      expected: 'alpine:latest',
+      expected: {
+        baseImage: 'alpine:latest',
+        dockerfilePackages: {},
+      },
     },
     {
       description: 'a from-scratch Dockerfile',
       fixture: 'from-scratch',
-      expected: 'scratch',
+      expected: {
+        baseImage: 'scratch',
+        dockerfilePackages: {},
+      },
     },
     {
       description: 'an empty Dockerfile',
       fixture: 'empty',
-      expected: undefined,
+      expected: {
+        baseImage: null,
+        dockerfilePackages: {},
+      },
     },
     {
       description: 'an invalid Dockerfile',
       fixture: 'invalid',
-      expected: undefined,
+      expected: {
+        baseImage: null,
+        dockerfilePackages: {},
+      },
     },
     {
       description: 'a Dockerfile with multiple ARGs',
       fixture: 'with-args',
-      expected: 'node:dubnium',
+      expected: {
+        baseImage: 'node:dubnium',
+        dockerfilePackages: {},
+      },
     },
   ];
   for (const example of examples) {
     await t.test(example.description, async (t) => {
       const pathToDockerfile = getDockerfileFixture(example.fixture);
-      const actual = await dockerFile.getBaseImageName(pathToDockerfile);
-      t.equal(actual, example.expected, `returns ${example.expected}`);
+      const actual = await dockerFile.analyseDockerfile(pathToDockerfile);
+      t.same(actual, example.expected, `returns ${example.expected}`);
     });
   }
 });
