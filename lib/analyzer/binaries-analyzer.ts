@@ -7,8 +7,8 @@ export {
   analyze,
 };
 
-async function analyze(targetImage: string) {
-  const binaries = await getBinaries(targetImage);
+async function analyze(targetImage: string, installedPackages: string[]) {
+  const binaries = await getBinaries(targetImage, installedPackages);
   return {
     Image: targetImage,
     AnalyzeType: 'binaries',
@@ -16,16 +16,21 @@ async function analyze(targetImage: string) {
   };
 }
 
-async function getBinaries(targetImage: string): Promise<Binary[]> {
+async function getBinaries(targetImage: string, installedPackages: string[])
+  : Promise<Binary[]> {
   const binaries: Binary[] = [];
-  const node = await getNodeBinary(targetImage);
+  const node = await getNodeBinary(targetImage, installedPackages);
   if (node) {
      binaries.push(node);
   }
   return binaries;
 }
 
-function getNodeBinary(targetImage: string): Promise<Binary | null> {
+function getNodeBinary(targetImage: string, installedPackages: string[])
+  : Promise<Binary | null> | null {
+  if (installedByPackageManager(['node', 'nodejs'], installedPackages)) {
+    return null;
+  }
   return new Docker(targetImage).run('node', [ '--version' ])
     .catch(stderr => {
       if (typeof stderr === 'string' && stderr.indexOf('not found') >= 0) {
@@ -34,6 +39,13 @@ function getNodeBinary(targetImage: string): Promise<Binary | null> {
       throw new Error(stderr);
     })
     .then(parseNodeBinary);
+}
+
+function installedByPackageManager(
+  binaryPkgNames: string[],
+  installedPackages: string[]): boolean {
+  return installedPackages
+    .filter(pkg => binaryPkgNames.indexOf(pkg) > -1).length > 0;
 }
 
 function parseNodeBinary(version: string) {
