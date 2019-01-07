@@ -2,9 +2,6 @@
 // Shebang is required, and file *has* to be executable: chmod +x file.test.js
 // See: https://github.com/tapjs/node-tap/issues/313#issuecomment-250067741
 
-// tslint:disable:max-line-length
-// tslint:disable:no-string-throw
-
 import { test } from 'tap';
 import * as sinon from 'sinon';
 import * as fs from 'fs';
@@ -12,7 +9,7 @@ import * as path from 'path';
 
 import * as subProcess from '../../../lib/sub-process';
 import * as analyzer from '../../../lib/analyzer';
-import * as imageIdDetector from '../../../lib/analyzer/image-id-detector';
+import * as imageInspector from '../../../lib/analyzer/image-inspector';
 
 const readOsFixtureFile = (...from) => fs.readFileSync(
   path.join(__dirname, '../../fixtures/os', ...from), 'utf8');
@@ -32,11 +29,13 @@ test('analyzer', async t => {
     'run', '--rm', '--entrypoint', '""', '--network', 'none',
     sinon.match.any, 'cat', sinon.match.any,
   ])
-    .callsFake(async (docker, [run, rm, entry, empty, network, none, image, cat, file]) => {
+    .callsFake(async (docker,
+      [run, rm, entry, empty, network, none, image, cat, file]) => {
       try {
         const example = examples[image];
         return readOsFixtureFile(example.dir, 'fs', file);
       } catch {
+        // tslint:disable-next-line:no-string-throw
         throw `cat: ${file}: No such file or directory`;
       }
     });
@@ -52,12 +51,16 @@ test('analyzer', async t => {
     '--qf',
     '"%{NAME}\t%|EPOCH?{%{EPOCH}:}|%{VERSION}-%{RELEASE}\t%{SIZE}\n"',
   ])
-    .callsFake(async (docker, [run, rm, entry, empty, network, none, image]) => {
+    .callsFake(async (docker,
+      [run, rm, entry, empty, network, none, image]) => {
       try {
         const example = examples[image];
         return readOsFixtureFile(example.dir, 'rpm-output.txt');
       } catch {
-        throw `docker: Error response from daemon: OCI runtime create failed: container_linux.go:348: starting container process caused "exec: \"rpm\": executable file not found in $PATH": unknown.`;
+        // tslint:disable-next-line:no-string-throw
+        throw `docker: Error response from daemon: OCI runtime \
+        create failed: container_linux.go:348: starting container process\
+        caused "exec: \"rpm\": executable file not found in $PATH": unknown.`;
       }
     });
 
@@ -68,21 +71,37 @@ test('analyzer', async t => {
       'node',
       '--version',
     ])
-      .callsFake(async (docker, [run, rm, entry, empty, network, none, image]) => {
+      .callsFake(async (docker,
+        [run, rm, entry, empty, network, none, image]) => {
         try {
           const example = examples[image];
           return readOsFixtureFile(example.dir, 'node-version.txt');
         } catch {
+          // tslint:disable-next-line:no-string-throw
           throw 'docker: Error running `docker node --version`';
         }
       });
 
-  const imageIdStub = sinon.stub(imageIdDetector, 'detect')
-    .resolves('sha256:fake');
+  const expectedId = 'sha256:fake';
+  const expectedLayers = [
+    'sha256:fake1',
+    'sha256:fake2',
+    'sha256:fake3',
+  ];
+
+  const stubbedData = {
+    Id: expectedId,
+    RootFS: {
+      Layers: expectedLayers,
+    },
+    MoreStuff: 'stuff',
+  };
+  const imageInspectorStub = sinon.stub(imageInspector, 'detect')
+    .resolves(stubbedData);
 
   t.teardown(() => {
     execStub.restore();
-    imageIdStub.restore();
+    imageInspectorStub.restore();
   });
 
   for (const targetImage of Object.keys(examples)) {
