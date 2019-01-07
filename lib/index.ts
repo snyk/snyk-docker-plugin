@@ -181,7 +181,7 @@ function parseAnalysisResults(analysisJson) {
     targetOS: analysisJson.osRelease,
     type: depType,
     depInfosList: analysisResult.Analysis,
-    binaries: analysisJson.binaries,
+    binaries: analysisJson.binaries.Analysis,
   };
 }
 
