@@ -1,5 +1,5 @@
 import * as osReleaseDetector from './os-release-detector';
-import * as imageIdDetector from './image-id-detector';
+import * as imageInspector from './image-inspector';
 import * as apkAnalyzer from './apk-analyzer';
 import * as aptAnalyzer from './apt-analyzer';
 import * as rpmAnalyzer from './rpm-analyzer';
@@ -12,11 +12,11 @@ export {
 
 async function analyze(targetImage: string) {
   const [
-    imageId,
+    imageInspection,
     osRelease,
     results,
   ] = await Promise.all([
-    imageIdDetector.detect(targetImage),
+    imageInspector.detect(targetImage),
     osReleaseDetector.detect(targetImage),
     Promise.all([
       apkAnalyzer.analyze(targetImage),
@@ -40,10 +40,11 @@ async function analyze(targetImage: string) {
   }
 
   return {
-    imageId,
+    imageId: imageInspection.Id,
     osRelease,
     results,
     binaries,
+    imageLayers: imageInspection.RootFS && imageInspection.RootFS.Layers,
   };
 }
 

@@ -1,5 +1,10 @@
 {
   "imageId": "sha256:fake",
+  "imageLayers": [
+    "sha256:fake1",
+    "sha256:fake2",
+    "sha256:fake3"
+  ],
   "osRelease": {
     "name": "alpine",
     "version": "2.6.6"

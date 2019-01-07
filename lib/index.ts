@@ -24,6 +24,7 @@ function inspect(root: string, targetFile?: string, options?: any) {
         runtime: result[0],
         packageManager: result[1].packageManager,
         dockerImageId: result[1].imageId,
+        imageLayers: result[1].imageLayers,
       };
       const pkg: any = result[1].package;
       const dockerfileAnalysis = result[2];
@@ -138,6 +139,7 @@ function getDependencies(targetImage: string) {
         packageManager: result.type,
         imageId: result.imageId,
         binaries: result.binaries,
+        imageLayers: result.imageLayers,
       };
     })
     .catch((error) => {
@@ -182,6 +184,7 @@ function parseAnalysisResults(analysisJson) {
     type: depType,
     depInfosList: analysisResult.Analysis,
     binaries: analysisJson.binaries.Analysis,
+    imageLayers: analysisJson.imageLayers,
   };
 }
 
