@@ -18,27 +18,43 @@ test('analyze', async t => {
       description: 'no Node in image',
       targetImage: 'alpine:2.6',
       binariesOutputLines: [''],
+      installedPackages: [],
       expectedBinaries: [ ],
     },
     {
       description: 'bogus output',
       targetImage: 'node:6.15.1',
       binariesOutputLines: ['bogus.version.6'],
+      installedPackages: [],
       expectedBinaries: [ ],
     },
     {
       description: 'Node is in image',
       targetImage: 'node:6.15.1',
       binariesOutputLines: ['v6.15.1'],
+      installedPackages: ['a', 'b', 'c'],
       expectedBinaries:
       [
         { name: 'node', version: '6.15.1' },
       ],
     },
+    {
+      description: 'Node installed by package manager',
+      targetImage: 'node:6.15.1',
+      binariesOutputLines: ['v6.15.1'],
+      installedPackages: ['node'],
+      expectedBinaries: [ ],
+    },
+    {
+      description: 'Node installed by package manager with the name nodejs',
+      targetImage: 'node:6.15.1',
+      binariesOutputLines: ['v6.15.1'],
+      installedPackages: ['nodejs'],
+      expectedBinaries: [ ],
+    },
   ];
 
   for (const example of examples) {
-    console.log(example.description)
     await t.test(example.description, async t => {
       const execStub = sinon.stub(subProcess, 'execute');
       execStub.withArgs('docker', [
@@ -50,12 +66,13 @@ test('analyze', async t => {
 
       t.teardown(() => execStub.restore());
 
-      const actual = await analyzer.analyze(example.targetImage);
+      const {targetImage, installedPackages, expectedBinaries} = example;
+      const actual = await analyzer.analyze(targetImage, installedPackages);
 
       t.same(actual, {
-        Image: example.targetImage,
+        Image: targetImage,
         AnalyzeType: 'binaries',
-        Analysis: example.expectedBinaries,
+        Analysis: expectedBinaries,
       });
     });
   }

@@ -10,8 +10,12 @@ export {
   analyze,
 };
 
-function analyze(targetImage: string) {
-  return Promise.all([
+async function analyze(targetImage: string) {
+  const [
+    imageId,
+    osRelease,
+    results,
+  ] = await Promise.all([
     imageIdDetector.detect(targetImage),
     osReleaseDetector.detect(targetImage),
     Promise.all([
@@ -22,16 +26,35 @@ function analyze(targetImage: string) {
       debug(`Error while running analyzer: '${err}'`);
       throw new Error('Failed to detect installed OS packages');
     }),
-    binariesAnalyzer.analyze(targetImage)
-    .catch((err) => {
-      debug(`Error while running binaries analyzer: '${err}'`);
-      throw new Error('Failed to detect binaries versions');
-    }),
-  ])
-  .then(res => ({
-    imageId: res[0],
-    osRelease: res[1],
-    results: res[2],
-    binaries: res[3],
-  }));
+
+  ]);
+
+  const installedPackages = getInstalledPackages(results as any[]);
+
+  let binaries;
+  try {
+    binaries = await binariesAnalyzer.analyze(targetImage, installedPackages);
+  } catch (err) {
+    debug(`Error while running binaries analyzer: '${err}'`);
+    throw new Error('Failed to detect binaries versions');
+  }
+
+  return {
+    imageId,
+    osRelease,
+    results,
+    binaries,
+  };
+}
+
+function getInstalledPackages(results: any[]): string[] {
+  const dockerAnalysis = results.find((res) => {
+    return res.Analysis && res.Analysis.length > 0;
+  });
+
+  if (!dockerAnalysis) {
+    return [];
+  }
+  return dockerAnalysis.Analysis.map((pkg) => pkg.Name);
+
 }
