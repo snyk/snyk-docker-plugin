@@ -294,29 +294,53 @@ test('inspect centos', t => {
       }, 'root pkg');
 
       const deps = pkg.dependencies;
+      const metaDeps = deps['meta-common-packages'].dependencies;
 
-      t.equal(Object.keys(deps).length, 145, 'expected number of deps');
+      const expectedDepsCount = 145;
+      t.equal(
+        Object.keys(deps).length + Object.keys(metaDeps).length,
+        expectedDepsCount + 1,
+        'expected number of deps'
+      );
       t.match(deps, {
-        'openssl-libs': {
-          name: 'openssl-libs',
-          version: '1:1.0.2k-8.el7',
-        },
         passwd: {
           name: 'passwd',
           version: '0.79-4.el7',
-        },
-        systemd: {
-          name: 'systemd',
-          version: '219-42.el7',
+          dependencies: {
+            libuser: { name: 'libuser', version: '0.60-7.el7_1' },
+            glib2: { name: 'glib2', version: '2.50.3-3.el7' }
+          }
         },
         dracut: {
           name: 'dracut',
           version: '033-502.el7', // TODO: make sure we handle this well
         },
         iputils: {
+          name: 'iputils',
           version: '20160308-10.el7',
+          dependencies: {
+            systemd: {
+              name: 'systemd',
+              version: '219-42.el7'
+            },
+            libidn: {
+              name: 'libidn',
+              version: '1.28-4.el7'
+            }
+          }
         },
+        systemd: {
+          name: 'systemd',
+          version: '219-42.el7',
+        }
       }, 'deps');
+
+      t.match(metaDeps, {
+        'openssl-libs': {
+          name: 'openssl-libs',
+          version: '1:1.0.2k-8.el7',
+        },
+      }, 'metadeps');
     });
 });
 

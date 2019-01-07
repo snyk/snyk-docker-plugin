@@ -48,9 +48,9 @@ test('analyzer', async t => {
     'rpm',
     '--nodigest',
     '--nosignature',
-    '-qa',
+    '-qaR',
     '--qf',
-    '"%{NAME}\t%|EPOCH?{%{EPOCH}:}|%{VERSION}-%{RELEASE}\t%{SIZE}\n"',
+    sinon.match.any
   ])
     .callsFake(async (docker, [run, rm, entry, empty, network, none, image]) => {
       try {
