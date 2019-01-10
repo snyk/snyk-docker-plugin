@@ -82,6 +82,24 @@ test('analyzer', async t => {
         }
       });
 
+  // Stub Docker `java -version` command
+    execStub.withArgs('docker', [
+      'run', '--rm', '--entrypoint', '""', '--network', 'none',
+      sinon.match.any,
+      'java',
+      '-version',
+    ])
+      .callsFake(async (docker,
+        [run, rm, entry, empty, network, none, image]) => {
+        try {
+          const example = examples[image];
+          return readOsFixtureFile(example.dir, 'openjdk-jre-version.txt');
+        } catch {
+          // tslint:disable-next-line:no-string-throw
+          throw 'docker: Error running `docker java -version`';
+        }
+      });
+
   const expectedId = 'sha256:fake';
   const expectedLayers = [
     'sha256:fake1',
