@@ -1,7 +1,4 @@
-import { Docker } from '../docker';
 import { Binary } from './types';
-
-const semver = require('semver');
 
 export {
   analyze,
@@ -16,29 +13,25 @@ async function analyze(targetImage: string, installedPackages: string[]) {
   };
 }
 
+const binaryVersionExtractors = {
+  node: require('./binary-version-extractors/node'),
+  openjdk: require('./binary-version-extractors/openjdk-jre'),
+};
+
 async function getBinaries(targetImage: string, installedPackages: string[])
   : Promise<Binary[]> {
   const binaries: Binary[] = [];
-  const node = await getNodeBinary(targetImage, installedPackages);
-  if (node) {
-     binaries.push(node);
+  for (const versionExtractor of Object.keys(binaryVersionExtractors)) {
+    const extractor = binaryVersionExtractors[versionExtractor];
+    if (installedByPackageManager(extractor.packageNames, installedPackages)) {
+      continue;
+    }
+    const binary = await extractor.extract(targetImage);
+    if (binary) {
+      binaries.push(binary);
+    }
   }
   return binaries;
-}
-
-function getNodeBinary(targetImage: string, installedPackages: string[])
-  : Promise<Binary | null> | null {
-  if (installedByPackageManager(['node', 'nodejs'], installedPackages)) {
-    return null;
-  }
-  return new Docker(targetImage).run('node', [ '--version' ])
-    .catch(stderr => {
-      if (typeof stderr === 'string' && stderr.indexOf('not found') >= 0) {
-        return '';
-      }
-      throw new Error(stderr);
-    })
-    .then(parseNodeBinary);
 }
 
 function installedByPackageManager(
@@ -46,16 +39,4 @@ function installedByPackageManager(
   installedPackages: string[]): boolean {
   return installedPackages
     .filter(pkg => binaryPkgNames.indexOf(pkg) > -1).length > 0;
-}
-
-function parseNodeBinary(version: string) {
-  const nodeVersion = semver.valid(version.trim());
-  if (!nodeVersion) {
-    return null;
-  }
-
-  return {
-    name: 'node',
-    version: nodeVersion,
-  };
 }

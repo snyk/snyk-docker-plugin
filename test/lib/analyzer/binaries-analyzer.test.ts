@@ -15,23 +15,26 @@ test('analyze', async t => {
 
   const examples = [
     {
-      description: 'no Node in image',
+      description: 'no binaries in image',
       targetImage: 'alpine:2.6',
-      binariesOutputLines: [''],
+      binariesOutputLines: { node: 'node: command not found',
+                             openjdk: 'java: command not found' },
       installedPackages: [],
       expectedBinaries: [ ],
     },
     {
-      description: 'bogus output',
+      description: 'bogus output Node image',
       targetImage: 'node:6.15.1',
-      binariesOutputLines: ['bogus.version.6'],
+      binariesOutputLines: { node: 'bogus.version.1',
+                             openjdk: 'bogus.version.1' },
       installedPackages: [],
       expectedBinaries: [ ],
     },
     {
       description: 'Node is in image',
       targetImage: 'node:6.15.1',
-      binariesOutputLines: ['v6.15.1'],
+      binariesOutputLines: { node: 'v6.15.1',
+                             openjdk: 'java: command not found' },
       installedPackages: ['a', 'b', 'c'],
       expectedBinaries:
       [
@@ -41,16 +44,70 @@ test('analyze', async t => {
     {
       description: 'Node installed by package manager',
       targetImage: 'node:6.15.1',
-      binariesOutputLines: ['v6.15.1'],
+      binariesOutputLines: { node: 'v6.15.1',
+                             openjdk: 'java: command not found' },
       installedPackages: ['node'],
       expectedBinaries: [ ],
     },
     {
       description: 'Node installed by package manager with the name nodejs',
       targetImage: 'node:6.15.1',
-      binariesOutputLines: ['v6.15.1'],
+      binariesOutputLines: { node: 'v6.15.1',
+                             openjdk: 'java: command not found' },
       installedPackages: ['nodejs'],
       expectedBinaries: [ ],
+    },
+    {
+      description: 'no openJDK in image',
+      targetImage: 'alpine:2.6',
+      binariesOutputLines: { node: '',
+                             openjdk: 'java: command not found' },
+      installedPackages: [],
+      expectedBinaries: [ ],
+    },
+    {
+      description: 'bogus output openJDK image',
+      targetImage: 'openjdk:latest',
+      binariesOutputLines: { node: '',
+                             openjdk: 'bogus.version.1' },
+      installedPackages: [],
+      expectedBinaries: [ ],
+    },
+    {
+      description: 'openJDK is in image',
+      targetImage: 'openjdk:latest',
+      binariesOutputLines: { node: '',
+                             openjdk: `java version "1.8.0_191"
+                                       Java(TM) SE Runtime Environment (build 1.8.0_191-b12)
+                                       Java HotSpot(TM) 64-Bit Server VM (build 25.191-b12, mixed mode)` },
+      installedPackages: ['a', 'b', 'c'],
+      expectedBinaries:
+      [
+        { name: 'openjdk-jre', version: '1.8.0_191-b12' },
+      ],
+    },
+    {
+      description: 'openJDK installed by package manager',
+      targetImage: 'node:6.15.1',
+      binariesOutputLines: { node: '',
+                             openjdk: `java version "1.8.0_191"
+                                       Java(TM) SE Runtime Environment (build 1.8.0_191-b12)
+                                       Java HotSpot(TM) 64-Bit Server VM (build 25.191-b12, mixed mode)` },
+      installedPackages: ['java'],
+      expectedBinaries: [ ],
+    },
+    {
+      description: 'openJDK and Node present in image',
+      targetImage: 'node:6.15.1',
+      binariesOutputLines: { node: 'v6.15.1',
+                             openjdk: `java version "1.8.0_191"
+                                       Java(TM) SE Runtime Environment (build 1.8.0_191-b12)
+                                       Java HotSpot(TM) 64-Bit Server VM (build 25.191-b12, mixed mode)` },
+      installedPackages: [],
+      expectedBinaries: [
+        { name: 'node', version: '6.15.1' },
+        { name: 'openjdk-jre', version: '1.8.0_191-b12' },
+      ],
     },
   ];
 
@@ -62,7 +119,14 @@ test('analyze', async t => {
         sinon.match.any,
         'node',
         '--version',
-      ]).resolves(example.binariesOutputLines.join('\n'));
+      ]).resolves(example.binariesOutputLines.node);
+
+      execStub.withArgs('docker', [
+        'run', '--rm', '--entrypoint', '""', '--network', 'none',
+        sinon.match.any,
+        'java',
+        '-version',
+      ]).resolves(example.binariesOutputLines.openjdk);
 
       t.teardown(() => execStub.restore());
 
