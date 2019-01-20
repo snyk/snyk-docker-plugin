@@ -138,5 +138,15 @@ test('instruction parsers', async (t) => {
         'wget': { instruction: instructionTwo },
       });
     });
+
+    await t.test('supports "-" in pkg name', async (t) => {
+      const instruction = 'RUN apt install 389-admin';
+      const packages = getPackagesFromRunInstructions([instruction]);
+
+      t.same(packages, {
+        '389-admin': { instruction },
+      });
+    });
+
   });
 });
