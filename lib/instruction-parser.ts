@@ -32,9 +32,10 @@ function getPackagesFromRunInstructions(
       const packagesWithInstructions = installCommands.forEach((command) => {
         const packages = command
           .replace(installRegex, '')
-          .replace(/-\w+/g, '')
+          .replace(/(^-|\s-)\w+/g, '')
           .trim()
           .split(/\s+/);
+
         packages.forEach((pkg) => {
           dockerfilePackages[pkg] = { instruction };
         });
