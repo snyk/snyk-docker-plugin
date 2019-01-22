@@ -4,8 +4,12 @@ export {
   analyze,
 };
 
-async function analyze(targetImage: string, installedPackages: string[]) {
-  const binaries = await getBinaries(targetImage, installedPackages);
+async function analyze(
+  targetImage: string,
+  installedPackages: string[],
+  pkgManager?: string) {
+  const binaries = await getBinaries(
+    targetImage, installedPackages, pkgManager);
   return {
     Image: targetImage,
     AnalyzeType: 'binaries',
@@ -18,12 +22,13 @@ const binaryVersionExtractors = {
   openjdk: require('./binary-version-extractors/openjdk-jre'),
 };
 
-async function getBinaries(targetImage: string, installedPackages: string[])
+async function getBinaries(
+  targetImage: string, installedPackages: string[], pkgManager?: string)
   : Promise<Binary[]> {
   const binaries: Binary[] = [];
   for (const versionExtractor of Object.keys(binaryVersionExtractors)) {
     const extractor = binaryVersionExtractors[versionExtractor];
-    if (installedByPackageManager(extractor.packageNames, installedPackages)) {
+    if (extractor.installedByPackageManager(installedPackages, pkgManager)) {
       continue;
     }
     const binary = await extractor.extract(targetImage);
@@ -32,11 +37,4 @@ async function getBinaries(targetImage: string, installedPackages: string[])
     }
   }
   return binaries;
-}
-
-function installedByPackageManager(
-  binaryPkgNames: string[],
-  installedPackages: string[]): boolean {
-  return installedPackages
-    .filter(pkg => binaryPkgNames.indexOf(pkg) > -1).length > 0;
 }
