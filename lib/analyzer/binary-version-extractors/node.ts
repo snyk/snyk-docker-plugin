@@ -5,10 +5,8 @@ const semver = require('semver');
 
 export {
   extract,
-  packageNames,
+  installedByPackageManager,
 };
-
-const packageNames = ['node', 'nodejs'];
 
 async function extract(targetImage: string): Promise<Binary | null> {
   try {
@@ -32,4 +30,12 @@ function parseNodeBinary(version: string) {
     name: 'node',
     version: nodeVersion,
   };
+}
+
+const packageNames = ['node', 'nodejs'];
+
+function installedByPackageManager(
+  installedPackages: string[], pkgManager?: string): boolean {
+  return installedPackages
+    .filter(pkg => packageNames.indexOf(pkg) > -1).length > 0;
 }

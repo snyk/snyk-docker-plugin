@@ -3,11 +3,8 @@ import { Binary } from '../types';
 
 export {
   extract,
-  packageNames,
+  installedByPackageManager,
 };
-
-// todo: add common names such as 'java-common'
-const packageNames = ['java'];
 
 async function extract(targetImage: string): Promise<Binary | null> {
   try {
@@ -45,4 +42,37 @@ function parseOpenJDKBinary(fullVersionOutput: string) {
     name: 'openjdk-jre',
     version,
   };
+}
+
+const javaPkgRegexByPkgManager = {
+  apt: [/openjdk-\d*-jre-headless/,
+        // openjdk-11-jre-headless
+        /gcj-\d*.?\d*-jre-headless/,
+        // gcj-4.8-jre-headless
+        /gcc-snapshot/],
+  apk: [/java-common/,
+        /java-gcj-compat/,
+        /^openjdk\d+/], // openjdk8-jre-base, openjdk7
+  rpm: [/^java-\d*.?\d*.?\d*-openjdk/,
+        // java-11-openjdk-11.0.ea.28-7.el7.x86_64,
+        // java-1.8.0-openjdk-1.8.0.181-7.b13.el7.i686
+        /^java-\d*.?\d*.?\d*-gcj/],
+        // java-1.5.0-gcj-1.5.0.0-29.1.el6.x86_64
+  };
+
+function installedByPackageManager(
+  installedPackages: string[],
+  pkgManager?: string): boolean {
+  if (!pkgManager || !javaPkgRegexByPkgManager.hasOwnProperty(pkgManager)) {
+    return false;
+  }
+  const binaryPkgNames = javaPkgRegexByPkgManager[pkgManager];
+  for (const pkg of installedPackages) {
+    for (const binaryRegex of binaryPkgNames) {
+      if (pkg.match(binaryRegex)) {
+        return true;
+      }
+    }
+  }
+  return false;
 }

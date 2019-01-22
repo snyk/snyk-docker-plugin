@@ -29,11 +29,12 @@ async function analyze(targetImage: string) {
 
   ]);
 
-  const installedPackages = getInstalledPackages(results as any[]);
-
+  const { installedPackages, pkgManager } =
+    getInstalledPackages(results as any[]);
   let binaries;
   try {
-    binaries = await binariesAnalyzer.analyze(targetImage, installedPackages);
+    binaries = await binariesAnalyzer.analyze(
+      targetImage, installedPackages, pkgManager);
   } catch (err) {
     debug(`Error while running binaries analyzer: '${err}'`);
     throw new Error('Failed to detect binaries versions');
@@ -48,14 +49,19 @@ async function analyze(targetImage: string) {
   };
 }
 
-function getInstalledPackages(results: any[]): string[] {
+function getInstalledPackages(results: any[]):
+ {installedPackages: string[], pkgManager?: string} {
   const dockerAnalysis = results.find((res) => {
     return res.Analysis && res.Analysis.length > 0;
   });
 
   if (!dockerAnalysis) {
-    return [];
+    return { installedPackages: [] };
   }
-  return dockerAnalysis.Analysis.map((pkg) => pkg.Name);
-
+  const installedPackages = dockerAnalysis.Analysis.map((pkg) => pkg.Name);
+  let pkgManager = dockerAnalysis.AnalyzeType;
+  if (pkgManager) {
+    pkgManager = pkgManager.toLowerCase();
+  }
+  return { installedPackages, pkgManager };
 }
