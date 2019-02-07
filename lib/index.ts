@@ -333,7 +333,9 @@ function buildTreeRecurisve(
       if (!tree.dependencies) {
         tree.dependencies = {};
       }
-      tree.dependencies[subTree.name] = subTree;
+      if (!tree.dependencies[subTree.name]) {
+        tree.dependencies[subTree.name] = subTree;
+      }
     }
   });
 
