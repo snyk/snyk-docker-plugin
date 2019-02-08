@@ -15,7 +15,7 @@ function inspect(root: string, targetFile?: string, options?: any) {
   const targetImage = root;
   return Promise.all([
     getRuntime(),
-    getDependencies(targetImage),
+    getDependencies(targetImage, options),
     dockerFile.analyseDockerfile(targetFile),
   ])
     .then((result) => {
@@ -125,9 +125,9 @@ function handleCommonErrors(error, targetImage: string) {
   }
 }
 
-function getDependencies(targetImage: string) {
+function getDependencies(targetImage: string, options?: any) {
   let result;
-  return analyzer.analyze(targetImage)
+  return analyzer.analyze(targetImage, options)
     .then((output) => {
       result = parseAnalysisResults(output);
       return buildTree(

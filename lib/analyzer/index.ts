@@ -10,21 +10,21 @@ export {
   analyze,
 };
 
-async function analyze(targetImage: string) {
+async function analyze(targetImage: string, options?: any) {
   const [
     imageInspection,
     osRelease,
     results,
   ] = await Promise.all([
-    imageInspector.detect(targetImage),
-    osReleaseDetector.detect(targetImage),
+    imageInspector.detect(targetImage, options),
+    osReleaseDetector.detect(targetImage, options),
     Promise.all([
-      apkAnalyzer.analyze(targetImage),
-      aptAnalyzer.analyze(targetImage),
-      rpmAnalyzer.analyze(targetImage),
+      apkAnalyzer.analyze(targetImage, options),
+      aptAnalyzer.analyze(targetImage, options),
+      rpmAnalyzer.analyze(targetImage, options),
     ]).catch((err) => {
       debug(`Error while running analyzer: '${err}'`);
-      throw new Error('Failed to detect installed OS packages');
+      throw new Error(`Failed to detect installed OS packages: '${err}'`);
     }),
 
   ]);
@@ -34,7 +34,7 @@ async function analyze(targetImage: string) {
   let binaries;
   try {
     binaries = await binariesAnalyzer.analyze(
-      targetImage, installedPackages, pkgManager);
+      targetImage, installedPackages, pkgManager, options);
   } catch (err) {
     debug(`Error while running binaries analyzer: '${err}'`);
     throw new Error('Failed to detect binaries versions');

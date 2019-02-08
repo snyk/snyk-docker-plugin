@@ -8,10 +8,12 @@ export {
   installedByPackageManager,
 };
 
-async function extract(targetImage: string): Promise<Binary | null> {
+async function extract(
+  targetImage: string,
+  options?: any): Promise<Binary | null> {
   try {
-    const binaryVersion = (await new Docker(targetImage).
-      run('node', [ '--version' ])).stdout;
+    const binaryVersion = (await new Docker(targetImage, options)
+      .run('node', [ '--version' ])).stdout;
     return parseNodeBinary(binaryVersion);
   } catch (error) {
     const stderr = error.stderr;

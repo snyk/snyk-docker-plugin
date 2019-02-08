@@ -5,8 +5,8 @@ export {
   detect,
 };
 
-async function detect(targetImage: string): Promise<OSRelease> {
-  const docker = new Docker(targetImage);
+async function detect(targetImage: string, options?: any): Promise<OSRelease> {
+  const docker = new Docker(targetImage, options);
 
   let osRelease = await tryOSRelease(docker);
 

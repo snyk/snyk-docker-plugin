@@ -7,9 +7,10 @@ export {
 async function analyze(
   targetImage: string,
   installedPackages: string[],
+  options?: any,
   pkgManager?: string) {
   const binaries = await getBinaries(
-    targetImage, installedPackages, pkgManager);
+    targetImage, installedPackages, options, pkgManager);
   return {
     Image: targetImage,
     AnalyzeType: 'binaries',
@@ -23,12 +24,16 @@ const binaryVersionExtractors = {
 };
 
 async function getBinaries(
-  targetImage: string, installedPackages: string[], pkgManager?: string)
-  : Promise<Binary[]> {
+  targetImage: string,
+  installedPackages: string[],
+  options?: any,
+  pkgManager?: string,
+  ): Promise<Binary[]> {
   const binaries: Binary[] = [];
   for (const versionExtractor of Object.keys(binaryVersionExtractors)) {
     const extractor = binaryVersionExtractors[versionExtractor];
-    if (extractor.installedByPackageManager(installedPackages, pkgManager)) {
+    if (extractor.installedByPackageManager(
+      installedPackages, options, pkgManager)) {
       continue;
     }
     const binary = await extractor.extract(targetImage);

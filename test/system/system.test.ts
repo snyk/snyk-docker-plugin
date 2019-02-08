@@ -11,9 +11,36 @@ import * as subProcess from '../../lib/sub-process';
 const getDockerfileFixturePath = (folder) => path.join(
   __dirname, '../fixtures/dockerfiles/library', folder, 'Dockerfile');
 
+test('attempt to connect to non-existent host', t => {
+  const host = 'does-not-exist:1234';
+  const options = { host };
+
+  const imgName = 'nginx';
+  const imgTag = '1.13.10';
+  const img = imgName + ':' + imgTag;
+  const dockerFileLocation = getDockerfileFixturePath('nginx');
+
+  return dockerPull(t, img)
+    .then(() => {
+      return dockerGetImageId(t, img);
+    })
+    .then((_) => {
+      return plugin.inspect(img, dockerFileLocation, options);
+    })
+    .then(() => {
+      t.fail('should have failed');
+    })
+    .catch(err => {
+      t.includes(
+        err.message,
+        'no such host');
+    });
+});
+
 test('inspect an image that does not exist', t => {
   return plugin.inspect('not-here:latest').catch((err) => {
-    t.same(err.message, 'Docker image was not found locally: not-here:latest');
+    t.includes(
+      err.message, 'No such object: not-here:latest');
     t.pass('failed as expected');
   });
 });

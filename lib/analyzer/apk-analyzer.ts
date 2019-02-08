@@ -5,8 +5,8 @@ export {
   analyze,
 };
 
-function analyze(targetImage: string) {
-  return getPackages(targetImage)
+function analyze(targetImage: string, options?: any) {
+  return getPackages(targetImage, options)
     .then(pkgs => ({
       Image: targetImage,
       AnalyzeType: 'Apk',
@@ -14,8 +14,8 @@ function analyze(targetImage: string) {
     }));
 }
 
-function getPackages(targetImage: string) {
-  return new Docker(targetImage)
+function getPackages(targetImage: string, options?: any) {
+  return new Docker(targetImage, options)
     .catSafe('/lib/apk/db/installed')
     .then(output => parseFile(output.stdout));
 }
