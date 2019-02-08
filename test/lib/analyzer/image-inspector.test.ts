@@ -28,7 +28,7 @@ test('image id', async t => {
 
   const execStub = sinon.stub(subProcess, 'execute');
   execStub.withArgs('docker', ['inspect', 'alpine:2.6'])
-    .resolves(JSON.stringify(stubbedData));
+    .resolves({stdout: JSON.stringify(stubbedData), stderr: ''});
   t.teardown(() => execStub.restore());
 
   const imageData = await imageInspector.detect('alpine:2.6');

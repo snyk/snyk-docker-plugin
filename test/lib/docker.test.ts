@@ -59,28 +59,28 @@ test('safeCat', async (t) => {
   const docker = new Docker(targetImage);
 
   t.test('file found', async (t) => {
-    stub.resolves('file contents');
-    const content = await docker.catSafe('present.txt');
+    stub.resolves({stdout: 'file contents'});
+    const content = (await docker.catSafe('present.txt')).stdout;
     t.equal(content, 'file contents', 'file contents returned');
   });
 
   t.test('file not found', async (t) => {
     stub.callsFake(() => {
       // tslint:disable-next-line:no-string-throw
-      throw 'cat: absent.txt: No such file or directory';
+      throw {stderr: 'cat: absent.txt: No such file or directory'};
     });
-    const content = await docker.catSafe('absent.txt');
+    const content = (await docker.catSafe('absent.txt')).stderr;
     t.equal(content, '', 'empty string returned');
   });
 
   t.test('unexpected error', async (t) => {
     stub.callsFake(() => {
       // tslint:disable-next-line:no-string-throw
-      throw 'something went horribly wrong';
+      throw { stderr: 'something went horribly wrong', stdout: '' };
     });
     await t.rejects(
       docker.catSafe('absent.txt'),
-      new Error('something went horribly wrong'),
+      { stderr: 'something went horribly wrong', stdout: '' },
       'rejects with expected error',
     );
   });

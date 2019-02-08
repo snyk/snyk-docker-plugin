@@ -119,9 +119,9 @@ test('os release detection', async t => {
     .callsFake(async (docker, [run, rm, entry, empty, network, none, image, cat, file]) => {
       try {
         const example = examples[image];
-        return readOsFixtureFile(example.dir, 'fs', file);
+        return {stdout: readOsFixtureFile(example.dir, 'fs', file), stderr: ''};
       } catch {
-        throw `cat: ${file}: No such file or directory`;
+        throw {stderr: `cat: ${file}: No such file or directory`, stdout: ''};
       }
     });
   t.teardown(() => execStub.restore());
@@ -166,9 +166,9 @@ test('failed detection', async t => {
     .callsFake(async (docker, [run, rm, entry, empty, network, none, image, cat, file]) => {
       try {
         const example = examples[image];
-        return readOsFixtureFile(example.dir, 'fs', file);
+        return {stdout: readOsFixtureFile(example.dir, 'fs', file), stderr: ''};
       } catch {
-        throw `cat: ${file}: No such file or directory`;
+        throw {stderr: `cat: ${file}: No such file or directory`, stdout: ''};
       }
     });
   t.teardown(() => execStub.restore());

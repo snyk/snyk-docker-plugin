@@ -1,6 +1,6 @@
 import { Docker } from '../docker';
 import { AnalyzerPkg } from './types';
-
+import { Output } from '../sub-process';
 export {
   analyze,
 };
@@ -20,10 +20,10 @@ function getPackages(targetImage: string) {
     .then(parseFile);
 }
 
-function parseFile(text: string) {
+function parseFile(output: Output) {
   const pkgs: AnalyzerPkg[] = [];
   let curPkg: any = null;
-  for (const line of text.split('\n')) {
+  for (const line of output.stdout.split('\n')) {
     curPkg = parseLine(line, curPkg, pkgs);
   }
   return pkgs;

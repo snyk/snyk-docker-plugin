@@ -1,5 +1,6 @@
 import { Docker } from '../docker';
 import { AnalyzerPkg } from './types';
+import { Output } from '../sub-process';
 
 export {
   analyze,
@@ -22,18 +23,19 @@ function getPackages(targetImage: string) {
     '--qf',
     '"%{NAME}\t%|EPOCH?{%{EPOCH}:}|%{VERSION}-%{RELEASE}\t%{SIZE}\n"',
   ])
-    .catch(stderr => {
+    .catch(error => {
+      const stderr = error.stderr;
       if (typeof stderr === 'string' && stderr.indexOf('not found') >= 0) {
-        return '';
+        return { stdout: '', stderr: ''};
       }
-      throw new Error(stderr);
+      throw error;
     })
     .then(parseOutput);
 }
 
-function parseOutput(text: string) {
+function parseOutput(output: Output) {
   const pkgs: AnalyzerPkg[] = [];
-  for (const line of text.split('\n')) {
+  for (const line of output.stdout.split('\n')) {
     parseLine(line, pkgs);
   }
   return pkgs;

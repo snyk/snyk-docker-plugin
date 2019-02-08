@@ -1,10 +1,16 @@
 import * as childProcess from 'child_process';
 
-export function execute(
+export { execute, Output };
+interface Output {
+  stdout: string;
+  stderr: string;
+}
+
+function execute(
   command: string,
   args?: string[],
   options?,
-): Promise<string> {
+): Promise<Output> {
 
   const spawnOptions: any = { shell: true };
   if (options && options.cwd) {
@@ -24,10 +30,11 @@ export function execute(
     });
 
     proc.on('close', (code) => {
+      const output = {stdout, stderr};
       if (code !== 0) {
-        return reject(stdout || stderr);
+        return reject(output);
       }
-      resolve(stdout || stderr);
+      resolve(output);
     });
-  }) as Promise<string>;
+  }) as Promise<Output>;
 }

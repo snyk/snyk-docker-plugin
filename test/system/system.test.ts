@@ -421,7 +421,7 @@ function dockerTag(t, fromName, toName) {
 function dockerGetImageId(t, name) {
   return subProcess.execute('docker', ['inspect', name])
     .then((output) => {
-      const inspection = JSON.parse(output);
+      const inspection = JSON.parse(output.stdout);
 
       const id = inspection[0].Id;
 

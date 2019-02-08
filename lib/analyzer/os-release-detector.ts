@@ -45,7 +45,7 @@ async function detect(targetImage: string): Promise<OSRelease> {
 }
 
 async function tryOSRelease(docker: Docker): Promise<OSRelease|null> {
-  const text = await docker.catSafe('/etc/os-release');
+  const text = (await docker.catSafe('/etc/os-release')).stdout;
   if (!text) {
     return null;
   }
@@ -60,7 +60,7 @@ async function tryOSRelease(docker: Docker): Promise<OSRelease|null> {
 }
 
 async function tryLSBRelease(docker: Docker): Promise<OSRelease|null> {
-  const text = await docker.catSafe('/etc/lsb-release');
+  const text = (await docker.catSafe('/etc/lsb-release')).stdout;
   if (!text) {
     return null;
   }
@@ -75,7 +75,7 @@ async function tryLSBRelease(docker: Docker): Promise<OSRelease|null> {
 }
 
 async function tryDebianVersion(docker: Docker): Promise<OSRelease|null> {
-  let text = await docker.catSafe('/etc/debian_version');
+  let text = (await docker.catSafe('/etc/debian_version')).stdout;
   if (!text) {
     return null;
   }
@@ -87,7 +87,7 @@ async function tryDebianVersion(docker: Docker): Promise<OSRelease|null> {
 }
 
 async function tryAlpineRelease(docker: Docker): Promise<OSRelease|null> {
-  let text = await docker.catSafe('/etc/alpine-release');
+  let text = (await docker.catSafe('/etc/alpine-release')).stdout;
   if (!text) {
     return null;
   }
@@ -99,7 +99,7 @@ async function tryAlpineRelease(docker: Docker): Promise<OSRelease|null> {
 }
 
 async function tryRedHatRelease(docker: Docker): Promise<OSRelease|null> {
-  const text = await docker.catSafe('/etc/redhat-release');
+  const text = (await docker.catSafe('/etc/redhat-release')).stdout;
   if (!text) {
     return null;
   }
@@ -114,7 +114,7 @@ async function tryRedHatRelease(docker: Docker): Promise<OSRelease|null> {
 }
 
 async function tryOracleRelease(docker: Docker): Promise<OSRelease|null> {
-  const text = await docker.catSafe('/etc/oracle-release');
+  const text = (await docker.catSafe('/etc/oracle-release')).stdout;
   if (!text) {
     return null;
   }
