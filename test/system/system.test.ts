@@ -31,8 +31,9 @@ test('inspect an image with an unsupported pkg manager', t => {
       t.fail('should have failed');
     })
     .catch((err) => {
-      t.match(err.message,
-        'Failed to detect a supported Linux package manager (deb/rpm/apk)',
+      t.match(err,
+        'Error response from daemon: ' +
+        'manifest for base/archlinux:2018.06.01 not found',
         'error msg is correct');
     });
 });
