@@ -7,18 +7,17 @@ export {
 };
 
 async function extract(targetImage: string): Promise<Binary | null> {
-  let binaryVersion: string;
   try {
-    binaryVersion = (await new Docker(targetImage).
+    const binaryVersion = (await new Docker(targetImage).
       run('java', [ '-version' ])).stdout;
+    return parseOpenJDKBinary(binaryVersion);
   } catch (error) {
-    const stderr: string = error.stderr;
+    const stderr = error.stderr;
     if (typeof stderr === 'string' && stderr.indexOf('not found') >= 0) {
       return null;
     }
     throw new Error(stderr);
   }
-  return parseOpenJDKBinary(binaryVersion);
 }
 
 function parseOpenJDKBinary(fullVersionOutput: string) {

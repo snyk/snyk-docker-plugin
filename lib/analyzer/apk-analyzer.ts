@@ -1,6 +1,6 @@
 import { Docker } from '../docker';
 import { AnalyzerPkg } from './types';
-import { Output } from '../sub-process';
+
 export {
   analyze,
 };
@@ -17,13 +17,13 @@ function analyze(targetImage: string) {
 function getPackages(targetImage: string) {
   return new Docker(targetImage)
     .catSafe('/lib/apk/db/installed')
-    .then(parseFile);
+    .then(output => parseFile(output.stdout));
 }
 
-function parseFile(output: Output) {
+function parseFile(text: string) {
   const pkgs: AnalyzerPkg[] = [];
   let curPkg: any = null;
-  for (const line of output.stdout.split('\n')) {
+  for (const line of text.split('\n')) {
     curPkg = parseLine(line, curPkg, pkgs);
   }
   return pkgs;

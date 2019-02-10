@@ -9,10 +9,10 @@ export {
 };
 
 async function extract(targetImage: string): Promise<Binary | null> {
-  let binaryVersion: string;
   try {
-    binaryVersion = (await new Docker(targetImage).
+    const binaryVersion = (await new Docker(targetImage).
       run('node', [ '--version' ])).stdout;
+    return parseNodeBinary(binaryVersion);
   } catch (error) {
     const stderr = error.stderr;
     if (typeof stderr === 'string' && stderr.indexOf('not found') >= 0) {
@@ -20,7 +20,6 @@ async function extract(targetImage: string): Promise<Binary | null> {
     }
     throw new Error(stderr);
   }
-  return parseNodeBinary(binaryVersion);
 }
 
 function parseNodeBinary(version: string) {

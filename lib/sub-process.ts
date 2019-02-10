@@ -1,7 +1,7 @@
 import * as childProcess from 'child_process';
 
-export { execute, Output };
-interface Output {
+export { execute, CmdOutput };
+interface CmdOutput {
   stdout: string;
   stderr: string;
 }
@@ -10,7 +10,7 @@ function execute(
   command: string,
   args?: string[],
   options?,
-): Promise<Output> {
+): Promise<CmdOutput> {
 
   const spawnOptions: any = { shell: true };
   if (options && options.cwd) {
@@ -36,5 +36,5 @@ function execute(
       }
       resolve(output);
     });
-  }) as Promise<Output>;
+  }) as Promise<CmdOutput>;
 }
