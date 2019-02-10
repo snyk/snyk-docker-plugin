@@ -19,8 +19,9 @@ test('inspect an image that does not exist', t => {
 });
 
 test('inspect an image with an unsupported pkg manager', t => {
-  const imgName = 'base/archlinux';
-  const imgTag = '2018.06.01';
+  const imgName = 'archlinux/base@sha256';
+  const imgTag =
+    '42b6236b8f1b85a3bea6c8055f7e290f503440f722c9b4f82cc04bdcf3bcfcef';
   const img = imgName + ':' + imgTag;
 
   return dockerPull(t, img)
@@ -34,6 +35,93 @@ test('inspect an image with an unsupported pkg manager', t => {
       t.match(err.message,
         'Failed to detect a supported Linux package manager (deb/rpm/apk)',
         'error msg is correct');
+    });
+});
+
+test('inspect node:6.14.2 - provider and regular pkg as same dependency', t => {
+  const imgName = 'node';
+  const imgTag = '6.14.2';
+  const img = imgName + ':' + imgTag;
+  const dockerFileLocation = getDockerfileFixturePath('node');
+
+  let expectedImageId;
+  return dockerPull(t, img)
+    .then(() => {
+      return dockerGetImageId(t, img);
+    })
+    .then((imageId) => {
+      expectedImageId = imageId;
+      return plugin.inspect(img, dockerFileLocation);
+    })
+    .then((res) => {
+      const plugin = res.plugin;
+      const pkg = res.package;
+      const uniquePkgs = uniquePkgSpecs(pkg);
+
+      t.equal(plugin.name, 'snyk-docker-plugin', 'name');
+      t.equal(plugin.dockerImageId, expectedImageId,
+        'image id is correct: ' + plugin.dockerImageId);
+      t.equal(plugin.packageManager, 'deb', 'returns deb package manager');
+
+      t.match(pkg, {
+        name: 'docker-image|' + imgName,
+        version: imgTag,
+        packageFormatVersion: 'deb:0.0.1',
+        targetOS: {
+          name: 'debian',
+          version: '8',
+        },
+        docker: {
+          baseImage: 'buildpack-deps:stretch',
+        },
+      }, 'root pkg');
+
+      t.equal(uniquePkgs.length, 383,
+        'expected number of total unique deps');
+
+      const deps = pkg.dependencies;
+      // Note: this test is now a bit fragile due to dep-tree-pruning
+      t.equal(Object.keys(deps).length, 105, 'expected number of direct deps');
+      t.match(deps, {
+        libtool: {
+          version: '2.4.2-1.11',
+          dependencies: {
+            'gcc-defaults/gcc': {
+              version: '4:4.9.2-2',
+              dependencies: {
+                'gcc-4.9': {
+                  version: '4.9.2-10+deb8u1',
+                  dependencies: {
+                    'gcc-4.9/libgcc-4.9-dev': {
+                      version: '4.9.2-10+deb8u1',
+                      dependencies: {
+                        'gcc-4.9/libitm1': {
+                          version: '4.9.2-10+deb8u1',
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      }, 'regular deps seem ok');
+
+      const commonDeps = deps['meta-common-packages'].dependencies;
+      t.equal(Object.keys(commonDeps).length, 73,
+        'expected number of common deps under meta pkg');
+
+      t.match(commonDeps, {
+        'gcc-4.9/gcc-4.9-base': {
+          name: 'gcc-4.9/gcc-4.9-base',
+          version: '4.9.2-10+deb8u1',
+        },
+        'glibc/libc6': {
+          name: 'glibc/libc6',
+          version: '2.19-18+deb8u10',
+        },
+      }, 'meta-common-packages seems fine');
     });
 });
 
