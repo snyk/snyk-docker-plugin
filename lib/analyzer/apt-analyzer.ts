@@ -7,10 +7,10 @@ export {
 
 async function analyze(targetImage: string) {
   const docker = new Docker(targetImage);
-  const dpkgFile = await docker.catSafe('/var/lib/dpkg/status');
+  const dpkgFile = (await docker.catSafe('/var/lib/dpkg/status')).stdout;
   const pkgs = parseDpkgFile(dpkgFile);
 
-  const extFile = await docker.catSafe('/var/lib/apt/extended_states');
+  const extFile = (await docker.catSafe('/var/lib/apt/extended_states')).stdout;
   if (extFile) {
     setAutoInstalledPackages(extFile, pkgs);
   }

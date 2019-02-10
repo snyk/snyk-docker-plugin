@@ -8,10 +8,11 @@ export {
 
 async function extract(targetImage: string): Promise<Binary | null> {
   try {
-    const binaryVersion = await new Docker(targetImage).
-      run('java', [ '-version' ]);
+    const binaryVersion = (await new Docker(targetImage).
+      run('java', [ '-version' ])).stdout;
     return parseOpenJDKBinary(binaryVersion);
-  } catch (stderr) {
+  } catch (error) {
+    const stderr = error.stderr;
     if (typeof stderr === 'string' && stderr.indexOf('not found') >= 0) {
       return null;
     }

@@ -22,18 +22,19 @@ function getPackages(targetImage: string) {
     '--qf',
     '"%{NAME}\t%|EPOCH?{%{EPOCH}:}|%{VERSION}-%{RELEASE}\t%{SIZE}\n"',
   ])
-    .catch(stderr => {
+    .catch(error => {
+      const stderr = error.stderr;
       if (typeof stderr === 'string' && stderr.indexOf('not found') >= 0) {
-        return '';
+        return { stdout: '', stderr: ''};
       }
-      throw new Error(stderr);
+      throw error;
     })
-    .then(parseOutput);
+    .then(output => parseOutput(output.stdout));
 }
 
-function parseOutput(text: string) {
+function parseOutput(output: string) {
   const pkgs: AnalyzerPkg[] = [];
-  for (const line of text.split('\n')) {
+  for (const line of output.split('\n')) {
     parseLine(line, pkgs);
   }
   return pkgs;

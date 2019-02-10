@@ -64,7 +64,7 @@ test('analyze', async t => {
         '-qa',
         '--qf',
         '"%{NAME}\t%|EPOCH?{%{EPOCH}:}|%{VERSION}-%{RELEASE}\t%{SIZE}\n"',
-      ]).resolves(example.rpmOutputLines.join('\n'));
+      ]).resolves({stdout: example.rpmOutputLines.join('\n'), stderr: ''});
 
       t.teardown(() => execStub.restore());
 
@@ -105,7 +105,7 @@ test('no rpm', async t => {
         '--qf',
         '"%{NAME}\t%|EPOCH?{%{EPOCH}:}|%{VERSION}-%{RELEASE}\t%{SIZE}\n"',
       ]).callsFake(async (docker, [run, rm, image]) => {
-        throw example.rpmThrows;
+        throw {stderr: example.rpmThrows, stdout: ''};
       });
 
       t.teardown(() => execStub.restore());

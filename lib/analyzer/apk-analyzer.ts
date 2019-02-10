@@ -17,7 +17,7 @@ function analyze(targetImage: string) {
 function getPackages(targetImage: string) {
   return new Docker(targetImage)
     .catSafe('/lib/apk/db/installed')
-    .then(parseFile);
+    .then(output => parseFile(output.stdout));
 }
 
 function parseFile(text: string) {

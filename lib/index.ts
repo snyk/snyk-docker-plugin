@@ -86,7 +86,7 @@ function collectDeps(pkg) {
 function getRuntime() {
   return subProcess.execute('docker', ['version'])
     .then((output) => {
-      const versionMatch = /Version:\s+(.*)\n/.exec(output);
+      const versionMatch = /Version:\s+(.*)\n/.exec(output.stdout);
       if (versionMatch) {
         return 'docker ' + versionMatch[1];
       }

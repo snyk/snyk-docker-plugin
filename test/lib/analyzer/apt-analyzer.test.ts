@@ -351,12 +351,12 @@ test('analyze', async t => {
       execStub.withArgs('docker', [
         'run', '--rm', '--entrypoint', '""', '--network', 'none',
         sinon.match.any, 'cat', '/var/lib/dpkg/status',
-      ]).resolves(example.dpkgManifestLines.join('\n'));
+      ]).resolves({stdout: example.dpkgManifestLines.join('\n'), stderr: ''});
 
       execStub.withArgs('docker', [
         'run', '--rm', '--entrypoint', '""', '--network', 'none',
         sinon.match.any, 'cat', '/var/lib/apt/extended_states',
-      ]).resolves(example.extManifestLines.join('\n'));
+      ]).resolves({stdout: example.extManifestLines.join('\n'), stderr: ''});
 
       t.teardown(() => execStub.restore());
 

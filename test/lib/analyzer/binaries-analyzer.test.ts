@@ -119,14 +119,14 @@ test('analyze', async t => {
         sinon.match.any,
         'node',
         '--version',
-      ]).resolves(example.binariesOutputLines.node);
+      ]).resolves({stdout: example.binariesOutputLines.node, stderr: ''});
 
       execStub.withArgs('docker', [
         'run', '--rm', '--entrypoint', '""', '--network', 'none',
         sinon.match.any,
         'java',
         '-version',
-      ]).resolves(example.binariesOutputLines.openjdk);
+      ]).resolves({stdout: example.binariesOutputLines.openjdk, stderr: ''});
 
       t.teardown(() => execStub.restore());
 

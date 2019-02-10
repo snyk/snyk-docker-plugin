@@ -149,7 +149,7 @@ test('analyze', async t => {
       execStub.withArgs('docker', [
         'run', '--rm', '--entrypoint', '""', '--network', 'none',
         sinon.match.any, 'cat', '/lib/apk/db/installed',
-      ]).resolves(example.manifestLines.join('\n'));
+      ]).resolves({ stdout: example.manifestLines.join('\n'), stderr: ''});
 
       t.teardown(() => execStub.restore());
 

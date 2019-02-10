@@ -33,10 +33,10 @@ test('analyzer', async t => {
       [run, rm, entry, empty, network, none, image, cat, file]) => {
       try {
         const example = examples[image];
-        return readOsFixtureFile(example.dir, 'fs', file);
+        return {stdout: readOsFixtureFile(example.dir, 'fs', file), stderr: ''};
       } catch {
         // tslint:disable-next-line:no-string-throw
-        throw `cat: ${file}: No such file or directory`;
+        throw {stderr: `cat: ${file}: No such file or directory`, stdout: ''};
       }
     });
 
@@ -55,12 +55,15 @@ test('analyzer', async t => {
       [run, rm, entry, empty, network, none, image]) => {
       try {
         const example = examples[image];
-        return readOsFixtureFile(example.dir, 'rpm-output.txt');
+        return {
+          stdout: readOsFixtureFile(example.dir, 'rpm-output.txt'),
+          stderr: ''};
       } catch {
         // tslint:disable-next-line:no-string-throw
-        throw `docker: Error response from daemon: OCI runtime \
+        throw {stderr: `docker: Error response from daemon: OCI runtime \
         create failed: container_linux.go:348: starting container process\
-        caused "exec: \"rpm\": executable file not found in $PATH": unknown.`;
+        caused "exec: \"rpm\": executable file not found in $PATH": unknown.`,
+        stdout: ''};
       }
     });
 
@@ -75,10 +78,14 @@ test('analyzer', async t => {
         [run, rm, entry, empty, network, none, image]) => {
         try {
           const example = examples[image];
-          return readOsFixtureFile(example.dir, 'node-version.txt');
+          return {
+            stdout: readOsFixtureFile(example.dir, 'node-version.txt'),
+            stderr: ''};
         } catch {
           // tslint:disable-next-line:no-string-throw
-          throw 'docker: Error running `docker node --version`';
+          throw {
+            stderr: 'docker: Error running `docker node --version`',
+            stdout: ''};
         }
       });
 
@@ -96,7 +103,9 @@ test('analyzer', async t => {
           return readOsFixtureFile(example.dir, 'openjdk-jre-version.txt');
         } catch {
           // tslint:disable-next-line:no-string-throw
-          throw 'docker: Error running `docker java -version`';
+          throw {
+            stderr: 'docker: Error running `docker java -version`',
+            stdout: ''};
         }
       });
 

@@ -16,11 +16,12 @@ class Docker {
   public async catSafe(filename: string) {
     try {
       return await this.run('cat', [filename]);
-    } catch (stderr) {
+    } catch (error) {
+      const stderr: string = error.stderr;
       if (typeof stderr === 'string' && stderr.indexOf('No such file') >= 0) {
-        return '';
+        return { stdout: '', stderr: '' };
       }
-      throw new Error(stderr);
+      throw error;
     }
   }
 }
