@@ -27,7 +27,7 @@
     "@types/node": "^8",
     "@types/sinon": "5.0.5",
     "sinon": "^6",
-    "tap": "^12",
+    "tap": "12.3.0",
     "ts-node": "^7",
     "tslint": "^5",
     "typescript": "^3"
