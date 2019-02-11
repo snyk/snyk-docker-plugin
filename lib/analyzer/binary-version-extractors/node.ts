@@ -1,4 +1,4 @@
-import { Docker } from '../../docker';
+import { Docker, DockerOptions } from '../../docker';
 import { Binary } from '../types';
 
 const semver = require('semver');
@@ -10,7 +10,7 @@ export {
 
 async function extract(
   targetImage: string,
-  options?: any): Promise<Binary | null> {
+  options?: DockerOptions): Promise<Binary | null> {
   try {
     const binaryVersion = (await new Docker(targetImage, options)
       .run('node', [ '--version' ])).stdout;

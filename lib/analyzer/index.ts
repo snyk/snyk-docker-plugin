@@ -1,3 +1,4 @@
+import { DockerOptions } from '../docker';
 import * as osReleaseDetector from './os-release-detector';
 import * as imageInspector from './image-inspector';
 import * as apkAnalyzer from './apk-analyzer';
@@ -10,24 +11,22 @@ export {
   analyze,
 };
 
-async function analyze(targetImage: string, options?: any) {
+async function analyze(targetImage: string, options?: DockerOptions) {
   const [
     imageInspection,
     osRelease,
-    results,
   ] = await Promise.all([
     imageInspector.detect(targetImage, options),
-    osReleaseDetector.detect(targetImage, options),
-    Promise.all([
-      apkAnalyzer.analyze(targetImage, options),
-      aptAnalyzer.analyze(targetImage, options),
-      rpmAnalyzer.analyze(targetImage, options),
-    ]).catch((err) => {
-      debug(`Error while running analyzer: '${err}'`);
-      throw new Error(`Failed to detect installed OS packages: '${err}'`);
-    }),
+    osReleaseDetector.detect(targetImage, options)]);
 
-  ]);
+  const results = await Promise.all([
+    apkAnalyzer.analyze(targetImage, options),
+    aptAnalyzer.analyze(targetImage, options),
+    rpmAnalyzer.analyze(targetImage, options),
+    ]).catch((err) => {
+      debug(`Error while running analyzer: '${err.stderr}'`);
+      throw new Error('Failed to detect installed OS packages');
+    });
 
   const { installedPackages, pkgManager } =
     getInstalledPackages(results as any[]);

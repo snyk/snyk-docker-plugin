@@ -3,6 +3,7 @@ const debug = require('debug')('snyk');
 import * as analyzer from './analyzer';
 import * as subProcess from './sub-process';
 import * as dockerFile from './docker-file';
+import { DockerOptions } from './docker';
 import {
   DockerFilePackages,
 } from './instruction-parser';
@@ -12,10 +13,17 @@ export {
 };
 
 function inspect(root: string, targetFile?: string, options?: any) {
+  const dockerOptions = options ? {
+    host: options.host,
+    tlsVerify: options.tlsVerify,
+    tlsCert: options.tlsCert,
+    tlsCaCert: options.tlsCaCert,
+    tlsKey: options.tlsKey,
+  } : {};
   const targetImage = root;
   return Promise.all([
     getRuntime(),
-    getDependencies(targetImage, options),
+    getDependencies(targetImage, dockerOptions),
     dockerFile.analyseDockerfile(targetFile),
   ])
     .then((result) => {
@@ -125,7 +133,7 @@ function handleCommonErrors(error, targetImage: string) {
   }
 }
 
-function getDependencies(targetImage: string, options?: any) {
+function getDependencies(targetImage: string, options?: DockerOptions) {
   let result;
   return analyzer.analyze(targetImage, options)
     .then((output) => {

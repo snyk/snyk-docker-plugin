@@ -1,6 +1,14 @@
 import * as subProcess from './sub-process';
 
-export { Docker };
+export { Docker, DockerOptions};
+
+interface DockerOptions {
+    host?: string;
+    tlsVerify?: string;
+    tlsCert?: string;
+    tlsCaCert?: string;
+    tlsKey?: string;
+}
 
 class Docker {
 
@@ -8,7 +16,7 @@ class Docker {
 
   constructor(
     private targetImage: string,
-    options?: any,
+    options?: DockerOptions,
     ) {
       this.optionsList = this.createOptionsList(options);
   }

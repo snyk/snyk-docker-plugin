@@ -1,4 +1,4 @@
-import { Docker } from '../docker';
+import { Docker, DockerOptions } from '../docker';
 
 export {
   detect,
@@ -11,7 +11,7 @@ interface Inspect {
   };
 }
 
-async function detect(targetImage: string, options?: any):
+async function detect(targetImage: string, options?: DockerOptions):
   Promise<Inspect> {
   try {
     const info = await new Docker(
@@ -21,6 +21,10 @@ async function detect(targetImage: string, options?: any):
     .inspect(targetImage);
     return JSON.parse(info.stdout)[0];
   } catch (error) {
+    if (error.stderr.includes('No such object')) {
+      throw new Error(
+        `Docker error: image was not found locally: ${targetImage}`);
+      }
     throw new Error(`Docker error: ${error.stderr}`);
+    }
   }
-}

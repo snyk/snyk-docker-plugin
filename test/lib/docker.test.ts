@@ -6,7 +6,7 @@ import { test } from 'tap';
 import * as sinon from 'sinon';
 import * as subProcess from '../../lib/sub-process';
 
-import { Docker } from '../../lib/docker';
+import { Docker, DockerOptions } from '../../lib/docker';
 
 test('docker run', async (t) => {
   const stub = sinon.stub(subProcess, 'execute');

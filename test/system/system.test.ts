@@ -31,16 +31,14 @@ test('attempt to connect to non-existent host', t => {
       t.fail('should have failed');
     })
     .catch(err => {
-      t.includes(
-        err.message,
-        'no such host');
+      t.includes(err.message, 'no such host');
     });
 });
 
 test('inspect an image that does not exist', t => {
   return plugin.inspect('not-here:latest').catch((err) => {
-    t.includes(
-      err.message, 'No such object: not-here:latest');
+    t.same(err.message,
+      'Docker error: image was not found locally: not-here:latest');
     t.pass('failed as expected');
   });
 });

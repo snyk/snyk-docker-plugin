@@ -1,11 +1,10 @@
-import { Docker } from '../docker';
+import { Docker, DockerOptions } from '../docker';
 import { AnalyzerPkg } from './types';
-
 export {
   analyze,
 };
 
-function analyze(targetImage: string, options?: any) {
+function analyze(targetImage: string, options?: DockerOptions) {
   return getPackages(targetImage, options)
     .then(pkgs => ({
       Image: targetImage,
@@ -14,7 +13,7 @@ function analyze(targetImage: string, options?: any) {
     }));
 }
 
-function getPackages(targetImage: string, options?: any) {
+function getPackages(targetImage: string, options?: DockerOptions) {
   return new Docker(targetImage, options)
     .catSafe('/lib/apk/db/installed')
     .then(output => parseFile(output.stdout));
