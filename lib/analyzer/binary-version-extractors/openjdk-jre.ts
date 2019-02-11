@@ -30,15 +30,19 @@ function parseOpenJDKBinary(fullVersionOutput: string) {
   */
   const jdkVersionLines = fullVersionOutput &&
                           fullVersionOutput.trim().split('\n');
-  if (!jdkVersionLines || jdkVersionLines.length !== 3) {
+  if (!jdkVersionLines) {
     return null;
   }
   const bracketsRE = /\(build (.*)\)$/;
-  const buildVersion = jdkVersionLines[1].match(bracketsRE);
-  const version = buildVersion && buildVersion[1];
+  const runtimeEnv = 'Runtime Environment';
+  const buildVersion =
+    (jdkVersionLines.filter(line => line.includes(runtimeEnv)).pop() || '')
+    .match(bracketsRE);
+  let version = buildVersion && buildVersion[1];
   if (!version) {
     return null;
   }
+  version = version.replace('-adoptopenjdk', '');
   return {
     name: 'openjdk-jre',
     version,
