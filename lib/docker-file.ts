@@ -5,21 +5,26 @@ import {
   DockerFilePackages,
 } from './instruction-parser';
 
-export { analyseDockerfile };
+export { analyseDockerfile, readDockerfileAndAnalyse, DockerFileAnalysis };
 
 interface DockerFileAnalysis {
   baseImage?: string;
   dockerfilePackages: DockerFilePackages;
 }
 
-async function analyseDockerfile(targetFile?: string):
+async function readDockerfileAndAnalyse(targetFilePath?: string):
   Promise<DockerFileAnalysis|undefined> {
 
-  if (!targetFile) {
-    return undefined;
-  }
+if (!targetFilePath) {
+  return undefined;
+}
 
-  const contents = await readFile(targetFile);
+const contents = await readFile(targetFilePath);
+return analyseDockerfile(contents);
+}
+
+async function analyseDockerfile(contents: string):
+  Promise<DockerFileAnalysis|undefined> {
   const dockerfile = DockerfileParser.parse(contents);
   const from = dockerfile.getFROMs().pop();
   const runInstructions = dockerfile.getInstructions()

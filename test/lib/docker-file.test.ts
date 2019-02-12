@@ -14,12 +14,13 @@ const getDockerfileFixture = (folder: string) => path.join(
   'Dockerfile');
 
 test('Dockerfile not supplied', async (t) => {
-  t.equal(await dockerFile.analyseDockerfile(), undefined, 'returns undefined');
+  t.equal(await dockerFile.readDockerfileAndAnalyse(),
+   undefined, 'returns undefined');
 });
 
 test('Dockerfile not found', async (t) => {
   t.rejects(
-    () => dockerFile.analyseDockerfile('missing/Dockerfile'),
+    () => dockerFile.readDockerfileAndAnalyse('missing/Dockerfile'),
     new Error('ENOENT: no such file or directory, open \'missing/Dockerfile\''),
     'rejects with');
 });
@@ -78,7 +79,8 @@ test('Analyses dockerfiles', async (t) => {
   for (const example of examples) {
     await t.test(example.description, async (t) => {
       const pathToDockerfile = getDockerfileFixture(example.fixture);
-      const actual = await dockerFile.analyseDockerfile(pathToDockerfile);
+      const actual = await dockerFile.
+        readDockerfileAndAnalyse(pathToDockerfile);
       t.same(actual, example.expected, `returns ${example.expected}`);
     });
   }
