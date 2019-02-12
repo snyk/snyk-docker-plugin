@@ -37,7 +37,7 @@ async function getBinaries(
       installedPackages, pkgManager, options)) {
       continue;
     }
-    const binary = await extractor.extract(targetImage);
+    const binary = await extractor.extract(targetImage, options);
     if (binary) {
       binaries.push(binary);
     }

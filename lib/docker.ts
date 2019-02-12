@@ -12,13 +12,42 @@ interface DockerOptions {
 
 class Docker {
 
+  public static run(args: string[], options?: DockerOptions) {
+    return subProcess.execute('docker', [
+      ...Docker.createOptionsList(options), ...args,
+    ]);
+  }
+
+  private static createOptionsList(options: any) {
+    const opts: string[] = [];
+    if (!options) {
+      return opts;
+    }
+    if (options.host) {
+      opts.push(`--host=${options.host}`);
+    }
+    if (options.tlscert) {
+      opts.push(`--tlscert=${options.tlscert}`);
+    }
+    if (options.tlscacert) {
+      opts.push(`--tlscacert=${options.tlscacert}`);
+    }
+    if (options.tlskey) {
+      opts.push(`--tlskey=${options.tlskey}`);
+    }
+    if (options.tlsverify) {
+      opts.push(`--tlsverify=${options.tlsverify}`);
+    }
+    return opts;
+  }
+
   private optionsList: string[];
 
   constructor(
     private targetImage: string,
     options?: DockerOptions,
     ) {
-      this.optionsList = this.createOptionsList(options);
+      this.optionsList = Docker.createOptionsList(options);
   }
 
   public run(cmd: string, args: string[] = []) {
@@ -44,28 +73,5 @@ class Docker {
       }
       throw error;
     }
-  }
-
-  private createOptionsList(options: any) {
-    const opts: string[] = [];
-    if (!options) {
-      return opts;
-    }
-    if (options.host) {
-      opts.push(`--host=${options.host}`);
-    }
-    if (options.tlsCert) {
-      opts.push(`--tlscert=${options.tlsCert}`);
-    }
-    if (options.tlsCaCert) {
-      opts.push(`--tlscacert=${options.tlsCaCert}`);
-    }
-    if (options.tlsKey) {
-      opts.push(`--tlskey=${options.tlsKey}`);
-    }
-    if (options.tlsVerify) {
-      opts.push(`--tlsverify=${options.tlsVerify}`);
-    }
-    return opts;
   }
 }
