@@ -1,4 +1,4 @@
-import { Docker } from '../../docker';
+import { Docker, DockerOptions } from '../../docker';
 import { Binary } from '../types';
 
 export {
@@ -6,10 +6,13 @@ export {
   installedByPackageManager,
 };
 
-async function extract(targetImage: string): Promise<Binary | null> {
+async function extract(
+  targetImage: string,
+  options?: DockerOptions): Promise<Binary | null> {
   try {
-    const binaryVersion = (await new Docker(targetImage).
-      run('java', [ '-version' ])).stdout;
+    const binaryVersion =
+      (await new Docker(targetImage, options)
+      .run('java', [ '-version' ])).stdout;
     return parseOpenJDKBinary(binaryVersion);
   } catch (error) {
     const stderr = error.stderr;

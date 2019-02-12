@@ -1,4 +1,5 @@
 import { Binary } from './types';
+import { DockerOptions } from '../docker';
 
 export {
   analyze,
@@ -7,9 +8,10 @@ export {
 async function analyze(
   targetImage: string,
   installedPackages: string[],
-  pkgManager?: string) {
+  pkgManager?: string,
+  options?: DockerOptions) {
   const binaries = await getBinaries(
-    targetImage, installedPackages, pkgManager);
+    targetImage, installedPackages, pkgManager, options);
   return {
     Image: targetImage,
     AnalyzeType: 'binaries',
@@ -23,12 +25,16 @@ const binaryVersionExtractors = {
 };
 
 async function getBinaries(
-  targetImage: string, installedPackages: string[], pkgManager?: string)
-  : Promise<Binary[]> {
+  targetImage: string,
+  installedPackages: string[],
+  pkgManager?: string,
+  options?: DockerOptions,
+  ): Promise<Binary[]> {
   const binaries: Binary[] = [];
   for (const versionExtractor of Object.keys(binaryVersionExtractors)) {
     const extractor = binaryVersionExtractors[versionExtractor];
-    if (extractor.installedByPackageManager(installedPackages, pkgManager)) {
+    if (extractor.installedByPackageManager(
+      installedPackages, pkgManager, options)) {
       continue;
     }
     const binary = await extractor.extract(targetImage);

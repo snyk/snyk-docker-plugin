@@ -1,12 +1,12 @@
-import { Docker } from '../docker';
+import { Docker, DockerOptions } from '../docker';
 import { AnalyzerPkg } from './types';
 
 export {
   analyze,
 };
 
-async function analyze(targetImage: string) {
-  const docker = new Docker(targetImage);
+async function analyze(targetImage: string, options?: DockerOptions) {
+  const docker = new Docker(targetImage, options);
   const dpkgFile = (await docker.catSafe('/var/lib/dpkg/status')).stdout;
   const pkgs = parseDpkgFile(dpkgFile);
 
