@@ -39,11 +39,10 @@ function parseOpenJDKBinary(fullVersionOutput: string) {
 
   const bracketsRE = /\(build (.*)\)$/;
   const buildVersion = runtimeLine.match(bracketsRE);
-  let version = buildVersion && buildVersion[1];
+  const version = buildVersion && buildVersion[1];
   if (!version) {
     return null;
   }
-  version = version.replace('-adoptopenjdk', '');
   return {
     name: 'openjdk-jre',
     version,
