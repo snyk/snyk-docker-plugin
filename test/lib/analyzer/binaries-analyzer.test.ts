@@ -109,6 +109,32 @@ test('analyze', async t => {
         { name: 'openjdk-jre', version: '1.8.0_191-b12' },
       ],
     },
+    {
+      description: 'adoptopenjdk version with hyphen in image',
+      targetImage: 'adoptopenjdk/openjdk10',
+      binariesOutputLines: { node: '',
+                             openjdk: `Picked up JAVA_TOOL_OPTIONS: -XX:+UseContainerSupport
+                                       openjdk 10.0.2-adoptopenjdk 2018-07-17
+                                       OpenJDK Runtime Environment (build 10.0.2-adoptopenjdk+13)
+                                       OpenJDK 64-Bit Server VM (build 10.0.2-adoptopenjdk+13, mixed mode)` },
+      installedPackages: [],
+      expectedBinaries: [
+        { name: 'openjdk-jre', version: '10.0.2-adoptopenjdk+13' },
+      ],
+    },
+    {
+      description: 'adoptopenjdk version without hyphen in image',
+      targetImage: 'adoptopenjdk/openjdk11',
+      binariesOutputLines: { node: '',
+                             openjdk: `Picked up JAVA_TOOL_OPTIONS: -XX:+UseContainerSupport
+                                       openjdk 11.0.2 2019-01-15
+                                       OpenJDK Runtime Environment AdoptOpenJDK (build 11.0.2+9)
+                                       OpenJDK 64-Bit Server VM AdoptOpenJDK (build 11.0.2+9, mixed mode)` },
+      installedPackages: [],
+      expectedBinaries: [
+        { name: 'openjdk-jre', version: '11.0.2+9' },
+      ],
+    },
   ];
 
   for (const example of examples) {

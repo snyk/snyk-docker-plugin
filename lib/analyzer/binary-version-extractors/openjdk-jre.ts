@@ -31,13 +31,17 @@ function parseOpenJDKBinary(fullVersionOutput: string) {
    Java HotSpot(TM) 64-Bit Server VM (build 25.191-b12, mixed mode)`
   => extracting `1.8.0_191-b12`
   */
-  const jdkVersionLines = fullVersionOutput &&
-                          fullVersionOutput.trim().split('\n');
-  if (!jdkVersionLines || jdkVersionLines.length !== 3) {
+  const runtimeEnv = 'Runtime Environment';
+  const runtimeLine = fullVersionOutput &&
+                      fullVersionOutput.trim()
+                      .split('\n')
+                      .find(line => line.includes(runtimeEnv));
+  if (!runtimeLine) {
     return null;
   }
+
   const bracketsRE = /\(build (.*)\)$/;
-  const buildVersion = jdkVersionLines[1].match(bracketsRE);
+  const buildVersion = runtimeLine.match(bracketsRE);
   const version = buildVersion && buildVersion[1];
   if (!version) {
     return null;
