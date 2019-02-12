@@ -24,7 +24,7 @@ function inspect(root: string, targetFile?: string, options?: any) {
   return Promise.all([
     getRuntime(),
     getDependencies(targetImage, dockerOptions),
-    dockerFile.analyseDockerfile(targetFile),
+    dockerFile.readDockerfileAndAnalyse(targetFile),
   ])
     .then((result) => {
       const metadata = {
