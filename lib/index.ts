@@ -3,7 +3,7 @@ const debug = require('debug')('snyk');
 import * as analyzer from './analyzer';
 import * as subProcess from './sub-process';
 import * as dockerFile from './docker-file';
-import { DockerOptions } from './docker';
+import { Docker, DockerOptions } from './docker';
 import {
   DockerFilePackages,
 } from './instruction-parser';
@@ -15,14 +15,14 @@ export {
 function inspect(root: string, targetFile?: string, options?: any) {
   const dockerOptions = options ? {
     host: options.host,
-    tlsVerify: options.tlsVerify,
-    tlsCert: options.tlsCert,
-    tlsCaCert: options.tlsCaCert,
-    tlsKey: options.tlsKey,
+    tlsverify: options.tlsverify,
+    tlscert: options.tlscert,
+    tlscacert: options.tlscacert,
+    tlskey: options.tlskey,
   } : {};
   const targetImage = root;
   return Promise.all([
-    getRuntime(),
+    getRuntime(dockerOptions),
     getDependencies(targetImage, dockerOptions),
     dockerFile.readDockerfileAndAnalyse(targetFile),
   ])
@@ -91,14 +91,17 @@ function collectDeps(pkg) {
     : [];
 }
 
-function getRuntime() {
-  return subProcess.execute('docker', ['version'])
+function getRuntime(options: DockerOptions) {
+  return Docker.run(['version'], options)
     .then((output) => {
       const versionMatch = /Version:\s+(.*)\n/.exec(output.stdout);
       if (versionMatch) {
         return 'docker ' + versionMatch[1];
       }
       return undefined;
+    })
+    .catch(error => {
+      throw new Error(`Docker error: ${error.stderr}`);
     });
 }
 
