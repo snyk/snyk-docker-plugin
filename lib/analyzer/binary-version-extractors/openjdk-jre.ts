@@ -10,10 +10,12 @@ async function extract(
   targetImage: string,
   options?: DockerOptions): Promise<Binary | null> {
   try {
-    const binaryVersion =
+    // https://stackoverflow.com/questions/
+    // 13483443/why-does-java-version-go-to-stderr
+    const output =
       (await new Docker(targetImage, options)
-      .run('java', [ '-version' ])).stdout;
-    return parseOpenJDKBinary(binaryVersion);
+      .run('java', [ '-version' ]));
+    return parseOpenJDKBinary(output.stdout + output.stderr);
   } catch (error) {
     const stderr = error.stderr;
     if (typeof stderr === 'string' && stderr.indexOf('not found') >= 0) {
