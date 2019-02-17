@@ -236,6 +236,29 @@ test('inspect image with hostname ' +
   }, 'root pkg');
 });
 
+test('inspect image with sha@256 ' +
+  'ubuntu@sha256', async t => {
+  const imgName = 'ubuntu';
+  const imgTag = '';
+  const imgSha =
+    '@sha256:945039273a7b927869a07b375dc3148de16865de44dec8398672977e050a072e';
+  const img = imgName + imgSha;
+
+  await dockerPull(t, img);
+  await dockerGetImageId(t, img);
+  const res = await plugin.inspect(img);
+
+  t.match(res.package, {
+    name: 'docker-image|' + imgName,
+    version: imgTag,
+    packageFormatVersion: 'deb:0.0.1',
+    targetOS: {
+      name: 'ubuntu',
+      version: '18.04',
+    },
+  }, 'root pkg');
+});
+
 test('inspect image with hostname plus additional namespacing: ' +
   'localhost:5000/redis:3.2.11-alpine', async t => {
   const imgName = 'redis';
