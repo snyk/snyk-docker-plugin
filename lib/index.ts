@@ -221,6 +221,13 @@ function buildTree(targetImage, depType, depInfosList, targetOS) {
     imageVersion = targetImage.slice(versionSeparator + 1);
   }
 
+  const shaString = '@sha256';
+
+  if (imageName.endsWith(shaString)) {
+    imageName = imageName.slice(0, imageName.length - shaString.length);
+    imageVersion = '';
+  }
+
   const root = {
     // don't use the real image name to avoid scanning it as an issue
     name: 'docker-image|' + imageName,
