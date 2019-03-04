@@ -6,6 +6,7 @@ import * as dockerFile from './docker-file';
 import { Docker, DockerOptions } from './docker';
 import {
   DockerFilePackages,
+  DockerLayer,
 } from './instruction-parser';
 
 export {
@@ -27,6 +28,15 @@ function inspect(root: string, targetFile?: string, options?: any) {
     dockerFile.readDockerfileAndAnalyse(targetFile),
   ])
     .then((result) => {
+      const pkg: any = result[1].package;
+      const dockerfileAnalysis = result[2];
+      const dockerfilePackages = dockerfileAnalysis
+        ? getDockerfileDependencies(dockerfileAnalysis.dockerfilePackages,
+                                    pkg.dependencies)
+        : [];
+      const dockerLayers = dockerfilePackages
+        ? getDockerLayers(dockerfilePackages as DockerFilePackages)
+        : [];
       const metadata = {
         name: 'snyk-docker-plugin',
         runtime: result[0],
@@ -34,19 +44,13 @@ function inspect(root: string, targetFile?: string, options?: any) {
         dockerImageId: result[1].imageId,
         imageLayers: result[1].imageLayers,
       };
-      const pkg: any = result[1].package;
-      const dockerfileAnalysis = result[2];
-      const dockerfilePackages = dockerfileAnalysis
-        ? getDockerfileDependencies(dockerfileAnalysis.dockerfilePackages,
-                                    pkg.dependencies)
-        : [];
-
       pkg.docker = pkg.docker || {};
       pkg.docker.binaries = result[1].binaries;
       pkg.docker = {
         ...pkg.docker,
         ...dockerfileAnalysis,
         dockerfilePackages,
+        dockerLayers,
       };
 
       return {
@@ -54,6 +58,28 @@ function inspect(root: string, targetFile?: string, options?: any) {
         package: pkg,
       };
     });
+}
+
+function getDockerLayers(dockerfileDeps: DockerFilePackages): DockerLayer[] {
+  const seenCmds: string[] = [];
+  const layers: DockerLayer[] = [];
+
+  for (const pkg of Object.keys(dockerfileDeps)) {
+    const cmd = dockerfileDeps[pkg].instruction;
+    const index = seenCmds.indexOf(cmd);
+    if (index === -1) {
+      seenCmds.push(cmd);
+      layers.push({
+        packages: [pkg],
+        id: String(seenCmds.length - 1),
+        cmd,
+      });
+    } else {
+      const id = String(index);
+      layers[id].packages.push(pkg);
+    }
+  }
+  return layers;
 }
 
 // Iterate over the dependencies list; if one is introduced by the dockerfile,

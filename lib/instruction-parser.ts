@@ -1,9 +1,19 @@
-export { getPackagesFromRunInstructions, DockerFilePackages };
+export {
+  getPackagesFromRunInstructions,
+  DockerLayer,
+  DockerFilePackages,
+};
 
 interface DockerFilePackages {
   [packageName: string]: {
     instruction: string;
   };
+}
+
+interface DockerLayer {
+  cmd?: string;
+  id: string;
+  packages: any;
 }
 
 // tslint:disable-next-line:max-line-length
