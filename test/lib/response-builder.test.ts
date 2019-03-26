@@ -27,5 +27,16 @@ test('buildResponse', async (t) => {
       t.ok(deps['bash'], 'include bash from base image');
       t.ok(deps['grep'], 'include grep from base image');
     });
+
+    await t.test('returns package dependencies excluding base image vulns', async (t) => {
+      const options = { 'exclude-base-image-vulns': true }
+      const response = buildResponse(runtime, depsAna, dockerfileAna, options);
+      const deps = response.package.dependencies;
+
+      t.ok(deps['wget'], 'include wget from dockerfile');
+      t.ok(deps['openssl'], 'include openssl via wget from dockerfile');
+      t.notOk(deps['bash'], 'exclude bash from base image');
+      t.notOk(deps['grep'], 'exclude grep from base image');
+    });
   });
 });

@@ -8,8 +8,10 @@ export { buildResponse };
 function buildResponse(runtime, depsAnalysis, dockerfileAnalysis, options) {
   const deps = depsAnalysis.package.dependencies;
   const dockerfilePkgs = collectDockerfilePkgs(dockerfileAnalysis, deps);
-  const pkg = packageRes(depsAnalysis, dockerfileAnalysis, dockerfilePkgs);
+  const finalDeps = excludeBaseImageDeps(deps, dockerfilePkgs, options);
   const plugin = pluginMetadataRes(runtime, depsAnalysis);
+  const pkg = packageRes(
+    depsAnalysis, dockerfileAnalysis, dockerfilePkgs, finalDeps);
 
   return {
     plugin,
@@ -27,9 +29,10 @@ function pluginMetadataRes(runtime, depsAnalysis) {
   };
 }
 
-function packageRes(depsAnalysis, dockerfileAnalysis, dockerfilePkgs) {
+function packageRes(depsAnalysis, dockerfileAnalysis, dockerfilePkgs, deps) {
   return {
     ...depsAnalysis.package,
+    dependencies: deps,
     docker: {
       ...depsAnalysis.package.docker,
       ...dockerfileAnalysis,
@@ -78,4 +81,24 @@ function collectDeps(pkg) {
         return [...allDeps, ...collectDeps(pkg)];
       }, Object.keys(pkg.dependencies))
     : [];
+}
+
+// Skip processing if option disabled or dockerfilePkgs is undefined. We
+// can't exclude anything in that case, because we can't tell which deps are
+// from dockerfile and which from base image.
+function excludeBaseImageDeps(deps, dockerfilePkgs, options = {}) {
+  if (!options['exclude-base-image-vulns'] || !dockerfilePkgs) {
+    return deps;
+  }
+
+  return extractDockerfileDeps(deps, dockerfilePkgs);
+}
+
+function extractDockerfileDeps(allDeps, dockerfilePkgs) {
+  return Object.keys(allDeps)
+    .filter((depName) => dockerfilePkgs[depName])
+    .reduce((extractedDeps, depName) => {
+      extractedDeps[depName] = allDeps[depName];
+      return extractedDeps;
+    }, {});
 }
