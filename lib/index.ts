@@ -26,23 +26,20 @@ function inspect(root: string, targetFile?: string, options?: any) {
     getDependencies(targetImage, dockerOptions),
     dockerFile.readDockerfileAndAnalyse(targetFile),
   ])
-    .then((result) => {
+    .then(([runtime, depsAnalysis, dockerfileAnalysis]) => {
       const metadata = {
         name: 'snyk-docker-plugin',
-        runtime: result[0],
-        packageManager: result[1].packageManager,
-        dockerImageId: result[1].imageId,
-        imageLayers: result[1].imageLayers,
+        runtime,
+        packageManager: depsAnalysis.packageManager,
+        dockerImageId: depsAnalysis.imageId,
+        imageLayers: depsAnalysis.imageLayers,
       };
-      const pkg: any = result[1].package;
-      const dockerfileAnalysis = result[2];
-      const dockerfilePackages = dockerfileAnalysis
-        ? getDockerfileDependencies(dockerfileAnalysis.dockerfilePackages,
-                                    pkg.dependencies)
-        : [];
+      const pkg: any = depsAnalysis.package;
+      const dockerfilePackages =
+        collectDockerfilePkgs(dockerfileAnalysis, pkg.dependencies);
 
       pkg.docker = pkg.docker || {};
-      pkg.docker.binaries = result[1].binaries;
+      pkg.docker.binaries = depsAnalysis.binaries;
       pkg.docker = {
         ...pkg.docker,
         ...dockerfileAnalysis,
@@ -54,6 +51,12 @@ function inspect(root: string, targetFile?: string, options?: any) {
         package: pkg,
       };
     });
+}
+
+function collectDockerfilePkgs(dockerAnalysis, deps) {
+  if (!dockerAnalysis) return;
+
+  return getDockerfileDependencies(dockerAnalysis.dockerfilePackages, deps);
 }
 
 // Iterate over the dependencies list; if one is introduced by the dockerfile,
