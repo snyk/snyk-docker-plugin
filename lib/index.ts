@@ -27,30 +27,38 @@ function inspect(root: string, targetFile?: string, options?: any) {
     dockerFile.readDockerfileAndAnalyse(targetFile),
   ])
     .then(([runtime, depsAnalysis, dockerfileAnalysis]) => {
-      const metadata = {
-        name: 'snyk-docker-plugin',
-        runtime,
-        packageManager: depsAnalysis.packageManager,
-        dockerImageId: depsAnalysis.imageId,
-        imageLayers: depsAnalysis.imageLayers,
-      };
-      const pkg: any = depsAnalysis.package;
-      const dockerfilePackages =
-        collectDockerfilePkgs(dockerfileAnalysis, pkg.dependencies);
-
-      pkg.docker = pkg.docker || {};
-      pkg.docker.binaries = depsAnalysis.binaries;
-      pkg.docker = {
-        ...pkg.docker,
-        ...dockerfileAnalysis,
-        dockerfilePackages,
-      };
+      const deps = depsAnalysis.package.dependencies;
+      const dockerfilePkgs = collectDockerfilePkgs(dockerfileAnalysis, deps);
+      const pkg = packageRes(depsAnalysis, dockerfileAnalysis, dockerfilePkgs);
+      const plugin = pluginMetadataRes(runtime, depsAnalysis);
 
       return {
-        plugin: metadata,
+        plugin,
         package: pkg,
       };
     });
+}
+
+function pluginMetadataRes(runtime, depsAnalysis) {
+  return {
+    name: 'snyk-docker-plugin',
+    runtime,
+    packageManager: depsAnalysis.packageManager,
+    dockerImageId: depsAnalysis.imageId,
+    imageLayers: depsAnalysis.imageLayers,
+  };
+}
+
+function packageRes(depsAnalysis, dockerfileAnalysis, dockerfilePkgs) {
+  return {
+    ...depsAnalysis.package,
+    docker: {
+      ...depsAnalysis.package.docker,
+      ...dockerfileAnalysis,
+      dockerfilePackages: dockerfilePkgs,
+      binaries: depsAnalysis.binaries,
+    },
+  };
 }
 
 function collectDockerfilePkgs(dockerAnalysis, deps) {
