@@ -4,9 +4,7 @@ import * as analyzer from './analyzer';
 import * as subProcess from './sub-process';
 import * as dockerFile from './docker-file';
 import { Docker, DockerOptions } from './docker';
-import {
-  DockerFilePackages,
-} from './instruction-parser';
+import { buildResponse } from './response-builder';
 
 export {
   inspect,
@@ -26,69 +24,7 @@ function inspect(root: string, targetFile?: string, options?: any) {
     getDependencies(targetImage, dockerOptions),
     dockerFile.readDockerfileAndAnalyse(targetFile),
   ])
-    .then((result) => {
-      const metadata = {
-        name: 'snyk-docker-plugin',
-        runtime: result[0],
-        packageManager: result[1].packageManager,
-        dockerImageId: result[1].imageId,
-        imageLayers: result[1].imageLayers,
-      };
-      const pkg: any = result[1].package;
-      const dockerfileAnalysis = result[2];
-      const dockerfilePackages = dockerfileAnalysis
-        ? getDockerfileDependencies(dockerfileAnalysis.dockerfilePackages,
-                                    pkg.dependencies)
-        : [];
-
-      pkg.docker = pkg.docker || {};
-      pkg.docker.binaries = result[1].binaries;
-      pkg.docker = {
-        ...pkg.docker,
-        ...dockerfileAnalysis,
-        dockerfilePackages,
-      };
-
-      return {
-        plugin: metadata,
-        package: pkg,
-      };
-    });
-}
-
-// Iterate over the dependencies list; if one is introduced by the dockerfile,
-// flatten its dependencies and append them to the list of dockerfile
-// packages. This gives us a reference of all transitive deps installed via
-// the dockerfile, and the instruction that installed it.
-function getDockerfileDependencies(
-  dockerfilePackages: DockerFilePackages,
-  dependencies,
-): DockerFilePackages {
-  for (const dependencyName in dependencies) {
-    if (dependencies.hasOwnProperty(dependencyName)) {
-      const sourceOrName = dependencyName.split('/')[0];
-      const dockerfilePackage = dockerfilePackages[sourceOrName];
-
-      if (dockerfilePackage) {
-        collectDeps(dependencies[dependencyName]).forEach((dep) => {
-          dockerfilePackages[dep.split('/')[0]] = { ...dockerfilePackage };
-        });
-      }
-    }
-  }
-
-  return dockerfilePackages;
-}
-
-function collectDeps(pkg) {
-  // ES5 doesn't have Object.values, so replace with Object.keys() and map()
-  return pkg.dependencies
-    ? Object.keys(pkg.dependencies)
-      .map((name) => pkg.dependencies[name])
-      .reduce((allDeps, pkg) => {
-        return [...allDeps, ...collectDeps(pkg)];
-      }, Object.keys(pkg.dependencies))
-    : [];
+    .then((res) => buildResponse(res[0], res[1], res[2], options));
 }
 
 function getRuntime(options: DockerOptions) {

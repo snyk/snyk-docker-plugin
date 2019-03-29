@@ -1,0 +1,8 @@
+{
+  "baseImage":"ubuntu",
+  "dockerfilePackages":{
+    "wget":{
+      "instruction":"RUN apt-get update && apt-get install -y wget"
+    }
+  }
+}
