@@ -282,6 +282,22 @@ test("inspect nginx:1.13.10", (t) => {
         "nginx-module-xslt -> ngxinx has do deps",
       );
 
+      t.equal(
+        Object.keys(pkg.docker.dockerfileLayers).length,
+        1,
+        "expected number of dockerfile layers",
+      );
+
+      const digest = Object.keys(pkg.docker.dockerfileLayers)[0];
+      const instruction = Buffer.from(digest, "base64").toString();
+      t.match(
+        pkg.docker.dockerfileLayers,
+        {
+          [digest]: { instruction },
+        },
+        "dockerfile instruction digest points to the correct instruction",
+      );
+
       const commonDeps = deps["meta-common-packages"].dependencies;
       t.equal(
         Object.keys(commonDeps).length,

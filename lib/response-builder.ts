@@ -1,7 +1,7 @@
 // Module that provides functions to collect and build response after all
 // analyses' are done.
 
-import { DockerFilePackages } from "./instruction-parser";
+import { DockerFilePackages, instructionDigest } from "./instruction-parser";
 
 export { buildResponse };
 
@@ -9,6 +9,7 @@ function buildResponse(runtime, depsAnalysis, dockerfileAnalysis, options) {
   const deps = depsAnalysis.package.dependencies;
   const dockerfilePkgs = collectDockerfilePkgs(dockerfileAnalysis, deps);
   const finalDeps = excludeBaseImageDeps(deps, dockerfilePkgs, options);
+  annotateLayerIds(finalDeps, dockerfilePkgs);
   const plugin = pluginMetadataRes(runtime, depsAnalysis);
   const pkg = packageRes(
     depsAnalysis,
@@ -107,4 +108,24 @@ function extractDockerfileDeps(allDeps, dockerfilePkgs) {
       extractedDeps[depName] = allDeps[depName];
       return extractedDeps;
     }, {});
+}
+
+function annotateLayerIds(deps, dockerfilePkgs) {
+  if (!dockerfilePkgs) {
+    return;
+  }
+
+  Object.keys(deps).forEach((dep) => {
+    const pkg = deps[dep];
+    const dockerfilePkg = dockerfilePkgs[dep];
+    if (dockerfilePkg) {
+      pkg.labels = {
+        ...(pkg.labels || {}),
+        dockerLayerId: instructionDigest(dockerfilePkg.instruction),
+      };
+    }
+    if (pkg.dependencies) {
+      annotateLayerIds(pkg.dependencies, dockerfilePkgs);
+    }
+  });
 }

@@ -127,6 +127,9 @@
                   }
                 }
               }
+            },
+            "labels": {
+              "dockerLayerId": "UlVOIGFwdC1nZXQgdXBkYXRlICYmIGFwdC1nZXQgaW5zdGFsbCAteSB3Z2V0"
             }
           },
           "pam/libpam-modules": {
@@ -161,13 +164,19 @@
                   },
                   "debconf": {
                     "name": "debconf",
-                    "version": "1.5.66"
+                    "version": "1.5.66",
+                    "labels": {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgdXBkYXRlICYmIGFwdC1nZXQgaW5zdGFsbCAteSB3Z2V0"
+                    }
                   }
                 }
               },
               "debconf": {
                 "name": "debconf",
-                "version": "1.5.66"
+                "version": "1.5.66",
+                "labels": {
+                  "dockerLayerId": "UlVOIGFwdC1nZXQgdXBkYXRlICYmIGFwdC1nZXQgaW5zdGFsbCAteSB3Z2V0"
+                }
               },
               "pam/libpam-modules-bin": {
                 "name": "pam/libpam-modules-bin",
@@ -367,7 +376,10 @@
       },
       "debconf": {
         "name": "debconf",
-        "version": "1.5.66"
+        "version": "1.5.66",
+        "labels": {
+          "dockerLayerId": "UlVOIGFwdC1nZXQgdXBkYXRlICYmIGFwdC1nZXQgaW5zdGFsbCAteSB3Z2V0"
+        }
       },
       "zlib/zlib1g": {
         "name": "zlib/zlib1g",
@@ -503,6 +515,9 @@
                 "name": "zlib/zlib1g",
                 "version": "1:1.2.11.dfsg-0ubuntu2"
               }
+            },
+            "labels": {
+              "dockerLayerId": "UlVOIGFwdC1nZXQgdXBkYXRlICYmIGFwdC1nZXQgaW5zdGFsbCAteSB3Z2V0"
             }
           },
           "util-linux/libblkid1": {
@@ -791,7 +806,10 @@
           },
           "util-linux": {
             "name": "util-linux",
-            "version": "2.31.1-0.4ubuntu3.3"
+            "version": "2.31.1-0.4ubuntu3.3",
+            "labels": {
+              "dockerLayerId": "UlVOIGFwdC1nZXQgdXBkYXRlICYmIGFwdC1nZXQgaW5zdGFsbCAteSB3Z2V0"
+            }
           }
         }
       },
@@ -839,7 +857,10 @@
             "dependencies": {
               "debconf": {
                 "name": "debconf",
-                "version": "1.5.66"
+                "version": "1.5.66",
+                "labels": {
+                  "dockerLayerId": "UlVOIGFwdC1nZXQgdXBkYXRlICYmIGFwdC1nZXQgaW5zdGFsbCAteSB3Z2V0"
+                }
               }
             }
           },
@@ -847,6 +868,9 @@
             "name": "util-linux/libuuid1",
             "version": "2.31.1-0.4ubuntu3.3"
           }
+        },
+        "labels": {
+          "dockerLayerId": "UlVOIGFwdC1nZXQgdXBkYXRlICYmIGFwdC1nZXQgaW5zdGFsbCAteSB3Z2V0"
         }
       },
       "apt": {
@@ -863,7 +887,10 @@
               },
               "debconf": {
                 "name": "debconf",
-                "version": "1.5.66"
+                "version": "1.5.66",
+                "labels": {
+                  "dockerLayerId": "UlVOIGFwdC1nZXQgdXBkYXRlICYmIGFwdC1nZXQgaW5zdGFsbCAteSB3Z2V0"
+                }
               }
             }
           },
@@ -983,7 +1010,10 @@
       },
       "util-linux": {
         "name": "util-linux",
-        "version": "2.31.1-0.4ubuntu3.3"
+        "version": "2.31.1-0.4ubuntu3.3",
+        "labels": {
+          "dockerLayerId": "UlVOIGFwdC1nZXQgdXBkYXRlICYmIGFwdC1nZXQgaW5zdGFsbCAteSB3Z2V0"
+        }
       },
       "sed": {
         "name": "sed",
@@ -1005,6 +1035,9 @@
             "name": "openssl/libssl1.1",
             "version": "1.1.0g-2ubuntu4.3"
           }
+        },
+        "labels": {
+          "dockerLayerId": "UlVOIGFwdC1nZXQgdXBkYXRlICYmIGFwdC1nZXQgaW5zdGFsbCAteSB3Z2V0"
         }
       },
       "ca-certificates": {
@@ -1013,11 +1046,17 @@
         "dependencies": {
           "openssl": {
             "name": "openssl",
-            "version": "1.1.0g-2ubuntu4.3"
+            "version": "1.1.0g-2ubuntu4.3",
+            "labels": {
+              "dockerLayerId": "UlVOIGFwdC1nZXQgdXBkYXRlICYmIGFwdC1nZXQgaW5zdGFsbCAteSB3Z2V0"
+            }
           },
           "debconf": {
             "name": "debconf",
-            "version": "1.5.66"
+            "version": "1.5.66",
+            "labels": {
+              "dockerLayerId": "UlVOIGFwdC1nZXQgdXBkYXRlICYmIGFwdC1nZXQgaW5zdGFsbCAteSB3Z2V0"
+            }
           }
         }
       },
