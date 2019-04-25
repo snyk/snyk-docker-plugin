@@ -7,7 +7,7 @@ import { Docker, DockerOptions } from './docker';
 import { buildResponse } from './response-builder';
 
 export {
-  inspect,
+  inspect, dockerFile,
 };
 
 function inspect(root: string, targetFile?: string, options?: any) {
