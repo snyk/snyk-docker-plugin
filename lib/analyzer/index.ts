@@ -1,4 +1,5 @@
 import { DockerOptions } from '../docker';
+import * as dockerFile from '../docker-file';
 import * as osReleaseDetector from './os-release-detector';
 import * as imageInspector from './image-inspector';
 import * as apkAnalyzer from './apk-analyzer';
@@ -11,13 +12,15 @@ export {
   analyze,
 };
 
-async function analyze(targetImage: string, options?: DockerOptions) {
+async function analyze(targetImage: string,
+  dockerfileAnalysis?: dockerFile.DockerFileAnalysis, options?: DockerOptions) {
+
   const [
     imageInspection,
     osRelease,
   ] = await Promise.all([
     imageInspector.detect(targetImage, options),
-    osReleaseDetector.detect(targetImage, options)]);
+    osReleaseDetector.detect(targetImage, dockerfileAnalysis, options)]);
 
   const results = await Promise.all([
     apkAnalyzer.analyze(targetImage, options),
