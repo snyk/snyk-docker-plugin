@@ -1,4 +1,5 @@
 import { Docker, DockerOptions } from '../docker';
+import * as dockerFile from '../docker-file';
 import { OSRelease } from './types';
 import { TextDecoder } from 'util';
 
@@ -6,8 +7,10 @@ export {
   detect,
 };
 
-async function detect(targetImage: string, options?: DockerOptions):
-  Promise<OSRelease> {
+async function detect(targetImage: string,
+  dockerfileAnalysis?: dockerFile.DockerFileAnalysis,
+  options?: DockerOptions): Promise<OSRelease> {
+
   const docker = new Docker(targetImage, options);
 
   let osRelease = await tryOSRelease(docker);
@@ -35,7 +38,16 @@ async function detect(targetImage: string, options?: DockerOptions):
   }
 
   if (!osRelease) {
-    throw new Error('Failed to detect OS release');
+    if (dockerfileAnalysis &&
+      dockerfileAnalysis.baseImage === 'scratch') {
+
+      // If the docker file was build from a scratch image
+      // then we don't have a known OS
+
+      osRelease = { name: 'scratch', version: '0.0' };
+    } else {
+      throw new Error('Failed to detect OS release');
+    }
   }
 
   // Oracle Linux identifies itself as "ol"

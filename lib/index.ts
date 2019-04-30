@@ -19,12 +19,17 @@ function inspect(root: string, targetFile?: string, options?: any) {
     tlskey: options.tlskey,
   } : {};
   const targetImage = root;
-  return Promise.all([
-    getRuntime(dockerOptions),
-    getDependencies(targetImage, dockerOptions),
-    dockerFile.readDockerfileAndAnalyse(targetFile),
-  ])
-    .then((res) => buildResponse(res[0], res[1], res[2], options));
+
+  return dockerFile.readDockerfileAndAnalyse(targetFile)
+    .then(dockerfileAnalysis => {
+      return Promise.all([
+        getRuntime(dockerOptions),
+        getDependencies(targetImage, dockerfileAnalysis, dockerOptions),
+      ])
+        .then((res) => {
+          return buildResponse(res[0], res[1], dockerfileAnalysis, options);
+        });
+    });
 }
 
 function getRuntime(options: DockerOptions) {
@@ -72,11 +77,13 @@ function handleCommonErrors(error, targetImage: string) {
   }
 }
 
-function getDependencies(targetImage: string, options?: DockerOptions) {
+function getDependencies(targetImage: string,
+  dockerfileAnalysis?: dockerFile.DockerFileAnalysis, options?: DockerOptions) {
+
   let result;
-  return analyzer.analyze(targetImage, options)
+  return analyzer.analyze(targetImage, dockerfileAnalysis, options)
     .then((output) => {
-      result = parseAnalysisResults(output);
+      result = parseAnalysisResults(targetImage, output, dockerfileAnalysis);
       return buildTree(
         targetImage, result.type, result.depInfosList, result.targetOS);
     })
@@ -104,14 +111,28 @@ function getDependencies(targetImage: string, options?: DockerOptions) {
     });
 }
 
-function parseAnalysisResults(analysisJson) {
-  const analysisResult = analysisJson.results.filter((res) => {
+function parseAnalysisResults(targetImage, analysisJson,
+  dockerfileAnalysis?: dockerFile.DockerFileAnalysis) {
+
+  let analysisResult = analysisJson.results.filter((res) => {
     return res.Analysis && res.Analysis.length > 0;
   })[0];
 
   if (!analysisResult) {
-    throw new Error(
-      'Failed to detect a supported Linux package manager (deb/rpm/apk)');
+    if (dockerfileAnalysis && dockerfileAnalysis.baseImage === 'scratch') {
+
+      // Special case when we have no package management
+      // on scratch images
+
+      analysisResult = {
+        Image: targetImage,
+        AnalyzeType: 'none',
+        Analysis: [],
+      };
+    } else {
+      throw new Error(
+        'Failed to detect a supported Linux package manager (deb/rpm/apk)');
+    }
   }
 
   let depType;

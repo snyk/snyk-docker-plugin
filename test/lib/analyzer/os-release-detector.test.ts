@@ -109,6 +109,15 @@ test('os release detection', async t => {
       expected: { name: 'ubuntu', version: '18.04' },
       notes: 'uses /etc/os-release',
     },
+    'scratch': {
+      dir: '',
+      expected: { name: 'scratch', version: '0.0' },
+      notes: 'uses dockerfile',
+      dockerfileAnalysis: {
+        baseImage: 'scratch',
+        dockerfilePackages: [],
+      }
+    },
   };
 
   const execStub = sinon.stub(subProcess, 'execute');
@@ -117,8 +126,11 @@ test('os release detection', async t => {
     sinon.match.any, 'cat', sinon.match.any,
   ])
     .callsFake(async (docker, [run, rm, entry, empty, network, none, image, cat, file]) => {
+      const example = examples[image];
+      if (example.dir === '') {
+        throw {stderr: `cat: ${file}: No such file or directory`, stdout: ''};
+      }
       try {
-        const example = examples[image];
         return {stdout: readOsFixtureFile(example.dir, 'fs', file), stderr: ''};
       } catch {
         throw {stderr: `cat: ${file}: No such file or directory`, stdout: ''};
@@ -128,7 +140,7 @@ test('os release detection', async t => {
 
   for (const targetImage of Object.keys(examples)) {
     const example = examples[targetImage];
-    const actual = await osReleaseDetector.detect(targetImage);
+    const actual = await osReleaseDetector.detect(targetImage, example.dockerfileAnalysis);
     t.same(actual, example.expected, targetImage);
   }
 });

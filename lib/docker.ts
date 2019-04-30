@@ -68,8 +68,11 @@ class Docker {
       return await this.run('cat', [filename]);
     } catch (error) {
       const stderr: string = error.stderr;
-      if (typeof stderr === 'string' && stderr.indexOf('No such file') >= 0) {
-        return { stdout: '', stderr: '' };
+      if (typeof stderr === 'string') {
+        if (stderr.indexOf('No such file') >= 0 ||
+            stderr.indexOf('file not found') >= 0) {
+          return { stdout: '', stderr: '' };
+        }
       }
       throw error;
     }
