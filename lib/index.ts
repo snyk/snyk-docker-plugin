@@ -126,7 +126,7 @@ function parseAnalysisResults(targetImage, analysisJson,
 
       analysisResult = {
         Image: targetImage,
-        AnalyzeType: 'none',
+        AnalyzeType: 'linux',
         Analysis: [],
       };
     } else {
