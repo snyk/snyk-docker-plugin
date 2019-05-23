@@ -1,91 +1,100 @@
-const debug = require('debug')('snyk');
+import * as Debug from "debug";
+import * as analyzer from "./analyzer";
+import { Docker, DockerOptions } from "./docker";
+import * as dockerFile from "./docker-file";
+import { buildResponse } from "./response-builder";
 
-import * as analyzer from './analyzer';
-import * as subProcess from './sub-process';
-import * as dockerFile from './docker-file';
-import { Docker, DockerOptions } from './docker';
-import { buildResponse } from './response-builder';
+export { inspect, dockerFile };
 
-export {
-  inspect, dockerFile,
-};
+const debug = Debug("snyk");
 
 function inspect(root: string, targetFile?: string, options?: any) {
-  const dockerOptions = options ? {
-    host: options.host,
-    tlsverify: options.tlsverify,
-    tlscert: options.tlscert,
-    tlscacert: options.tlscacert,
-    tlskey: options.tlskey,
-  } : {};
+  const dockerOptions = options
+    ? {
+        host: options.host,
+        tlsverify: options.tlsverify,
+        tlscert: options.tlscert,
+        tlscacert: options.tlscacert,
+        tlskey: options.tlskey,
+      }
+    : {};
   const targetImage = root;
 
-  return dockerFile.readDockerfileAndAnalyse(targetFile)
-    .then(dockerfileAnalysis => {
+  return dockerFile
+    .readDockerfileAndAnalyse(targetFile)
+    .then((dockerfileAnalysis) => {
       return Promise.all([
         getRuntime(dockerOptions),
         getDependencies(targetImage, dockerfileAnalysis, dockerOptions),
-      ])
-        .then((res) => {
-          return buildResponse(res[0], res[1], dockerfileAnalysis, options);
-        });
+      ]).then((res) => {
+        return buildResponse(res[0], res[1], dockerfileAnalysis, options);
+      });
     });
 }
 
 function getRuntime(options: DockerOptions) {
-  return Docker.run(['version'], options)
+  return Docker.run(["version"], options)
     .then((output) => {
       const versionMatch = /Version:\s+(.*)\n/.exec(output.stdout);
       if (versionMatch) {
-        return 'docker ' + versionMatch[1];
+        return "docker " + versionMatch[1];
       }
       return undefined;
     })
-    .catch(error => {
+    .catch((error) => {
       throw new Error(`Docker error: ${error.stderr}`);
     });
 }
 
 function handleCommonErrors(error, targetImage: string) {
-  if (error.indexOf('command not found') !== -1) {
-    throw new Error('Snyk docker CLI was not found');
+  if (error.indexOf("command not found") !== -1) {
+    throw new Error("Snyk docker CLI was not found");
   }
-  if (error.indexOf('Cannot connect to the Docker daemon') !== -1) {
-    throw new Error('Cannot connect to the Docker daemon. Is the docker'
-    + ' daemon running?');
+  if (error.indexOf("Cannot connect to the Docker daemon") !== -1) {
+    throw new Error(
+      "Cannot connect to the Docker daemon. Is the docker" + " daemon running?",
+    );
   }
-  const ERROR_LOADING_IMAGE_STR = 'Error loading image from docker engine:';
+  const ERROR_LOADING_IMAGE_STR = "Error loading image from docker engine:";
   if (error.indexOf(ERROR_LOADING_IMAGE_STR) !== -1) {
-    if (error.indexOf('reference does not exist') !== -1) {
-      throw new Error(
-        `Docker image was not found locally: ${targetImage}`);
+    if (error.indexOf("reference does not exist") !== -1) {
+      throw new Error(`Docker image was not found locally: ${targetImage}`);
     }
-    if (error.indexOf('permission denied while trying to connect') !== -1) {
+    if (error.indexOf("permission denied while trying to connect") !== -1) {
       let errString = error.split(ERROR_LOADING_IMAGE_STR)[1];
-      errString = (errString || '').slice(0, -2); // remove trailing \"
+      errString = (errString || "").slice(0, -2); // remove trailing \"
       throw new Error(
-        'Permission denied connecting to docker daemon. ' +
-        'Please make sure user has the required permissions. ' +
-        'Error string: ' + errString);
+        "Permission denied connecting to docker daemon. " +
+          "Please make sure user has the required permissions. " +
+          "Error string: " +
+          errString,
+      );
     }
   }
-  if (error.indexOf('Error getting docker client:') !== -1) {
-    throw new Error('Failed getting docker client');
+  if (error.indexOf("Error getting docker client:") !== -1) {
+    throw new Error("Failed getting docker client");
   }
-  if (error.indexOf('Error processing image:') !== -1) {
-    throw new Error('Failed processing image:' + targetImage);
+  if (error.indexOf("Error processing image:") !== -1) {
+    throw new Error("Failed processing image:" + targetImage);
   }
 }
 
-function getDependencies(targetImage: string,
-  dockerfileAnalysis?: dockerFile.DockerFileAnalysis, options?: DockerOptions) {
-
+function getDependencies(
+  targetImage: string,
+  dockerfileAnalysis?: dockerFile.DockerFileAnalysis,
+  options?: DockerOptions,
+) {
   let result;
-  return analyzer.analyze(targetImage, dockerfileAnalysis, options)
+  return analyzer
+    .analyze(targetImage, dockerfileAnalysis, options)
     .then((output) => {
       result = parseAnalysisResults(targetImage, output, dockerfileAnalysis);
       return buildTree(
-        targetImage, result.type, result.depInfosList, result.targetOS);
+        targetImage,
+        result.type,
+        result.depInfosList,
+        result.targetOS,
+      );
     })
     .then((pkg) => {
       return {
@@ -97,7 +106,7 @@ function getDependencies(targetImage: string,
       };
     })
     .catch((error) => {
-      if (typeof error === 'string') {
+      if (typeof error === "string") {
         debug(`Error while running analyzer: '${error}'`);
         handleCommonErrors(error, targetImage);
         let errorMsg = error;
@@ -111,34 +120,36 @@ function getDependencies(targetImage: string,
     });
 }
 
-function parseAnalysisResults(targetImage, analysisJson,
-  dockerfileAnalysis?: dockerFile.DockerFileAnalysis) {
-
+function parseAnalysisResults(
+  targetImage,
+  analysisJson,
+  dockerfileAnalysis?: dockerFile.DockerFileAnalysis,
+) {
   let analysisResult = analysisJson.results.filter((res) => {
     return res.Analysis && res.Analysis.length > 0;
   })[0];
 
   if (!analysisResult) {
-    if (dockerfileAnalysis && dockerfileAnalysis.baseImage === 'scratch') {
-
+    if (dockerfileAnalysis && dockerfileAnalysis.baseImage === "scratch") {
       // Special case when we have no package management
       // on scratch images
 
       analysisResult = {
         Image: targetImage,
-        AnalyzeType: 'linux',
+        AnalyzeType: "linux",
         Analysis: [],
       };
     } else {
       throw new Error(
-        'Failed to detect a supported Linux package manager (deb/rpm/apk)');
+        "Failed to detect a supported Linux package manager (deb/rpm/apk)",
+      );
     }
   }
 
   let depType;
   switch (analysisResult.AnalyzeType) {
-    case 'Apt': {
-      depType = 'deb';
+    case "Apt": {
+      depType = "deb";
       break;
     }
     default: {
@@ -161,36 +172,36 @@ function buildTree(targetImage, depType, depInfosList, targetOS) {
   // check any colon separator after the final '/'. If there are no '/',
   // which is common when using Docker's official images such as
   // "debian:stretch", just check for ':'
-  const finalSlash = targetImage.lastIndexOf('/');
+  const finalSlash = targetImage.lastIndexOf("/");
   const hasVersion =
-    (finalSlash >= 0 && targetImage.slice(finalSlash).includes(':'))
-    || targetImage.includes(':');
+    (finalSlash >= 0 && targetImage.slice(finalSlash).includes(":")) ||
+    targetImage.includes(":");
 
   // Defaults for simple images from dockerhub, like "node" or "centos"
   let imageName = targetImage;
-  let imageVersion = 'latest';
+  let imageVersion = "latest";
 
   // If we have a version, split on the last ':' to avoid the optional
   // port on a hostname (i.e. localhost:5000)
   if (hasVersion) {
-    const versionSeparator = targetImage.lastIndexOf(':');
+    const versionSeparator = targetImage.lastIndexOf(":");
     imageName = targetImage.slice(0, versionSeparator);
     imageVersion = targetImage.slice(versionSeparator + 1);
   }
 
-  const shaString = '@sha256';
+  const shaString = "@sha256";
 
   if (imageName.endsWith(shaString)) {
     imageName = imageName.slice(0, imageName.length - shaString.length);
-    imageVersion = '';
+    imageVersion = "";
   }
 
   const root = {
     // don't use the real image name to avoid scanning it as an issue
-    name: 'docker-image|' + imageName,
+    name: "docker-image|" + imageName,
     version: imageVersion,
     targetOS,
-    packageFormatVersion: depType + ':0.0.1',
+    packageFormatVersion: depType + ":0.0.1",
     dependencies: {},
   };
 
@@ -211,19 +222,28 @@ function buildTree(targetImage, depType, depInfosList, targetOS) {
   const depsCounts = {};
   depInfosList.forEach((depInfo) => {
     countDepsRecursive(
-      depInfo.Name, new Set(), depsMap, virtualDepsMap, depsCounts);
+      depInfo.Name,
+      new Set(),
+      depsMap,
+      virtualDepsMap,
+      depsCounts,
+    );
   });
   const DEP_FREQ_THRESHOLD = 100;
-  const tooFrequentDepNames = Object.keys(depsCounts)
-    .filter((depName) => {
-      return depsCounts[depName] > DEP_FREQ_THRESHOLD;
-    });
+  const tooFrequentDepNames = Object.keys(depsCounts).filter((depName) => {
+    return depsCounts[depName] > DEP_FREQ_THRESHOLD;
+  });
 
   const attachDeps = (depInfos) => {
     const depNamesToSkip = new Set(tooFrequentDepNames);
     depInfos.forEach((depInfo) => {
       const subtree = buildTreeRecurisve(
-        depInfo.Name, new Set(), depsMap, virtualDepsMap, depNamesToSkip);
+        depInfo.Name,
+        new Set(),
+        depsMap,
+        virtualDepsMap,
+        depNamesToSkip,
+      );
       if (subtree) {
         root.dependencies[subtree.name] = subtree;
       }
@@ -240,7 +260,7 @@ function buildTree(targetImage, depType, depInfosList, targetOS) {
   //  but not dependant upon:
   const notVisitedDeps = depInfosList.filter((depInfo) => {
     const depName = depInfo.Name;
-    return !(depsMap[depName]._visited);
+    return !depsMap[depName]._visited;
   });
   attachDeps(notVisitedDeps);
 
@@ -251,8 +271,8 @@ function buildTree(targetImage, depType, depInfosList, targetOS) {
     });
 
     const metaSubtree = {
-      name: 'meta-common-packages',
-      version: 'meta',
+      name: "meta-common-packages",
+      version: "meta",
       dependencies: {},
     };
 
@@ -271,7 +291,12 @@ function buildTree(targetImage, depType, depInfosList, targetOS) {
 }
 
 function buildTreeRecurisve(
-  depName, ancestors, depsMap, virtualDepsMap, depNamesToSkip) {
+  depName,
+  ancestors,
+  depsMap,
+  virtualDepsMap,
+  depNamesToSkip,
+) {
   const depInfo = depsMap[depName] || virtualDepsMap[depName];
   if (!depInfo) {
     return null;
@@ -298,12 +323,17 @@ function buildTreeRecurisve(
   }
   depInfo._visited = true;
 
-  const newAncestors = (new Set(ancestors)).add(fullName);
+  const newAncestors = new Set(ancestors).add(fullName);
 
   const deps = depInfo.Deps || {};
   Object.keys(deps).forEach((name) => {
     const subTree = buildTreeRecurisve(
-      name, newAncestors, depsMap, virtualDepsMap, depNamesToSkip);
+      name,
+      newAncestors,
+      depsMap,
+      virtualDepsMap,
+      depNamesToSkip,
+    );
     if (subTree) {
       if (!tree.dependencies) {
         tree.dependencies = {};
@@ -318,7 +348,12 @@ function buildTreeRecurisve(
 }
 
 function countDepsRecursive(
-  depName, ancestors, depsMap, virtualDepsMap, depCounts) {
+  depName,
+  ancestors,
+  depsMap,
+  virtualDepsMap,
+  depCounts,
+) {
   const depInfo = depsMap[depName] || virtualDepsMap[depName];
   if (!depInfo) {
     return;
@@ -332,18 +367,17 @@ function countDepsRecursive(
 
   depCounts[realName] = (depCounts[realName] || 0) + 1;
 
-  const newAncestors = (new Set(ancestors)).add(realName);
+  const newAncestors = new Set(ancestors).add(realName);
   const deps = depInfo.Deps || {};
   Object.keys(deps).forEach((name) => {
-    countDepsRecursive(
-      name, newAncestors, depsMap, virtualDepsMap, depCounts);
+    countDepsRecursive(name, newAncestors, depsMap, virtualDepsMap, depCounts);
   });
 }
 
 function depFullName(depInfo) {
   let fullName = depInfo.Name;
   if (depInfo.Source) {
-    fullName = depInfo.Source + '/' + fullName;
+    fullName = depInfo.Source + "/" + fullName;
   }
   return fullName;
 }

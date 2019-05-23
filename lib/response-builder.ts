@@ -1,7 +1,7 @@
 // Module that provides functions to collect and build response after all
 // analyses' are done.
 
-import { DockerFilePackages } from './instruction-parser';
+import { DockerFilePackages } from "./instruction-parser";
 
 export { buildResponse };
 
@@ -11,7 +11,11 @@ function buildResponse(runtime, depsAnalysis, dockerfileAnalysis, options) {
   const finalDeps = excludeBaseImageDeps(deps, dockerfilePkgs, options);
   const plugin = pluginMetadataRes(runtime, depsAnalysis);
   const pkg = packageRes(
-    depsAnalysis, dockerfileAnalysis, dockerfilePkgs, finalDeps);
+    depsAnalysis,
+    dockerfileAnalysis,
+    dockerfilePkgs,
+    finalDeps,
+  );
 
   return {
     plugin,
@@ -21,7 +25,7 @@ function buildResponse(runtime, depsAnalysis, dockerfileAnalysis, options) {
 
 function pluginMetadataRes(runtime, depsAnalysis) {
   return {
-    name: 'snyk-docker-plugin',
+    name: "snyk-docker-plugin",
     runtime,
     packageManager: depsAnalysis.packageManager,
     dockerImageId: depsAnalysis.imageId,
@@ -43,7 +47,9 @@ function packageRes(depsAnalysis, dockerfileAnalysis, dockerfilePkgs, deps) {
 }
 
 function collectDockerfilePkgs(dockerAnalysis, deps) {
-  if (!dockerAnalysis) return;
+  if (!dockerAnalysis) {
+    return;
+  }
 
   return getDockerfileDependencies(dockerAnalysis.dockerfilePackages, deps);
 }
@@ -58,12 +64,12 @@ function getDockerfileDependencies(
 ): DockerFilePackages {
   for (const dependencyName in dependencies) {
     if (dependencies.hasOwnProperty(dependencyName)) {
-      const sourceOrName = dependencyName.split('/')[0];
+      const sourceOrName = dependencyName.split("/")[0];
       const dockerfilePackage = dockerfilePackages[sourceOrName];
 
       if (dockerfilePackage) {
         collectDeps(dependencies[dependencyName]).forEach((dep) => {
-          dockerfilePackages[dep.split('/')[0]] = { ...dockerfilePackage };
+          dockerfilePackages[dep.split("/")[0]] = { ...dockerfilePackage };
         });
       }
     }
@@ -76,10 +82,10 @@ function collectDeps(pkg) {
   // ES5 doesn't have Object.values, so replace with Object.keys() and map()
   return pkg.dependencies
     ? Object.keys(pkg.dependencies)
-      .map((name) => pkg.dependencies[name])
-      .reduce((allDeps, pkg) => {
-        return [...allDeps, ...collectDeps(pkg)];
-      }, Object.keys(pkg.dependencies))
+        .map((name) => pkg.dependencies[name])
+        .reduce((allDeps, pkg) => {
+          return [...allDeps, ...collectDeps(pkg)];
+        }, Object.keys(pkg.dependencies))
     : [];
 }
 
@@ -87,7 +93,7 @@ function collectDeps(pkg) {
 // can't exclude anything in that case, because we can't tell which deps are
 // from dockerfile and which from base image.
 function excludeBaseImageDeps(deps, dockerfilePkgs, options = {}) {
-  if (!options['exclude-base-image-vulns'] || !dockerfilePkgs) {
+  if (!options["exclude-base-image-vulns"] || !dockerfilePkgs) {
     return deps;
   }
 
