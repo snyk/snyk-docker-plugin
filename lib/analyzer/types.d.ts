@@ -2,11 +2,11 @@ export interface AnalyzerPkg {
   Name: string;
   Version?: string;
   Source?: string;
-  Provides: string[],
+  Provides: string[];
   Deps: {
     [name: string]: any;
   };
-  AutoInstalled?: boolean,
+  AutoInstalled?: boolean;
 }
 
 export interface OSRelease {

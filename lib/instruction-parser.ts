@@ -21,7 +21,7 @@ function getPackagesFromRunInstructions(
   runInstructions: string[],
 ): DockerFilePackages {
   return runInstructions.reduce((dockerfilePackages, instruction) => {
-    const runDef = 'RUN ';
+    const runDef = "RUN ";
     const commands = instruction.slice(runDef.length).split(/\s?(;|&&)\s?/);
     const installCommands = commands.filter((command) => {
       return installRegex.test(command);
@@ -29,10 +29,10 @@ function getPackagesFromRunInstructions(
 
     if (installCommands.length) {
       // Get the packages per install command and flatten them
-      const packagesWithInstructions = installCommands.forEach((command) => {
+      installCommands.forEach((command) => {
         const packages = command
-          .replace(installRegex, '')
-          .replace(/(^-|\s-)\w+/g, '')
+          .replace(installRegex, "")
+          .replace(/(^-|\s-)\w+/g, "")
           .trim()
           .split(/\s+/);
 

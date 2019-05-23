@@ -1,9 +1,9 @@
-import * as fs from 'fs';
-import { DockerfileParser, Instruction } from 'dockerfile-ast';
+import { DockerfileParser } from "dockerfile-ast";
+import * as fs from "fs";
 import {
-  getPackagesFromRunInstructions,
   DockerFilePackages,
-} from './instruction-parser';
+  getPackagesFromRunInstructions,
+} from "./instruction-parser";
 
 export { analyseDockerfile, readDockerfileAndAnalyse, DockerFileAnalysis };
 
@@ -12,24 +12,26 @@ interface DockerFileAnalysis {
   dockerfilePackages: DockerFilePackages;
 }
 
-async function readDockerfileAndAnalyse(targetFilePath?: string):
-  Promise<DockerFileAnalysis|undefined> {
+async function readDockerfileAndAnalyse(
+  targetFilePath?: string,
+): Promise<DockerFileAnalysis | undefined> {
+  if (!targetFilePath) {
+    return undefined;
+  }
 
-if (!targetFilePath) {
-  return undefined;
+  const contents = await readFile(targetFilePath);
+  return analyseDockerfile(contents);
 }
 
-const contents = await readFile(targetFilePath);
-return analyseDockerfile(contents);
-}
-
-async function analyseDockerfile(contents: string):
-  Promise<DockerFileAnalysis|undefined> {
+async function analyseDockerfile(
+  contents: string,
+): Promise<DockerFileAnalysis | undefined> {
   const dockerfile = DockerfileParser.parse(contents);
   const from = dockerfile.getFROMs().pop();
-  const runInstructions = dockerfile.getInstructions()
+  const runInstructions = dockerfile
+    .getInstructions()
     .filter((instruction) => {
-      return instruction.getInstruction() === 'RUN';
+      return instruction.getInstruction() === "RUN";
     })
     .map((instruction) => instruction.toString());
   const dockerfilePackages = getPackagesFromRunInstructions(runInstructions);
@@ -47,11 +49,15 @@ async function analyseDockerfile(contents: string):
           const name = variable.getName();
           resolvedVars[name] = dockerfile.resolveVariable(name, line);
           return resolvedVars;
-        }, {});
+        },
+        {},
+      );
 
       Object.keys(resolvedVariables).forEach((variable) => {
         baseImage = baseImage.replace(
-          `\$\{${variable}\}`, resolvedVariables[variable]);
+          `\$\{${variable}\}`,
+          resolvedVariables[variable],
+        );
       });
     }
   }
@@ -64,7 +70,7 @@ async function analyseDockerfile(contents: string):
 
 async function readFile(path: string) {
   return new Promise((resolve, reject) => {
-    fs.readFile(path, 'utf8', (err, data) => {
+    fs.readFile(path, "utf8", (err, data) => {
       return err ? reject(err) : resolve(data);
     });
   }) as Promise<string>;

@@ -1,23 +1,21 @@
-import { Docker, DockerOptions } from '../docker';
-import { AnalyzerPkg } from './types';
+import { Docker, DockerOptions } from "../docker";
+import { AnalyzerPkg } from "./types";
 
-export {
-  analyze,
-};
+export { analyze };
 
 async function analyze(targetImage: string, options?: DockerOptions) {
   const docker = new Docker(targetImage, options);
-  const dpkgFile = (await docker.catSafe('/var/lib/dpkg/status')).stdout;
+  const dpkgFile = (await docker.catSafe("/var/lib/dpkg/status")).stdout;
   const pkgs = parseDpkgFile(dpkgFile);
 
-  const extFile = (await docker.catSafe('/var/lib/apt/extended_states')).stdout;
+  const extFile = (await docker.catSafe("/var/lib/apt/extended_states")).stdout;
   if (extFile) {
     setAutoInstalledPackages(extFile, pkgs);
   }
 
   return {
     Image: targetImage,
-    AnalyzeType: 'Apt',
+    AnalyzeType: "Apt",
     Analysis: pkgs,
   };
 }
@@ -25,16 +23,16 @@ async function analyze(targetImage: string, options?: DockerOptions) {
 function parseDpkgFile(text: string) {
   const pkgs: AnalyzerPkg[] = [];
   let curPkg: any = null;
-  for (const line of text.split('\n')) {
+  for (const line of text.split("\n")) {
     curPkg = parseDpkgLine(line, curPkg, pkgs);
   }
   return pkgs;
 }
 
 function parseDpkgLine(text: string, curPkg: AnalyzerPkg, pkgs: AnalyzerPkg[]) {
-  const [key, value] = text.split(': ');
+  const [key, value] = text.split(": ");
   switch (key) {
-    case 'Package':
+    case "Package":
       curPkg = {
         Name: value,
         Version: undefined,
@@ -45,23 +43,23 @@ function parseDpkgLine(text: string, curPkg: AnalyzerPkg, pkgs: AnalyzerPkg[]) {
       };
       pkgs.push(curPkg);
       break;
-    case 'Version':
+    case "Version":
       curPkg.Version = value;
       break;
-    case 'Source':
-      curPkg.Source = value.trim().split(' ')[0];
+    case "Source":
+      curPkg.Source = value.trim().split(" ")[0];
       break;
-    case 'Provides':
-      for (let name of value.split(',')) {
-        name = name.trim().split(' ')[0];
+    case "Provides":
+      for (let name of value.split(",")) {
+        name = name.trim().split(" ")[0];
         curPkg.Provides.push(name);
       }
       break;
-    case 'Pre-Depends':
-    case 'Depends':
-      for (const depElem of value.split(',')) {
-        for (let name of depElem.split('|')) {
-          name = name.trim().split(' ')[0];
+    case "Pre-Depends":
+    case "Depends":
+      for (const depElem of value.split(",")) {
+        for (let name of depElem.split("|")) {
+          name = name.trim().split(" ")[0];
           curPkg.Deps[name] = true;
         }
       }
@@ -86,19 +84,19 @@ interface PkgMap {
 function parseExtFile(text: string) {
   const pkgMap: PkgMap = {};
   let curPkgName: any = null;
-  for (const line of text.split('\n')) {
+  for (const line of text.split("\n")) {
     curPkgName = parseExtLine(line, curPkgName, pkgMap);
   }
   return pkgMap;
 }
 
 function parseExtLine(text: string, curPkgName: string, pkgMap: PkgMap) {
-  const [key, value] = text.split(': ');
+  const [key, value] = text.split(": ");
   switch (key) {
-    case 'Package':
+    case "Package":
       curPkgName = value;
       break;
-    case 'Auto-Installed':
+    case "Auto-Installed":
       if (parseInt(value, 10) === 1) {
         pkgMap[curPkgName] = true;
       }
