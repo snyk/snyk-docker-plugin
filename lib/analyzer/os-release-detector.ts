@@ -65,7 +65,12 @@ async function tryOSRelease(docker: Docker): Promise<OSRelease | null> {
   }
   const name = idRes[1].replace(/"/g, "");
   const versionRes = text.match(/^VERSION_ID=(.+)$/m);
-  const version = versionRes ? versionRes[1].replace(/"/g, "") : "unstable";
+  let version = versionRes ? versionRes[1].replace(/"/g, "") : "unstable";
+
+  if (name === "ol") {
+    version = version.split(".")[0];
+  }
+
   return { name, version };
 }
 
@@ -135,7 +140,7 @@ async function tryOracleRelease(docker: Docker): Promise<OSRelease | null> {
     throw new Error("Failed to parse /etc/oracle-release");
   }
   const name = idRes[1].replace(/"/g, "").toLowerCase();
-  const version = versionRes[1].replace(/"/g, "");
+  const version = versionRes[1].replace(/"/g, "").split(".")[0];
 
   return { name, version };
 }
