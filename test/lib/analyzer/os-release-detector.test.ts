@@ -70,17 +70,17 @@ test("os release detection", async (t) => {
     },
     "oracle:5.11": {
       dir: "oraclelinux_5_11",
-      expected: { name: "oracle", version: "5" },
+      expected: { name: "oracle", version: "5.11" },
       notes: "uses /etc/oracle-release",
     },
     "oracle:6.9": {
       dir: "oraclelinux_6_9",
-      expected: { name: "oracle", version: "6" },
+      expected: { name: "oracle", version: "6.9" },
       notes: "uses /etc/os-release",
     },
     "oracle:7.5": {
       dir: "oraclelinux_7_5",
-      expected: { name: "oracle", version: "7" },
+      expected: { name: "oracle", version: "7.5" },
       notes: "uses /etc/os-release",
     },
     "ubuntu:10.04": {
