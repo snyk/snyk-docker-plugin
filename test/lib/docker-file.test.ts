@@ -34,6 +34,7 @@ test("Analyses dockerfiles", async (t) => {
       expected: {
         baseImage: "ubuntu:bionic",
         dockerfilePackages: {},
+        dockerfileLayers: {},
       },
     },
     {
@@ -42,6 +43,7 @@ test("Analyses dockerfiles", async (t) => {
       expected: {
         baseImage: "alpine:latest",
         dockerfilePackages: {},
+        dockerfileLayers: {},
       },
     },
     {
@@ -50,6 +52,7 @@ test("Analyses dockerfiles", async (t) => {
       expected: {
         baseImage: "scratch",
         dockerfilePackages: {},
+        dockerfileLayers: {},
       },
     },
     {
@@ -58,6 +61,7 @@ test("Analyses dockerfiles", async (t) => {
       expected: {
         baseImage: null,
         dockerfilePackages: {},
+        dockerfileLayers: {},
       },
     },
     {
@@ -66,6 +70,7 @@ test("Analyses dockerfiles", async (t) => {
       expected: {
         baseImage: null,
         dockerfilePackages: {},
+        dockerfileLayers: {},
       },
     },
     {
@@ -74,6 +79,24 @@ test("Analyses dockerfiles", async (t) => {
       expected: {
         baseImage: "node:dubnium",
         dockerfilePackages: {},
+        dockerfileLayers: {},
+      },
+    },
+    {
+      description: "a Dockerfile with an installation instruction",
+      fixture: "with-installation-instruction",
+      expected: {
+        baseImage: "ubuntu:bionic",
+        dockerfileLayers: {
+          UlVOIGFwdC1nZXQgaW5zdGFsbCBjdXJs: {
+            instruction: "RUN apt-get install curl",
+          },
+        },
+        dockerfilePackages: {
+          curl: {
+            instruction: "RUN apt-get install curl",
+          },
+        },
       },
     },
   ];

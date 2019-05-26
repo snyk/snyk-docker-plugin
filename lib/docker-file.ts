@@ -1,7 +1,9 @@
 import { DockerfileParser } from "dockerfile-ast";
 import * as fs from "fs";
 import {
+  DockerFileLayers,
   DockerFilePackages,
+  getDockerfileLayers,
   getPackagesFromRunInstructions,
 } from "./instruction-parser";
 
@@ -10,6 +12,7 @@ export { analyseDockerfile, readDockerfileAndAnalyse, DockerFileAnalysis };
 interface DockerFileAnalysis {
   baseImage?: string;
   dockerfilePackages: DockerFilePackages;
+  dockerfileLayers: DockerFileLayers;
 }
 
 async function readDockerfileAndAnalyse(
@@ -35,6 +38,7 @@ async function analyseDockerfile(
     })
     .map((instruction) => instruction.toString());
   const dockerfilePackages = getPackagesFromRunInstructions(runInstructions);
+  const dockerfileLayers = getDockerfileLayers(dockerfilePackages);
 
   let baseImage;
 
@@ -65,6 +69,7 @@ async function analyseDockerfile(
   return {
     baseImage,
     dockerfilePackages,
+    dockerfileLayers,
   };
 }
 

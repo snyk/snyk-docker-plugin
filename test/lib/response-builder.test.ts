@@ -14,7 +14,6 @@ test("buildResponse", async (t) => {
 
     await t.test("returns a complete response", async (t) => {
       const response = buildResponse(runtime, depsAna, dockerfileAna, {});
-
       t.same(response, expected, "response matches fixture");
     });
 

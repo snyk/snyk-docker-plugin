@@ -1,7 +1,19 @@
-export { getPackagesFromRunInstructions, DockerFilePackages };
+export {
+  getDockerfileLayers,
+  getPackagesFromRunInstructions,
+  DockerFilePackages,
+  DockerFileLayers,
+  instructionDigest,
+};
 
 interface DockerFilePackages {
   [packageName: string]: {
+    instruction: string;
+  };
+}
+
+interface DockerFileLayers {
+  [id: string]: {
     instruction: string;
   };
 }
@@ -43,5 +55,19 @@ function getPackagesFromRunInstructions(
     }
 
     return dockerfilePackages;
+  }, {});
+}
+
+function instructionDigest(instruction): string {
+  return Buffer.from(instruction).toString("base64");
+}
+
+function getDockerfileLayers(
+  dockerfilePkgs: DockerFilePackages,
+): DockerFileLayers {
+  return Object.keys(dockerfilePkgs).reduce((res, pkg) => {
+    const { instruction } = dockerfilePkgs[pkg];
+    res[instructionDigest(instruction)] = { instruction };
+    return res;
   }, {});
 }

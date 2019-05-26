@@ -317,7 +317,6 @@ function buildTreeRecurisve(
     name: fullName,
     version: depInfo.Version,
   };
-
   if (depInfo._visited) {
     return tree;
   }
