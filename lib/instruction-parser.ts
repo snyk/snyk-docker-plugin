@@ -18,8 +18,9 @@ interface DockerFileLayers {
   };
 }
 
+// Naive regex; see tests for cases
 // tslint:disable-next-line:max-line-length
-const installRegex = /\s*(rpm\s+-i|rpm\s+--install|apk\s+add|apt\s+install|apt-get\s+install|yum\s+install|aptitude\s+install)\s+/;
+const installRegex = /\s*(rpm\s+-i|rpm\s+--install|apk\s+((--update|-u)\s+)*add|apt-get\s+((--assume-yes|--yes|-y)\s+)*install|apt\s+((--assume-yes|--yes|-y)\s+)*install|yum\s+install|aptitude\s+install)\s+/;
 
 /*
  * This is fairly ugly because a single RUN could contain multiple install
@@ -44,9 +45,8 @@ function getPackagesFromRunInstructions(
       installCommands.forEach((command) => {
         const packages = command
           .replace(installRegex, "")
-          .replace(/(^-|\s-)\w+/g, "")
-          .trim()
-          .split(/\s+/);
+          .split(/\s+/)
+          .filter((arg) => arg && !arg.startsWith("-"));
 
         packages.forEach((pkg) => {
           dockerfilePackages[pkg] = { instruction };

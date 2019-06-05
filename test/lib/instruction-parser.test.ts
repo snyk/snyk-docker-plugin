@@ -21,6 +21,13 @@ test("instruction parsers", async (t) => {
       t.same(packages, { curl: { instruction } });
     });
 
+    await t.test('supports "apt-get install" with flags', async (t) => {
+      const instruction = "RUN apt-get -y install curl";
+      const packages = getPackagesFromRunInstructions([instruction]);
+
+      t.same(packages, { curl: { instruction } });
+    });
+
     await t.test('supports "aptitude install"', async (t) => {
       const instruction = "RUN aptitude install curl";
       const packages = getPackagesFromRunInstructions([instruction]);
@@ -37,6 +44,13 @@ test("instruction parsers", async (t) => {
 
     await t.test('supports "apk add"', async (t) => {
       const instruction = "RUN apk add curl";
+      const packages = getPackagesFromRunInstructions([instruction]);
+
+      t.same(packages, { curl: { instruction } });
+    });
+
+    await t.test('supports "apk add" with flags', async (t) => {
+      const instruction = "RUN apk --update add curl";
       const packages = getPackagesFromRunInstructions([instruction]);
 
       t.same(packages, { curl: { instruction } });
