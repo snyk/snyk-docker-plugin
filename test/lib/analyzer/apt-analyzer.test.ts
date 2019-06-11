@@ -5,11 +5,9 @@
 // tslint:disable:max-line-length
 // tslint:disable:object-literal-key-quotes
 
-import * as sinon from "sinon";
 import { test } from "tap";
 
 import * as analyzer from "../../../lib/analyzer/apt-analyzer";
-import * as subProcess from "../../../lib/sub-process";
 
 test("analyze", async (t) => {
   const defaultPkgProps = {
@@ -331,39 +329,10 @@ test("analyze", async (t) => {
 
   for (const example of examples) {
     await t.test(example.description, async (t) => {
-      const execStub = sinon.stub(subProcess, "execute");
-
-      execStub
-        .withArgs("docker", [
-          "run",
-          "--rm",
-          "--entrypoint",
-          '""',
-          "--network",
-          "none",
-          sinon.match.any,
-          "cat",
-          "/var/lib/dpkg/status",
-        ])
-        .resolves({ stdout: example.dpkgManifestLines.join("\n"), stderr: "" });
-
-      execStub
-        .withArgs("docker", [
-          "run",
-          "--rm",
-          "--entrypoint",
-          '""',
-          "--network",
-          "none",
-          sinon.match.any,
-          "cat",
-          "/var/lib/apt/extended_states",
-        ])
-        .resolves({ stdout: example.extManifestLines.join("\n"), stderr: "" });
-
-      t.teardown(() => execStub.restore());
-
-      const actual = await analyzer.analyze("ubuntu:10.04");
+      const actual = await analyzer.analyze("ubuntu:10.04", {
+        "var/lib/dpkg/status": example.dpkgManifestLines.join("\n"),
+        "var/lib/apt/extended_states": example.extManifestLines.join("\n"),
+      });
 
       t.same(actual, {
         Image: "ubuntu:10.04",
