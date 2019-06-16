@@ -4,41 +4,54 @@ import * as dockerFile from "../docker-file";
 import * as apkAnalyzer from "./apk-analyzer";
 import * as aptAnalyzer from "./apt-analyzer";
 import * as binariesAnalyzer from "./binaries-analyzer";
-import { ExtractedKeyFiles } from "./image-extractor";
+import { mapLookups } from "./image-extractor";
 import * as imageInspector from "./image-inspector";
 import * as osReleaseDetector from "./os-release-detector";
 import * as rpmAnalyzer from "./rpm-analyzer";
 
-export { analyze };
+import { streamToString } from "../stream-utils";
+
+export { analyze, STATIC_SCAN_MAX_IMAGE_SIZE };
 
 const debug = Debug("snyk");
+
+const KB = 1024;
+const MB = KB * 1024;
+const GB = MB * 1024;
+
+const STATIC_SCAN_MAX_IMAGE_SIZE = 3 * GB;
 
 async function analyze(
   targetImage: string,
   dockerfileAnalysis?: dockerFile.DockerFileAnalysis,
   options?: DockerOptions,
 ) {
-  const [imageInspection, osRelease] = await Promise.all([
-    imageInspector.detect(targetImage, options),
-    osReleaseDetector.detect(targetImage, dockerfileAnalysis, options),
-  ]);
-
-  const pkgPaths = [...aptAnalyzer.APT_PKGPATHS, ...apkAnalyzer.APK_PKGPATHS];
-
   const docker = new Docker(targetImage, options);
-  let pkgFiles: ExtractedKeyFiles;
+  const size = await docker.size();
 
-  try {
-    pkgFiles = await docker.extract(pkgPaths);
-  } catch (err) {
-    debug(err);
-    throw new Error(err);
+  // ignore undefined size for backwards compatibility
+  if (size && size <= STATIC_SCAN_MAX_IMAGE_SIZE) {
+    await docker.extractAndCache(
+      mapLookups(
+        [
+          ...aptAnalyzer.APT_PKGPATHS,
+          ...apkAnalyzer.APK_PKGPATHS,
+          ...osReleaseDetector.OS_VERPATHS,
+        ],
+        streamToString,
+      ),
+    );
   }
 
+  const [imageInspection, osRelease] = await Promise.all([
+    imageInspector.detect(docker),
+    osReleaseDetector.detect(docker, dockerfileAnalysis),
+  ]);
+
   const results = await Promise.all([
-    apkAnalyzer.analyze(targetImage, pkgFiles.txt),
-    aptAnalyzer.analyze(targetImage, pkgFiles.txt),
-    rpmAnalyzer.analyze(targetImage, options),
+    apkAnalyzer.analyze(docker),
+    aptAnalyzer.analyze(docker),
+    rpmAnalyzer.analyze(docker),
   ]).catch((err) => {
     debug(`Error while running analyzer: '${err.stderr}'`);
     throw new Error("Failed to detect installed OS packages");

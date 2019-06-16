@@ -1,56 +1,61 @@
 import { createReadStream } from "fs";
-import * as md5 from "md5";
 import * as minimatch from "minimatch";
 import { basename } from "path";
 import { Readable } from "stream";
 import { extract, Extract } from "tar-stream";
-import { streamToBuffer, streamToString } from "../stream-utils";
+import { streamToString } from "../stream-utils";
 
-export { extractImageKeyFiles, ExtractedImage, ExtractedKeyFiles };
+export {
+  extractFromTar,
+  ExtractedFiles,
+  ExtractFileCallback,
+  mapLookups,
+  LookupEntry,
+};
 
-interface ExtractedKeyFiles {
-  txt: { [key: string]: string };
-  md5: { [key: string]: string };
+interface ExtractedFiles {
+  [key: string]: string;
 }
 
-interface ExtractedImage {
-  manifest: string;
-  layers: Layers;
+interface ExtractedFilesByLayers {
+  [key: string]: ExtractedFiles;
 }
 
-interface Layers {
-  [key: string]: ExtractedKeyFiles;
+type ExtractFileCallback = (stream: Readable) => Promise<string>;
+
+interface LookupEntry {
+  p: string; // path pattern to look for
+  c: ExtractFileCallback; // handler to manipulate stream into a string
 }
 
 /**
- * Extract key files form the specified TAR stream.
- * @param stream image layer as a Readable TAR stream
- * @param name layer name
- * @param txtPatterns list of plain text key files paths patterns to extract and return as strings
- * @param md5Patterns list of binary key files paths patterns to extract and return their MD5 sum
- * @returns key files found in the specified layer TAR stream
+ * Create lookup entries array by mapping the specified callback with each of the specified patterns
+ * @param patterns array of path pattern strings
+ * @param callback handler to manipulate stream into a string
  */
-async function extractLayerKeyFiles(
-  stream: Readable,
-  txtPatterns: string[],
-  md5Patterns: string[] = [],
-): Promise<ExtractedKeyFiles> {
+const mapLookups = (patterns, callback) => {
+  return patterns.map((pattern) => {
+    return { p: pattern, c: callback };
+  });
+};
+
+/**
+ * Extract key files form the specified TAR stream.
+ * @param layerTarStream image layer as a Readable TAR stream
+ * @param lookups array of pattern, callback pairs
+ * @returns extracted file products
+ */
+async function extractFromLayer(
+  layerTarStream: Readable,
+  lookups: LookupEntry[],
+): Promise<ExtractedFiles> {
   return new Promise((resolve) => {
-    const result: ExtractedKeyFiles = { txt: {}, md5: {} };
+    const result: ExtractedFiles = {};
     const layerExtract: Extract = extract();
     layerExtract.on("entry", (header, stream, next) => {
-      txtPatterns.forEach((pattern) => {
-        if (minimatch(header.name, pattern, { dot: true })) {
-          streamToString(stream).then((value) => {
-            result.txt[header.name] = value;
-          });
-        }
-      });
-      md5Patterns.forEach((pattern) => {
-        if (minimatch(header.name, pattern, { dot: true })) {
-          streamToBuffer(stream).then((value) => {
-            result.md5[header.name] = md5(value);
-          });
+      lookups.forEach((lookup) => {
+        if (minimatch(`/${header.name}`, lookup.p, { dot: true })) {
+          lookup.c(stream).then((value) => (result[`/${header.name}`] = value));
         }
       });
       stream.resume(); // auto drain the stream
@@ -60,51 +65,64 @@ async function extractLayerKeyFiles(
       // all layer level entries read
       resolve(result);
     });
-    stream.pipe(layerExtract);
+    layerTarStream.pipe(layerExtract);
   });
 }
 
 /**
  * Extract key files textual content and MD5 sum from the specified TAR file.
  * @param imageTarPath path to image file saved in tar format
- * @param txtPatterns list of plain text key files paths patterns to extract and return as strings
- * @param md5Patterns list of binary key files paths patterns to extract and return their MD5 sum
- * @returns manifest file and key files by inner layers
+ * @param lookups array of pattern, callback pairs
+ * @returns extracted files products
  */
-async function extractImageKeyFiles(
+async function extractFromTar(
   imageTarPath: string,
-  txtPatterns: string[],
-  md5Patterns: string[] = [],
-): Promise<ExtractedImage> {
+  lookups: LookupEntry[],
+): Promise<ExtractedFiles> {
   return new Promise((resolve) => {
     const imageExtract: Extract = extract();
-    let manifest: string;
-    const layers: Layers = {};
+    const layers: ExtractedFilesByLayers = {};
+    let layersNames: string[];
 
     imageExtract.on("entry", (header, stream, next) => {
       if (header.type === "file") {
         if (basename(header.name) === "layer.tar") {
-          extractLayerKeyFiles(stream, txtPatterns, md5Patterns).then(
-            (extractedKeyFiles) => {
-              layers[header.name] = extractedKeyFiles;
-            },
-          );
+          extractFromLayer(stream, lookups).then((extractedKeyFiles) => {
+            layers[header.name] = extractedKeyFiles;
+          });
         } else if (header.name === "manifest.json") {
           streamToString(stream).then((manifestFile) => {
-            manifest = manifestFile;
+            const manifest = JSON.parse(manifestFile);
+            layersNames = manifest[0].Layers;
           });
         }
       }
       stream.resume(); // auto drain the stream
       next(); // ready for next entry
     });
+
     imageExtract.on("finish", () => {
-      // all image level entries read
-      resolve({
-        manifest,
-        layers,
-      });
+      const result: ExtractedFiles = {};
+
+      if (layers) {
+        // reverse layer order from last to first
+        for (const layerName of layersNames.reverse()) {
+          // layer exists, files found for this layer
+          if (layerName in layers) {
+            const layer: ExtractedFiles = layers[layerName];
+            // go over extracted files found in this layer
+            for (const filename of Object.keys(layer)) {
+              // file was not found in previous layer
+              if (!Reflect.has(result, filename)) {
+                result[filename] = layer[filename];
+              }
+            }
+          }
+        }
+      }
+      resolve(result);
     });
+
     createReadStream(imageTarPath).pipe(imageExtract);
   });
 }

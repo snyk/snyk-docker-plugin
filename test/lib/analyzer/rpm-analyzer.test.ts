@@ -9,6 +9,7 @@ import * as sinon from "sinon";
 import { test } from "tap";
 
 import * as analyzer from "../../../lib/analyzer/rpm-analyzer";
+import { Docker } from "../../../lib/docker";
 import * as subProcess from "../../../lib/sub-process";
 
 test("analyze", async (t) => {
@@ -79,7 +80,7 @@ test("analyze", async (t) => {
 
       t.teardown(() => execStub.restore());
 
-      const actual = await analyzer.analyze("centos:6");
+      const actual = await analyzer.analyze(new Docker("centos:6"));
 
       t.same(actual, {
         Image: "centos:6",
@@ -129,7 +130,7 @@ test("no rpm", async (t) => {
 
       t.teardown(() => execStub.restore());
 
-      const actual = await analyzer.analyze(example.targetImage);
+      const actual = await analyzer.analyze(new Docker(example.targetImage));
 
       t.same(actual, {
         Image: example.targetImage,

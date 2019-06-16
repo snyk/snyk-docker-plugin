@@ -1,23 +1,23 @@
 import { AnalyzerPkg } from "./types";
 export { analyze };
+import { Docker } from "../docker";
 
-const APK_DB_INSTALLED = "lib/apk/db/installed";
+const APK_DB_INSTALLED = "/lib/apk/db/installed";
 
 const APK_PKGPATHS = [APK_DB_INSTALLED];
 
 export { APK_PKGPATHS };
 
-async function analyze(
-  targetImage: string,
-  pkgFiles: { [key: string]: string },
-) {
-  const dbFile = pkgFiles[APK_DB_INSTALLED];
-  const pkgs = dbFile ? parseFile(dbFile) : [];
-  return {
-    Image: targetImage,
+async function analyze(docker: Docker) {
+  return getPackages(docker).then((pkgs) => ({
+    Image: docker.getTargetImage(),
     AnalyzeType: "Apk",
     Analysis: pkgs,
-  };
+  }));
+}
+
+function getPackages(docker: Docker) {
+  return docker.getFile(APK_DB_INSTALLED).then((output) => parseFile(output));
 }
 
 function parseFile(text: string) {

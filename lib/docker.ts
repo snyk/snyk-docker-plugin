@@ -1,10 +1,12 @@
 import { fileSync } from "tmp";
 import {
-  ExtractedImage,
-  ExtractedKeyFiles,
-  extractImageKeyFiles,
+  ExtractedFiles,
+  ExtractFileCallback,
+  extractFromTar,
+  LookupEntry,
 } from "./analyzer/image-extractor";
-import { execute } from "./sub-process";
+import { stringToStream } from "./stream-utils";
+import { CmdOutput, execute } from "./sub-process";
 
 export { Docker, DockerOptions };
 
@@ -47,12 +49,18 @@ class Docker {
   }
 
   private optionsList: string[];
+  private extractedFiles: ExtractedFiles;
 
   constructor(private targetImage: string, options?: DockerOptions) {
     this.optionsList = Docker.createOptionsList(options);
+    this.extractedFiles = {};
   }
 
-  public run(cmd: string, args: string[] = []) {
+  public getTargetImage(): string {
+    return this.targetImage;
+  }
+
+  public run(cmd: string, args: string[] = []): Promise<CmdOutput> {
     return execute("docker", [
       ...this.optionsList,
       "run",
@@ -67,15 +75,16 @@ class Docker {
     ]);
   }
 
-  public async inspect(targetImage: string) {
+  public async inspect(args: string[] = []): Promise<CmdOutput> {
     return await execute("docker", [
       ...this.optionsList,
       "inspect",
-      targetImage,
+      this.targetImage,
+      ...args,
     ]);
   }
 
-  public async catSafe(filename: string) {
+  public async catSafe(filename: string): Promise<CmdOutput> {
     try {
       return await this.run("cat", [filename]);
     } catch (error) {
@@ -89,6 +98,17 @@ class Docker {
         }
       }
       throw error;
+    }
+  }
+
+  public async size(): Promise<number | undefined> {
+    try {
+      return parseInt(
+        (await this.inspect(["--format", "'{{.Size}}'"])).stdout,
+        10,
+      );
+    } catch {
+      return undefined;
     }
   }
 
@@ -132,69 +152,52 @@ class Docker {
   }
 
   /**
-   * Analyze and return key files textual content and MD5 sum.
-   * @param imageTarPath path to image file saved in tar format
-   * @param txtPatterns list of plain text key files paths patterns to extract and return as strings
-   * @param md5Patterns list of binary key files paths patterns to extract and return their MD5 sum
-   * @returns key files textual content and MD5 sum
+   * Convenience method to wrap save to tar and extract files from tar
+   * @param lookups array of pattern, callback pairs
+   * @returns extracted file products
    */
-  public async analyze(
-    imageTarPath: string,
-    txtPatterns: string[],
-    md5Patterns: string[] = [],
-  ) {
-    const result: ExtractedKeyFiles = { txt: {}, md5: {} };
-
-    const extracted: ExtractedImage = await extractImageKeyFiles(
-      imageTarPath,
-      txtPatterns,
-      md5Patterns,
-    );
-
-    const manifest = JSON.parse(extracted.manifest);
-    const layersNames: string[] = manifest[0].Layers;
-
-    if (extracted.layers) {
-      // reverse layer order from last to first
-      for (const layerName of layersNames.reverse()) {
-        // files found for this layer
-        if (layerName in extracted.layers) {
-          // go over plain text files found in this layer
-          for (const filename of Object.keys(extracted.layers[layerName].txt)) {
-            // file was not found in previous layer
-            if (!Reflect.has(result.txt, filename)) {
-              result.txt[filename] = extracted.layers[layerName].txt[filename];
-            }
-          }
-          // go over MD5 sums found in this layer
-          for (const filename of Object.keys(extracted.layers[layerName].md5)) {
-            // file was not found in previous layer
-            if (!Reflect.has(result.md5, filename)) {
-              result.md5[filename] = extracted.layers[layerName].md5[filename];
-            }
-          }
-        }
-      }
-    }
-    return result;
-  }
-
-  /**
-   * Saves the docker image as a TAR file to a temporary location and extract
-   * the specified files from it.
-   * @param txtPatterns list of plain text key files paths patterns to extract and return as strings
-   * @param md5Patterns list of binary key files paths patterns to extract and return their MD5 sum
-   * @return list of plain text files and list of MD5 sums
-   */
-  public async extract(
-    txtPatterns: string[],
-    md5Patterns: string[] = [],
-  ): Promise<ExtractedKeyFiles> {
+  public async extract(lookups: LookupEntry[]): Promise<ExtractedFiles> {
     return this.save(async (err, imageTarPath) => {
       if (err) {
         throw err;
       }
-      return await this.analyze(imageTarPath, txtPatterns, md5Patterns);
+      return await extractFromTar(imageTarPath, lookups);
     });
+  }
+
+  /**
+   * Extract files from image and store their product
+   * @param lookups array of pattern, callback pairs
+   * @returns extracted file products
+   */
+  public async extractAndCache(
+    lookups: LookupEntry[],
+  ): Promise<ExtractedFiles> {
+    return new Promise<ExtractedFiles>((resolve) => {
+      this.extract(lookups).then((extractedFiles: ExtractedFiles) => {
+        this.extractedFiles = Object.assign(
+          this.extractedFiles,
+          extractedFiles,
+        );
+        resolve(this.extractedFiles);
+      });
+    });
+  }
+
+  /**
+   * Get file product that was previously retrieved and cached or using runtime method and the specified callback
+   * @param filename name of file to retrieve its associated string
+   * @param callback optional callback to call when runti,e method is used to retrieve the file
+   */
+  public async getFile(
+    filename: string,
+    callback?: ExtractFileCallback,
+  ): Promise<string> {
+    if (Reflect.has(this.extractedFiles, filename)) {
+      return this.extractedFiles[filename];
+    } else {
+      const content = (await this.catSafe(filename)).stdout;
+      return callback ? callback(await stringToStream(content)) : content;
+    }
   }
 }

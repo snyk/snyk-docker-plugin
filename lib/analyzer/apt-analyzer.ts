@@ -1,28 +1,26 @@
+import { Docker } from "../docker";
 import { AnalyzerPkg } from "./types";
 
 export { analyze };
 
-const APT_DPKG_STATUS = "var/lib/dpkg/status";
-const APT_EXT_STATES = "var/lib/apt/extended_states";
+const APT_DPKG_STATUS = "/var/lib/dpkg/status";
+const APT_EXT_STATES = "/var/lib/apt/extended_states";
 
 const APT_PKGPATHS = [APT_DPKG_STATUS, APT_EXT_STATES];
 
 export { APT_PKGPATHS };
 
-async function analyze(
-  targetImage: string,
-  pkgFiles: { [key: string]: string },
-) {
-  const dpkgFile = pkgFiles[APT_DPKG_STATUS];
-  const pkgs = dpkgFile ? parseDpkgFile(dpkgFile) : [];
+async function analyze(docker: Docker) {
+  const dpkgFile = await docker.getFile(APT_DPKG_STATUS);
+  const pkgs = parseDpkgFile(dpkgFile);
 
-  const extFile = pkgFiles[APT_EXT_STATES];
+  const extFile = await docker.getFile(APT_EXT_STATES);
   if (extFile) {
     setAutoInstalledPackages(extFile, pkgs);
   }
 
   return {
-    Image: targetImage,
+    Image: docker.getTargetImage(),
     AnalyzeType: "Apt",
     Analysis: pkgs,
   };
