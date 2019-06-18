@@ -4,7 +4,7 @@ import * as dockerFile from "../docker-file";
 import * as apkAnalyzer from "./apk-analyzer";
 import * as aptAnalyzer from "./apt-analyzer";
 import * as binariesAnalyzer from "./binaries-analyzer";
-import { mapLookups } from "./image-extractor";
+import { mapActionsToFiles } from "./image-extractor";
 import * as imageInspector from "./image-inspector";
 import * as osReleaseDetector from "./os-release-detector";
 import * as rpmAnalyzer from "./rpm-analyzer";
@@ -27,12 +27,11 @@ async function analyze(
   options?: DockerOptions,
 ) {
   const docker = new Docker(targetImage, options);
-  const size = await docker.size();
+  const size = await docker.sizeSafe();
 
-  // ignore undefined size for backwards compatibility
   if (size && size <= STATIC_SCAN_MAX_IMAGE_SIZE) {
     await docker.extractAndCache(
-      mapLookups(
+      mapActionsToFiles(
         [
           ...aptAnalyzer.APT_PKGPATHS,
           ...apkAnalyzer.APK_PKGPATHS,

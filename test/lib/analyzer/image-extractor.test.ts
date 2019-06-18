@@ -11,7 +11,7 @@ import { pack as packStream, Pack as PackStream } from "tar-stream";
 
 import * as apkAnalyzer from "../../../lib/analyzer/apk-analyzer";
 import * as aptAnalyzer from "../../../lib/analyzer/apt-analyzer";
-import { mapLookups } from "../../../lib/analyzer/image-extractor";
+import { mapActionsToFiles } from "../../../lib/analyzer/image-extractor";
 import { Docker } from "../../../lib/docker";
 import {
   md5Stream,
@@ -90,10 +90,7 @@ test("static analyze", async (t) => {
             );
 
             imagePack.finalize();
-            await imagePack.pipe(
-              tarStream,
-              { end: true },
-            );
+            await imagePack.pipe(tarStream);
           } catch {
             // tslint:disable-next-line:no-string-throw
             throw {
@@ -111,15 +108,16 @@ test("static analyze", async (t) => {
       const docker = new Docker(targetImage);
 
       const result = await docker.extract([
-        ...mapLookups(txtPatterns, streamToString),
-        ...mapLookups(md5Patterns, md5Stream),
+        ...mapActionsToFiles(txtPatterns, streamToString),
+        ...mapActionsToFiles(md5Patterns, md5Stream),
       ]);
+
       t.same(
         Object.keys(result).length,
         example.txtCount + Object.keys(example.md5).length,
       );
       for (const name of Object.keys(example.md5)) {
-        t.same(result[name], example.md5[name]);
+        t.same(result[name][md5Stream.name], example.md5[name]);
       }
     });
   }

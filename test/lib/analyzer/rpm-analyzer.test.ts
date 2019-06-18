@@ -80,7 +80,8 @@ test("analyze", async (t) => {
 
       t.teardown(() => execStub.restore());
 
-      const actual = await analyzer.analyze(new Docker("centos:6"));
+      const docker = new Docker("centos:6");
+      const actual = await analyzer.analyze(docker);
 
       t.same(actual, {
         Image: "centos:6",
@@ -130,7 +131,8 @@ test("no rpm", async (t) => {
 
       t.teardown(() => execStub.restore());
 
-      const actual = await analyzer.analyze(new Docker(example.targetImage));
+      const docker = new Docker(example.targetImage);
+      const actual = await analyzer.analyze(docker);
 
       t.same(actual, {
         Image: example.targetImage,

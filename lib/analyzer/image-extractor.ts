@@ -1,3 +1,4 @@
+import * as Debug from "debug";
 import { createReadStream } from "fs";
 import * as minimatch from "minimatch";
 import { basename } from "path";
@@ -7,57 +8,77 @@ import { streamToString } from "../stream-utils";
 
 export {
   extractFromTar,
-  ExtractedFiles,
-  ExtractFileCallback,
-  mapLookups,
-  LookupEntry,
+  SearchActionProducts,
+  SearchActionCallback,
+  mapActionsToFiles,
+  SearchAction,
 };
 
-interface ExtractedFiles {
-  [key: string]: string;
+const debug = Debug("snyk");
+
+interface SearchActionProducts {
+  [key: string]: { [key: string]: string };
 }
 
-interface ExtractedFilesByLayers {
-  [key: string]: ExtractedFiles;
-}
+type SearchActionCallback = (stream: Readable) => Promise<string>;
 
-type ExtractFileCallback = (stream: Readable) => Promise<string>;
-
-interface LookupEntry {
-  p: string; // path pattern to look for
-  c: ExtractFileCallback; // handler to manipulate stream into a string
+interface SearchAction {
+  pattern: string; // path pattern to look for
+  callbacks: SearchActionCallback[]; // array of handlers to convert stream into a string
 }
 
 /**
- * Create lookup entries array by mapping the specified callback with each of the specified patterns
+ * Create lookup entries array by mapping the specified callback with each of
+ *  the specified patterns
  * @param patterns array of path pattern strings
- * @param callback handler to manipulate stream into a string
+ * @param callbacks single handler or an array of handlers to manipulate
+ *  a stream into a string
  */
-const mapLookups = (patterns, callback) => {
-  return patterns.map((pattern) => {
-    return { p: pattern, c: callback };
+const mapActionsToFiles = (patterns, callbacks) => {
+  const cs = Array.isArray(callbacks) ? callbacks : [callbacks];
+  return patterns.map((p) => {
+    return { pattern: p, callbacks: cs };
   });
 };
 
 /**
  * Extract key files form the specified TAR stream.
  * @param layerTarStream image layer as a Readable TAR stream
- * @param lookups array of pattern, callback pairs
+ * @param searchActions array of pattern, callbacks pairs
  * @returns extracted file products
  */
 async function extractFromLayer(
   layerTarStream: Readable,
-  lookups: LookupEntry[],
-): Promise<ExtractedFiles> {
+  searchActions: SearchAction[],
+): Promise<SearchActionProducts> {
   return new Promise((resolve) => {
-    const result: ExtractedFiles = {};
+    const result: SearchActionProducts = {};
     const layerExtract: Extract = extract();
-    layerExtract.on("entry", (header, stream, next) => {
-      lookups.forEach((lookup) => {
-        if (minimatch(`/${header.name}`, lookup.p, { dot: true })) {
-          lookup.c(stream).then((value) => (result[`/${header.name}`] = value));
+    layerExtract.on("entry", async (header, stream, next) => {
+      for (const searchAction of searchActions) {
+        const name = `/${header.name}`;
+        if (minimatch(name, searchAction.pattern, { dot: true })) {
+          if (header.type === "file") {
+            // initialize the files associated products dict
+            if (!result[name]) {
+              result[name] = {};
+            }
+            // go over the callbacks and assign each product under its callback name
+            for (const callback of searchAction.callbacks) {
+              if (Reflect.has(result[name], callback.name)) {
+                debug(
+                  `found duplicate match ${result.name} for ${
+                    searchAction.pattern
+                  }`,
+                );
+              }
+              result[name][callback.name] = await callback(stream);
+            }
+          } else if (header.type === "link" || header.type === "symlink") {
+            debug(`found a ${header.type} to ${header.linkname}`);
+          }
         }
-      });
+      }
       stream.resume(); // auto drain the stream
       next(); // ready for next entry
     });
@@ -70,26 +91,25 @@ async function extractFromLayer(
 }
 
 /**
- * Extract key files textual content and MD5 sum from the specified TAR file.
+ * Retrieve the products of files content from the specified TAR file.
  * @param imageTarPath path to image file saved in tar format
- * @param lookups array of pattern, callback pairs
- * @returns extracted files products
+ * @param searchActions array of pattern, callbacks pairs
+ * @returns array of extracted files products sorted by the reverse order of
+ *  the layers from last to first
  */
-async function extractFromTar(
+async function extractLayersFromTar(
   imageTarPath: string,
-  lookups: LookupEntry[],
-): Promise<ExtractedFiles> {
+  searchActions: SearchAction[],
+): Promise<SearchActionProducts[]> {
   return new Promise((resolve) => {
     const imageExtract: Extract = extract();
-    const layers: ExtractedFilesByLayers = {};
+    const layers: { [key: string]: SearchActionProducts } = {};
     let layersNames: string[];
 
-    imageExtract.on("entry", (header, stream, next) => {
+    imageExtract.on("entry", async (header, stream, next) => {
       if (header.type === "file") {
         if (basename(header.name) === "layer.tar") {
-          extractFromLayer(stream, lookups).then((extractedKeyFiles) => {
-            layers[header.name] = extractedKeyFiles;
-          });
+          layers[header.name] = await extractFromLayer(stream, searchActions);
         } else if (header.name === "manifest.json") {
           streamToString(stream).then((manifestFile) => {
             const manifest = JSON.parse(manifestFile);
@@ -100,29 +120,51 @@ async function extractFromTar(
       stream.resume(); // auto drain the stream
       next(); // ready for next entry
     });
-
     imageExtract.on("finish", () => {
-      const result: ExtractedFiles = {};
-
-      if (layers) {
-        // reverse layer order from last to first
-        for (const layerName of layersNames.reverse()) {
-          // layer exists, files found for this layer
-          if (layerName in layers) {
-            const layer: ExtractedFiles = layers[layerName];
-            // go over extracted files found in this layer
-            for (const filename of Object.keys(layer)) {
-              // file was not found in previous layer
-              if (!Reflect.has(result, filename)) {
-                result[filename] = layer[filename];
-              }
-            }
-          }
-        }
-      }
-      resolve(result);
+      // reverse layers order from last to first
+      // skip (ignore) non-existent layers
+      // return the layers content without the layer name
+      resolve(
+        layersNames
+          .reverse()
+          .filter((layersName) => layers[layersName])
+          .map((layerName) => layers[layerName]),
+      );
     });
-
     createReadStream(imageTarPath).pipe(imageExtract);
   });
+}
+
+/**
+ * Extract key files textual content and MD5 sum from the specified TAR file
+ * @param imageTarPath path to image file saved in tar format
+ * @param searchActions array of pattern, callbacks pairs
+ * @returns extracted files products
+ */
+async function extractFromTar(
+  imageTarPath: string,
+  searchActions: SearchAction[],
+): Promise<SearchActionProducts> {
+  const layers: SearchActionProducts[] = await extractLayersFromTar(
+    imageTarPath,
+    searchActions,
+  );
+
+  if (!layers) {
+    return {};
+  }
+
+  const result: SearchActionProducts = {};
+
+  // reverse layer order from last to first
+  for (const layer of layers) {
+    // go over extracted files products found in this layer
+    for (const filename of Object.keys(layer)) {
+      // file was not found
+      if (!Reflect.has(result, filename)) {
+        result[filename] = layer[filename];
+      }
+    }
+  }
+  return result;
 }

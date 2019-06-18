@@ -157,7 +157,8 @@ test("analyze", async (t) => {
 
       t.teardown(() => execStub.restore());
 
-      const actual = await analyzer.analyze(new Docker("alpine:2.6"));
+      const docker = new Docker("alpine:2.6");
+      const actual = await analyzer.analyze(docker);
       t.same(actual, {
         Image: "alpine:2.6",
         AnalyzeType: "Apk",

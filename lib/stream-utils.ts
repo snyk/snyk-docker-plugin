@@ -62,6 +62,7 @@ async function stringToStream(str: string): Promise<Readable> {
   s._read = () => {
     // do nothing
   };
+  s.push(str);
   s.push(null);
   return s;
 }

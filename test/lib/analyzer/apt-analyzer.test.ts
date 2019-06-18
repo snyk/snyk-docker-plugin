@@ -380,7 +380,8 @@ test("analyze", async (t) => {
 
       t.teardown(() => execStub.restore());
 
-      const actual = await analyzer.analyze(new Docker("ubuntu:10.04"));
+      const docker = new Docker("ubuntu:10.04");
+      const actual = await analyzer.analyze(docker);
 
       t.same(actual, {
         Image: "ubuntu:10.04",

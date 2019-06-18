@@ -1,9 +1,9 @@
 import { fileSync } from "tmp";
 import {
-  ExtractedFiles,
-  ExtractFileCallback,
   extractFromTar,
-  LookupEntry,
+  SearchAction,
+  SearchActionCallback,
+  SearchActionProducts,
 } from "./analyzer/image-extractor";
 import { stringToStream } from "./stream-utils";
 import { CmdOutput, execute } from "./sub-process";
@@ -49,11 +49,11 @@ class Docker {
   }
 
   private optionsList: string[];
-  private extractedFiles: ExtractedFiles;
+  private searchActionProducts: SearchActionProducts;
 
   constructor(private targetImage: string, options?: DockerOptions) {
     this.optionsList = Docker.createOptionsList(options);
-    this.extractedFiles = {};
+    this.searchActionProducts = {};
   }
 
   public getTargetImage(): string {
@@ -101,7 +101,12 @@ class Docker {
     }
   }
 
-  public async size(): Promise<number | undefined> {
+  /**
+   * Returns the size of the specified image, errors are ignored for
+   *  backwards compatibility
+   * @returns size of image or undefined
+   */
+  public async sizeSafe(): Promise<number | undefined> {
     try {
       return parseInt(
         (await this.inspect(["--format", "'{{.Size}}'"])).stdout,
@@ -142,7 +147,7 @@ class Docker {
 
     if (callback) {
       try {
-        return callback(err, tmpobj.name);
+        return await callback(err, tmpobj.name);
       } finally {
         // We don't need the file anymore and could manually call the removeCallback
         tmpobj.removeCallback();
@@ -152,52 +157,84 @@ class Docker {
   }
 
   /**
-   * Convenience method to wrap save to tar and extract files from tar
-   * @param lookups array of pattern, callback pairs
+   * Convenience function to wrap save to tar and extract files from tar
+   * @param searchActions array of pattern, callbacks pairs
    * @returns extracted file products
    */
-  public async extract(lookups: LookupEntry[]): Promise<ExtractedFiles> {
+  public async extract(
+    searchActions: SearchAction[],
+  ): Promise<SearchActionProducts> {
     return this.save(async (err, imageTarPath) => {
       if (err) {
         throw err;
       }
-      return await extractFromTar(imageTarPath, lookups);
+      return await extractFromTar(imageTarPath, searchActions);
     });
   }
 
   /**
    * Extract files from image and store their product
-   * @param lookups array of pattern, callback pairs
+   * @param searchActions array of pattern, callbacks pairs
    * @returns extracted file products
    */
   public async extractAndCache(
-    lookups: LookupEntry[],
-  ): Promise<ExtractedFiles> {
-    return new Promise<ExtractedFiles>((resolve) => {
-      this.extract(lookups).then((extractedFiles: ExtractedFiles) => {
-        this.extractedFiles = Object.assign(
-          this.extractedFiles,
-          extractedFiles,
-        );
-        resolve(this.extractedFiles);
-      });
-    });
+    searchActions: SearchAction[],
+  ): Promise<SearchActionProducts> {
+    this.searchActionProducts = Object.assign(
+      this.searchActionProducts,
+      await this.extract(searchActions),
+    );
+    return this.searchActionProducts;
   }
 
   /**
-   * Get file product that was previously retrieved and cached or using runtime method and the specified callback
-   * @param filename name of file to retrieve its associated string
-   * @param callback optional callback to call when runti,e method is used to retrieve the file
+   * Get file product that was previously retrieved and cached or by using
+   *  runtime method after applying the specified callback
+   * @param filename name of file to retrieve its associated string product
+   * @param callbacks optional array of callbacks to call when runtime method
+   *  is used to retrieve the file
+   * @returns map of file products by callback name
+   */
+  public async getFiles(
+    filename: string,
+    callbacks?: SearchActionCallback[],
+  ): Promise<{ [key: string]: string }> {
+    if (Reflect.has(this.searchActionProducts, filename)) {
+      return this.searchActionProducts[filename];
+    } else {
+      const content = (await this.catSafe(filename)).stdout;
+      if (!callbacks) {
+        return { undefinded: content };
+      }
+      const result: { [key: string]: string } = {};
+      const stream = await stringToStream(content);
+      for (const callback of callbacks) {
+        result[callback.name] = await callback(stream);
+      }
+      return result;
+    }
+  }
+
+  /**
+   * Convenience function to retrieve a single file
+   * @param filename name of file to retrieve its associated string product
+   * @param callback optional callback to call when runtime method is used
+   *  to retrieve the file
+   * @returns file product, the only one
    */
   public async getFile(
     filename: string,
-    callback?: ExtractFileCallback,
+    callback?: SearchActionCallback,
   ): Promise<string> {
-    if (Reflect.has(this.extractedFiles, filename)) {
-      return this.extractedFiles[filename];
-    } else {
-      const content = (await this.catSafe(filename)).stdout;
-      return callback ? callback(await stringToStream(content)) : content;
+    const result = await this.getFiles(
+      filename,
+      callback ? [callback] : undefined,
+    );
+    const length = Object.keys(result).length;
+    if (length > 1) {
+      throw new Error(`File product ambiguity, ${length}`);
     }
+    // return the first product of the file
+    return result[Object.keys(result)[0]];
   }
 }

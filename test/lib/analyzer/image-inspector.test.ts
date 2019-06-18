@@ -37,7 +37,8 @@ test("image id", async (t) => {
     .resolves({ stdout: JSON.stringify(stubbedData), stderr: "" });
   t.teardown(() => execStub.restore());
 
-  const imageData = await imageInspector.detect(new Docker("alpine:2.6"));
+  const docker = new Docker("alpine:2.6");
+  const imageData = await imageInspector.detect(docker);
   t.same(imageData.Id, expectedId, "id as expected");
   t.same(imageData.RootFS.Layers, expectedLayers, "layers as expected");
 });

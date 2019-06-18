@@ -7,6 +7,7 @@ import { test } from "tap";
 import * as subProcess from "../../lib/sub-process";
 
 import { Docker } from "../../lib/docker";
+import { md5Stream } from "../../lib/stream-utils";
 
 test("docker run", async (t) => {
   const stub = sinon.stub(subProcess, "execute");
@@ -105,5 +106,64 @@ test("safeCat", async (t) => {
       { stderr: "something went horribly wrong", stdout: "" },
       "rejects with expected error",
     );
+  });
+});
+
+test("getFile", async (t) => {
+  const execStub = sinon.stub(subProcess, "execute");
+
+  // Stub Docker save file
+  execStub
+    .withArgs("docker", ["save", "-o", sinon.match.any, sinon.match.any])
+    .callsFake(async (docker, [save, opt, file, image]) => {
+      return {
+        stdout: "",
+        stderr: "",
+      };
+    });
+
+  // Stub Docker cat file
+  execStub
+    .withArgs("docker", [
+      "run",
+      "--rm",
+      "--entrypoint",
+      '""',
+      "--network",
+      "none",
+      sinon.match.any,
+      "cat",
+      sinon.match.any,
+    ])
+    .callsFake(
+      async (
+        docker,
+        [run, rm, entry, empty, network, none, image, cat, file],
+      ) => {
+        if (file !== "/some/file") {
+          throw { stderr: "file not found", stdout: "" };
+        }
+        return {
+          stdout: "file content",
+          stderr: "",
+        };
+      },
+    );
+
+  t.teardown(() => {
+    execStub.restore();
+  });
+
+  const targetImage = "some:image";
+  const docker = new Docker(targetImage);
+
+  t.test("file content", async (t) => {
+    const content = await docker.getFile("/some/file");
+    t.equal(content, "file content");
+  });
+
+  t.test("file content with callback", async (t) => {
+    const content = await docker.getFile("/some/file", md5Stream);
+    t.equal(content, "d10b4c3ff123b26dc068d43a8bef2d23");
   });
 });
