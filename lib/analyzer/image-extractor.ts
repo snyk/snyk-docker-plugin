@@ -4,7 +4,7 @@ import * as minimatch from "minimatch";
 import { basename } from "path";
 import { Readable } from "stream";
 import { extract, Extract } from "tar-stream";
-import { streamToString } from "../stream-utils";
+import { streamToBuffer, streamToString } from "../stream-utils";
 
 export {
   extractFromTar,
@@ -17,27 +17,32 @@ export {
 const debug = Debug("snyk");
 
 interface SearchActionProducts {
-  [key: string]: { [key: string]: string };
+  [key: string]: { [key: string]: string | Buffer };
 }
 
-type SearchActionCallback = (stream: Readable) => Promise<string>;
+interface SearchActionCallback {
+  name: string; // name, should be unique, for this action
+  call: (buffer: Buffer) => string | Buffer; // convert Buffer into a string or Buffer
+}
 
 interface SearchAction {
   pattern: string; // path pattern to look for
-  callbacks: SearchActionCallback[]; // array of handlers to convert stream into a string
+  callbacks: SearchActionCallback[]; // array of handlers
 }
 
 /**
  * Create lookup entries array by mapping the specified callback with each of
  *  the specified patterns
  * @param patterns array of path pattern strings
- * @param callbacks single handler or an array of handlers to manipulate
+ * @param callback handler to process files content
  *  a stream into a string
  */
-const mapActionsToFiles = (patterns, callbacks) => {
-  const cs = Array.isArray(callbacks) ? callbacks : [callbacks];
+const mapActionsToFiles = (
+  patterns: string[],
+  callback: SearchActionCallback,
+) => {
   return patterns.map((p) => {
-    return { pattern: p, callbacks: cs };
+    return { pattern: p, callbacks: [callback] };
   });
 };
 
@@ -55,27 +60,33 @@ async function extractFromLayer(
     const result: SearchActionProducts = {};
     const layerExtract: Extract = extract();
     layerExtract.on("entry", async (header, stream, next) => {
-      for (const searchAction of searchActions) {
+      if (
+        header.type === "file" ||
+        header.type === "link" ||
+        header.type === "symlink"
+      ) {
         const name = `/${header.name}`;
-        if (minimatch(name, searchAction.pattern, { dot: true })) {
-          if (header.type === "file") {
-            // initialize the files associated products dict
-            if (!result[name]) {
-              result[name] = {};
-            }
-            // go over the callbacks and assign each product under its callback name
-            for (const callback of searchAction.callbacks) {
-              if (Reflect.has(result[name], callback.name)) {
-                debug(
-                  `found duplicate match ${result.name} for ${
-                    searchAction.pattern
-                  }`,
-                );
+        let buffer: Buffer | undefined;
+        for (const searchAction of searchActions) {
+          if (minimatch(name, searchAction.pattern, { dot: true })) {
+            if (header.type === "link" || header.type === "symlink") {
+              debug(`${header.type} '${header.name}' -> '${header.linkname}'`);
+            } else {
+              if (!buffer) {
+                buffer = await streamToBuffer(stream);
               }
-              result[name][callback.name] = await callback(stream);
+              // initialize the files associated products dict
+              if (!result[name]) {
+                result[name] = {};
+              }
+              // go over the callbacks and assign each product under its callback name
+              for (const callback of searchAction.callbacks) {
+                if (Reflect.has(result[name], callback.name)) {
+                  debug(`duplicate match ${name} for ${searchAction.pattern}`);
+                }
+                result[name][callback.name] = callback.call(buffer);
+              }
             }
-          } else if (header.type === "link" || header.type === "symlink") {
-            debug(`found a ${header.type} to ${header.linkname}`);
           }
         }
       }

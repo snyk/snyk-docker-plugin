@@ -3,6 +3,7 @@
 // See: https://github.com/tapjs/node-tap/issues/313#issuecomment-250067741
 
 import * as fs from "fs";
+import * as md5 from "md5";
 import * as path from "path";
 import * as sinon from "sinon";
 import { test } from "tap";
@@ -12,12 +13,9 @@ import { pack as packStream, Pack as PackStream } from "tar-stream";
 import * as apkAnalyzer from "../../../lib/analyzer/apk-analyzer";
 import * as aptAnalyzer from "../../../lib/analyzer/apt-analyzer";
 import { mapActionsToFiles } from "../../../lib/analyzer/image-extractor";
+import * as osReleaseDetector from "../../../lib/analyzer/os-release-detector";
 import { Docker } from "../../../lib/docker";
-import {
-  md5Stream,
-  streamToBuffer,
-  streamToString,
-} from "../../../lib/stream-utils";
+import { streamToBuffer } from "../../../lib/stream-utils";
 import * as subProcess from "../../../lib/sub-process";
 
 const getOsFixturePath = (...from) => {
@@ -39,7 +37,7 @@ test("static analyze", async (t) => {
     "debian:9.9": {
       dir: "debian_9",
       txtCount: 2,
-      md5: { "/etc/os-release": "1a99d9f31f480f1077f996a761a0e6c0" },
+      md5: { "/usr/lib/os-release": "1a99d9f31f480f1077f996a761a0e6c0" },
     },
     "ubuntu:10.04": {
       dir: "ubuntu_10_04",
@@ -54,8 +52,9 @@ test("static analyze", async (t) => {
   const txtPatterns = [
     ...aptAnalyzer.APT_PKGPATHS,
     ...apkAnalyzer.APK_PKGPATHS,
+    ...osReleaseDetector.OS_VERPATHS,
   ];
-  const md5Patterns = ["/etc/*release", "/etc/*version"];
+  const md5Patterns = osReleaseDetector.OS_VERPATHS;
 
   for (const targetImage of Object.keys(examples)) {
     await t.test(targetImage, async (t) => {
@@ -107,9 +106,14 @@ test("static analyze", async (t) => {
       const example = examples[targetImage];
       const docker = new Docker(targetImage);
 
+      const MD5 = "md5";
+
       const result = await docker.extract([
-        ...mapActionsToFiles(txtPatterns, streamToString),
-        ...mapActionsToFiles(md5Patterns, md5Stream),
+        ...mapActionsToFiles(txtPatterns, {
+          name: "str",
+          call: (v) => v.toString("utf8"),
+        }),
+        ...mapActionsToFiles(md5Patterns, { name: MD5, call: md5 }),
       ]);
 
       t.same(
@@ -117,7 +121,7 @@ test("static analyze", async (t) => {
         example.txtCount + Object.keys(example.md5).length,
       );
       for (const name of Object.keys(example.md5)) {
-        t.same(result[name][md5Stream.name], example.md5[name]);
+        t.same(result[name][MD5], example.md5[name]);
       }
     });
   }

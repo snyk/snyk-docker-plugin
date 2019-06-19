@@ -9,17 +9,9 @@ import * as imageInspector from "./image-inspector";
 import * as osReleaseDetector from "./os-release-detector";
 import * as rpmAnalyzer from "./rpm-analyzer";
 
-import { streamToString } from "../stream-utils";
-
-export { analyze, STATIC_SCAN_MAX_IMAGE_SIZE };
+export { analyze };
 
 const debug = Debug("snyk");
-
-const KB = 1024;
-const MB = KB * 1024;
-const GB = MB * 1024;
-
-const STATIC_SCAN_MAX_IMAGE_SIZE = 3 * GB;
 
 async function analyze(
   targetImage: string,
@@ -27,20 +19,17 @@ async function analyze(
   options?: DockerOptions,
 ) {
   const docker = new Docker(targetImage, options);
-  const size = await docker.sizeSafe();
 
-  if (size && size <= STATIC_SCAN_MAX_IMAGE_SIZE) {
-    await docker.extractAndCache(
-      mapActionsToFiles(
-        [
-          ...aptAnalyzer.APT_PKGPATHS,
-          ...apkAnalyzer.APK_PKGPATHS,
-          ...osReleaseDetector.OS_VERPATHS,
-        ],
-        streamToString,
-      ),
-    );
-  }
+  await docker.maybeStaticScan(
+    mapActionsToFiles(
+      [
+        ...aptAnalyzer.APT_PKGPATHS,
+        ...apkAnalyzer.APK_PKGPATHS,
+        ...osReleaseDetector.OS_VERPATHS,
+      ],
+      { name: "", call: (v) => v.toString("utf8") },
+    ),
+  );
 
   const [imageInspection, osRelease] = await Promise.all([
     imageInspector.detect(docker),

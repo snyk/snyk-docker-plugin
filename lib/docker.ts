@@ -1,14 +1,20 @@
 import { fileSync } from "tmp";
+import { debug } from "util";
 import {
   extractFromTar,
   SearchAction,
   SearchActionCallback,
   SearchActionProducts,
 } from "./analyzer/image-extractor";
-import { stringToStream } from "./stream-utils";
 import { CmdOutput, execute } from "./sub-process";
 
-export { Docker, DockerOptions };
+export { Docker, DockerOptions, STATIC_SCAN_MAX_IMAGE_SIZE_IN_KB };
+
+const KB = 1024;
+const MB = KB * 1024;
+const GB = MB * 1024;
+
+const STATIC_SCAN_MAX_IMAGE_SIZE_IN_KB = 3 * GB;
 
 interface DockerOptions {
   host?: string;
@@ -50,14 +56,25 @@ class Docker {
 
   private optionsList: string[];
   private searchActionProducts: SearchActionProducts;
+  private staticScanSizeLimit: number;
 
-  constructor(private targetImage: string, options?: DockerOptions) {
+  constructor(
+    private targetImage: string,
+    options?: DockerOptions,
+    staticScanSizeLimit?: number,
+  ) {
     this.optionsList = Docker.createOptionsList(options);
     this.searchActionProducts = {};
+    this.staticScanSizeLimit =
+      staticScanSizeLimit || STATIC_SCAN_MAX_IMAGE_SIZE_IN_KB;
   }
 
   public getTargetImage(): string {
     return this.targetImage;
+  }
+
+  public GetStaticScanSizeLimit(): number {
+    return this.staticScanSizeLimit;
   }
 
   public run(cmd: string, args: string[] = []): Promise<CmdOutput> {
@@ -180,11 +197,28 @@ class Docker {
   public async extractAndCache(
     searchActions: SearchAction[],
   ): Promise<SearchActionProducts> {
-    this.searchActionProducts = Object.assign(
-      this.searchActionProducts,
-      await this.extract(searchActions),
-    );
-    return this.searchActionProducts;
+    try {
+      this.searchActionProducts = Object.assign(
+        this.searchActionProducts,
+        await this.extract(searchActions),
+      );
+      return this.searchActionProducts;
+    } catch (error) {
+      debug(error);
+      return {};
+    }
+  }
+
+  /**
+   * Attempt to perform a static scan
+   * @param searchActions
+   */
+  public async maybeStaticScan(searchActions: SearchAction[]) {
+    const size = await this.sizeSafe();
+    if (!size || size > this.GetStaticScanSizeLimit()) {
+      return {};
+    }
+    return await this.extractAndCache(searchActions);
   }
 
   /**
@@ -198,21 +232,19 @@ class Docker {
   public async getFiles(
     filename: string,
     callbacks?: SearchActionCallback[],
-  ): Promise<{ [key: string]: string }> {
+  ): Promise<{ [key: string]: string | Buffer }> {
     if (Reflect.has(this.searchActionProducts, filename)) {
       return this.searchActionProducts[filename];
-    } else {
-      const content = (await this.catSafe(filename)).stdout;
-      if (!callbacks) {
-        return { undefinded: content };
-      }
-      const result: { [key: string]: string } = {};
-      const stream = await stringToStream(content);
-      for (const callback of callbacks) {
-        result[callback.name] = await callback(stream);
-      }
-      return result;
     }
+    const content = (await this.catSafe(filename)).stdout;
+    if (!callbacks) {
+      return { "": content };
+    }
+    const result: { [key: string]: string | Buffer } = {};
+    for (const callback of callbacks) {
+      result[callback.name] = callback.call(Buffer.from(content, "utf8"));
+    }
+    return result;
   }
 
   /**
@@ -235,6 +267,6 @@ class Docker {
       throw new Error(`File product ambiguity, ${length}`);
     }
     // return the first product of the file
-    return result[Object.keys(result)[0]];
+    return result[Object.keys(result)[0]].toString("utf8");
   }
 }

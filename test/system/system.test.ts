@@ -171,7 +171,7 @@ test("inspect node:6.14.2 - provider and regular pkg as same dependency", (t) =>
     });
 });
 
-test("inspect nginx:1.13.10", { timeout: 60000 }, (t) => {
+test("inspect nginx:1.13.10", (t) => {
   const imgName = "nginx";
   const imgTag = "1.13.10";
   const img = imgName + ":" + imgTag;

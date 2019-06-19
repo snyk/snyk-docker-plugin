@@ -2,12 +2,12 @@
 // Shebang is required, and file *has* to be executable: chmod +x file.test.js
 // See: https://github.com/tapjs/node-tap/issues/313#issuecomment-250067741
 
+import * as md5 from "md5";
 import * as sinon from "sinon";
 import { test } from "tap";
 import * as subProcess from "../../lib/sub-process";
 
 import { Docker } from "../../lib/docker";
-import { md5Stream } from "../../lib/stream-utils";
 
 test("docker run", async (t) => {
   const stub = sinon.stub(subProcess, "execute");
@@ -163,7 +163,10 @@ test("getFile", async (t) => {
   });
 
   t.test("file content with callback", async (t) => {
-    const content = await docker.getFile("/some/file", md5Stream);
+    const content = await docker.getFile("/some/file", {
+      name: "md5",
+      call: md5,
+    });
     t.equal(content, "d10b4c3ff123b26dc068d43a8bef2d23");
   });
 });

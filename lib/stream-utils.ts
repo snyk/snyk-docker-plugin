@@ -1,7 +1,6 @@
-import * as md5 from "md5";
 import { Readable } from "stream";
 
-export { md5Stream, streamToString, streamToBuffer, stringToStream };
+export { streamToString, streamToBuffer };
 
 /**
  * Consume the data from the specified stream into a string
@@ -41,28 +40,4 @@ async function streamToBuffer(stream: Readable): Promise<Buffer> {
       chunks.push(Buffer.from(chunk));
     });
   });
-}
-
-/**
- * hash the specified stream with MD5
- * @param stream a stream to hash
- * @returns the resultant MD5 hash of the given stream
- */
-async function md5Stream(stream: Readable): Promise<string> {
-  return md5(await streamToBuffer(stream));
-}
-
-/**
- * convert the specified string to stream
- * @param str string to convert to stream
- * @returns stream with the content of the specified string
- */
-async function stringToStream(str: string): Promise<Readable> {
-  const s = new Readable();
-  s._read = () => {
-    // do nothing
-  };
-  s.push(str);
-  s.push(null);
-  return s;
 }
