@@ -109,7 +109,7 @@ test("safeCat", async (t) => {
   });
 });
 
-test("getFile", async (t) => {
+test("getFileProduct", async (t) => {
   const execStub = sinon.stub(subProcess, "execute");
 
   // Stub Docker save file
@@ -157,13 +157,13 @@ test("getFile", async (t) => {
   const targetImage = "some:image";
   const docker = new Docker(targetImage);
 
-  t.test("file content", async (t) => {
-    const content = await docker.getFile("/some/file");
+  t.test("file product", async (t) => {
+    const content = await docker.getFileProduct("/some/file");
     t.equal(content, "file content");
   });
 
-  t.test("file content with callback", async (t) => {
-    const content = await docker.getFile("/some/file", {
+  t.test("file product with callback", async (t) => {
+    const content = await docker.getFileProduct("/some/file", {
       name: "md5",
       call: md5,
     });

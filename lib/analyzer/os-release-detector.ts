@@ -149,7 +149,7 @@ async function tryOracleRelease(docker: Docker): Promise<OSRelease | null> {
 
 async function tryRelease(docker: Docker, release: string): Promise<string> {
   try {
-    return await docker.getFile(release);
+    return await docker.getFileProduct(release);
   } catch (error) {
     throw new Error(error.stderr);
   }

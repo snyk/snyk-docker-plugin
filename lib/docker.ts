@@ -229,7 +229,7 @@ class Docker {
    *  is used to retrieve the file
    * @returns map of file products by callback name
    */
-  public async getFiles(
+  public async getFilesProducts(
     filename: string,
     callbacks?: SearchActionCallback[],
   ): Promise<{ [key: string]: string | Buffer }> {
@@ -248,17 +248,17 @@ class Docker {
   }
 
   /**
-   * Convenience function to retrieve a single file
-   * @param filename name of file to retrieve its associated string product
+   * Convenience function the single product of a single file
+   * @param filename name of file to retrieve its associated single product
    * @param callback optional callback to call when runtime method is used
    *  to retrieve the file
    * @returns file product, the only one
    */
-  public async getFile(
+  public async getFileProduct(
     filename: string,
     callback?: SearchActionCallback,
   ): Promise<string> {
-    const result = await this.getFiles(
+    const result = await this.getFilesProducts(
       filename,
       callback ? [callback] : undefined,
     );
@@ -266,7 +266,7 @@ class Docker {
     if (length > 1) {
       throw new Error(`File product ambiguity, ${length}`);
     }
-    // return the first product of the file
+    // return the first and only product of the file
     return result[Object.keys(result)[0]].toString("utf8");
   }
 }
