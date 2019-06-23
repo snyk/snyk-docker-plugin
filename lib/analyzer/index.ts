@@ -20,14 +20,14 @@ async function analyze(
 ) {
   const docker = new Docker(targetImage, options);
 
-  await docker.maybeStaticScan(
+  await docker.scanStaticalyIfNeeded(
     mapActionsToFiles(
       [
         ...aptAnalyzer.APT_PKGPATHS,
         ...apkAnalyzer.APK_PKGPATHS,
         ...osReleaseDetector.OS_VERPATHS,
       ],
-      { name: "", call: (v) => v.toString("utf8") },
+      { name: "", callback: (v) => v.toString("utf8") },
     ),
   );
 

@@ -22,7 +22,7 @@ interface SearchActionProducts {
 
 interface SearchActionCallback {
   name: string; // name, should be unique, for this action
-  call: (buffer: Buffer) => string | Buffer; // convert Buffer into a string or Buffer
+  callback: (buffer: Buffer) => string | Buffer; // convert Buffer into a string or Buffer
 }
 
 interface SearchAction {
@@ -69,23 +69,23 @@ async function extractFromLayer(
         let buffer: Buffer | undefined;
         for (const searchAction of searchActions) {
           if (minimatch(name, searchAction.pattern, { dot: true })) {
-            if (header.type === "link" || header.type === "symlink") {
-              debug(`${header.type} '${header.name}' -> '${header.linkname}'`);
-            } else {
-              if (!buffer) {
-                buffer = await streamToBuffer(stream);
-              }
+            if (header.type === "file") {
+              // convert stream to buffer
+              buffer = buffer || (await streamToBuffer(stream));
               // initialize the files associated products dict
-              if (!result[name]) {
-                result[name] = {};
-              }
+              result[name] = result[name] || {};
               // go over the callbacks and assign each product under its callback name
               for (const callback of searchAction.callbacks) {
+                // already found?
                 if (Reflect.has(result[name], callback.name)) {
                   debug(`duplicate match ${name} for ${searchAction.pattern}`);
                 }
-                result[name][callback.name] = callback.call(buffer);
+                // store product
+                result[name][callback.name] = callback.callback(buffer);
               }
+            } else {
+              // target is a link or a symlink
+              debug(`${header.type} '${header.name}' -> '${header.linkname}'`);
             }
           }
         }

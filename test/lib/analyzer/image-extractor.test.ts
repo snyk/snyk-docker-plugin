@@ -111,9 +111,9 @@ test("static analyze", async (t) => {
       const result = await docker.extract([
         ...mapActionsToFiles(txtPatterns, {
           name: "str",
-          call: (v) => v.toString("utf8"),
+          callback: (v) => v.toString("utf8"),
         }),
-        ...mapActionsToFiles(md5Patterns, { name: MD5, call: md5 }),
+        ...mapActionsToFiles(md5Patterns, { name: MD5, callback: md5 }),
       ]);
 
       t.same(

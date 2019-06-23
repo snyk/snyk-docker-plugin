@@ -213,7 +213,7 @@ class Docker {
    * Attempt to perform a static scan
    * @param searchActions
    */
-  public async maybeStaticScan(searchActions: SearchAction[]) {
+  public async scanStaticalyIfNeeded(searchActions: SearchAction[]) {
     const size = await this.sizeSafe();
     if (!size || size > this.GetStaticScanSizeLimit()) {
       return {};
@@ -242,7 +242,7 @@ class Docker {
     }
     const result: { [key: string]: string | Buffer } = {};
     for (const callback of callbacks) {
-      result[callback.name] = callback.call(Buffer.from(content, "utf8"));
+      result[callback.name] = callback.callback(Buffer.from(content, "utf8"));
     }
     return result;
   }
@@ -262,11 +262,12 @@ class Docker {
       filename,
       callback ? [callback] : undefined,
     );
-    const length = Object.keys(result).length;
+    const resultNames = Object.keys(result);
+    const length = resultNames.length;
     if (length > 1) {
       throw new Error(`File product ambiguity, ${length}`);
     }
     // return the first and only product of the file
-    return result[Object.keys(result)[0]].toString("utf8");
+    return result[resultNames[0]].toString("utf8");
   }
 }
