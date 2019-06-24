@@ -8,13 +8,13 @@ import {
 } from "./analyzer/image-extractor";
 import { CmdOutput, execute } from "./sub-process";
 
-export { Docker, DockerOptions, STATIC_SCAN_MAX_IMAGE_SIZE_IN_KB };
+export { Docker, DockerOptions, STATIC_SCAN_MAX_IMAGE_SIZE_IN_BYTES };
 
 const KB = 1024;
 const MB = KB * 1024;
 const GB = MB * 1024;
 
-const STATIC_SCAN_MAX_IMAGE_SIZE_IN_KB = 3 * GB;
+const STATIC_SCAN_MAX_IMAGE_SIZE_IN_BYTES = 3 * GB;
 
 interface DockerOptions {
   host?: string;
@@ -66,7 +66,7 @@ class Docker {
     this.optionsList = Docker.createOptionsList(options);
     this.searchActionProducts = {};
     this.staticScanSizeLimit =
-      staticScanSizeLimit || STATIC_SCAN_MAX_IMAGE_SIZE_IN_KB;
+      staticScanSizeLimit || STATIC_SCAN_MAX_IMAGE_SIZE_IN_BYTES;
   }
 
   public getTargetImage(): string {
@@ -231,20 +231,16 @@ class Docker {
    */
   public async getFilesProducts(
     filename: string,
-    callbacks?: SearchActionCallback[],
+    searchActionCallback?: SearchActionCallback,
   ): Promise<{ [key: string]: string | Buffer }> {
     if (Reflect.has(this.searchActionProducts, filename)) {
       return this.searchActionProducts[filename];
     }
     const content = (await this.catSafe(filename)).stdout;
-    if (!callbacks) {
+    if (!searchActionCallback) {
       return { "": content };
     }
-    const result: { [key: string]: string | Buffer } = {};
-    for (const callback of callbacks) {
-      result[callback.name] = callback.callback(Buffer.from(content, "utf8"));
-    }
-    return result;
+    return { "": searchActionCallback(Buffer.from(content, "utf8")) };
   }
 
   /**
@@ -256,12 +252,9 @@ class Docker {
    */
   public async getFileProduct(
     filename: string,
-    callback?: SearchActionCallback,
+    searchActionCallback?: SearchActionCallback,
   ): Promise<string> {
-    const result = await this.getFilesProducts(
-      filename,
-      callback ? [callback] : undefined,
-    );
+    const result = await this.getFilesProducts(filename, searchActionCallback);
     const resultNames = Object.keys(result);
     const length = resultNames.length;
     if (length > 1) {

@@ -11,7 +11,7 @@ import { pack as packStream, Pack as PackStream } from "tar-stream";
 
 import * as analyzer from "../../../lib/analyzer";
 import * as imageInspector from "../../../lib/analyzer/image-inspector";
-import { STATIC_SCAN_MAX_IMAGE_SIZE_IN_KB } from "../../../lib/docker";
+import { STATIC_SCAN_MAX_IMAGE_SIZE_IN_BYTES } from "../../../lib/docker";
 import { streamToBuffer } from "../../../lib/stream-utils";
 import * as subProcess from "../../../lib/sub-process";
 
@@ -225,8 +225,8 @@ test("analyzer", async (t) => {
         .callsFake(async (docker, [inspect, image, format, size]) => {
           return {
             stdout: staticScan
-              ? STATIC_SCAN_MAX_IMAGE_SIZE_IN_KB
-              : STATIC_SCAN_MAX_IMAGE_SIZE_IN_KB + 1,
+              ? STATIC_SCAN_MAX_IMAGE_SIZE_IN_BYTES
+              : STATIC_SCAN_MAX_IMAGE_SIZE_IN_BYTES + 1,
             stderr: "",
           };
         });

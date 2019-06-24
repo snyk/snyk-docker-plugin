@@ -4,7 +4,6 @@ import * as dockerFile from "../docker-file";
 import * as apkAnalyzer from "./apk-analyzer";
 import * as aptAnalyzer from "./apt-analyzer";
 import * as binariesAnalyzer from "./binaries-analyzer";
-import { mapActionsToFiles } from "./image-extractor";
 import * as imageInspector from "./image-inspector";
 import * as osReleaseDetector from "./os-release-detector";
 import * as rpmAnalyzer from "./rpm-analyzer";
@@ -21,14 +20,17 @@ async function analyze(
   const docker = new Docker(targetImage, options);
 
   await docker.scanStaticalyIfNeeded(
-    mapActionsToFiles(
-      [
-        ...aptAnalyzer.APT_PKGPATHS,
-        ...apkAnalyzer.APK_PKGPATHS,
-        ...osReleaseDetector.OS_VERPATHS,
-      ],
-      { name: "", callback: (v) => v.toString("utf8") },
-    ),
+    [
+      ...aptAnalyzer.APT_PKGPATHS,
+      ...apkAnalyzer.APK_PKGPATHS,
+      ...osReleaseDetector.OS_VERPATHS,
+    ].map((p) => {
+      return {
+        name: "",
+        pattern: p,
+        callback: (v) => v.toString("utf8"),
+      };
+    }),
   );
 
   const [imageInspection, osRelease] = await Promise.all([

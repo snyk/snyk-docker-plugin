@@ -163,10 +163,7 @@ test("getFileProduct", async (t) => {
   });
 
   t.test("file product with callback", async (t) => {
-    const content = await docker.getFileProduct("/some/file", {
-      name: "md5",
-      callback: md5,
-    });
+    const content = await docker.getFileProduct("/some/file", md5);
     t.equal(content, "d10b4c3ff123b26dc068d43a8bef2d23");
   });
 });

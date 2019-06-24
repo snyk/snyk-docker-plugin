@@ -12,7 +12,6 @@ import { pack as packStream, Pack as PackStream } from "tar-stream";
 
 import * as apkAnalyzer from "../../../lib/analyzer/apk-analyzer";
 import * as aptAnalyzer from "../../../lib/analyzer/apt-analyzer";
-import { mapActionsToFiles } from "../../../lib/analyzer/image-extractor";
 import * as osReleaseDetector from "../../../lib/analyzer/os-release-detector";
 import { Docker } from "../../../lib/docker";
 import { streamToBuffer } from "../../../lib/stream-utils";
@@ -109,11 +108,16 @@ test("static analyze", async (t) => {
       const MD5 = "md5";
 
       const result = await docker.extract([
-        ...mapActionsToFiles(txtPatterns, {
-          name: "str",
-          callback: (v) => v.toString("utf8"),
+        ...txtPatterns.map((p) => {
+          return {
+            name: "str",
+            pattern: p,
+            callback: (v) => v.toString("utf8"),
+          };
         }),
-        ...mapActionsToFiles(md5Patterns, { name: MD5, callback: md5 }),
+        ...md5Patterns.map((p) => {
+          return { name: MD5, pattern: p, callback: md5 };
+        }),
       ]);
 
       t.same(

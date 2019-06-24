@@ -8,43 +8,24 @@ import { streamToBuffer, streamToString } from "../stream-utils";
 
 export {
   extractFromTar,
-  SearchActionProducts,
   SearchActionCallback,
-  mapActionsToFiles,
+  SearchActionProducts,
   SearchAction,
 };
 
 const debug = Debug("snyk");
 
-interface SearchActionProducts {
-  [key: string]: { [key: string]: string | Buffer };
-}
+type SearchActionCallback = (buffer: Buffer) => string | Buffer;
 
-interface SearchActionCallback {
-  name: string; // name, should be unique, for this action
-  callback: (buffer: Buffer) => string | Buffer; // convert Buffer into a string or Buffer
+interface SearchActionProducts {
+  [filename: string]: { [searchActionName: string]: string | Buffer };
 }
 
 interface SearchAction {
+  name: string; // name, should be unique, for this action
   pattern: string; // path pattern to look for
-  callbacks: SearchActionCallback[]; // array of handlers
+  callback: SearchActionCallback; // convert Buffer into a string or Buffer
 }
-
-/**
- * Create lookup entries array by mapping the specified callback with each of
- *  the specified patterns
- * @param patterns array of path pattern strings
- * @param callback handler to process files content
- *  a stream into a string
- */
-const mapActionsToFiles = (
-  patterns: string[],
-  callback: SearchActionCallback,
-) => {
-  return patterns.map((p) => {
-    return { pattern: p, callbacks: [callback] };
-  });
-};
 
 /**
  * Extract key files form the specified TAR stream.
@@ -65,23 +46,25 @@ async function extractFromLayer(
         header.type === "link" ||
         header.type === "symlink"
       ) {
-        const name = `/${header.name}`;
-        let buffer: Buffer | undefined;
+        const filename = `/${header.name}`;
+        // convert stream to buffer in order to allow it
+        //  to be processed multiple times by the callback
+        const buffer = await streamToBuffer(stream);
         for (const searchAction of searchActions) {
-          if (minimatch(name, searchAction.pattern, { dot: true })) {
+          if (minimatch(filename, searchAction.pattern, { dot: true })) {
             if (header.type === "file") {
-              // convert stream to buffer
-              buffer = buffer || (await streamToBuffer(stream));
               // initialize the files associated products dict
-              result[name] = result[name] || {};
-              // go over the callbacks and assign each product under its callback name
-              for (const callback of searchAction.callbacks) {
-                // already found?
-                if (Reflect.has(result[name], callback.name)) {
-                  debug(`duplicate match ${name} for ${searchAction.pattern}`);
-                }
-                // store product
-                result[name][callback.name] = callback.callback(buffer);
+              if (!result[filename]) {
+                result[filename] = {};
+              }
+              try {
+                // store the product under the search action name
+                result[filename][searchAction.name] = searchAction.callback(
+                  buffer,
+                );
+              } catch (error) {
+                // prevent static scan from crash due to callback error
+                debug(`${filename} ${searchAction.name} ${error}`);
               }
             } else {
               // target is a link or a symlink
@@ -114,7 +97,7 @@ async function extractLayersFromTar(
 ): Promise<SearchActionProducts[]> {
   return new Promise((resolve) => {
     const imageExtract: Extract = extract();
-    const layers: { [key: string]: SearchActionProducts } = {};
+    const layers: { [layerName: string]: SearchActionProducts } = {};
     let layersNames: string[];
 
     imageExtract.on("entry", async (header, stream, next) => {
