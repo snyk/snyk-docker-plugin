@@ -11,10 +11,10 @@ const APT_PKGPATHS = [APT_DPKG_STATUS, APT_EXT_STATES];
 export { APT_PKGPATHS };
 
 async function analyze(docker: Docker) {
-  const dpkgFile = await docker.getFileProduct(APT_DPKG_STATUS);
-  const pkgs = parseDpkgFile(dpkgFile);
+  const dpkgFile = await docker.getTextFile(APT_DPKG_STATUS);
+  const pkgs = dpkgFile ? parseDpkgFile(dpkgFile) : [];
 
-  const extFile = await docker.getFileProduct(APT_EXT_STATES);
+  const extFile = await docker.getTextFile(APT_EXT_STATES);
   if (extFile) {
     setAutoInstalledPackages(extFile, pkgs);
   }

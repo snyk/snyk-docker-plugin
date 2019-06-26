@@ -18,8 +18,9 @@ async function analyze(docker: Docker) {
 }
 
 async function getPackages(docker: Docker): Promise<AnalyzerPkg[]> {
-  const dbFileContent = await docker.getFileProduct(APK_DB_INSTALLED);
-  return parseFile(dbFileContent);
+  const dbFileContent = await docker.getTextFile(APK_DB_INSTALLED);
+  const pkgs = dbFileContent ? parseFile(dbFileContent) : [];
+  return pkgs;
 }
 
 function parseFile(text: string): AnalyzerPkg[] {

@@ -110,9 +110,8 @@ test("static analyze", async (t) => {
       const result = await docker.extract([
         ...txtPatterns.map((p) => {
           return {
-            name: "str",
+            name: "txt",
             pattern: p,
-            callback: (v) => v.toString("utf8"),
           };
         }),
         ...md5Patterns.map((p) => {

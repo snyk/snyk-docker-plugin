@@ -1,14 +1,16 @@
+import * as Debug from "debug";
 import { fileSync } from "tmp";
-import { debug } from "util";
 import {
+  ExtractAction,
+  ExtractCallback,
   extractFromTar,
-  SearchAction,
-  SearchActionCallback,
-  SearchActionProducts,
+  ExtractProductsByFilename,
 } from "./analyzer/image-extractor";
 import { CmdOutput, execute } from "./sub-process";
 
 export { Docker, DockerOptions, STATIC_SCAN_MAX_IMAGE_SIZE_IN_BYTES };
+
+const debug = Debug("snyk");
 
 const KB = 1024;
 const MB = KB * 1024;
@@ -25,6 +27,10 @@ interface DockerOptions {
 }
 
 type SaveImageCallback = (err: any, name: string) => void;
+
+interface FilenameProducts {
+  [filename: string]: string | Buffer;
+}
 
 class Docker {
   public static run(args: string[], options?: DockerOptions) {
@@ -55,8 +61,8 @@ class Docker {
   }
 
   private optionsList: string[];
-  private searchActionProducts: SearchActionProducts;
-  private staticScanSizeLimit: number;
+  private extractProductsByFilename: ExtractProductsByFilename;
+  private staticScanSizeLimitInBytes: number;
 
   constructor(
     private targetImage: string,
@@ -64,8 +70,8 @@ class Docker {
     staticScanSizeLimit?: number,
   ) {
     this.optionsList = Docker.createOptionsList(options);
-    this.searchActionProducts = {};
-    this.staticScanSizeLimit =
+    this.extractProductsByFilename = {};
+    this.staticScanSizeLimitInBytes =
       staticScanSizeLimit || STATIC_SCAN_MAX_IMAGE_SIZE_IN_BYTES;
   }
 
@@ -74,7 +80,7 @@ class Docker {
   }
 
   public GetStaticScanSizeLimit(): number {
-    return this.staticScanSizeLimit;
+    return this.staticScanSizeLimitInBytes;
   }
 
   public run(cmd: string, args: string[] = []): Promise<CmdOutput> {
@@ -175,92 +181,109 @@ class Docker {
 
   /**
    * Convenience function to wrap save to tar and extract files from tar
-   * @param searchActions array of pattern, callbacks pairs
+   * @param extractActions array of pattern, callbacks pairs
    * @returns extracted file products
    */
   public async extract(
-    searchActions: SearchAction[],
-  ): Promise<SearchActionProducts> {
+    extractActions: ExtractAction[],
+  ): Promise<ExtractProductsByFilename> {
     return this.save(async (err, imageTarPath) => {
       if (err) {
         throw err;
       }
-      return await extractFromTar(imageTarPath, searchActions);
+      return await extractFromTar(imageTarPath, extractActions);
     });
   }
 
   /**
    * Extract files from image and store their product
-   * @param searchActions array of pattern, callbacks pairs
-   * @returns extracted file products
+   * @param extractActions array of pattern, callbacks pairs
    */
-  public async extractAndCache(
-    searchActions: SearchAction[],
-  ): Promise<SearchActionProducts> {
+  public async extractAndCache(extractActions: ExtractAction[]): Promise<void> {
     try {
-      this.searchActionProducts = Object.assign(
-        this.searchActionProducts,
-        await this.extract(searchActions),
+      this.extractProductsByFilename = Object.assign(
+        this.extractProductsByFilename,
+        await this.extract(extractActions),
       );
-      return this.searchActionProducts;
     } catch (error) {
       debug(error);
-      return {};
     }
   }
 
   /**
    * Attempt to perform a static scan
-   * @param searchActions
+   * @param extractActions array of pattern, callbacks pairs
    */
-  public async scanStaticalyIfNeeded(searchActions: SearchAction[]) {
+  public async scanStaticalyIfNeeded(
+    extractActions: ExtractAction[],
+  ): Promise<void> {
     const size = await this.sizeSafe();
     if (!size || size > this.GetStaticScanSizeLimit()) {
-      return {};
+      return;
     }
-    return await this.extractAndCache(searchActions);
+    try {
+      await this.extractAndCache(extractActions);
+    } catch (error) {
+      debug(error);
+      throw error;
+    }
   }
 
   /**
    * Get file product that was previously retrieved and cached or by using
    *  runtime method after applying the specified callback
    * @param filename name of file to retrieve its associated string product
+   * @param searchActionName name of a search action
    * @param callbacks optional array of callbacks to call when runtime method
    *  is used to retrieve the file
    * @returns map of file products by callback name
    */
-  public async getFilesProducts(
+  public async getFileProduct(
     filename: string,
-    searchActionCallback?: SearchActionCallback,
-  ): Promise<{ [key: string]: string | Buffer }> {
-    if (Reflect.has(this.searchActionProducts, filename)) {
-      return this.searchActionProducts[filename];
+    searchActionName: string,
+    extractCallback?: ExtractCallback,
+  ): Promise<string | Buffer> {
+    if (Reflect.has(this.extractProductsByFilename, filename)) {
+      const callbackProducts = this.extractProductsByFilename[filename];
+      if (Reflect.has(callbackProducts, searchActionName)) {
+        return callbackProducts[searchActionName];
+      }
     }
     const content = (await this.catSafe(filename)).stdout;
-    if (!searchActionCallback) {
-      return { "": content };
-    }
-    return { "": searchActionCallback(Buffer.from(content, "utf8")) };
+    return extractCallback
+      ? extractCallback(Buffer.from(content, "utf8"))
+      : content;
   }
 
   /**
-   * Convenience function the single product of a single file
-   * @param filename name of file to retrieve its associated single product
-   * @param callback optional callback to call when runtime method is used
-   *  to retrieve the file
-   * @returns file product, the only one
+   * Retrieve all filenames with products of the specified action name
+   * @param searchActionName name of a search action
    */
-  public async getFileProduct(
-    filename: string,
-    searchActionCallback?: SearchActionCallback,
-  ): Promise<string> {
-    const result = await this.getFilesProducts(filename, searchActionCallback);
-    const resultNames = Object.keys(result);
-    const length = resultNames.length;
-    if (length > 1) {
-      throw new Error(`File product ambiguity, ${length}`);
-    }
-    // return the first and only product of the file
-    return result[resultNames[0]].toString("utf8");
+  public getFileProducts(searchActionName: string = "txt"): FilenameProducts {
+    return Object.assign(
+      {},
+      // go over all filenames
+      ...Object.keys(this.extractProductsByFilename)
+        // check for product associated with the specified action name
+        .filter((filename) =>
+          Reflect.has(
+            this.extractProductsByFilename[filename],
+            searchActionName,
+          ),
+        )
+        // create a map of this filename and product
+        .map((filename) => ({
+          [filename]: this.extractProductsByFilename[searchActionName],
+        })),
+    );
+  }
+
+  /**
+   * Backward compatibility
+   * @param filename name of file to retrieve its associated string product
+   * @param searchActionName name of a search action
+   */
+  public async getTextFile(filename: string): Promise<string> {
+    return (await this.getFileProduct(filename, "txt")).toString("utf8");
   }
 }

@@ -12,6 +12,17 @@ export { analyze };
 
 const debug = Debug("snyk");
 
+const extractActions = [
+  ...aptAnalyzer.APT_PKGPATHS,
+  ...apkAnalyzer.APK_PKGPATHS,
+  ...osReleaseDetector.OS_VERPATHS,
+].map((p) => {
+  return {
+    name: "txt",
+    pattern: p,
+  };
+});
+
 async function analyze(
   targetImage: string,
   dockerfileAnalysis?: dockerFile.DockerFileAnalysis,
@@ -19,19 +30,7 @@ async function analyze(
 ) {
   const docker = new Docker(targetImage, options);
 
-  await docker.scanStaticalyIfNeeded(
-    [
-      ...aptAnalyzer.APT_PKGPATHS,
-      ...apkAnalyzer.APK_PKGPATHS,
-      ...osReleaseDetector.OS_VERPATHS,
-    ].map((p) => {
-      return {
-        name: "",
-        pattern: p,
-        callback: (v) => v.toString("utf8"),
-      };
-    }),
-  );
+  await docker.scanStaticalyIfNeeded(extractActions);
 
   const [imageInspection, osRelease] = await Promise.all([
     imageInspector.detect(docker),
