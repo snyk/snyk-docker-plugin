@@ -102,6 +102,7 @@ function getDependencies(
         packageManager: result.type,
         imageId: result.imageId,
         binaries: result.binaries,
+        hashes: result.hashes,
         imageLayers: result.imageLayers,
       };
     })
@@ -163,6 +164,7 @@ function parseAnalysisResults(
     type: depType,
     depInfosList: analysisResult.Analysis,
     binaries: analysisJson.binaries.Analysis,
+    hashes: analysisJson.hashes.Analysis,
     imageLayers: analysisJson.imageLayers,
   };
 }

@@ -1,9 +1,11 @@
+import * as crypto from "crypto";
 import * as Debug from "debug";
 import { Docker, DockerOptions } from "../docker";
 import * as dockerFile from "../docker-file";
 import * as apkAnalyzer from "./apk-analyzer";
 import * as aptAnalyzer from "./apt-analyzer";
 import * as binariesAnalyzer from "./binaries-analyzer";
+import * as hashAnalyzer from "./hash-analyzer";
 import * as imageInspector from "./image-inspector";
 import * as osReleaseDetector from "./os-release-detector";
 import * as rpmAnalyzer from "./rpm-analyzer";
@@ -16,12 +18,26 @@ const extractActions = [
   ...aptAnalyzer.APT_PKGPATHS,
   ...apkAnalyzer.APK_PKGPATHS,
   ...osReleaseDetector.OS_VERPATHS,
-].map((p) => {
-  return {
-    name: "txt",
-    pattern: p,
-  };
-});
+]
+  .map((p) => {
+    return {
+      name: "txt",
+      pattern: p,
+    };
+  })
+  .concat(
+    [...hashAnalyzer.HASH_PKGPATHS].map((p) => {
+      return {
+        name: "hash",
+        pattern: p,
+        callback: (b) =>
+          crypto
+            .createHash("sha256")
+            .update(b)
+            .digest("hex"),
+      };
+    }),
+  );
 
 async function analyze(
   targetImage: string,
@@ -67,6 +83,7 @@ async function analyze(
     osRelease,
     results,
     binaries,
+    hashes: await hashAnalyzer.analyze(docker),
     imageLayers: imageInspection.RootFS && imageInspection.RootFS.Layers,
   };
 }

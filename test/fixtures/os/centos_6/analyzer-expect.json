@@ -1048,5 +1048,10 @@
     "AnalyzeType": "binaries",
     "Analysis": []
   },
+  "hashes": {
+    "Image": "centos:6",
+    "AnalyzeType": "Hash",
+    "Analysis": []
+  },
   "imageLayers": ["sha256:fake1", "sha256:fake2", "sha256:fake3"]
 }
