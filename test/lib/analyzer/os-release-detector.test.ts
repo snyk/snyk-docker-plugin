@@ -11,6 +11,7 @@ import * as sinon from "sinon";
 import { test } from "tap";
 
 import * as osReleaseDetector from "../../../lib/analyzer/os-release-detector";
+import { Docker } from "../../../lib/docker";
 import * as subProcess from "../../../lib/sub-process";
 
 const readOsFixtureFile = (...from) =>
@@ -161,8 +162,9 @@ test("os release detection", async (t) => {
 
   for (const targetImage of Object.keys(examples)) {
     const example = examples[targetImage];
+    const docker = new Docker(targetImage);
     const actual = await osReleaseDetector.detect(
-      targetImage,
+      docker,
       example.dockerfileAnalysis,
     );
     t.same(actual, example.expected, targetImage);
@@ -230,7 +232,8 @@ test("failed detection", async (t) => {
   for (const targetImage of Object.keys(examples)) {
     const example = examples[targetImage];
     try {
-      await osReleaseDetector.detect(targetImage);
+      const docker = new Docker(targetImage);
+      await osReleaseDetector.detect(docker);
       t.fail("should have thrown");
     } catch (error) {
       t.same(error.message, example.expectedError, example.expectedError);

@@ -4,7 +4,6 @@ import * as dockerFile from "../docker-file";
 import * as apkAnalyzer from "./apk-analyzer";
 import * as aptAnalyzer from "./apt-analyzer";
 import * as binariesAnalyzer from "./binaries-analyzer";
-import { ExtractedKeyFiles } from "./image-extractor";
 import * as imageInspector from "./image-inspector";
 import * as osReleaseDetector from "./os-release-detector";
 import * as rpmAnalyzer from "./rpm-analyzer";
@@ -13,32 +12,35 @@ export { analyze };
 
 const debug = Debug("snyk");
 
+const extractActions = [
+  ...aptAnalyzer.APT_PKGPATHS,
+  ...apkAnalyzer.APK_PKGPATHS,
+  ...osReleaseDetector.OS_VERPATHS,
+].map((p) => {
+  return {
+    name: "txt",
+    pattern: p,
+  };
+});
+
 async function analyze(
   targetImage: string,
   dockerfileAnalysis?: dockerFile.DockerFileAnalysis,
   options?: DockerOptions,
 ) {
+  const docker = new Docker(targetImage, options);
+
+  await docker.scanStaticalyIfNeeded(extractActions);
+
   const [imageInspection, osRelease] = await Promise.all([
-    imageInspector.detect(targetImage, options),
-    osReleaseDetector.detect(targetImage, dockerfileAnalysis, options),
+    imageInspector.detect(docker),
+    osReleaseDetector.detect(docker, dockerfileAnalysis),
   ]);
 
-  const pkgPaths = [...aptAnalyzer.APT_PKGPATHS, ...apkAnalyzer.APK_PKGPATHS];
-
-  const docker = new Docker(targetImage, options);
-  let pkgFiles: ExtractedKeyFiles;
-
-  try {
-    pkgFiles = await docker.extract(pkgPaths);
-  } catch (err) {
-    debug(err);
-    throw new Error(err);
-  }
-
   const results = await Promise.all([
-    apkAnalyzer.analyze(targetImage, pkgFiles.txt),
-    aptAnalyzer.analyze(targetImage, pkgFiles.txt),
-    rpmAnalyzer.analyze(targetImage, options),
+    apkAnalyzer.analyze(docker),
+    aptAnalyzer.analyze(docker),
+    rpmAnalyzer.analyze(docker),
   ]).catch((err) => {
     debug(`Error while running analyzer: '${err.stderr}'`);
     throw new Error("Failed to detect installed OS packages");

@@ -1,16 +1,15 @@
-import { Docker, DockerOptions } from "../docker";
+import { Docker } from "../docker";
 import * as dockerFile from "../docker-file";
 import { OSRelease } from "./types";
 
-export { detect };
+export { detect, OS_VERPATHS };
+
+const OS_VERPATHS = ["/etc/*release", "/etc/*version", "/usr/lib/*release"];
 
 async function detect(
-  targetImage: string,
+  docker: Docker,
   dockerfileAnalysis?: dockerFile.DockerFileAnalysis,
-  options?: DockerOptions,
 ): Promise<OSRelease> {
-  const docker = new Docker(targetImage, options);
-
   let osRelease = await tryOSRelease(docker);
 
   // First generic fallback
@@ -55,7 +54,10 @@ async function detect(
 }
 
 async function tryOSRelease(docker: Docker): Promise<OSRelease | null> {
-  const text = await tryRelease(docker, "/etc/os-release");
+  // /etc/os-release is a symlink to /usr/lib/os-release
+  const text =
+    (await tryRelease(docker, "/usr/lib/os-release")) ||
+    (await tryRelease(docker, "/etc/os-release"));
   if (!text) {
     return null;
   }
@@ -147,7 +149,7 @@ async function tryOracleRelease(docker: Docker): Promise<OSRelease | null> {
 
 async function tryRelease(docker: Docker, release: string): Promise<string> {
   try {
-    return (await docker.catSafe(release)).stdout;
+    return await docker.getTextFile(release);
   } catch (error) {
     throw new Error(error.stderr);
   }
