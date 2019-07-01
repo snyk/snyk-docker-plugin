@@ -835,5 +835,10 @@
     "AnalyzeType": "binaries",
     "Analysis": []
   },
+  "hashes": {
+    "Image": "debian:9.9",
+    "AnalyzeType": "Hash",
+    "Analysis": []
+  },
   "imageLayers": ["sha256:fake1", "sha256:fake2", "sha256:fake3"]
 }

@@ -195,5 +195,10 @@
     ],
     "AnalyzeType": "binaries",
     "Image": "alpine:2.6"
+  },
+  "hashes": {
+    "Image": "alpine:2.6",
+    "AnalyzeType": "Hash",
+    "Analysis": []
   }
 }

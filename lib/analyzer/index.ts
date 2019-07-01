@@ -1,9 +1,11 @@
+import * as crypto from "crypto";
 import * as Debug from "debug";
 import { Docker, DockerOptions } from "../docker";
 import * as dockerFile from "../docker-file";
 import * as apkAnalyzer from "./apk-analyzer";
 import * as aptAnalyzer from "./apt-analyzer";
 import * as binariesAnalyzer from "./binaries-analyzer";
+import * as hashAnalyzer from "./hash-analyzer";
 import * as imageInspector from "./image-inspector";
 import * as osReleaseDetector from "./os-release-detector";
 import * as rpmAnalyzer from "./rpm-analyzer";
@@ -23,6 +25,18 @@ const extractActions = [
   };
 });
 
+const hashActions = [...hashAnalyzer.HASH_PKGPATHS].map((p) => {
+  return {
+    name: "hash",
+    pattern: p,
+    callback: (b) =>
+      crypto
+        .createHash("sha256")
+        .update(b)
+        .digest("hex"),
+  };
+});
+
 async function analyze(
   targetImage: string,
   dockerfileAnalysis?: dockerFile.DockerFileAnalysis,
@@ -30,7 +44,7 @@ async function analyze(
 ) {
   const docker = new Docker(targetImage, options);
 
-  await docker.scanStaticalyIfNeeded(extractActions);
+  await docker.scanStaticalyIfNeeded([...extractActions, ...hashActions]);
 
   const [imageInspection, osRelease] = await Promise.all([
     imageInspector.detect(docker),
@@ -62,11 +76,20 @@ async function analyze(
     throw new Error("Failed to detect binaries versions");
   }
 
+  let hashes;
+  try {
+    hashes = await hashAnalyzer.analyze(docker);
+  } catch (err) {
+    debug(`Error while running hash analyzer: '${err}'`);
+    throw new Error("Failed to get the hash of a binary");
+  }
+
   return {
     imageId: imageInspection.Id,
     osRelease,
     results,
     binaries,
+    hashes,
     imageLayers: imageInspection.RootFS && imageInspection.RootFS.Layers,
   };
 }

@@ -43,6 +43,7 @@ function packageRes(depsAnalysis, dockerfileAnalysis, dockerfilePkgs, deps) {
       ...dockerfileAnalysis,
       dockerfilePackages: dockerfilePkgs,
       binaries: depsAnalysis.binaries,
+      hashes: depsAnalysis.hashes,
     },
   };
 }

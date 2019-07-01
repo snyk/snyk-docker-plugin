@@ -1112,7 +1112,8 @@
           "instruction": "RUN apt-get update && apt-get install -y wget"
         }
       },
-      "binaries": []
+      "binaries": [],
+      "hashes": []
     }
   }
 }
