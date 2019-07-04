@@ -1,78 +1,58 @@
-import * as Debug from "debug";
 import { createReadStream } from "fs";
+import * as md5 from "md5";
 import * as minimatch from "minimatch";
 import { basename } from "path";
 import { Readable } from "stream";
 import { extract, Extract } from "tar-stream";
 import { streamToBuffer, streamToString } from "../stream-utils";
 
-export {
-  extractFromTar,
-  ExtractProductsByFilename,
-  ExtractCallback,
-  ExtractAction,
-};
+export { extractImageKeyFiles, ExtractedImage, ExtractedKeyFiles };
 
-const debug = Debug("snyk");
-
-type ExtractCallback = (buffer: Buffer) => string | Buffer;
-
-interface ExtractProducts {
-  [callbackName: string]: string | Buffer;
+interface ExtractedKeyFiles {
+  txt: { [key: string]: string };
+  md5: { [key: string]: string };
 }
 
-interface ExtractProductsByFilename {
-  [filename: string]: ExtractProducts;
+interface ExtractedImage {
+  manifest: string;
+  layers: Layers;
 }
 
-interface ExtractAction {
-  name: string; // name, should be unique, for this action
-  pattern: string; // path pattern to look for
-  callback?: ExtractCallback; // convert Buffer into a string or Buffer
+interface Layers {
+  [key: string]: ExtractedKeyFiles;
 }
 
 /**
  * Extract key files form the specified TAR stream.
- * @param layerTarStream image layer as a Readable TAR stream
- * @param extractActions array of pattern, callbacks pairs
- * @returns extracted file products
+ * @param stream image layer as a Readable TAR stream
+ * @param name layer name
+ * @param txtPatterns list of plain text key files paths patterns to extract and return as strings
+ * @param md5Patterns list of binary key files paths patterns to extract and return their MD5 sum
+ * @returns key files found in the specified layer TAR stream
  */
-async function extractFromLayer(
-  layerTarStream: Readable,
-  extractActions: ExtractAction[],
-): Promise<ExtractProductsByFilename> {
+async function extractLayerKeyFiles(
+  stream: Readable,
+  txtPatterns: string[],
+  md5Patterns: string[] = [],
+): Promise<ExtractedKeyFiles> {
   return new Promise((resolve) => {
-    const result: ExtractProductsByFilename = {};
+    const result: ExtractedKeyFiles = { txt: {}, md5: {} };
     const layerExtract: Extract = extract();
-    layerExtract.on("entry", async (header, stream, next) => {
-      if (
-        header.type === "file" ||
-        header.type === "link" ||
-        header.type === "symlink"
-      ) {
-        const filename = `/${header.name}`;
-        // convert stream to buffer in order to allow it
-        //  to be processed multiple times by the callback
-        const buffer = await streamToBuffer(stream);
-        for (const extractAction of extractActions) {
-          const callback = extractAction.callback;
-          if (minimatch(filename, extractAction.pattern, { dot: true })) {
-            if (header.type === "file") {
-              // initialize the files associated products dict
-              if (!result[filename]) {
-                result[filename] = {};
-              }
-              // store the product under the search action name
-              result[filename][extractAction.name] = callback
-                ? callback(buffer)
-                : buffer;
-            } else {
-              // target is a link or a symlink
-              debug(`${header.type} '${header.name}' -> '${header.linkname}'`);
-            }
-          }
+    layerExtract.on("entry", (header, stream, next) => {
+      txtPatterns.forEach((pattern) => {
+        if (minimatch(header.name, pattern, { dot: true })) {
+          streamToString(stream).then((value) => {
+            result.txt[header.name] = value;
+          });
         }
-      }
+      });
+      md5Patterns.forEach((pattern) => {
+        if (minimatch(header.name, pattern, { dot: true })) {
+          streamToBuffer(stream).then((value) => {
+            result.md5[header.name] = md5(value);
+          });
+        }
+      });
       stream.resume(); // auto drain the stream
       next(); // ready for next entry
     });
@@ -80,34 +60,38 @@ async function extractFromLayer(
       // all layer level entries read
       resolve(result);
     });
-    layerTarStream.pipe(layerExtract);
+    stream.pipe(layerExtract);
   });
 }
 
 /**
- * Retrieve the products of files content from the specified TAR file.
+ * Extract key files textual content and MD5 sum from the specified TAR file.
  * @param imageTarPath path to image file saved in tar format
- * @param extractActions array of pattern, callbacks pairs
- * @returns array of extracted files products sorted by the reverse order of
- *  the layers from last to first
+ * @param txtPatterns list of plain text key files paths patterns to extract and return as strings
+ * @param md5Patterns list of binary key files paths patterns to extract and return their MD5 sum
+ * @returns manifest file and key files by inner layers
  */
-async function extractLayersFromTar(
+async function extractImageKeyFiles(
   imageTarPath: string,
-  extractActions: ExtractAction[],
-): Promise<ExtractProductsByFilename[]> {
+  txtPatterns: string[],
+  md5Patterns: string[] = [],
+): Promise<ExtractedImage> {
   return new Promise((resolve) => {
     const imageExtract: Extract = extract();
-    const layers: { [layerName: string]: ExtractProductsByFilename } = {};
-    let layersNames: string[];
+    let manifest: string;
+    const layers: Layers = {};
 
-    imageExtract.on("entry", async (header, stream, next) => {
+    imageExtract.on("entry", (header, stream, next) => {
       if (header.type === "file") {
         if (basename(header.name) === "layer.tar") {
-          layers[header.name] = await extractFromLayer(stream, extractActions);
+          extractLayerKeyFiles(stream, txtPatterns, md5Patterns).then(
+            (extractedKeyFiles) => {
+              layers[header.name] = extractedKeyFiles;
+            },
+          );
         } else if (header.name === "manifest.json") {
           streamToString(stream).then((manifestFile) => {
-            const manifest = JSON.parse(manifestFile);
-            layersNames = manifest[0].Layers;
+            manifest = manifestFile;
           });
         }
       }
@@ -115,50 +99,12 @@ async function extractLayersFromTar(
       next(); // ready for next entry
     });
     imageExtract.on("finish", () => {
-      // reverse layers order from last to first
-      // skip (ignore) non-existent layers
-      // return the layers content without the layer name
-      resolve(
-        layersNames
-          .reverse()
-          .filter((layersName) => layers[layersName])
-          .map((layerName) => layers[layerName]),
-      );
+      // all image level entries read
+      resolve({
+        manifest,
+        layers,
+      });
     });
     createReadStream(imageTarPath).pipe(imageExtract);
   });
-}
-
-/**
- * Extract key files textual content and MD5 sum from the specified TAR file
- * @param imageTarPath path to image file saved in tar format
- * @param extractActions array of pattern, callbacks pairs
- * @returns extracted files products
- */
-async function extractFromTar(
-  imageTarPath: string,
-  extractActions: ExtractAction[],
-): Promise<ExtractProductsByFilename> {
-  const layers: ExtractProductsByFilename[] = await extractLayersFromTar(
-    imageTarPath,
-    extractActions,
-  );
-
-  if (!layers) {
-    return {};
-  }
-
-  const result: ExtractProductsByFilename = {};
-
-  // reverse layer order from last to first
-  for (const layer of layers) {
-    // go over extracted files products found in this layer
-    for (const filename of Object.keys(layer)) {
-      // file was not found
-      if (!Reflect.has(result, filename)) {
-        result[filename] = layer[filename];
-      }
-    }
-  }
-  return result;
 }

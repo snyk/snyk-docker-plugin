@@ -1,22 +1,12 @@
-import * as Debug from "debug";
 import { fileSync } from "tmp";
 import {
-  ExtractAction,
-  ExtractCallback,
-  extractFromTar,
-  ExtractProductsByFilename,
+  ExtractedImage,
+  ExtractedKeyFiles,
+  extractImageKeyFiles,
 } from "./analyzer/image-extractor";
-import { CmdOutput, execute } from "./sub-process";
+import { execute } from "./sub-process";
 
-export { Docker, DockerOptions, STATIC_SCAN_MAX_IMAGE_SIZE_IN_BYTES };
-
-const debug = Debug("snyk");
-
-const KB = 1024;
-const MB = KB * 1024;
-const GB = MB * 1024;
-
-const STATIC_SCAN_MAX_IMAGE_SIZE_IN_BYTES = 3 * GB;
+export { Docker, DockerOptions };
 
 interface DockerOptions {
   host?: string;
@@ -27,10 +17,6 @@ interface DockerOptions {
 }
 
 type SaveImageCallback = (err: any, name: string) => void;
-
-interface FilenameProducts {
-  [filename: string]: string | Buffer;
-}
 
 class Docker {
   public static run(args: string[], options?: DockerOptions) {
@@ -61,29 +47,12 @@ class Docker {
   }
 
   private optionsList: string[];
-  private extractProductsByFilename: ExtractProductsByFilename;
-  private staticScanSizeLimitInBytes: number;
 
-  constructor(
-    private targetImage: string,
-    options?: DockerOptions,
-    staticScanSizeLimit?: number,
-  ) {
+  constructor(private targetImage: string, options?: DockerOptions) {
     this.optionsList = Docker.createOptionsList(options);
-    this.extractProductsByFilename = {};
-    this.staticScanSizeLimitInBytes =
-      staticScanSizeLimit || STATIC_SCAN_MAX_IMAGE_SIZE_IN_BYTES;
   }
 
-  public getTargetImage(): string {
-    return this.targetImage;
-  }
-
-  public GetStaticScanSizeLimit(): number {
-    return this.staticScanSizeLimitInBytes;
-  }
-
-  public run(cmd: string, args: string[] = []): Promise<CmdOutput> {
+  public run(cmd: string, args: string[] = []) {
     return execute("docker", [
       ...this.optionsList,
       "run",
@@ -98,16 +67,15 @@ class Docker {
     ]);
   }
 
-  public async inspect(args: string[] = []): Promise<CmdOutput> {
+  public async inspect(targetImage: string) {
     return await execute("docker", [
       ...this.optionsList,
       "inspect",
-      this.targetImage,
-      ...args,
+      targetImage,
     ]);
   }
 
-  public async catSafe(filename: string): Promise<CmdOutput> {
+  public async catSafe(filename: string) {
     try {
       return await this.run("cat", [filename]);
     } catch (error) {
@@ -121,22 +89,6 @@ class Docker {
         }
       }
       throw error;
-    }
-  }
-
-  /**
-   * Returns the size of the specified image, errors are ignored for
-   *  backwards compatibility
-   * @returns size of image or undefined
-   */
-  public async sizeSafe(): Promise<number | undefined> {
-    try {
-      return parseInt(
-        (await this.inspect(["--format", "'{{.Size}}'"])).stdout,
-        10,
-      );
-    } catch {
-      return undefined;
     }
   }
 
@@ -170,7 +122,7 @@ class Docker {
 
     if (callback) {
       try {
-        return await callback(err, tmpobj.name);
+        return callback(err, tmpobj.name);
       } finally {
         // We don't need the file anymore and could manually call the removeCallback
         tmpobj.removeCallback();
@@ -180,98 +132,69 @@ class Docker {
   }
 
   /**
-   * Convenience function to wrap save to tar and extract files from tar
-   * @param extractActions array of pattern, callbacks pairs
-   * @returns extracted file products
+   * Analyze and return key files textual content and MD5 sum.
+   * @param imageTarPath path to image file saved in tar format
+   * @param txtPatterns list of plain text key files paths patterns to extract and return as strings
+   * @param md5Patterns list of binary key files paths patterns to extract and return their MD5 sum
+   * @returns key files textual content and MD5 sum
+   */
+  public async analyze(
+    imageTarPath: string,
+    txtPatterns: string[],
+    md5Patterns: string[] = [],
+  ) {
+    const result: ExtractedKeyFiles = { txt: {}, md5: {} };
+
+    const extracted: ExtractedImage = await extractImageKeyFiles(
+      imageTarPath,
+      txtPatterns,
+      md5Patterns,
+    );
+
+    const manifest = JSON.parse(extracted.manifest);
+    const layersNames: string[] = manifest[0].Layers;
+
+    if (extracted.layers) {
+      // reverse layer order from last to first
+      for (const layerName of layersNames.reverse()) {
+        // files found for this layer
+        if (layerName in extracted.layers) {
+          // go over plain text files found in this layer
+          for (const filename of Object.keys(extracted.layers[layerName].txt)) {
+            // file was not found in previous layer
+            if (!Reflect.has(result.txt, filename)) {
+              result.txt[filename] = extracted.layers[layerName].txt[filename];
+            }
+          }
+          // go over MD5 sums found in this layer
+          for (const filename of Object.keys(extracted.layers[layerName].md5)) {
+            // file was not found in previous layer
+            if (!Reflect.has(result.md5, filename)) {
+              result.md5[filename] = extracted.layers[layerName].md5[filename];
+            }
+          }
+        }
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Saves the docker image as a TAR file to a temporary location and extract
+   * the specified files from it.
+   * @param txtPatterns list of plain text key files paths patterns to extract and return as strings
+   * @param md5Patterns list of binary key files paths patterns to extract and return their MD5 sum
+   * @return list of plain text files and list of MD5 sums
    */
   public async extract(
-    extractActions: ExtractAction[],
-  ): Promise<ExtractProductsByFilename> {
+    txtPatterns: string[],
+    md5Patterns: string[] = [],
+  ): Promise<ExtractedKeyFiles> {
     return this.save(async (err, imageTarPath) => {
       if (err) {
         throw err;
       }
-      return await extractFromTar(imageTarPath, extractActions);
+      return await this.analyze(imageTarPath, txtPatterns, md5Patterns);
     });
-  }
-
-  /**
-   * Extract files from image and store their product
-   * @param extractActions array of pattern, callbacks pairs
-   */
-  public async extractAndCache(extractActions: ExtractAction[]): Promise<void> {
-    this.extractProductsByFilename = Object.assign(
-      this.extractProductsByFilename,
-      await this.extract(extractActions),
-    );
-  }
-
-  /**
-   * Attempt to perform a static scan
-   * @param extractActions array of pattern, callbacks pairs
-   */
-  public async scanStaticalyIfNeeded(
-    extractActions: ExtractAction[],
-  ): Promise<void> {
-    const size = await this.sizeSafe();
-    if (!size || size > this.GetStaticScanSizeLimit()) {
-      return;
-    }
-    try {
-      await this.extractAndCache(extractActions);
-    } catch (error) {
-      debug(error);
-      throw error;
-    }
-  }
-
-  /**
-   * Get file product that was previously retrieved and cached or by using
-   *  runtime method after applying the specified callback
-   * @param filename name of file to retrieve its associated string product
-   * @param searchActionName name of a search action
-   * @param callbacks optional array of callbacks to call when runtime method
-   *  is used to retrieve the file
-   * @returns map of file products by callback name
-   */
-  public async getActionProductByFileName(
-    filename: string,
-    searchActionName: string,
-    extractCallback?: ExtractCallback,
-  ): Promise<string | Buffer> {
-    if (Reflect.has(this.extractProductsByFilename, filename)) {
-      const callbackProducts = this.extractProductsByFilename[filename];
-      if (Reflect.has(callbackProducts, searchActionName)) {
-        return callbackProducts[searchActionName];
-      }
-    }
-    const content = (await this.catSafe(filename)).stdout;
-    return extractCallback
-      ? extractCallback(Buffer.from(content, "utf8"))
-      : content;
-  }
-
-  /**
-   * Retrieve all filenames with products of the specified action name
-   * @param searchActionName name of a search action
-   */
-  public getActionProducts(searchActionName: string = "txt"): FilenameProducts {
-    return Object.keys(this.extractProductsByFilename).reduce(
-      (acc: FilenameProducts, file: string) => {
-        const val = this.extractProductsByFilename[file][searchActionName];
-        return val ? Object.assign(acc, { [file]: val }) : acc;
-      },
-      {},
-    );
-  }
-
-  /**
-   * Backward compatibility
-   * @param filename name of file to retrieve its associated string product
-   * @param searchActionName name of a search action
-   */
-  public async getTextFile(filename: string): Promise<string> {
-    const fileProduct = await this.getActionProductByFileName(filename, "txt");
-    return fileProduct.toString("utf8");
   }
 }
