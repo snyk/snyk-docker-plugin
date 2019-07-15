@@ -6,36 +6,22 @@ import * as fs from "fs";
 import * as path from "path";
 import * as sinon from "sinon";
 import { test } from "tap";
-import { pack as packFs } from "tar-fs";
-import { pack as packStream, Pack as PackStream } from "tar-stream";
 
-// import * as tmp from "tmp";
 import * as analyzer from "../../../lib/analyzer";
 import * as imageInspector from "../../../lib/analyzer/image-inspector";
-import { streamToBuffer } from "../../../lib/stream-utils";
 import * as subProcess from "../../../lib/sub-process";
 
-const getOsFixturePath = (...from) =>
-  path.join(__dirname, "../../fixtures/os", ...from);
-
 const readOsFixtureFile = (...from) =>
-  fs.readFileSync(getOsFixturePath(...from), "utf8");
+  fs.readFileSync(path.join(__dirname, "../../fixtures/os", ...from), "utf8");
 
 test("analyzer", async (t) => {
   const examples = {
     "alpine:2.6": {
       dir: "alpine_2_6_6",
     },
-    "centos:6": {
-      dir: "centos_6",
-    },
-    "debian:9.9": {
-      dir: "debian_9",
-    },
   };
 
   const execStub = sinon.stub(subProcess, "execute");
-  //  const fileSyncStub = sinon.stub(tmp, "fileSync");
 
   // Stub Docker cat file
   execStub
@@ -100,8 +86,8 @@ test("analyzer", async (t) => {
           // tslint:disable-next-line:no-string-throw
           throw {
             stderr: `docker: Error response from daemon: OCI runtime \
-      create failed: container_linux.go:348: starting container process\
-      caused "exec: \"rpm\": executable file not found in $PATH": unknown.`,
+        create failed: container_linux.go:348: starting container process\
+        caused "exec: \"rpm\": executable file not found in $PATH": unknown.`,
             stdout: "",
           };
         }
@@ -167,48 +153,6 @@ test("analyzer", async (t) => {
       },
     );
 
-  // Stub Docker save file
-  execStub
-    .withArgs("docker", ["save", "-o", sinon.match.any, sinon.match.any])
-    .callsFake(async (docker, [save, opt, file, image]) => {
-      try {
-        const example = examples[image];
-
-        const tarStream = fs.createWriteStream(file);
-        tarStream.on("close", () => {
-          return {
-            stdout: "",
-            stderr: "",
-          };
-        });
-
-        const layerName: string = "0".repeat(64).concat("/layer.tar");
-        const imagePack: PackStream = packStream();
-        imagePack.entry(
-          { name: layerName },
-          await streamToBuffer(packFs(getOsFixturePath(example.dir, "fs"))),
-        );
-        imagePack.entry(
-          { name: "manifest.json" },
-          JSON.stringify([{ Layers: [layerName, undefined] }], (_, v) => {
-            return v === undefined ? null : v;
-          }),
-        );
-
-        imagePack.finalize();
-        imagePack.pipe(
-          tarStream,
-          { end: true },
-        );
-      } catch {
-        // tslint:disable-next-line:no-string-throw
-        throw {
-          stderr: "",
-          stdout: "",
-        };
-      }
-    });
-
   const expectedId = "sha256:fake";
   const expectedLayers = ["sha256:fake1", "sha256:fake2", "sha256:fake3"];
 
@@ -229,13 +173,12 @@ test("analyzer", async (t) => {
   });
 
   for (const targetImage of Object.keys(examples)) {
-    await t.test(targetImage, async (t) => {
-      const example = examples[targetImage];
-      const actual = await analyzer.analyze(targetImage);
-      const expectation = JSON.parse(
-        readOsFixtureFile(example.dir, "analyzer-expect.json"),
-      );
-      t.same(actual, expectation);
-    });
+    const example = examples[targetImage];
+    const expectation = JSON.parse(
+      readOsFixtureFile(example.dir, "analyzer-expect.json"),
+    );
+
+    const actual = await analyzer.analyze(targetImage);
+    t.same(actual, expectation);
   }
 });

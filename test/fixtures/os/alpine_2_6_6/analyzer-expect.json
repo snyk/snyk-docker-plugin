@@ -1,6 +1,10 @@
 {
   "imageId": "sha256:fake",
-  "imageLayers": ["sha256:fake1", "sha256:fake2", "sha256:fake3"],
+  "imageLayers": [
+    "sha256:fake1",
+    "sha256:fake2",
+    "sha256:fake3"
+  ],
   "osRelease": {
     "name": "alpine",
     "version": "2.6.6"
@@ -56,7 +60,10 @@
           "Name": "openrc",
           "Version": "0.11.8-r0",
           "Source": null,
-          "Provides": ["so:libeinfo.so.1", "so:librc.so.1"],
+          "Provides": [
+            "so:libeinfo.so.1",
+            "so:librc.so.1"
+          ],
           "Deps": {
             "busybox": true,
             "so:libc.so.0.9.32": true,
@@ -80,7 +87,9 @@
           "Name": "zlib",
           "Version": "1.2.8-r0",
           "Source": null,
-          "Provides": ["so:libz.so.1"],
+          "Provides": [
+            "so:libz.so.1"
+          ],
           "Deps": {
             "so:libc.so.0.9.32": true
           },
@@ -90,7 +99,9 @@
           "Name": "libcrypto1.0",
           "Version": "1.0.1m-r0",
           "Source": null,
-          "Provides": ["so:libcrypto.so.1.0.0"],
+          "Provides": [
+            "so:libcrypto.so.1.0.0"
+          ],
           "Deps": {
             "so:libc.so.0.9.32": true,
             "so:libdl.so.0.9.32": true,
@@ -187,11 +198,11 @@
     }
   ],
   "binaries": {
-    "Analysis": [
-      {
-        "name": "node",
-        "version": "6.15.1"
-      }
+  "Analysis": [
+    {
+      "name": "node",
+      "version": "6.15.1"
+    }
     ],
     "AnalyzeType": "binaries",
     "Image": "alpine:2.6"
