@@ -5,12 +5,9 @@
 // tslint:disable:max-line-length
 // tslint:disable:object-literal-key-quotes
 
-import * as sinon from "sinon";
 import { test } from "tap";
 
 import * as analyzer from "../../../lib/analyzer/apk-analyzer";
-import { Docker } from "../../../lib/docker";
-import * as subProcess from "../../../lib/sub-process";
 
 test("analyze", async (t) => {
   const defaultPkgProps = {
@@ -123,42 +120,9 @@ test("analyze", async (t) => {
 
   for (const example of examples) {
     await t.test(example.description, async (t) => {
-      const docker = new Docker("alpine:2.6");
-
-      const execStub = sinon.stub(subProcess, "execute");
-
-      execStub
-        .withArgs("docker", [
-          "run",
-          "--rm",
-          "--entrypoint",
-          '""',
-          "--network",
-          "none",
-          sinon.match.any,
-          "cat",
-          "/lib/apk/db/installed",
-        ])
-        .resolves({ stdout: example.manifestLines.join("\n"), stderr: "" });
-
-      // Stub Docker size
-      execStub
-        .withArgs("docker", [
-          "inspect",
-          sinon.match.any,
-          "--format",
-          "'{{.Size}}'",
-        ])
-        .callsFake(async (_, [inspect, image, format, size]) => {
-          return {
-            stdout: docker.GetStaticScanSizeLimit() + 1,
-            stderr: "",
-          };
-        });
-
-      t.teardown(() => execStub.restore());
-
-      const actual = await analyzer.analyze(docker);
+      const actual = await analyzer.analyze("alpine:2.6", {
+        "lib/apk/db/installed": example.manifestLines.join("\n"),
+      });
       t.same(actual, {
         Image: "alpine:2.6",
         AnalyzeType: "Apk",
