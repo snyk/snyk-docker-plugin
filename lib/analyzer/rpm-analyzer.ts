@@ -1,19 +1,19 @@
-import { Docker, DockerOptions } from "../docker";
+import { Docker } from "../docker";
 import { AnalyzerPkg } from "./types";
 
 export { analyze };
 
-async function analyze(targetImage: string, options?: DockerOptions) {
-  const pkgs = await getPackages(targetImage, options);
+async function analyze(docker: Docker) {
+  const pkgs = await getPackages(docker);
   return {
-    Image: targetImage,
+    Image: docker.getTargetImage(),
     AnalyzeType: "Rpm",
     Analysis: pkgs,
   };
 }
 
-function getPackages(targetImage: string, options?: DockerOptions) {
-  return new Docker(targetImage, options)
+function getPackages(docker: Docker) {
+  return docker
     .run("rpm", [
       "--nodigest",
       "--nosignature",
