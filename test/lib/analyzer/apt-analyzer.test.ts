@@ -9,6 +9,7 @@ import * as sinon from "sinon";
 import { test } from "tap";
 
 import * as analyzer from "../../../lib/analyzer/apt-analyzer";
+import { Docker } from "../../../lib/docker";
 import * as subProcess from "../../../lib/sub-process";
 
 test("analyze", async (t) => {
@@ -331,6 +332,8 @@ test("analyze", async (t) => {
 
   for (const example of examples) {
     await t.test(example.description, async (t) => {
+      const docker = new Docker("ubuntu:10.04");
+
       const execStub = sinon.stub(subProcess, "execute");
 
       execStub
@@ -361,9 +364,24 @@ test("analyze", async (t) => {
         ])
         .resolves({ stdout: example.extManifestLines.join("\n"), stderr: "" });
 
+      // Stub Docker size
+      execStub
+        .withArgs("docker", [
+          "inspect",
+          sinon.match.any,
+          "--format",
+          "'{{.Size}}'",
+        ])
+        .callsFake(async (_, [inspect, image, format, size]) => {
+          return {
+            stdout: docker.GetStaticScanSizeLimit() + 1,
+            stderr: "",
+          };
+        });
+
       t.teardown(() => execStub.restore());
 
-      const actual = await analyzer.analyze("ubuntu:10.04");
+      const actual = await analyzer.analyze(docker);
 
       t.same(actual, {
         Image: "ubuntu:10.04",

@@ -1,5 +1,5 @@
 import * as Debug from "debug";
-import { DockerOptions } from "../docker";
+import { Docker, DockerOptions } from "../docker";
 import * as dockerFile from "../docker-file";
 import * as apkAnalyzer from "./apk-analyzer";
 import * as aptAnalyzer from "./apt-analyzer";
@@ -12,20 +12,35 @@ export { analyze };
 
 const debug = Debug("snyk");
 
+const extractActions = [
+  ...aptAnalyzer.APT_PKGPATHS,
+  ...apkAnalyzer.APK_PKGPATHS,
+  ...osReleaseDetector.OS_VERPATHS,
+].map((p) => {
+  return {
+    name: "txt",
+    pattern: p,
+  };
+});
+
 async function analyze(
   targetImage: string,
   dockerfileAnalysis?: dockerFile.DockerFileAnalysis,
   options?: DockerOptions,
 ) {
+  const docker = new Docker(targetImage, options);
+
+  await docker.scanStaticalyIfNeeded(extractActions);
+
   const [imageInspection, osRelease] = await Promise.all([
-    imageInspector.detect(targetImage, options),
-    osReleaseDetector.detect(targetImage, dockerfileAnalysis, options),
+    imageInspector.detect(docker),
+    osReleaseDetector.detect(docker, dockerfileAnalysis),
   ]);
 
   const results = await Promise.all([
-    apkAnalyzer.analyze(targetImage, options),
-    aptAnalyzer.analyze(targetImage, options),
-    rpmAnalyzer.analyze(targetImage, options),
+    apkAnalyzer.analyze(docker),
+    aptAnalyzer.analyze(docker),
+    rpmAnalyzer.analyze(docker),
   ]).catch((err) => {
     debug(`Error while running analyzer: '${err.stderr}'`);
     throw new Error("Failed to detect installed OS packages");
