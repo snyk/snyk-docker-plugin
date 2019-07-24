@@ -5,7 +5,13 @@ import { DockerFilePackages, instructionDigest } from "./instruction-parser";
 
 export { buildResponse };
 
-function buildResponse(runtime, depsAnalysis, dockerfileAnalysis, options) {
+function buildResponse(
+  runtime,
+  depsAnalysis,
+  dockerfileAnalysis,
+  manifestFiles,
+  options,
+) {
   const deps = depsAnalysis.package.dependencies;
   const dockerfilePkgs = collectDockerfilePkgs(dockerfileAnalysis, deps);
   const finalDeps = excludeBaseImageDeps(deps, dockerfilePkgs, options);
@@ -21,6 +27,7 @@ function buildResponse(runtime, depsAnalysis, dockerfileAnalysis, options) {
   return {
     plugin,
     package: pkg,
+    manifestFiles,
   };
 }
 
