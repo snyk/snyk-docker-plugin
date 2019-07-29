@@ -12,6 +12,7 @@
       "sha256:09dd19285fc51a1978d9b4607eca5fe84e085cf166765f7b7a1b8adafb00827e"
     ]
   },
+  "manifestFiles": [],
   "package": {
     "name": "docker-image|my-ubuntu2",
     "version": "latest",

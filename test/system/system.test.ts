@@ -337,11 +337,14 @@ test("inspect redis:3.2.11-alpine", (t) => {
     })
     .then((imageId) => {
       expectedImageId = imageId;
-      return plugin.inspect(img, dockerFileLocation);
+      return plugin.inspect(img, dockerFileLocation, {
+        manifestGlobs: ["/etc/redhat-release*", "/etc/foo", "/nonexist/bar"],
+      });
     })
     .then((res) => {
       const plugin = res.plugin;
       const pkg = res.package;
+      const manifest = res.manifestFiles;
 
       t.equal(plugin.name, "snyk-docker-plugin", "name");
       t.equal(
@@ -389,6 +392,7 @@ test("inspect redis:3.2.11-alpine", (t) => {
         },
         "deps",
       );
+      t.match(manifest, [], "manifest files");
     });
 });
 
@@ -492,11 +496,14 @@ test("inspect centos", (t) => {
     })
     .then((imageId) => {
       expectedImageId = imageId;
-      return plugin.inspect(img, dockerFileLocation);
+      return plugin.inspect(img, dockerFileLocation, {
+        manifestGlobs: ["/etc/redhat-release", "/etc/foo"],
+      });
     })
     .then((res) => {
       const plugin = res.plugin;
       const pkg = res.package;
+      const manifest = res.manifestFiles;
 
       t.equal(plugin.name, "snyk-docker-plugin", "name");
       t.equal(
@@ -550,6 +557,18 @@ test("inspect centos", (t) => {
           },
         },
         "deps",
+      );
+
+      t.match(
+        manifest,
+        [
+          {
+            name: "redhat-release",
+            path: "/etc",
+            contents: "Q2VudE9TIExpbnV4IHJlbGVhc2UgNy40LjE3MDggKENvcmUpIAo=",
+          },
+        ],
+        "manifest files",
       );
     });
 });

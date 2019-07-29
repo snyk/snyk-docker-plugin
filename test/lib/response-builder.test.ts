@@ -13,12 +13,12 @@ test("buildResponse", async (t) => {
     const expected = require("../fixtures/responses/all-deps");
 
     await t.test("returns a complete response", async (t) => {
-      const response = buildResponse(runtime, depsAna, dockerfileAna, {});
+      const response = buildResponse(runtime, depsAna, dockerfileAna, [], {});
       t.same(response, expected, "response matches fixture");
     });
 
     await t.test("returns package dependencies", async (t) => {
-      const response = buildResponse(runtime, depsAna, dockerfileAna, {});
+      const response = buildResponse(runtime, depsAna, dockerfileAna, [], {});
       const deps = response.package.dependencies;
 
       t.ok(deps.wget, "include wget from dockerfile");
@@ -35,6 +35,7 @@ test("buildResponse", async (t) => {
           runtime,
           depsAna,
           dockerfileAna,
+          [],
           options,
         );
         const deps = response.package.dependencies;

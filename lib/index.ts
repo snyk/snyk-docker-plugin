@@ -1,4 +1,5 @@
 import * as Debug from "debug";
+import * as path from "path";
 import * as analyzer from "./analyzer";
 import { Docker, DockerOptions } from "./docker";
 import * as dockerFile from "./docker-file";
@@ -16,6 +17,7 @@ function inspect(root: string, targetFile?: string, options?: any) {
         tlscert: options.tlscert,
         tlscacert: options.tlscacert,
         tlskey: options.tlskey,
+        manifestGlobs: options.manifestGlobs,
       }
     : {};
   const targetImage = root;
@@ -26,8 +28,15 @@ function inspect(root: string, targetFile?: string, options?: any) {
       return Promise.all([
         getRuntime(dockerOptions),
         getDependencies(targetImage, dockerfileAnalysis, dockerOptions),
+        getManifestFiles(targetImage, dockerOptions),
       ]).then((res) => {
-        return buildResponse(res[0], res[1], dockerfileAnalysis, options);
+        return buildResponse(
+          res[0],
+          res[1],
+          dockerfileAnalysis,
+          res[2],
+          options,
+        );
       });
     });
 }
@@ -118,6 +127,26 @@ function getDependencies(
       }
       throw error;
     });
+}
+
+async function getManifestFiles(targetImage: string, options?: any) {
+  if (!options.manifestGlobs) {
+    return [];
+  }
+
+  const globs = options.manifestGlobs as string[];
+  const docker = new Docker(targetImage, options);
+  const contents = await Promise.all(globs.map((g) => docker.catSafe(g)));
+
+  return globs
+    .map((g, i) => {
+      return {
+        name: path.basename(g),
+        path: path.dirname(g),
+        contents: Buffer.from(contents[i].stdout).toString("base64"),
+      };
+    })
+    .filter((i) => i.contents !== "");
 }
 
 function parseAnalysisResults(
