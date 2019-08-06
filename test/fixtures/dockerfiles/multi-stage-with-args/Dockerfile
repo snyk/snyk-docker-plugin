@@ -1,0 +1,3 @@
+ARG NODE_VERSION=6
+FROM node:${NODE_VERSION}-slim AS base
+FROM base

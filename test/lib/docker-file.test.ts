@@ -47,6 +47,24 @@ test("Analyses dockerfiles", async (t) => {
       },
     },
     {
+      description: "a multi-stage Dockerfile with nested stages name referral",
+      fixture: "multi-stage-as",
+      expected: {
+        baseImage: "alpine:latest",
+        dockerfilePackages: {},
+        dockerfileLayers: {},
+      },
+    },
+    {
+      description: "a multi-stage Dockerfile with args",
+      fixture: "multi-stage-with-args",
+      expected: {
+        baseImage: "node:6-slim",
+        dockerfilePackages: {},
+        dockerfileLayers: {},
+      },
+    },
+    {
       description: "a from-scratch Dockerfile",
       fixture: "from-scratch",
       expected: {
@@ -80,6 +98,47 @@ test("Analyses dockerfiles", async (t) => {
         baseImage: "node:dubnium",
         dockerfilePackages: {},
         dockerfileLayers: {},
+      },
+    },
+    {
+      description: "a Dockerfile with multiple ARGs no curly braces",
+      fixture: "with-args-nobraces",
+      expected: {
+        baseImage: "node:dubnium",
+        dockerfilePackages: {},
+        dockerfileLayers: {},
+      },
+    },
+    {
+      description: "a Dockerfile with multiple ARGs and multiple occurrences",
+      fixture: "with-args-occurences",
+      expected: {
+        baseImage: "test:test-1",
+        dockerfilePackages: {},
+        dockerfileLayers: {},
+      },
+    },
+    {
+      description: "a Dockerfile with ARG for package",
+      fixture: "with-args-package",
+      expected: {
+        baseImage: "ruby:2.5-alpine",
+        dockerfilePackages: {
+          bash: {
+            instruction:
+              "RUN apk update && apk upgrade && apk add --update --no-cache nodejs bash",
+          },
+          nodejs: {
+            instruction:
+              "RUN apk update && apk upgrade && apk add --update --no-cache nodejs bash",
+          },
+        },
+        dockerfileLayers: {
+          UlVOIGFwayB1cGRhdGUgJiYgYXBrIHVwZ3JhZGUgJiYgYXBrIGFkZCAtLXVwZGF0ZSAtLW5vLWNhY2hlIG5vZGVqcyBiYXNo: {
+            instruction:
+              "RUN apk update && apk upgrade && apk add --update --no-cache nodejs bash",
+          },
+        },
       },
     },
     {

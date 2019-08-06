@@ -1,4 +1,7 @@
+import { Dockerfile, Instruction } from "dockerfile-ast";
+
 export {
+  getDockerfileBaseImageName,
   getDockerfileLayers,
   getPackagesFromRunInstructions,
   DockerFilePackages,
@@ -31,14 +34,21 @@ const installRegex = /\s*(rpm\s+-i|rpm\s+--install|apk\s+((--update|-u)\s+)*add|
  * arbitrary whitespace
  */
 function getPackagesFromRunInstructions(
-  runInstructions: string[],
+  dockerfile: Dockerfile,
 ): DockerFilePackages {
+  const runInstructions = dockerfile
+    .getInstructions()
+    .filter((instruction) => instruction.getInstruction() === "RUN")
+    .map((instruction) =>
+      getInstructionExpandVariables(instruction, dockerfile),
+    );
+
   return runInstructions.reduce((dockerfilePackages, instruction) => {
     const runDef = "RUN ";
     const commands = instruction.slice(runDef.length).split(/\s?(;|&&)\s?/);
-    const installCommands = commands.filter((command) => {
-      return installRegex.test(command);
-    });
+    const installCommands = commands.filter((command) =>
+      installRegex.test(command),
+    );
 
     if (installCommands.length) {
       // Get the packages per install command and flatten them
@@ -56,6 +66,72 @@ function getPackagesFromRunInstructions(
 
     return dockerfilePackages;
   }, {});
+}
+
+/**
+ * Return the specified test with variables expanded
+ * @param instruction the instruction associated with this string
+ * @param dockerfile Dockerfile to use for expanding the variables
+ * @param text a string with variables to expand, if not specified
+ *  the instruction text is used
+ */
+function getInstructionExpandVariables(
+  instruction: Instruction,
+  dockerfile: Dockerfile,
+  text?: string,
+): string {
+  let str = text || instruction.toString();
+  const variables = instruction.getVariables();
+  const resolvedVariables = variables.reduce((resolvedVars, variable) => {
+    const line = variable.getRange().start.line;
+    const name = variable.getName();
+    resolvedVars[name] = dockerfile.resolveVariable(name, line);
+    return resolvedVars;
+  }, {});
+  Object.keys(resolvedVariables).forEach((variable) => {
+    // The $ is a special regexp character that should be escaped with a backslash
+    // Support both notations either with $variable_name or ${variable_name}
+    // The global search "g" flag is used to match and replace all occurrences
+    str = str.replace(
+      RegExp(`\\$\{${variable}\}|\\$${variable}`, "g"),
+      resolvedVariables[variable],
+    );
+  });
+  return str;
+}
+
+/**
+ * Return the image name of the last from stage, after resolving all aliases
+ * @param dockerfile Dockerfile to use for retrieving the last stage image name
+ */
+function getDockerfileBaseImageName(
+  dockerfile: Dockerfile,
+): string | undefined {
+  const froms = dockerfile.getFROMs();
+  // collect stages names
+  const stagesNames = froms.reduce(
+    (stagesNames, fromInstruction) => {
+      const fromName = fromInstruction.getImage() as string;
+      const args = fromInstruction.getArguments();
+      // the FROM expanded base name
+      const expandedName = getInstructionExpandVariables(
+        fromInstruction,
+        dockerfile,
+        fromName,
+      );
+      // store the resolved stage name
+      stagesNames.last = stagesNames.aliases[expandedName] || expandedName;
+      if (args.length > 2 && args[1].getValue() === "AS") {
+        // the AS alias name
+        const aliasName = args[2].getValue();
+        // support nested referral
+        stagesNames.aliases[aliasName] = stagesNames.last;
+      }
+      return stagesNames;
+    },
+    { last: undefined, aliases: {} },
+  );
+  return stagesNames.last;
 }
 
 function instructionDigest(instruction): string {
