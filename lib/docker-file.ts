@@ -3,6 +3,7 @@ import * as fs from "fs";
 import {
   DockerFileLayers,
   DockerFilePackages,
+  getDockerfileBaseImageName,
   getDockerfileLayers,
   getPackagesFromRunInstructions,
 } from "./instruction-parser";
@@ -30,42 +31,9 @@ async function analyseDockerfile(
   contents: string,
 ): Promise<DockerFileAnalysis | undefined> {
   const dockerfile = DockerfileParser.parse(contents);
-  const from = dockerfile.getFROMs().pop();
-  const runInstructions = dockerfile
-    .getInstructions()
-    .filter((instruction) => {
-      return instruction.getInstruction() === "RUN";
-    })
-    .map((instruction) => instruction.toString());
-  const dockerfilePackages = getPackagesFromRunInstructions(runInstructions);
+  const baseImage = getDockerfileBaseImageName(dockerfile);
+  const dockerfilePackages = getPackagesFromRunInstructions(dockerfile);
   const dockerfileLayers = getDockerfileLayers(dockerfilePackages);
-
-  let baseImage;
-
-  if (from) {
-    const fromVariables = from.getVariables();
-    baseImage = from.getImage() as string;
-
-    if (fromVariables) {
-      const resolvedVariables = fromVariables.reduce(
-        (resolvedVars, variable) => {
-          const line = variable.getRange().start.line;
-          const name = variable.getName();
-          resolvedVars[name] = dockerfile.resolveVariable(name, line);
-          return resolvedVars;
-        },
-        {},
-      );
-
-      Object.keys(resolvedVariables).forEach((variable) => {
-        baseImage = baseImage.replace(
-          `\$\{${variable}\}`,
-          resolvedVariables[variable],
-        );
-      });
-    }
-  }
-
   return {
     baseImage,
     dockerfilePackages,
