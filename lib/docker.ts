@@ -1,3 +1,6 @@
+import * as minimatch from "minimatch";
+import * as fspath from "path";
+import * as lsu from "./ls-utils";
 import * as subProcess from "./sub-process";
 
 export { Docker, DockerOptions };
@@ -47,6 +50,23 @@ class Docker {
     this.optionsList = Docker.createOptionsList(options);
   }
 
+  public async runSafe(cmd: string, args: string[] = []) {
+    try {
+      return await this.run(cmd, args);
+    } catch (error) {
+      const stderr: string = error.stderr;
+      if (typeof stderr === "string") {
+        if (
+          stderr.indexOf("No such file") >= 0 ||
+          stderr.indexOf("file not found") >= 0
+        ) {
+          return { stdout: "", stderr: "" };
+        }
+      }
+      throw error;
+    }
+  }
+
   public run(cmd: string, args: string[] = []) {
     return subProcess.execute("docker", [
       ...this.optionsList,
@@ -71,19 +91,48 @@ class Docker {
   }
 
   public async catSafe(filename: string) {
-    try {
-      return await this.run("cat", [filename]);
-    } catch (error) {
-      const stderr: string = error.stderr;
-      if (typeof stderr === "string") {
-        if (
-          stderr.indexOf("No such file") >= 0 ||
-          stderr.indexOf("file not found") >= 0
-        ) {
-          return { stdout: "", stderr: "" };
-        }
-      }
-      throw error;
+    return await this.runSafe("cat", [filename]);
+  }
+
+  public async lsSafe(path: string, recursive?: boolean) {
+    let params = "-1ap";
+    if (recursive) {
+      params += "R";
     }
+    return await this.runSafe("ls", [params, path]);
+  }
+
+  /**
+   * Find files on a docker image according to a given list of glob expressions.
+   */
+  public async findGlobs(
+    globs: string[],
+    exclusionGlobs: string[] = [],
+    path: string = "/",
+    recursive: boolean = true,
+  ) {
+    const res: string[] = [];
+    const root = await this.lsSafe(path, recursive).then((output) =>
+      lsu.parseLsOutput(output.stdout),
+    );
+
+    lsu.iterateFiles(root, (f) => {
+      const filepath = fspath.join(f.path, f.name);
+      let exclude = false;
+      exclusionGlobs.forEach((g) => {
+        if (!exclude && minimatch(filepath, g)) {
+          exclude = true;
+        }
+      });
+      if (!exclude) {
+        globs.forEach((g) => {
+          if (minimatch(filepath, g)) {
+            res.push(filepath);
+          }
+        });
+      }
+    });
+
+    return res;
   }
 }
