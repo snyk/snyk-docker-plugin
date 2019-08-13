@@ -136,9 +136,10 @@ async function getManifestFiles(targetImage: string, options?: any) {
 
   const globs = options.manifestGlobs as string[];
   const docker = new Docker(targetImage, options);
-  const contents = await Promise.all(globs.map((g) => docker.catSafe(g)));
+  const files = await docker.findGlobs(globs);
+  const contents = await Promise.all(files.map((f) => docker.catSafe(f)));
 
-  return globs
+  return files
     .map((g, i) => {
       return {
         name: path.basename(g),

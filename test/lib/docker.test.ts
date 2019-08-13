@@ -2,6 +2,8 @@
 // Shebang is required, and file *has* to be executable: chmod +x file.test.js
 // See: https://github.com/tapjs/node-tap/issues/313#issuecomment-250067741
 
+import { readFileSync } from "fs";
+import * as path from "path";
 import * as sinon from "sinon";
 import { test } from "tap";
 import * as subProcess from "../../lib/sub-process";
@@ -105,5 +107,159 @@ test("safeCat", async (t) => {
       { stderr: "something went horribly wrong", stdout: "" },
       "rejects with expected error",
     );
+  });
+});
+
+test("safeLs", async (t) => {
+  const stub = sinon.stub(subProcess, "execute");
+  t.beforeEach(async () => {
+    stub.resetHistory();
+  });
+  t.tearDown(() => {
+    stub.restore();
+  });
+
+  const targetImage = "some:image";
+  const docker = new Docker(targetImage);
+
+  t.test("directory found", async (t) => {
+    stub.resolves({
+      stdout: ".\n..\n.dockerenv\nbin/\ndev/\netc/\nusr/\nvar/\n",
+    });
+    const content = (await docker.lsSafe("/")).stdout;
+    t.equal(
+      content,
+      ".\n..\n.dockerenv\nbin/\ndev/\netc/\nusr/\nvar/\n",
+      "directory listing returned",
+    );
+  });
+
+  t.test("directory not found", async (t) => {
+    stub.callsFake(() => {
+      // tslint:disable-next-line:no-string-throw
+      throw { stderr: "ls: /abc: No such file or directory" };
+    });
+    const content = (await docker.lsSafe("/abc")).stderr;
+    t.equal(content, "", "empty string returned");
+  });
+
+  t.test("command not found", async (t) => {
+    stub.callsFake(() => {
+      // tslint:disable-next-line:no-string-throw
+      throw {
+        stderr: `>
+      docker: Error response from daemon: OCI runtime create failed:
+      container_linux.go:345: starting container process caused "exec: \"ls\":
+      executable file not found in $PATH": unknown.`,
+      };
+    });
+    const content = (await docker.lsSafe("/")).stderr;
+    t.equal(content, "", "empty string returned");
+  });
+
+  t.test("unexpected error", async (t) => {
+    stub.callsFake(() => {
+      // tslint:disable-next-line:no-string-throw
+      throw { stderr: "something went horribly wrong", stdout: "" };
+    });
+    await t.rejects(
+      docker.lsSafe("/"),
+      { stderr: "something went horribly wrong", stdout: "" },
+      "rejects with expected error",
+    );
+  });
+});
+
+const getLSOutputFixture = (file: string) =>
+  path.join(__dirname, "../fixtures/ls-output", file);
+
+test("findGlobs", async (t) => {
+  const stub = sinon.stub(subProcess, "execute");
+  t.beforeEach(async () => {
+    stub.resetHistory();
+  });
+  t.tearDown(() => {
+    stub.restore();
+  });
+
+  const targetImage = "some:image";
+  const docker = new Docker(targetImage);
+
+  t.test("find globs in single directory", async (t) => {
+    stub.resolves({
+      stdout: "./\n../\ndir1/\ndir2/\ndir3/\nfile1.txt\nfile2.txt\n",
+    });
+    const files = await docker.findGlobs(["**/file?.*"], [], "/", false);
+    t.same(files, ["/file1.txt", "/file2.txt"]);
+  });
+
+  t.test("find globs in a directory structure", async (t) => {
+    stub.resolves({
+      stdout:
+        "/app:\n./\n../\ndir1/\ndir2/\ndir3/\nfile1.txt\nfile2.txt\n\n/app/dir1:" +
+        "\n./\n../\ndir11/\nfile3.json\nfile4.txt\n\n/app/dir1/dir11:\n./\n../\n" +
+        "file5.txt\n\n/app/dir2:\n./\n../\n\n/app/dir3:\n./\n../\nfile6.json\n",
+    });
+    const files = await docker.findGlobs(["**/file?.json"]);
+    t.same(files, ["/dir1/file3.json", "/dir3/file6.json"]);
+  });
+
+  const registryGlobs = [
+    "**/package.json",
+    "**/package-lock.json",
+    "**/Gemfile",
+    "**/Gemfile.lock",
+    "**/yarn.lock",
+    "**/pom.xml",
+    "**/build.gradle",
+    "**/build.sbt",
+    "**/requirements.txt",
+    "**/Gopkg.lock",
+    "**/vendor.json",
+    "**/packages.config",
+    "**/*.csproj",
+    "**/*.fsproj",
+    "**/*.vbproj",
+    "**/project.json",
+    "**/project.assets.json",
+    "**/composer.lock",
+    "**/Dockerfile",
+  ];
+
+  t.test("find globs using registry globs", async (t) => {
+    stub.resolves({
+      stdout:
+        "/app:\n./\n../\ndir1/\ndir2/\ndir3/\nfile1.txt\npom.xml\n\n/app/dir1:" +
+        "\n./\n../\ndir11/\npackage.json\npackage-lock.json\n\n/app/dir1/dir11:\n./\n../\n" +
+        "file5.txt\n\n/app/dir2:\n./\n../\n\n/app/dir3:\n./\n../\nfile6.csproj\n",
+    });
+    const files = await docker.findGlobs(registryGlobs);
+    t.same(files, [
+      "/pom.xml",
+      "/dir1/package.json",
+      "/dir1/package-lock.json",
+      "/dir3/file6.csproj",
+    ]);
+  });
+
+  t.test("find globs using registry globs with exclude globs", async (t) => {
+    stub.resolves({
+      stdout:
+        "/app:\n./\n../\ndir1/\ndir2/\ndir3/\nfile1.txt\npom.xml\n\n/app/dir1:" +
+        "\n./\n../\ndir11/\npackage.json\npackage-lock.json\n\n/app/dir1/dir11:\n./\n../\n" +
+        "file5.txt\n\n/app/dir2:\n./\n../\n\n/app/dir3:\n./\n../\nfile6.csproj\n",
+    });
+    const files = await docker.findGlobs(registryGlobs, ["/dir1/*"]);
+    t.same(files, ["/pom.xml", "/dir3/file6.csproj"]);
+  });
+
+  t.test("find globs using registry globs and fixture", async (t) => {
+    stub.resolves({
+      stdout: readFileSync(
+        getLSOutputFixture("alpine-3.9.4-manifest-files.txt"),
+      ).toString(),
+    });
+    const files = await docker.findGlobs(registryGlobs);
+    t.same(files, ["/app/Gemfile.lock", "/srv/app/package.json"]);
   });
 });
