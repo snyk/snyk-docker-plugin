@@ -6,6 +6,9 @@ import * as path from "path";
 import { test } from "tap";
 import { iterateFiles, parseLsOutput } from "../../lib/ls-utils";
 
+import { writeFileSync } from "fs";
+import { Docker } from "../../lib/docker";
+
 const PARSER_TESTS = [
   {
     name: "Empty string",
@@ -211,4 +214,15 @@ test("parse ls output", async (t) => {
       t.same(files, data.files);
     });
   });
+});
+
+const getLSOutputFixture = (file: string) =>
+  path.join(__dirname, "../fixtures/ls-output", file);
+
+test("output ls", async (t) => {
+  const d = new Docker("mladkau/ghost:latest");
+
+  const out = await d.lsSafe("/", true);
+
+  writeFileSync(getLSOutputFixture("xxx.txt"), out.stdout);
 });
