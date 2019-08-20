@@ -253,13 +253,77 @@ test("findGlobs", async (t) => {
     t.same(files, ["/pom.xml", "/dir3/file6.csproj"]);
   });
 
-  t.test("find globs using registry globs and fixture", async (t) => {
+  t.test(
+    "find globs on ghost app using node_modules exclude glob",
+    async (t) => {
+      stub.resolves({
+        stdout: readFileSync(getLSOutputFixture("ghost-app.txt")).toString(),
+      });
+
+      const files = await docker.findGlobs(
+        ["**/package.json", "**/package-lock.json", "**/yarn.lock"],
+        ["**/node_modules/**"],
+      );
+
+      t.same(files, [
+        "/opt/yarn-v1.16.0/package.json",
+        "/var/lib/ghost/versions/2.25.6/package.json",
+        "/var/lib/ghost/versions/2.25.6/yarn.lock",
+        "/var/lib/ghost/versions/2.25.6/content/themes/casper/package.json",
+        "/var/lib/ghost/versions/2.25.6/content/themes/casper/yarn.lock",
+      ]);
+    },
+  );
+
+  t.test("find globs on alpine", async (t) => {
     stub.resolves({
       stdout: readFileSync(
         getLSOutputFixture("alpine-3.9.4-manifest-files.txt"),
       ).toString(),
     });
-    const files = await docker.findGlobs(registryGlobs);
+
+    const files = await docker.findGlobs([
+      "**/package.json",
+      "**/Gemfile.lock",
+    ]);
+
     t.same(files, ["/app/Gemfile.lock", "/srv/app/package.json"]);
+  });
+
+  t.test("find a java manifest file on centos", async (t) => {
+    stub.resolves({
+      stdout: readFileSync(
+        getLSOutputFixture("centos-7.6.1810-manifest-files.txt"),
+      ).toString(),
+    });
+
+    const files = await docker.findGlobs(["**/pom.xml"]);
+
+    t.same(files, ["/app/pom.xml"]);
+  });
+
+  t.test("find a node manifest file on debian", async (t) => {
+    stub.resolves({
+      stdout: readFileSync(
+        getLSOutputFixture("debian-10.0-manifest-files.txt"),
+      ).toString(),
+    });
+
+    const files = await docker.findGlobs(["**/package.json"]);
+
+    t.same(files, ["/app/package.json"]);
+  });
+
+  t.test("finding no manifest files on ubuntu", async (t) => {
+    stub.resolves({
+      stdout: readFileSync(getLSOutputFixture("ubuntu-18.04.txt")).toString(),
+    });
+
+    const files = await docker.findGlobs([
+      "**/package.json",
+      "**/package-lock.json",
+    ]);
+
+    t.same(files, []);
   });
 });

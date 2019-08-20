@@ -9,6 +9,8 @@ export { inspect, dockerFile };
 
 const debug = Debug("snyk");
 
+const MAX_MANIFEST_FILES = 5;
+
 function inspect(root: string, targetFile?: string, options?: any) {
   const dockerOptions = options
     ? {
@@ -18,6 +20,7 @@ function inspect(root: string, targetFile?: string, options?: any) {
         tlscacert: options.tlscacert,
         tlskey: options.tlskey,
         manifestGlobs: options.manifestGlobs,
+        manifestExcludeGlobs: options.manifestExcludeGlobs,
       }
     : {};
   const targetImage = root;
@@ -134,9 +137,23 @@ async function getManifestFiles(targetImage: string, options?: any) {
     return [];
   }
 
+  let excludeGlobs: string[] = [];
+  if (options.manifestExcludeGlobs) {
+    excludeGlobs = options.manifestExcludeGlobs as string[];
+  }
+
   const globs = options.manifestGlobs as string[];
   const docker = new Docker(targetImage, options);
-  const files = await docker.findGlobs(globs);
+
+  let files = await docker.findGlobs(globs, excludeGlobs);
+
+  // Limit the number of manifest files which we return
+  // to avoid overwhelming the docker daemon with cat requests
+
+  if (files.length > MAX_MANIFEST_FILES) {
+    files = files.slice(0, MAX_MANIFEST_FILES);
+  }
+
   const contents = await Promise.all(files.map((f) => docker.catSafe(f)));
 
   return files
