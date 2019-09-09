@@ -87,7 +87,7 @@ class Docker {
   }
 
   public async inspect(targetImage: string) {
-    return await subProcess.execute("docker", [
+    return subProcess.execute("docker", [
       ...this.optionsList,
       "inspect",
       targetImage,
@@ -95,7 +95,7 @@ class Docker {
   }
 
   public async catSafe(filename: string) {
-    return await this.runSafe("cat", [filename]);
+    return this.runSafe("cat", [filename]);
   }
 
   public async lsSafe(path: string, recursive?: boolean) {
@@ -103,7 +103,7 @@ class Docker {
     if (recursive) {
       params += "R";
     }
-    return await this.runSafe("ls", [params, path]);
+    return this.runSafe("ls", [params, path]);
   }
 
   /**
