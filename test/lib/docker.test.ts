@@ -89,17 +89,16 @@ test("safeCat", async (t) => {
   });
 
   t.test("file not found", async (t) => {
+    const error = "cat: absent.txt: No such file or directory";
     stub.callsFake(() => {
-      // tslint:disable-next-line:no-string-throw
-      throw { stderr: "cat: absent.txt: No such file or directory" };
+      throw { stderr: error };
     });
     const content = (await docker.catSafe("absent.txt")).stderr;
-    t.equal(content, "", "empty string returned");
+    t.equal(content, error, "error string returned");
   });
 
   t.test("unexpected error", async (t) => {
     stub.callsFake(() => {
-      // tslint:disable-next-line:no-string-throw
       throw { stderr: "something went horribly wrong", stdout: "" };
     });
     await t.rejects(
@@ -135,31 +134,28 @@ test("safeLs", async (t) => {
   });
 
   t.test("directory not found", async (t) => {
+    const error = "ls: /abc: No such file or directory";
     stub.callsFake(() => {
-      // tslint:disable-next-line:no-string-throw
-      throw { stderr: "ls: /abc: No such file or directory" };
+      throw { stderr: error };
     });
     const content = (await docker.lsSafe("/abc")).stderr;
-    t.equal(content, "", "empty string returned");
+    t.equal(content, error, "error string returned");
   });
 
   t.test("command not found", async (t) => {
-    stub.callsFake(() => {
-      // tslint:disable-next-line:no-string-throw
-      throw {
-        stderr: `>
+    const error = `>
       docker: Error response from daemon: OCI runtime create failed:
       container_linux.go:345: starting container process caused "exec: \"ls\":
-      executable file not found in $PATH": unknown.`,
-      };
+      executable file not found in $PATH": unknown.`;
+    stub.callsFake(() => {
+      throw { stderr: error };
     });
     const content = (await docker.lsSafe("/")).stderr;
-    t.equal(content, "", "empty string returned");
+    t.equal(content, error, "error string returned");
   });
 
   t.test("unexpected error", async (t) => {
     stub.callsFake(() => {
-      // tslint:disable-next-line:no-string-throw
       throw { stderr: "something went horribly wrong", stdout: "" };
     });
     await t.rejects(

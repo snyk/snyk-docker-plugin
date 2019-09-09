@@ -50,6 +50,10 @@ class Docker {
     this.optionsList = Docker.createOptionsList(options);
   }
 
+  /**
+   * Runs the command, catching any expected errors and returning them as normal
+   * stderr/stdout result.
+   */
   public async runSafe(cmd: string, args: string[] = []) {
     try {
       return await this.run(cmd, args);
@@ -60,7 +64,7 @@ class Docker {
           stderr.indexOf("No such file") >= 0 ||
           stderr.indexOf("file not found") >= 0
         ) {
-          return { stdout: "", stderr: "" };
+          return { stdout: error.stdout, stderr };
         }
       }
       throw error;
