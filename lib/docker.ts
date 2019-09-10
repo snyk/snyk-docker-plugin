@@ -50,6 +50,10 @@ class Docker {
     this.optionsList = Docker.createOptionsList(options);
   }
 
+  /**
+   * Runs the command, catching any expected errors and returning them as normal
+   * stderr/stdout result.
+   */
   public async runSafe(cmd: string, args: string[] = []) {
     try {
       return await this.run(cmd, args);
@@ -60,7 +64,7 @@ class Docker {
           stderr.indexOf("No such file") >= 0 ||
           stderr.indexOf("file not found") >= 0
         ) {
-          return { stdout: "", stderr: "" };
+          return { stdout: error.stdout, stderr };
         }
       }
       throw error;
@@ -83,7 +87,7 @@ class Docker {
   }
 
   public async inspect(targetImage: string) {
-    return await subProcess.execute("docker", [
+    return subProcess.execute("docker", [
       ...this.optionsList,
       "inspect",
       targetImage,
@@ -91,7 +95,7 @@ class Docker {
   }
 
   public async catSafe(filename: string) {
-    return await this.runSafe("cat", [filename]);
+    return this.runSafe("cat", [filename]);
   }
 
   public async lsSafe(path: string, recursive?: boolean) {
@@ -99,7 +103,7 @@ class Docker {
     if (recursive) {
       params += "R";
     }
-    return await this.runSafe("ls", [params, path]);
+    return this.runSafe("ls", [params, path]);
   }
 
   /**
