@@ -27,10 +27,11 @@ async function analyze(
   targetImage: string,
   dockerfileAnalysis?: dockerFile.DockerFileAnalysis,
   options?: DockerOptions,
+  dockerArchivePath?: string,
 ) {
   const docker = new Docker(targetImage, options);
 
-  await docker.scanStaticalyIfNeeded(extractActions);
+  await docker.scanStaticalyIfNeeded(extractActions, dockerArchivePath);
 
   const [imageInspection, osRelease] = await Promise.all([
     imageInspector.detect(docker),

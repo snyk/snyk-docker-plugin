@@ -186,7 +186,12 @@ class Docker {
    */
   public async extract(
     extractActions: ExtractAction[],
+    dockerArchivePath?: string,
   ): Promise<ExtractProductsByFilename> {
+    if (dockerArchivePath !== undefined) {
+      return await extractFromTar(dockerArchivePath, extractActions);
+    }
+
     return this.save(async (err, imageTarPath) => {
       if (err) {
         throw err;
@@ -199,10 +204,13 @@ class Docker {
    * Extract files from image and store their product
    * @param extractActions array of pattern, callbacks pairs
    */
-  public async extractAndCache(extractActions: ExtractAction[]): Promise<void> {
+  public async extractAndCache(
+    extractActions: ExtractAction[],
+    dockerArchivePath?: string,
+  ): Promise<void> {
     this.extractProductsByFilename = Object.assign(
       this.extractProductsByFilename,
-      await this.extract(extractActions),
+      await this.extract(extractActions, dockerArchivePath),
     );
   }
 
@@ -212,13 +220,17 @@ class Docker {
    */
   public async scanStaticalyIfNeeded(
     extractActions: ExtractAction[],
+    dockerArchivePath?: string,
   ): Promise<void> {
-    const size = await this.sizeSafe();
-    if (!size || size > this.GetStaticScanSizeLimit()) {
-      return;
+    if (dockerArchivePath === undefined) {
+      const size = await this.sizeSafe();
+      if (!size || size > this.GetStaticScanSizeLimit()) {
+        return;
+      }
     }
+
     try {
-      await this.extractAndCache(extractActions);
+      await this.extractAndCache(extractActions, dockerArchivePath);
     } catch (error) {
       debug(error);
       throw error;

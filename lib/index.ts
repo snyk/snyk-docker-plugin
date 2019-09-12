@@ -20,12 +20,20 @@ function inspect(root: string, targetFile?: string, options?: any) {
     : {};
   const targetImage = root;
 
+  const dockerArchivePath: string | undefined =
+    (options && options.dockerArchivePath) || undefined;
+
   return dockerFile
     .readDockerfileAndAnalyse(targetFile)
     .then((dockerfileAnalysis) => {
       return Promise.all([
         getRuntime(dockerOptions),
-        getDependencies(targetImage, dockerfileAnalysis, dockerOptions),
+        getDependencies(
+          targetImage,
+          dockerfileAnalysis,
+          dockerOptions,
+          dockerArchivePath,
+        ),
       ]).then((res) => {
         return buildResponse(res[0], res[1], dockerfileAnalysis, options);
       });
@@ -83,10 +91,11 @@ function getDependencies(
   targetImage: string,
   dockerfileAnalysis?: dockerFile.DockerFileAnalysis,
   options?: DockerOptions,
+  dockerArchivePath?: string,
 ) {
   let result;
   return analyzer
-    .analyze(targetImage, dockerfileAnalysis, options)
+    .analyze(targetImage, dockerfileAnalysis, options, dockerArchivePath)
     .then((output) => {
       result = parseAnalysisResults(targetImage, output, dockerfileAnalysis);
       return buildTree(
