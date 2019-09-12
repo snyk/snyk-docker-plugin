@@ -102,7 +102,12 @@ async function extractLayersFromTar(
 
     imageExtract.on("entry", async (header, stream, next) => {
       if (header.type === "file") {
-        if (basename(header.name) === "layer.tar") {
+        if (
+          basename(header.name).endsWith(".tar") &&
+          basename(header.name) !== "layer.tar"
+        ) {
+          layers[header.name] = await extractFromLayer(stream, extractActions);
+        } else if (basename(header.name) === "layer.tar") {
           layers[header.name] = await extractFromLayer(stream, extractActions);
         } else if (header.name === "manifest.json") {
           streamToString(stream).then((manifestFile) => {
