@@ -9,9 +9,12 @@ interface Inspect {
   };
 }
 
-async function detect(docker: Docker): Promise<Inspect> {
+async function detect(
+  docker: Docker,
+  useSkopeo: boolean = false,
+): Promise<Inspect> {
   try {
-    const info = await docker.inspect();
+    const info = await docker.inspect([], useSkopeo);
     return JSON.parse(info.stdout)[0];
   } catch (error) {
     if (error.stderr.includes("No such object")) {

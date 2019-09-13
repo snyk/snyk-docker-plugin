@@ -98,7 +98,19 @@ class Docker {
     ]);
   }
 
-  public async inspect(args: string[] = []): Promise<CmdOutput> {
+  public async inspect(
+    args: string[] = [],
+    useSkopeo: boolean = false,
+  ): Promise<CmdOutput> {
+    if (useSkopeo) {
+      return await execute("skopeo", [
+        ...this.optionsList,
+        "inspect",
+        this.targetImage,
+        ...args,
+      ]);
+    }
+
     return await execute("docker", [
       ...this.optionsList,
       "inspect",

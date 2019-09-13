@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
-function detect(docker) {
+function detect(docker, useSkopeo = false) {
     return tslib_1.__awaiter(this, void 0, void 0, function* () {
         try {
-            const info = yield docker.inspect();
+            const info = yield docker.inspect([], useSkopeo);
             return JSON.parse(info.stdout)[0];
         }
         catch (error) {

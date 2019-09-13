@@ -64,8 +64,16 @@ class Docker {
             ...args,
         ]);
     }
-    inspect(args = []) {
+    inspect(args = [], useSkopeo = false) {
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            if (useSkopeo) {
+                return yield sub_process_1.execute("skopeo", [
+                    ...this.optionsList,
+                    "inspect",
+                    this.targetImage,
+                    ...args,
+                ]);
+            }
             return yield sub_process_1.execute("docker", [
                 ...this.optionsList,
                 "inspect",

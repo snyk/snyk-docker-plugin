@@ -24,8 +24,9 @@ function analyze(targetImage, dockerfileAnalysis, options, dockerArchivePath) {
     return tslib_1.__awaiter(this, void 0, void 0, function* () {
         const docker = new docker_1.Docker(targetImage, options);
         yield docker.scanStaticalyIfNeeded(extractActions, dockerArchivePath);
+        const useSkopeo = dockerArchivePath !== undefined;
         const [imageInspection, osRelease] = yield Promise.all([
-            imageInspector.detect(docker),
+            imageInspector.detect(docker, useSkopeo),
             osReleaseDetector.detect(docker, dockerfileAnalysis),
         ]);
         const results = yield Promise.all([

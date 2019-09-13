@@ -33,8 +33,10 @@ async function analyze(
 
   await docker.scanStaticalyIfNeeded(extractActions, dockerArchivePath);
 
+  const useSkopeo = dockerArchivePath !== undefined;
+
   const [imageInspection, osRelease] = await Promise.all([
-    imageInspector.detect(docker),
+    imageInspector.detect(docker, useSkopeo),
     osReleaseDetector.detect(docker, dockerfileAnalysis),
   ]);
 
