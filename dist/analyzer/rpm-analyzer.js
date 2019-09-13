@@ -1,0 +1,54 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = require("tslib");
+function analyze(docker) {
+    return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        const pkgs = yield getPackages(docker);
+        return {
+            Image: docker.getTargetImage(),
+            AnalyzeType: "Rpm",
+            Analysis: pkgs,
+        };
+    });
+}
+exports.analyze = analyze;
+function getPackages(docker) {
+    return docker
+        .run("rpm", [
+        "--nodigest",
+        "--nosignature",
+        "-qa",
+        "--qf",
+        '"%{NAME}\t%|EPOCH?{%{EPOCH}:}|%{VERSION}-%{RELEASE}\t%{SIZE}\n"',
+    ])
+        .catch((error) => {
+        const stderr = error.stderr;
+        if (typeof stderr === "string" && stderr.indexOf("not found") >= 0) {
+            return { stdout: "", stderr: "" };
+        }
+        throw error;
+    })
+        .then((output) => parseOutput(output.stdout));
+}
+function parseOutput(output) {
+    const pkgs = [];
+    for (const line of output.split("\n")) {
+        parseLine(line, pkgs);
+    }
+    return pkgs;
+}
+function parseLine(text, pkgs) {
+    const [name, version, size] = text.split("\t");
+    if (name && version && size) {
+        const pkg = {
+            Name: name,
+            Version: version,
+            Source: undefined,
+            Provides: [],
+            Deps: {},
+            AutoInstalled: undefined,
+        };
+        pkgs.push(pkg);
+    }
+}
+//# sourceMappingURL=rpm-analyzer.js.map
