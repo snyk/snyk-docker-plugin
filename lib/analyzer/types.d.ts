@@ -9,6 +9,12 @@ export interface AnalyzerPkg {
   AutoInstalled?: boolean;
 }
 
+export interface AnalyzerResult {
+  Image: string;
+  AnalyzeType: string;
+  Analysis: AnalyzerPkg[];
+}
+
 export interface OSRelease {
   name: string;
   version: string;

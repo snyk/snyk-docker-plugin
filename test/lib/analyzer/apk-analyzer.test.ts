@@ -8,7 +8,8 @@
 import * as sinon from "sinon";
 import { test } from "tap";
 
-import * as analyzer from "../../../lib/analyzer/apk-analyzer";
+import * as apkInput from "../../../lib/analyzer/inputs/apk/docker";
+import * as analyzer from "../../../lib/analyzer/package-managers/apk";
 import * as subProcess from "../../../lib/sub-process";
 
 test("analyze", async (t) => {
@@ -140,7 +141,8 @@ test("analyze", async (t) => {
 
       t.teardown(() => execStub.restore());
 
-      const actual = await analyzer.analyze("alpine:2.6");
+      const apkDbFileContent = await apkInput.getApkDbFileContent("alpine:2.6");
+      const actual = await analyzer.analyze("alpine:2.6", apkDbFileContent);
 
       t.same(actual, {
         Image: "alpine:2.6",

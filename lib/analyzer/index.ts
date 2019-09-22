@@ -1,12 +1,14 @@
 import * as Debug from "debug";
 import { DockerOptions } from "../docker";
 import * as dockerFile from "../docker-file";
-import * as apkAnalyzer from "./apk-analyzer";
 import * as aptAnalyzer from "./apt-analyzer";
 import * as binariesAnalyzer from "./binaries-analyzer";
 import * as imageInspector from "./image-inspector";
 import * as osReleaseDetector from "./os-release-detector";
 import * as rpmAnalyzer from "./rpm-analyzer";
+
+import apkInput = require("./inputs/apk/docker");
+import apkAnalyzer = require("./package-managers/apk");
 
 export { analyze };
 
@@ -17,13 +19,14 @@ async function analyze(
   dockerfileAnalysis?: dockerFile.DockerFileAnalysis,
   options?: DockerOptions,
 ) {
-  const [imageInspection, osRelease] = await Promise.all([
+  const [imageInspection, osRelease, apkDb] = await Promise.all([
     imageInspector.detect(targetImage, options),
     osReleaseDetector.detect(targetImage, dockerfileAnalysis, options),
+    apkInput.getApkDbFileContent(targetImage, options),
   ]);
 
   const results = await Promise.all([
-    apkAnalyzer.analyze(targetImage, options),
+    apkAnalyzer.analyze(targetImage, apkDb),
     aptAnalyzer.analyze(targetImage, options),
     rpmAnalyzer.analyze(targetImage, options),
   ]).catch((err) => {

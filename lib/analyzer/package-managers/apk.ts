@@ -1,19 +1,16 @@
-import { Docker, DockerOptions } from "../docker";
-import { AnalyzerPkg } from "./types";
+import { AnalyzerPkg, AnalyzerResult } from "../types";
+
 export { analyze };
 
-function analyze(targetImage: string, options?: DockerOptions) {
-  return getPackages(targetImage, options).then((pkgs) => ({
+function analyze(
+  targetImage: string,
+  apkDbFileContent: string,
+): AnalyzerResult {
+  return {
     Image: targetImage,
     AnalyzeType: "Apk",
-    Analysis: pkgs,
-  }));
-}
-
-function getPackages(targetImage: string, options?: DockerOptions) {
-  return new Docker(targetImage, options)
-    .catSafe("/lib/apk/db/installed")
-    .then((output) => parseFile(output.stdout));
+    Analysis: parseFile(apkDbFileContent),
+  };
 }
 
 function parseFile(text: string) {
