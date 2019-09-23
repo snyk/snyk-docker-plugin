@@ -7,7 +7,8 @@ import * as imageInspector from "./image-inspector";
 import * as osReleaseDetector from "./os-release-detector";
 import * as rpmAnalyzer from "./rpm-analyzer";
 
-import apkInput = require("./inputs/apk/docker");
+import apkInputDocker = require("./inputs/apk/docker");
+import apkInputStatic = require("./inputs/apk/static");
 import apkAnalyzer = require("./package-managers/apk");
 
 export { analyze };
@@ -18,11 +19,19 @@ async function analyze(
   targetImage: string,
   dockerfileAnalysis?: dockerFile.DockerFileAnalysis,
   options?: DockerOptions,
+  analysisType?: string,
 ) {
-  const [imageInspection, osRelease, apkDb] = await Promise.all([
+
+  let apkDb: string = '';
+  if (analysisType === 'static') {
+    apkDb = await apkInputStatic.getApkDbFileContent(targetImage);
+  } else { // assuming 'dynamic'
+    apkDb = await apkInputDocker.getApkDbFileContent(targetImage, options);
+  }
+
+  const [imageInspection, osRelease] = await Promise.all([
     imageInspector.detect(targetImage, options),
     osReleaseDetector.detect(targetImage, dockerfileAnalysis, options),
-    apkInput.getApkDbFileContent(targetImage, options),
   ]);
 
   const results = await Promise.all([
