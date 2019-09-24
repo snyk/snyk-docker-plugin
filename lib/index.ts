@@ -4,6 +4,7 @@ import * as analyzer from "./analyzer";
 import { Docker, DockerOptions } from "./docker";
 import * as dockerFile from "./docker-file";
 import { buildResponse } from "./response-builder";
+import { StaticScanningOptions } from "./types";
 
 export { inspect, dockerFile };
 
@@ -23,6 +24,16 @@ function inspect(root: string, targetFile?: string, options?: any) {
         manifestExcludeGlobs: options.manifestExcludeGlobs,
       }
     : {};
+
+  const staticScanningOptions: StaticScanningOptions =
+    options && options.staticScanningOptions
+      ? {
+          imagePath: options.staticScanningOptions.imagePath,
+          imageType: options.staticScanningOptions.imageType,
+        }
+      : {};
+  debug(staticScanningOptions);
+
   const targetImage = root;
 
   return dockerFile
