@@ -8,7 +8,8 @@
 import * as sinon from "sinon";
 import { test } from "tap";
 
-import * as analyzer from "../../../lib/analyzer/apt-analyzer";
+import * as analyzer from "../../../lib/analyzer/package-managers/apt";
+import * as aptInput from "../../../lib/inputs/apt/docker";
 import * as subProcess from "../../../lib/sub-process";
 
 test("analyze", async (t) => {
@@ -363,7 +364,10 @@ test("analyze", async (t) => {
 
       t.teardown(() => execStub.restore());
 
-      const actual = await analyzer.analyze("ubuntu:10.04");
+      const aptDbFileContent = await aptInput.getAptDbFileContent(
+        "ubuntu:10.04",
+      );
+      const actual = await analyzer.analyze("ubuntu:10.04", aptDbFileContent);
 
       t.same(actual, {
         Image: "ubuntu:10.04",

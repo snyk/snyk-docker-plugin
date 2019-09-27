@@ -1,23 +1,18 @@
-import { Docker, DockerOptions } from "../docker";
-import { AnalyzerPkg } from "./types";
-export { analyze };
+import { AnalysisType, AnalyzedPackage, ImageAnalysis } from "../types";
 
-function analyze(targetImage: string, options?: DockerOptions) {
-  return getPackages(targetImage, options).then((pkgs) => ({
+export function analyze(
+  targetImage: string,
+  apkDbFileContent: string,
+): Promise<ImageAnalysis> {
+  return Promise.resolve({
     Image: targetImage,
-    AnalyzeType: "Apk",
-    Analysis: pkgs,
-  }));
-}
-
-function getPackages(targetImage: string, options?: DockerOptions) {
-  return new Docker(targetImage, options)
-    .catSafe("/lib/apk/db/installed")
-    .then((output) => parseFile(output.stdout));
+    AnalyzeType: AnalysisType.Apk,
+    Analysis: parseFile(apkDbFileContent),
+  });
 }
 
 function parseFile(text: string) {
-  const pkgs: AnalyzerPkg[] = [];
+  const pkgs: AnalyzedPackage[] = [];
   let curPkg: any = null;
   for (const line of text.split("\n")) {
     curPkg = parseLine(line, curPkg, pkgs);
@@ -25,7 +20,11 @@ function parseFile(text: string) {
   return pkgs;
 }
 
-function parseLine(text: string, curPkg: AnalyzerPkg, pkgs: AnalyzerPkg[]) {
+function parseLine(
+  text: string,
+  curPkg: AnalyzedPackage,
+  pkgs: AnalyzedPackage[],
+) {
   const key = text.charAt(0);
   const value = text.substr(2);
   switch (key) {

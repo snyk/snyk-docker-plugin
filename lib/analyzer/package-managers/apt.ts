@@ -1,27 +1,27 @@
-import { Docker, DockerOptions } from "../docker";
-import { AnalyzerPkg } from "./types";
+import { AnalysisType, AnalyzedPackage, ImageAnalysis } from "../types";
 
-export { analyze };
+export function analyze(
+  targetImage: string,
+  aptFiles: {
+    dpkgFile: string;
+    extFile: string;
+  },
+): Promise<ImageAnalysis> {
+  const pkgs = parseDpkgFile(aptFiles.dpkgFile);
 
-async function analyze(targetImage: string, options?: DockerOptions) {
-  const docker = new Docker(targetImage, options);
-  const dpkgFile = (await docker.catSafe("/var/lib/dpkg/status")).stdout;
-  const pkgs = parseDpkgFile(dpkgFile);
-
-  const extFile = (await docker.catSafe("/var/lib/apt/extended_states")).stdout;
-  if (extFile) {
-    setAutoInstalledPackages(extFile, pkgs);
+  if (aptFiles.extFile) {
+    setAutoInstalledPackages(aptFiles.extFile, pkgs);
   }
 
-  return {
+  return Promise.resolve({
     Image: targetImage,
-    AnalyzeType: "Apt",
+    AnalyzeType: AnalysisType.Apt,
     Analysis: pkgs,
-  };
+  });
 }
 
 function parseDpkgFile(text: string) {
-  const pkgs: AnalyzerPkg[] = [];
+  const pkgs: AnalyzedPackage[] = [];
   let curPkg: any = null;
   for (const line of text.split("\n")) {
     curPkg = parseDpkgLine(line, curPkg, pkgs);
@@ -29,7 +29,11 @@ function parseDpkgFile(text: string) {
   return pkgs;
 }
 
-function parseDpkgLine(text: string, curPkg: AnalyzerPkg, pkgs: AnalyzerPkg[]) {
+function parseDpkgLine(
+  text: string,
+  curPkg: AnalyzedPackage,
+  pkgs: AnalyzedPackage[],
+) {
   const [key, value] = text.split(": ");
   switch (key) {
     case "Package":
@@ -68,7 +72,7 @@ function parseDpkgLine(text: string, curPkg: AnalyzerPkg, pkgs: AnalyzerPkg[]) {
   return curPkg;
 }
 
-function setAutoInstalledPackages(text: string, pkgs: AnalyzerPkg[]) {
+function setAutoInstalledPackages(text: string, pkgs: AnalyzedPackage[]) {
   const autoPkgs = parseExtFile(text);
   for (const pkg of pkgs) {
     if (autoPkgs[pkg.Name]) {

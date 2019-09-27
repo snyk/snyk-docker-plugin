@@ -1,14 +1,12 @@
 import { DockerOptions } from "../docker";
-import { Binary } from "./types";
+import { AnalysisType, Binary, ImageAnalysis } from "./types";
 
-export { analyze };
-
-async function analyze(
+export async function analyze(
   targetImage: string,
   installedPackages: string[],
   pkgManager?: string,
   options?: DockerOptions,
-) {
+): Promise<ImageAnalysis> {
   const binaries = await getBinaries(
     targetImage,
     installedPackages,
@@ -17,7 +15,7 @@ async function analyze(
   );
   return {
     Image: targetImage,
-    AnalyzeType: "binaries",
+    AnalyzeType: AnalysisType.Binaries,
     Analysis: binaries,
   };
 }
