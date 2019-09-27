@@ -3,7 +3,7 @@ import { DockerOptions } from "../docker";
 import * as dockerFile from "../docker-file";
 import * as binariesAnalyzer from "./binaries-analyzer";
 import * as imageInspector from "./image-inspector";
-import * as osReleaseDetector from "./os-release-detector";
+import * as osReleaseDetector from "./os-release";
 
 import apkInputDocker = require("../inputs/apk/docker");
 import aptInputDocker = require("../inputs/apt/docker");
