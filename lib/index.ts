@@ -3,6 +3,7 @@ import * as path from "path";
 import * as analyzer from "./analyzer";
 import { Docker, DockerOptions } from "./docker";
 import * as dockerFile from "./docker-file";
+import { getRuntime } from "./inputs/runtime/docker";
 import { buildResponse } from "./response-builder";
 import { StaticAnalysisOptions } from "./types";
 
@@ -84,20 +85,6 @@ function getDynamicAnalysisOptions(options?: any): any {
         manifestExcludeGlobs: options.manifestExcludeGlobs,
       }
     : {};
-}
-
-function getRuntime(options: DockerOptions) {
-  return Docker.run(["version"], options)
-    .then((output) => {
-      const versionMatch = /Version:\s+(.*)\n/.exec(output.stdout);
-      if (versionMatch) {
-        return "docker " + versionMatch[1];
-      }
-      return undefined;
-    })
-    .catch((error) => {
-      throw new Error(`Docker error: ${error.stderr}`);
-    });
 }
 
 function handleCommonErrors(error, targetImage: string) {
