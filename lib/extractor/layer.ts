@@ -5,7 +5,13 @@ import { Readable } from "stream";
 import { extract, Extract } from "tar-stream";
 import { streamToString } from "../stream-utils";
 import { applyCallbacks } from "./callbacks";
-import { ExtractAction, ExtractedLayers, FileNameAndContent } from "./types";
+import {
+  DockerArchiveManifest,
+  ExtractAction,
+  ExtractedLayers,
+  ExtractedLayersAndManifest,
+  FileNameAndContent,
+} from "./types";
 
 /**
  * Retrieve the products of files content from the specified docker-archive.
@@ -13,21 +19,21 @@ import { ExtractAction, ExtractedLayers, FileNameAndContent } from "./types";
  * @param extractActions Array of pattern-callbacks pairs.
  * @returns Array of extracted files products sorted by the reverse order of the layers from last to first.
  */
-export async function extractDockerArchiveLayers(
+export async function extractDockerArchive(
   dockerArchiveFilesystemPath: string,
   extractActions: ExtractAction[],
-): Promise<ExtractedLayers[]> {
+): Promise<ExtractedLayersAndManifest> {
   return new Promise((resolve, reject) => {
     const tarExtractor: Extract = extract();
     const layers: Record<string, ExtractedLayers> = {};
-    let layersNames: string[];
+    let manifest: DockerArchiveManifest;
 
     tarExtractor.on("entry", async (header, stream, next) => {
       if (header.type === "file") {
         if (isTarFile(header.name)) {
           layers[header.name] = await extractImageLayer(stream, extractActions);
         } else if (isManifestFile(header.name)) {
-          layersNames = await getLayersNames(stream);
+          manifest = await getManifestFile(stream);
         }
       }
 
@@ -36,7 +42,7 @@ export async function extractDockerArchiveLayers(
     });
 
     tarExtractor.on("finish", () => {
-      resolve(getLayersContent(layersNames, layers));
+      resolve(getLayersContentAndArchiveManifest(manifest, layers));
     });
 
     tarExtractor.on("error", (error) => reject(error));
@@ -106,26 +112,32 @@ async function extractFileAndProcess(
   return undefined;
 }
 
-function getLayersContent(
-  layersNames: string[],
+function getLayersContentAndArchiveManifest(
+  manifest: DockerArchiveManifest,
   layers: Record<string, ExtractedLayers>,
-): ExtractedLayers[] {
+): ExtractedLayersAndManifest {
   // skip (ignore) non-existent layers
   // get the layers content without the name
   // reverse layers order from last to first
-  return layersNames
-    .filter((layersName) => layers[layersName])
+  const filteredLayers = manifest.Layers.filter(
+    (layersName) => layers[layersName],
+  )
     .map((layerName) => layers[layerName])
     .reverse();
+
+  return {
+    layers: filteredLayers,
+    manifest,
+  };
 }
 
 /**
  * Note: consumes the stream.
  */
-function getLayersNames(stream: Readable): Promise<string[]> {
+function getManifestFile(stream: Readable): Promise<DockerArchiveManifest> {
   return streamToString(stream).then((manifestFile) => {
     const manifest = JSON.parse(manifestFile);
-    return manifest[0].Layers;
+    return manifest[0];
   });
 }
 

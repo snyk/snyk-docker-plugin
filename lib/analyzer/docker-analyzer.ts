@@ -21,7 +21,11 @@ export async function analyze(
 ) {
   const [imageInspection, osRelease] = await Promise.all([
     imageInspector.detect(targetImage, options),
-    osReleaseDetector.detect(targetImage, dockerfileAnalysis, options),
+    osReleaseDetector.detectDynamically(
+      targetImage,
+      dockerfileAnalysis,
+      options,
+    ),
   ]);
 
   const [

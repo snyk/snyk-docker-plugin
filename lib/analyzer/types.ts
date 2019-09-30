@@ -9,6 +9,14 @@ export interface AnalyzedPackage {
   AutoInstalled?: boolean;
 }
 
+export interface DockerInspectOutput {
+  Id: string;
+  RootFS: {
+    Type: string;
+    Layers: string[];
+  };
+}
+
 export interface ImageAnalysis {
   Image: string;
   AnalyzeType: AnalysisType;
@@ -30,4 +38,9 @@ export interface OSRelease {
 export interface Binary {
   name: string;
   version: string;
+}
+
+export interface IAptFiles {
+  dpkgFile: string;
+  extFile: string;
 }

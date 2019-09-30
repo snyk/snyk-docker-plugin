@@ -1,7 +1,7 @@
 import { test } from "tap";
-import { getDockerArchiveLayers } from "../../../lib/extractor";
+import { getDockerArchiveLayersAndManifest } from "../../../lib/extractor";
 import { ExtractAction } from "../../../lib/extractor/types";
-import { streamToBuffer, streamToString } from "../../../lib/stream-utils";
+import { streamToString } from "../../../lib/stream-utils";
 
 test("image extractor: callbacks are issued when files are found", async (t) => {
   t.plan(2);
@@ -13,19 +13,19 @@ test("image extractor: callbacks are issued when files are found", async (t) => 
       callback: async (stream) => {
         const content = await streamToString(stream);
         t.same(content, "Hello, world!", "content read is as expected");
-        return Buffer.from([]);
+        return content;
       },
     },
   ];
 
   // Try a docker-archive first
-  await getDockerArchiveLayers(
+  await getDockerArchiveLayersAndManifest(
     "../../fixtures/docker-archives/docker-save/nginx.tar",
     extractActions,
   );
 
   // Try a skopeo docker-archive
-  await getDockerArchiveLayers(
+  await getDockerArchiveLayersAndManifest(
     "../../fixtures/docker-archives/skopeo-copy/nginx.tar",
     extractActions,
   );
@@ -41,32 +41,28 @@ test("image extractor: can read content with multiple callbacks", async (t) => {
       callback: async (stream) => {
         const content = await streamToString(stream);
         t.same(content, "Hello, world!", "content read is as expected");
-        return Buffer.from([]);
+        return content;
       },
     },
     {
       actionName: "read_as_buffer",
       fileNamePattern: "/snyk/mock.txt",
       callback: async (stream) => {
-        const content = await streamToBuffer(stream);
-        t.deepEqual(
-          content,
-          Buffer.from("Hello, world!", "utf-8"),
-          "content read is as expected",
-        );
-        return Buffer.from([]);
+        const content = await streamToString(stream);
+        t.same(content, "Hello, world!", "content read is as expected");
+        return `${content} Second callback!`;
       },
     },
   ];
 
   // Try a docker-archive first
-  await getDockerArchiveLayers(
+  await getDockerArchiveLayersAndManifest(
     "../../fixtures/docker-archives/docker-save/nginx.tar",
     extractActions,
   );
 
   // Try a skopeo docker-archive
-  await getDockerArchiveLayers(
+  await getDockerArchiveLayersAndManifest(
     "../../fixtures/docker-archives/skopeo-copy/nginx.tar",
     extractActions,
   );
@@ -85,12 +81,12 @@ test("image extractor: ensure the layer results are the same for docker and for 
     },
   ];
 
-  const dockerResult = await getDockerArchiveLayers(
+  const dockerResult = await getDockerArchiveLayersAndManifest(
     "../../fixtures/docker-archives/skopeo-copy/nginx.tar",
     extractActions,
   );
 
-  const skopeoResult = await getDockerArchiveLayers(
+  const skopeoResult = await getDockerArchiveLayersAndManifest(
     "../../fixtures/docker-archives/skopeo-copy/nginx.tar",
     extractActions,
   );
@@ -102,9 +98,32 @@ test("image extractor: ensure the layer results are the same for docker and for 
   );
 
   t.ok(
-    fileNamePattern in dockerResult &&
-      actionName in dockerResult[fileNamePattern] &&
-      dockerResult[fileNamePattern][actionName] === returnedContent,
-    "The result from extractFromTar is as expected",
+    "layers" in dockerResult && "manifest" in dockerResult,
+    "Returns the expected structure",
+  );
+
+  const layers = dockerResult.layers;
+  t.ok(
+    fileNamePattern in layers &&
+      actionName in layers[fileNamePattern] &&
+      layers[fileNamePattern][actionName] === returnedContent,
+    "The layers returned are as expected",
+  );
+
+  const manifest = dockerResult.manifest;
+  t.ok(
+    "Config" in manifest && "Layers" in manifest && "RepoTags" in manifest,
+    "The manifest contains the expected entries",
+  );
+  t.same(manifest.RepoTags, [], "RepoTags is empty");
+  t.same(
+    manifest.Config,
+    "ab56bba91343aafcdd94b7a44b42e12f32719b9a2b8579e93017c1280f48e8f3.json",
+    "Config matches",
+  );
+  t.deepEqual(
+    manifest.Layers,
+    ["ce3539cc184915f96add8551b0e7a37d80c560fe3ffe40cfe4585ea3a8dc14e9.tar"],
+    "Layers match",
   );
 });

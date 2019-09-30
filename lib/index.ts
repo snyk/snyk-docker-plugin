@@ -51,23 +51,81 @@ function analyzeDynamically(
   });
 }
 
-async function analyzeStatically(
-  targetImage: string,
-  options?: any,
-): Promise<never> {
-  const staticScanningOptions = getStaticAnalysisOptions(options);
-  return analyzer.analyzeStatically(targetImage, staticScanningOptions);
+async function analyzeStatically(targetImage: string, options?: any) {
+  const staticAnalysisOptions = getStaticAnalysisOptions(options);
+
+  // Relevant only if using a Docker runtime. Optional, but we may consider what to put here
+  // to present to the user in Snyk UI.
+  const runtime = undefined;
+  // Both the analysis and the manifest files are relevant if inspecting a Dockerfile.
+  // This is not the case for static scanning.
+  const dockerfileAnalysis = undefined;
+  const manifestFiles = [];
+
+  try {
+    const staticAnalysis = await analyzer.analyzeStatically(
+      targetImage,
+      staticAnalysisOptions,
+    );
+
+    const parsedAnalysisResult = parseAnalysisResults(
+      targetImage,
+      staticAnalysis,
+      dockerfileAnalysis,
+    );
+
+    const dependenciesTree = await buildTree(
+      targetImage,
+      parsedAnalysisResult.type,
+      parsedAnalysisResult.depInfosList,
+      parsedAnalysisResult.targetOS,
+    );
+
+    const analysis = {
+      package: dependenciesTree,
+      packageManager: parsedAnalysisResult.type,
+      imageId: parsedAnalysisResult.imageId,
+      binaries: parsedAnalysisResult.binaries,
+      imageLayers: parsedAnalysisResult.imageLayers,
+    };
+
+    return buildResponse(
+      runtime,
+      analysis,
+      dockerfileAnalysis,
+      manifestFiles,
+      staticAnalysisOptions,
+    );
+  } catch (error) {
+    const analysisError = tryGetAnalysisError(error, targetImage);
+    throw analysisError;
+  }
+}
+
+function tryGetAnalysisError(error, targetImage): Error {
+  if (typeof error === "string") {
+    debug(`Error while running analyzer: '${error}'`);
+    handleCommonErrors(error, targetImage);
+    let errorMsg = error;
+    const errorMatch = /msg="(.*)"/g.exec(errorMsg);
+    if (errorMatch) {
+      errorMsg = errorMatch[1];
+    }
+    return new Error(errorMsg);
+  }
+
+  return error;
 }
 
 function isRequestingStaticAnalysis(options?: any): boolean {
-  return options && options.staticScanningOptions;
+  return options && options.staticAnalysisOptions;
 }
 
 function getStaticAnalysisOptions(options?: any): StaticAnalysisOptions {
-  return options && options.staticScanningOptions
+  return options && options.staticAnalysisOptions
     ? {
-        imagePath: options.staticScanningOptions.imagePath,
-        imageType: options.staticScanningOptions.imageType,
+        imagePath: options.staticAnalysisOptions.imagePath,
+        imageType: options.staticAnalysisOptions.imageType,
       }
     : {};
 }
@@ -147,17 +205,8 @@ function getDependencies(
       };
     })
     .catch((error) => {
-      if (typeof error === "string") {
-        debug(`Error while running analyzer: '${error}'`);
-        handleCommonErrors(error, targetImage);
-        let errorMsg = error;
-        const errorMatch = /msg="(.*)"/g.exec(errorMsg);
-        if (errorMatch) {
-          errorMsg = errorMatch[1];
-        }
-        throw new Error(errorMsg);
-      }
-      throw error;
+      const analysisError = tryGetAnalysisError(error, targetImage);
+      throw analysisError;
     });
 }
 

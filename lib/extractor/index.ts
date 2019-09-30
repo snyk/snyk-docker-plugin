@@ -1,5 +1,5 @@
-import { extractDockerArchiveLayers } from "./layer";
-import { ExtractAction, ExtractedLayers } from "./types";
+import { extractDockerArchive } from "./layer";
+import { DockerArchiveManifest, ExtractAction, ExtractedLayers } from "./types";
 
 /**
  * Given a path on the file system to a docker-archive, open it up to inspect the layers
@@ -8,34 +8,45 @@ import { ExtractAction, ExtractedLayers } from "./types";
  * @param extractActions This denotes a file pattern to look for and how to transform the file if it is found.
  * By default the file is returned raw if no processing is desired.
  */
-async function getDockerArchiveLayers(
+async function getDockerArchiveLayersAndManifest(
   fileSystemPath: string,
   extractActions: ExtractAction[],
-): Promise<ExtractedLayers> {
-  const layers = await extractDockerArchiveLayers(
+): Promise<{
+  layers: ExtractedLayers;
+  manifest: DockerArchiveManifest;
+}> {
+  const dockerArchive = await extractDockerArchive(
     fileSystemPath,
     extractActions,
   );
 
-  if (!layers) {
-    return {};
-  }
-
-  const result: ExtractedLayers = {};
-
+  const extractedLayers: ExtractedLayers = {};
   // TODO: This removes the information about the layer name, maybe we would need it in the future?
-
-  for (const layer of layers) {
+  for (const layer of dockerArchive.layers) {
     // go over extracted files products found in this layer
     for (const filename of Object.keys(layer)) {
       // file was not found
-      if (!Reflect.has(result, filename)) {
-        result[filename] = layer[filename];
+      if (!Reflect.has(extractedLayers, filename)) {
+        extractedLayers[filename] = layer[filename];
       }
     }
   }
 
-  return result;
+  return {
+    layers: extractedLayers,
+    manifest: dockerArchive.manifest,
+  };
 }
 
-export { extractDockerArchiveLayers, getDockerArchiveLayers };
+function getContent(
+  extractedLayers: ExtractedLayers,
+  extractAction: ExtractAction,
+): string | undefined {
+  const fileName = extractAction.fileNamePattern;
+  return fileName in extractedLayers &&
+    extractAction.actionName in extractedLayers[fileName]
+    ? extractedLayers[fileName][extractAction.actionName]
+    : undefined;
+}
+
+export { getDockerArchiveLayersAndManifest, getContent };

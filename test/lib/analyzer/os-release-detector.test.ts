@@ -161,7 +161,7 @@ test("os release detection", async (t) => {
 
   for (const targetImage of Object.keys(examples)) {
     const example = examples[targetImage];
-    const actual = await osReleaseDetector.detect(
+    const actual = await osReleaseDetector.detectDynamically(
       targetImage,
       example.dockerfileAnalysis,
     );
@@ -230,7 +230,7 @@ test("failed detection", async (t) => {
   for (const targetImage of Object.keys(examples)) {
     const example = examples[targetImage];
     try {
-      await osReleaseDetector.detect(targetImage);
+      await osReleaseDetector.detectDynamically(targetImage);
       t.fail("should have thrown");
     } catch (error) {
       t.same(error.message, example.expectedError, example.expectedError);

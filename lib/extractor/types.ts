@@ -1,13 +1,24 @@
 import { Readable } from "stream";
 
-export type FileContent = string | Buffer;
+export type ExtractCallback = (dataStream: Readable) => Promise<string>;
 
-export type ExtractCallback = (dataStream: Readable) => Promise<FileContent>;
-
-export type FileNameAndContent = Record<string, FileContent>;
+export type FileNameAndContent = Record<string, string>;
 
 export interface ExtractedLayers {
   [layerName: string]: FileNameAndContent;
+}
+
+export interface ExtractedLayersAndManifest {
+  layers: ExtractedLayers[];
+  manifest: DockerArchiveManifest;
+}
+
+export interface DockerArchiveManifest {
+  // Usually points to the json file in the archive that describes how the image was built.
+  Config: string;
+  RepoTags: string[];
+  // The names of the layers in this archive, usually in the format "<sha256ofLayer>.tar".
+  Layers: string[];
 }
 
 export interface ExtractAction {
