@@ -1,7 +1,11 @@
+import * as path from "path";
 import { test } from "tap";
 import { getDockerArchiveLayersAndManifest } from "../../../lib/extractor";
 import { ExtractAction } from "../../../lib/extractor/types";
 import { streamToString } from "../../../lib/stream-utils";
+
+const getFixture = (fixturePath) =>
+  path.join(__dirname, "../../fixtures/docker-archives", fixturePath);
 
 test("image extractor: callbacks are issued when files are found", async (t) => {
   t.plan(2);
@@ -20,13 +24,13 @@ test("image extractor: callbacks are issued when files are found", async (t) => 
 
   // Try a docker-archive first
   await getDockerArchiveLayersAndManifest(
-    "../../fixtures/docker-archives/docker-save/nginx.tar",
+    getFixture("docker-save/nginx.tar"),
     extractActions,
   );
 
   // Try a skopeo docker-archive
   await getDockerArchiveLayersAndManifest(
-    "../../fixtures/docker-archives/skopeo-copy/nginx.tar",
+    getFixture("skopeo-copy/nginx.tar"),
     extractActions,
   );
 });
@@ -57,13 +61,13 @@ test("image extractor: can read content with multiple callbacks", async (t) => {
 
   // Try a docker-archive first
   await getDockerArchiveLayersAndManifest(
-    "../../fixtures/docker-archives/docker-save/nginx.tar",
+    getFixture("docker-save/nginx.tar"),
     extractActions,
   );
 
   // Try a skopeo docker-archive
   await getDockerArchiveLayersAndManifest(
-    "../../fixtures/docker-archives/skopeo-copy/nginx.tar",
+    getFixture("skopeo-copy/nginx.tar"),
     extractActions,
   );
 });
@@ -82,12 +86,12 @@ test("image extractor: ensure the layer results are the same for docker and for 
   ];
 
   const dockerResult = await getDockerArchiveLayersAndManifest(
-    "../../fixtures/docker-archives/skopeo-copy/nginx.tar",
+    getFixture("skopeo-copy/nginx.tar"),
     extractActions,
   );
 
   const skopeoResult = await getDockerArchiveLayersAndManifest(
-    "../../fixtures/docker-archives/skopeo-copy/nginx.tar",
+    getFixture("skopeo-copy/nginx.tar"),
     extractActions,
   );
 
