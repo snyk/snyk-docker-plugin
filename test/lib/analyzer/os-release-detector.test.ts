@@ -10,7 +10,7 @@ import * as path from "path";
 import * as sinon from "sinon";
 import { test } from "tap";
 
-import * as osReleaseDetector from "../../../lib/analyzer/os-release-detector";
+import * as osReleaseDetector from "../../../lib/analyzer/os-release";
 import * as subProcess from "../../../lib/sub-process";
 
 const readOsFixtureFile = (...from) =>
