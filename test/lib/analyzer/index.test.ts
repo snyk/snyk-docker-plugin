@@ -178,7 +178,7 @@ test("analyzer", async (t) => {
       readOsFixtureFile(example.dir, "analyzer-expect.json"),
     );
 
-    const actual = await analyzer.analyze(targetImage);
+    const actual = await analyzer.analyzeDynamically(targetImage);
     t.same(actual, expectation);
   }
 });

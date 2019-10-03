@@ -8,7 +8,8 @@
 import * as sinon from "sinon";
 import { test } from "tap";
 
-import * as analyzer from "../../../lib/analyzer/rpm-analyzer";
+import * as analyzer from "../../../lib/analyzer/package-managers/rpm";
+import * as rpmInput from "../../../lib/inputs/rpm/docker";
 import * as subProcess from "../../../lib/sub-process";
 
 test("analyze", async (t) => {
@@ -79,7 +80,8 @@ test("analyze", async (t) => {
 
       t.teardown(() => execStub.restore());
 
-      const actual = await analyzer.analyze("centos:6");
+      const rpmDbFileContent = await rpmInput.getRpmDbFileContent("centos:6");
+      const actual = await analyzer.analyze("centos:6", rpmDbFileContent);
 
       t.same(actual, {
         Image: "centos:6",
@@ -129,7 +131,13 @@ test("no rpm", async (t) => {
 
       t.teardown(() => execStub.restore());
 
-      const actual = await analyzer.analyze(example.targetImage);
+      const rpmDbFileContent = await rpmInput.getRpmDbFileContent(
+        example.targetImage,
+      );
+      const actual = await analyzer.analyze(
+        example.targetImage,
+        rpmDbFileContent,
+      );
 
       t.same(actual, {
         Image: example.targetImage,

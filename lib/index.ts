@@ -4,6 +4,7 @@ import * as analyzer from "./analyzer";
 import { Docker, DockerOptions } from "./docker";
 import * as dockerFile from "./docker-file";
 import { buildResponse } from "./response-builder";
+import { StaticAnalysisOptions } from "./types";
 
 export { inspect, dockerFile };
 
@@ -12,7 +13,67 @@ const debug = Debug("snyk");
 const MAX_MANIFEST_FILES = 5;
 
 function inspect(root: string, targetFile?: string, options?: any) {
-  const dockerOptions = options
+  const targetImage = root;
+
+  if (isRequestingStaticAnalysis(options)) {
+    return analyzeStatically(targetImage, options);
+  }
+
+  return dockerFile
+    .readDockerfileAndAnalyse(targetFile)
+    .then((dockerfileAnalysis) => {
+      return analyzeDynamically(
+        targetImage,
+        dockerfileAnalysis,
+        getDynamicAnalysisOptions(options),
+      );
+    });
+}
+
+function analyzeDynamically(
+  targetImage: string,
+  dockerfileAnalysis: dockerFile.DockerFileAnalysis | undefined,
+  analysisOptions: any,
+) {
+  return Promise.all([
+    getRuntime(analysisOptions),
+    getDependencies(targetImage, dockerfileAnalysis, analysisOptions),
+    getManifestFiles(targetImage, analysisOptions),
+  ]).then((res) => {
+    return buildResponse(
+      res[0],
+      res[1],
+      dockerfileAnalysis,
+      res[2],
+      analysisOptions,
+    );
+  });
+}
+
+async function analyzeStatically(
+  targetImage: string,
+  options?: any,
+): Promise<never> {
+  const staticScanningOptions = getStaticAnalysisOptions(options);
+  return analyzer.analyzeStatically(targetImage, staticScanningOptions);
+}
+
+function isRequestingStaticAnalysis(options?: any): boolean {
+  return options && options.staticScanningOptions;
+}
+
+function getStaticAnalysisOptions(options?: any): StaticAnalysisOptions {
+  return options && options.staticScanningOptions
+    ? {
+        imagePath: options.staticScanningOptions.imagePath,
+        imageType: options.staticScanningOptions.imageType,
+      }
+    : {};
+}
+
+// TODO: return type should be "DynamicAnalysisOptions" or something that extends DockerOptions
+function getDynamicAnalysisOptions(options?: any): any {
+  return options
     ? {
         host: options.host,
         tlsverify: options.tlsverify,
@@ -23,25 +84,6 @@ function inspect(root: string, targetFile?: string, options?: any) {
         manifestExcludeGlobs: options.manifestExcludeGlobs,
       }
     : {};
-  const targetImage = root;
-
-  return dockerFile
-    .readDockerfileAndAnalyse(targetFile)
-    .then((dockerfileAnalysis) => {
-      return Promise.all([
-        getRuntime(dockerOptions),
-        getDependencies(targetImage, dockerfileAnalysis, dockerOptions),
-        getManifestFiles(targetImage, dockerOptions),
-      ]).then((res) => {
-        return buildResponse(
-          res[0],
-          res[1],
-          dockerfileAnalysis,
-          res[2],
-          options,
-        );
-      });
-    });
 }
 
 function getRuntime(options: DockerOptions) {
@@ -98,7 +140,7 @@ function getDependencies(
 ) {
   let result;
   return analyzer
-    .analyze(targetImage, dockerfileAnalysis, options)
+    .analyzeDynamically(targetImage, dockerfileAnalysis, options)
     .then((output) => {
       result = parseAnalysisResults(targetImage, output, dockerfileAnalysis);
       return buildTree(
