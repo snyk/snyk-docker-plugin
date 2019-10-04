@@ -1,6 +1,6 @@
 import { createReadStream } from "fs";
 import * as minimatch from "minimatch";
-import { basename } from "path";
+import { basename, resolve as resolvePath } from "path";
 import { Readable } from "stream";
 import { extract, Extract } from "tar-stream";
 import { streamToString } from "../stream-utils";
@@ -67,7 +67,7 @@ export async function extractImageLayer(
 
     tarExtractor.on("entry", async (headers, stream, next) => {
       if (headers.type === "file") {
-        const absoluteFileName = `/${headers.name}`;
+        const absoluteFileName = resolvePath("/", headers.name);
         const processedResult = await extractFileAndProcess(
           absoluteFileName,
           stream,
