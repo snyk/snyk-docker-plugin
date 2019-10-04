@@ -14,15 +14,19 @@ export interface ExtractedLayersAndManifest {
 }
 
 export interface DockerArchiveManifest {
-  // Usually points to the json file in the archive that describes how the image was built.
+  // Usually points to the JSON file in the archive that describes how the image was built.
   Config: string;
   RepoTags: string[];
-  // The names of the layers in this archive, usually in the format "<sha256ofLayer>.tar".
+  // The names of the layers in this archive, usually in the format "<sha256>.tar" or "<sha256>/layer.tar".
   Layers: string[];
 }
 
 export interface ExtractAction {
-  actionName: string; // name, should be unique, for this action
-  fileNamePattern: string; // path pattern to look for
-  callback?: ExtractCallback; // a callback which processes the file we found and returns some result
+  // This name should be unique across all actions used.
+  actionName: string;
+  // The path patter to look for.
+  fileNamePattern: string;
+  // Applies the given callback once a file match is found given the pattern above.
+  // The idea is that the file content can be transformed in any way.
+  callback?: ExtractCallback;
 }
