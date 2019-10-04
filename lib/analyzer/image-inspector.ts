@@ -1,18 +1,12 @@
 import { Docker, DockerOptions } from "../docker";
+import { DockerInspectOutput } from "./types";
 
 export { detect };
-interface Inspect {
-  Id: string;
-  RootFS: {
-    Type: string;
-    Layers: string[];
-  };
-}
 
 async function detect(
   targetImage: string,
   options?: DockerOptions,
-): Promise<Inspect> {
+): Promise<DockerInspectOutput> {
   try {
     const info = await new Docker(targetImage, options).inspect(targetImage);
     return JSON.parse(info.stdout)[0];

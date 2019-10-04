@@ -1,3 +1,4 @@
-import { detect } from "./docker";
+import { detect as detectDynamically } from "./docker";
+import { detect as detectStatically } from "./static";
 
-export { detect };
+export { detectDynamically, detectStatically };

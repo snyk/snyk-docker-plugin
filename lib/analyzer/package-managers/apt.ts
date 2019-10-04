@@ -1,11 +1,13 @@
-import { AnalysisType, AnalyzedPackage, ImageAnalysis } from "../types";
+import {
+  AnalysisType,
+  AnalyzedPackage,
+  IAptFiles,
+  ImageAnalysis,
+} from "../types";
 
 export function analyze(
   targetImage: string,
-  aptFiles: {
-    dpkgFile: string;
-    extFile: string;
-  },
+  aptFiles: IAptFiles,
 ): Promise<ImageAnalysis> {
   const pkgs = parseDpkgFile(aptFiles.dpkgFile);
 

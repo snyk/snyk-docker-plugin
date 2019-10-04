@@ -12,6 +12,7 @@
   "scripts": {
     "build": "tsc",
     "build-watch": "tsc -w",
+    "debug": "tsc-watch --project tsconfig.json --onSuccess 'node --inspect --debug-brk .'",
     "lint": "prettier --check '**/*.ts' && tslint --format stylish '**/*.ts' --exclude 'node_modules/**'",
     "format": "prettier --loglevel warn --write '**/*.ts' && tslint --fix --format stylish '**/*.ts' --exclude 'node_modules/**'",
     "test": "npm run lint && npm run unit-test",

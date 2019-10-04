@@ -1,11 +1,6 @@
 import { PassThrough, Readable } from "stream";
-import { streamToBuffer } from "../stream-utils";
-import { ExtractAction, FileContent, FileNameAndContent } from "./types";
-
-interface ICallbackToAwait {
-  extractActionName: string;
-  promise: Promise<FileContent>;
-}
+import { streamToString } from "../stream-utils";
+import { ExtractAction, FileNameAndContent } from "./types";
 
 export async function applyCallbacks(
   matchedActions: ExtractAction[],
@@ -13,8 +8,8 @@ export async function applyCallbacks(
 ): Promise<FileNameAndContent> {
   const result: FileNameAndContent = {};
 
-  const callbacksToAwait: ICallbackToAwait[] = matchedActions.map((action) => {
-    // Using a pass through allows us to read a stream with multiple consumers.
+  const actionsToAwait = matchedActions.map((action) => {
+    // Using a pass through allows us to read the stream multiple times.
     const streamCopy = new PassThrough();
     fileContentStream.pipe(streamCopy);
 
@@ -22,17 +17,16 @@ export async function applyCallbacks(
     const promise =
       action.callback !== undefined
         ? action.callback(streamCopy)
-        : streamToBuffer(streamCopy); // Return just the file contents as a Buffer by default.
+        : // If no callback was provided for this action then return as string by default.
+          streamToString(streamCopy);
 
-    return {
-      extractActionName: action.actionName,
-      promise,
-    };
+    return promise.then((content) => {
+      // Assign the result once the Promise is complete.
+      result[action.actionName] = content;
+    });
   });
 
-  callbacksToAwait.forEach(async (callback) => {
-    result[callback.extractActionName] = await callback.promise;
-  });
+  await Promise.all(actionsToAwait);
 
   return result;
 }

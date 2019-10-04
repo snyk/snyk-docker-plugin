@@ -1,17 +1,32 @@
 import { Readable } from "stream";
 
-export type FileContent = string | Buffer;
+export type ExtractCallback = (dataStream: Readable) => Promise<string>;
 
-export type ExtractCallback = (dataStream: Readable) => Promise<FileContent>;
-
-export type FileNameAndContent = Record<string, FileContent>;
+export type FileNameAndContent = Record<string, string>;
 
 export interface ExtractedLayers {
   [layerName: string]: FileNameAndContent;
 }
 
+export interface ExtractedLayersAndManifest {
+  layers: ExtractedLayers[];
+  manifest: DockerArchiveManifest;
+}
+
+export interface DockerArchiveManifest {
+  // Usually points to the JSON file in the archive that describes how the image was built.
+  Config: string;
+  RepoTags: string[];
+  // The names of the layers in this archive, usually in the format "<sha256>.tar" or "<sha256>/layer.tar".
+  Layers: string[];
+}
+
 export interface ExtractAction {
-  actionName: string; // name, should be unique, for this action
-  fileNamePattern: string; // path pattern to look for
-  callback?: ExtractCallback; // a callback which processes the file we found and returns some result
+  // This name should be unique across all actions used.
+  actionName: string;
+  // The path patter to look for.
+  fileNamePattern: string;
+  // Applies the given callback once a file match is found given the pattern above.
+  // The idea is that the file content can be transformed in any way.
+  callback?: ExtractCallback;
 }
