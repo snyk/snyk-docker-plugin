@@ -10,10 +10,15 @@ import {
   getExtFileContentAction,
 } from "../inputs/apt/static";
 import { getOsReleaseActions } from "../inputs/os-release/static";
+import {
+  getRpmDbFileContent,
+  getRpmDbFileContentAction,
+} from "../inputs/rpm/static";
 import { ImageType, StaticAnalysisOptions } from "../types";
 import * as osReleaseDetector from "./os-release";
 import { analyze as apkAnalyze } from "./package-managers/apk";
 import { analyze as aptAnalyze } from "./package-managers/apt";
+import { analyze as rpmAnalyze } from "./package-managers/rpm";
 
 const debug = Debug("snyk");
 
@@ -33,7 +38,7 @@ export async function analyze(
     getApkDbFileContentAction,
     getDpkgFileContentAction,
     getExtFileContentAction,
-    // no RPM support yet
+    getRpmDbFileContentAction,
     ...getOsReleaseActions,
   ];
 
@@ -44,9 +49,14 @@ export async function analyze(
 
   const archiveLayers = dockerArchive.layers;
 
-  const [apkDbFileContent, aptDbFileContent] = await Promise.all([
+  const [
+    apkDbFileContent,
+    aptDbFileContent,
+    rpmDbFileContent,
+  ] = await Promise.all([
     getApkDbFileContent(archiveLayers),
     getAptDbFileContent(archiveLayers),
+    getRpmDbFileContent(archiveLayers),
   ]);
 
   const osRelease = await osReleaseDetector
@@ -59,6 +69,7 @@ export async function analyze(
   const results = await Promise.all([
     apkAnalyze(targetImage, apkDbFileContent),
     aptAnalyze(targetImage, aptDbFileContent),
+    rpmAnalyze(targetImage, rpmDbFileContent),
   ]).catch((err) => {
     debug(err);
     throw new Error("Failed to detect installed OS packages");
