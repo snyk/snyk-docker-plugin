@@ -1,5 +1,5 @@
 import { IAptFiles } from "../../analyzer/types";
-import { getContent } from "../../extractor";
+import { getContentAsString } from "../../extractor";
 import { ExtractAction, ExtractedLayers } from "../../extractor/types";
 import { streamToString } from "../../stream-utils";
 
@@ -18,10 +18,16 @@ export const getExtFileContentAction: ExtractAction = {
 export function getAptDbFileContent(
   extractedLayers: ExtractedLayers,
 ): IAptFiles {
-  const dpkgContent = getContent(extractedLayers, getDpkgFileContentAction);
+  const dpkgContent = getContentAsString(
+    extractedLayers,
+    getDpkgFileContentAction,
+  );
   const dpkgFile = dpkgContent || "";
 
-  const extContent = getContent(extractedLayers, getExtFileContentAction);
+  const extContent = getContentAsString(
+    extractedLayers,
+    getExtFileContentAction,
+  );
   const extFile = extContent || "";
 
   return {

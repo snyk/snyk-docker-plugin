@@ -1,4 +1,4 @@
-import { getContent } from "../../extractor";
+import { getContentAsString } from "../../extractor";
 import { ExtractAction, ExtractedLayers } from "../../extractor/types";
 import { streamToString } from "../../stream-utils";
 
@@ -9,6 +9,6 @@ export const getApkDbFileContentAction: ExtractAction = {
 };
 
 export function getApkDbFileContent(extractedLayers: ExtractedLayers): string {
-  const apkDb = getContent(extractedLayers, getApkDbFileContentAction);
+  const apkDb = getContentAsString(extractedLayers, getApkDbFileContentAction);
   return apkDb || "";
 }

@@ -1,4 +1,4 @@
-import { getContent } from "../../extractor";
+import { getContentAsString } from "../../extractor";
 import { ExtractAction, ExtractedLayers } from "../../extractor/types";
 import { streamToString } from "../../stream-utils";
 import { OsReleaseFilePath } from "../../types";
@@ -61,7 +61,7 @@ export function getOsRelease(
   extractedLayers: ExtractedLayers,
   releasePath: OsReleaseFilePath,
 ): string {
-  const osRelease = getContent(
+  const osRelease = getContentAsString(
     extractedLayers,
     osReleaseActionMap[releasePath],
   );
