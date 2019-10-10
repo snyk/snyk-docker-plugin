@@ -21,3 +21,21 @@ export async function streamToString(
     });
   });
 }
+
+/**
+ * Consume the data from the specified stream into a Buffer
+ * @param stream stream to cosume the data from
+ * @returns Buffer with the data consumed from the specified stream
+ */
+export async function streamToBuffer(stream: Readable): Promise<Buffer> {
+  const chunks: Buffer[] = [];
+  return new Promise((resolve, reject) => {
+    stream.on("end", () => {
+      resolve(Buffer.concat(chunks));
+    });
+    stream.on("error", (error) => reject(error));
+    stream.on("data", (chunk) => {
+      chunks.push(Buffer.from(chunk));
+    });
+  });
+}

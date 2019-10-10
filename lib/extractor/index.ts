@@ -38,10 +38,34 @@ async function getDockerArchiveLayersAndManifest(
   };
 }
 
-function getContent(
+function isBufferType(type: string | Buffer): type is Buffer {
+  return (type as Buffer).buffer !== undefined;
+}
+
+function isStringType(type: string | Buffer): type is string {
+  return (type as string).substring !== undefined;
+}
+
+function getContentAsBuffer(
+  extractedLayers: ExtractedLayers,
+  extractAction: ExtractAction,
+): Buffer | undefined {
+  const content = getContent(extractedLayers, extractAction);
+  return content !== undefined && isBufferType(content) ? content : undefined;
+}
+
+function getContentAsString(
   extractedLayers: ExtractedLayers,
   extractAction: ExtractAction,
 ): string | undefined {
+  const content = getContent(extractedLayers, extractAction);
+  return content !== undefined && isStringType(content) ? content : undefined;
+}
+
+function getContent(
+  extractedLayers: ExtractedLayers,
+  extractAction: ExtractAction,
+): string | Buffer | undefined {
   const fileName = extractAction.fileNamePattern;
   return fileName in extractedLayers &&
     extractAction.actionName in extractedLayers[fileName]
@@ -49,4 +73,8 @@ function getContent(
     : undefined;
 }
 
-export { getDockerArchiveLayersAndManifest, getContent };
+export {
+  getDockerArchiveLayersAndManifest,
+  getContentAsString,
+  getContentAsBuffer,
+};

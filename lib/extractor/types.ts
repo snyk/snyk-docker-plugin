@@ -1,8 +1,10 @@
 import { Readable } from "stream";
 
-export type ExtractCallback = (dataStream: Readable) => Promise<string>;
+export type ExtractCallback = (
+  dataStream: Readable,
+) => Promise<string | Buffer>;
 
-export type FileNameAndContent = Record<string, string>;
+export type FileNameAndContent = Record<string, string | Buffer>;
 
 export interface ExtractedLayers {
   [layerName: string]: FileNameAndContent;
