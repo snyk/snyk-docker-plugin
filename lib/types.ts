@@ -14,4 +14,8 @@ export enum OsReleaseFilePath {
   Alpine = "/etc/alpine-release",
   RedHat = "/etc/redhat-release",
   Oracle = "/etc/oracle-release",
+  /**
+   * This value captures Fedora and openSUSE.
+   */
+  Enterprise = "/usr/lib/os-release",
 }

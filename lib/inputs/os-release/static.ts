@@ -39,6 +39,12 @@ const getOracleReleaseAction: ExtractAction = {
   callback: streamToString,
 };
 
+const getEnterpriseReleaseAction: ExtractAction = {
+  actionName: "enterprise-release",
+  fileNamePattern: OsReleaseFilePath.Enterprise,
+  callback: streamToString,
+};
+
 const osReleaseActionMap = {
   [OsReleaseFilePath.Linux]: getOsReleaseAction,
   [OsReleaseFilePath.Lsb]: getLsbReleaseAction,
@@ -46,6 +52,7 @@ const osReleaseActionMap = {
   [OsReleaseFilePath.Alpine]: getAlpineReleaseAction,
   [OsReleaseFilePath.RedHat]: getRedHatReleaseAction,
   [OsReleaseFilePath.Oracle]: getOracleReleaseAction,
+  [OsReleaseFilePath.Enterprise]: getEnterpriseReleaseAction,
 };
 
 export const getOsReleaseActions: ExtractAction[] = [
@@ -55,6 +62,7 @@ export const getOsReleaseActions: ExtractAction[] = [
   getAlpineReleaseAction,
   getRedHatReleaseAction,
   getOracleReleaseAction,
+  getEnterpriseReleaseAction,
 ];
 
 export function getOsRelease(

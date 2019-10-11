@@ -56,6 +56,12 @@ export async function detect(
   }
 
   if (!osRelease) {
+    osRelease = await getOsRelease(docker, OsReleaseFilePath.Enterprise).then(
+      (release) => tryOSRelease(release),
+    );
+  }
+
+  if (!osRelease) {
     if (dockerfileAnalysis && dockerfileAnalysis.baseImage === "scratch") {
       // If the docker file was build from a scratch image
       // then we don't have a known OS

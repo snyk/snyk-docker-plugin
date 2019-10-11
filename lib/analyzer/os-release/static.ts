@@ -51,6 +51,12 @@ export async function detect(
   }
 
   if (!osRelease) {
+    osRelease = await tryOSRelease(
+      getOsRelease(extractedLayers, OsReleaseFilePath.Enterprise),
+    );
+  }
+
+  if (!osRelease) {
     throw new Error("Failed to detect OS release");
   }
 
