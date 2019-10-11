@@ -573,6 +573,32 @@ test("inspect centos", (t) => {
     });
 });
 
+test("inspect fedora 30", async (t) => {
+  const imgName = "fedora";
+  const imgTag = "";
+  const imgSha =
+    "@sha256:f4ca3e9814bef8468b59cc3dea90ab52bcb3747057731f7ab7645d923731fed6";
+  const img = imgName + imgSha;
+
+  await dockerPull(t, img);
+  await dockerGetImageId(t, img);
+  const res = await plugin.inspect(img);
+
+  t.match(
+    res.package,
+    {
+      name: "docker-image|" + imgName,
+      version: imgTag,
+      packageFormatVersion: "rpm:0.0.1",
+      targetOS: {
+        name: "fedora",
+        version: "30",
+      },
+    },
+    "root pkg",
+  );
+});
+
 function dockerPull(t, name) {
   t.comment("pulling " + name);
   return subProcess.execute("docker", ["image", "pull", name]);

@@ -108,6 +108,11 @@ test("os release detection", async (t) => {
       expected: { name: "ubuntu", version: "18.04" },
       notes: "uses /etc/os-release",
     },
+    "fedora:30": {
+      dir: "fedora_30",
+      expected: { name: "fedora", version: "30" },
+      notes: "uses /usr/lib/os-release",
+    },
     scratch: {
       dir: "",
       expected: { name: "scratch", version: "0.0" },
