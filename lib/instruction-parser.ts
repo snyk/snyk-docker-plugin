@@ -23,7 +23,7 @@ interface DockerFileLayers {
 
 // Naive regex; see tests for cases
 // tslint:disable-next-line:max-line-length
-const installRegex = /\s*(rpm\s+-i|rpm\s+--install|apk\s+((--update|-u)\s+)*add|apt-get\s+((--assume-yes|--yes|-y)\s+)*install|apt\s+((--assume-yes|--yes|-y)\s+)*install|yum\s+install|aptitude\s+install)\s+/;
+const installRegex = /\s*(rpm\s+-i|rpm\s+--install|apk\s+((--update|-u|--no-cache)\s+)*add(\s+(--update|-u|--no-cache))*|apt-get\s+((--assume-yes|--yes|-y)\s+)*install(\s+(--assume-yes|--yes|-y))*|apt\s+((--assume-yes|--yes|-y)\s+)*install|yum\s+install|aptitude\s+install)\s+/;
 
 /*
  * This is fairly ugly because a single RUN could contain multiple install
@@ -59,7 +59,9 @@ function getPackagesFromRunInstructions(
           .filter((arg) => arg && !arg.startsWith("-"));
 
         packages.forEach((pkg) => {
-          dockerfilePackages[pkg] = { instruction };
+          // Use package name without version as the key
+          const name = pkg.split("=")[0];
+          dockerfilePackages[name] = { instruction };
         });
       });
     }
@@ -69,7 +71,7 @@ function getPackagesFromRunInstructions(
 }
 
 /**
- * Return the specified test with variables expanded
+ * Return the specified text with variables expanded
  * @param instruction the instruction associated with this string
  * @param dockerfile Dockerfile to use for expanding the variables
  * @param text a string with variables to expand, if not specified

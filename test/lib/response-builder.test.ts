@@ -22,6 +22,8 @@ test("buildResponse", async (t) => {
       const deps = response.package.dependencies;
 
       t.ok(deps.wget, "include wget from dockerfile");
+      t.ok(deps.wget.labels, "include extra information on label");
+      t.ok(deps.wget.labels.dockerLayerId, "include docker layer ID");
       t.ok(deps.openssl, "include openssl via wget from dockerfile");
       t.ok(deps.bash, "include bash from base image");
       t.ok(deps.grep, "include grep from base image");
