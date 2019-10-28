@@ -21,6 +21,7 @@ sys/
 tmp/
 usr/
 var/
+test-exclude-system.txt
 
 /bin:
 ./
@@ -78,6 +79,7 @@ sync
 tailf
 tar
 tempfile
+test-exclude-system.txt
 touch
 true
 umount
@@ -4306,6 +4308,7 @@ hypervisor/
 kernel/
 module/
 power/
+test-exclude-system.txt
 
 /sys/block:
 ./

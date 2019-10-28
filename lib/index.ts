@@ -7,7 +7,7 @@ import { getRuntime } from "./inputs/runtime/docker";
 import { buildResponse } from "./response-builder";
 import { StaticAnalysisOptions } from "./types";
 
-export { inspect, dockerFile };
+export { inspect, dockerFile, getManifestFiles }; // extract getManifestFiles to a new app+os utils
 
 const debug = Debug("snyk");
 
@@ -215,15 +215,20 @@ async function getManifestFiles(targetImage: string, options?: any) {
     return [];
   }
 
-  let excludeGlobs: string[] = [];
+  const excludeGlobs: string[] = ["/sys/**"];
   if (options.manifestExcludeGlobs) {
-    excludeGlobs = options.manifestExcludeGlobs as string[];
+    excludeGlobs.concat(options.manifestExcludeGlobs as string[]);
   }
 
   const globs = options.manifestGlobs as string[];
   const docker = new Docker(targetImage, options);
 
-  let files = await docker.findGlobs(globs, excludeGlobs);
+  const interFiles = await docker.findGlobs(globs, excludeGlobs, "/", false);
+  let files: string[] = [];
+  interFiles.forEach(async (dir) => {
+    const nextFiles = await docker.findGlobs(globs, excludeGlobs, dir, true);
+    files = files.concat(nextFiles);
+  });
 
   // Limit the number of manifest files which we return
   // to avoid overwhelming the docker daemon with cat requests
