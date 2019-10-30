@@ -1,4 +1,5 @@
 import * as Debug from "debug";
+import { flatten } from "lodash";
 import * as path from "path";
 import * as analyzer from "./analyzer";
 import { Docker, DockerOptions } from "./docker";
@@ -224,11 +225,21 @@ async function getManifestFiles(targetImage: string, options?: any) {
   const docker = new Docker(targetImage, options);
 
   const interFiles = await docker.findGlobs(globs, excludeGlobs, "/", false);
-  let files: string[] = [];
-  interFiles.forEach(async (dir) => {
-    const nextFiles = await docker.findGlobs(globs, excludeGlobs, dir, true);
-    files = files.concat(nextFiles);
-  });
+
+  let files: string[] = flatten(
+    Promise.all(
+      interFiles.map(async (dir) => {
+        return docker.findGlobs(globs, excludeGlobs, dir, true);
+      }),
+    ),
+  );
+
+  // let files: string[] = [];
+
+  // interFiles.forEach(async (dir) => {
+  //   const nextFiles = await docker.findGlobs(globs, excludeGlobs, dir, true);
+  //   files = files.concat(nextFiles);
+  //
 
   // Limit the number of manifest files which we return
   // to avoid overwhelming the docker daemon with cat requests
