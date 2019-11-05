@@ -14,13 +14,14 @@ export const getRpmDbFileContentAction: ExtractAction = {
 
 export async function getRpmDbFileContent(
   extractedLayers: ExtractedLayers,
+  tmpDirPath?: string,
 ): Promise<string> {
   const apkDb = getContentAsBuffer(extractedLayers, getRpmDbFileContentAction);
   if (!apkDb) {
     return "";
   }
 
-  const filePath = generateTempFileName();
+  const filePath = generateTempFileName(tmpDirPath);
   await writeToFile(filePath, apkDb);
 
   try {
@@ -43,8 +44,11 @@ function handleError(error): CmdOutput | never {
   throw error;
 }
 
-function generateTempFileName(): string {
-  const tmpPath = tmpdir();
+/**
+ * Exported for testing
+ */
+export function generateTempFileName(tmpDirPath?: string): string {
+  const tmpPath = tmpDirPath || tmpdir();
   const randomFileName = Math.random().toString();
 
   return resolvePath(tmpPath, randomFileName);

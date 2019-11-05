@@ -56,7 +56,7 @@ export async function analyze(
   ] = await Promise.all([
     getApkDbFileContent(archiveLayers),
     getAptDbFileContent(archiveLayers),
-    getRpmDbFileContent(archiveLayers),
+    getRpmDbFileContent(archiveLayers, options.tmpDirPath),
   ]);
 
   const osRelease = await osReleaseDetector

@@ -126,6 +126,7 @@ function getStaticAnalysisOptions(options?: any): StaticAnalysisOptions {
     ? {
         imagePath: options.staticAnalysisOptions.imagePath,
         imageType: options.staticAnalysisOptions.imageType,
+        tmpDirPath: options.staticAnalysisOptions.tmpDirPath,
       }
     : {};
 }
