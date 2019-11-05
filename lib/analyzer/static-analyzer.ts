@@ -26,10 +26,6 @@ export async function analyze(
   targetImage: string,
   options: StaticAnalysisOptions,
 ) {
-  if (!options.imagePath || options.imageType === undefined) {
-    throw new Error("Missing required parameters for static analysis");
-  }
-
   if (options.imageType !== ImageType.DockerArchive) {
     throw new Error("Unhandled image type");
   }

@@ -88,3 +88,37 @@ test("static analysis builds the expected response", async (t) => {
     "The plugin scans both skopeo-copy and docker-save archives the same way",
   );
 });
+
+test("omitting required options for static analysis", async (t) => {
+  const emptyOptions = {
+    staticAnalysisOptions: {},
+  };
+  const targetFile = undefined;
+  await t.rejects(
+    plugin.inspect("nginx:latest", targetFile, emptyOptions),
+    Error("Missing required parameters for static analysis"),
+    "static analysis requires parameters",
+  );
+
+  const onlyPathOptions = {
+    staticAnalysisOptions: {
+      imagePath: "/var/tmp/image.nonexistent",
+    },
+  };
+  await t.rejects(
+    plugin.inspect("nginx:latest", targetFile, onlyPathOptions),
+    Error("Missing required parameters for static analysis"),
+    "static analysis rejects on having imagePath but missing imageType",
+  );
+
+  const onlyTypeOptions = {
+    staticAnalysisOptions: {
+      imageType: ImageType.DockerArchive,
+    },
+  };
+  await t.rejects(
+    plugin.inspect("nginx:latest", targetFile, onlyTypeOptions),
+    Error("Missing required parameters for static analysis"),
+    "static analysis rejects on having imageTypee but missing imagePath",
+  );
+});

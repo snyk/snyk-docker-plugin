@@ -51,7 +51,7 @@ function analyzeDynamically(
   });
 }
 
-async function analyzeStatically(targetImage: string, options?: any) {
+async function analyzeStatically(targetImage: string, options: any) {
   const staticAnalysisOptions = getStaticAnalysisOptions(options);
 
   // Relevant only if using a Docker runtime. Optional, but we may consider what to put here
@@ -121,14 +121,21 @@ function isRequestingStaticAnalysis(options?: any): boolean {
   return options && options.staticAnalysisOptions;
 }
 
-function getStaticAnalysisOptions(options?: any): StaticAnalysisOptions {
-  return options && options.staticAnalysisOptions
-    ? {
-        imagePath: options.staticAnalysisOptions.imagePath,
-        imageType: options.staticAnalysisOptions.imageType,
-        tmpDirPath: options.staticAnalysisOptions.tmpDirPath,
-      }
-    : {};
+function getStaticAnalysisOptions(options: any): StaticAnalysisOptions {
+  if (
+    !options ||
+    !options.staticAnalysisOptions ||
+    !options.staticAnalysisOptions.imagePath ||
+    options.staticAnalysisOptions.imageType === undefined
+  ) {
+    throw new Error("Missing required parameters for static analysis");
+  }
+
+  return {
+    imagePath: options.staticAnalysisOptions.imagePath,
+    imageType: options.staticAnalysisOptions.imageType,
+    tmpDirPath: options.staticAnalysisOptions.tmpDirPath,
+  };
 }
 
 // TODO: return type should be "DynamicAnalysisOptions" or something that extends DockerOptions
