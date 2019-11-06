@@ -1,6 +1,6 @@
 export interface StaticAnalysisOptions {
-  imagePath?: string;
-  imageType?: ImageType;
+  imagePath: string;
+  imageType: ImageType;
   /**
    * Provide a path to a directory where the plugin can write temporary files.
    * If unspecified, defaults to the environment's temporary directory path.
