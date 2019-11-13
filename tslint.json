@@ -8,5 +8,11 @@
     "no-shadowed-variable": false,
     "interface-name": false,
     "object-literal-sort-keys": false
+  },
+  "linterOptions": {
+    "exclude": [
+      "dist/**",
+      "node_modules/**"
+    ]
   }
 }

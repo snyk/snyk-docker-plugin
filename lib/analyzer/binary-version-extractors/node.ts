@@ -9,9 +9,9 @@ async function extract(
   options?: DockerOptions,
 ): Promise<Binary | null> {
   try {
-    const binaryVersion = (await new Docker(targetImage, options).run("node", [
-      "--version",
-    ])).stdout;
+    const binaryVersion = (
+      await new Docker(targetImage, options).run("node", ["--version"])
+    ).stdout;
     return parseNodeBinary(binaryVersion);
   } catch (error) {
     const stderr = error.stderr;

@@ -9,12 +9,13 @@
     "url": "https://github.com/snyk/snyk-docker-plugin"
   },
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "build-watch": "tsc -w",
     "debug": "tsc-watch --project tsconfig.json --onSuccess 'node --inspect --debug-brk .'",
-    "lint": "prettier --check '**/*.ts' && tslint --format stylish '**/*.ts' --exclude 'node_modules/**'",
-    "format": "prettier --loglevel warn --write '**/*.ts' && tslint --fix --format stylish '**/*.ts' --exclude 'node_modules/**'",
+    "lint": "prettier --check '**/*.ts' && tslint --format stylish '**/*.ts'",
+    "format": "prettier --loglevel warn --write '**/*.ts' && tslint --fix --format stylish '**/*.ts'",
     "test": "npm run lint && npm run unit-test",
     "unit-test": "tap test/system test/lib -R=spec --timeout=300",
     "prepare": "npm run build"
