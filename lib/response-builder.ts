@@ -76,9 +76,9 @@ function getDockerfileDependencies(
       const dockerfilePackage = dockerfilePackages[sourceOrName];
 
       if (dockerfilePackage) {
-        collectDeps(dependencies[dependencyName]).forEach((dep) => {
+        for (const dep of collectDeps(dependencies[dependencyName])) {
           dockerfilePackages[dep.split("/")[0]] = { ...dockerfilePackage };
-        });
+        }
       }
     }
   }
@@ -122,7 +122,7 @@ function annotateLayerIds(deps, dockerfilePkgs) {
     return;
   }
 
-  Object.keys(deps).forEach((dep) => {
+  for (const dep of Object.keys(deps)) {
     const pkg = deps[dep];
     const dockerfilePkg = dockerfilePkgs[dep];
     if (dockerfilePkg) {
@@ -134,5 +134,5 @@ function annotateLayerIds(deps, dockerfilePkgs) {
     if (pkg.dependencies) {
       annotateLayerIds(pkg.dependencies, dockerfilePkgs);
     }
-  });
+  }
 }

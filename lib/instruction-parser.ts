@@ -52,7 +52,7 @@ function getPackagesFromRunInstructions(
 
     if (installCommands.length) {
       // Get the packages per install command and flatten them
-      installCommands.forEach((command) => {
+      for (const command of installCommands) {
         const packages = command
           .replace(installRegex, "")
           .split(/\s+/)
@@ -63,7 +63,7 @@ function getPackagesFromRunInstructions(
           const name = pkg.split("=")[0];
           dockerfilePackages[name] = { instruction };
         });
-      });
+      }
     }
 
     return dockerfilePackages;
@@ -90,7 +90,7 @@ function getInstructionExpandVariables(
     resolvedVars[name] = dockerfile.resolveVariable(name, line);
     return resolvedVars;
   }, {});
-  Object.keys(resolvedVariables).forEach((variable) => {
+  for (const variable of Object.keys(resolvedVariables)) {
     // The $ is a special regexp character that should be escaped with a backslash
     // Support both notations either with $variable_name or ${variable_name}
     // The global search "g" flag is used to match and replace all occurrences
@@ -98,7 +98,7 @@ function getInstructionExpandVariables(
       RegExp(`\\$\{${variable}\}|\\$${variable}`, "g"),
       resolvedVariables[variable],
     );
-  });
+  }
   return str;
 }
 

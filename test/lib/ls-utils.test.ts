@@ -205,7 +205,7 @@ const PARSER_TESTS = [
 ];
 
 test("parse ls output", async (t) => {
-  PARSER_TESTS.forEach((data) => {
+  for (const data of PARSER_TESTS) {
     t.test(data.name, async (t) => {
       const res = parseLsOutput(data.in);
       const files: string[] = [];
@@ -213,7 +213,7 @@ test("parse ls output", async (t) => {
       t.same(res, data.out);
       t.same(files, data.files);
     });
-  });
+  }
 });
 
 const getLSOutputFixture = (file: string) =>

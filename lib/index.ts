@@ -346,14 +346,14 @@ function buildTree(targetImage, depType, depInfosList, targetOS) {
 
   const virtualDepsMap = depInfosList.reduce((acc, depInfo) => {
     const providesNames = depInfo.Provides || [];
-    providesNames.forEach((name) => {
+    for (const name of providesNames) {
       acc[name] = depInfo;
-    });
+    }
     return acc;
   }, {});
 
   const depsCounts = {};
-  depInfosList.forEach((depInfo) => {
+  for (const depInfo of depInfosList) {
     countDepsRecursive(
       depInfo.Name,
       new Set(),
@@ -361,7 +361,7 @@ function buildTree(targetImage, depType, depInfosList, targetOS) {
       virtualDepsMap,
       depsCounts,
     );
-  });
+  }
   const DEP_FREQ_THRESHOLD = 100;
   const tooFrequentDepNames = Object.keys(depsCounts).filter((depName) => {
     return depsCounts[depName] > DEP_FREQ_THRESHOLD;
@@ -369,7 +369,7 @@ function buildTree(targetImage, depType, depInfosList, targetOS) {
 
   const attachDeps = (depInfos) => {
     const depNamesToSkip = new Set(tooFrequentDepNames);
-    depInfos.forEach((depInfo) => {
+    for (const depInfo of depInfos) {
       const subtree = buildTreeRecurisve(
         depInfo.Name,
         new Set(),
@@ -380,7 +380,7 @@ function buildTree(targetImage, depType, depInfosList, targetOS) {
       if (subtree) {
         root.dependencies[subtree.name] = subtree;
       }
-    });
+    }
   };
 
   // attach (as direct deps) pkgs not marked auto-installed:
@@ -409,13 +409,13 @@ function buildTree(targetImage, depType, depInfosList, targetOS) {
       dependencies: {},
     };
 
-    tooFrequentDeps.forEach((depInfo) => {
+    for (const depInfo of tooFrequentDeps) {
       const pkg = {
         name: depFullName(depInfo),
         version: depInfo.Version,
       };
       metaSubtree.dependencies[pkg.name] = pkg;
-    });
+    }
 
     root.dependencies[metaSubtree.name] = metaSubtree;
   }
@@ -458,7 +458,7 @@ function buildTreeRecurisve(
   const newAncestors = new Set(ancestors).add(fullName);
 
   const deps = depInfo.Deps || {};
-  Object.keys(deps).forEach((name) => {
+  for (const name of Object.keys(deps)) {
     const subTree = buildTreeRecurisve(
       name,
       newAncestors,
@@ -474,7 +474,7 @@ function buildTreeRecurisve(
         tree.dependencies[subTree.name] = subTree;
       }
     }
-  });
+  }
 
   return tree;
 }
@@ -501,9 +501,9 @@ function countDepsRecursive(
 
   const newAncestors = new Set(ancestors).add(realName);
   const deps = depInfo.Deps || {};
-  Object.keys(deps).forEach((name) => {
+  for (const name of Object.keys(deps)) {
     countDepsRecursive(name, newAncestors, depsMap, virtualDepsMap, depCounts);
-  });
+  }
 }
 
 function depFullName(depInfo) {

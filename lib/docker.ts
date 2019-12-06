@@ -123,17 +123,17 @@ class Docker {
     lsu.iterateFiles(root, (f) => {
       const filepath = fspath.join(f.path, f.name);
       let exclude = false;
-      exclusionGlobs.forEach((g) => {
+      for (const g of exclusionGlobs) {
         if (!exclude && minimatch(filepath, g)) {
           exclude = true;
         }
-      });
+      }
       if (!exclude) {
-        globs.forEach((g) => {
+        for (const g of globs) {
           if (minimatch(filepath, g)) {
             res.push(filepath);
           }
-        });
+        }
       }
     });
 
