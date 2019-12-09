@@ -18,8 +18,12 @@ function iterateFiles(
   root: DiscoveredDirectory,
   iterator: (f: DiscoveredFile) => void,
 ) {
-  root.files.forEach((f) => iterator(f));
-  root.subDirs.forEach((d) => iterateFiles(d, iterator));
+  for (const f of root.files) {
+    iterator(f);
+  }
+  for (const d of root.subDirs) {
+    iterateFiles(d, iterator);
+  }
 }
 
 /**

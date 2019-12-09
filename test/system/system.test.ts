@@ -609,9 +609,9 @@ function uniquePkgSpecs(tree) {
     }
 
     const deps = pkg.dependencies || {};
-    Object.keys(deps).forEach((name) => {
+    for (const name of Object.keys(deps)) {
       scan(deps[name]);
-    });
+    }
   }
 
   scan(tree);

@@ -19,40 +19,46 @@ export async function detect(
 ): Promise<OSRelease> {
   const docker = new Docker(targetImage, options);
 
-  let osRelease = await getOsRelease(docker, OsReleaseFilePath.Linux).then(
-    (release) => tryOSRelease(release),
-  );
+  let osRelease = await getOsRelease(
+    docker,
+    OsReleaseFilePath.Linux,
+  ).then((release) => tryOSRelease(release));
 
   // First generic fallback
   if (!osRelease) {
-    osRelease = await getOsRelease(docker, OsReleaseFilePath.Lsb).then(
-      (release) => tryLsbRelease(release),
-    );
+    osRelease = await getOsRelease(
+      docker,
+      OsReleaseFilePath.Lsb,
+    ).then((release) => tryLsbRelease(release));
   }
 
   // Fallbacks for specific older distributions
   if (!osRelease) {
-    osRelease = await getOsRelease(docker, OsReleaseFilePath.Debian).then(
-      (release) => tryDebianVersion(release),
-    );
+    osRelease = await getOsRelease(
+      docker,
+      OsReleaseFilePath.Debian,
+    ).then((release) => tryDebianVersion(release));
   }
 
   if (!osRelease) {
-    osRelease = await getOsRelease(docker, OsReleaseFilePath.Alpine).then(
-      (release) => tryAlpineRelease(release),
-    );
+    osRelease = await getOsRelease(
+      docker,
+      OsReleaseFilePath.Alpine,
+    ).then((release) => tryAlpineRelease(release));
   }
 
   if (!osRelease) {
-    osRelease = await getOsRelease(docker, OsReleaseFilePath.Oracle).then(
-      (release) => tryOracleRelease(release),
-    );
+    osRelease = await getOsRelease(
+      docker,
+      OsReleaseFilePath.Oracle,
+    ).then((release) => tryOracleRelease(release));
   }
 
   if (!osRelease) {
-    osRelease = await getOsRelease(docker, OsReleaseFilePath.RedHat).then(
-      (release) => tryRedHatRelease(release),
-    );
+    osRelease = await getOsRelease(
+      docker,
+      OsReleaseFilePath.RedHat,
+    ).then((release) => tryRedHatRelease(release));
   }
 
   if (!osRelease) {
