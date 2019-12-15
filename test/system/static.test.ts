@@ -122,3 +122,25 @@ test("omitting required options for static analysis", async (t) => {
     "static analysis rejects on having imageTypee but missing imagePath",
   );
 });
+
+test("/etc/os-release links to /usr/lib/os-release", async (t) => {
+  const thisIsJustAnImageIdentifierInStaticAnalysis = "node:doesnotexist";
+  const dockerfile = undefined;
+  const pluginOptionsWithDockerSave = {
+    staticAnalysisOptions: {
+      imagePath: getFixture("docker-save/nginx-os-release-link.tar"),
+      imageType: ImageType.DockerArchive,
+    },
+  };
+
+  const pluginResultWithDockerSave = await plugin.inspect(
+    thisIsJustAnImageIdentifierInStaticAnalysis,
+    dockerfile,
+    pluginOptionsWithDockerSave,
+  );
+
+  t.deepEqual(pluginResultWithDockerSave.package.targetOS, {
+    name: "debian",
+    version: "10",
+  });
+});

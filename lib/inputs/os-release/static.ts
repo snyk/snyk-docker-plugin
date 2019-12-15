@@ -9,6 +9,12 @@ const getOsReleaseAction: ExtractAction = {
   callback: streamToString,
 };
 
+const getFallbackOsReleaseAction: ExtractAction = {
+  actionName: "os-release-fallback",
+  fileNamePattern: OsReleaseFilePath.LinuxFallback,
+  callback: streamToString,
+};
+
 const getLsbReleaseAction: ExtractAction = {
   actionName: "lsb-release",
   fileNamePattern: OsReleaseFilePath.Lsb,
@@ -41,6 +47,7 @@ const getOracleReleaseAction: ExtractAction = {
 
 const osReleaseActionMap = {
   [OsReleaseFilePath.Linux]: getOsReleaseAction,
+  [OsReleaseFilePath.LinuxFallback]: getFallbackOsReleaseAction,
   [OsReleaseFilePath.Lsb]: getLsbReleaseAction,
   [OsReleaseFilePath.Debian]: getDebianVersionAction,
   [OsReleaseFilePath.Alpine]: getAlpineReleaseAction,
@@ -50,6 +57,7 @@ const osReleaseActionMap = {
 
 export const getOsReleaseActions: ExtractAction[] = [
   getOsReleaseAction,
+  getFallbackOsReleaseAction,
   getLsbReleaseAction,
   getDebianVersionAction,
   getAlpineReleaseAction,

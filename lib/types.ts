@@ -14,6 +14,7 @@ export enum ImageType {
 
 export enum OsReleaseFilePath {
   Linux = "/etc/os-release",
+  LinuxFallback = "/usr/lib/os-release",
   Lsb = "/etc/lsb-release",
   Debian = "/etc/debian_version",
   Alpine = "/etc/alpine-release",
