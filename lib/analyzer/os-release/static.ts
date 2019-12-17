@@ -18,7 +18,15 @@ export async function detect(
     getOsRelease(extractedLayers, OsReleaseFilePath.Linux),
   );
 
-  // First generic fallback
+  // Fallback for the case where the same file exists in different location
+  // or is a symlink to the other location
+  if (!osRelease) {
+    osRelease = await tryOSRelease(
+      getOsRelease(extractedLayers, OsReleaseFilePath.LinuxFallback),
+    );
+  }
+
+  // Generic fallback
   if (!osRelease) {
     osRelease = await tryLsbRelease(
       getOsRelease(extractedLayers, OsReleaseFilePath.Lsb),
