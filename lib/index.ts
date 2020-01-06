@@ -1,11 +1,12 @@
 import * as Debug from "debug";
 import * as path from "path";
+import { dirSync, fileSync } from "tmp";
 import * as analyzer from "./analyzer";
 import { Docker, DockerOptions } from "./docker";
 import * as dockerFile from "./docker-file";
 import { getRuntime } from "./inputs/runtime/docker";
 import { buildResponse } from "./response-builder";
-import { StaticAnalysisOptions } from "./types";
+import { ImageType, StaticAnalysisOptions } from "./types";
 
 export { inspect, dockerFile };
 
@@ -17,7 +18,7 @@ function inspect(root: string, targetFile?: string, options?: any) {
   const targetImage = root;
 
   if (isRequestingStaticAnalysis(options)) {
-    return analyzeStatically(targetImage, options);
+    return prepareStatically(targetImage, options);
   }
 
   return dockerFile
@@ -51,6 +52,34 @@ function analyzeDynamically(
   });
 }
 
+async function prepareStatically(targetImage: string, options: any) {
+  if (!options.staticAnalysisOptions.local) {
+    return analyzeStatically(targetImage, options);
+  } else {
+    const tmpFileObj = fileSync({
+      mode: 0o644,
+      prefix: "docker-",
+      postfix: ".image",
+      detachDescriptor: true,
+    });
+    const tmpDirObj = dirSync();
+
+    options.staticAnalysisOptions.imagePath = tmpFileObj.name;
+    options.staticAnalysisOptions.imageType = ImageType.DockerArchive;
+    options.staticAnalysisOptions.tmpDirPath = tmpDirObj.name;
+
+    const docker = new Docker(targetImage, options);
+
+    try {
+      await docker.save(tmpFileObj.name);
+      return analyzeStatically(targetImage, options);
+    } finally {
+      tmpDirObj.removeCallback();
+      tmpFileObj.removeCallback();
+    }
+  }
+}
+
 async function analyzeStatically(targetImage: string, options: any) {
   const staticAnalysisOptions = getStaticAnalysisOptions(options);
 
@@ -74,7 +103,7 @@ async function analyzeStatically(targetImage: string, options: any) {
       dockerfileAnalysis,
     );
 
-    const dependenciesTree = await buildTree(
+    const dependenciesTree = buildTree(
       targetImage,
       parsedAnalysisResult.type,
       parsedAnalysisResult.depInfosList,

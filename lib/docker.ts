@@ -139,4 +139,24 @@ class Docker {
 
     return res;
   }
+
+  public async save(imagePath: string): Promise<void> {
+    try {
+      await subProcess.execute("docker", [
+        ...this.optionsList,
+        "save",
+        "-o",
+        imagePath,
+        this.targetImage,
+      ]);
+    } catch (error) {
+      const stderr: string = error.stderr;
+      if (typeof stderr === "string") {
+        if (stderr.indexOf("No such image") >= 0) {
+          throw new Error(`No such image: ${this.targetImage}`);
+        }
+        throw error;
+      }
+    }
+  }
 }
