@@ -133,6 +133,18 @@ test("safeLs", async (t) => {
     );
   });
 
+  t.test("directory found, some files inaccessable", async (t) => {
+    const lsResult = ".\n..\n.dockerenv\nbin/\ndev/\netc/\nusr/\nvar/\n";
+    const lsErrors = "ls: can't open '/root': Permission denied";
+    stub.callsFake(() => {
+      throw { stdout: lsResult, stderr: lsErrors };
+    });
+
+    const result = await docker.lsSafe("/abc");
+    t.equal(result.stdout, lsResult, "results returned");
+    t.equal(result.stderr, lsErrors, "errors also returned");
+  });
+
   t.test("directory not found", async (t) => {
     const error = "ls: /abc: No such file or directory";
     stub.callsFake(() => {
