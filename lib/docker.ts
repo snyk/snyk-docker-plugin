@@ -54,16 +54,18 @@ class Docker {
    * Runs the command, catching any expected errors and returning them as normal
    * stderr/stdout result.
    */
-  public async runSafe(cmd: string, args: string[] = []) {
+  public async runSafe(
+    cmd: string,
+    args: string[] = [],
+    // no error is thrown if any of listed errors is found in stderr
+    ignoreErrors: string[] = ["No such file", "file not found"],
+  ) {
     try {
       return await this.run(cmd, args);
     } catch (error) {
       const stderr: string = error.stderr;
       if (typeof stderr === "string") {
-        if (
-          stderr.indexOf("No such file") >= 0 ||
-          stderr.indexOf("file not found") >= 0
-        ) {
+        if (ignoreErrors.some((errMsg) => stderr.indexOf(errMsg) >= 0)) {
           return { stdout: error.stdout, stderr };
         }
       }
@@ -103,7 +105,14 @@ class Docker {
     if (recursive) {
       params += "R";
     }
-    return this.runSafe("ls", [params, path]);
+
+    const ignoreErrors = [
+      "No such file",
+      "file not found",
+      "Permission denied",
+    ];
+
+    return this.runSafe("ls", [params, path], ignoreErrors);
   }
 
   /**
