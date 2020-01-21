@@ -1,3 +1,4 @@
+import { eventLoopSpinner } from "event-loop-spinner";
 import * as minimatch from "minimatch";
 import * as fspath from "path";
 import * as lsu from "./ls-utils";
@@ -125,11 +126,15 @@ class Docker {
     recursive: boolean = true,
   ) {
     const res: string[] = [];
-    const root = await this.lsSafe(path, recursive).then((output) =>
-      lsu.parseLsOutput(output.stdout),
-    );
+    const output = await this.lsSafe(path, recursive);
 
-    lsu.iterateFiles(root, (f) => {
+    if (eventLoopSpinner.isStarving()) {
+      await eventLoopSpinner.spin();
+    }
+
+    const root = lsu.parseLsOutput(output.stdout);
+
+    await lsu.iterateFiles(root, (f) => {
       const filepath = fspath.join(f.path, f.name);
       let exclude = false;
       for (const g of exclusionGlobs) {

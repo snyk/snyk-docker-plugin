@@ -209,7 +209,7 @@ test("parse ls output", async (t) => {
     t.test(data.name, async (t) => {
       const res = parseLsOutput(data.in);
       const files: string[] = [];
-      iterateFiles(res, (f) => files.push(path.join(f.path, f.name)));
+      await iterateFiles(res, (f) => files.push(path.join(f.path, f.name)));
       t.same(res, data.out);
       t.same(files, data.files);
     });
