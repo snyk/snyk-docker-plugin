@@ -174,6 +174,23 @@ test("Analyses dockerfiles", async (t) => {
         },
       },
     },
+    {
+      description: "multi stage Dockerfile with lowercase instructions",
+      fixture: "multi-stage-lowercase",
+      expected: {
+        baseImage: "alpine:latest",
+        dockerfilePackages: {
+          "ca-certificates": {
+            instruction: "RUN apk --no-cache add ca-certificates",
+          },
+        },
+        dockerfileLayers: {
+          "UlVOIGFwayAtLW5vLWNhY2hlIGFkZCBjYS1jZXJ0aWZpY2F0ZXM=": {
+            instruction: "RUN apk --no-cache add ca-certificates",
+          },
+        },
+      },
+    },
   ];
   for (const example of examples) {
     await t.test(example.description, async (t) => {
