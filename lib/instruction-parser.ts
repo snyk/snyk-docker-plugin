@@ -38,7 +38,9 @@ function getPackagesFromRunInstructions(
 ): DockerFilePackages {
   const runInstructions = dockerfile
     .getInstructions()
-    .filter((instruction) => instruction.getInstruction() === "RUN")
+    .filter(
+      (instruction) => instruction.getInstruction().toUpperCase() === "RUN",
+    )
     .map((instruction) =>
       getInstructionExpandVariables(instruction, dockerfile),
     );
@@ -123,7 +125,7 @@ function getDockerfileBaseImageName(
       );
       // store the resolved stage name
       stagesNames.last = stagesNames.aliases[expandedName] || expandedName;
-      if (args.length > 2 && args[1].getValue() === "AS") {
+      if (args.length > 2 && args[1].getValue().toUpperCase() === "AS") {
         // the AS alias name
         const aliasName = args[2].getValue();
         // support nested referral
