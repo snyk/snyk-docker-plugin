@@ -1,3 +1,5 @@
+import { eventLoopSpinner } from "event-loop-spinner";
+
 export { DiscoveredDirectory, DiscoveredFile, parseLsOutput, iterateFiles };
 
 interface DiscoveredDirectory {
@@ -14,15 +16,20 @@ interface DiscoveredFile {
 /**
  * Iterate over all files of a given DiscoveredDirectory structure.
  */
-function iterateFiles(
+async function iterateFiles(
   root: DiscoveredDirectory,
   iterator: (f: DiscoveredFile) => void,
 ) {
   for (const f of root.files) {
     iterator(f);
   }
+
+  if (eventLoopSpinner.isStarving()) {
+    await eventLoopSpinner.spin();
+  }
+
   for (const d of root.subDirs) {
-    iterateFiles(d, iterator);
+    await iterateFiles(d, iterator);
   }
 }
 
