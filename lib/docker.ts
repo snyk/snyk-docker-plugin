@@ -89,7 +89,7 @@ class Docker {
     ]);
   }
 
-  public async inspect(targetImage: string) {
+  public async inspectImage(targetImage: string) {
     return subProcess.execute("docker", [
       ...this.optionsList,
       "inspect",
