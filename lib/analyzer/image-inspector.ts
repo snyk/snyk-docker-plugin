@@ -8,7 +8,9 @@ async function detect(
   options?: DockerOptions,
 ): Promise<DockerInspectOutput> {
   try {
-    const info = await new Docker(targetImage, options).inspect(targetImage);
+    const info = await new Docker(targetImage, options).inspectImage(
+      targetImage,
+    );
     return JSON.parse(info.stdout)[0];
   } catch (error) {
     if (error.stderr.includes("No such object")) {
