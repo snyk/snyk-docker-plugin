@@ -1,23 +1,24 @@
 import { Docker, DockerOptions } from "../docker";
 import { DockerInspectOutput } from "./types";
 
-export { detect };
+export { detect, pullIfNotLocal };
 
 async function detect(
   targetImage: string,
   options?: DockerOptions,
 ): Promise<DockerInspectOutput> {
+  const docker = new Docker(targetImage, options);
+  const info = await docker.inspectImage(targetImage);
+  return JSON.parse(info.stdout)[0];
+}
+
+async function pullIfNotLocal(targetImage: string, options?: DockerOptions) {
+  const docker = new Docker(targetImage);
   try {
-    const info = await new Docker(targetImage, options).inspectImage(
-      targetImage,
-    );
-    return JSON.parse(info.stdout)[0];
-  } catch (error) {
-    if (error.stderr.includes("No such object")) {
-      throw new Error(
-        `Docker error: image was not found locally: ${targetImage}`,
-      );
-    }
-    throw new Error(`Docker error: ${error.stderr}`);
+    await docker.inspectImage(targetImage);
+    return;
+  } catch (err) {
+    // image doesn't exist locally
   }
+  await docker.pull(targetImage);
 }

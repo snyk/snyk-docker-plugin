@@ -35,11 +35,11 @@ test("attempt to connect to non-existent host", (t) => {
     });
 });
 
-test("inspect an image that does not exist", (t) => {
+test("inspect an image that does not exist and is not pullable", (t) => {
   return plugin.inspect("not-here:latest").catch((err) => {
     t.same(
       err.message,
-      "Docker error: image was not found locally: not-here:latest",
+      "Docker error: image was not found locally and pulling failed: not-here:latest",
     );
     t.pass("failed as expected");
   });

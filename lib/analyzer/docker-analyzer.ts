@@ -19,6 +19,16 @@ export async function analyze(
   dockerfileAnalysis?: dockerFile.DockerFileAnalysis,
   options?: DockerOptions,
 ) {
+  try {
+    await imageInspector.pullIfNotLocal(targetImage, options);
+  } catch (error) {
+    debug(`Error while running analyzer: '${error}'`);
+    throw new Error(
+      "Docker error: image was not found locally and pulling failed: " +
+        targetImage,
+    );
+  }
+
   const [imageInspection, osRelease] = await Promise.all([
     imageInspector.detect(targetImage, options),
     osReleaseDetector.detectDynamically(
@@ -38,31 +48,40 @@ export async function analyze(
     rpmInputDocker.getRpmDbFileContent(targetImage, options),
   ]);
 
-  const results = await Promise.all([
-    apkAnalyzer.analyze(targetImage, apkDbFileContent),
-    aptAnalyzer.analyze(targetImage, aptDbFileContent),
-    rpmAnalyzer.analyze(targetImage, rpmDbFileContent),
-  ]).catch((err) => {
-    debug(`Error while running analyzer: '${err.stderr}'`);
+  let pkgManagerAnalysis;
+  try {
+    pkgManagerAnalysis = await Promise.all([
+      apkAnalyzer.analyze(targetImage, apkDbFileContent),
+      aptAnalyzer.analyze(targetImage, aptDbFileContent),
+      rpmAnalyzer.analyze(targetImage, rpmDbFileContent),
+    ]);
+  } catch (error) {
+    debug(`Error while running analyzer: '${error.stderr}'`);
     throw new Error("Failed to detect installed OS packages");
-  });
+  }
 
   const { installedPackages, pkgManager } = getInstalledPackages(
-    results as any[],
+    pkgManagerAnalysis as any[],
   );
 
-  const binaries = await binariesAnalyzer
-    .analyze(targetImage, installedPackages, pkgManager, options)
-    .catch((err) => {
-      debug(`Error while running binaries analyzer: '${err}'`);
-      throw new Error("Failed to detect binaries versions");
-    });
+  let binarisAnalysis;
+  try {
+    binarisAnalysis = await binariesAnalyzer.analyze(
+      targetImage,
+      installedPackages,
+      pkgManager,
+      options,
+    );
+  } catch (error) {
+    debug(`Error while running binaries analyzer: '${error}'`);
+    throw new Error("Failed to detect binaries versions");
+  }
 
   return {
     imageId: imageInspection.Id,
     osRelease,
-    results,
-    binaries,
+    results: pkgManagerAnalysis,
+    binaries: binarisAnalysis,
     imageLayers: imageInspection.RootFS && imageInspection.RootFS.Layers,
   };
 }
