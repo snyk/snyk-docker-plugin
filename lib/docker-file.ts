@@ -1,12 +1,11 @@
 import { DockerfileParser } from "dockerfile-ast";
 import * as fs from "fs";
 import {
-  DockerFileLayers,
-  DockerFilePackages,
   getDockerfileBaseImageName,
   getDockerfileLayers,
   getPackagesFromRunInstructions,
 } from "./instruction-parser";
+import { DockerFileLayers, DockerFilePackages } from "./types";
 
 export { analyseDockerfile, readDockerfileAndAnalyse, DockerFileAnalysis };
 

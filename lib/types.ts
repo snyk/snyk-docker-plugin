@@ -41,3 +41,15 @@ export interface PluginResponse {
   package: any;
   manifestFiles: ManifestFile[];
 }
+
+export interface DockerFilePackages {
+  [packageName: string]: {
+    instruction: string;
+  };
+}
+
+export interface DockerFileLayers {
+  [id: string]: {
+    instruction: string;
+  };
+}

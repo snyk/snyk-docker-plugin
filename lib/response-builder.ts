@@ -1,7 +1,7 @@
 // Module that provides functions to collect and build response after all
 // analyses' are done.
 
-import { DockerFilePackages, instructionDigest } from "./instruction-parser";
+import { instructionDigest } from "./instruction-parser";
 import * as types from "./types";
 
 export { buildResponse };
@@ -71,9 +71,9 @@ function collectDockerfilePkgs(dockerAnalysis, deps) {
 // packages. This gives us a reference of all transitive deps installed via
 // the dockerfile, and the instruction that installed it.
 function getDockerfileDependencies(
-  dockerfilePackages: DockerFilePackages,
+  dockerfilePackages: types.DockerFilePackages,
   dependencies,
-): DockerFilePackages {
+): types.DockerFilePackages {
   for (const dependencyName in dependencies) {
     if (dependencies.hasOwnProperty(dependencyName)) {
       const sourceOrName = dependencyName.split("/")[0];
