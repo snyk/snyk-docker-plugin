@@ -1,6 +1,3 @@
-// Module that provides functions to collect and build response after all
-// analyses' are done.
-
 import { instructionDigest } from "./instruction-parser";
 import * as types from "./types";
 
