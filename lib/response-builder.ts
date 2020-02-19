@@ -2,16 +2,17 @@
 // analyses' are done.
 
 import { DockerFilePackages, instructionDigest } from "./instruction-parser";
+import * as types from "./types";
 
 export { buildResponse };
 
 function buildResponse(
-  runtime,
+  runtime: string | undefined,
   depsAnalysis,
   dockerfileAnalysis,
-  manifestFiles,
+  manifestFiles: types.ManifestFile[],
   options,
-) {
+): types.PluginResponse {
   const deps = depsAnalysis.package.dependencies;
   const dockerfilePkgs = collectDockerfilePkgs(dockerfileAnalysis, deps);
   const finalDeps = excludeBaseImageDeps(deps, dockerfilePkgs, options);
@@ -31,7 +32,10 @@ function buildResponse(
   };
 }
 
-function pluginMetadataRes(runtime, depsAnalysis) {
+function pluginMetadataRes(
+  runtime: string | undefined,
+  depsAnalysis,
+): types.PluginMetadata {
   return {
     name: "snyk-docker-plugin",
     runtime,
