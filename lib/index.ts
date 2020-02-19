@@ -31,24 +31,24 @@ function inspect(root: string, targetFile?: string, options?: any) {
     });
 }
 
-function analyzeDynamically(
+async function analyzeDynamically(
   targetImage: string,
   dockerfileAnalysis: dockerFile.DockerFileAnalysis | undefined,
   analysisOptions: any,
 ) {
-  return Promise.all([
+  const [runtime, dependencies, manifestFiles] = await Promise.all([
     getRuntime(analysisOptions),
     getDependencies(targetImage, dockerfileAnalysis, analysisOptions),
     getManifestFiles(targetImage, analysisOptions),
-  ]).then((res) => {
-    return buildResponse(
-      res[0],
-      res[1],
-      dockerfileAnalysis,
-      res[2],
-      analysisOptions,
-    );
-  });
+  ]);
+
+  return buildResponse(
+    runtime,
+    dependencies,
+    dockerfileAnalysis,
+    manifestFiles,
+    analysisOptions,
+  );
 }
 
 async function analyzeStatically(targetImage: string, options: any) {
