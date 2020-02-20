@@ -21,3 +21,23 @@ export enum OsReleaseFilePath {
   RedHat = "/etc/redhat-release",
   Oracle = "/etc/oracle-release",
 }
+
+export interface ManifestFile {
+  name: string;
+  path: string;
+  contents: string;
+}
+
+export interface PluginMetadata {
+  name: string;
+  runtime: string | undefined;
+  packageManager: any;
+  dockerImageId: any;
+  imageLayers: any;
+}
+
+export interface PluginResponse {
+  plugin: PluginMetadata;
+  package: any;
+  manifestFiles: ManifestFile[];
+}

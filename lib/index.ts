@@ -5,7 +5,7 @@ import { Docker, DockerOptions } from "./docker";
 import * as dockerFile from "./docker-file";
 import { getRuntime } from "./inputs/runtime/docker";
 import { buildResponse } from "./response-builder";
-import { StaticAnalysisOptions } from "./types";
+import { ManifestFile, PluginResponse, StaticAnalysisOptions } from "./types";
 
 export { inspect, dockerFile };
 
@@ -31,27 +31,30 @@ function inspect(root: string, targetFile?: string, options?: any) {
     });
 }
 
-function analyzeDynamically(
+async function analyzeDynamically(
   targetImage: string,
   dockerfileAnalysis: dockerFile.DockerFileAnalysis | undefined,
   analysisOptions: any,
-) {
-  return Promise.all([
+): Promise<PluginResponse> {
+  const [runtime, dependencies, manifestFiles] = await Promise.all([
     getRuntime(analysisOptions),
     getDependencies(targetImage, dockerfileAnalysis, analysisOptions),
     getManifestFiles(targetImage, analysisOptions),
-  ]).then((res) => {
-    return buildResponse(
-      res[0],
-      res[1],
-      dockerfileAnalysis,
-      res[2],
-      analysisOptions,
-    );
-  });
+  ]);
+
+  return buildResponse(
+    runtime,
+    dependencies,
+    dockerfileAnalysis,
+    manifestFiles!, // bug in typescript wrongly adds `undefined`
+    analysisOptions,
+  );
 }
 
-async function analyzeStatically(targetImage: string, options: any) {
+async function analyzeStatically(
+  targetImage: string,
+  options: any,
+): Promise<PluginResponse> {
   const staticAnalysisOptions = getStaticAnalysisOptions(options);
 
   // Relevant only if using a Docker runtime. Optional, but we may consider what to put here
@@ -218,7 +221,10 @@ function getDependencies(
     });
 }
 
-async function getManifestFiles(targetImage: string, options?: any) {
+async function getManifestFiles(
+  targetImage: string,
+  options?: any,
+): Promise<ManifestFile[]> {
   if (!options.manifestGlobs) {
     return [];
   }
