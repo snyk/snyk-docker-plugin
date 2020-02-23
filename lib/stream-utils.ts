@@ -1,11 +1,5 @@
 import { Readable } from "stream";
 
-/**
- * Consume the data from the specified stream into a string
- * @param stream stream to cosume the data from
- * @param encoding encoding to use for convertinf the data to string, default "utf8"
- * @returns string with the data consumed from the specified stream
- */
 export async function streamToString(
   stream: Readable,
   encoding: string = "utf8",
@@ -22,11 +16,6 @@ export async function streamToString(
   });
 }
 
-/**
- * Consume the data from the specified stream into a Buffer
- * @param stream stream to cosume the data from
- * @returns Buffer with the data consumed from the specified stream
- */
 export async function streamToBuffer(stream: Readable): Promise<Buffer> {
   const chunks: Buffer[] = [];
   return new Promise((resolve, reject) => {
