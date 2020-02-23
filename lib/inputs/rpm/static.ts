@@ -16,13 +16,13 @@ export async function getRpmDbFileContent(
   extractedLayers: ExtractedLayers,
   tmpDirPath?: string,
 ): Promise<string> {
-  const apkDb = getContentAsBuffer(extractedLayers, getRpmDbFileContentAction);
-  if (!apkDb) {
+  const rpmDb = getContentAsBuffer(extractedLayers, getRpmDbFileContentAction);
+  if (!rpmDb) {
     return "";
   }
 
   const filePath = generateTempFileName(tmpDirPath);
-  await writeToFile(filePath, apkDb);
+  await writeToFile(filePath, rpmDb);
 
   try {
     // This is the tool that is expected to be found on the system:
