@@ -41,3 +41,7 @@ export interface PluginResponse {
   package: any;
   manifestFiles: ManifestFile[];
 }
+
+export interface PluginResponseStatic extends PluginResponse {
+  hashes: string[];
+}
