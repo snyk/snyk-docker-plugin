@@ -5,7 +5,7 @@
 import * as path from "path";
 import { test } from "tap";
 import * as plugin from "../../lib";
-import { ImageType } from "../../lib/types";
+import { ImageType, PluginResponseStatic } from "../../lib/types";
 
 const getFixture = (fixturePath) =>
   path.join(__dirname, "../fixtures/docker-archives", fixturePath);
@@ -143,4 +143,38 @@ test("/etc/os-release links to /usr/lib/os-release", async (t) => {
     name: "debian",
     version: "10",
   });
+});
+
+test("static analysis provides hashes for key binaries", async (t) => {
+  const thisIsJustAnImageIdentifierInStaticAnalysis = "node:doesnotexist";
+  const dockerfile = undefined;
+  const pluginOptionsWithSkopeoCopy = {
+    staticAnalysisOptions: {
+      imagePath: getFixture("skopeo-copy/nodes-fake-multi.tar"),
+      imageType: ImageType.DockerArchive,
+    },
+  };
+
+  const pluginResultWithSkopeoCopy = (await plugin.inspect(
+    thisIsJustAnImageIdentifierInStaticAnalysis,
+    dockerfile,
+    pluginOptionsWithSkopeoCopy,
+  )) as PluginResponseStatic;
+
+  t.equals(
+    pluginResultWithSkopeoCopy.hashes.length,
+    4,
+    "found four key binaries",
+  );
+  const expectedHashes = [
+    "f20f16782d8c442142560d1dad09561161fb495179751db200d9db6caf6ad832",
+    "c7f4fefb1e2994b8ac23134ea9c2b7aa8b2d088b8863fa33012ca7b8824e1bed",
+    "0198b003dfe9fff4ee28ca7d75893bff7375dedd1a969c781771a4b34443fb33",
+    "62f8defe3fe085af9b6e48f85ffb90a863c44d53b9c3f4f237b04c232f350083",
+  ];
+  t.deepEqual(
+    pluginResultWithSkopeoCopy.hashes.sort(),
+    expectedHashes.sort(),
+    "all key binaries match hashes",
+  );
 });
