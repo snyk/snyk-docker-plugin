@@ -9,6 +9,10 @@ import {
   getDpkgFileContentAction,
   getExtFileContentAction,
 } from "../inputs/apt/static";
+import {
+  getBinariesHashes,
+  getNodeBinariesFileContentAction,
+} from "../inputs/binaries/static";
 import { getOsReleaseActions } from "../inputs/os-release/static";
 import {
   getRpmDbFileContent,
@@ -36,6 +40,7 @@ export async function analyze(
     getExtFileContentAction,
     getRpmDbFileContentAction,
     ...getOsReleaseActions,
+    getNodeBinariesFileContentAction,
   ];
 
   const dockerArchive = await getDockerArchiveLayersAndManifest(
@@ -72,8 +77,8 @@ export async function analyze(
   });
 
   const imageId = targetImage;
-  // Key binaries are not yet handled in static analysis.
-  const binaries = [];
+
+  const binaries = getBinariesHashes(archiveLayers);
 
   return {
     imageId,

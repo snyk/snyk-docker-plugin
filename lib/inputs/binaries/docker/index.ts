@@ -1,5 +1,5 @@
-import { DockerOptions } from "../docker";
-import { AnalysisType, Binary, ImageAnalysis } from "./types";
+import { AnalysisType, Binary, ImageAnalysis } from "../../../analyzer/types";
+import { DockerOptions } from "../../../docker";
 
 export async function analyze(
   targetImage: string,
@@ -21,8 +21,8 @@ export async function analyze(
 }
 
 const binaryVersionExtractors = {
-  node: require("./binary-version-extractors/node"),
-  openjdk: require("./binary-version-extractors/openjdk-jre"),
+  node: require("./node"),
+  openjdk: require("./openjdk-jre"),
 };
 
 async function getBinaries(

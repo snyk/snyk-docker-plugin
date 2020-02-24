@@ -1,7 +1,7 @@
 import * as Debug from "debug";
 import { DockerOptions } from "../docker";
 import * as dockerFile from "../docker-file";
-import * as binariesAnalyzer from "./binaries-analyzer";
+import * as binariesAnalyzer from "../inputs/binaries/docker";
 import * as imageInspector from "./image-inspector";
 import * as osReleaseDetector from "./os-release";
 

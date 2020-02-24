@@ -5,7 +5,12 @@ import { Docker, DockerOptions } from "./docker";
 import * as dockerFile from "./docker-file";
 import { getRuntime } from "./inputs/runtime/docker";
 import { buildResponse } from "./response-builder";
-import { ManifestFile, PluginResponse, StaticAnalysisOptions } from "./types";
+import {
+  ManifestFile,
+  PluginResponse,
+  PluginResponseStatic,
+  StaticAnalysisOptions,
+} from "./types";
 
 export { inspect, dockerFile };
 
@@ -92,13 +97,19 @@ async function analyzeStatically(
       imageLayers: parsedAnalysisResult.imageLayers,
     };
 
-    return buildResponse(
-      runtime,
-      analysis,
-      dockerfileAnalysis,
-      manifestFiles,
-      staticAnalysisOptions,
-    );
+    // hacking our way through types for backwards compatibility
+    const response: PluginResponseStatic = {
+      ...buildResponse(
+        runtime,
+        analysis,
+        dockerfileAnalysis,
+        manifestFiles,
+        staticAnalysisOptions,
+      ),
+      hashes: [],
+    };
+    response.hashes = staticAnalysis.binaries;
+    return response;
   } catch (error) {
     const analysisError = tryGetAnalysisError(error, targetImage);
     throw analysisError;

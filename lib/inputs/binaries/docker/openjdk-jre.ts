@@ -1,5 +1,5 @@
-import { Docker, DockerOptions } from "../../docker";
-import { Binary } from "../types";
+import { Binary } from "../../../analyzer/types";
+import { Docker, DockerOptions } from "../../../docker";
 
 export { extract, installedByPackageManager };
 

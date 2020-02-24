@@ -8,7 +8,7 @@
 import * as sinon from "sinon";
 import { test } from "tap";
 
-import * as analyzer from "../../../lib/analyzer/binaries-analyzer";
+import * as analyzer from "../../../lib/inputs/binaries/docker";
 import * as subProcess from "../../../lib/sub-process";
 
 test("analyze", async (t) => {
