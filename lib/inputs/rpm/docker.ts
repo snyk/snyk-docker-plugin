@@ -14,7 +14,17 @@ export function getRpmDbFileContent(
     ])
     .catch((error) => {
       const stderr = error.stderr;
+      // allowing failure if rpm is not installed
       if (typeof stderr === "string" && stderr.indexOf("not found") >= 0) {
+        return { stdout: "", stderr: "" };
+      }
+      // allowing failure if analysing BusyBox
+      if (
+        typeof stderr === "string" &&
+        stderr.indexOf("invalid option -- -") >= 0 &&
+        stderr.indexOf("multi-call binary") >= 0 &&
+        stderr.indexOf("BusyBox") >= 0
+      ) {
         return { stdout: "", stderr: "" };
       }
       throw error;
