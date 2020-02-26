@@ -67,6 +67,20 @@ test("inspect an image with an unsupported pkg manager", (t) => {
     });
 });
 
+test("inspect a scratch image", async (t) => {
+  const imgName = "busybox";
+  const imgTag = "1.31.1";
+  const img = imgName + ":" + imgTag;
+
+  await dockerPull(t, img);
+  try {
+    await plugin.inspect(img);
+    t.fail("should have failed");
+  } catch (err) {
+    t.match(err.message, "Failed to detect OS release", "error msg is correct");
+  }
+});
+
 test("inspect node:6.14.2 - provider and regular pkg as same dependency", (t) => {
   const imgName = "node";
   const imgTag = "6.14.2";
