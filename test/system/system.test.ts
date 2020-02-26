@@ -45,26 +45,35 @@ test("inspect an image that does not exist and is not pullable", (t) => {
   });
 });
 
-test("inspect an image with an unsupported pkg manager", (t) => {
+test("inspect an image with an unsupported pkg manager", async (t) => {
   const imgName = "archlinux/base@sha256";
   const imgTag =
     "42b6236b8f1b85a3bea6c8055f7e290f503440f722c9b4f82cc04bdcf3bcfcef";
   const img = imgName + ":" + imgTag;
 
-  return dockerPull(t, img)
-    .then(() => {
-      return plugin.inspect(img);
-    })
-    .then(() => {
-      t.fail("should have failed");
-    })
-    .catch((err) => {
-      t.match(
-        err.message,
-        "Failed to detect a supported Linux package manager (deb/rpm/apk)",
-        "error msg is correct",
-      );
-    });
+  await dockerPull(t, img);
+  const pluginResult = await plugin.inspect(img);
+  t.same(pluginResult.manifestFiles, [], "no manifest files should found");
+  t.same(
+    pluginResult.package.dependencies,
+    {},
+    "no dependencies should be found",
+  );
+  t.same(
+    pluginResult.package.targetOS,
+    { name: "arch", version: "unstable" },
+    "target operating system found",
+  );
+  t.same(
+    pluginResult.package.packageFormatVersion,
+    "unknown:0.0.1",
+    "package manager unknown",
+  );
+  t.same(
+    pluginResult.plugin.packageManager,
+    "unknown",
+    "package manager unknown",
+  );
 });
 
 test("inspect a scratch image", async (t) => {
@@ -73,12 +82,28 @@ test("inspect a scratch image", async (t) => {
   const img = imgName + ":" + imgTag;
 
   await dockerPull(t, img);
-  try {
-    await plugin.inspect(img);
-    t.fail("should have failed");
-  } catch (err) {
-    t.match(err.message, "Failed to detect OS release", "error msg is correct");
-  }
+  const pluginResult = await plugin.inspect(img);
+  t.same(pluginResult.manifestFiles, [], "no manifest files should found");
+  t.same(
+    pluginResult.package.dependencies,
+    {},
+    "no dependencies should be found",
+  );
+  t.same(
+    pluginResult.package.targetOS,
+    { name: "unknown", version: "0.0" },
+    "target operating system found",
+  );
+  t.same(
+    pluginResult.package.packageFormatVersion,
+    "unknown:0.0.1",
+    "package manager unknown",
+  );
+  t.same(
+    pluginResult.plugin.packageManager,
+    "unknown",
+    "package manager unknown",
+  );
 });
 
 test("inspect node:6.14.2 - provider and regular pkg as same dependency", (t) => {
