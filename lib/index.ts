@@ -294,9 +294,11 @@ function parseAnalysisResults(
         Analysis: [],
       };
     } else {
-      throw new Error(
-        "Failed to detect a supported Linux package manager (deb/rpm/apk)",
-      );
+      analysisResult = {
+        Image: targetImage,
+        AnalyzeType: "unknown",
+        Analysis: [],
+      };
     }
   }
 
