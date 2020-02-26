@@ -200,36 +200,40 @@ function handleCommonErrors(error, targetImage: string) {
   }
 }
 
-function getDependencies(
+async function getDependencies(
   targetImage: string,
   dockerfileAnalysis?: dockerFile.DockerFileAnalysis,
   options?: DockerOptions,
 ) {
-  let result;
-  return analyzer
-    .analyzeDynamically(targetImage, dockerfileAnalysis, options)
-    .then((output) => {
-      result = parseAnalysisResults(targetImage, output, dockerfileAnalysis);
-      return buildTree(
-        targetImage,
-        result.type,
-        result.depInfosList,
-        result.targetOS,
-      );
-    })
-    .then((pkg) => {
-      return {
-        package: pkg,
-        packageManager: result.type,
-        imageId: result.imageId,
-        binaries: result.binaries,
-        imageLayers: result.imageLayers,
-      };
-    })
-    .catch((error) => {
-      const analysisError = tryGetAnalysisError(error, targetImage);
-      throw analysisError;
-    });
+  try {
+    const output = await analyzer.analyzeDynamically(
+      targetImage,
+      dockerfileAnalysis,
+      options,
+    );
+    const result = parseAnalysisResults(
+      targetImage,
+      output,
+      dockerfileAnalysis,
+    );
+    const pkg = buildTree(
+      targetImage,
+      result.type,
+      result.depInfosList,
+      result.targetOS,
+    );
+
+    return {
+      package: pkg,
+      packageManager: result.type,
+      imageId: result.imageId,
+      binaries: result.binaries,
+      imageLayers: result.imageLayers,
+    };
+  } catch (error) {
+    const analysisError = tryGetAnalysisError(error, targetImage);
+    throw analysisError;
+  }
 }
 
 async function getManifestFiles(
