@@ -68,7 +68,7 @@ export async function detect(
 
       osRelease = { name: "scratch", version: "0.0" };
     } else {
-      throw new Error("Failed to detect OS release");
+      osRelease = { name: "unknown", version: "0.0" };
     }
   }
 
