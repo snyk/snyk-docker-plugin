@@ -117,6 +117,11 @@ test("os release detection", async (t) => {
         dockerfilePackages: [],
       },
     },
+    "unexpected:unexpected": {
+      dir: "missing",
+      expected: { name: "unknown", version: "0.0" },
+      notes: "when nothing is found",
+    },
   };
 
   const execStub = sinon.stub(subProcess, "execute");
@@ -171,10 +176,6 @@ test("os release detection", async (t) => {
 
 test("failed detection", async (t) => {
   const examples = {
-    "unexpected:unexpected": {
-      dir: "missing",
-      expectedError: "Failed to detect OS release",
-    },
     "os-release:corrupt": {
       dir: "os_release_corrupt",
       expectedError: "Failed to parse /etc/os-release",

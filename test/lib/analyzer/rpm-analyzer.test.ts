@@ -147,3 +147,68 @@ test("no rpm", async (t) => {
     });
   }
 });
+
+test("BusyBox's multi-call binary for rpm", async (t) => {
+  const examples = [
+    {
+      targetImage: "busybox:1.31.1",
+      rpmThrows: `rpm: invalid option -- -
+        BusyBox v1.31.1 (2019-12-23 19:20:27 UTC) multi-call binary.
+
+        Usage: rpm -i PACKAGE.rpm; rpm -qp[ildc] PACKAGE.rpm
+
+        Manipulate RPM packages
+
+        Commands:
+          -i	Install package
+          -qp	Query package
+          -qpi	Show information
+          -qpl	List contents
+          -qpd	List documents
+          -qpc	List config files
+        `,
+    },
+  ];
+
+  for (const example of examples) {
+    await t.test(example.targetImage, async (t) => {
+      const execStub = sinon.stub(subProcess, "execute");
+
+      execStub
+        .withArgs("docker", [
+          "run",
+          "--rm",
+          "--entrypoint",
+          '""',
+          "--network",
+          "none",
+          sinon.match.any,
+          "rpm",
+          "--nodigest",
+          "--nosignature",
+          "-qa",
+          "--qf",
+          '"%{NAME}\t%|EPOCH?{%{EPOCH}:}|%{VERSION}-%{RELEASE}\t%{SIZE}\n"',
+        ])
+        .callsFake(async (docker, [run, rm, image]) => {
+          throw { stderr: example.rpmThrows, stdout: "" };
+        });
+
+      t.teardown(() => execStub.restore());
+
+      const rpmDbFileContent = await rpmInput.getRpmDbFileContent(
+        example.targetImage,
+      );
+      const actual = await analyzer.analyze(
+        example.targetImage,
+        rpmDbFileContent,
+      );
+
+      t.same(actual, {
+        Image: example.targetImage,
+        AnalyzeType: "Rpm",
+        Analysis: [],
+      });
+    });
+  }
+});
