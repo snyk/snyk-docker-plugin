@@ -66,14 +66,10 @@ test("inspect an image with an unsupported pkg manager", async (t) => {
   );
   t.same(
     pluginResult.package.packageFormatVersion,
-    "unknown:0.0.1",
-    "package manager unknown",
+    "linux:0.0.1",
+    "package manager linux",
   );
-  t.same(
-    pluginResult.plugin.packageManager,
-    "unknown",
-    "package manager unknown",
-  );
+  t.same(pluginResult.plugin.packageManager, "linux", "package manager linux");
 });
 
 test("inspect a scratch image", async (t) => {
@@ -96,14 +92,10 @@ test("inspect a scratch image", async (t) => {
   );
   t.same(
     pluginResult.package.packageFormatVersion,
-    "unknown:0.0.1",
-    "package manager unknown",
+    "linux:0.0.1",
+    "package manager linux",
   );
-  t.same(
-    pluginResult.plugin.packageManager,
-    "unknown",
-    "package manager unknown",
-  );
+  t.same(pluginResult.plugin.packageManager, "linux", "package manager linux");
 });
 
 test("inspect node:6.14.2 - provider and regular pkg as same dependency", (t) => {
