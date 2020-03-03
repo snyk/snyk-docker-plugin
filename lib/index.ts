@@ -284,22 +284,13 @@ function parseAnalysisResults(
   })[0];
 
   if (!analysisResult) {
-    if (dockerfileAnalysis && dockerfileAnalysis.baseImage === "scratch") {
-      // Special case when we have no package management
-      // on scratch images
-
-      analysisResult = {
-        Image: targetImage,
-        AnalyzeType: "linux",
-        Analysis: [],
-      };
-    } else {
-      analysisResult = {
-        Image: targetImage,
-        AnalyzeType: "unknown",
-        Analysis: [],
-      };
-    }
+    // Special case when we have no package management
+    // on scratch images or images with unknown package manager
+    analysisResult = {
+      Image: targetImage,
+      AnalyzeType: "linux",
+      Analysis: [],
+    };
   }
 
   let depType;
