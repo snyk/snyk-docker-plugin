@@ -178,3 +178,46 @@ test("static analysis provides hashes for key binaries", async (t) => {
     "all key binaries match hashes",
   );
 });
+
+test("static analysis works for scratch images", async (t) => {
+  const thisIsJustAnImageIdentifierInStaticAnalysis = "busybox:1.31.1";
+  const dockerfile = undefined;
+  const pluginOptionsWithSkopeoCopy = {
+    staticAnalysisOptions: {
+      imagePath: getFixture("skopeo-copy/busybox.tar"),
+      imageType: ImageType.DockerArchive,
+    },
+  };
+
+  const pluginResultWithSkopeoCopy = (await plugin.inspect(
+    thisIsJustAnImageIdentifierInStaticAnalysis,
+    dockerfile,
+    pluginOptionsWithSkopeoCopy,
+  )) as PluginResponseStatic;
+
+  t.equals(
+    pluginResultWithSkopeoCopy.plugin.dockerImageId,
+    "busybox:1.31.1",
+    "image ID identified correctly",
+  );
+  t.equals(
+    pluginResultWithSkopeoCopy.plugin.packageManager,
+    "linux",
+    "linux is the hackish package manager when nothing else is found",
+  );
+  t.same(
+    pluginResultWithSkopeoCopy.package.dependencies,
+    {},
+    "no known packages found",
+  );
+  t.equals(
+    pluginResultWithSkopeoCopy.package.packageFormatVersion,
+    "linux:0.0.1",
+    "the version of the linux package manager is 0.0.1",
+  );
+  t.deepEquals(
+    pluginResultWithSkopeoCopy.package.targetOS,
+    { name: "unknown", version: "0.0" },
+    "operating system for scratch image is unknown",
+  );
+});

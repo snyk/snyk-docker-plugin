@@ -23,6 +23,7 @@ import * as osReleaseDetector from "./os-release";
 import { analyze as apkAnalyze } from "./package-managers/apk";
 import { analyze as aptAnalyze } from "./package-managers/apt";
 import { analyze as rpmAnalyze } from "./package-managers/rpm";
+import { ImageAnalysis, OSRelease } from "./types";
 
 const debug = Debug("snyk");
 
@@ -60,21 +61,25 @@ export async function analyze(
     getRpmDbFileContent(archiveLayers, options.tmpDirPath),
   ]);
 
-  const osRelease = await osReleaseDetector
-    .detectStatically(archiveLayers)
-    .catch((err) => {
-      debug(err);
-      throw new Error("Failed to detect OS release");
-    });
+  let osRelease: OSRelease;
+  try {
+    osRelease = await osReleaseDetector.detectStatically(archiveLayers);
+  } catch (err) {
+    debug(err);
+    throw new Error("Failed to detect OS release");
+  }
 
-  const results = await Promise.all([
-    apkAnalyze(targetImage, apkDbFileContent),
-    aptAnalyze(targetImage, aptDbFileContent),
-    rpmAnalyze(targetImage, rpmDbFileContent),
-  ]).catch((err) => {
+  let results: ImageAnalysis[];
+  try {
+    results = await Promise.all([
+      apkAnalyze(targetImage, apkDbFileContent),
+      aptAnalyze(targetImage, aptDbFileContent),
+      rpmAnalyze(targetImage, rpmDbFileContent),
+    ]);
+  } catch (err) {
     debug(err);
     throw new Error("Failed to detect installed OS packages");
-  });
+  }
 
   const imageId = targetImage;
 
