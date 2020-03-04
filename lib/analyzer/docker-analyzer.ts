@@ -64,9 +64,9 @@ export async function analyze(
     pkgManagerAnalysis as any[],
   );
 
-  let binarisAnalysis;
+  let binariesAnalysis;
   try {
-    binarisAnalysis = await binariesAnalyzer.analyze(
+    binariesAnalysis = await binariesAnalyzer.analyze(
       targetImage,
       installedPackages,
       pkgManager,
@@ -81,7 +81,7 @@ export async function analyze(
     imageId: imageInspection.Id,
     osRelease,
     results: pkgManagerAnalysis,
-    binaries: binarisAnalysis,
+    binaries: binariesAnalysis,
     imageLayers: imageInspection.RootFS && imageInspection.RootFS.Layers,
   };
 }
