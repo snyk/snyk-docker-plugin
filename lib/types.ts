@@ -33,7 +33,7 @@ export interface PluginMetadata {
   runtime: string | undefined;
   packageManager: any;
   dockerImageId: any;
-  imageLayers: any;
+  imageLayers: string[];
 }
 
 export interface PluginResponse {
