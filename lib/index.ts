@@ -119,7 +119,7 @@ async function analyzeStatically(
   }
 }
 
-function tryGetAnalysisError(error, targetImage): Error {
+function tryGetAnalysisError(error, targetImage: string): Error {
   if (typeof error === "string") {
     debug(`Error while running analyzer: '${error}'`);
     handleCommonErrors(error, targetImage);
