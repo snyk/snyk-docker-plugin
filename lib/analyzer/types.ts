@@ -52,3 +52,11 @@ export interface DynamicAnalysis {
   binaries: ImageAnalysis;
   imageLayers: string[];
 }
+
+export interface StaticAnalysis {
+  imageId: string;
+  osRelease: OSRelease;
+  results: ImageAnalysis[];
+  binaries: string[];
+  imageLayers: string[];
+}
