@@ -18,7 +18,11 @@ const debug = Debug("snyk");
 
 const MAX_MANIFEST_FILES = 5;
 
-function inspect(root: string, targetFile?: string, options?: any) {
+function inspect(
+  root: string,
+  targetFile?: string,
+  options?: any,
+): Promise<PluginResponse> {
   const targetImage = root;
 
   if (isRequestingStaticAnalysis(options)) {
