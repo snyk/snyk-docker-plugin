@@ -1,6 +1,7 @@
 import * as Debug from "debug";
 import * as path from "path";
 import * as analyzer from "./analyzer";
+import { AnalysisType } from "./analyzer/types";
 import { Docker, DockerOptions } from "./docker";
 import * as dockerFile from "./docker-file";
 import { getRuntime } from "./inputs/runtime/docker";
@@ -283,14 +284,14 @@ function parseAnalysisResults(targetImage, analysis) {
     // on scratch images or images with unknown package manager
     analysisResult = {
       Image: targetImage,
-      AnalyzeType: "linux",
+      AnalyzeType: AnalysisType.Linux,
       Analysis: [],
     };
   }
 
   let depType;
   switch (analysisResult.AnalyzeType) {
-    case "Apt": {
+    case AnalysisType.Apt: {
       depType = "deb";
       break;
     }

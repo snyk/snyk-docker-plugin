@@ -28,6 +28,7 @@ export enum AnalysisType {
   Apt = "Apt",
   Rpm = "Rpm",
   Binaries = "binaries",
+  Linux = "linux", // default/unknown/tech-debt
 }
 
 export interface OSRelease {
