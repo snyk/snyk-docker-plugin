@@ -23,14 +23,14 @@ import * as osReleaseDetector from "./os-release";
 import { analyze as apkAnalyze } from "./package-managers/apk";
 import { analyze as aptAnalyze } from "./package-managers/apt";
 import { analyze as rpmAnalyze } from "./package-managers/rpm";
-import { ImageAnalysis, OSRelease } from "./types";
+import { ImageAnalysis, OSRelease, StaticAnalysis } from "./types";
 
 const debug = Debug("snyk");
 
 export async function analyze(
   targetImage: string,
   options: StaticAnalysisOptions,
-) {
+): Promise<StaticAnalysis> {
   if (options.imageType !== ImageType.DockerArchive) {
     throw new Error("Unhandled image type");
   }
