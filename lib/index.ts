@@ -1,6 +1,7 @@
 import * as Debug from "debug";
 import * as path from "path";
 import * as analyzer from "./analyzer";
+import { AnalysisType } from "./analyzer/types";
 import { Docker, DockerOptions } from "./docker";
 import * as dockerFile from "./docker-file";
 import { getRuntime } from "./inputs/runtime/docker";
@@ -273,8 +274,8 @@ async function getManifestFiles(
     .filter((i) => i.contents !== "");
 }
 
-function parseAnalysisResults(targetImage, analysisJson) {
-  let analysisResult = analysisJson.results.filter((res) => {
+function parseAnalysisResults(targetImage, analysis) {
+  let analysisResult = analysis.results.filter((res) => {
     return res.Analysis && res.Analysis.length > 0;
   })[0];
 
@@ -283,14 +284,14 @@ function parseAnalysisResults(targetImage, analysisJson) {
     // on scratch images or images with unknown package manager
     analysisResult = {
       Image: targetImage,
-      AnalyzeType: "linux",
+      AnalyzeType: AnalysisType.Linux,
       Analysis: [],
     };
   }
 
   let depType;
   switch (analysisResult.AnalyzeType) {
-    case "Apt": {
+    case AnalysisType.Apt: {
       depType = "deb";
       break;
     }
@@ -300,12 +301,12 @@ function parseAnalysisResults(targetImage, analysisJson) {
   }
 
   return {
-    imageId: analysisJson.imageId,
-    targetOS: analysisJson.osRelease,
+    imageId: analysis.imageId,
+    targetOS: analysis.osRelease,
     type: depType,
     depInfosList: analysisResult.Analysis,
-    binaries: analysisJson.binaries.Analysis,
-    imageLayers: analysisJson.imageLayers,
+    binaries: analysis.binaries.Analysis,
+    imageLayers: analysis.imageLayers,
   };
 }
 
