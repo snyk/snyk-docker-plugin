@@ -44,3 +44,11 @@ export interface IAptFiles {
   dpkgFile: string;
   extFile: string;
 }
+
+export interface DynamicAnalysis {
+  imageId: string;
+  osRelease: OSRelease;
+  results: ImageAnalysis[];
+  binaries: ImageAnalysis;
+  imageLayers: string[];
+}

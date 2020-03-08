@@ -11,6 +11,7 @@ import rpmInputDocker = require("../inputs/rpm/docker");
 import apkAnalyzer = require("./package-managers/apk");
 import aptAnalyzer = require("./package-managers/apt");
 import rpmAnalyzer = require("./package-managers/rpm");
+import { DynamicAnalysis, ImageAnalysis } from "./types";
 
 const debug = Debug("snyk");
 
@@ -18,7 +19,7 @@ export async function analyze(
   targetImage: string,
   dockerfileAnalysis?: dockerFile.DockerFileAnalysis,
   options?: DockerOptions,
-) {
+): Promise<DynamicAnalysis> {
   try {
     await imageInspector.pullIfNotLocal(targetImage, options);
   } catch (error) {
@@ -48,7 +49,7 @@ export async function analyze(
     rpmInputDocker.getRpmDbFileContent(targetImage, options),
   ]);
 
-  let pkgManagerAnalysis;
+  let pkgManagerAnalysis: ImageAnalysis[];
   try {
     pkgManagerAnalysis = await Promise.all([
       apkAnalyzer.analyze(targetImage, apkDbFileContent),
@@ -64,7 +65,7 @@ export async function analyze(
     pkgManagerAnalysis as any[],
   );
 
-  let binariesAnalysis;
+  let binariesAnalysis: ImageAnalysis;
   try {
     binariesAnalysis = await binariesAnalyzer.analyze(
       targetImage,
