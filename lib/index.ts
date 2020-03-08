@@ -79,7 +79,6 @@ async function analyzeStatically(
     const parsedAnalysisResult = parseAnalysisResults(
       targetImage,
       staticAnalysis,
-      dockerfileAnalysis,
     );
 
     const dependenciesTree = await buildTree(
@@ -211,11 +210,7 @@ async function getDependencies(
       dockerfileAnalysis,
       options,
     );
-    const result = parseAnalysisResults(
-      targetImage,
-      output,
-      dockerfileAnalysis,
-    );
+    const result = parseAnalysisResults(targetImage, output);
     const pkg = buildTree(
       targetImage,
       result.type,
@@ -274,11 +269,7 @@ async function getManifestFiles(
     .filter((i) => i.contents !== "");
 }
 
-function parseAnalysisResults(
-  targetImage,
-  analysisJson,
-  dockerfileAnalysis?: dockerFile.DockerFileAnalysis,
-) {
+function parseAnalysisResults(targetImage, analysisJson) {
   let analysisResult = analysisJson.results.filter((res) => {
     return res.Analysis && res.Analysis.length > 0;
   })[0];
