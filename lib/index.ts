@@ -273,8 +273,8 @@ async function getManifestFiles(
     .filter((i) => i.contents !== "");
 }
 
-function parseAnalysisResults(targetImage, analysisJson) {
-  let analysisResult = analysisJson.results.filter((res) => {
+function parseAnalysisResults(targetImage, analysis) {
+  let analysisResult = analysis.results.filter((res) => {
     return res.Analysis && res.Analysis.length > 0;
   })[0];
 
@@ -300,12 +300,12 @@ function parseAnalysisResults(targetImage, analysisJson) {
   }
 
   return {
-    imageId: analysisJson.imageId,
-    targetOS: analysisJson.osRelease,
+    imageId: analysis.imageId,
+    targetOS: analysis.osRelease,
     type: depType,
     depInfosList: analysisResult.Analysis,
-    binaries: analysisJson.binaries.Analysis,
-    imageLayers: analysisJson.imageLayers,
+    binaries: analysis.binaries.Analysis,
+    imageLayers: analysis.imageLayers,
   };
 }
 
