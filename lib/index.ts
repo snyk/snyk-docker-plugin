@@ -170,7 +170,7 @@ function getDynamicAnalysisOptions(options?: any): any {
     : {};
 }
 
-function handleCommonErrors(error, targetImage: string) {
+function handleCommonErrors(error: string, targetImage: string): void {
   if (error.indexOf("command not found") !== -1) {
     throw new Error("Snyk docker CLI was not found");
   }
