@@ -1,7 +1,7 @@
 import * as crypto from "crypto";
 import { Readable } from "stream";
 
-const HASH_ALGORITHM = "sha256"; // TODO algorithm?
+const HASH_ALGORITHM = "sha1";
 const HASH_ENCODING = "hex";
 
 export async function streamToString(

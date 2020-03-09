@@ -167,10 +167,10 @@ test("static analysis provides hashes for key binaries", async (t) => {
     "found four key binaries",
   );
   const expectedHashes = [
-    "f20f16782d8c442142560d1dad09561161fb495179751db200d9db6caf6ad832",
-    "c7f4fefb1e2994b8ac23134ea9c2b7aa8b2d088b8863fa33012ca7b8824e1bed",
-    "0198b003dfe9fff4ee28ca7d75893bff7375dedd1a969c781771a4b34443fb33",
-    "62f8defe3fe085af9b6e48f85ffb90a863c44d53b9c3f4f237b04c232f350083",
+    "143a6aa2f60f33d18813e9d5b1948bf60454da93",
+    "64dd0440202d8d77ddeb61ee5ef27c73d2fa9e70",
+    "8625d755c0e85e838e599112696c31ead7fda485",
+    "fe460100ee27aa6e3252a978940e3045e78fb58c",
   ];
   t.deepEqual(
     pluginResultWithSkopeoCopy.hashes.sort(),
