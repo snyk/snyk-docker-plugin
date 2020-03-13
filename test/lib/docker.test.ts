@@ -208,7 +208,7 @@ test("findGlobs", async (t) => {
         "\n./\n../\ndir11/\nfile3.json\nfile4.txt\n\n/app/dir1/dir11:\n./\n../\n" +
         "file5.txt\n\n/app/dir2:\n./\n../\n\n/app/dir3:\n./\n../\nfile6.json\n",
     });
-    const files = await docker.findGlobs(["**/file?.json"]);
+    const files = await docker.findGlobs(["**/file?.json"], [], "/foo");
     t.same(files, ["/dir1/file3.json", "/dir3/file6.json"]);
   });
 
@@ -241,7 +241,7 @@ test("findGlobs", async (t) => {
         "\n./\n../\ndir11/\npackage.json\npackage-lock.json\n\n/app/dir1/dir11:\n./\n../\n" +
         "file5.txt\n\n/app/dir2:\n./\n../\n\n/app/dir3:\n./\n../\nfile6.csproj\n",
     });
-    const files = await docker.findGlobs(registryGlobs);
+    const files = await docker.findGlobs(registryGlobs, [], "/foo");
     t.same(files, [
       "/pom.xml",
       "/dir1/package.json",
@@ -257,7 +257,7 @@ test("findGlobs", async (t) => {
         "\n./\n../\ndir11/\npackage.json\npackage-lock.json\n\n/app/dir1/dir11:\n./\n../\n" +
         "file5.txt\n\n/app/dir2:\n./\n../\n\n/app/dir3:\n./\n../\nfile6.csproj\n",
     });
-    const files = await docker.findGlobs(registryGlobs, ["/dir1/*"]);
+    const files = await docker.findGlobs(registryGlobs, ["/dir1/*"], "/foo");
     t.same(files, ["/pom.xml", "/dir3/file6.csproj"]);
   });
 
@@ -271,6 +271,7 @@ test("findGlobs", async (t) => {
       const files = await docker.findGlobs(
         ["**/package.json", "**/package-lock.json", "**/yarn.lock"],
         ["**/node_modules/**"],
+        "/foo",
       );
 
       t.same(files, [
@@ -290,10 +291,11 @@ test("findGlobs", async (t) => {
       ).toString(),
     });
 
-    const files = await docker.findGlobs([
-      "**/package.json",
-      "**/Gemfile.lock",
-    ]);
+    const files = await docker.findGlobs(
+      ["**/package.json", "**/Gemfile.lock"],
+      [],
+      "/foo",
+    );
 
     t.same(files, ["/app/Gemfile.lock", "/srv/app/package.json"]);
   });
@@ -305,7 +307,7 @@ test("findGlobs", async (t) => {
       ).toString(),
     });
 
-    const files = await docker.findGlobs(["**/pom.xml"]);
+    const files = await docker.findGlobs(["**/pom.xml"], [], "/foo");
 
     t.same(files, ["/app/pom.xml"]);
   });
@@ -317,7 +319,7 @@ test("findGlobs", async (t) => {
       ).toString(),
     });
 
-    const files = await docker.findGlobs(["**/package.json"]);
+    const files = await docker.findGlobs(["**/package.json"], [], "/foo");
 
     t.same(files, ["/app/package.json"]);
   });
@@ -327,11 +329,106 @@ test("findGlobs", async (t) => {
       stdout: readFileSync(getLSOutputFixture("ubuntu-18.04.txt")).toString(),
     });
 
-    const files = await docker.findGlobs([
-      "**/package.json",
-      "**/package-lock.json",
-    ]);
+    const files = await docker.findGlobs(
+      ["**/package.json", "**/package-lock.json"],
+      [],
+      "/foo",
+    );
 
     t.same(files, []);
   });
+
+  // Test special case when scanning from the root
+
+  t.test("find from root directory structure", async (t) => {
+    stub.onCall(0).resolves({
+      stdout: "./\n../\n.dockerenv\napp/\nlib/\ndev/\nsys/\n",
+    });
+    stub.onCall(1).resolves({
+      stdout: "/app:\n./\n../\ncomposer.json\ncomposer.lock\n",
+    });
+    stub.onCall(2).resolves({
+      stdout:
+        "/lib:\n./\n../\napk/\nfirmware/\nld-musl-x86_64.so.1\n" +
+        "libc.musl-x86_64.so.1\nlibcrypto.so.1.1\nlibssl.so.1.1\n" +
+        "libz.so.1\nlibz.so.1.2.11\nmdev/\n\n/lib/apk:\n./\n../\n" +
+        "db/\n\n/lib/apk/db:\n./\n../\ninstalled\nlock\nscripts.tar\n" +
+        "triggers\n\n/lib/firmware:\n./\n../\n\n/lib/mdev:\n./\n../\n",
+    });
+    stub.onCall(3).resolves({
+      stdout: "/dev:\n./\n../\ndev1\ndev2\n",
+    });
+    stub.onCall(4).resolves({
+      stdout: "/sys:\n./\n../\nsys1\nsys2\n",
+    });
+
+    const files = await docker.findGlobs(["**/*"]);
+    t.same(files, [
+      "/app/composer.json",
+      "/app/composer.lock",
+      "/lib/ld-musl-x86_64.so.1",
+      "/lib/libc.musl-x86_64.so.1",
+      "/lib/libcrypto.so.1.1",
+      "/lib/libssl.so.1.1",
+      "/lib/libz.so.1",
+      "/lib/libz.so.1.2.11",
+      "/lib/apk/db/installed",
+      "/lib/apk/db/lock",
+      "/lib/apk/db/scripts.tar",
+      "/lib/apk/db/triggers",
+    ]);
+
+    t.true(
+      stub.calledThrice,
+      "Check that calls for dev and sys did not happen",
+    );
+  });
+
+  t.test(
+    "find from root directory structure with system directories",
+    async (t) => {
+      stub.onCall(0).resolves({
+        stdout: "./\n../\n.dockerenv\napp/\nlib/\ndev/\nsys/\n",
+      });
+      stub.onCall(1).resolves({
+        stdout: "/app:\n./\n../\ncomposer.json\ncomposer.lock\n",
+      });
+      stub.onCall(2).resolves({
+        stdout:
+          "/lib:\n./\n../\napk/\nfirmware/\nld-musl-x86_64.so.1\n" +
+          "libc.musl-x86_64.so.1\nlibcrypto.so.1.1\nlibssl.so.1.1\n" +
+          "libz.so.1\nlibz.so.1.2.11\nmdev/\n\n/lib/apk:\n./\n../\n" +
+          "db/\n\n/lib/apk/db:\n./\n../\ninstalled\nlock\nscripts.tar\n" +
+          "triggers\n\n/lib/firmware:\n./\n../\n\n/lib/mdev:\n./\n../\n",
+      });
+      stub.onCall(3).resolves({
+        stdout: "/dev:\n./\n../\ndev1\ndev2\n",
+      });
+      stub.onCall(4).resolves({
+        stdout: "/sys:\n./\n../\nsys1\nsys2\n",
+      });
+
+      const files = await docker.findGlobs(["**/*"], [], "/", true, []);
+      t.same(files, [
+        "/app/composer.json",
+        "/app/composer.lock",
+        "/lib/ld-musl-x86_64.so.1",
+        "/lib/libc.musl-x86_64.so.1",
+        "/lib/libcrypto.so.1.1",
+        "/lib/libssl.so.1.1",
+        "/lib/libz.so.1",
+        "/lib/libz.so.1.2.11",
+        "/lib/apk/db/installed",
+        "/lib/apk/db/lock",
+        "/lib/apk/db/scripts.tar",
+        "/lib/apk/db/triggers",
+        "/dev/dev1",
+        "/dev/dev2",
+        "/sys/sys1",
+        "/sys/sys2",
+      ]);
+
+      t.same(stub.callCount, 5, "Check that all calls did happen");
+    },
+  );
 });

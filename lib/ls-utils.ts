@@ -41,6 +41,8 @@ async function iterateFiles(
  * directory sequence.
  */
 function parseLsOutput(output: string): DiscoveredDirectory {
+  const outputLines = output.trim().split("\n");
+  const isRecursiveOutput = outputLines[0].endsWith(":");
   const res = {
     name: "/",
     subDirs: [] as DiscoveredDirectory[],
@@ -51,27 +53,35 @@ function parseLsOutput(output: string): DiscoveredDirectory {
   let currPath = "/";
   let currDir = res;
 
-  output
-    .trim()
-    .split("\n")
-    .forEach((i, n) => {
-      if (i.endsWith(":")) {
-        if (n === 0 && i !== "/:") {
-          pathPrefix = i.substring(0, i.length - 1);
-        }
-        currPath = i.substring(pathPrefix.length, i.length - 1) || "/";
-        if (currPath !== "/") {
-          currDir = getSubDir(res, currPath.substring(1).split("/"));
-        } else {
-          currDir = res;
-        }
-      } else if (i !== "" && !i.endsWith("/") && i !== "." && i !== "..") {
-        currDir.files.push({
-          name: i,
-          path: currPath,
-        });
+  outputLines.forEach((i, n) => {
+    if (i.endsWith(":")) {
+      if (n === 0 && i !== "/:") {
+        pathPrefix = i.substring(0, i.length - 1);
       }
-    });
+      currPath = i.substring(pathPrefix.length, i.length - 1) || "/";
+      if (currPath !== "/") {
+        currDir = getSubDir(res, currPath.substring(1).split("/"));
+      } else {
+        currDir = res;
+      }
+    } else if (i !== "" && !i.endsWith("/") && i !== "." && i !== "..") {
+      currDir.files.push({
+        name: i,
+        path: currPath,
+      });
+    } else if (
+      !isRecursiveOutput &&
+      i.endsWith("/") &&
+      i !== "./" &&
+      i !== "../"
+    ) {
+      currDir.subDirs.push({
+        name: i.substring(0, i.length - 1),
+        subDirs: [],
+        files: [],
+      });
+    }
+  });
 
   return res;
 }
