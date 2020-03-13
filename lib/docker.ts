@@ -14,6 +14,8 @@ interface DockerOptions {
   tlsKey?: string;
 }
 
+const SystemDirectories = ["dev", "proc", "sys"];
+
 class Docker {
   public static run(args: string[], options?: DockerOptions) {
     return subProcess.execute("docker", [
@@ -128,15 +130,43 @@ class Docker {
     exclusionGlobs: string[] = [],
     path: string = "/",
     recursive: boolean = true,
+    excludeRootDirectories: string[] = SystemDirectories,
   ) {
+    let root: lsu.DiscoveredDirectory;
     const res: string[] = [];
-    const output = await this.lsSafe(path, recursive);
 
-    if (eventLoopSpinner.isStarving()) {
-      await eventLoopSpinner.spin();
+    if (recursive && path === "/") {
+      // When scanning from the root of a docker image we need to
+      // exclude system files e.g. /proc, /sys, etc. to make the
+      // operation less expensive.
+
+      const outputRoot = await this.lsSafe("/", false);
+      root = lsu.parseLsOutput(outputRoot.stdout);
+
+      for (const subdir of root.subDirs) {
+        if (excludeRootDirectories.includes(subdir.name)) {
+          continue;
+        }
+
+        const subdirOutput = await this.lsSafe("/" + subdir.name, true);
+        const subdirRecursive = lsu.parseLsOutput(subdirOutput.stdout);
+
+        await lsu.iterateFiles(subdirRecursive, (f) => {
+          f.path = "/" + subdir.name + f.path;
+        });
+
+        subdir.subDirs = subdirRecursive.subDirs;
+        subdir.files = subdirRecursive.files;
+      }
+    } else {
+      const output = await this.lsSafe(path, recursive);
+
+      if (eventLoopSpinner.isStarving()) {
+        await eventLoopSpinner.spin();
+      }
+
+      root = lsu.parseLsOutput(output.stdout);
     }
-
-    const root = lsu.parseLsOutput(output.stdout);
 
     await lsu.iterateFiles(root, (f) => {
       const filepath = fspath.join(f.path, f.name);
