@@ -1,0 +1,21 @@
+name: Release-Notes-Preview
+
+on:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v2
+    - run: |
+        git fetch --prune --unshallow --tags
+    - uses: snyk/release-notes-preview@v1.3.4
+      with:
+        releaseBranch: master
+        githubPosterId: 18642669
+      env:
+        GITHUB_PR_USERNAME: ${{ github.actor }}
+        GITHUB_TOKEN: ${{ secrets.RELEASE_NOTES_GITHUB_TOKEN }}
