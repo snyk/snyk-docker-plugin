@@ -4,6 +4,7 @@
 
 import * as path from "path";
 import { test } from "tap";
+
 import * as plugin from "../../lib";
 import { ImageType, PluginResponseStatic } from "../../lib/types";
 

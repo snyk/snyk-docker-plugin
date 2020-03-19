@@ -1,5 +1,6 @@
 import * as Debug from "debug";
 import * as path from "path";
+
 import * as analyzer from "./analyzer";
 import {
   AnalysisType,
