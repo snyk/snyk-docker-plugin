@@ -400,7 +400,7 @@ function buildTree(targetImage: string, depType, depInfosList, targetOS) {
   const attachDeps = (depInfos) => {
     const depNamesToSkip = new Set(tooFrequentDepNames);
     for (const depInfo of depInfos) {
-      const subtree = buildTreeRecurisve(
+      const subtree = buildTreeRecursive(
         depInfo.Name,
         new Set(),
         depsMap,
@@ -453,7 +453,7 @@ function buildTree(targetImage: string, depType, depInfosList, targetOS) {
   return root;
 }
 
-function buildTreeRecurisve(
+function buildTreeRecursive(
   depName,
   ancestors,
   depsMap,
@@ -489,7 +489,7 @@ function buildTreeRecurisve(
 
   const deps = depInfo.Deps || {};
   for (const name of Object.keys(deps)) {
-    const subTree = buildTreeRecurisve(
+    const subTree = buildTreeRecursive(
       name,
       newAncestors,
       depsMap,
