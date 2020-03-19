@@ -12,6 +12,7 @@ import {
 import { buildTree } from "./dependency-tree";
 import { Docker, DockerOptions } from "./docker";
 import * as dockerFile from "./docker-file";
+import { experimentalAnalysis } from "./experimental";
 import { getRuntime } from "./inputs/runtime/docker";
 import { buildResponse } from "./response-builder";
 import {
@@ -33,6 +34,10 @@ function inspect(
   options?: any,
 ): Promise<PluginResponse> {
   const targetImage = root;
+
+  if (options && options.experimental) {
+    return experimentalAnalysis(options);
+  }
 
   if (isRequestingStaticAnalysis(options)) {
     return analyzeStatically(targetImage, options);
