@@ -22,7 +22,7 @@ export function analyze(
   });
 }
 
-function parseDpkgFile(text: string) {
+function parseDpkgFile(text: string): AnalyzedPackage[] {
   const pkgs: AnalyzedPackage[] = [];
   let curPkg: any = null;
   for (const line of text.split("\n")) {
@@ -35,7 +35,7 @@ function parseDpkgLine(
   text: string,
   curPkg: AnalyzedPackage,
   pkgs: AnalyzedPackage[],
-) {
+): AnalyzedPackage {
   const [key, value] = text.split(": ");
   switch (key) {
     case "Package":
