@@ -22,6 +22,24 @@ export function analyze(
   });
 }
 
+export function analyzeDistroless(
+  targetImage: string,
+  aptFiles: string[],
+): Promise<ImageAnalysis> {
+  const analyzedPackages: AnalyzedPackage[] = [];
+
+  for (const fileContent of aptFiles) {
+    const currentPackages = parseDpkgFile(fileContent);
+    analyzedPackages.push(...currentPackages);
+  }
+
+  return Promise.resolve({
+    Image: targetImage,
+    AnalyzeType: AnalysisType.Apt,
+    Analysis: analyzedPackages,
+  });
+}
+
 function parseDpkgFile(text: string): AnalyzedPackage[] {
   const pkgs: AnalyzedPackage[] = [];
   let curPkg: any = null;

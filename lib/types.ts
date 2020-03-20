@@ -6,6 +6,7 @@ export interface StaticAnalysisOptions {
    * If unspecified, defaults to the environment's temporary directory path.
    */
   tmpDirPath?: string;
+  distroless: boolean;
 }
 
 export enum ImageType {

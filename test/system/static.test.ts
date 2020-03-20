@@ -6,6 +6,7 @@ import * as path from "path";
 import { test } from "tap";
 
 import * as plugin from "../../lib";
+import * as subProcess from "../../lib/sub-process";
 import { ImageType, PluginResponseStatic } from "../../lib/types";
 
 const getFixture = (fixturePath) =>
@@ -220,5 +221,127 @@ test("static analysis works for scratch images", async (t) => {
     pluginResultWithSkopeoCopy.package.targetOS,
     { name: "unknown", version: "0.0" },
     "operating system for scratch image is unknown",
+  );
+});
+
+test("static analysis for distroless base-debian9", async (t) => {
+  // 70b8c7f2d41a844d310c23e0695388c916a364ed was "latest" at the time of writing
+  const imageNameAndTag =
+    "gcr.io/distroless/base-debian9:70b8c7f2d41a844d310c23e0695388c916a364ed";
+
+  // distroless assumption #1: image is present in local daemon
+  await subProcess.execute("docker", ["image", "pull", imageNameAndTag]);
+
+  const dockerfile = undefined;
+  const pluginOptions = {
+    experimental: true,
+  };
+
+  const pluginResult = await plugin.inspect(
+    imageNameAndTag,
+    dockerfile,
+    pluginOptions,
+  );
+
+  const expectedDependencies = {
+    "glibc/libc6": { name: "glibc/libc6", version: "2.24-11+deb9u4" },
+    "openssl/libssl1.1": {
+      name: "openssl/libssl1.1",
+      version: "1.1.0l-1~deb9u1",
+      dependencies: {
+        "glibc/libc6": { name: "glibc/libc6", version: "2.24-11+deb9u4" },
+      },
+    },
+    openssl: {
+      name: "openssl",
+      version: "1.1.0l-1~deb9u1",
+      dependencies: {
+        "glibc/libc6": { name: "glibc/libc6", version: "2.24-11+deb9u4" },
+        "openssl/libssl1.1": {
+          name: "openssl/libssl1.1",
+          version: "1.1.0l-1~deb9u1",
+        },
+      },
+    },
+    "base-files": { name: "base-files", version: "9.9+deb9u12" },
+    netbase: { name: "netbase", version: "5.4" },
+    tzdata: { name: "tzdata", version: "2019c-0+deb9u1" },
+  };
+
+  t.ok("package" in pluginResult, "plugin result has packages");
+
+  t.ok("dependencies" in pluginResult.package, "packages have dependencies");
+  t.deepEquals(
+    pluginResult.package.dependencies,
+    expectedDependencies,
+    "Distroless base image dependencies are correct",
+  );
+
+  t.ok("targetOS" in pluginResult.package, "OS discovered");
+  t.deepEquals(
+    pluginResult.package.targetOS,
+    { name: "debian", version: "9" },
+    "recognised it's debian 9",
+  );
+});
+
+test("static analysis for distroless base-debian10", async (t) => {
+  // 70b8c7f2d41a844d310c23e0695388c916a364ed was "latest" at the time of writing
+  const imageNameAndTag =
+    "gcr.io/distroless/base-debian10:70b8c7f2d41a844d310c23e0695388c916a364ed";
+
+  // distroless assumption #1: image is present in local daemon
+  await subProcess.execute("docker", ["image", "pull", imageNameAndTag]);
+
+  const dockerfile = undefined;
+  const pluginOptions = {
+    experimental: true,
+  };
+
+  const pluginResult = await plugin.inspect(
+    imageNameAndTag,
+    dockerfile,
+    pluginOptions,
+  );
+
+  const expectedDependencies = {
+    "glibc/libc6": { name: "glibc/libc6", version: "2.28-10" },
+    "openssl/libssl1.1": {
+      name: "openssl/libssl1.1",
+      version: "1.1.1d-0+deb10u2",
+      dependencies: {
+        "glibc/libc6": { name: "glibc/libc6", version: "2.28-10" },
+      },
+    },
+    openssl: {
+      name: "openssl",
+      version: "1.1.1d-0+deb10u2",
+      dependencies: {
+        "glibc/libc6": { name: "glibc/libc6", version: "2.28-10" },
+        "openssl/libssl1.1": {
+          name: "openssl/libssl1.1",
+          version: "1.1.1d-0+deb10u2",
+        },
+      },
+    },
+    "base-files": { name: "base-files", version: "10.3+deb10u3" },
+    netbase: { name: "netbase", version: "5.6" },
+    tzdata: { name: "tzdata", version: "2019c-0+deb10u1" },
+  };
+
+  t.ok("package" in pluginResult, "plugin result has packages");
+
+  t.ok("dependencies" in pluginResult.package, "packages have dependencies");
+  t.deepEquals(
+    pluginResult.package.dependencies,
+    expectedDependencies,
+    "Distroless base image dependencies are correct",
+  );
+
+  t.ok("targetOS" in pluginResult.package, "OS discovered");
+  t.deepEquals(
+    pluginResult.package.targetOS,
+    { name: "debian", version: "10" },
+    "recognised it's debian 10",
   );
 });
