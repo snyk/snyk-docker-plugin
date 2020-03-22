@@ -65,7 +65,6 @@ export async function detect(
     if (dockerfileAnalysis && dockerfileAnalysis.baseImage === "scratch") {
       // If the docker file was build from a scratch image
       // then we don't have a known OS
-
       osRelease = { name: "scratch", version: "0.0" };
     } else {
       osRelease = { name: "unknown", version: "0.0" };
