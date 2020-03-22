@@ -4,9 +4,11 @@
 
 import * as os from "os";
 import * as path from "path";
+import sinon = require("sinon");
 import { test } from "tap";
 
 import * as plugin from "../../lib";
+import { Docker } from "../../lib/docker";
 import * as subProcess from "../../lib/sub-process";
 import { ImageType, PluginResponseStatic } from "../../lib/types";
 
@@ -342,6 +344,12 @@ test("static analysis for distroless base-debian10", async (t) => {
 });
 
 test("experimental static analysis for debian images", async (t) => {
+  const dockerSaveStub = sinon.stub(Docker.prototype, "save").callThrough();
+
+  t.teardown(() => {
+    dockerSaveStub.restore();
+  });
+
   const imageNameAndTag = "debian:10";
   const dockerfile = undefined;
 
@@ -352,6 +360,12 @@ test("experimental static analysis for debian images", async (t) => {
     imageNameAndTag,
     dockerfile,
     pluginOptionsExperimental,
+  );
+
+  t.equal(
+    dockerSaveStub.callCount,
+    1,
+    "non-static experimental flag saves the image",
   );
 
   // static scan doesn't handle creating the image archive yet
@@ -378,5 +392,11 @@ test("experimental static analysis for debian images", async (t) => {
     JSON.stringify(pluginResultExperimental.package.dependencies),
     JSON.stringify(pluginResultStatic.package.dependencies),
     "identical dependencies for regular Debian images between experimental and static scans",
+  );
+
+  t.equal(
+    dockerSaveStub.callCount,
+    1,
+    "static experimental flag does not save the image",
   );
 });
