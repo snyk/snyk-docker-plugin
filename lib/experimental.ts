@@ -9,13 +9,21 @@ import { ImageType, PluginResponse } from "./types";
 
 export async function experimentalAnalysis(
   targetImage: string,
+  options: any,
 ): Promise<PluginResponse> {
   // assume Distroless scanning
-  return distroless(targetImage);
+  return distroless(targetImage, options);
 }
 
 // experimental flow expected to be merged with the static analysis when ready
-export async function distroless(targetImage: string): Promise<PluginResponse> {
+export async function distroless(
+  targetImage: string,
+  options: any,
+): Promise<PluginResponse> {
+  if (staticModule.isRequestingStaticAnalysis(options)) {
+    return staticModule.analyzeStatically(targetImage, options);
+  }
+
   await pullIfNotLocal(targetImage);
 
   const archiveDir = path.join(os.tmpdir(), "snyk-image-archives");

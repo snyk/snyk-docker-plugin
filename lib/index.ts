@@ -24,7 +24,7 @@ function inspect(
   const targetImage = root;
 
   if (options && options.experimental) {
-    return experimentalAnalysis(targetImage);
+    return experimentalAnalysis(targetImage, options);
   }
 
   if (staticUtil.isRequestingStaticAnalysis(options)) {
