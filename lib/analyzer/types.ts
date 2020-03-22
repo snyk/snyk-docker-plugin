@@ -34,6 +34,7 @@ export enum AnalysisType {
 export interface OSRelease {
   name: string;
   version: string;
+  prettyName: string;
 }
 
 export interface Binary {

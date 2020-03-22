@@ -61,7 +61,7 @@ test("inspect an image with an unsupported pkg manager", async (t) => {
   );
   t.same(
     pluginResult.package.targetOS,
-    { name: "arch", version: "unstable" },
+    { name: "arch", version: "unstable", prettyName: "Arch Linux" },
     "target operating system found",
   );
   t.same(
@@ -87,7 +87,7 @@ test("inspect a scratch image", async (t) => {
   );
   t.same(
     pluginResult.package.targetOS,
-    { name: "unknown", version: "0.0" },
+    { name: "unknown", version: "0.0", prettyName: "" },
     "target operating system found",
   );
   t.same(
@@ -135,6 +135,7 @@ test("inspect node:6.14.2 - provider and regular pkg as same dependency", (t) =>
           targetOS: {
             name: "debian",
             version: "8",
+            prettyName: "Debian GNU/Linux 8 (jessie)",
           },
           docker: {
             baseImage: "buildpack-deps:stretch",
@@ -238,6 +239,7 @@ test("inspect nginx:1.13.10", (t) => {
           targetOS: {
             name: "debian",
             version: "9",
+            prettyName: "Debian GNU/Linux 9 (stretch)",
           },
           docker: {
             baseImage: "debian:stretch-slim",
@@ -394,6 +396,7 @@ test("inspect redis:3.2.11-alpine", (t) => {
           targetOS: {
             name: "alpine",
             version: "3.7.0",
+            prettyName: "Alpine Linux v3.7",
           },
           docker: {
             baseImage: "alpine:3.7",
@@ -451,6 +454,7 @@ test(
         targetOS: {
           name: "alpine",
           version: "3.7.0",
+          prettyName: "Alpine Linux v3.7",
         },
         docker: {
           baseImage: "alpine:3.7",
@@ -481,6 +485,7 @@ test("inspect image with sha@256 " + "ubuntu@sha256", async (t) => {
       targetOS: {
         name: "ubuntu",
         version: "18.04",
+        prettyName: "Ubuntu 18.04.1 LTS",
       },
     },
     "root pkg",
@@ -553,6 +558,7 @@ test("inspect centos", (t) => {
           targetOS: {
             name: "centos",
             version: "7",
+            prettyName: "CentOS Linux 7 (Core)",
           },
           docker: {
             baseImage: "scratch",

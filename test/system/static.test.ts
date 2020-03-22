@@ -147,6 +147,7 @@ test("/etc/os-release links to /usr/lib/os-release", async (t) => {
   t.deepEqual(pluginResultWithDockerSave.package.targetOS, {
     name: "debian",
     version: "10",
+    prettyName: "Debian GNU/Linux 10 (buster)",
   });
 });
 
@@ -222,7 +223,7 @@ test("static analysis works for scratch images", async (t) => {
   );
   t.deepEquals(
     pluginResultWithSkopeoCopy.package.targetOS,
-    { name: "unknown", version: "0.0" },
+    { name: "unknown", version: "0.0", prettyName: "" },
     "operating system for scratch image is unknown",
   );
 });
@@ -280,7 +281,7 @@ test("static analysis for distroless base-debian9", async (t) => {
   t.ok("targetOS" in pluginResult.package, "OS discovered");
   t.deepEquals(
     pluginResult.package.targetOS,
-    { name: "debian", version: "9" },
+    { name: "debian", version: "9", prettyName: "Distroless" },
     "recognised it's debian 9",
   );
 });
@@ -338,7 +339,7 @@ test("static analysis for distroless base-debian10", async (t) => {
   t.ok("targetOS" in pluginResult.package, "OS discovered");
   t.deepEquals(
     pluginResult.package.targetOS,
-    { name: "debian", version: "10" },
+    { name: "debian", version: "10", prettyName: "Distroless" },
     "recognised it's debian 10",
   );
 });

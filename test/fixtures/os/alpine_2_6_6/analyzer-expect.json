@@ -7,7 +7,8 @@
   ],
   "osRelease": {
     "name": "alpine",
-    "version": "2.6.6"
+    "version": "2.6.6",
+    "prettyName": ""
   },
   "results": [
     {

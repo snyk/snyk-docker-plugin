@@ -20,97 +20,145 @@ test("os release detection", async (t) => {
   const examples = {
     "alpine:2.6": {
       dir: "alpine_2_6_6",
-      expected: { name: "alpine", version: "2.6.6" },
+      expected: { name: "alpine", version: "2.6.6", prettyName: "" },
       notes: "uses /etc/alpine-release",
     },
     "alpine:3.7": {
       dir: "alpine_3_7_0",
-      expected: { name: "alpine", version: "3.7.0" },
+      expected: {
+        name: "alpine",
+        version: "3.7.0",
+        prettyName: "Alpine Linux v3.7",
+      },
       notes: "uses /etc/os-release",
     },
     "centos:5": {
       dir: "centos_5",
-      expected: { name: "centos", version: "5" },
+      expected: { name: "centos", version: "5", prettyName: "" },
       notes: "uses /etc/redhat-release",
     },
     "centos:6": {
       dir: "centos_6",
-      expected: { name: "centos", version: "6" },
+      expected: { name: "centos", version: "6", prettyName: "" },
       notes: "uses /etc/redhat-release",
     },
     "centos:7": {
       dir: "centos_7",
-      expected: { name: "centos", version: "7" },
+      expected: {
+        name: "centos",
+        version: "7",
+        prettyName: "CentOS Linux 7 (Core)",
+      },
       notes: "uses /etc/os-release",
     },
     "debian:6": {
       dir: "debian_6",
-      expected: { name: "debian", version: "6" },
+      expected: { name: "debian", version: "6", prettyName: "" },
       notes: "uses /etc/debian_version",
     },
     "debian:7": {
       dir: "debian_7",
-      expected: { name: "debian", version: "7" },
+      expected: {
+        name: "debian",
+        version: "7",
+        prettyName: "Debian GNU/Linux 7 (wheezy)",
+      },
       notes: "uses /etc/os-release",
     },
     "debian:8": {
       dir: "debian_8",
-      expected: { name: "debian", version: "8" },
+      expected: {
+        name: "debian",
+        version: "8",
+        prettyName: "Debian GNU/Linux 8 (jessie)",
+      },
       notes: "uses /etc/os-release",
     },
     "debian:9": {
       dir: "debian_9",
-      expected: { name: "debian", version: "9" },
+      expected: {
+        name: "debian",
+        version: "9",
+        prettyName: "Debian GNU/Linux 9 (stretch)",
+      },
       notes: "uses /etc/os-release",
     },
     "debian:unstable": {
       dir: "debian_unstable",
-      expected: { name: "debian", version: "unstable" },
+      expected: {
+        name: "debian",
+        version: "unstable",
+        prettyName: "Debian GNU/Linux buster/sid",
+      },
       notes: "uses /etc/os-release",
     },
     "oracle:5.11": {
       dir: "oraclelinux_5_11",
-      expected: { name: "oracle", version: "5" },
+      expected: { name: "oracle", version: "5", prettyName: "" },
       notes: "uses /etc/oracle-release",
     },
     "oracle:6.9": {
       dir: "oraclelinux_6_9",
-      expected: { name: "oracle", version: "6" },
+      expected: {
+        name: "oracle",
+        version: "6",
+        prettyName: "Oracle Linux Server 6.9",
+      },
       notes: "uses /etc/os-release",
     },
     "oracle:7.5": {
       dir: "oraclelinux_7_5",
-      expected: { name: "oracle", version: "7" },
+      expected: {
+        name: "oracle",
+        version: "7",
+        prettyName: "Oracle Linux Server 7.5",
+      },
       notes: "uses /etc/os-release",
     },
     "ubuntu:10.04": {
       dir: "ubuntu_10_04",
-      expected: { name: "ubuntu", version: "10.04" },
+      expected: { name: "ubuntu", version: "10.04", prettyName: "" },
       notes: "uses /etc/lsb-release",
     },
     "ubuntu:12.04": {
       dir: "ubuntu_12_04",
-      expected: { name: "ubuntu", version: "12.04" },
+      expected: {
+        name: "ubuntu",
+        version: "12.04",
+        prettyName: "Ubuntu precise (12.04.5 LTS)",
+      },
       notes: "uses /etc/os-release",
     },
     "ubuntu:14.04": {
       dir: "ubuntu_14_04",
-      expected: { name: "ubuntu", version: "14.04" },
+      expected: {
+        name: "ubuntu",
+        version: "14.04",
+        prettyName: "Ubuntu 14.04.5 LTS",
+      },
       notes: "uses /etc/os-release",
     },
     "ubuntu:16.04": {
       dir: "ubuntu_16_04",
-      expected: { name: "ubuntu", version: "16.04" },
+      expected: {
+        name: "ubuntu",
+        version: "16.04",
+        prettyName: "Ubuntu 16.04.4 LTS",
+      },
       notes: "uses /etc/os-release",
     },
     "ubuntu:18.04": {
       dir: "ubuntu_18_04",
-      expected: { name: "ubuntu", version: "18.04" },
+      expected: {
+        name: "ubuntu",
+        version: "18.04",
+        prettyName: "Ubuntu 18.04 LTS",
+      },
       notes: "uses /etc/os-release",
     },
     scratch: {
       dir: "",
-      expected: { name: "scratch", version: "0.0" },
+      expected: { name: "scratch", version: "0.0", prettyName: "" },
       notes: "uses dockerfile",
       dockerfileAnalysis: {
         baseImage: "scratch",
@@ -119,7 +167,7 @@ test("os release detection", async (t) => {
     },
     "unexpected:unexpected": {
       dir: "missing",
-      expected: { name: "unknown", version: "0.0" },
+      expected: { name: "unknown", version: "0.0", prettyName: "" },
       notes: "when nothing is found",
     },
   };
