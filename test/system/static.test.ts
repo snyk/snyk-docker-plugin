@@ -230,9 +230,6 @@ test("static analysis for distroless base-debian9", async (t) => {
   const imageNameAndTag =
     "gcr.io/distroless/base-debian9:70b8c7f2d41a844d310c23e0695388c916a364ed";
 
-  // distroless assumption #1: image is present in local daemon
-  await subProcess.execute("docker", ["image", "pull", imageNameAndTag]);
-
   const dockerfile = undefined;
   const pluginOptions = {
     experimental: true,
@@ -291,9 +288,6 @@ test("static analysis for distroless base-debian10", async (t) => {
   const imageNameAndTag =
     "gcr.io/distroless/base-debian10:70b8c7f2d41a844d310c23e0695388c916a364ed";
 
-  // distroless assumption #1: image is present in local daemon
-  await subProcess.execute("docker", ["image", "pull", imageNameAndTag]);
-
   const dockerfile = undefined;
   const pluginOptions = {
     experimental: true,
@@ -349,10 +343,6 @@ test("static analysis for distroless base-debian10", async (t) => {
 
 test("experimental static analysis for debian images", async (t) => {
   const imageNameAndTag = "debian:10";
-
-  // distroless assumption #1: image is present in local daemon
-  await subProcess.execute("docker", ["image", "pull", imageNameAndTag]);
-
   const dockerfile = undefined;
 
   const pluginOptionsExperimental = {
