@@ -13,6 +13,10 @@ import {
   getBinariesHashes,
   getNodeBinariesFileContentAction,
 } from "../inputs/binaries/static";
+import {
+  getAptFiles,
+  getDpkgPackageFileContentAction,
+} from "../inputs/distroless/static";
 import { getOsReleaseActions } from "../inputs/os-release/static";
 import {
   getRpmDbFileContent,
@@ -21,7 +25,10 @@ import {
 import { ImageType, StaticAnalysisOptions } from "../types";
 import * as osReleaseDetector from "./os-release";
 import { analyze as apkAnalyze } from "./package-managers/apk";
-import { analyze as aptAnalyze } from "./package-managers/apt";
+import {
+  analyze as aptAnalyze,
+  analyzeDistroless as aptDistrolessAnalyze,
+} from "./package-managers/apt";
 import { analyze as rpmAnalyze } from "./package-managers/rpm";
 import { ImageAnalysis, OSRelease, StaticAnalysis } from "./types";
 
@@ -44,6 +51,10 @@ export async function analyze(
     getNodeBinariesFileContentAction,
   ];
 
+  if (options.distroless) {
+    staticAnalysisActions.push(getDpkgPackageFileContentAction);
+  }
+
   const dockerArchive = await getDockerArchiveLayersAndManifest(
     options.imagePath,
     staticAnalysisActions,
@@ -61,6 +72,11 @@ export async function analyze(
     getRpmDbFileContent(archiveLayers, options.tmpDirPath),
   ]);
 
+  let distrolessAptFiles: string[] = [];
+  if (options.distroless) {
+    distrolessAptFiles = getAptFiles(archiveLayers);
+  }
+
   let osRelease: OSRelease;
   try {
     osRelease = await osReleaseDetector.detectStatically(archiveLayers);
@@ -75,6 +91,7 @@ export async function analyze(
       apkAnalyze(targetImage, apkDbFileContent),
       aptAnalyze(targetImage, aptDbFileContent),
       rpmAnalyze(targetImage, rpmDbFileContent),
+      aptDistrolessAnalyze(targetImage, distrolessAptFiles),
     ]);
   } catch (err) {
     debug(err);

@@ -95,6 +95,15 @@ class Docker {
     return subProcess.execute("docker", ["pull", targetImage]);
   }
 
+  public async save(targetImage: string, destination: string) {
+    return subProcess.execute("docker", [
+      "save",
+      targetImage,
+      "-o",
+      destination,
+    ]);
+  }
+
   public async inspectImage(targetImage: string) {
     return subProcess.execute("docker", [
       ...this.optionsList,

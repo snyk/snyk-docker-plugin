@@ -66,6 +66,8 @@ function getContent(
   extractedLayers: ExtractedLayers,
   extractAction: ExtractAction,
 ): string | Buffer | undefined {
+  // TODO the following is a bug
+  // that treats a file pattern as a file name
   const fileName = extractAction.fileNamePattern;
   return fileName in extractedLayers &&
     extractAction.actionName in extractedLayers[fileName]
