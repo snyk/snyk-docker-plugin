@@ -2,6 +2,7 @@ import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
 
+import { pullIfNotLocal } from "./analyzer/image-inspector";
 import { Docker } from "./docker";
 import * as staticModule from "./static";
 import { ImageType, PluginResponse } from "./types";
@@ -15,6 +16,8 @@ export async function experimentalAnalysis(
 
 // experimental flow expected to be merged with the static analysis when ready
 export async function distroless(targetImage: string): Promise<PluginResponse> {
+  await pullIfNotLocal(targetImage);
+
   const archiveDir = path.join(os.tmpdir(), "snyk-image-archives");
   createTempDirIfMissing(archiveDir);
   // TODO terrible way to convert slashes to anything else
@@ -22,9 +25,8 @@ export async function distroless(targetImage: string): Promise<PluginResponse> {
   const archiveFileName = `${targetImage.replace(/\//g, "__")}.tar`;
   const archiveFullPath = path.join(archiveDir, archiveFileName);
 
-  // assumption #2: the `docker` binary is available locally
+  // assumption #1: the `docker` binary is available locally
   const docker = new Docker(targetImage);
-  // assumption #1: the image is present in the local Docker daemon
   await docker.save(targetImage, archiveFullPath);
   try {
     const scanningOptions = {
