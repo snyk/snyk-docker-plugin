@@ -2,6 +2,7 @@
 // Shebang is required, and file *has* to be executable: chmod +x file.test.js
 // See: https://github.com/tapjs/node-tap/issues/313#issuecomment-250067741
 
+import * as os from "os";
 import * as path from "path";
 import { test } from "tap";
 
@@ -343,5 +344,49 @@ test("static analysis for distroless base-debian10", async (t) => {
     pluginResult.package.targetOS,
     { name: "debian", version: "10" },
     "recognised it's debian 10",
+  );
+});
+
+test("experimental static analysis for debian images", async (t) => {
+  const imageNameAndTag = "debian:10";
+
+  // distroless assumption #1: image is present in local daemon
+  await subProcess.execute("docker", ["image", "pull", imageNameAndTag]);
+
+  const dockerfile = undefined;
+
+  const pluginOptionsExperimental = {
+    experimental: true,
+  };
+  const pluginResultExperimental = await plugin.inspect(
+    imageNameAndTag,
+    dockerfile,
+    pluginOptionsExperimental,
+  );
+
+  // static scan doesn't handle creating the image archive yet
+  const archivePath = path.join(os.tmpdir(), "debian-10.tar");
+  await subProcess.execute("docker", [
+    "save",
+    imageNameAndTag,
+    "-o",
+    archivePath,
+  ]);
+  const pluginOptionsStatic = {
+    staticAnalysisOptions: {
+      imagePath: archivePath,
+      imageType: ImageType.DockerArchive,
+    },
+  };
+  const pluginResultStatic = await plugin.inspect(
+    imageNameAndTag,
+    dockerfile,
+    pluginOptionsStatic,
+  );
+
+  t.equals(
+    JSON.stringify(pluginResultExperimental.package.dependencies),
+    JSON.stringify(pluginResultStatic.package.dependencies),
+    "identical dependencies for regular Debian images between experimental and static scans",
   );
 });
