@@ -59,7 +59,7 @@ export async function detect(
   }
 
   if (!osRelease) {
-    osRelease = { name: "unknown", version: "0.0" };
+    osRelease = { name: "unknown", version: "0.0", prettyName: "" };
   }
 
   // Oracle Linux identifies itself as "ol"

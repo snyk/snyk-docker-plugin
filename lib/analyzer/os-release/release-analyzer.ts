@@ -16,7 +16,13 @@ export async function tryOSRelease(text: string): Promise<OSRelease | null> {
     version = version.split(".")[0];
   }
 
-  return { name, version };
+  let prettyName: string = "";
+  const prettyNameRes = text.match(/^PRETTY_NAME=(.+)$/m);
+  if (prettyNameRes) {
+    prettyName = prettyNameRes[1].replace(/"/g, "");
+  }
+
+  return { name, version, prettyName };
 }
 
 export async function tryLsbRelease(text: string): Promise<OSRelease | null> {
@@ -30,7 +36,7 @@ export async function tryLsbRelease(text: string): Promise<OSRelease | null> {
   }
   const name = idRes[1].replace(/"/g, "").toLowerCase();
   const version = versionRes[1].replace(/"/g, "");
-  return { name, version };
+  return { name, version, prettyName: "" };
 }
 
 export async function tryDebianVersion(
@@ -43,7 +49,7 @@ export async function tryDebianVersion(
   if (text.length < 2) {
     throw new Error("Failed to parse /etc/debian_version");
   }
-  return { name: "debian", version: text.split(".")[0] };
+  return { name: "debian", version: text.split(".")[0], prettyName: "" };
 }
 
 export async function tryAlpineRelease(
@@ -56,7 +62,7 @@ export async function tryAlpineRelease(
   if (text.length < 2) {
     throw new Error("Failed to parse /etc/alpine-release");
   }
-  return { name: "alpine", version: text };
+  return { name: "alpine", version: text, prettyName: "" };
 }
 
 export async function tryRedHatRelease(
@@ -72,7 +78,7 @@ export async function tryRedHatRelease(
   }
   const name = idRes[1].replace(/"/g, "").toLowerCase();
   const version = versionRes[1].replace(/"/g, "");
-  return { name, version };
+  return { name, version, prettyName: "" };
 }
 
 export async function tryOracleRelease(
@@ -89,5 +95,5 @@ export async function tryOracleRelease(
   const name = idRes[1].replace(/"/g, "").toLowerCase();
   const version = versionRes[1].replace(/"/g, "").split(".")[0];
 
-  return { name, version };
+  return { name, version, prettyName: "" };
 }
