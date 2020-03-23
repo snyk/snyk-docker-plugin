@@ -185,6 +185,33 @@ test("static analysis provides hashes for key binaries", async (t) => {
   );
 });
 
+test("static analysis provides hashes for found openjdk binaries", async (t) => {
+  const thisIsJustAnImageIdentifierInStaticAnalysis = "openjdk:doesnotexist";
+  const dockerfile = undefined;
+  const pluginOptions = {
+    staticAnalysisOptions: {
+      imagePath: getFixture("docker-save/openjdk.tar"),
+      imageType: ImageType.DockerArchive,
+    },
+  };
+
+  const pluginResult = (await plugin.inspect(
+    thisIsJustAnImageIdentifierInStaticAnalysis,
+    dockerfile,
+    pluginOptions,
+  )) as PluginResponseStatic;
+
+  t.equals(pluginResult.hashes.length, 1, "found one openjdk key binary");
+  const expectedHashes = [
+    "004182a1acb5aad313f4554cbafe474a9bdc143260576ac3fa4ab388c3f40476",
+  ];
+  t.deepEqual(
+    pluginResult.hashes,
+    expectedHashes,
+    "all key binaries match hashes",
+  );
+});
+
 test("static analysis works for scratch images", async (t) => {
   const thisIsJustAnImageIdentifierInStaticAnalysis = "busybox:1.31.1";
   const dockerfile = undefined;
