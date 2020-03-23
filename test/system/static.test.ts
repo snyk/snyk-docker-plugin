@@ -59,7 +59,7 @@ test("static analysis builds the expected response", async (t) => {
   );
   t.same(
     pluginResultWithSkopeoCopy.plugin.dockerImageId,
-    thisIsJustAnImageIdentifierInStaticAnalysis,
+    "ab56bba91343aafcdd94b7a44b42e12f32719b9a2b8579e93017c1280f48e8f3",
     "The image ID matches",
   );
   t.same(
@@ -203,7 +203,7 @@ test("static analysis works for scratch images", async (t) => {
 
   t.equals(
     pluginResultWithSkopeoCopy.plugin.dockerImageId,
-    "busybox:1.31.1",
+    "6d5fcfe5ff170471fcc3c8b47631d6d71202a1fd44cf3c147e50c8de21cf0648",
     "image ID identified correctly",
   );
   t.equals(
