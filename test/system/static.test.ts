@@ -59,7 +59,7 @@ test("static analysis builds the expected response", async (t) => {
   );
   t.same(
     pluginResultWithSkopeoCopy.plugin.dockerImageId,
-    thisIsJustAnImageIdentifierInStaticAnalysis,
+    "ab56bba91343aafcdd94b7a44b42e12f32719b9a2b8579e93017c1280f48e8f3",
     "The image ID matches",
   );
   t.same(
@@ -203,7 +203,7 @@ test("static analysis works for scratch images", async (t) => {
 
   t.equals(
     pluginResultWithSkopeoCopy.plugin.dockerImageId,
-    "busybox:1.31.1",
+    "6d5fcfe5ff170471fcc3c8b47631d6d71202a1fd44cf3c147e50c8de21cf0648",
     "image ID identified correctly",
   );
   t.equals(
@@ -400,4 +400,45 @@ test("experimental static analysis for debian images", async (t) => {
     1,
     "static experimental flag does not save the image",
   );
+});
+
+test("static and dynamic scanning results are aligned", async (t) => {
+  const imageNameAndTag = "debian:10";
+  const dockerfile = undefined;
+
+  await subProcess.execute("docker", ["image", "pull", imageNameAndTag]);
+  const pluginResultDynamic = await plugin.inspect(imageNameAndTag);
+
+  // static scan doesn't handle creating the image archive yet
+  const archivePath = path.join(os.tmpdir(), "debian-10.tar");
+  await subProcess.execute("docker", [
+    "save",
+    imageNameAndTag,
+    "-o",
+    archivePath,
+  ]);
+  const pluginOptionsStatic = {
+    staticAnalysisOptions: {
+      imagePath: archivePath,
+      imageType: ImageType.DockerArchive,
+    },
+  };
+  const pluginResultStatic = await plugin.inspect(
+    imageNameAndTag,
+    dockerfile,
+    pluginOptionsStatic,
+  );
+
+  t.equals(
+    JSON.stringify(pluginResultDynamic.package.dependencies),
+    JSON.stringify(pluginResultStatic.package.dependencies),
+    "identical dependencies for regular Debian images between dynamic and static scans",
+  );
+
+  t.equals(
+    pluginResultDynamic.plugin.dockerImageId,
+    `sha256:${pluginResultStatic.plugin.dockerImageId}`, // TODO: how to handle that?
+    "image IDs, which is actually the image digest, is kind of equal between scan types",
+  );
+  // TODO: imageLayers is completely different
 });

@@ -1,5 +1,6 @@
 import * as Debug from "debug";
 import { getDockerArchiveLayersAndManifest } from "../extractor";
+import { DockerArchiveManifest } from "../extractor/types";
 import {
   getApkDbFileContent,
   getApkDbFileContentAction,
@@ -98,7 +99,7 @@ export async function analyze(
     throw new Error("Failed to detect installed OS packages");
   }
 
-  const imageId = targetImage;
+  const imageId = imageIdFromArchiveManifest(dockerArchive.manifest);
 
   const binaries = getBinariesHashes(archiveLayers);
 
@@ -109,4 +110,14 @@ export async function analyze(
     binaries,
     imageLayers: dockerArchive.manifest.Layers,
   };
+}
+
+function imageIdFromArchiveManifest(manifest: DockerArchiveManifest): string {
+  try {
+    return manifest.Config.split(".")[0];
+  } catch (err) {
+    debug(manifest);
+    debug(err);
+    throw new Error("Failed to extract image ID from archive manifest");
+  }
 }
