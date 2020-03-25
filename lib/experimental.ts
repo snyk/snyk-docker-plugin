@@ -21,6 +21,7 @@ export async function distroless(
   options: any,
 ): Promise<PluginResponse> {
   if (staticModule.isRequestingStaticAnalysis(options)) {
+    options.staticAnalysisOptions.distroless = true;
     return staticModule.analyzeStatically(targetImage, options);
   }
 
