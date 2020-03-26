@@ -2,7 +2,7 @@ import * as crypto from "crypto";
 import { Readable } from "stream";
 
 const HASH_ALGORITHM = "sha256"; // TODO algorithm?
-const HASH_ENOCDING = "hex";
+const HASH_ENCODING = "hex";
 
 export async function streamToString(
   stream: Readable,
@@ -36,7 +36,7 @@ export async function streamToBuffer(stream: Readable): Promise<Buffer> {
 export async function streamToHash(stream: Readable): Promise<string> {
   return new Promise((resolve, reject) => {
     const hash = crypto.createHash(HASH_ALGORITHM);
-    hash.setEncoding(HASH_ENOCDING);
+    hash.setEncoding(HASH_ENCODING);
 
     stream.on("end", () => {
       hash.end();

@@ -13,6 +13,7 @@ import {
 import {
   getBinariesHashes,
   getNodeBinariesFileContentAction,
+  getOpenJDKBinariesFileContentAction,
 } from "../inputs/binaries/static";
 import {
   getAptFiles,
@@ -50,6 +51,7 @@ export async function analyze(
     getRpmDbFileContentAction,
     ...getOsReleaseActions,
     getNodeBinariesFileContentAction,
+    getOpenJDKBinariesFileContentAction,
   ];
 
   if (options.distroless) {
