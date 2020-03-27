@@ -29,6 +29,18 @@ export interface ManifestFile {
   contents: string;
 }
 
+export interface BinaryFileData {
+  name: string;
+  path: string;
+  hashType: string;
+  hash: string;
+}
+
+export interface FindFilesResult {
+  manifestFiles: ManifestFile[];
+  binaryFiles: BinaryFileData[];
+}
+
 export interface PluginMetadata {
   name: string;
   runtime: string | undefined;
@@ -41,8 +53,5 @@ export interface PluginResponse {
   plugin: PluginMetadata;
   package: any;
   manifestFiles: ManifestFile[];
-}
-
-export interface PluginResponseStatic extends PluginResponse {
-  hashes: string[];
+  binaryFiles: BinaryFileData[];
 }

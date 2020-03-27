@@ -1,10 +1,13 @@
+import * as crypto from "crypto";
 import { eventLoopSpinner } from "event-loop-spinner";
 import * as minimatch from "minimatch";
 import * as fspath from "path";
+import * as path from "path";
 import * as lsu from "./ls-utils";
 import * as subProcess from "./sub-process";
+import { BinaryFileData } from "./types";
 
-export { Docker, DockerOptions };
+export { Docker, DockerOptions, Globs, FindGlobsResult };
 
 interface DockerOptions {
   host?: string;
@@ -12,6 +15,16 @@ interface DockerOptions {
   tlsCert?: string;
   tlsCaCert?: string;
   tlsKey?: string;
+}
+
+interface Globs {
+  manifestGlobs: string[];
+  binaryGlobs: string[];
+}
+
+interface FindGlobsResult {
+  manifestFiles: string[];
+  binaryFiles: string[];
 }
 
 const SystemDirectories = ["dev", "proc", "sys"];
@@ -91,6 +104,25 @@ class Docker {
     ]);
   }
 
+  public runAsStream(
+    cmd: string,
+    args: string[] = [],
+    cb: subProcess.ExecuteAsStreamCallback,
+  ): Promise<any> {
+    return subProcess.executeAsStream("docker", cb, [
+      ...this.optionsList,
+      "run",
+      "--rm",
+      "--entrypoint",
+      '""',
+      "--network",
+      "none",
+      this.targetImage,
+      cmd,
+      ...args,
+    ]);
+  }
+
   public async pull(targetImage: string) {
     return subProcess.execute("docker", ["pull", targetImage]);
   }
@@ -116,6 +148,13 @@ class Docker {
     return this.runSafe("cat", [filename]);
   }
 
+  public async catBinarySafe(
+    filename: string,
+    cb: subProcess.ExecuteAsStreamCallback,
+  ): Promise<any> {
+    return this.runAsStream("cat", [filename], cb);
+  }
+
   public async lsSafe(path: string, recursive?: boolean) {
     let params = "-1ap";
     if (recursive) {
@@ -135,14 +174,18 @@ class Docker {
    * Find files on a docker image according to a given list of glob expressions.
    */
   public async findGlobs(
-    globs: string[],
+    globs: Globs,
     exclusionGlobs: string[] = [],
     path: string = "/",
     recursive: boolean = true,
     excludeRootDirectories: string[] = SystemDirectories,
-  ) {
+  ): Promise<FindGlobsResult> {
     let root: lsu.DiscoveredDirectory;
-    const res: string[] = [];
+
+    const result: FindGlobsResult = {
+      manifestFiles: [],
+      binaryFiles: [],
+    };
 
     if (recursive && path === "/") {
       // When scanning from the root of a docker image we need to
@@ -178,22 +221,80 @@ class Docker {
     }
 
     await lsu.iterateFiles(root, (f) => {
-      const filepath = fspath.join(f.path, f.name);
+      const filePath = fspath.join(f.path, f.name);
       let exclude = false;
       for (const g of exclusionGlobs) {
-        if (!exclude && minimatch(filepath, g)) {
+        if (!exclude && minimatch(filePath, g)) {
           exclude = true;
         }
       }
-      if (!exclude) {
-        for (const g of globs) {
-          if (minimatch(filepath, g)) {
-            res.push(filepath);
-          }
-        }
+
+      if (exclude) {
+        return;
+      }
+
+      if (this.checkMatch(filePath, globs.manifestGlobs)) {
+        result.manifestFiles.push(filePath);
+        return;
+      }
+
+      if (this.checkMatch(filePath, globs.binaryGlobs)) {
+        result.binaryFiles.push(filePath);
+        return;
       }
     });
 
-    return res;
+    return result;
+  }
+
+  public async calcHashOfBinaryFiles(
+    files: string[],
+    options: any,
+  ): Promise<BinaryFileData[]> {
+    const resultArr: BinaryFileData[] = [];
+
+    const hashType =
+      options && options.hashType ? options.hashType : "sha1";
+
+    for (const file of files) {
+      const hash: crypto.Hash = crypto.createHash(hashType);
+
+      await this.catBinarySafe(file, (sd) => {
+        const { data, err, exitCode } = sd;
+
+        if (data && !err) {
+          hash.update(data);
+        }
+
+        if (exitCode === 0) {
+          resultArr.push({
+            name: path.basename(file),
+            path: path.dirname(file),
+            hashType,
+            hash: hash.digest("hex"),
+          });
+        }
+      });
+    }
+
+    return resultArr;
+  }
+
+  private checkMatch(filePath: string, globsArr: string[]) {
+    if (!filePath) {
+      return false;
+    }
+
+    if (!globsArr) {
+      return false;
+    }
+
+    for (const g of globsArr) {
+      if (minimatch(filePath, g)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }

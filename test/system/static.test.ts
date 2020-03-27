@@ -10,7 +10,7 @@ import { test } from "tap";
 import * as plugin from "../../lib";
 import { Docker } from "../../lib/docker";
 import * as subProcess from "../../lib/sub-process";
-import { ImageType, PluginResponseStatic } from "../../lib/types";
+import { ImageType, PluginResponse } from "../../lib/types";
 
 const getFixture = (fixturePath) =>
   path.join(__dirname, "../fixtures/docker-archives", fixturePath);
@@ -165,10 +165,10 @@ test("static analysis provides hashes for key binaries", async (t) => {
     thisIsJustAnImageIdentifierInStaticAnalysis,
     dockerfile,
     pluginOptionsWithSkopeoCopy,
-  )) as PluginResponseStatic;
+  )) as PluginResponse;
 
   t.equals(
-    pluginResultWithSkopeoCopy.hashes.length,
+    pluginResultWithSkopeoCopy.binaryFiles.length,
     4,
     "found four key binaries",
   );
@@ -179,7 +179,7 @@ test("static analysis provides hashes for key binaries", async (t) => {
     "62f8defe3fe085af9b6e48f85ffb90a863c44d53b9c3f4f237b04c232f350083",
   ];
   t.deepEqual(
-    pluginResultWithSkopeoCopy.hashes.sort(),
+    pluginResultWithSkopeoCopy.binaryFiles.map((x) => x.hash).sort(),
     expectedHashes.sort(),
     "all key binaries match hashes",
   );
@@ -199,14 +199,15 @@ test("static analysis provides hashes for found openjdk binaries", async (t) => 
     thisIsJustAnImageIdentifierInStaticAnalysis,
     dockerfile,
     pluginOptions,
-  )) as PluginResponseStatic;
+  )) as PluginResponse;
 
-  t.equals(pluginResult.hashes.length, 1, "found one openjdk key binary");
+  t.equals(pluginResult.binaryFiles.length, 1, "found one openjdk key binary");
   const expectedHashes = [
     "004182a1acb5aad313f4554cbafe474a9bdc143260576ac3fa4ab388c3f40476",
   ];
+
   t.deepEqual(
-    pluginResult.hashes,
+    pluginResult.binaryFiles.map((x) => x.hash),
     expectedHashes,
     "all key binaries match hashes",
   );
@@ -226,7 +227,7 @@ test("static analysis works for scratch images", async (t) => {
     thisIsJustAnImageIdentifierInStaticAnalysis,
     dockerfile,
     pluginOptionsWithSkopeoCopy,
-  )) as PluginResponseStatic;
+  )) as PluginResponse;
 
   t.equals(
     pluginResultWithSkopeoCopy.plugin.dockerImageId,

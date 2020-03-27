@@ -1,8 +1,7 @@
 import * as path from "path";
-
 import * as analyzer from "./analyzer";
 import { buildTree } from "./dependency-tree";
-import { Docker, DockerOptions } from "./docker";
+import { Docker, DockerOptions, Globs } from "./docker";
 import * as dockerFile from "./docker-file";
 import { tryGetAnalysisError } from "./errors";
 import { experimentalAnalysis } from "./experimental";
@@ -10,7 +9,7 @@ import { getRuntime } from "./inputs/runtime/docker";
 import { parseAnalysisResults } from "./parser";
 import { buildResponse } from "./response-builder";
 import * as staticUtil from "./static";
-import { ManifestFile, PluginResponse } from "./types";
+import { FindFilesResult, ManifestFile, PluginResponse } from "./types";
 
 export { inspect, dockerFile };
 
@@ -47,17 +46,20 @@ async function analyzeDynamically(
   dockerfileAnalysis: dockerFile.DockerFileAnalysis | undefined,
   analysisOptions: any,
 ): Promise<PluginResponse> {
-  const [runtime, dependencies, manifestFiles] = await Promise.all([
+  const [runtime, dependencies, findFilesResult] = await Promise.all([
     getRuntime(analysisOptions),
     getDependencies(targetImage, dockerfileAnalysis, analysisOptions),
-    getManifestFiles(targetImage, analysisOptions),
+    getFiles(targetImage, analysisOptions),
   ]);
+
+  const { manifestFiles, binaryFiles } = findFilesResult as FindFilesResult;
 
   return buildResponse(
     runtime,
     dependencies,
     dockerfileAnalysis,
-    manifestFiles!, // bug in typescript wrongly adds `undefined`
+    manifestFiles,
+    binaryFiles,
     analysisOptions,
   );
 }
@@ -109,12 +111,15 @@ async function getDependencies(
   }
 }
 
-async function getManifestFiles(
+async function getFiles(
   targetImage: string,
   options?: any,
-): Promise<ManifestFile[]> {
-  if (!options.manifestGlobs) {
-    return [];
+): Promise<FindFilesResult> {
+  if (!options.manifestGlobs && !options.binariesGlobs) {
+    return {
+      manifestFiles: [],
+      binaryFiles: [],
+    };
   }
 
   let excludeGlobs: string[] = [];
@@ -122,11 +127,41 @@ async function getManifestFiles(
     excludeGlobs = options.manifestExcludeGlobs as string[];
   }
 
-  const globs = options.manifestGlobs as string[];
   const docker = new Docker(targetImage, options);
 
-  let files = await docker.findGlobs(globs, excludeGlobs);
+  const globs: Globs = {
+    manifestGlobs: [],
+    binaryGlobs: [],
+  };
 
+  if (options.manifestGlobs) {
+    globs.manifestGlobs = options.manifestGlobs as string[];
+  }
+
+  if (options.binariesGlobs) {
+    globs.binaryGlobs = options.binariesGlobs as string[];
+  }
+
+  const { manifestFiles, binaryFiles } = await docker.findGlobs(
+    globs,
+    excludeGlobs,
+  );
+
+  const [manifestFilesResult, binaryFilesResult] = await Promise.all([
+    handleManifestFiles(docker, manifestFiles),
+    docker.calcHashOfBinaryFiles(binaryFiles, options),
+  ]);
+
+  return {
+    manifestFiles: manifestFilesResult,
+    binaryFiles: binaryFilesResult,
+  };
+}
+
+async function handleManifestFiles(
+  docker: Docker,
+  files: string[],
+): Promise<ManifestFile[]> {
   // Limit the number of manifest files which we return
   // to avoid overwhelming the docker daemon with cat requests
 

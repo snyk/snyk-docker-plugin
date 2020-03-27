@@ -10,6 +10,8 @@ import * as subProcess from "../../lib/sub-process";
 
 import { Docker } from "../../lib/docker";
 
+const jarGlobs = ["**/*.jar"];
+
 test("docker run", async (t) => {
   const stub = sinon.stub(subProcess, "execute");
   stub.resolves("text");
@@ -195,21 +197,33 @@ test("findGlobs", async (t) => {
 
   t.test("find globs in single directory", async (t) => {
     stub.resolves({
-      stdout: "./\n../\ndir1/\ndir2/\ndir3/\nfile1.txt\nfile2.txt\n",
+      stdout:
+        "./\n../\ndir1/\ndir2/\ndir3/\nfile1.txt\nfile2.txt\njar1.jar\njar2.jar",
     });
-    const files = await docker.findGlobs(["**/file?.*"], [], "/", false);
-    t.same(files, ["/file1.txt", "/file2.txt"]);
+    const { manifestFiles, binaryFiles } = await docker.findGlobs(
+      { manifestGlobs: ["**/file?.*"], binaryGlobs: jarGlobs },
+      [],
+      "/",
+      false,
+    );
+    t.same(manifestFiles, ["/file1.txt", "/file2.txt"]);
+    t.same(binaryFiles, ["/jar1.jar", "/jar2.jar"]);
   });
 
   t.test("find globs in a directory structure", async (t) => {
     stub.resolves({
       stdout:
         "/app:\n./\n../\ndir1/\ndir2/\ndir3/\nfile1.txt\nfile2.txt\n\n/app/dir1:" +
-        "\n./\n../\ndir11/\nfile3.json\nfile4.txt\n\n/app/dir1/dir11:\n./\n../\n" +
+        "\n./\n../\ndir11/\nfile3.json\nfile4.txt\njar1.jar\n/app/dir1/dir11:\n./\n../\n" +
         "file5.txt\n\n/app/dir2:\n./\n../\n\n/app/dir3:\n./\n../\nfile6.json\n",
     });
-    const files = await docker.findGlobs(["**/file?.json"], [], "/foo");
-    t.same(files, ["/dir1/file3.json", "/dir3/file6.json"]);
+    const { manifestFiles, binaryFiles } = await docker.findGlobs(
+      { manifestGlobs: ["**/file?.json"], binaryGlobs: jarGlobs },
+      [],
+      "/foo",
+    );
+    t.same(manifestFiles, ["/dir1/file3.json", "/dir3/file6.json"]);
+    t.same(binaryFiles, ["/dir1/jar1.jar"]);
   });
 
   const registryGlobs = [
@@ -239,15 +253,20 @@ test("findGlobs", async (t) => {
       stdout:
         "/app:\n./\n../\ndir1/\ndir2/\ndir3/\nfile1.txt\npom.xml\n\n/app/dir1:" +
         "\n./\n../\ndir11/\npackage.json\npackage-lock.json\n\n/app/dir1/dir11:\n./\n../\n" +
-        "file5.txt\n\n/app/dir2:\n./\n../\n\n/app/dir3:\n./\n../\nfile6.csproj\n",
+        "file5.txt\n\n/app/dir2:\n./\n../\n\n/app/dir3:\n./\n../\nfile6.csproj\njar1.jar\n",
     });
-    const files = await docker.findGlobs(registryGlobs, [], "/foo");
-    t.same(files, [
+    const { manifestFiles, binaryFiles } = await docker.findGlobs(
+      { manifestGlobs: registryGlobs, binaryGlobs: jarGlobs },
+      [],
+      "/foo",
+    );
+    t.same(manifestFiles, [
       "/pom.xml",
       "/dir1/package.json",
       "/dir1/package-lock.json",
       "/dir3/file6.csproj",
     ]);
+    t.same(binaryFiles, ["/dir3/jar1.jar"]);
   });
 
   t.test("find globs using registry globs with exclude globs", async (t) => {
@@ -257,8 +276,13 @@ test("findGlobs", async (t) => {
         "\n./\n../\ndir11/\npackage.json\npackage-lock.json\n\n/app/dir1/dir11:\n./\n../\n" +
         "file5.txt\n\n/app/dir2:\n./\n../\n\n/app/dir3:\n./\n../\nfile6.csproj\n",
     });
-    const files = await docker.findGlobs(registryGlobs, ["/dir1/*"], "/foo");
-    t.same(files, ["/pom.xml", "/dir3/file6.csproj"]);
+    const { manifestFiles, binaryFiles } = await docker.findGlobs(
+      { manifestGlobs: registryGlobs, binaryGlobs: jarGlobs },
+      ["/dir1/*"],
+      "/foo",
+    );
+    t.same(manifestFiles, ["/pom.xml", "/dir3/file6.csproj"]);
+    t.same(binaryFiles, []);
   });
 
   t.test(
@@ -268,13 +292,20 @@ test("findGlobs", async (t) => {
         stdout: readFileSync(getLSOutputFixture("ghost-app.txt")).toString(),
       });
 
-      const files = await docker.findGlobs(
-        ["**/package.json", "**/package-lock.json", "**/yarn.lock"],
+      const { manifestFiles } = await docker.findGlobs(
+        {
+          manifestGlobs: [
+            "**/package.json",
+            "**/package-lock.json",
+            "**/yarn.lock",
+          ],
+          binaryGlobs: [],
+        },
         ["**/node_modules/**"],
         "/foo",
       );
 
-      t.same(files, [
+      t.same(manifestFiles, [
         "/opt/yarn-v1.16.0/package.json",
         "/var/lib/ghost/versions/2.25.6/package.json",
         "/var/lib/ghost/versions/2.25.6/yarn.lock",
@@ -291,13 +322,16 @@ test("findGlobs", async (t) => {
       ).toString(),
     });
 
-    const files = await docker.findGlobs(
-      ["**/package.json", "**/Gemfile.lock"],
+    const { manifestFiles } = await docker.findGlobs(
+      {
+        manifestGlobs: ["**/package.json", "**/Gemfile.lock"],
+        binaryGlobs: [],
+      },
       [],
       "/foo",
     );
 
-    t.same(files, ["/app/Gemfile.lock", "/srv/app/package.json"]);
+    t.same(manifestFiles, ["/app/Gemfile.lock", "/srv/app/package.json"]);
   });
 
   t.test("find a java manifest file on centos", async (t) => {
@@ -307,9 +341,13 @@ test("findGlobs", async (t) => {
       ).toString(),
     });
 
-    const files = await docker.findGlobs(["**/pom.xml"], [], "/foo");
+    const { manifestFiles } = await docker.findGlobs(
+      { manifestGlobs: ["**/pom.xml"], binaryGlobs: [] },
+      [],
+      "/foo",
+    );
 
-    t.same(files, ["/app/pom.xml"]);
+    t.same(manifestFiles, ["/app/pom.xml"]);
   });
 
   t.test("find a node manifest file on debian", async (t) => {
@@ -319,9 +357,13 @@ test("findGlobs", async (t) => {
       ).toString(),
     });
 
-    const files = await docker.findGlobs(["**/package.json"], [], "/foo");
+    const { manifestFiles } = await docker.findGlobs(
+      { manifestGlobs: ["**/package.json"], binaryGlobs: [] },
+      [],
+      "/foo",
+    );
 
-    t.same(files, ["/app/package.json"]);
+    t.same(manifestFiles, ["/app/package.json"]);
   });
 
   t.test("finding no manifest files on ubuntu", async (t) => {
@@ -329,13 +371,16 @@ test("findGlobs", async (t) => {
       stdout: readFileSync(getLSOutputFixture("ubuntu-18.04.txt")).toString(),
     });
 
-    const files = await docker.findGlobs(
-      ["**/package.json", "**/package-lock.json"],
+    const { manifestFiles } = await docker.findGlobs(
+      {
+        manifestGlobs: ["**/package.json", "**/package-lock.json"],
+        binaryGlobs: [],
+      },
       [],
       "/foo",
     );
 
-    t.same(files, []);
+    t.same(manifestFiles, []);
   });
 
   // Test special case when scanning from the root
@@ -362,8 +407,11 @@ test("findGlobs", async (t) => {
       stdout: "/sys:\n./\n../\nsys1\nsys2\n",
     });
 
-    const files = await docker.findGlobs(["**/*"]);
-    t.same(files, [
+    const { manifestFiles } = await docker.findGlobs({
+      manifestGlobs: ["**/*"],
+      binaryGlobs: [],
+    });
+    t.same(manifestFiles, [
       "/app/composer.json",
       "/app/composer.lock",
       "/lib/ld-musl-x86_64.so.1",
@@ -408,8 +456,14 @@ test("findGlobs", async (t) => {
         stdout: "/sys:\n./\n../\nsys1\nsys2\n",
       });
 
-      const files = await docker.findGlobs(["**/*"], [], "/", true, []);
-      t.same(files, [
+      const { manifestFiles } = await docker.findGlobs(
+        { manifestGlobs: ["**/*"], binaryGlobs: [] },
+        [],
+        "/",
+        true,
+        [],
+      );
+      t.same(manifestFiles, [
         "/app/composer.json",
         "/app/composer.lock",
         "/lib/ld-musl-x86_64.so.1",

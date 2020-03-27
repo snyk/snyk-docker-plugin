@@ -11,6 +11,7 @@ function buildResponse(
   depsAnalysis,
   dockerfileAnalysis,
   manifestFiles: types.ManifestFile[],
+  binaryFiles: types.BinaryFileData[],
   options,
 ): types.PluginResponse {
   const deps = depsAnalysis.package.dependencies;
@@ -29,6 +30,7 @@ function buildResponse(
     plugin,
     package: pkg,
     manifestFiles,
+    binaryFiles,
   };
 }
 

@@ -3,11 +3,8 @@ import { buildTree } from "./dependency-tree";
 import { tryGetAnalysisError } from "./errors";
 import { parseAnalysisResults } from "./parser";
 import { buildResponse } from "./response-builder";
-import {
-  PluginResponse,
-  PluginResponseStatic,
-  StaticAnalysisOptions,
-} from "./types";
+import { HASH_ALGORITHM } from "./stream-utils";
+import { BinaryFileData, PluginResponse, StaticAnalysisOptions } from "./types";
 
 export async function analyzeStatically(
   targetImage: string,
@@ -49,18 +46,31 @@ export async function analyzeStatically(
       imageLayers: parsedAnalysisResult.imageLayers,
     };
 
+    const binHashFiles: BinaryFileData[] = [];
+
     // hacking our way through types for backwards compatibility
-    const response: PluginResponseStatic = {
+    const response: PluginResponse = {
       ...buildResponse(
         runtime,
         analysis,
         dockerfileAnalysis,
         manifestFiles,
+        binHashFiles,
         staticAnalysisOptions,
       ),
-      hashes: [],
+      binaryFiles: [],
     };
-    response.hashes = staticAnalysis.binaries;
+
+    // TODO: name/path are missing from static workflow
+    for (const hash of staticAnalysis.binaries) {
+      response.binaryFiles.push({
+        name: "",
+        path: "",
+        hashType: HASH_ALGORITHM,
+        hash,
+      });
+    }
+
     return response;
   } catch (error) {
     const analysisError = tryGetAnalysisError(error, targetImage);

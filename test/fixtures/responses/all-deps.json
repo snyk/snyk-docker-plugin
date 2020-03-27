@@ -13,6 +13,7 @@
     ]
   },
   "manifestFiles": [],
+  "binaryFiles": [],
   "package": {
     "name": "docker-image|my-ubuntu2",
     "version": "latest",
