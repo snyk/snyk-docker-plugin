@@ -6,6 +6,12 @@ defaults: &defaults
     - image: node:8
   working_directory: ~/snyk-docker-plugin
 
+release_defaults: &release_defaults
+  resource_class: small
+  docker:
+    - image: node:10
+  working_directory: ~/snyk-docker-plugin
+
 commands:
   install_deps:
     description: Install dependencies
@@ -84,7 +90,7 @@ jobs:
           name: Build
           command: npm run build
   release:
-    <<: *defaults
+    <<: *release_defaults
     steps:
       - checkout
       - run:
@@ -95,7 +101,7 @@ jobs:
           command: npm run build
       - run:
           name: Release on GitHub
-          command: npx -p node@8 -c "npx semantic-release"
+          command: npx semantic-release
 
 workflows:
   version: 2
