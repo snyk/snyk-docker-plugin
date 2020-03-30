@@ -95,7 +95,7 @@ jobs:
           command: npm run build
       - run:
           name: Release on GitHub
-          command: npx semantic-release
+          command: npx -p node@8 -c "npx semantic-release"
 
 workflows:
   version: 2
