@@ -20,6 +20,7 @@
     "prepare": "npm run build"
   },
   "dependencies": {
+    "@snyk/rpm-parser": "^1.0.2",
     "debug": "^4.1.1",
     "dockerfile-ast": "0.0.19",
     "event-loop-spinner": "^1.1.0",
