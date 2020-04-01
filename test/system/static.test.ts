@@ -470,3 +470,27 @@ test("static and dynamic scanning results are aligned", async (t) => {
   );
   // TODO: imageLayers is completely different
 });
+
+test("static analysis provides hashes of jars", async (t) => {
+  const thisIsJustAnImageIdentifierInStaticAnalysis = "openjdk:doesnotexist";
+  const dockerfile = undefined;
+  const pluginOptions = {
+    staticAnalysisOptions: {
+      imagePath: getFixture("docker-save/testjar.tar"),
+      imageType: ImageType.DockerArchive,
+    },
+  };
+
+  const pluginResult = (await plugin.inspect(
+    thisIsJustAnImageIdentifierInStaticAnalysis,
+    dockerfile,
+    pluginOptions,
+  )) as PluginResponse;
+
+  t.equals(pluginResult.binaryFiles.length, 1, "found one jar file");
+  t.equals(
+    pluginResult.binaryFiles[0].hash,
+    "815893df5f31da2ece4040fe0a12fd44b577afaf",
+  );
+  t.equals(pluginResult.binaryFiles[0].hashType, "sha1");
+});

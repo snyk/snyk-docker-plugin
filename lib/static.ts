@@ -3,7 +3,6 @@ import { buildTree } from "./dependency-tree";
 import { tryGetAnalysisError } from "./errors";
 import { parseAnalysisResults } from "./parser";
 import { buildResponse } from "./response-builder";
-import { HASH_ALGORITHM } from "./stream-utils";
 import { BinaryFileData, PluginResponse, StaticAnalysisOptions } from "./types";
 
 export async function analyzeStatically(
@@ -61,15 +60,7 @@ export async function analyzeStatically(
       binaryFiles: [],
     };
 
-    // TODO: name/path are missing from static workflow
-    for (const hash of staticAnalysis.binaries) {
-      response.binaryFiles.push({
-        name: "",
-        path: "",
-        hashType: HASH_ALGORITHM,
-        hash,
-      });
-    }
+    response.binaryFiles = staticAnalysis.binaries;
 
     return response;
   } catch (error) {

@@ -31,4 +31,6 @@ export interface ExtractAction {
   // Applies the given callback once a file match is found given the pattern above.
   // The idea is that the file content can be transformed in any way.
   callback?: ExtractCallback;
+  // (Optional) The type of hash we used on the file (like sha1/sha256/etc..)
+  hashType?: string;
 }

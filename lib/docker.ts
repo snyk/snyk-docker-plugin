@@ -4,6 +4,7 @@ import * as minimatch from "minimatch";
 import * as fspath from "path";
 import * as path from "path";
 import * as lsu from "./ls-utils";
+import { HASH_ALGORITHM_SHA1 } from "./stream-utils";
 import * as subProcess from "./sub-process";
 import { BinaryFileData } from "./types";
 
@@ -254,7 +255,7 @@ class Docker {
     const resultArr: BinaryFileData[] = [];
 
     const hashType =
-      options && options.hashType ? options.hashType : "sha1";
+      options && options.hashType ? options.hashType : HASH_ALGORITHM_SHA1;
 
     for (const file of files) {
       const hash: crypto.Hash = crypto.createHash(hashType);

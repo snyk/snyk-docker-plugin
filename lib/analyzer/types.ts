@@ -1,3 +1,5 @@
+import { BinaryFileData } from "../types";
+
 export interface AnalyzedPackage {
   Name: string;
   Version?: string;
@@ -59,6 +61,6 @@ export interface StaticAnalysis {
   imageId: string;
   osRelease: OSRelease;
   results: ImageAnalysis[];
-  binaries: string[];
+  binaries: BinaryFileData[];
   imageLayers: string[];
 }

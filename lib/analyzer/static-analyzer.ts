@@ -12,6 +12,7 @@ import {
 } from "../inputs/apt/static";
 import {
   getBinariesHashes,
+  getJarBinariesFileContentAction,
   getNodeBinariesFileContentAction,
   getOpenJDKBinariesFileContentAction,
 } from "../inputs/binaries/static";
@@ -52,6 +53,7 @@ export async function analyze(
     ...getOsReleaseActions,
     getNodeBinariesFileContentAction,
     getOpenJDKBinariesFileContentAction,
+    getJarBinariesFileContentAction,
   ];
 
   if (options.distroless) {
