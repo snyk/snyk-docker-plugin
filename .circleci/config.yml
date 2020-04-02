@@ -49,6 +49,12 @@ commands:
             git merge --no-edit "$CIRCLE_BRANCH"
       - attach_workspace:
           at: ~/snyk-docker-plugin
+  notify_slack_on_failure:
+    steps:
+      - run:
+          name: Notify Slack on failure
+          command: ./.circleci/slack-notify-failure.sh "${CIRCLE_JOB}"
+          when: on_fail
 
 jobs:
   install:
@@ -102,6 +108,7 @@ jobs:
       - run:
           name: Release on GitHub
           command: npx semantic-release
+      - notify_slack_on_failure
 
 workflows:
   version: 2
