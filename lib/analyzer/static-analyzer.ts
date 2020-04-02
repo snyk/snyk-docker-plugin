@@ -72,7 +72,7 @@ export async function analyze(
   ] = await Promise.all([
     getApkDbFileContent(archiveLayers),
     getAptDbFileContent(archiveLayers),
-    getRpmDbFileContent(archiveLayers, options.tmpDirPath),
+    getRpmDbFileContent(archiveLayers),
   ]);
 
   let distrolessAptFiles: string[] = [];

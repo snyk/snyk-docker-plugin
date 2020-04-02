@@ -42,8 +42,6 @@ export async function distroless(
       staticAnalysisOptions: {
         imagePath: archiveFullPath,
         imageType: ImageType.DockerArchive,
-        // TODO only for RPM, may be removed once we get rid of bdb dep
-        tmpDirPath: "",
         distroless: true,
       },
     };

@@ -1,10 +1,10 @@
-import { unlink, writeFile } from "fs";
-import { tmpdir } from "os";
-import { resolve as resolvePath } from "path";
+import { getPackages } from "@snyk/rpm-parser";
+import * as Debug from "debug";
 import { getContentAsBuffer } from "../../extractor";
 import { ExtractAction, ExtractedLayers } from "../../extractor/types";
 import { streamToBuffer } from "../../stream-utils";
-import { CmdOutput, execute } from "../../sub-process";
+
+const debug = Debug("snyk");
 
 export const getRpmDbFileContentAction: ExtractAction = {
   actionName: "rpm-db",
@@ -14,62 +14,21 @@ export const getRpmDbFileContentAction: ExtractAction = {
 
 export async function getRpmDbFileContent(
   extractedLayers: ExtractedLayers,
-  tmpDirPath?: string,
 ): Promise<string> {
   const rpmDb = getContentAsBuffer(extractedLayers, getRpmDbFileContentAction);
   if (!rpmDb) {
     return "";
   }
 
-  const filePath = generateTempFileName(tmpDirPath);
-  await writeToFile(filePath, rpmDb);
-
   try {
-    // This is the tool that is expected to be found on the system:
-    // https://github.com/snyk/go-rpmdb
-    const cmdOutput = await execute("rpmdb", ["-f", filePath]).catch(
-      handleError,
-    );
-    return cmdOutput.stdout || "";
-  } finally {
-    await removeFile(filePath);
+    const parserResponse = await getPackages(rpmDb);
+    if (parserResponse.error !== undefined) {
+      throw parserResponse.error;
+    }
+    return parserResponse.response;
+  } catch (error) {
+    debug("An error occurred while analysing RPM packages");
+    debug(error);
+    return "";
   }
-}
-
-function handleError(error): CmdOutput | never {
-  const stderr = error.stderr;
-  if (typeof stderr === "string" && stderr.indexOf("not found") >= 0) {
-    return { stdout: "", stderr: "" };
-  }
-  throw error;
-}
-
-/**
- * Exported for testing
- */
-export function generateTempFileName(tmpDirPath?: string): string {
-  const tmpPath = tmpDirPath || tmpdir();
-  const randomFileName = Math.random().toString();
-
-  return resolvePath(tmpPath, randomFileName);
-}
-
-function writeToFile(filePath: string, apkDb: Buffer): Promise<void> {
-  return new Promise((resolve, reject) => {
-    writeFile(filePath, apkDb, { encoding: "binary" }, (err) => {
-      if (!err) {
-        resolve();
-      } else {
-        reject(err);
-      }
-    });
-  });
-}
-
-function removeFile(filePath: string): Promise<void> {
-  return new Promise((resolve) => {
-    unlink(filePath, () => {
-      resolve();
-    });
-  });
 }
