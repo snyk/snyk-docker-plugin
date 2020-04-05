@@ -9,6 +9,7 @@
     "url": "https://github.com/snyk/snyk-docker-plugin"
   },
   "main": "dist/index.js",
+  "types": "dist/index.d.js",
   "scripts": {
     "build": "tsc",
     "build-watch": "tsc -w",
