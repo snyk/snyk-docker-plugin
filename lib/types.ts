@@ -32,9 +32,26 @@ export interface PluginMetadata {
   imageLayers: string[];
 }
 
+export interface Package {
+  dependencies: {
+    [key: string]: any; // TODO
+  };
+  docker: {
+    [key: string]: any; // TODO
+  };
+  name: string;
+  packageFormatVersion: string;
+  targetOS: {
+    name: string;
+    prettyName: string;
+    version: string;
+  };
+  version: string;
+}
+
 export interface PluginResponse {
   plugin: PluginMetadata;
-  package: any;
+  package: Package;
   manifestFiles: ManifestFile[];
 }
 
