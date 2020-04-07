@@ -5,7 +5,6 @@ import { streamToString } from "../../stream-utils";
 
 export const getDpkgPackageFileContentAction: ExtractAction = {
   actionName: "dpkg",
-  fileNamePattern: "/var/lib/dpkg/status.d/*",
   filePathMatches: (filePath) =>
     minimatch(filePath, "/var/lib/dpkg/status.d/*", { dot: true }),
   callback: streamToString, // TODO replace with a parser for apt data extractor

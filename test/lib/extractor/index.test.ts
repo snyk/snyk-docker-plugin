@@ -7,10 +7,9 @@ import { test } from "tap";
 import { getContentAsString } from "../../../lib/extractor";
 import { ExtractAction, ExtractedLayers } from "../../../lib/extractor/types";
 
-test("BUG: getContentAsString() does not match when a pattern is used in the extract action", async (t) => {
+test("getContentAsString() does matches when a pattern is used in the extract action", async (t) => {
   const extractAction: ExtractAction = {
     actionName: "match-any-node",
-    fileNamePattern: "**/node",
     filePathMatches: (filePath) =>
       minimatch(filePath, "**/node", { dot: true }),
   };
@@ -20,5 +19,5 @@ test("BUG: getContentAsString() does not match when a pattern is used in the ext
     },
   };
   const result = getContentAsString(extractedLayers, extractAction);
-  t.same(result, undefined, "BUG: extracted string should be Hello, world!");
+  t.same(result, "Hello, world!", "extracted string matches");
 });

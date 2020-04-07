@@ -5,14 +5,12 @@ import { streamToHash } from "../../../stream-utils";
 
 export const getOpenJDKBinariesFileContentAction: ExtractAction = {
   actionName: "java",
-  fileNamePattern: "**/java",
   filePathMatches: (filePath) => minimatch(filePath, "**/java", { dot: true }),
   callback: streamToHash,
 };
 
 export const getNodeBinariesFileContentAction: ExtractAction = {
   actionName: "node",
-  fileNamePattern: "**/node",
   filePathMatches: (filePath) => minimatch(filePath, "**/node", { dot: true }),
   callback: streamToHash,
 };
