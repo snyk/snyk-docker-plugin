@@ -14,6 +14,7 @@ test("image extractor: callbacks are issued when files are found", async (t) => 
     {
       actionName: "read_as_string",
       fileNamePattern: "/snyk/mock.txt",
+      filePathMatches: (filePath) => filePath === "/snyk/mock.txt",
       callback: async (stream) => {
         const content = await streamToString(stream);
         t.same(content, "Hello, world!", "content read is as expected");
@@ -42,6 +43,7 @@ test("image extractor: can read content with multiple callbacks", async (t) => {
     {
       actionName: "read_as_string",
       fileNamePattern: "/snyk/mock.txt",
+      filePathMatches: (filePath) => filePath === "/snyk/mock.txt",
       callback: async (stream) => {
         const content = await streamToString(stream);
         t.same(content, "Hello, world!", "content read is as expected");
@@ -51,6 +53,7 @@ test("image extractor: can read content with multiple callbacks", async (t) => {
     {
       actionName: "read_as_buffer",
       fileNamePattern: "/snyk/mock.txt",
+      filePathMatches: (filePath) => filePath === "/snyk/mock.txt",
       callback: async (stream) => {
         const content = await streamToString(stream);
         t.same(content, "Hello, world!", "content read is as expected");
@@ -81,6 +84,7 @@ test("image extractor: ensure the layer results are the same for docker and for 
     {
       actionName,
       fileNamePattern,
+      filePathMatches: (filePath) => filePath === "/snyk/mock.txt",
       callback: async () => returnedContent,
     },
   ];

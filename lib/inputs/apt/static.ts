@@ -6,12 +6,14 @@ import { streamToString } from "../../stream-utils";
 export const getDpkgFileContentAction: ExtractAction = {
   actionName: "dpkg",
   fileNamePattern: "/var/lib/dpkg/status",
+  filePathMatches: (filePath) => filePath === "/var/lib/dpkg/status",
   callback: streamToString,
 };
 
 export const getExtFileContentAction: ExtractAction = {
   actionName: "ext",
   fileNamePattern: "/var/lib/apt/extended_states",
+  filePathMatches: (filePath) => filePath === "/var/lib/apt/extended_states",
   callback: streamToString,
 };
 

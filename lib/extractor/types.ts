@@ -28,6 +28,7 @@ export interface ExtractAction {
   actionName: string;
   // The path patter to look for.
   fileNamePattern: string;
+  filePathMatches: (filePath: string) => boolean;
   // Applies the given callback once a file match is found given the pattern above.
   // The idea is that the file content can be transformed in any way.
   callback?: ExtractCallback;
