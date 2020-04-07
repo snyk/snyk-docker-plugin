@@ -29,6 +29,7 @@ function buildResponse(
     plugin,
     package: pkg,
     manifestFiles,
+    scanResults: [], // TODO
   };
 }
 

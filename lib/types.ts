@@ -32,6 +32,13 @@ export interface PluginMetadata {
   imageLayers: string[];
 }
 
+interface ScanResult {
+  type: string;
+  version: string;
+  data: any;
+}
+
+// should be renamed and organised
 export interface Package {
   dependencies: {
     [key: string]: any; // TODO
@@ -51,7 +58,8 @@ export interface Package {
 
 export interface PluginResponse {
   plugin: PluginMetadata;
-  package: Package;
+  package: Package; // under deprecation, Package is one type of scanResult
+  scanResults: ScanResult[]; // to replace package
   manifestFiles: ManifestFile[];
 }
 
