@@ -1,12 +1,9 @@
-import * as minimatch from "minimatch";
-
 import { ExtractAction, ExtractedLayers } from "../../extractor/types";
 import { streamToString } from "../../stream-utils";
 
 export const getDpkgPackageFileContentAction: ExtractAction = {
   actionName: "dpkg",
-  filePathMatches: (filePath) =>
-    minimatch(filePath, "/var/lib/dpkg/status.d/*", { dot: true }),
+  filePathMatches: (filePath) => filePath.startsWith("/var/lib/dpkg/status.d/"),
   callback: streamToString, // TODO replace with a parser for apt data extractor
 };
 
