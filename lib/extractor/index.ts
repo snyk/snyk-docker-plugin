@@ -66,12 +66,17 @@ function getContent(
   extractedLayers: ExtractedLayers,
   extractAction: ExtractAction,
 ): string | Buffer | undefined {
-  // TODO the following is a bug
-  // that treats a file pattern as a file name
-  const fileName = extractAction.fileNamePattern;
-  return fileName in extractedLayers &&
-    extractAction.actionName in extractedLayers[fileName]
-    ? extractedLayers[fileName][extractAction.actionName]
+  const fileNames = Object.keys(extractedLayers);
+  const fileNamesProducedByTheExtractAction = fileNames.filter(
+    (name) => extractAction.actionName in extractedLayers[name],
+  );
+
+  const firstFileNameMatch = fileNamesProducedByTheExtractAction.find((match) =>
+    extractAction.filePathMatches(match),
+  );
+
+  return firstFileNameMatch !== undefined
+    ? extractedLayers[firstFileNameMatch][extractAction.actionName]
     : undefined;
 }
 

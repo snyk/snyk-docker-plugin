@@ -4,7 +4,7 @@ import { streamToString } from "../../stream-utils";
 
 export const getApkDbFileContentAction: ExtractAction = {
   actionName: "apk-db",
-  fileNamePattern: "/lib/apk/db/installed",
+  filePathMatches: (filePath) => filePath === "/lib/apk/db/installed",
   callback: streamToString,
 };
 

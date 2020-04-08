@@ -1,5 +1,4 @@
 import { createReadStream } from "fs";
-import * as minimatch from "minimatch";
 import { basename, resolve as resolvePath } from "path";
 import { Readable } from "stream";
 import { extract, Extract } from "tar-stream";
@@ -104,7 +103,7 @@ async function extractFileAndProcess(
   extractActions: ExtractAction[],
 ): Promise<FileNameAndContent | undefined> {
   const matchedActions = extractActions.filter((action) =>
-    minimatch(fileName, action.fileNamePattern, { dot: true }),
+    action.filePathMatches(fileName),
   );
 
   if (matchedActions.length > 0) {

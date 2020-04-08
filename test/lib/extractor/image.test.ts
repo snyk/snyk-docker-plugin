@@ -1,3 +1,7 @@
+#!/usr/bin/env node_modules/.bin/ts-node
+// Shebang is required, and file *has* to be executable: chmod +x file.test.js
+// See: https://github.com/tapjs/node-tap/issues/313#issuecomment-250067741
+
 import * as path from "path";
 import { test } from "tap";
 import { getDockerArchiveLayersAndManifest } from "../../../lib/extractor";
@@ -13,7 +17,7 @@ test("image extractor: callbacks are issued when files are found", async (t) => 
   const extractActions: ExtractAction[] = [
     {
       actionName: "read_as_string",
-      fileNamePattern: "/snyk/mock.txt",
+      filePathMatches: (filePath) => filePath === "/snyk/mock.txt",
       callback: async (stream) => {
         const content = await streamToString(stream);
         t.same(content, "Hello, world!", "content read is as expected");
@@ -41,7 +45,7 @@ test("image extractor: can read content with multiple callbacks", async (t) => {
   const extractActions: ExtractAction[] = [
     {
       actionName: "read_as_string",
-      fileNamePattern: "/snyk/mock.txt",
+      filePathMatches: (filePath) => filePath === "/snyk/mock.txt",
       callback: async (stream) => {
         const content = await streamToString(stream);
         t.same(content, "Hello, world!", "content read is as expected");
@@ -50,7 +54,7 @@ test("image extractor: can read content with multiple callbacks", async (t) => {
     },
     {
       actionName: "read_as_buffer",
-      fileNamePattern: "/snyk/mock.txt",
+      filePathMatches: (filePath) => filePath === "/snyk/mock.txt",
       callback: async (stream) => {
         const content = await streamToString(stream);
         t.same(content, "Hello, world!", "content read is as expected");
@@ -80,7 +84,7 @@ test("image extractor: ensure the layer results are the same for docker and for 
   const extractActions: ExtractAction[] = [
     {
       actionName,
-      fileNamePattern,
+      filePathMatches: (filePath) => filePath === "/snyk/mock.txt",
       callback: async () => returnedContent,
     },
   ];
