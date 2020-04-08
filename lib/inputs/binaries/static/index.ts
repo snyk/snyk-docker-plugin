@@ -1,17 +1,15 @@
-import * as minimatch from "minimatch";
-
 import { ExtractAction, ExtractedLayers } from "../../../extractor/types";
 import { streamToHash } from "../../../stream-utils";
 
 export const getOpenJDKBinariesFileContentAction: ExtractAction = {
   actionName: "java",
-  filePathMatches: (filePath) => minimatch(filePath, "**/java", { dot: true }),
+  filePathMatches: (filePath) => filePath.endsWith("java"),
   callback: streamToHash,
 };
 
 export const getNodeBinariesFileContentAction: ExtractAction = {
   actionName: "node",
-  filePathMatches: (filePath) => minimatch(filePath, "**/node", { dot: true }),
+  filePathMatches: (filePath) => filePath.endsWith("node"),
   callback: streamToHash,
 };
 
