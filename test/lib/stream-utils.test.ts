@@ -6,7 +6,12 @@ import { createReadStream } from "fs";
 import { readFileSync } from "fs";
 import { join } from "path";
 import { test } from "tap";
-import { streamToBuffer, streamToString } from "../../lib/stream-utils";
+import {
+  streamToBuffer,
+  streamToHashSHA1,
+  streamToHashSHA256,
+  streamToString,
+} from "../../lib/stream-utils";
 
 const getFixture = (fixturePath) =>
   join(__dirname, "../fixtures/generic", fixturePath);
@@ -32,5 +37,31 @@ test("stream-utils.streamToBuffer()", async (t) => {
     fileContent,
     expectedContent,
     "streamToBuffer returns the expected content",
+  );
+});
+
+test("stream-utils.streamToHashSHA1()", async (t) => {
+  const fixture = getFixture("small-sample-text.txt");
+  const fileStream = createReadStream(fixture);
+
+  const hashOfFile = await streamToHashSHA1(fileStream);
+
+  t.deepEqual(
+    hashOfFile,
+    "943a702d06f34599aee1f8da8ef9f7296031d699",
+    "streamToHashSHA1 returns the expected hash",
+  );
+});
+
+test("stream-utils.streamToHashSHA256()", async (t) => {
+  const fixture = getFixture("small-sample-text.txt");
+  const fileStream = createReadStream(fixture);
+
+  const hashOfFile = await streamToHashSHA256(fileStream);
+
+  t.deepEqual(
+    hashOfFile,
+    "315f5bdb76d078c43b8ac0064e4a0164612b1fce77c869345bfc94c75894edd3",
+    "streamToHashSHA256 returns the expected hash",
   );
 });
