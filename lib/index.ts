@@ -131,6 +131,9 @@ async function getManifestFiles(
   // to avoid overwhelming the docker daemon with cat requests
 
   if (files.length > MAX_MANIFEST_FILES) {
+    debug(
+      `Found ${files.length} manifest files in total. Only keeping the first ${MAX_MANIFEST_FILES}.`,
+    );
     files = files.slice(0, MAX_MANIFEST_FILES);
   }
 
