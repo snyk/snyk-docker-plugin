@@ -46,7 +46,7 @@ export async function distroless(
       },
     };
 
-    return staticModule.analyzeStatically(targetImage, scanningOptions);
+    return await staticModule.analyzeStatically(targetImage, scanningOptions);
   } finally {
     fs.unlinkSync(archiveFullPath);
   }
