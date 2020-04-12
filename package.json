@@ -22,10 +22,12 @@
   },
   "dependencies": {
     "@snyk/rpm-parser": "^1.0.2",
+    "@snyk/scan-schemas": "github:snyk/scan-schemas#feat/node-schema",
     "debug": "^4.1.1",
     "dockerfile-ast": "0.0.19",
     "event-loop-spinner": "^1.1.0",
     "semver": "^6.1.0",
+    "snyk-nodejs-lockfile-parser": "1.17.0",
     "tar-stream": "^2.1.0",
     "tslib": "^1"
   },

@@ -32,7 +32,7 @@ export interface PluginMetadata {
   imageLayers: string[];
 }
 
-interface ScanResult {
+export interface ScanResult {
   type: string;
   version: string;
   data: any;

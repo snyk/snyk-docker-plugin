@@ -1,3 +1,5 @@
+import { ScanResult } from "../types";
+
 export interface AnalyzedPackage {
   Name: string;
   Version?: string;
@@ -58,7 +60,8 @@ export interface DynamicAnalysis {
 export interface StaticAnalysis {
   imageId: string;
   osRelease: OSRelease;
-  results: ImageAnalysis[];
+  results: ImageAnalysis[]; // TODO: rename to imageAnalysis (or just merge to the new data structure)
   binaries: string[];
   imageLayers: string[];
+  scanResults: ScanResult[]; // to replace `results`?
 }

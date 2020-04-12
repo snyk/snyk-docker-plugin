@@ -19,12 +19,17 @@ import {
   getAptFiles,
   getDpkgPackageFileContentAction,
 } from "../inputs/distroless/static";
+import {
+  getNodeAppFileContent,
+  getNodeAppFileContentAction,
+} from "../inputs/node/static";
 import { getOsReleaseActions } from "../inputs/os-release/static";
 import {
   getRpmDbFileContent,
   getRpmDbFileContentAction,
 } from "../inputs/rpm/static";
-import { ImageType, StaticAnalysisOptions } from "../types";
+import { ImageType, ScanResult, StaticAnalysisOptions } from "../types";
+import * as nodeAnalyser from "./applications/node";
 import * as osReleaseDetector from "./os-release";
 import { analyze as apkAnalyze } from "./package-managers/apk";
 import {
@@ -52,6 +57,7 @@ export async function analyze(
     ...getOsReleaseActions,
     getNodeBinariesFileContentAction,
     getOpenJDKBinariesFileContentAction,
+    getNodeAppFileContentAction,
   ];
 
   if (options.distroless) {
@@ -64,6 +70,15 @@ export async function analyze(
   );
 
   const archiveLayers = dockerArchive.layers;
+
+  // TODO add to other promises
+  const scanResults: ScanResult[] = []; // only app-scans right now, but we want all scans
+  const tmp = getNodeAppFileContent(archiveLayers);
+  let nodeScanResults: nodeAnalyser.NodeScanResult[] = [];
+  if (Object.keys(tmp).length > 0) {
+    nodeScanResults = await nodeAnalyser.nodeLockFilesToData(tmp);
+    scanResults.push(...nodeScanResults);
+  }
 
   const [
     apkDbFileContent,
@@ -111,6 +126,7 @@ export async function analyze(
     results,
     binaries,
     imageLayers: dockerArchive.manifest.Layers,
+    scanResults,
   };
 }
 
