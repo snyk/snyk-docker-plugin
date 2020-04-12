@@ -469,3 +469,27 @@ test("static and dynamic scanning results are aligned", async (t) => {
   );
   // TODO: imageLayers is completely different
 });
+
+test("node dependency graphs", async (t) => {
+  const imageNameAndTag = "dontcare:doesntmatter";
+  const dockerfile = undefined;
+
+  const pluginOptionsStatic = {
+    staticAnalysisOptions: {
+      imagePath: getFixture("docker-save/node-package-json.tar"),
+      imageType: ImageType.DockerArchive,
+    },
+  };
+  const pluginResultStatic = await plugin.inspect(
+    imageNameAndTag,
+    dockerfile,
+    pluginOptionsStatic,
+  );
+
+  // TODO more asserts
+  t.equals(
+    pluginResultStatic.scanResults.length,
+    1,
+    "found an app scan result",
+  );
+});

@@ -12,6 +12,7 @@ function buildResponse(
   dockerfileAnalysis,
   manifestFiles: types.ManifestFile[],
   options,
+  scanResults: types.ScanResult[],
 ): types.PluginResponse {
   const deps = depsAnalysis.package.dependencies;
   const dockerfilePkgs = collectDockerfilePkgs(dockerfileAnalysis, deps);
@@ -29,7 +30,7 @@ function buildResponse(
     plugin,
     package: pkg,
     manifestFiles,
-    scanResults: [], // TODO
+    scanResults,
   };
 }
 

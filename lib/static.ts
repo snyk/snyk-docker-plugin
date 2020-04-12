@@ -34,6 +34,7 @@ export async function analyzeStatically(
       staticAnalysis,
     );
 
+    // OS dep tree
     const dependenciesTree = await buildTree(
       targetImage,
       parsedAnalysisResult.type,
@@ -57,6 +58,7 @@ export async function analyzeStatically(
         dockerfileAnalysis,
         manifestFiles,
         staticAnalysisOptions,
+        staticAnalysis.scanResults,
       ),
       hashes: [],
     };

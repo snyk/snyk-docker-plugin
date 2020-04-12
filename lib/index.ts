@@ -59,6 +59,7 @@ async function analyzeDynamically(
     dockerfileAnalysis,
     manifestFiles!, // bug in typescript wrongly adds `undefined`
     analysisOptions,
+    [], // "app" scan results, this is for backwards compatibility, static-scan only!
   );
 }
 
