@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@snyk/rpm-parser": "^1.0.2",
-    "@snyk/scan-schemas": "github:snyk/scan-schemas#feat/node-schema",
+    "@snyk/scan-schemas": "github:snyk/scan-schemas#feat/result-type-schema",
     "debug": "^4.1.1",
     "dockerfile-ast": "0.0.19",
     "event-loop-spinner": "^1.1.0",

@@ -1,4 +1,6 @@
+import * as scanSchemas from "@snyk/scan-schemas";
 import * as Debug from "debug";
+
 import { getDockerArchiveLayersAndManifest } from "../extractor";
 import { DockerArchiveManifest } from "../extractor/types";
 import {
@@ -28,7 +30,7 @@ import {
   getRpmDbFileContent,
   getRpmDbFileContentAction,
 } from "../inputs/rpm/static";
-import { ImageType, ScanResult, StaticAnalysisOptions } from "../types";
+import { ImageType, StaticAnalysisOptions } from "../types";
 import * as nodeAnalyser from "./applications/node";
 import * as osReleaseDetector from "./os-release";
 import { analyze as apkAnalyze } from "./package-managers/apk";
@@ -72,11 +74,10 @@ export async function analyze(
   const archiveLayers = dockerArchive.layers;
 
   // TODO add to other promises
-  const scanResults: ScanResult[] = []; // only app-scans right now, but we want all scans
+  const scanResults: scanSchemas.base.ScanResult[] = []; // only app-scans right now, but we want all scans
   const tmp = getNodeAppFileContent(archiveLayers);
-  let nodeScanResults: nodeAnalyser.NodeScanResult[] = [];
   if (Object.keys(tmp).length > 0) {
-    nodeScanResults = await nodeAnalyser.nodeLockFilesToData(tmp);
+    const nodeScanResults = await nodeAnalyser.nodeLockFilesToData(tmp);
     scanResults.push(...nodeScanResults);
   }
 

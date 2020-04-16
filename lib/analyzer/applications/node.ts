@@ -1,6 +1,6 @@
+import * as scanSchemas from "@snyk/scan-schemas";
 import * as path from "path";
 import * as lockFileParser from "snyk-nodejs-lockfile-parser";
-import * as scanSchemas from "@snyk/scan-schemas"
 
 interface FilePathToContent {
   [filePath: string]: string;
@@ -14,12 +14,14 @@ interface ManifestLockPathPair {
 
 export async function nodeLockFilesToData(
   filePathToContent: FilePathToContent,
-): Promise<scanSchemas.node.NodeScanResult[]> {
-  const scanResults: scanSchemas.node.NodeScanResult[] = [];
+): Promise<scanSchemas.deptree.DepTreeScanResult[]> {
+  const scanResults: scanSchemas.deptree.DepTreeScanResult[] = [];
 
   const filePairs = findManifestLockPairsInSameDirectory(filePathToContent);
+  // TODO name "thing"
   for (const thing of filePairs) {
     // TODO: consider spinning the event loop
+    // TODO: initially generate as DepGraph
     const parserResult = await lockFileParser.buildDepTree(
       filePathToContent[thing.manifest],
       filePathToContent[thing.lock],
@@ -29,15 +31,39 @@ export async function nodeLockFilesToData(
       undefined, // TODO: default manifest file name?
     );
 
-    const data: scanSchemas.node.NodeData = {
-      parserResult,
-      lockPath: thing.lock,
-      manifestPath: thing.manifest,
-    };
+    // TODO: handling a mismatch between what the CLI wants
+    // https://github.com/snyk/snyk-cli-interface/blob/master/legacy/common.ts#L16
+    // and what the NodeJS parser returns ()
+    // https://github.com/snyk/nodejs-lockfile-parser/blob/master/lib/parsers/index.ts#L45
+    // because of the labels of DepTreeDep
+    // seems to be disregarded here?
+    // https://github.com/snyk/snyk/blob/master/src/lib/plugins/nodejs-plugin/index.ts#L20
+    const optionalLabels = parserResult.labels;
+    const mandatoryLabels: { [key: string]: string } = {};
+    if (optionalLabels) {
+      for (const currentLabelName of Object.keys(optionalLabels)) {
+        if (optionalLabels[currentLabelName] !== undefined) {
+          mandatoryLabels[currentLabelName] = optionalLabels[currentLabelName]!;
+        }
+      }
+    }
+    const parserResultWithProperLabels = Object.assign({}, parserResult, {
+      labels: mandatoryLabels,
+    });
+
     scanResults.push({
-      schemaType: scanSchemas.node.SCHEMA_TYPE,
-      schemaVersion: scanSchemas.node.SCHEMA_VERSION,
-      data,
+      scanType: "DepTreeScanResult",
+      schemaVersion: scanSchemas.deptree.SCHEMA_VERSION,
+      depTree: parserResultWithProperLabels,
+      plugin: {
+        // TODO this should be punishable
+        name: "egg-plugin-name",
+        runtime: undefined,
+        packageManager: undefined,
+        dockerImageId: "egg-docker-image-id",
+        imageLayers: [],
+      },
+      packageManager: thing.lockType,
     });
   }
 
