@@ -1,4 +1,4 @@
-import { ScanResult } from "../types";
+import * as scanSchemas from "@snyk/scan-schemas";
 
 export interface AnalyzedPackage {
   Name: string;
@@ -63,5 +63,5 @@ export interface StaticAnalysis {
   results: ImageAnalysis[]; // TODO: rename to imageAnalysis (or just merge to the new data structure)
   binaries: string[];
   imageLayers: string[];
-  scanResults: ScanResult[]; // to replace `results`?
+  scanResults: scanSchemas.base.ScanResult[]; // to replace `results`?
 }

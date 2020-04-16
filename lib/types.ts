@@ -1,3 +1,5 @@
+import * as scanSchemas from "@snyk/scan-schemas";
+
 export interface StaticAnalysisOptions {
   imagePath: string;
   imageType: ImageType;
@@ -32,12 +34,6 @@ export interface PluginMetadata {
   imageLayers: string[];
 }
 
-export interface ScanResult {
-  type: string;
-  version: string;
-  data: any;
-}
-
 // should be renamed and organised
 export interface Package {
   dependencies: {
@@ -59,7 +55,7 @@ export interface Package {
 export interface PluginResponse {
   plugin: PluginMetadata;
   package: Package; // under deprecation, Package is one type of scanResult
-  scanResults: ScanResult[]; // to replace package
+  scanResults: scanSchemas.base.ScanResult[]; // to replace package
   manifestFiles: ManifestFile[];
 }
 

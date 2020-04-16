@@ -1,5 +1,6 @@
 // Module that provides functions to collect and build response after all
 // analyses' are done.
+import * as scanSchemas from "@snyk/scan-schemas";
 
 import { DockerFilePackages, instructionDigest } from "./instruction-parser";
 import * as types from "./types";
@@ -12,7 +13,7 @@ function buildResponse(
   dockerfileAnalysis,
   manifestFiles: types.ManifestFile[],
   options,
-  scanResults: types.ScanResult[],
+  scanResults: scanSchemas.base.ScanResult[],
 ): types.PluginResponse {
   const deps = depsAnalysis.package.dependencies;
   const dockerfilePkgs = collectDockerfilePkgs(dockerfileAnalysis, deps);
