@@ -72,13 +72,13 @@ export async function analyze(
   const archiveLayers = dockerArchive.layers;
 
   // TODO add to other promises
-  const scanResults: ScanResult[] = []; // only app-scans right now, but we want all scans
-  const tmp = getNodeAppFileContent(archiveLayers);
-  let nodeScanResults: nodeAnalyser.NodeScanResult[] = [];
-  if (Object.keys(tmp).length > 0) {
-    nodeScanResults = await nodeAnalyser.nodeLockFilesToData(tmp);
-    scanResults.push(...nodeScanResults);
-  }
+  // const scanResults: ScanResult[] = []; // only app-scans right now, but we want all scans
+  // const tmp = getNodeAppFileContent(archiveLayers);
+  // let nodeScanResults: nodeAnalyser.[] = [];
+  // if (Object.keys(tmp).length > 0) {
+  //   nodeScanResults = await nodeAnalyser.nodeLockFilesToData(tmp);
+  //   scanResults.push(...nodeScanResults);
+  // }
 
   const [
     apkDbFileContent,

@@ -1,6 +1,6 @@
 import * as path from "path";
 import * as lockFileParser from "snyk-nodejs-lockfile-parser";
-import * as scanSchemas from "@snyk/scan-schemas"
+import * as scanSchemas from "@snyk/scan-schemas";
 
 interface FilePathToContent {
   [filePath: string]: string;
@@ -14,8 +14,8 @@ interface ManifestLockPathPair {
 
 export async function nodeLockFilesToData(
   filePathToContent: FilePathToContent,
-): Promise<scanSchemas.node.NodeScanResult[]> {
-  const scanResults: scanSchemas.node.NodeScanResult[] = [];
+): Promise<scanSchemas.deptree.DepTreeScanResult[]> {
+  const scanResults: scanSchemas.deptree.DepTreeScanResult[] = [];
 
   const filePairs = findManifestLockPairsInSameDirectory(filePathToContent);
   for (const thing of filePairs) {
@@ -28,16 +28,11 @@ export async function nodeLockFilesToData(
       false, // TODO: options.strictOutOfSync !== false; ?
       undefined, // TODO: default manifest file name?
     );
-
-    const data: scanSchemas.node.NodeData = {
-      parserResult,
-      lockPath: thing.lock,
-      manifestPath: thing.manifest,
-    };
+    
     scanResults.push({
-      schemaType: scanSchemas.node.SCHEMA_TYPE,
-      schemaVersion: scanSchemas.node.SCHEMA_VERSION,
-      data,
+      type: scanSchemas.deptree.TYPE,
+      schemaVersion: scanSchemas.deptree.SCHEMA_VERSION,
+      data: parserResult,
     });
   }
 
