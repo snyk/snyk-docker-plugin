@@ -1,3 +1,4 @@
+import * as Debug from "debug";
 import * as path from "path";
 
 import * as analyzer from "./analyzer";
@@ -15,6 +16,7 @@ import { ManifestFile, PluginResponse } from "./types";
 export { inspect, dockerFile };
 
 const MAX_MANIFEST_FILES = 5;
+const debug = Debug("snyk");
 
 function inspect(
   root: string,
@@ -131,6 +133,9 @@ async function getManifestFiles(
   // to avoid overwhelming the docker daemon with cat requests
 
   if (files.length > MAX_MANIFEST_FILES) {
+    debug(
+      `Found ${files.length} manifest files in total. Only keeping the first ${MAX_MANIFEST_FILES}.`,
+    );
     files = files.slice(0, MAX_MANIFEST_FILES);
   }
 
