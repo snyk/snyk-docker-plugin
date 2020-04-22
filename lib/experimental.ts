@@ -46,18 +46,25 @@ export async function distroless(
   const docker = new Docker(targetImage);
   await docker.save(targetImage, archiveFullPath);
   try {
-    const scanningOptions = {
-      staticAnalysisOptions: {
-        imagePath: archiveFullPath,
-        imageType: ImageType.DockerArchive,
-        distroless: true,
-      },
-    };
-
-    return await staticModule.analyzeStatically(targetImage, scanningOptions);
+    return await getStaticAnalysisResult(targetImage, archiveFullPath);
   } finally {
     fs.unlinkSync(archiveFullPath);
   }
+}
+
+async function getStaticAnalysisResult(
+  targetImage: string,
+  archivePath: string,
+): Promise<PluginResponse> {
+  const scanningOptions = {
+    staticAnalysisOptions: {
+      imagePath: archivePath,
+      imageType: ImageType.DockerArchive,
+      distroless: true,
+    },
+  };
+
+  return await staticModule.analyzeStatically(targetImage, scanningOptions);
 }
 
 function createTempDirIfMissing(archiveDir: string): void {
