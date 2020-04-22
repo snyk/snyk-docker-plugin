@@ -22,7 +22,6 @@
   },
   "dependencies": {
     "@snyk/rpm-parser": "^1.0.2",
-    "@snyk/scan-schemas": "github:snyk/scan-schemas#feat/result-type-schema",
     "debug": "^4.1.1",
     "dockerfile-ast": "0.0.19",
     "event-loop-spinner": "^1.1.0",
@@ -32,7 +31,7 @@
     "tslib": "^1"
   },
   "devDependencies": {
-    "@types/node": "^8.10.48",
+    "@types/node": "^8.10.60",
     "@types/sinon": "5.0.5",
     "@types/tar-stream": "^1.6.1",
     "prettier": "^1.19.1",

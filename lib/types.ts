@@ -1,5 +1,3 @@
-import * as scanSchemas from "@snyk/scan-schemas";
-
 export interface StaticAnalysisOptions {
   imagePath: string;
   imageType: ImageType;
@@ -55,10 +53,100 @@ export interface Package {
 export interface PluginResponse {
   plugin: PluginMetadata;
   package: Package; // under deprecation, Package is one type of scanResult
-  scanResults: scanSchemas.base.ScanResult[]; // to replace package
+  scanResults: MultiProjectResultCustom; // to replace package
   manifestFiles: ManifestFile[];
 }
 
 export interface PluginResponseStatic extends PluginResponse {
   hashes: string[];
 }
+
+// NEW STUFF
+
+export interface MultiProjectResultCustom extends MultiProjectResult {
+  scannedProjects: ScannedProjectCustom[];
+}
+
+export interface MultiProjectResult {
+  plugin: PluginMetadata;
+  scannedProjects: ScannedProject[];
+}
+
+export interface ScannedProjectCustom extends ScannedProject {
+  packageManager: SupportedPackageManagers;
+  plugin: PluginMetadata;
+  // callGraph?: CallGraph;
+}
+
+export interface ScannedProject {
+  depTree: DepTree;
+  targetFile?: string;
+  meta?: any;
+  // callGraph?: CallGraph;
+}
+
+export interface DepTreeDep {
+  name?: string; // shouldn't, but might be missing
+  version?: string; // shouldn't, but might be missing
+  dependencies?: {
+    [depName: string]: DepTreeDep,
+  };
+  labels?: {
+    [key: string]: string;
+
+    // Known keys:
+    // pruned: identical subtree already presents in the parent node.
+    //         See --prune-repeated-subdependencies flag.
+  };
+}
+
+export interface DepTree extends DepTreeDep {
+  type?: string;
+  packageFormatVersion?: string;
+  targetOS?: {
+    name: string;
+    version: string;
+  };
+
+  // TODO: clarify which of these extra files are actually needed
+  targetFile?: string;
+  policy?: string;
+  docker?: any;
+  files?: any;
+}
+
+export type SupportedPackageManagers =
+  | 'rubygems'
+  | 'npm'
+  | 'yarn'
+  | 'maven'
+  | 'pip'
+  | 'sbt'
+  | 'gradle'
+  | 'golangdep'
+  | 'govendor'
+  | 'gomodules'
+  | 'nuget'
+  | 'paket'
+  | 'composer'
+  | 'cocoapods';
+
+// just for reference
+// export interface PluginMetadata {
+//   name: string;
+//   runtime?: string;
+//   targetFile?: string;
+
+//   packageManager?: SupportedPackageManagers;
+
+//   // Per-plugin custom metadata
+//   meta?: {
+//     allSubProjectNames?: string[],
+//     versionBuildInfo?: VersionBuildInfo,
+//   };
+
+//   // Docker-related fields
+//   dockerImageId?: any;
+//   imageLayers?: any;
+//   packageFormatVersion?: string;
+// }
