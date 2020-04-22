@@ -26,19 +26,16 @@ test("docker-archive image type can be scanned", async (t) => {
     pluginOptions,
   );
 
-  t.ok(
-    "manifestFiles" in pluginResult &&
-      "package" in pluginResult &&
-      "plugin" in pluginResult,
-    "Has the expected result properties",
-  );
   t.same(
-    pluginResult.package.name,
+    pluginResult.scannedProjects[0].depTree.name,
     "docker-image|nginx.tar",
     "Image name matches",
   );
-  t.same(pluginResult.package.version, "", "Version must be empty");
-  t.deepEqual(pluginResult.manifestFiles, [], "Empty manifest files");
+  t.same(
+    pluginResult.scannedProjects[0].depTree.version,
+    "",
+    "Version must be empty",
+  );
   t.same(
     pluginResult.plugin.dockerImageId,
     "5a3221f0137beb960c34b9cf4455424b6210160fd618c5e79401a07d6e5a2ced",
@@ -50,8 +47,8 @@ test("docker-archive image type can be scanned", async (t) => {
     "Correct package manager detected",
   );
   t.ok(
-    pluginResult.package.dependencies &&
-      "adduser" in pluginResult.package.dependencies,
+    pluginResult.scannedProjects[0].depTree.dependencies &&
+      "adduser" in pluginResult.scannedProjects[0].depTree.dependencies,
     "Contains some expected dependency",
   );
   t.deepEqual(

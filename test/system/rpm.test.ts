@@ -28,15 +28,6 @@ test("scanning an rpm-based image produces the expected response", async (t) => 
     pluginOptions,
   );
 
-  t.ok(
-    "manifestFiles" in pluginResult &&
-      "package" in pluginResult &&
-      "plugin" in pluginResult &&
-      "hashes" in pluginResult,
-    "Has the expected result properties",
-  );
-
-  t.deepEqual(pluginResult.manifestFiles, [], "Empty manifest files");
   t.same(
     pluginResult.plugin.dockerImageId,
     "7f335821efb5e5b95b36541004fa0287732a11f97a4a0ff807cc065746f82538",
@@ -53,7 +44,9 @@ test("scanning an rpm-based image produces the expected response", async (t) => 
     "Layers are read correctly",
   );
 
-  const dependencies = Object.keys(pluginResult.package.dependencies);
+  const dependencies = Object.keys(
+    pluginResult.scannedProjects[0].depTree.dependencies,
+  );
   t.same(
     dependencies.length,
     104,
