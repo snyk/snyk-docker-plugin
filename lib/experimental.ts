@@ -4,6 +4,7 @@ import * as path from "path";
 
 import { pullIfNotLocal } from "./analyzer/image-inspector";
 import { Docker } from "./docker";
+import { getImageType } from "./image-type";
 import * as staticModule from "./static";
 import { ImageType, PluginResponse } from "./types";
 
@@ -12,7 +13,14 @@ export async function experimentalAnalysis(
   options: any,
 ): Promise<PluginResponse> {
   // assume Distroless scanning
-  return distroless(targetImage, options);
+  const imageType = getImageType(targetImage);
+  switch (imageType) {
+    case ImageType.Identifier:
+      return distroless(targetImage, options);
+
+    default:
+      throw new Error("Unhandled image type for image " + targetImage);
+  }
 }
 
 // experimental flow expected to be merged with the static analysis when ready
