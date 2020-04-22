@@ -4,15 +4,41 @@ import * as path from "path";
 
 import { pullIfNotLocal } from "./analyzer/image-inspector";
 import { Docker } from "./docker";
+import { getDockerArchivePath, getImageTransport } from "./image-transport";
 import * as staticModule from "./static";
-import { ImageType, PluginResponse } from "./types";
+import {
+  ImageTransport,
+  ImageType,
+  PluginResponse,
+  StaticAnalysisOptions,
+} from "./types";
 
 export async function experimentalAnalysis(
   targetImage: string,
   options: any,
 ): Promise<PluginResponse> {
   // assume Distroless scanning
-  return distroless(targetImage, options);
+  const imageTransport = getImageTransport(targetImage);
+  switch (imageTransport) {
+    case ImageTransport.DockerArchive:
+      // TODO: maybe all the steps in this case can be wrapped in a function
+      const imagePath = getDockerArchivePath(targetImage);
+      // TODO: validate the file in "imagePath" exists
+      const staticAnalysisOptions: StaticAnalysisOptions = {
+        imagePath,
+        imageType: ImageType.DockerArchive,
+        distroless: true,
+      };
+      return staticModule.analyzeStatically(targetImage, {
+        staticAnalysisOptions,
+      });
+
+    case ImageTransport.ContainerRegistry:
+      return distroless(targetImage, options);
+
+    default:
+      throw new Error("Unhandled image transport for image " + targetImage);
+  }
 }
 
 // experimental flow expected to be merged with the static analysis when ready

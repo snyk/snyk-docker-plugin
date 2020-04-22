@@ -4,6 +4,11 @@ export interface StaticAnalysisOptions {
   distroless: boolean;
 }
 
+export enum ImageTransport {
+  ContainerRegistry,
+  DockerArchive,
+}
+
 export enum ImageType {
   DockerArchive = "docker-archive",
 }
