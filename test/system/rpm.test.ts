@@ -1,3 +1,7 @@
+#!/usr/bin/env node_modules/.bin/ts-node
+// Shebang is required, and file *has* to be executable: chmod +x file.test.js
+// See: https://github.com/tapjs/node-tap/issues/313#issuecomment-250067741
+
 import * as path from "path";
 import { test } from "tap";
 
@@ -35,7 +39,7 @@ test("scanning an rpm-based image produces the expected response", async (t) => 
   t.deepEqual(pluginResult.manifestFiles, [], "Empty manifest files");
   t.same(
     pluginResult.plugin.dockerImageId,
-    "cd2d92bc1c0c25b0e15c00cfaa44320d84af71ab3fe97280d53a7b769cd96c19",
+    "7f335821efb5e5b95b36541004fa0287732a11f97a4a0ff807cc065746f82538",
     "The image ID matches",
   );
   t.same(
@@ -45,7 +49,7 @@ test("scanning an rpm-based image produces the expected response", async (t) => 
   );
   t.deepEqual(
     pluginResult.plugin.imageLayers,
-    ["8a14b09953616e7e30d647996c12da4228e63fc93c59d04a060db6f5eb0074f4.tar"],
+    ["2943de48ac85f6eaeecbf35ed894375b5001e9001fd908e40d8e577b77e6bfeb.tar"],
     "Layers are read correctly",
   );
 
