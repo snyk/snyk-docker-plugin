@@ -4,7 +4,7 @@ import * as path from "path";
 
 import { pullIfNotLocal } from "./analyzer/image-inspector";
 import { Docker } from "./docker";
-import { getImageType } from "./image-type";
+import { getDockerArchivePath, getImageType } from "./image-type";
 import * as staticModule from "./static";
 import { ImageType, PluginResponse } from "./types";
 
@@ -15,12 +15,30 @@ export async function experimentalAnalysis(
   // assume Distroless scanning
   const imageType = getImageType(targetImage);
   switch (imageType) {
+    case ImageType.DockerArchive:
+      return dockerArchive(targetImage);
+
     case ImageType.Identifier:
       return distroless(targetImage, options);
 
     default:
       throw new Error("Unhandled image type for image " + targetImage);
   }
+}
+
+async function dockerArchive(targetImage: string): Promise<PluginResponse> {
+  const archivePath = getDockerArchivePath(targetImage);
+  if (!fs.existsSync(archivePath)) {
+    throw new Error(
+      "The provided docker archive path does not exist on the filesystem",
+    );
+  }
+  if (!fs.lstatSync(archivePath).isFile()) {
+    throw new Error("The provided docker archive path is not a file");
+  }
+  // The target image becomes the base of the path, e.g. "archive.tar" for "/var/tmp/archive.tar"
+  const imageIdentifier = path.basename(archivePath);
+  return await getStaticAnalysisResult(imageIdentifier, archivePath);
 }
 
 // experimental flow expected to be merged with the static analysis when ready
