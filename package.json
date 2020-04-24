@@ -23,7 +23,7 @@
   "dependencies": {
     "@snyk/rpm-parser": "^1.0.2",
     "debug": "^4.1.1",
-    "dockerfile-ast": "0.0.19",
+    "dockerfile-ast": "0.0.25",
     "event-loop-spinner": "^1.1.0",
     "semver": "^6.1.0",
     "tar-stream": "^2.1.0",
