@@ -33,29 +33,84 @@ export interface PluginMetadata {
   imageLayers: string[];
 }
 
-export interface Package {
-  dependencies: {
-    [key: string]: any; // TODO
-  };
-  docker: {
-    [key: string]: any; // TODO
-  };
+export interface PluginResponseStatic extends PluginResponse {
+  hashes: string[];
+}
+
+// NEW STUFF
+
+export interface PluginResponse {
+  plugin: PluginMetadata;
+  scannedProjects: ScannedProjectCustom[];
+}
+
+export interface ScannedProjectCustom {
+  packageManager: string; // actually SupportedPackageManagers; in the CLI
+  depTree: DepTree;
+  targetFile?: string;
+  meta?: any;
+}
+
+export interface DepTreeDep {
   name: string;
+  version: string;
+  dependencies: {
+    [depName: string]: DepTreeDep;
+  };
+  labels?: {
+    [key: string]: string;
+  };
+}
+
+export interface DepTree extends DepTreeDep {
+  type?: string;
   packageFormatVersion: string;
   targetOS: {
     name: string;
     prettyName: string;
     version: string;
   };
-  version: string;
+
+  targetFile?: string;
+  policy?: string;
+  docker: {
+    [key: string]: any; // TODO
+  };
+  files?: any;
 }
 
-export interface PluginResponse {
-  plugin: PluginMetadata;
-  package: Package;
-  manifestFiles: ManifestFile[];
-}
+// export type SupportedPackageManagers =
+//   | 'rubygems'
+//   | 'npm'
+//   | 'yarn'
+//   | 'maven'
+//   | 'pip'
+//   | 'sbt'
+//   | 'gradle'
+//   | 'golangdep'
+//   | 'govendor'
+//   | 'gomodules'
+//   | 'nuget'
+//   | 'paket'
+//   | 'composer'
+//   | 'cocoapods';
 
-export interface PluginResponseStatic extends PluginResponse {
-  hashes: string[];
-}
+// just for reference
+// export interface PluginMetadata {
+//   name: string;
+//   runtime?: string;
+//   targetFile?: string;
+
+//   packageManager?: SupportedPackageManagers;
+
+//   // Per-plugin custom metadata
+//   meta?: {
+//     allSubProjectNames?: string[],
+//     versionBuildInfo?: VersionBuildInfo,
+//   };
+
+//   // Docker-related fields
+//   dockerImageId?: any;
+//   imageLayers?: any;
+//   packageFormatVersion?: string;
+// }

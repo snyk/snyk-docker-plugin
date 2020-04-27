@@ -46,21 +46,17 @@ test("static analysis builds the expected response", async (t) => {
 
   // Test the skopeo-copy result.
   t.ok(
-    "manifestFiles" in pluginResultWithSkopeoCopy &&
-      "package" in pluginResultWithSkopeoCopy &&
+    "scannedProjects" in pluginResultWithSkopeoCopy &&
+      Array.isArray(pluginResultWithSkopeoCopy.scannedProjects) &&
+      pluginResultWithSkopeoCopy.scannedProjects.length === 1 &&
       "plugin" in pluginResultWithSkopeoCopy,
     "Has the expected result properties",
   );
 
   t.same(
-    pluginResultWithSkopeoCopy.package.version,
+    pluginResultWithSkopeoCopy.scannedProjects[0].depTree.version,
     "doesnotexist",
     "Version matches",
-  );
-  t.deepEqual(
-    pluginResultWithSkopeoCopy.manifestFiles,
-    [],
-    "Empty manifest files",
   );
   t.same(
     pluginResultWithSkopeoCopy.plugin.dockerImageId,
@@ -78,8 +74,9 @@ test("static analysis builds the expected response", async (t) => {
     "Layers are read correctly",
   );
   t.ok(
-    pluginResultWithSkopeoCopy.package.dependencies &&
-      "adduser" in pluginResultWithSkopeoCopy.package.dependencies,
+    pluginResultWithSkopeoCopy.scannedProjects[0].depTree.dependencies &&
+      "adduser" in
+        pluginResultWithSkopeoCopy.scannedProjects[0].depTree.dependencies,
     "Contains some expected dependency",
   );
 
@@ -93,8 +90,8 @@ test("static analysis builds the expected response", async (t) => {
   );
 
   t.deepEqual(
-    pluginResultWithSkopeoCopy.package.dependencies,
-    pluginResultWithDockerSave.package.dependencies,
+    pluginResultWithSkopeoCopy.scannedProjects[0].depTree.dependencies,
+    pluginResultWithDockerSave.scannedProjects[0].depTree.dependencies,
     "The plugin scans both skopeo-copy and docker-save archives the same way",
   );
 });
@@ -149,7 +146,7 @@ test("/etc/os-release links to /usr/lib/os-release", async (t) => {
     pluginOptionsWithDockerSave,
   );
 
-  t.deepEqual(pluginResultWithDockerSave.package.targetOS, {
+  t.deepEqual(pluginResultWithDockerSave.scannedProjects[0].depTree.targetOS, {
     name: "debian",
     version: "10",
     prettyName: "Debian GNU/Linux 10 (buster)",
@@ -244,22 +241,22 @@ test("static analysis works for scratch images", async (t) => {
     "linux is the hackish package manager when nothing else is found",
   );
   t.same(
-    pluginResultWithSkopeoCopy.package.dependencies,
+    pluginResultWithSkopeoCopy.scannedProjects[0].depTree.dependencies,
     {},
     "no known packages found",
   );
   t.equals(
-    pluginResultWithSkopeoCopy.package.packageFormatVersion,
+    pluginResultWithSkopeoCopy.scannedProjects[0].depTree.packageFormatVersion,
     "linux:0.0.1",
     "the version of the linux package manager is 0.0.1",
   );
   t.deepEquals(
-    pluginResultWithSkopeoCopy.package.targetOS,
+    pluginResultWithSkopeoCopy.scannedProjects[0].depTree.targetOS,
     { name: "unknown", version: "0.0", prettyName: "" },
     "operating system for scratch image is unknown",
   );
   t.same(
-    pluginResultWithSkopeoCopy.package.version,
+    pluginResultWithSkopeoCopy.scannedProjects[0].depTree.version,
     "1.31.1",
     "Version matches",
   );
@@ -306,23 +303,24 @@ test("static analysis for distroless base-debian9", async (t) => {
     tzdata: { name: "tzdata", version: "2019c-0+deb9u1" },
   };
 
-  t.ok("package" in pluginResult, "plugin result has packages");
-
-  t.ok("dependencies" in pluginResult.package, "packages have dependencies");
+  t.ok(
+    "dependencies" in pluginResult.scannedProjects[0].depTree,
+    "packages have dependencies",
+  );
   t.deepEquals(
-    pluginResult.package.dependencies,
+    pluginResult.scannedProjects[0].depTree.dependencies,
     expectedDependencies,
     "Distroless base image dependencies are correct",
   );
 
-  t.ok("targetOS" in pluginResult.package, "OS discovered");
+  t.ok("targetOS" in pluginResult.scannedProjects[0].depTree, "OS discovered");
   t.deepEquals(
-    pluginResult.package.targetOS,
+    pluginResult.scannedProjects[0].depTree.targetOS,
     { name: "debian", version: "9", prettyName: "Distroless" },
     "recognised it's debian 9",
   );
   t.same(
-    pluginResult.package.version,
+    pluginResult.scannedProjects[0].depTree.version,
     "70b8c7f2d41a844d310c23e0695388c916a364ed",
     "Version matches",
   );
@@ -369,23 +367,24 @@ test("static analysis for distroless base-debian10", async (t) => {
     tzdata: { name: "tzdata", version: "2019c-0+deb10u1" },
   };
 
-  t.ok("package" in pluginResult, "plugin result has packages");
-
-  t.ok("dependencies" in pluginResult.package, "packages have dependencies");
+  t.ok(
+    "dependencies" in pluginResult.scannedProjects[0].depTree,
+    "packages have dependencies",
+  );
   t.deepEquals(
-    pluginResult.package.dependencies,
+    pluginResult.scannedProjects[0].depTree.dependencies,
     expectedDependencies,
     "Distroless base image dependencies are correct",
   );
 
-  t.ok("targetOS" in pluginResult.package, "OS discovered");
+  t.ok("targetOS" in pluginResult.scannedProjects[0].depTree, "OS discovered");
   t.deepEquals(
-    pluginResult.package.targetOS,
+    pluginResult.scannedProjects[0].depTree.targetOS,
     { name: "debian", version: "10", prettyName: "Distroless" },
     "recognised it's debian 10",
   );
   t.same(
-    pluginResult.package.version,
+    pluginResult.scannedProjects[0].depTree.version,
     "70b8c7f2d41a844d310c23e0695388c916a364ed",
     "Version matches",
   );
@@ -437,8 +436,10 @@ test("experimental static analysis for debian images", async (t) => {
   );
 
   t.equals(
-    JSON.stringify(pluginResultExperimental.package.dependencies),
-    JSON.stringify(pluginResultStatic.package.dependencies),
+    JSON.stringify(
+      pluginResultExperimental.scannedProjects[0].depTree.dependencies,
+    ),
+    JSON.stringify(pluginResultStatic.scannedProjects[0].depTree.dependencies),
     "identical dependencies for regular Debian images between experimental and static scans",
   );
 
@@ -447,7 +448,11 @@ test("experimental static analysis for debian images", async (t) => {
     1,
     "static experimental flag does not save the image",
   );
-  t.same(pluginResultStatic.package.version, "10", "Version matches");
+  t.same(
+    pluginResultStatic.scannedProjects[0].depTree.version,
+    "10",
+    "Version matches",
+  );
 });
 
 test("static and dynamic scanning results are aligned", async (t) => {
@@ -478,8 +483,8 @@ test("static and dynamic scanning results are aligned", async (t) => {
   );
 
   t.equals(
-    JSON.stringify(pluginResultDynamic.package.dependencies),
-    JSON.stringify(pluginResultStatic.package.dependencies),
+    JSON.stringify(pluginResultDynamic.scannedProjects[0].depTree.dependencies),
+    JSON.stringify(pluginResultStatic.scannedProjects[0].depTree.dependencies),
     "identical dependencies for regular Debian images between dynamic and static scans",
   );
 
