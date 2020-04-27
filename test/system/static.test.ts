@@ -52,6 +52,11 @@ test("static analysis builds the expected response", async (t) => {
     "Has the expected result properties",
   );
 
+  t.same(
+    pluginResultWithSkopeoCopy.package.version,
+    "doesnotexist",
+    "Version matches",
+  );
   t.deepEqual(
     pluginResultWithSkopeoCopy.manifestFiles,
     [],
@@ -253,6 +258,11 @@ test("static analysis works for scratch images", async (t) => {
     { name: "unknown", version: "0.0", prettyName: "" },
     "operating system for scratch image is unknown",
   );
+  t.same(
+    pluginResultWithSkopeoCopy.package.version,
+    "1.31.1",
+    "Version matches",
+  );
 });
 
 test("static analysis for distroless base-debian9", async (t) => {
@@ -310,6 +320,11 @@ test("static analysis for distroless base-debian9", async (t) => {
     pluginResult.package.targetOS,
     { name: "debian", version: "9", prettyName: "Distroless" },
     "recognised it's debian 9",
+  );
+  t.same(
+    pluginResult.package.version,
+    "70b8c7f2d41a844d310c23e0695388c916a364ed",
+    "Version matches",
   );
 });
 
@@ -369,6 +384,11 @@ test("static analysis for distroless base-debian10", async (t) => {
     { name: "debian", version: "10", prettyName: "Distroless" },
     "recognised it's debian 10",
   );
+  t.same(
+    pluginResult.package.version,
+    "70b8c7f2d41a844d310c23e0695388c916a364ed",
+    "Version matches",
+  );
 });
 
 test("experimental static analysis for debian images", async (t) => {
@@ -427,6 +447,7 @@ test("experimental static analysis for debian images", async (t) => {
     1,
     "static experimental flag does not save the image",
   );
+  t.same(pluginResultStatic.package.version, "10", "Version matches");
 });
 
 test("static and dynamic scanning results are aligned", async (t) => {

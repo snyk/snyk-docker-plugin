@@ -25,6 +25,10 @@ export function buildTree(
     imageVersion = targetImage.slice(versionSeparator + 1);
   }
 
+  if (imageName.endsWith(".tar")) {
+    imageVersion = "";
+  }
+
   const shaString = "@sha256";
 
   if (imageName.endsWith(shaString)) {

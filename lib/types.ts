@@ -5,7 +5,8 @@ export interface StaticAnalysisOptions {
 }
 
 export enum ImageType {
-  DockerArchive = "docker-archive",
+  Identifier, // e.g. "nginx:latest"
+  DockerArchive = "docker-archive", // e.g. "docker-archive:/tmp/nginx.tar"
 }
 
 export enum OsReleaseFilePath {
