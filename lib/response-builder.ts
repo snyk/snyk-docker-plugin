@@ -27,8 +27,12 @@ function buildResponse(
 
   return {
     plugin,
-    package: pkg,
-    manifestFiles,
+    scannedProjects: [
+      {
+        packageManager: plugin.packageManager,
+        depTree: pkg,
+      },
+    ],
   };
 }
 

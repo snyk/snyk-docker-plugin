@@ -53,19 +53,18 @@ test("inspect an image with an unsupported pkg manager", async (t) => {
 
   await dockerPull(t, img);
   const pluginResult = await plugin.inspect(img);
-  t.same(pluginResult.manifestFiles, [], "no manifest files should found");
   t.same(
-    pluginResult.package.dependencies,
+    pluginResult.scannedProjects[0].depTree.dependencies,
     {},
     "no dependencies should be found",
   );
   t.same(
-    pluginResult.package.targetOS,
+    pluginResult.scannedProjects[0].depTree.targetOS,
     { name: "arch", version: "unstable", prettyName: "Arch Linux" },
     "target operating system found",
   );
   t.same(
-    pluginResult.package.packageFormatVersion,
+    pluginResult.scannedProjects[0].depTree.packageFormatVersion,
     "linux:0.0.1",
     "package manager linux",
   );
@@ -79,19 +78,18 @@ test("inspect a scratch image", async (t) => {
 
   await dockerPull(t, img);
   const pluginResult = await plugin.inspect(img);
-  t.same(pluginResult.manifestFiles, [], "no manifest files should found");
   t.same(
-    pluginResult.package.dependencies,
+    pluginResult.scannedProjects[0].depTree.dependencies,
     {},
     "no dependencies should be found",
   );
   t.same(
-    pluginResult.package.targetOS,
+    pluginResult.scannedProjects[0].depTree.targetOS,
     { name: "unknown", version: "0.0", prettyName: "" },
     "target operating system found",
   );
   t.same(
-    pluginResult.package.packageFormatVersion,
+    pluginResult.scannedProjects[0].depTree.packageFormatVersion,
     "linux:0.0.1",
     "package manager linux",
   );
@@ -115,8 +113,8 @@ test("inspect node:6.14.2 - provider and regular pkg as same dependency", (t) =>
     })
     .then((res) => {
       const plugin = res.plugin;
-      const pkg = res.package;
-      const uniquePkgs = uniquePkgSpecs(pkg);
+      const pkg = res.scannedProjects[0];
+      const uniquePkgs = uniquePkgSpecs(pkg.depTree);
 
       t.equal(plugin.name, "snyk-docker-plugin", "name");
       t.equal(
@@ -127,7 +125,7 @@ test("inspect node:6.14.2 - provider and regular pkg as same dependency", (t) =>
       t.equal(plugin.packageManager, "deb", "returns deb package manager");
 
       t.match(
-        pkg,
+        pkg.depTree,
         {
           name: "docker-image|" + imgName,
           version: imgTag,
@@ -146,7 +144,7 @@ test("inspect node:6.14.2 - provider and regular pkg as same dependency", (t) =>
 
       t.equal(uniquePkgs.length, 383, "expected number of total unique deps");
 
-      const deps = pkg.dependencies;
+      const deps = pkg.depTree.dependencies;
       // Note: this test is now a bit fragile due to dep-tree-pruning
       t.equal(Object.keys(deps).length, 105, "expected number of direct deps");
       t.match(
@@ -220,7 +218,7 @@ test("inspect nginx:1.13.10", (t) => {
     })
     .then((res) => {
       const plugin = res.plugin;
-      const pkg = res.package;
+      const pkg = res.scannedProjects[0];
 
       t.equal(plugin.name, "snyk-docker-plugin", "name");
       t.equal(
@@ -231,7 +229,7 @@ test("inspect nginx:1.13.10", (t) => {
       t.equal(plugin.packageManager, "deb", "returns deb package manager");
 
       t.match(
-        pkg,
+        pkg.depTree,
         {
           name: "docker-image|" + imgName,
           version: imgTag,
@@ -249,12 +247,12 @@ test("inspect nginx:1.13.10", (t) => {
       );
 
       t.equal(
-        uniquePkgSpecs(pkg).length,
+        uniquePkgSpecs(pkg.depTree).length,
         110,
         "expected number of total unique deps",
       );
 
-      const deps = pkg.dependencies;
+      const deps = pkg.depTree.dependencies;
       // Note: this test is now a bit fragile due to dep-tree-pruning
       t.equal(Object.keys(deps).length, 48, "expected number of direct deps");
       t.match(
@@ -316,15 +314,15 @@ test("inspect nginx:1.13.10", (t) => {
       );
 
       t.equal(
-        Object.keys(pkg.docker.dockerfileLayers).length,
+        Object.keys(pkg.depTree.docker.dockerfileLayers).length,
         1,
         "expected number of dockerfile layers",
       );
 
-      const digest = Object.keys(pkg.docker.dockerfileLayers)[0];
+      const digest = Object.keys(pkg.depTree.docker.dockerfileLayers)[0];
       const instruction = Buffer.from(digest, "base64").toString();
       t.match(
-        pkg.docker.dockerfileLayers,
+        pkg.depTree.docker.dockerfileLayers,
         {
           [digest]: { instruction },
         },
@@ -376,8 +374,7 @@ test("inspect redis:3.2.11-alpine", (t) => {
     })
     .then((res) => {
       const plugin = res.plugin;
-      const pkg = res.package;
-      const manifest = res.manifestFiles;
+      const pkg = res.scannedProjects[0].depTree;
 
       t.equal(plugin.name, "snyk-docker-plugin", "name");
       t.equal(
@@ -426,7 +423,6 @@ test("inspect redis:3.2.11-alpine", (t) => {
         },
         "deps",
       );
-      t.match(manifest, [], "manifest files");
     });
 });
 
@@ -446,7 +442,7 @@ test(
     const res = await plugin.inspect(hostAndImg, dockerFileLocation);
 
     t.match(
-      res.package,
+      res.scannedProjects[0].depTree,
       {
         name: "docker-image|" + hostAndImgName,
         version: imgTag,
@@ -477,7 +473,7 @@ test("inspect image with sha@256 " + "ubuntu@sha256", async (t) => {
   const res = await plugin.inspect(img);
 
   t.match(
-    res.package,
+    res.scannedProjects[0].depTree,
     {
       name: "docker-image|" + imgName,
       version: imgTag,
@@ -509,7 +505,7 @@ test(
     const res = await plugin.inspect(hostAndImg, dockerFileLocation);
 
     t.match(
-      res.package,
+      res.scannedProjects[0].depTree,
       {
         name: "docker-image|" + hostAndImgName,
         version: imgTag,
@@ -538,8 +534,7 @@ test("inspect centos", (t) => {
     })
     .then((res) => {
       const plugin = res.plugin;
-      const pkg = res.package;
-      const manifest = res.manifestFiles;
+      const pkg = res.scannedProjects[0];
 
       t.equal(plugin.name, "snyk-docker-plugin", "name");
       t.equal(
@@ -550,7 +545,7 @@ test("inspect centos", (t) => {
       t.equal(plugin.packageManager, "rpm", "returns rpm package manager");
 
       t.match(
-        pkg,
+        pkg.depTree,
         {
           name: "docker-image|" + imgName,
           version: imgTag,
@@ -567,7 +562,7 @@ test("inspect centos", (t) => {
         "root pkg",
       );
 
-      const deps = pkg.dependencies;
+      const deps = pkg.depTree.dependencies;
 
       t.equal(Object.keys(deps).length, 145, "expected number of deps");
       t.match(
@@ -594,18 +589,6 @@ test("inspect centos", (t) => {
           },
         },
         "deps",
-      );
-
-      t.match(
-        manifest,
-        [
-          {
-            name: "redhat-release",
-            path: "/etc",
-            contents: "Q2VudE9TIExpbnV4IHJlbGVhc2UgNy40LjE3MDggKENvcmUpIAo=",
-          },
-        ],
-        "manifest files",
       );
     });
 });
