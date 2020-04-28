@@ -10,7 +10,7 @@ import { test } from "tap";
 import * as plugin from "../../lib";
 import { Docker } from "../../lib/docker";
 import * as subProcess from "../../lib/sub-process";
-import { ImageType, PluginResponseStatic } from "../../lib/types";
+import { DepTree, ImageType, PluginResponseStatic } from "../../lib/types";
 
 const getFixture = (fixturePath) =>
   path.join(__dirname, "../fixtures/docker-archives", fixturePath);
@@ -146,7 +146,9 @@ test("/etc/os-release links to /usr/lib/os-release", async (t) => {
     pluginOptionsWithDockerSave,
   );
 
-  t.deepEqual(pluginResultWithDockerSave.scannedProjects[0].depTree.targetOS, {
+  const depTree = pluginResultWithDockerSave.scannedProjects[0]
+    .depTree as DepTree;
+  t.deepEqual(depTree.targetOS, {
     name: "debian",
     version: "10",
     prettyName: "Debian GNU/Linux 10 (buster)",
@@ -230,6 +232,8 @@ test("static analysis works for scratch images", async (t) => {
     pluginOptionsWithSkopeoCopy,
   )) as PluginResponseStatic;
 
+  const depTree = pluginResultWithSkopeoCopy.scannedProjects[0]
+    .depTree as DepTree;
   t.equals(
     pluginResultWithSkopeoCopy.plugin.dockerImageId,
     "6d5fcfe5ff170471fcc3c8b47631d6d71202a1fd44cf3c147e50c8de21cf0648",
@@ -240,26 +244,18 @@ test("static analysis works for scratch images", async (t) => {
     "linux",
     "linux is the hackish package manager when nothing else is found",
   );
-  t.same(
-    pluginResultWithSkopeoCopy.scannedProjects[0].depTree.dependencies,
-    {},
-    "no known packages found",
-  );
+  t.same(depTree.dependencies, {}, "no known packages found");
   t.equals(
-    pluginResultWithSkopeoCopy.scannedProjects[0].depTree.packageFormatVersion,
+    depTree.packageFormatVersion,
     "linux:0.0.1",
     "the version of the linux package manager is 0.0.1",
   );
   t.deepEquals(
-    pluginResultWithSkopeoCopy.scannedProjects[0].depTree.targetOS,
+    depTree.targetOS,
     { name: "unknown", version: "0.0", prettyName: "" },
     "operating system for scratch image is unknown",
   );
-  t.same(
-    pluginResultWithSkopeoCopy.scannedProjects[0].depTree.version,
-    "1.31.1",
-    "Version matches",
-  );
+  t.same(depTree.version, "1.31.1", "Version matches");
 });
 
 test("static analysis for distroless base-debian9", async (t) => {
@@ -303,24 +299,22 @@ test("static analysis for distroless base-debian9", async (t) => {
     tzdata: { name: "tzdata", version: "2019c-0+deb9u1" },
   };
 
-  t.ok(
-    "dependencies" in pluginResult.scannedProjects[0].depTree,
-    "packages have dependencies",
-  );
+  const depTree = pluginResult.scannedProjects[0].depTree as DepTree;
+  t.ok("dependencies" in depTree, "packages have dependencies");
   t.deepEquals(
-    pluginResult.scannedProjects[0].depTree.dependencies,
+    depTree.dependencies,
     expectedDependencies,
     "Distroless base image dependencies are correct",
   );
 
-  t.ok("targetOS" in pluginResult.scannedProjects[0].depTree, "OS discovered");
+  t.ok("targetOS" in depTree, "OS discovered");
   t.deepEquals(
-    pluginResult.scannedProjects[0].depTree.targetOS,
+    depTree.targetOS,
     { name: "debian", version: "9", prettyName: "Distroless" },
     "recognised it's debian 9",
   );
   t.same(
-    pluginResult.scannedProjects[0].depTree.version,
+    depTree.version,
     "70b8c7f2d41a844d310c23e0695388c916a364ed",
     "Version matches",
   );
@@ -367,24 +361,22 @@ test("static analysis for distroless base-debian10", async (t) => {
     tzdata: { name: "tzdata", version: "2019c-0+deb10u1" },
   };
 
-  t.ok(
-    "dependencies" in pluginResult.scannedProjects[0].depTree,
-    "packages have dependencies",
-  );
+  const depTree = pluginResult.scannedProjects[0].depTree as DepTree;
+  t.ok("dependencies" in depTree, "packages have dependencies");
   t.deepEquals(
-    pluginResult.scannedProjects[0].depTree.dependencies,
+    depTree.dependencies,
     expectedDependencies,
     "Distroless base image dependencies are correct",
   );
 
   t.ok("targetOS" in pluginResult.scannedProjects[0].depTree, "OS discovered");
   t.deepEquals(
-    pluginResult.scannedProjects[0].depTree.targetOS,
+    depTree.targetOS,
     { name: "debian", version: "10", prettyName: "Distroless" },
     "recognised it's debian 10",
   );
   t.same(
-    pluginResult.scannedProjects[0].depTree.version,
+    depTree.version,
     "70b8c7f2d41a844d310c23e0695388c916a364ed",
     "Version matches",
   );

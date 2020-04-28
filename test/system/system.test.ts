@@ -7,6 +7,7 @@ import { test } from "tap";
 
 import * as plugin from "../../lib";
 import * as subProcess from "../../lib/sub-process";
+import { DepTree } from "../../lib/types";
 
 const getDockerfileFixturePath = (folder) =>
   path.join(__dirname, "../fixtures/dockerfiles/library", folder, "Dockerfile");
@@ -53,21 +54,14 @@ test("inspect an image with an unsupported pkg manager", async (t) => {
 
   await dockerPull(t, img);
   const pluginResult = await plugin.inspect(img);
+  const depTree = pluginResult.scannedProjects[0].depTree as DepTree;
+  t.same(depTree.dependencies, {}, "no dependencies should be found");
   t.same(
-    pluginResult.scannedProjects[0].depTree.dependencies,
-    {},
-    "no dependencies should be found",
-  );
-  t.same(
-    pluginResult.scannedProjects[0].depTree.targetOS,
+    depTree.targetOS,
     { name: "arch", version: "unstable", prettyName: "Arch Linux" },
     "target operating system found",
   );
-  t.same(
-    pluginResult.scannedProjects[0].depTree.packageFormatVersion,
-    "linux:0.0.1",
-    "package manager linux",
-  );
+  t.same(depTree.packageFormatVersion, "linux:0.0.1", "package manager linux");
   t.same(pluginResult.plugin.packageManager, "linux", "package manager linux");
 });
 
@@ -78,21 +72,14 @@ test("inspect a scratch image", async (t) => {
 
   await dockerPull(t, img);
   const pluginResult = await plugin.inspect(img);
+  const depTree = pluginResult.scannedProjects[0].depTree as DepTree;
+  t.same(depTree.dependencies, {}, "no dependencies should be found");
   t.same(
-    pluginResult.scannedProjects[0].depTree.dependencies,
-    {},
-    "no dependencies should be found",
-  );
-  t.same(
-    pluginResult.scannedProjects[0].depTree.targetOS,
+    depTree.targetOS,
     { name: "unknown", version: "0.0", prettyName: "" },
     "target operating system found",
   );
-  t.same(
-    pluginResult.scannedProjects[0].depTree.packageFormatVersion,
-    "linux:0.0.1",
-    "package manager linux",
-  );
+  t.same(depTree.packageFormatVersion, "linux:0.0.1", "package manager linux");
   t.same(pluginResult.plugin.packageManager, "linux", "package manager linux");
 });
 
@@ -177,7 +164,7 @@ test("inspect node:6.14.2 - provider and regular pkg as same dependency", (t) =>
         "regular deps seem ok",
       );
 
-      const commonDeps = deps["meta-common-packages"].dependencies;
+      const commonDeps = deps["meta-common-packages"].dependencies!;
       t.equal(
         Object.keys(commonDeps).length,
         73,
@@ -309,27 +296,28 @@ test("inspect nginx:1.13.10", (t) => {
       );
 
       t.false(
-        deps["nginx-module-xslt"].dependencies.nginx.dependencies,
+        deps["nginx-module-xslt"].dependencies!.nginx.dependencies,
         "nginx-module-xslt -> ngxinx has do deps",
       );
 
+      const depTree = pkg.depTree as DepTree;
       t.equal(
-        Object.keys(pkg.depTree.docker.dockerfileLayers).length,
+        Object.keys(depTree.docker.dockerfileLayers).length,
         1,
         "expected number of dockerfile layers",
       );
 
-      const digest = Object.keys(pkg.depTree.docker.dockerfileLayers)[0];
+      const digest = Object.keys(depTree.docker.dockerfileLayers)[0];
       const instruction = Buffer.from(digest, "base64").toString();
       t.match(
-        pkg.depTree.docker.dockerfileLayers,
+        depTree.docker.dockerfileLayers,
         {
           [digest]: { instruction },
         },
         "dockerfile instruction digest points to the correct instruction",
       );
 
-      const commonDeps = deps["meta-common-packages"].dependencies;
+      const commonDeps = deps["meta-common-packages"].dependencies!;
       t.equal(
         Object.keys(commonDeps).length,
         19,
