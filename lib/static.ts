@@ -47,6 +47,8 @@ export async function analyzeStatically(
       imageId: parsedAnalysisResult.imageId,
       binaries: parsedAnalysisResult.binaries,
       imageLayers: parsedAnalysisResult.imageLayers,
+      applicationDependenciesScanResults:
+        staticAnalysis.applicationDependenciesScanResults,
     };
 
     // hacking our way through types for backwards compatibility

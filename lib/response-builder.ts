@@ -25,6 +25,9 @@ function buildResponse(
     finalDeps,
   );
 
+  const applicationDependenciesScanResults: types.ScannedProjectCustom[] =
+    depsAnalysis.applicationDependenciesScanResults || [];
+
   return {
     plugin,
     scannedProjects: [
@@ -32,6 +35,7 @@ function buildResponse(
         packageManager: plugin.packageManager,
         depTree: pkg,
       },
+      ...applicationDependenciesScanResults,
     ],
   };
 }
