@@ -29,7 +29,7 @@ async function readDockerfileAndAnalyse(
 
 async function analyseDockerfile(
   contents: string,
-): Promise<DockerFileAnalysis | undefined> {
+): Promise<DockerFileAnalysis> {
   const dockerfile = DockerfileParser.parse(contents);
   const baseImage = getDockerfileBaseImageName(dockerfile);
   const dockerfilePackages = getPackagesFromRunInstructions(dockerfile);
