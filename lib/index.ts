@@ -18,30 +18,34 @@ export { inspect, dockerFile };
 const MAX_MANIFEST_FILES = 5;
 const debug = Debug("snyk");
 
-function inspect(
+async function inspect(
   root: string,
   targetFile?: string,
   options?: any,
 ): Promise<PluginResponse> {
   const targetImage = root;
 
+  const dockerfileAnalysis = await dockerFile.readDockerfileAndAnalyse(
+    targetFile,
+  );
+
   if (options && options.experimental) {
-    return experimentalAnalysis(targetImage, options);
+    return await experimentalAnalysis(targetImage, dockerfileAnalysis, options);
   }
 
   if (staticUtil.isRequestingStaticAnalysis(options)) {
-    return staticUtil.analyzeStatically(targetImage, options);
+    return await staticUtil.analyzeStatically(
+      targetImage,
+      dockerfileAnalysis,
+      options,
+    );
   }
 
-  return dockerFile
-    .readDockerfileAndAnalyse(targetFile)
-    .then((dockerfileAnalysis) => {
-      return analyzeDynamically(
-        targetImage,
-        dockerfileAnalysis,
-        getDynamicAnalysisOptions(options),
-      );
-    });
+  return await analyzeDynamically(
+    targetImage,
+    dockerfileAnalysis,
+    getDynamicAnalysisOptions(options),
+  );
 }
 
 async function analyzeDynamically(

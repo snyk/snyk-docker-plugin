@@ -1,4 +1,5 @@
 import * as Debug from "debug";
+import { DockerFileAnalysis } from "../docker-file";
 import { getDockerArchiveLayersAndManifest } from "../extractor";
 import { DockerArchiveManifest } from "../extractor/types";
 import {
@@ -38,6 +39,7 @@ const debug = Debug("snyk");
 
 export async function analyze(
   targetImage: string,
+  dockerfileAnalysis: DockerFileAnalysis | undefined,
   options: StaticAnalysisOptions,
 ): Promise<StaticAnalysis> {
   if (options.imageType !== ImageType.DockerArchive) {
@@ -82,7 +84,10 @@ export async function analyze(
 
   let osRelease: OSRelease;
   try {
-    osRelease = await osReleaseDetector.detectStatically(archiveLayers);
+    osRelease = await osReleaseDetector.detectStatically(
+      archiveLayers,
+      dockerfileAnalysis,
+    );
   } catch (err) {
     debug(err);
     throw new Error("Failed to detect OS release");

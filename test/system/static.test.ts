@@ -495,3 +495,48 @@ test("static and dynamic scanning results are aligned", async (t) => {
   );
   // TODO: imageLayers is completely different
 });
+
+test("static scanning NGINX with dockerfile analysis matches expected values", async (t) => {
+  const thisIsJustAnImageIdentifierInStaticAnalysis = "nginx:latest";
+  const dockerfilePath = path.join(
+    __dirname,
+    "../fixtures/dockerfiles/library/nginx/Dockerfile",
+  );
+  const pluginOptionsWithDockerSave = {
+    staticAnalysisOptions: {
+      imagePath: getFixture("docker-save/nginx.tar"),
+      imageType: ImageType.DockerArchive,
+    },
+  };
+
+  const pluginResultStatic = await plugin.inspect(
+    thisIsJustAnImageIdentifierInStaticAnalysis,
+    dockerfilePath,
+    pluginOptionsWithDockerSave,
+  );
+
+  const results = pluginResultStatic.scannedProjects[0].depTree.docker;
+
+  t.equals(
+    results.baseImage,
+    "debian:stretch-slim",
+    "base image matches expected",
+  );
+
+  t.ok(
+    "apt-transport-https" in results.dockerfilePackages,
+    "found apt-transport-https in dockerfile packages",
+  );
+  t.ok(
+    "ca-certificates" in results.dockerfilePackages,
+    "found ca-certificates in dockerfile packages",
+  );
+  t.ok(
+    "gettext-base" in results.dockerfilePackages,
+    "found gettext-base in dockerfile packages",
+  );
+  t.ok(
+    "gnupg1" in results.dockerfilePackages,
+    "found gnupg1 in dockerfile packages",
+  );
+});

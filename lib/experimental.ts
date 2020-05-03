@@ -4,29 +4,34 @@ import * as path from "path";
 
 import { pullIfNotLocal } from "./analyzer/image-inspector";
 import { Docker } from "./docker";
+import { DockerFileAnalysis } from "./docker-file";
 import { getDockerArchivePath, getImageType } from "./image-type";
 import * as staticModule from "./static";
 import { ImageType, PluginResponse } from "./types";
 
 export async function experimentalAnalysis(
   targetImage: string,
+  dockerfileAnalysis: DockerFileAnalysis | undefined,
   options: any,
 ): Promise<PluginResponse> {
   // assume Distroless scanning
   const imageType = getImageType(targetImage);
   switch (imageType) {
     case ImageType.DockerArchive:
-      return dockerArchive(targetImage);
+      return dockerArchive(targetImage, dockerfileAnalysis);
 
     case ImageType.Identifier:
-      return distroless(targetImage, options);
+      return distroless(targetImage, dockerfileAnalysis, options);
 
     default:
       throw new Error("Unhandled image type for image " + targetImage);
   }
 }
 
-async function dockerArchive(targetImage: string): Promise<PluginResponse> {
+async function dockerArchive(
+  targetImage: string,
+  dockerfileAnalysis: DockerFileAnalysis | undefined,
+): Promise<PluginResponse> {
   const archivePath = getDockerArchivePath(targetImage);
   if (!fs.existsSync(archivePath)) {
     throw new Error(
@@ -38,17 +43,26 @@ async function dockerArchive(targetImage: string): Promise<PluginResponse> {
   }
   // The target image becomes the base of the path, e.g. "archive.tar" for "/var/tmp/archive.tar"
   const imageIdentifier = path.basename(archivePath);
-  return await getStaticAnalysisResult(imageIdentifier, archivePath);
+  return await getStaticAnalysisResult(
+    imageIdentifier,
+    archivePath,
+    dockerfileAnalysis,
+  );
 }
 
 // experimental flow expected to be merged with the static analysis when ready
 export async function distroless(
   targetImage: string,
+  dockerfileAnalysis: DockerFileAnalysis | undefined,
   options: any,
 ): Promise<PluginResponse> {
   if (staticModule.isRequestingStaticAnalysis(options)) {
     options.staticAnalysisOptions.distroless = true;
-    return staticModule.analyzeStatically(targetImage, options);
+    return staticModule.analyzeStatically(
+      targetImage,
+      dockerfileAnalysis,
+      options,
+    );
   }
 
   await pullIfNotLocal(targetImage);
@@ -64,7 +78,11 @@ export async function distroless(
   const docker = new Docker(targetImage);
   await docker.save(targetImage, archiveFullPath);
   try {
-    return await getStaticAnalysisResult(targetImage, archiveFullPath);
+    return await getStaticAnalysisResult(
+      targetImage,
+      archiveFullPath,
+      dockerfileAnalysis,
+    );
   } finally {
     fs.unlinkSync(archiveFullPath);
   }
@@ -73,6 +91,7 @@ export async function distroless(
 async function getStaticAnalysisResult(
   targetImage: string,
   archivePath: string,
+  dockerfileAnalysis: DockerFileAnalysis | undefined,
 ): Promise<PluginResponse> {
   const scanningOptions = {
     staticAnalysisOptions: {
@@ -82,7 +101,11 @@ async function getStaticAnalysisResult(
     },
   };
 
-  return await staticModule.analyzeStatically(targetImage, scanningOptions);
+  return await staticModule.analyzeStatically(
+    targetImage,
+    dockerfileAnalysis,
+    scanningOptions,
+  );
 }
 
 function createTempDirIfMissing(archiveDir: string): void {

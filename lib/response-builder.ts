@@ -1,6 +1,7 @@
 // Module that provides functions to collect and build response after all
 // analyses' are done.
 
+import { DockerFileAnalysis } from "./docker-file";
 import { DockerFilePackages, instructionDigest } from "./instruction-parser";
 import * as types from "./types";
 
@@ -9,7 +10,7 @@ export { buildResponse };
 function buildResponse(
   runtime: string | undefined,
   depsAnalysis,
-  dockerfileAnalysis,
+  dockerfileAnalysis: DockerFileAnalysis | undefined,
   manifestFiles: types.ManifestFile[],
   options,
 ): types.PluginResponse {
