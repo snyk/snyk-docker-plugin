@@ -26,6 +26,7 @@
     "dockerfile-ast": "0.0.19",
     "event-loop-spinner": "^1.1.0",
     "semver": "^6.1.0",
+    "snyk-nodejs-lockfile-parser": "1.22.0",
     "tar-stream": "^2.1.0",
     "tslib": "^1"
   },

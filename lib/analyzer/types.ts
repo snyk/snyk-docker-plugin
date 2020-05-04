@@ -1,3 +1,5 @@
+import { ScannedProjectCustom } from "../types";
+
 export interface AnalyzedPackage {
   Name: string;
   Version?: string;
@@ -61,4 +63,5 @@ export interface StaticAnalysis {
   results: ImageAnalysis[];
   binaries: string[];
   imageLayers: string[];
+  applicationDependenciesScanResults: ScannedProjectCustom[];
 }

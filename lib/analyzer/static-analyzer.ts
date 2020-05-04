@@ -19,12 +19,21 @@ import {
   getAptFiles,
   getDpkgPackageFileContentAction,
 } from "../inputs/distroless/static";
+import {
+  getNodeAppFileContent,
+  getNodeAppFileContentAction,
+} from "../inputs/node/static";
 import { getOsReleaseActions } from "../inputs/os-release/static";
 import {
   getRpmDbFileContent,
   getRpmDbFileContentAction,
 } from "../inputs/rpm/static";
-import { ImageType, StaticAnalysisOptions } from "../types";
+import {
+  ImageType,
+  ScannedProjectCustom,
+  StaticAnalysisOptions,
+} from "../types";
+import { nodeFilesToScannedProjects } from "./applications";
 import * as osReleaseDetector from "./os-release";
 import { analyze as apkAnalyze } from "./package-managers/apk";
 import {
@@ -52,6 +61,7 @@ export async function analyze(
     ...getOsReleaseActions,
     getNodeBinariesFileContentAction,
     getOpenJDKBinariesFileContentAction,
+    getNodeAppFileContentAction,
   ];
 
   if (options.distroless) {
@@ -105,12 +115,19 @@ export async function analyze(
 
   const binaries = getBinariesHashes(archiveLayers);
 
+  const applicationDependenciesScanResults: ScannedProjectCustom[] = [];
+  const nodeDependenciesScanResults = await nodeFilesToScannedProjects(
+    getNodeAppFileContent(archiveLayers),
+  );
+  applicationDependenciesScanResults.push(...nodeDependenciesScanResults);
+
   return {
     imageId,
     osRelease,
     results,
     binaries,
     imageLayers: dockerArchive.manifest.Layers,
+    applicationDependenciesScanResults,
   };
 }
 

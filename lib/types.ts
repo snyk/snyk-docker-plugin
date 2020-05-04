@@ -1,3 +1,5 @@
+import { PkgTree } from "snyk-nodejs-lockfile-parser";
+
 export interface StaticAnalysisOptions {
   imagePath: string;
   imageType: ImageType;
@@ -46,7 +48,13 @@ export interface PluginResponse {
 
 export interface ScannedProjectCustom {
   packageManager: string; // actually SupportedPackageManagers; in the CLI
-  depTree: DepTree;
+  /**
+   * Using "| PkgTree" here to be truthful to the type system.
+   * For application dependencies scans we use a parser which has more optional fields than the DepTree.
+   * We have different required and optional fields for OS scans and application dependencies scans, so
+   * a future change should be mindful but find a way to unify them if possible.
+   */
+  depTree: DepTree | PkgTree;
   targetFile?: string;
   meta?: any;
 }
