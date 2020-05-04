@@ -53,7 +53,12 @@ function pluginMetadataRes(
   };
 }
 
-function packageRes(depsAnalysis, dockerfileAnalysis, dockerfilePkgs, deps) {
+function packageRes(
+  depsAnalysis,
+  dockerfileAnalysis,
+  dockerfilePkgs,
+  deps,
+): types.DepTree {
   return {
     ...depsAnalysis.package,
     dependencies: deps,
