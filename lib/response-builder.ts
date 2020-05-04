@@ -28,16 +28,39 @@ function buildResponse(
   const applicationDependenciesScanResults: types.ScannedProjectCustom[] =
     depsAnalysis.applicationDependenciesScanResults || [];
 
+  const scannedProjects = [
+    {
+      packageManager: plugin.packageManager,
+      depTree: pkg,
+    },
+    ...applicationDependenciesScanResults,
+  ];
+
+  const scannedProjectsWithImageName = assignImageNameToScannedProjectMeta(
+    pkg.name,
+    scannedProjects,
+  );
+
   return {
     plugin,
-    scannedProjects: [
-      {
-        packageManager: plugin.packageManager,
-        depTree: pkg,
-      },
-      ...applicationDependenciesScanResults,
-    ],
+    scannedProjects: scannedProjectsWithImageName,
   };
+}
+
+/**
+ * By sharing the same fields in the meta object, projects can be treated as related.
+ */
+function assignImageNameToScannedProjectMeta(
+  imageName: string,
+  scannedProjects: types.ScannedProjectCustom[],
+): types.ScannedProjectCustom[] {
+  return scannedProjects.map((project) => {
+    if (project.meta === undefined) {
+      project.meta = {};
+    }
+    project.meta.imageName = imageName;
+    return project;
+  });
 }
 
 function pluginMetadataRes(

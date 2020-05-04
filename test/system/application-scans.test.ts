@@ -69,4 +69,16 @@ test("scanning a container image with 2 applications", async (t) => {
       "returned dependency tree is the same",
     );
   });
+
+  t.ok(pluginResult.scannedProjects[0].meta, "os scan meta is not falsy");
+  t.same(
+    pluginResult.scannedProjects[0].meta,
+    pluginResult.scannedProjects[1].meta,
+    "os scan meta and app meta are identical",
+  );
+  t.same(
+    pluginResult.scannedProjects[1].meta,
+    pluginResult.scannedProjects[2].meta,
+    "both applications meta is identical",
+  );
 });
