@@ -1,5 +1,6 @@
 import * as analyzer from "./analyzer";
 import { buildTree } from "./dependency-tree";
+import { DockerFileAnalysis } from "./docker-file";
 import { tryGetAnalysisError } from "./errors";
 import { parseAnalysisResults } from "./parser";
 import { buildResponse } from "./response-builder";
@@ -11,6 +12,7 @@ import {
 
 export async function analyzeStatically(
   targetImage: string,
+  dockerfileAnalysis: DockerFileAnalysis | undefined,
   options: any,
 ): Promise<PluginResponse> {
   const staticAnalysisOptions = getStaticAnalysisOptions(options);
@@ -20,12 +22,12 @@ export async function analyzeStatically(
   const runtime = undefined;
   // Both the analysis and the manifest files are relevant if inspecting a Dockerfile.
   // This is not the case for static scanning.
-  const dockerfileAnalysis = undefined;
   const manifestFiles = [];
 
   try {
     const staticAnalysis = await analyzer.analyzeStatically(
       targetImage,
+      dockerfileAnalysis,
       staticAnalysisOptions,
     );
 

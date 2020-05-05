@@ -1,3 +1,4 @@
+import { DockerFileAnalysis } from "../../docker-file";
 import { ExtractedLayers } from "../../extractor/types";
 import { getOsReleaseStatic as getOsRelease } from "../../inputs/os-release";
 import { OsReleaseFilePath } from "../../types";
@@ -13,6 +14,7 @@ import {
 
 export async function detect(
   extractedLayers: ExtractedLayers,
+  dockerfileAnalysis: DockerFileAnalysis | undefined,
 ): Promise<OSRelease> {
   let osRelease = await tryOSRelease(
     getOsRelease(extractedLayers, OsReleaseFilePath.Linux),
@@ -59,7 +61,13 @@ export async function detect(
   }
 
   if (!osRelease) {
-    osRelease = { name: "unknown", version: "0.0", prettyName: "" };
+    if (dockerfileAnalysis && dockerfileAnalysis.baseImage === "scratch") {
+      // If the docker file was build from a scratch image
+      // then we don't have a known OS
+      osRelease = { name: "scratch", version: "0.0", prettyName: "" };
+    } else {
+      osRelease = { name: "unknown", version: "0.0", prettyName: "" };
+    }
   }
 
   // Oracle Linux identifies itself as "ol"
