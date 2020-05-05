@@ -56,7 +56,7 @@ export interface ScannedProjectCustom {
    */
   depTree: DepTree | PkgTree;
   targetFile?: string;
-  meta?: any;
+  meta?: any; // not to pollute with actual data; reserved for actual metadata
 }
 
 export interface DepTreeDep {
