@@ -507,28 +507,38 @@ test("static scanning NGINX with dockerfile analysis matches expected values", a
     pluginOptionsWithDockerSave,
   );
 
-  const results = pluginResultStatic.scannedProjects[0].depTree.docker;
+  const results = pluginResultStatic.scannedProjects;
+  // implicitly identifying as osScanResult by existence of `docker` property
+  const osScanResult = results.find((res) => "docker" in res.depTree);
+  t.ok(osScanResult !== undefined, "found OS scan results");
+  if (osScanResult === undefined) {
+    throw new Error(
+      "stop the test from proceeding because type safety was broken",
+    );
+  }
+  const depTree = osScanResult.depTree as DepTree; // this is okay because we asserted `docker` is present
+  const dockerResult = depTree.docker;
 
   t.equals(
-    results.baseImage,
+    dockerResult.baseImage,
     "debian:stretch-slim",
     "base image matches expected",
   );
 
   t.ok(
-    "apt-transport-https" in results.dockerfilePackages,
+    "apt-transport-https" in dockerResult.dockerfilePackages,
     "found apt-transport-https in dockerfile packages",
   );
   t.ok(
-    "ca-certificates" in results.dockerfilePackages,
+    "ca-certificates" in dockerResult.dockerfilePackages,
     "found ca-certificates in dockerfile packages",
   );
   t.ok(
-    "gettext-base" in results.dockerfilePackages,
+    "gettext-base" in dockerResult.dockerfilePackages,
     "found gettext-base in dockerfile packages",
   );
   t.ok(
-    "gnupg1" in results.dockerfilePackages,
+    "gnupg1" in dockerResult.dockerfilePackages,
     "found gnupg1 in dockerfile packages",
   );
 });
