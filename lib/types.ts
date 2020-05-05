@@ -39,8 +39,6 @@ export interface PluginResponseStatic extends PluginResponse {
   hashes: string[];
 }
 
-// NEW STUFF
-
 export interface PluginResponse {
   plugin: PluginMetadata;
   scannedProjects: ScannedProjectCustom[];
@@ -102,23 +100,3 @@ export interface DepTree extends DepTreeDep {
 //   | 'paket'
 //   | 'composer'
 //   | 'cocoapods';
-
-// just for reference
-// export interface PluginMetadata {
-//   name: string;
-//   runtime?: string;
-//   targetFile?: string;
-
-//   packageManager?: SupportedPackageManagers;
-
-//   // Per-plugin custom metadata
-//   meta?: {
-//     allSubProjectNames?: string[],
-//     versionBuildInfo?: VersionBuildInfo,
-//   };
-
-//   // Docker-related fields
-//   dockerImageId?: any;
-//   imageLayers?: any;
-//   packageFormatVersion?: string;
-// }
