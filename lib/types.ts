@@ -57,6 +57,23 @@ export interface ScannedProjectCustom {
   meta?: any; // not to pollute with actual data; reserved for actual metadata
 }
 
+enum ScanType {
+  DependencyTree = "DependencyTree",
+  DependencyGraph = "DependencyGraph",
+  ManifestFiles = "ManifestFiles",
+}
+
+export interface ScannedProjectExtended extends ScannedProjectCustom {
+  scanType: ScanType;
+  // unknowingly structured data; determined by `scanType`
+  data: unknown;
+}
+
+export interface ScannedProjectManifestFiles extends ScannedProjectExtended {
+  scanType: ScanType.ManifestFiles;
+  data: ManifestFile[];
+}
+
 export interface DepTreeDep {
   name: string;
   version: string;
