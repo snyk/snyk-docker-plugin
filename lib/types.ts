@@ -55,7 +55,7 @@ export interface ScannedProjectCustom {
    * a future change should be mindful but find a way to unify them if possible.
    */
   depTree: DepTree | PkgTree;
-  targetFile?: string;
+  targetFile?: string; // currently used for application-dependencies scans
   meta?: any; // not to pollute with actual data; reserved for actual metadata
 }
 
