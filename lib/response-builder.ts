@@ -37,6 +37,15 @@ function buildResponse(
     ...applicationDependenciesScanResults,
   ];
 
+  if (manifestFiles.length > 0) {
+    scannedProjects.push({
+      scanType: types.ScanType.ManifestFiles,
+      data: manifestFiles,
+      packageManager: "PLEASE DON'T USE THIS",
+      depTree: { dependencies: {} },
+    } as types.ScannedProjectManifestFiles);
+  }
+
   const scannedProjectsWithImageName = assignImageNameToScannedProjectMeta(
     pkg.name,
     scannedProjects,

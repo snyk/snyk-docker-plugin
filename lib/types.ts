@@ -57,7 +57,7 @@ export interface ScannedProjectCustom {
   meta?: any; // not to pollute with actual data; reserved for actual metadata
 }
 
-enum ScanType {
+export enum ScanType {
   DependencyTree = "DependencyTree",
   DependencyGraph = "DependencyGraph",
   ManifestFiles = "ManifestFiles",
