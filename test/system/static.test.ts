@@ -10,7 +10,14 @@ import { test } from "tap";
 import * as plugin from "../../lib";
 import { Docker } from "../../lib/docker";
 import * as subProcess from "../../lib/sub-process";
-import { DepTree, ImageType, PluginResponseStatic } from "../../lib/types";
+import {
+  DepTree,
+  ImageType,
+  PluginResponseStatic,
+  ScannedProjectExtended,
+  ScannedProjectManifestFiles,
+  ScanType,
+} from "../../lib/types";
 
 const getFixture = (fixturePath) =>
   path.join(__dirname, "../fixtures/docker-archives", fixturePath);
@@ -450,9 +457,21 @@ test("experimental static analysis for debian images", async (t) => {
 test("static and dynamic scanning results are aligned", async (t) => {
   const imageNameAndTag = "debian:10";
   const dockerfile = undefined;
+  const manifestGlobs = [
+    "/etc/redhat-release*",
+    "/etc/foo",
+    "/nonexist/bar",
+    "/etc/alpine-release",
+    "**/os-release",
+  ];
+  const manifestExcludeGlobs = ["**/node_modules/**"];
 
   await subProcess.execute("docker", ["image", "pull", imageNameAndTag]);
-  const pluginResultDynamic = await plugin.inspect(imageNameAndTag);
+  const pluginResultDynamic = await plugin.inspect(
+    imageNameAndTag,
+    dockerfile,
+    { manifestGlobs, manifestExcludeGlobs },
+  );
 
   // static scan doesn't handle creating the image archive yet
   const archivePath = path.join(os.tmpdir(), "debian-10.tar");
@@ -467,6 +486,8 @@ test("static and dynamic scanning results are aligned", async (t) => {
       imagePath: archivePath,
       imageType: ImageType.DockerArchive,
     },
+    manifestGlobs,
+    manifestExcludeGlobs,
   };
   const pluginResultStatic = await plugin.inspect(
     imageNameAndTag,
@@ -474,9 +495,17 @@ test("static and dynamic scanning results are aligned", async (t) => {
     pluginOptionsStatic,
   );
 
+  const osDepsDynamic = pluginResultDynamic.scannedProjects.find(
+    (res) => res.packageManager === "deb",
+  );
+  const osDepsStatic = pluginResultStatic.scannedProjects.find(
+    (res) => res.packageManager === "deb",
+  );
+  t.ok(osDepsStatic !== undefined);
+
   t.equals(
-    JSON.stringify(pluginResultDynamic.scannedProjects[0].depTree.dependencies),
-    JSON.stringify(pluginResultStatic.scannedProjects[0].depTree.dependencies),
+    JSON.stringify(osDepsDynamic!.depTree.dependencies),
+    JSON.stringify(osDepsStatic!.depTree.dependencies),
     "identical dependencies for regular Debian images between dynamic and static scans",
   );
 
@@ -486,6 +515,53 @@ test("static and dynamic scanning results are aligned", async (t) => {
     "image IDs, which is actually the image digest, is kind of equal between scan types",
   );
   // TODO: imageLayers is completely different
+
+  const manifestFilesDynamic = pluginResultDynamic.scannedProjects.find(
+    (res) => {
+      if (!("scanType" in res)) {
+        return false;
+      }
+      const scannedProjectExtended = res as ScannedProjectExtended;
+      return scannedProjectExtended.scanType === ScanType.ManifestFiles;
+    },
+  ) as ScannedProjectManifestFiles;
+
+  const manifestFilesStatic = pluginResultStatic.scannedProjects.find((res) => {
+    if (!("scanType" in res)) {
+      return false;
+    }
+    const scannedProjectExtended = res as ScannedProjectExtended;
+    return scannedProjectExtended.scanType === ScanType.ManifestFiles;
+  }) as ScannedProjectManifestFiles;
+
+  t.ok(
+    manifestFilesStatic !== undefined,
+    "found manifest files in static scan",
+  );
+  t.ok(
+    manifestFilesDynamic !== undefined,
+    "found manifest files in dynamic scan",
+  );
+  t.equals(
+    manifestFilesStatic.data.length,
+    1,
+    "static scan finds one manifest file because it doesn't follow on symlinks",
+  );
+  t.equals(
+    manifestFilesDynamic.data.length,
+    2,
+    "dynamic scan finds two manifest files beause it follows on symlinks",
+  );
+  t.same(
+    manifestFilesDynamic.data[0].contents,
+    manifestFilesDynamic.data[1].contents,
+    "symbolic links generate the same content",
+  );
+  t.same(
+    Buffer.from(manifestFilesStatic.data[0].contents).toString("base64"),
+    manifestFilesDynamic.data[0].contents,
+    "dynamic scanned manifest files are base64 encoded",
+  );
 });
 
 test("static scanning NGINX with dockerfile analysis matches expected values", async (t) => {

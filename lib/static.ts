@@ -20,9 +20,6 @@ export async function analyzeStatically(
   // Relevant only if using a Docker runtime. Optional, but we may consider what to put here
   // to present to the user in Snyk UI.
   const runtime = undefined;
-  // Both the analysis and the manifest files are relevant if inspecting a Dockerfile.
-  // This is not the case for static scanning.
-  const manifestFiles = [];
 
   try {
     const staticAnalysis = await analyzer.analyzeStatically(
@@ -59,7 +56,7 @@ export async function analyzeStatically(
         runtime,
         analysis,
         dockerfileAnalysis,
-        manifestFiles,
+        staticAnalysis.manifestFiles,
         staticAnalysisOptions,
       ),
       hashes: [],
@@ -76,6 +73,7 @@ export function isRequestingStaticAnalysis(options?: any): boolean {
   return options && options.staticAnalysisOptions;
 }
 
+// TODO: this function needs to go as soon as the dynamic scanning goes
 function getStaticAnalysisOptions(options: any): StaticAnalysisOptions {
   if (
     !options ||
@@ -90,5 +88,9 @@ function getStaticAnalysisOptions(options: any): StaticAnalysisOptions {
     imagePath: options.staticAnalysisOptions.imagePath,
     imageType: options.staticAnalysisOptions.imageType,
     distroless: options.staticAnalysisOptions.distroless,
+    globsToFind: {
+      include: options.manifestGlobs,
+      exclude: options.manifestExcludeGlobs,
+    },
   };
 }

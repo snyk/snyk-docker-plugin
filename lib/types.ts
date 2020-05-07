@@ -4,6 +4,10 @@ export interface StaticAnalysisOptions {
   imagePath: string;
   imageType: ImageType;
   distroless: boolean;
+  globsToFind: {
+    include: string[];
+    exclude: string[];
+  };
 }
 
 export enum ImageType {
