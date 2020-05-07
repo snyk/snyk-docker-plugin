@@ -7,7 +7,12 @@ import { test } from "tap";
 
 import * as plugin from "../../lib";
 import * as subProcess from "../../lib/sub-process";
-import { DepTree } from "../../lib/types";
+import {
+  DepTree,
+  ScannedProjectExtended,
+  ScannedProjectManifestFiles,
+  ScanType,
+} from "../../lib/types";
 
 const getDockerfileFixturePath = (folder) =>
   path.join(__dirname, "../fixtures/dockerfiles/library", folder, "Dockerfile");
@@ -357,7 +362,13 @@ test("inspect redis:3.2.11-alpine", (t) => {
     .then((imageId) => {
       expectedImageId = imageId;
       return plugin.inspect(img, dockerFileLocation, {
-        manifestGlobs: ["/etc/redhat-release*", "/etc/foo", "/nonexist/bar"],
+        manifestGlobs: [
+          "/etc/redhat-release*",
+          "/etc/foo",
+          "/nonexist/bar",
+          "/etc/alpine-release",
+          "**/resolv.conf",
+        ],
       });
     })
     .then((res) => {
@@ -411,6 +422,33 @@ test("inspect redis:3.2.11-alpine", (t) => {
         },
         "deps",
       );
+
+      const manifestFilesResult = res.scannedProjects.find((res) => {
+        if (!("scanType" in res)) {
+          return false;
+        }
+        const scannedProjectExtended = res as ScannedProjectExtended;
+        return scannedProjectExtended.scanType === ScanType.ManifestFiles;
+      }) as ScannedProjectManifestFiles;
+
+      t.equals(
+        manifestFilesResult.packageManager,
+        "PLEASE DON'T USE THIS",
+        "deprecated field for extended scanned data",
+      );
+      t.ok(
+        Array.isArray(manifestFilesResult.data),
+        "manifest files data is an array",
+      );
+      t.equals(manifestFilesResult.data.length, 2, "two manifest files found");
+      const manifestOne = manifestFilesResult.data.find(
+        (match) => match.name === "resolv.conf",
+      );
+      t.ok(manifestOne !== undefined, "found resolv.conf with a glob");
+      const manifestTwo = manifestFilesResult.data.find(
+        (match) => match.name === "alpine-release" && match.path === "/etc",
+      );
+      t.ok(manifestTwo !== undefined, "found alpine-release with full path");
     });
 });
 

@@ -39,8 +39,6 @@ export interface PluginResponseStatic extends PluginResponse {
   hashes: string[];
 }
 
-// NEW STUFF
-
 export interface PluginResponse {
   plugin: PluginMetadata;
   scannedProjects: ScannedProjectCustom[];
@@ -55,8 +53,25 @@ export interface ScannedProjectCustom {
    * a future change should be mindful but find a way to unify them if possible.
    */
   depTree: DepTree | PkgTree;
-  targetFile?: string;
-  meta?: any;
+  targetFile?: string; // currently used for application-dependencies scans
+  meta?: any; // not to pollute with actual data; reserved for actual metadata
+}
+
+export enum ScanType {
+  DependencyTree = "DependencyTree",
+  DependencyGraph = "DependencyGraph",
+  ManifestFiles = "ManifestFiles",
+}
+
+export interface ScannedProjectExtended extends ScannedProjectCustom {
+  scanType: ScanType;
+  // unknowingly structured data; determined by `scanType`
+  data: unknown;
+}
+
+export interface ScannedProjectManifestFiles extends ScannedProjectExtended {
+  scanType: ScanType.ManifestFiles;
+  data: ManifestFile[];
 }
 
 export interface DepTreeDep {
@@ -102,23 +117,3 @@ export interface DepTree extends DepTreeDep {
 //   | 'paket'
 //   | 'composer'
 //   | 'cocoapods';
-
-// just for reference
-// export interface PluginMetadata {
-//   name: string;
-//   runtime?: string;
-//   targetFile?: string;
-
-//   packageManager?: SupportedPackageManagers;
-
-//   // Per-plugin custom metadata
-//   meta?: {
-//     allSubProjectNames?: string[],
-//     versionBuildInfo?: VersionBuildInfo,
-//   };
-
-//   // Docker-related fields
-//   dockerImageId?: any;
-//   imageLayers?: any;
-//   packageFormatVersion?: string;
-// }
