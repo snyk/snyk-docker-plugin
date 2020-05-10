@@ -12,6 +12,8 @@ import {
   FileNameAndContent,
 } from "./types";
 
+const FILE_TYPES_TO_EXTRACT = ["file", "link", "symlink"];
+
 /**
  * Retrieve the products of files content from the specified docker-archive.
  * @param dockerArchiveFilesystemPath Path to image file saved in docker-archive format.
@@ -65,7 +67,7 @@ export async function extractImageLayer(
     const tarExtractor: Extract = extract();
 
     tarExtractor.on("entry", async (headers, stream, next) => {
-      if (headers.type === "file") {
+      if (headers.type && FILE_TYPES_TO_EXTRACT.includes(headers.type)) {
         const absoluteFileName = resolvePath("/", headers.name);
         // TODO wouldn't it be simpler to first check
         // if the filename matches any patterns?
