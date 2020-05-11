@@ -503,9 +503,9 @@ test("static and dynamic scanning results are aligned", async (t) => {
   );
   t.ok(osDepsStatic !== undefined);
 
-  t.equals(
-    JSON.stringify(osDepsDynamic!.depTree.dependencies),
-    JSON.stringify(osDepsStatic!.depTree.dependencies),
+  t.same(
+    osDepsDynamic!.depTree.dependencies,
+    osDepsStatic!.depTree.dependencies,
     "identical dependencies for regular Debian images between dynamic and static scans",
   );
 
