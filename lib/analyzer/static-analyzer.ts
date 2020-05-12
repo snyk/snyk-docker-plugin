@@ -20,6 +20,7 @@ import {
   getAptFiles,
   getDpkgPackageFileContentAction,
 } from "../inputs/distroless/static";
+import * as filePatternStatic from "../inputs/file-pattern/static";
 import {
   getNodeAppFileContent,
   getNodeAppFileContentAction,
@@ -31,6 +32,7 @@ import {
 } from "../inputs/rpm/static";
 import {
   ImageType,
+  ManifestFile,
   ScannedProjectCustom,
   StaticAnalysisOptions,
 } from "../types";
@@ -70,6 +72,16 @@ export async function analyze(
     staticAnalysisActions.push(getDpkgPackageFileContentAction);
   }
 
+  const checkForGlobs = shouldCheckForGlobs(options);
+  if (checkForGlobs) {
+    staticAnalysisActions.push(
+      filePatternStatic.generateExtractAction(
+        options.globsToFind.include,
+        options.globsToFind.exclude,
+      ),
+    );
+  }
+
   const dockerArchive = await getDockerArchiveLayersAndManifest(
     options.imagePath,
     staticAnalysisActions,
@@ -90,6 +102,12 @@ export async function analyze(
   let distrolessAptFiles: string[] = [];
   if (options.distroless) {
     distrolessAptFiles = getAptFiles(archiveLayers);
+  }
+
+  const manifestFiles: ManifestFile[] = [];
+  if (checkForGlobs) {
+    const matchingFiles = filePatternStatic.getMatchingFiles(archiveLayers);
+    manifestFiles.push(...matchingFiles);
   }
 
   let osRelease: OSRelease;
@@ -133,6 +151,7 @@ export async function analyze(
     binaries,
     imageLayers: dockerArchive.manifest.Layers,
     applicationDependenciesScanResults,
+    manifestFiles,
   };
 }
 
@@ -144,4 +163,14 @@ function imageIdFromArchiveManifest(manifest: DockerArchiveManifest): string {
     debug(err);
     throw new Error("Failed to extract image ID from archive manifest");
   }
+}
+
+function shouldCheckForGlobs(options: StaticAnalysisOptions): boolean {
+  return (
+    options &&
+    options.globsToFind &&
+    options.globsToFind.include &&
+    Array.isArray(options.globsToFind.include) &&
+    options.globsToFind.include.length > 0
+  );
 }
