@@ -23,7 +23,7 @@
   "dependencies": {
     "@snyk/rpm-parser": "^1.1.0",
     "debug": "^4.1.1",
-    "dockerfile-ast": "0.0.19",
+    "dockerfile-ast": "0.0.26",
     "event-loop-spinner": "^1.1.0",
     "semver": "^6.1.0",
     "snyk-nodejs-lockfile-parser": "1.22.0",
