@@ -117,36 +117,20 @@ workflows:
       - install:
           name: Install
           context: nodejs-install
-          filters:
-            branches:
-              ignore:
-                - master
       - lint:
           name: Lint
           context: nodejs-install
           requires:
             - Install
-          filters:
-            branches:
-              ignore:
-                - master
       - build:
           name: Build
           requires:
             - Install
-          filters:
-            branches:
-              ignore:
-                - master
       - test:
           name: Test
           context: nodejs-install
           requires:
             - Install
-          filters:
-            branches:
-              ignore:
-                - master
       - release:
           name: Release to GitHub
           context: nodejs-lib-release
