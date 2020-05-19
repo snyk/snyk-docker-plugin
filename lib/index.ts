@@ -11,9 +11,24 @@ import { getRuntime } from "./inputs/runtime/docker";
 import { parseAnalysisResults } from "./parser";
 import { buildResponse } from "./response-builder";
 import * as staticUtil from "./static";
-import { ManifestFile, PluginResponse } from "./types";
+import {
+  DepTree,
+  ManifestFile,
+  PluginResponse,
+  ScannedProjectExtended,
+  ScannedProjectManifestFiles,
+  ScanType,
+} from "./types";
 
-export { inspect, dockerFile };
+export {
+  inspect,
+  dockerFile,
+  PluginResponse,
+  ScannedProjectExtended,
+  ScanType,
+  ScannedProjectManifestFiles,
+  DepTree,
+};
 
 const MAX_MANIFEST_FILES = 5;
 const debug = Debug("snyk");
