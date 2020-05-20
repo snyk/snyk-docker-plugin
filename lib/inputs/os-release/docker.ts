@@ -8,6 +8,6 @@ export async function getOsRelease(
   try {
     return (await docker.catSafe(releasePath)).stdout;
   } catch (error) {
-    throw new Error(error.stderr);
+    return "";
   }
 }
