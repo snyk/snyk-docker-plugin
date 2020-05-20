@@ -44,7 +44,7 @@ async function inspect(
     targetFile,
   );
 
-  if (options && options.scanHost) {
+  if (options && options.host) {
     return await analyzeHost(
       targetImage,
       dockerfileAnalysis,
