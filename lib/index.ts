@@ -44,6 +44,14 @@ async function inspect(
     targetFile,
   );
 
+  if (options && options.scanHost) {
+    return await analyzeHost(
+      targetImage,
+      dockerfileAnalysis,
+      getDynamicAnalysisOptions(options),
+    );
+  }
+
   if (options && options.experimental) {
     return await experimentalAnalysis(targetImage, dockerfileAnalysis, options);
   }
@@ -60,6 +68,24 @@ async function inspect(
     targetImage,
     dockerfileAnalysis,
     getDynamicAnalysisOptions(options),
+  );
+}
+
+async function analyzeHost(
+  targetImage: string,
+  dockerfileAnalysis: dockerFile.DockerFileAnalysis | undefined,
+  analysisOptions: any,
+): Promise<PluginResponse> {
+  const [dependencies] = await Promise.all([
+    getHostDependencies(targetImage, dockerfileAnalysis, analysisOptions),
+  ]);
+
+  return buildResponse(
+    undefined,
+    dependencies,
+    dockerfileAnalysis,
+    [], // bug in typescript wrongly adds `undefined`
+    analysisOptions,
   );
 }
 
@@ -96,6 +122,38 @@ function getDynamicAnalysisOptions(options?: any): any {
         manifestExcludeGlobs: options.manifestExcludeGlobs,
       }
     : {};
+}
+
+async function getHostDependencies(
+  targetImage: string,
+  dockerfileAnalysis?: dockerFile.DockerFileAnalysis,
+  options?: DockerOptions,
+) {
+  try {
+    const output = await analyzer.analyzeHost(
+      targetImage,
+      dockerfileAnalysis,
+      options,
+    );
+    const result = parseAnalysisResults(targetImage, output);
+    const pkg = buildTree(
+      targetImage,
+      result.type,
+      result.depInfosList,
+      result.targetOS,
+    );
+
+    return {
+      package: pkg,
+      packageManager: result.type,
+      imageId: result.imageId,
+      binaries: result.binaries,
+      imageLayers: result.imageLayers,
+    };
+  } catch (error) {
+    const analysisError = tryGetAnalysisError(error, targetImage);
+    throw analysisError;
+  }
 }
 
 async function getDependencies(

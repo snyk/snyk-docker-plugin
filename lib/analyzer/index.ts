@@ -1,4 +1,5 @@
 import { analyze as analyzeDynamically } from "./docker-analyzer";
+import { analyze as analyzeHost } from "./host-analyzer";
 import { analyze as analyzeStatically } from "./static-analyzer";
 
-export { analyzeDynamically, analyzeStatically };
+export { analyzeDynamically, analyzeStatically, analyzeHost };
