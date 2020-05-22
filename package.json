@@ -28,6 +28,7 @@
     "semver": "^6.1.0",
     "snyk-nodejs-lockfile-parser": "1.22.0",
     "tar-stream": "^2.1.0",
+    "gunzip-maybe": "^1.4.2",
     "tslib": "^1"
   },
   "devDependencies": {

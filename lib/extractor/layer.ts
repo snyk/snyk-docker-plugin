@@ -1,5 +1,7 @@
 import { createReadStream } from "fs";
+import * as gunzip from "gunzip-maybe";
 import { basename, resolve as resolvePath } from "path";
+import * as path from "path";
 import { Readable } from "stream";
 import { extract, Extract } from "tar-stream";
 import { streamToString } from "../stream-utils";
@@ -29,9 +31,13 @@ export async function extractDockerArchive(
 
     tarExtractor.on("entry", async (header, stream, next) => {
       if (header.type === "file") {
+        const normalizedHeaderName = path.normalize(header.name);
         if (isTarFile(header.name)) {
-          layers[header.name] = await extractImageLayer(stream, extractActions);
-        } else if (isManifestFile(header.name)) {
+          layers[normalizedHeaderName] = await extractImageLayer(
+            stream,
+            extractActions,
+          );
+        } else if (isManifestFile(normalizedHeaderName)) {
           manifest = await getManifestFile(stream);
         }
       }
@@ -46,7 +52,9 @@ export async function extractDockerArchive(
 
     tarExtractor.on("error", (error) => reject(error));
 
-    createReadStream(dockerArchiveFilesystemPath).pipe(tarExtractor);
+    createReadStream(dockerArchiveFilesystemPath)
+      .pipe(gunzip())
+      .pipe(tarExtractor);
   });
 }
 
@@ -90,7 +98,7 @@ export async function extractImageLayer(
 
     tarExtractor.on("error", (error) => reject(error));
 
-    layerTarStream.pipe(tarExtractor);
+    layerTarStream.pipe(gunzip()).pipe(tarExtractor);
   });
 }
 
@@ -121,9 +129,9 @@ function getLayersContentAndArchiveManifest(
   // get the layers content without the name
   // reverse layers order from last to first
   const filteredLayers = manifest.Layers.filter(
-    (layersName) => layers[layersName],
+    (layersName) => layers[path.normalize(layersName)],
   )
-    .map((layerName) => layers[layerName])
+    .map((layerName) => layers[path.normalize(layerName)])
     .reverse();
 
   return {

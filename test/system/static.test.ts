@@ -35,6 +35,13 @@ test("static analysis builds the expected response", async (t) => {
     },
   };
 
+  const pluginOptionsWithLibPull = {
+    staticAnalysisOptions: {
+      imagePath: getFixture("lib-pull/nginx.tar"),
+      imageType: ImageType.DockerArchive,
+    },
+  };
+
   const pluginResultWithSkopeoCopy = await plugin.inspect(
     thisIsJustAnImageIdentifierInStaticAnalysis,
     dockerfile,
@@ -45,6 +52,12 @@ test("static analysis builds the expected response", async (t) => {
     thisIsJustAnImageIdentifierInStaticAnalysis,
     dockerfile,
     pluginOptionsWithDockerSave,
+  );
+
+  const pluginResultWithLibPull = await plugin.inspect(
+    thisIsJustAnImageIdentifierInStaticAnalysis,
+    dockerfile,
+    pluginOptionsWithLibPull,
   );
 
   // Test the skopeo-copy result.
@@ -83,6 +96,44 @@ test("static analysis builds the expected response", async (t) => {
     "Contains some expected dependency",
   );
 
+  // Test the lib-pull result.
+  t.ok(
+    "scannedProjects" in pluginResultWithLibPull &&
+      Array.isArray(pluginResultWithLibPull.scannedProjects) &&
+      pluginResultWithLibPull.scannedProjects.length === 1 &&
+      "plugin" in pluginResultWithLibPull,
+    "Has the expected result properties",
+  );
+
+  t.same(
+    pluginResultWithLibPull.scannedProjects[0].depTree.version,
+    "doesnotexist",
+    "Version matches",
+  );
+  t.same(
+    pluginResultWithLibPull.plugin.dockerImageId,
+    "5a3221f0137beb960c34b9cf4455424b6210160fd618c5e79401a07d6e5a2ced",
+    "The image ID matches",
+  );
+  t.same(
+    pluginResultWithLibPull.plugin.packageManager,
+    "deb",
+    "Correct package manager detected",
+  );
+  t.deepEqual(
+    pluginResultWithLibPull.plugin.imageLayers,
+    [
+      "ac415f8e415b242117277e7ee5224b30389698b46101e0f28224490af3b90a9d/layer.tar",
+    ],
+    "Layers are read correctly",
+  );
+  t.ok(
+    pluginResultWithLibPull.scannedProjects[0].depTree.dependencies &&
+      "adduser" in
+        pluginResultWithLibPull.scannedProjects[0].depTree.dependencies,
+    "Contains some expected dependency",
+  );
+
   // Test the docker-save result.
   t.deepEqual(
     pluginResultWithDockerSave.plugin.imageLayers,
@@ -93,9 +144,23 @@ test("static analysis builds the expected response", async (t) => {
   );
 
   t.deepEqual(
+    pluginResultWithLibPull.plugin.imageLayers,
+    [
+      "ac415f8e415b242117277e7ee5224b30389698b46101e0f28224490af3b90a9d/layer.tar",
+    ],
+    "Layers are read correctly",
+  );
+
+  t.deepEqual(
     pluginResultWithSkopeoCopy.scannedProjects[0].depTree.dependencies,
     pluginResultWithDockerSave.scannedProjects[0].depTree.dependencies,
     "The plugin scans both skopeo-copy and docker-save archives the same way",
+  );
+
+  t.deepEqual(
+    pluginResultWithLibPull.scannedProjects[0].depTree.dependencies,
+    pluginResultWithDockerSave.scannedProjects[0].depTree.dependencies,
+    "The plugin scans both lib-pull and docker-save archives the same way",
   );
 });
 
