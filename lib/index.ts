@@ -1,5 +1,6 @@
 import * as Debug from "debug";
 import * as path from "path";
+import * as os from "os";
 
 import * as analyzer from "./analyzer";
 import { buildTree } from "./dependency-tree";
@@ -137,7 +138,7 @@ async function getHostDependencies(
     );
     const result = parseAnalysisResults(targetImage, output);
     const pkg = buildTree(
-      targetImage,
+      os.hostname(),
       result.type,
       result.depInfosList,
       result.targetOS,
