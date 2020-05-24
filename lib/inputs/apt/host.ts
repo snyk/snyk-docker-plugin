@@ -5,8 +5,8 @@ export function getAptDbFileContent(): Promise<{
   extFile: string;
 }> {
   return Promise.all([
-    readFile("/var/lib/dpkg/status"),
-    readFile("/var/lib/apt/extended_states"),
+    readFile("/var/lib/dpkg/status").catch(() => ""),
+    readFile("/var/lib/apt/extended_states").catch(() => ""),
   ]).then((fileContents) => ({
     dpkgFile: fileContents[0],
     extFile: fileContents[1],

@@ -1,5 +1,9 @@
 import { readFile } from "../../docker-file";
 
-export function getApkDbFileContent(): Promise<string> {
-  return readFile("/lib/apk/db/installed");
+export async function getApkDbFileContent(): Promise<string> {
+  try {
+    return await readFile("/lib/apk/db/installed");
+  } catch (error) {
+    return "";
+  }
 }

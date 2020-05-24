@@ -7,6 +7,6 @@ export async function getOsRelease(
   try {
     return await readFile(releasePath);
   } catch (error) {
-    throw new Error(error);
+    return "";
   }
 }
