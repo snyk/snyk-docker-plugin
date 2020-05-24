@@ -1,10 +1,31 @@
-import { readFileSync } from "fs";
+import * as crypto from "crypto";
+import { createReadStream, existsSync, readFileSync, unlinkSync } from "fs";
+import * as os from "os";
 import * as path from "path";
 import * as sinon from "sinon";
 import { test } from "tap";
 import * as subProcess from "../../lib/sub-process";
 
 import { Docker } from "../../lib/docker";
+
+function getChecksum(path: string): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const hash = crypto.createHash("sha256");
+    const file = createReadStream(path);
+
+    file.on("error", (err) => {
+      reject(err);
+    });
+
+    file.on("data", (chunk) => {
+      hash.update(chunk);
+    });
+
+    file.on("close", () => {
+      resolve(hash.digest("hex"));
+    });
+  });
+}
 
 test("docker run", async (t) => {
   const stub = sinon.stub(subProcess, "execute");
@@ -64,6 +85,60 @@ test("docker run", async (t) => {
       "args passed to subProcess.execute as expected",
     );
   });
+});
+
+test("save from docker daemon", async (t) => {
+  const targetImage = "hello-world:latest";
+  const docker = new Docker(targetImage);
+  const loadImage = path.join(
+    __dirname,
+    "../fixtures/docker-archives",
+    "docker-save/hello-world.tar",
+  );
+  const expectedChecksum = await getChecksum(loadImage);
+  await subProcess.execute("docker", ["load", "--input", loadImage]);
+
+  t.test("image saved to specified location", async (t) => {
+    const destination = path.join(os.tmpdir(), "image.tar");
+
+    t.tearDown(() => {
+      if (existsSync(destination)) {
+        unlinkSync(destination);
+      }
+    });
+
+    await docker.save(targetImage, destination);
+    t.true(existsSync(destination));
+    const checksum = await getChecksum(destination);
+    t.equal(
+      checksum,
+      expectedChecksum,
+      "exported tar checksum matched expected",
+    );
+  });
+
+  t.test("promise rejects when image doesn't exist", async (t) => {
+    const image = "someImage:latest";
+    await t.rejects(
+      docker.save(image, "/tmp/image.tar"),
+      "server error",
+      "rejects with expected error",
+    );
+    t.false(existsSync("/tmp/image.tar"));
+  });
+
+  t.test(
+    "promise rejects when image cannot be written to destination",
+    async (t) => {
+      const destination = "/somefolder/image.tar";
+      await t.rejects(
+        docker.save(targetImage, destination),
+        { code: "ENOENT" },
+        "promise rejects with failed file open",
+      );
+      t.false(existsSync(destination));
+    },
+  );
 });
 
 test("safeCat", async (t) => {
