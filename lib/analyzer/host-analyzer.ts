@@ -1,7 +1,7 @@
 import * as Debug from "debug";
 import { DockerOptions } from "../docker";
 import * as dockerFile from "../docker-file";
-import * as imageInspector from "./image-inspector";
+import * as os from "os";
 import * as osReleaseDetector from "./os-release";
 
 import apkInputHost = require("../inputs/apk/host");
@@ -19,8 +19,7 @@ export async function analyze(
   dockerfileAnalysis?: dockerFile.DockerFileAnalysis,
   options?: DockerOptions,
 ): Promise<DynamicAnalysis> {
-  const [imageInspection, osRelease] = await Promise.all([
-    imageInspector.detect(targetImage, options),
+  const [osRelease] = await Promise.all([
     osReleaseDetector.detectHost(targetImage, dockerfileAnalysis),
   ]);
 
@@ -53,10 +52,10 @@ export async function analyze(
   };
 
   return {
-    imageId: imageInspection.Id,
+    imageId: os.hostname(),
     osRelease,
     results: pkgManagerAnalysis,
     binaries: binariesAnalysis,
-    imageLayers: imageInspection.RootFS && imageInspection.RootFS.Layers,
+    imageLayers: [],
   };
 }
