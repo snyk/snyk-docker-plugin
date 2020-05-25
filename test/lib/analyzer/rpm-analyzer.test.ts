@@ -164,6 +164,10 @@ test("BusyBox's multi-call binary for rpm", async (t) => {
           -qpc	List config files
         `,
     },
+    {
+      targetImage: "notsure:latest",
+      rpmThrows: "FATAL tini (6)] exec rpm failed: No such file or directory\n",
+    },
   ];
 
   for (const example of examples) {
