@@ -18,6 +18,13 @@ export function getRpmDbFileContent(
       if (typeof stderr === "string" && stderr.indexOf("not found") >= 0) {
         return { stdout: "", stderr: "" };
       }
+
+      if (
+        typeof stderr === "string" &&
+        stderr.toLowerCase().indexOf("no such") >= 0
+      ) {
+        return { stdout: "", stderr: "" };
+      }
       // allowing failure if analysing BusyBox
       if (
         typeof stderr === "string" &&
