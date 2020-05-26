@@ -1,6 +1,10 @@
+import * as Debug from "debug";
+import * as Modem from "docker-modem";
 import { eventLoopSpinner } from "event-loop-spinner";
+import { createWriteStream } from "fs";
 import * as minimatch from "minimatch";
 import * as fspath from "path";
+import { Stream } from "stream";
 import * as lsu from "./ls-utils";
 import * as subProcess from "./sub-process";
 
@@ -12,9 +16,11 @@ interface DockerOptions {
   tlsCert?: string;
   tlsCaCert?: string;
   tlsKey?: string;
+  socketPath?: string;
 }
 
 const SystemDirectories = ["dev", "proc", "sys"];
+const debug = Debug("snyk");
 
 class Docker {
   public static run(args: string[], options?: DockerOptions) {
@@ -48,9 +54,13 @@ class Docker {
   }
 
   private optionsList: string[];
+  private socketPath: string;
 
   constructor(private targetImage: string, options?: DockerOptions) {
     this.optionsList = Docker.createOptionsList(options);
+    this.socketPath = options?.socketPath
+      ? options.socketPath
+      : "/var/run/docker.sock";
   }
 
   /**
@@ -96,12 +106,47 @@ class Docker {
   }
 
   public async save(targetImage: string, destination: string) {
-    return subProcess.execute("docker", [
-      "save",
-      targetImage,
-      "-o",
-      destination,
-    ]);
+    const request = {
+      path: `/images/${targetImage}/get?`,
+      method: "GET",
+      isStream: true,
+      statusCodes: {
+        200: true,
+        400: "bad request",
+        500: "server error",
+      },
+    };
+
+    debug(
+      `Docker.save: targetImage: ${targetImage}, destination: ${destination}`,
+    );
+
+    const modem: Modem = new Modem({ socketPath: this.socketPath });
+
+    return new Promise((resolve, reject) => {
+      modem.dial(request, (err, stream: Stream) => {
+        if (err) {
+          return reject(err);
+        }
+
+        const writeStream = createWriteStream(destination);
+        writeStream.on("error", (err) => {
+          reject(err);
+        });
+        writeStream.on("finish", () => {
+          resolve();
+        });
+
+        stream.on("error", (err) => {
+          reject(err);
+        });
+        stream.on("end", () => {
+          writeStream.end();
+        });
+
+        stream.pipe(writeStream);
+      });
+    });
   }
 
   public async inspectImage(targetImage: string) {
