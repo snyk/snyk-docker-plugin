@@ -71,7 +71,7 @@ class Docker {
     cmd: string,
     args: string[] = [],
     // no error is thrown if any of listed errors is found in stderr
-    ignoreErrors: string[] = ["No such file", "file not found"],
+    ignoreErrors: string[] = ["No such file", "not found"],
   ) {
     try {
       return await this.run(cmd, args);

@@ -12,9 +12,21 @@ test("analyze", async (t) => {
     {
       description: "no binaries in image",
       targetImage: "alpine:2.6",
-      binariesOutputLines: {
+      binariesOutputLines: {},
+      errorOutputLines: {
         node: "node: command not found",
         openjdk: "java: command not found",
+      },
+      installedPackages: [],
+      expectedBinaries: [],
+    },
+    {
+      description: "no binaries in image - error",
+      targetImage: "notsure:2.6",
+      binariesOutputLines: {},
+      errorOutputLines: {
+        node: "No such file or directory: node",
+        openjdk: "No such file or directory: java",
       },
       installedPackages: [],
       expectedBinaries: [],
@@ -34,6 +46,8 @@ test("analyze", async (t) => {
       targetImage: "node:6.15.1",
       binariesOutputLines: {
         node: "v6.15.1",
+      },
+      errorOutputLines: {
         openjdk: "java: command not found",
       },
       installedPackages: ["a", "b", "c"],
@@ -44,6 +58,8 @@ test("analyze", async (t) => {
       targetImage: "node:6.15.1",
       binariesOutputLines: {
         node: "v6.15.1",
+      },
+      errorOutputLines: {
         openjdk: "java: command not found",
       },
       installedPackages: ["node"],
@@ -54,6 +70,8 @@ test("analyze", async (t) => {
       targetImage: "node:6.15.1",
       binariesOutputLines: {
         node: "v6.15.1",
+      },
+      errorOutputLines: {
         openjdk: "java: command not found",
       },
       installedPackages: ["nodejs"],
@@ -62,7 +80,10 @@ test("analyze", async (t) => {
     {
       description: "no openJDK in image",
       targetImage: "alpine:2.6",
-      binariesOutputLines: { node: "", openjdk: "java: command not found" },
+      binariesOutputLines: { node: "" },
+      errorOutputLines: {
+        openjdk: "java: command not found",
+      },
       installedPackages: [],
       expectedBinaries: [],
     },
@@ -145,33 +166,51 @@ test("analyze", async (t) => {
   for (const example of examples) {
     await t.test(example.description, async (t) => {
       const execStub = sinon.stub(subProcess, "execute");
-      execStub
-        .withArgs("docker", [
-          "run",
-          "--rm",
-          "--entrypoint",
-          '""',
-          "--network",
-          "none",
-          sinon.match.any,
-          "node",
-          "--version",
-        ])
-        .resolves({ stdout: example.binariesOutputLines.node, stderr: "" });
+      const nodeStub = execStub.withArgs("docker", [
+        "run",
+        "--rm",
+        "--entrypoint",
+        '""',
+        "--network",
+        "none",
+        sinon.match.any,
+        "node",
+        "--version",
+      ]);
+      if (example.errorOutputLines?.node) {
+        nodeStub.callsFake(async () => {
+          throw {
+            stderr: example.errorOutputLines.node,
+          };
+        });
+      } else {
+        nodeStub.resolves({
+          stdout: example.binariesOutputLines.node,
+        });
+      }
 
-      execStub
-        .withArgs("docker", [
-          "run",
-          "--rm",
-          "--entrypoint",
-          '""',
-          "--network",
-          "none",
-          sinon.match.any,
-          "java",
-          "-version",
-        ])
-        .resolves({ stdout: example.binariesOutputLines.openjdk, stderr: "" });
+      const openjdkStub = execStub.withArgs("docker", [
+        "run",
+        "--rm",
+        "--entrypoint",
+        '""',
+        "--network",
+        "none",
+        sinon.match.any,
+        "java",
+        "-version",
+      ]);
+      if (example.errorOutputLines?.openjdk) {
+        openjdkStub.callsFake(async () => {
+          throw {
+            stderr: example.errorOutputLines.openjdk,
+          };
+        });
+      } else {
+        openjdkStub.resolves({
+          stdout: example.binariesOutputLines.openjdk,
+        });
+      }
 
       t.teardown(() => execStub.restore());
 
