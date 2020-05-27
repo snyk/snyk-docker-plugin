@@ -55,6 +55,11 @@ commands:
           name: Notify Slack on failure
           command: ./.circleci/slack-notify-failure.sh "${CIRCLE_JOB}"
           when: on_fail
+  notify_slack_on_success:
+    steps:
+      - run:
+          name: Notify Slack on success
+          command: ./.circleci/slack-notify-success.sh
 
 jobs:
   install:
@@ -108,6 +113,7 @@ jobs:
       - run:
           name: Release on GitHub
           command: npx semantic-release
+      - notify_slack_on_success
       - notify_slack_on_failure
 
 workflows:
