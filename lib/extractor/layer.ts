@@ -1,4 +1,5 @@
 import { createReadStream } from "fs";
+import * as gunzip from "gunzip-maybe";
 import { basename, resolve as resolvePath } from "path";
 import { Readable } from "stream";
 import { extract, Extract } from "tar-stream";
@@ -46,7 +47,9 @@ export async function extractDockerArchive(
 
     tarExtractor.on("error", (error) => reject(error));
 
-    createReadStream(dockerArchiveFilesystemPath).pipe(tarExtractor);
+    createReadStream(dockerArchiveFilesystemPath)
+      .pipe(gunzip())
+      .pipe(tarExtractor);
   });
 }
 
@@ -90,7 +93,7 @@ export async function extractImageLayer(
 
     tarExtractor.on("error", (error) => reject(error));
 
-    layerTarStream.pipe(tarExtractor);
+    layerTarStream.pipe(gunzip()).pipe(tarExtractor);
   });
 }
 

@@ -28,6 +28,13 @@ test("static analysis builds the expected response", async (t) => {
     },
   };
 
+  const pluginOptionsWithCompressedSkopeoCopy = {
+    staticAnalysisOptions: {
+      imagePath: getFixture("skopeo-copy/nginx-compressed-layers.tar"),
+      imageType: ImageType.DockerArchive,
+    },
+  };
+
   const pluginOptionsWithDockerSave = {
     staticAnalysisOptions: {
       imagePath: getFixture("docker-save/nginx.tar"),
@@ -39,6 +46,12 @@ test("static analysis builds the expected response", async (t) => {
     thisIsJustAnImageIdentifierInStaticAnalysis,
     dockerfile,
     pluginOptionsWithSkopeoCopy,
+  );
+
+  const pluginResultWithCompressedSkopeoCopy = await plugin.inspect(
+    thisIsJustAnImageIdentifierInStaticAnalysis,
+    dockerfile,
+    pluginOptionsWithCompressedSkopeoCopy,
   );
 
   const pluginResultWithDockerSave = await plugin.inspect(
@@ -94,6 +107,13 @@ test("static analysis builds the expected response", async (t) => {
 
   t.deepEqual(
     pluginResultWithSkopeoCopy.scannedProjects[0].depTree.dependencies,
+    pluginResultWithDockerSave.scannedProjects[0].depTree.dependencies,
+    "The plugin scans both skopeo-copy and docker-save archives the same way",
+  );
+
+  t.deepEqual(
+    pluginResultWithCompressedSkopeoCopy.scannedProjects[0].depTree
+      .dependencies,
     pluginResultWithDockerSave.scannedProjects[0].depTree.dependencies,
     "The plugin scans both skopeo-copy and docker-save archives the same way",
   );
