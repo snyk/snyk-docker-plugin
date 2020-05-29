@@ -165,8 +165,8 @@ async function getManifestFiles(
       return {
         name: path.basename(g),
         path: path.dirname(g),
-        contents: Buffer.from(contents[i].stdout).toString("base64"),
+        contents: Buffer.from(contents[i].stdout),
       };
     })
-    .filter((i) => i.contents !== "");
+    .filter((i) => i.contents.length > 0);
 }
