@@ -10,15 +10,11 @@ async function extract(
 ): Promise<Binary | null> {
   try {
     const binaryVersion = (
-      await new Docker(targetImage, options).run("node", ["--version"])
+      await new Docker(targetImage, options).runSafe("node", ["--version"])
     ).stdout;
     return parseNodeBinary(binaryVersion);
   } catch (error) {
-    const stderr = error.stderr;
-    if (typeof stderr === "string" && stderr.indexOf("not found") >= 0) {
-      return null;
-    }
-    throw new Error(stderr);
+    throw new Error(error.stderr);
   }
 }
 

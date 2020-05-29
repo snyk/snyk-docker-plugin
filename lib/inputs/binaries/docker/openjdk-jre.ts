@@ -10,16 +10,12 @@ async function extract(
   try {
     // https://stackoverflow.com/questions/
     // 13483443/why-does-java-version-go-to-stderr
-    const output = await new Docker(targetImage, options).run("java", [
+    const output = await new Docker(targetImage, options).runSafe("java", [
       "-version",
     ]);
     return parseOpenJDKBinary(output.stdout + output.stderr);
   } catch (error) {
-    const stderr = error.stderr;
-    if (typeof stderr === "string" && stderr.indexOf("not found") >= 0) {
-      return null;
-    }
-    throw new Error(stderr);
+    throw new Error(error.stderr);
   }
 }
 
