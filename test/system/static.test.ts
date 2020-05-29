@@ -573,10 +573,9 @@ test("static and dynamic scanning results are aligned", async (t) => {
     manifestFilesDynamic.data[1].contents,
     "symbolic links generate the same content",
   );
-  t.same(
-    Buffer.from(manifestFilesStatic.data[0].contents).toString("base64"),
-    manifestFilesDynamic.data[0].contents,
-    "dynamic scanned manifest files are base64 encoded",
+  t.true(
+    Buffer.isBuffer(manifestFilesStatic.data[0].contents),
+    "static scanned manifest files are held in buffer",
   );
 });
 

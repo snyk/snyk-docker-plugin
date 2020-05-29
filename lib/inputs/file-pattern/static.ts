@@ -2,7 +2,7 @@ import * as minimatch from "minimatch";
 import * as path from "path";
 
 import { ExtractAction, ExtractedLayers } from "../../extractor/types";
-import { streamToString } from "../../stream-utils";
+import { streamToBuffer } from "../../stream-utils";
 import { ManifestFile } from "../../types";
 
 function generatePathMatcher(
@@ -34,7 +34,7 @@ export function generateExtractAction(
   return {
     actionName: "find-files-by-pattern",
     filePathMatches: generatePathMatcher(globsInclude, globsExclude),
-    callback: streamToString,
+    callback: streamToBuffer,
   };
 }
 
@@ -48,14 +48,14 @@ export function getMatchingFiles(
       if (actionName !== "find-files-by-pattern") {
         continue;
       }
-      if (!(typeof extractedLayers[filePath][actionName] === "string")) {
-        throw new Error("expected string");
+      if (!Buffer.isBuffer(extractedLayers[filePath][actionName])) {
+        throw new Error("expected a buffer");
       }
 
       manifestFiles.push({
         name: path.basename(filePath),
         path: path.dirname(filePath),
-        contents: extractedLayers[filePath][actionName] as string,
+        contents: extractedLayers[filePath][actionName] as Buffer,
       });
     }
   }

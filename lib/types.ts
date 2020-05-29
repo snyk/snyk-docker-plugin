@@ -28,7 +28,7 @@ export enum OsReleaseFilePath {
 export interface ManifestFile {
   name: string;
   path: string;
-  contents: string;
+  contents: Buffer;
 }
 
 export interface PluginMetadata {
