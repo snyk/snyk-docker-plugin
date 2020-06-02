@@ -3,7 +3,7 @@ import * as gunzip from "gunzip-maybe";
 import { basename, resolve as resolvePath } from "path";
 import { Readable } from "stream";
 import { extract, Extract } from "tar-stream";
-import { streamToString } from "../stream-utils";
+import { streamToJson } from "../stream-utils";
 import { applyCallbacks } from "./callbacks";
 import {
   DockerArchiveManifest,
@@ -139,8 +139,7 @@ function getLayersContentAndArchiveManifest(
  * Note: consumes the stream.
  */
 function getManifestFile(stream: Readable): Promise<DockerArchiveManifest> {
-  return streamToString(stream).then((manifestFile) => {
-    const manifest = JSON.parse(manifestFile);
+  return streamToJson<DockerArchiveManifest>(stream).then((manifest) => {
     return manifest[0];
   });
 }
