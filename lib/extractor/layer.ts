@@ -1,9 +1,9 @@
 import { createReadStream } from "fs";
 import * as gunzip from "gunzip-maybe";
 import { basename, resolve as resolvePath } from "path";
-import { Readable } from "stream";
+import { PassThrough, Readable } from "stream";
 import { extract, Extract } from "tar-stream";
-import { streamToString } from "../stream-utils";
+import { streamToJson } from "../stream-utils";
 import { applyCallbacks } from "./callbacks";
 import {
   DockerArchiveManifest,
@@ -11,6 +11,9 @@ import {
   ExtractedLayers,
   ExtractedLayersAndManifest,
   FileNameAndContent,
+  OciArchiveManifest,
+  OciImageIndex,
+  OciManifestInfo,
 } from "./types";
 
 /**
@@ -48,6 +51,77 @@ export async function extractDockerArchive(
     tarExtractor.on("error", (error) => reject(error));
 
     createReadStream(dockerArchiveFilesystemPath)
+      .pipe(gunzip())
+      .pipe(tarExtractor);
+  });
+}
+
+export async function extractOciArchive(
+  ociArchiveFilesystemPath: string,
+  extractActions: ExtractAction[],
+): Promise<{
+  layers: ExtractedLayers[];
+  manifest: OciArchiveManifest;
+}> {
+  return new Promise((resolve, reject) => {
+    const tarExtractor: Extract = extract();
+
+    const layers: Record<string, ExtractedLayers> = {};
+    const manifests: Record<string, OciArchiveManifest> = {};
+    let imageIndex: OciImageIndex | undefined;
+
+    tarExtractor.on("entry", async (header, stream, next) => {
+      if (header.type === "file") {
+        if (isImageIndexFile(header.name)) {
+          imageIndex = await streamToJson<OciImageIndex>(stream);
+        } else {
+          const jsonStream = new PassThrough();
+          const layerStream = new PassThrough();
+          stream.pipe(jsonStream);
+          stream.pipe(layerStream);
+
+          const promises = [
+            streamToJson(jsonStream).catch(() => undefined),
+            extractImageLayer(layerStream, extractActions).catch(
+              () => undefined,
+            ),
+          ];
+          const [manifest, layer] = await Promise.all(promises);
+
+          // header format is /blobs/hash_name/hash_value
+          // we're extracting hash_name:hash_value format to match manifest digest
+          const headerParts = header.name.split("/");
+          const hashName = headerParts[1];
+          const hashValue = headerParts[headerParts.length - 1];
+          const digest = `${hashName}:${hashValue}`;
+          if (isOciArchiveManifest(manifest)) {
+            manifests[digest] = manifest;
+          }
+          if (layer !== undefined) {
+            layers[digest] = layer as ExtractedLayers;
+          }
+        }
+      }
+
+      stream.resume(); // auto drain the stream
+      next(); // ready for next entry
+    });
+
+    tarExtractor.on("finish", () => {
+      try {
+        resolve(
+          getOciLayersContentAndArchiveManifest(imageIndex, manifests, layers),
+        );
+      } catch (error) {
+        reject(error);
+      }
+    });
+
+    tarExtractor.on("error", (error) => {
+      reject(error);
+    });
+
+    createReadStream(ociArchiveFilesystemPath)
       .pipe(gunzip())
       .pipe(tarExtractor);
   });
@@ -135,18 +209,72 @@ function getLayersContentAndArchiveManifest(
   };
 }
 
+function getOciLayersContentAndArchiveManifest(
+  imageIndex: OciImageIndex | undefined,
+  manifestCollection: Record<string, OciArchiveManifest>,
+  layers: Record<string, ExtractedLayers>,
+): { layers: ExtractedLayers[]; manifest: OciArchiveManifest } {
+  // filter empty layers
+  // get the layers content without the name
+  // reverse layers order from last to first
+
+  // get manifest file first
+  const manifest = getOciManifest(imageIndex, manifestCollection);
+  const filteredLayers = manifest.layers
+    .filter((layer) => Object.keys(layers[layer.digest]).length !== 0)
+    .map((layer) => layers[layer.digest])
+    .reverse();
+
+  return {
+    layers: filteredLayers,
+    manifest,
+  };
+}
+
+function getOciManifest(
+  imageIndex: OciImageIndex | undefined,
+  manifestCollection: Record<string, OciArchiveManifest>,
+): OciArchiveManifest {
+  if (!imageIndex) {
+    return manifestCollection[Object.keys(manifestCollection)[0]];
+  }
+
+  const manifestInfo:
+    | OciManifestInfo
+    | undefined = imageIndex.manifests.find((item) =>
+    item.platform
+      ? item.platform.architecture === "amd64" && item.platform.os === "linux"
+      : item,
+  );
+
+  if (manifestInfo === undefined) {
+    throw new Error("Unsupported type of CPU architecture or operating system");
+  }
+
+  return manifestCollection[manifestInfo.digest];
+}
+
 /**
  * Note: consumes the stream.
  */
 function getManifestFile(stream: Readable): Promise<DockerArchiveManifest> {
-  return streamToString(stream).then((manifestFile) => {
-    const manifest = JSON.parse(manifestFile);
+  return streamToJson<DockerArchiveManifest>(stream).then((manifest) => {
     return manifest[0];
   });
 }
 
+function isOciArchiveManifest(manifest: any): manifest is OciArchiveManifest {
+  return (
+    manifest !== undefined && manifest.layers && manifest.layers.length >= 0
+  );
+}
+
 function isManifestFile(name: string): boolean {
   return name === "manifest.json";
+}
+
+function isImageIndexFile(name: string): boolean {
+  return name === "index.json";
 }
 
 function isTarFile(name: string): boolean {

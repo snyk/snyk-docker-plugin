@@ -48,3 +48,8 @@ export async function streamToHash(stream: Readable): Promise<string> {
     stream.pipe(hash);
   });
 }
+
+export async function streamToJson<T>(stream: Readable): Promise<T> {
+  const file = await streamToString(stream);
+  return JSON.parse(file);
+}

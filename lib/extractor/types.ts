@@ -23,6 +23,25 @@ export interface DockerArchiveManifest {
   Layers: string[];
 }
 
+export interface OciArchiveLayer {
+  digest: string;
+}
+
+export interface OciArchiveManifest {
+  schemaVersion: string;
+  config: string;
+  layers: OciArchiveLayer[];
+}
+
+export interface OciManifestInfo {
+  digest: string;
+  platform?: { architecture: string; os: string };
+}
+
+export interface OciImageIndex {
+  manifests: OciManifestInfo[];
+}
+
 export interface ExtractAction {
   // This name should be unique across all actions used.
   actionName: string;
