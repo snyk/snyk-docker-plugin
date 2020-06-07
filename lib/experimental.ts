@@ -1,9 +1,7 @@
 import * as fs from "fs";
-import * as os from "os";
 import * as path from "path";
 
-import { pullIfNotLocal } from "./analyzer/image-inspector";
-import { Docker } from "./docker";
+import { getImageArchive } from "./analyzer/image-inspector";
 import { DockerFileAnalysis } from "./docker-file";
 import { getArchivePath, getImageType } from "./image-type";
 import * as staticModule from "./static";
@@ -67,27 +65,20 @@ export async function distroless(
     );
   }
 
-  await pullIfNotLocal(targetImage);
-
-  const archiveDir = path.join(os.tmpdir(), "snyk-image-archives");
-  createTempDirIfMissing(archiveDir);
-  // TODO terrible way to convert slashes to anything else
-  // so we don't think it's a directory
-  const archiveFileName = `${targetImage.replace(/\//g, "__")}.tar`;
-  const archiveFullPath = path.join(archiveDir, archiveFileName);
-
-  // assumption #1: the `docker` binary is available locally
-  const docker = new Docker(targetImage);
-  await docker.save(targetImage, archiveFullPath);
+  const archiveResult = await getImageArchive(
+    targetImage,
+    options?.username,
+    options?.password,
+  );
   try {
     return await getStaticAnalysisResult(
       targetImage,
-      archiveFullPath,
+      archiveResult.path,
       dockerfileAnalysis,
       ImageType.DockerArchive,
     );
   } finally {
-    fs.unlinkSync(archiveFullPath);
+    archiveResult.removeArchive();
   }
 }
 
@@ -110,14 +101,4 @@ async function getStaticAnalysisResult(
     dockerfileAnalysis,
     scanningOptions,
   );
-}
-
-function createTempDirIfMissing(archiveDir: string): void {
-  try {
-    fs.mkdirSync(archiveDir);
-  } catch (err) {
-    if (err.code !== "EEXIST") {
-      throw err;
-    }
-  }
 }

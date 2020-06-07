@@ -1,3 +1,8 @@
+import {
+  DockerPull,
+  DockerPullOptions,
+  DockerPullResult,
+} from "@snyk/snyk-docker-pull";
 import * as Debug from "debug";
 import * as Modem from "docker-modem";
 import { eventLoopSpinner } from "event-loop-spinner";
@@ -23,6 +28,15 @@ const SystemDirectories = ["dev", "proc", "sys"];
 const debug = Debug("snyk");
 
 class Docker {
+  public static async binaryExists(): Promise<boolean> {
+    try {
+      await subProcess.execute("docker", ["version"]);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   public static run(args: string[], options?: DockerOptions) {
     return subProcess.execute("docker", [
       ...Docker.createOptionsList(options),
@@ -101,7 +115,23 @@ class Docker {
     ]);
   }
 
-  public async pull(targetImage: string) {
+  public async pull(
+    registry: string,
+    repo: string,
+    tag: string,
+    username?: string,
+    password?: string,
+  ): Promise<DockerPullResult> {
+    const dockerPull = new DockerPull();
+    const opt: DockerPullOptions = {
+      username,
+      password,
+      loadImage: false,
+    };
+    return await dockerPull.pull(registry, repo, tag, opt);
+  }
+
+  public async pullCli(targetImage: string) {
     return subProcess.execute("docker", ["pull", targetImage]);
   }
 
@@ -113,6 +143,7 @@ class Docker {
       statusCodes: {
         200: true,
         400: "bad request",
+        404: "not found",
         500: "server error",
       },
     };
