@@ -1,9 +1,9 @@
 import * as path from "path";
 import { test } from "tap";
-import { getDockerArchiveLayersAndManifest } from "../../../lib/extractor";
-import { extractOciArchive } from "../../../lib/extractor/layer";
+import { getArchiveLayersAndManifest } from "../../../lib/extractor";
 import { ExtractAction } from "../../../lib/extractor/types";
 import { streamToString } from "../../../lib/stream-utils";
+import { ImageType } from "../../../lib/types";
 
 const getFixture = (fixturePath) =>
   path.join(__dirname, "../../fixtures", fixturePath);
@@ -24,13 +24,15 @@ test("image extractor: callbacks are issued when files are found", async (t) => 
   ];
 
   // Try a docker-archive first
-  await getDockerArchiveLayersAndManifest(
+  await getArchiveLayersAndManifest(
+    ImageType.DockerArchive,
     getFixture("docker-archives/docker-save/nginx.tar"),
     extractActions,
   );
 
   // Try a skopeo docker-archive
-  await getDockerArchiveLayersAndManifest(
+  await getArchiveLayersAndManifest(
+    ImageType.DockerArchive,
     getFixture("docker-archives/skopeo-copy/nginx.tar"),
     extractActions,
   );
@@ -61,13 +63,15 @@ test("image extractor: can read content with multiple callbacks", async (t) => {
   ];
 
   // Try a docker-archive first
-  await getDockerArchiveLayersAndManifest(
+  await getArchiveLayersAndManifest(
+    ImageType.DockerArchive,
     getFixture("docker-archives/docker-save/nginx.tar"),
     extractActions,
   );
 
   // Try a skopeo docker-archive
-  await getDockerArchiveLayersAndManifest(
+  await getArchiveLayersAndManifest(
+    ImageType.DockerArchive,
     getFixture("docker-archives/skopeo-copy/nginx.tar"),
     extractActions,
   );
@@ -86,12 +90,14 @@ test("image extractor: ensure the layer results are the same for docker and for 
     },
   ];
 
-  const dockerResult = await getDockerArchiveLayersAndManifest(
+  const dockerResult = await getArchiveLayersAndManifest(
+    ImageType.DockerArchive,
     getFixture("docker-archives/skopeo-copy/nginx.tar"),
     extractActions,
   );
 
-  const skopeoResult = await getDockerArchiveLayersAndManifest(
+  const skopeoResult = await getArchiveLayersAndManifest(
+    ImageType.DockerArchive,
     getFixture("docker-archives/skopeo-copy/nginx.tar"),
     extractActions,
   );
@@ -102,12 +108,14 @@ test("image extractor: ensure the layer results are the same for docker and for 
     "Docker and Skopeo docker-archive outputs resolve the same way",
   );
 
-  t.ok(
-    "layers" in dockerResult && "manifest" in dockerResult,
-    "Returns the expected structure",
+  const layers = dockerResult.extractedLayers;
+
+  t.equal(
+    dockerResult.imageId,
+    "ab56bba91343aafcdd94b7a44b42e12f32719b9a2b8579e93017c1280f48e8f3",
+    "ImageId returned as expected",
   );
 
-  const layers = dockerResult.layers;
   t.ok(
     fileNamePattern in layers &&
       actionName in layers[fileNamePattern] &&
@@ -115,19 +123,8 @@ test("image extractor: ensure the layer results are the same for docker and for 
     "The layers returned are as expected",
   );
 
-  const manifest = dockerResult.manifest;
-  t.ok(
-    "Config" in manifest && "Layers" in manifest && "RepoTags" in manifest,
-    "The manifest contains the expected entries",
-  );
-  t.same(manifest.RepoTags, [], "RepoTags is empty");
-  t.same(
-    manifest.Config,
-    "ab56bba91343aafcdd94b7a44b42e12f32719b9a2b8579e93017c1280f48e8f3.json",
-    "Config matches",
-  );
   t.deepEqual(
-    manifest.Layers,
+    dockerResult.manifestLayers,
     ["ce3539cc184915f96add8551b0e7a37d80c560fe3ffe40cfe4585ea3a8dc14e9.tar"],
     "Layers match",
   );
@@ -155,28 +152,33 @@ test("oci image extractor: extracted image content returned as expected", async 
     },
   ];
 
-  const result = await extractOciArchive(
+  const result = await getArchiveLayersAndManifest(
+    ImageType.OciArchive,
     getFixture("oci-archives/nginx.tar"),
     extractActions,
   );
 
+  t.equal(
+    result.imageId,
+    "sha256:32cc7aa0cb24d7b4e1907a1a658676aacd676356a6ea818549cdd8a2a38e43b6",
+    "ImageId returned as expected",
+  );
+
   t.ok(
-    "layers" in result && "manifest" in result,
+    "extractedLayers" in result && "manifestLayers" in result,
     "Result has expected structure",
   );
 
-  const layer = result.layers[0];
+  const layers = result.extractedLayers;
   t.ok(
-    fileNamePattern in layer &&
-      actionName in layer[fileNamePattern] &&
-      layer[fileNamePattern][actionName] === returnedContent,
+    fileNamePattern in layers &&
+      actionName in layers[fileNamePattern] &&
+      layers[fileNamePattern][actionName] === returnedContent,
     "The layers returned are as expected",
   );
 
-  const manifest = result.manifest;
-
   t.deepEqual(
-    manifest.layers.map((layer) => layer.digest),
+    result.manifestLayers,
     [
       "sha256:dd3ac8106a0bbe43a6e55d2b719fc00a2f8f694e90c7903403e8fdecd2ccc57f",
       "sha256:8de28bdda69b66a8e07b14f03a9762f508bc4caac35cef9543bad53503ce5f53",

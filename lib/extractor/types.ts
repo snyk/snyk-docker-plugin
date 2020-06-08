@@ -6,6 +6,12 @@ export type ExtractCallback = (
 
 export type FileNameAndContent = Record<string, string | Buffer>;
 
+export interface ExtractionResult {
+  imageId: string;
+  manifestLayers: string[];
+  extractedLayers: ExtractedLayers;
+}
+
 export interface ExtractedLayers {
   [layerName: string]: FileNameAndContent;
 }
@@ -29,7 +35,7 @@ export interface OciArchiveLayer {
 
 export interface OciArchiveManifest {
   schemaVersion: string;
-  config: string;
+  config: { digest: string };
   layers: OciArchiveLayer[];
 }
 

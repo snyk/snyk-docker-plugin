@@ -1,28 +1,56 @@
-import { extractDockerArchive } from "./layer";
-import { DockerArchiveManifest, ExtractAction, ExtractedLayers } from "./types";
+import { ImageType } from "../types";
+import * as dockerExtractor from "./docker-archive";
+import * as ociExtractor from "./oci-archive";
+import { ExtractAction, ExtractedLayers, ExtractionResult } from "./types";
 
 /**
- * Given a path on the file system to a docker-archive, open it up to inspect the layers
+ * Given a path on the file system to a image archive, open it up to inspect the layers
  * and look for specific files. File content can be transformed with a custom callback function if needed.
- * @param fileSystemPath Path to an existing docker-archive.
+ * @param fileSystemPath Path to an existing archive.
  * @param extractActions This denotes a file pattern to look for and how to transform the file if it is found.
  * By default the file is returned raw if no processing is desired.
  */
-export async function getDockerArchiveLayersAndManifest(
+export async function getArchiveLayersAndManifest(
+  imageType: ImageType,
   fileSystemPath: string,
   extractActions: ExtractAction[],
-): Promise<{
-  layers: ExtractedLayers;
-  manifest: DockerArchiveManifest;
-}> {
-  const dockerArchive = await extractDockerArchive(
-    fileSystemPath,
-    extractActions,
-  );
+): Promise<ExtractionResult> {
+  switch (imageType) {
+    case ImageType.OciArchive:
+      const ociArchive = await ociExtractor.extractArchive(
+        fileSystemPath,
+        extractActions,
+      );
 
+      return {
+        imageId: ociExtractor.getImageIdFromManifest(ociArchive.manifest),
+        manifestLayers: ociExtractor.getManifestLayers(ociArchive.manifest),
+        extractedLayers: layersWithLatestFileModifications(ociArchive.layers),
+      };
+    default:
+      const dockerArchive = await dockerExtractor.extractArchive(
+        fileSystemPath,
+        extractActions,
+      );
+
+      return {
+        imageId: dockerExtractor.getImageIdFromManifest(dockerArchive.manifest),
+        manifestLayers: dockerExtractor.getManifestLayers(
+          dockerArchive.manifest,
+        ),
+        extractedLayers: layersWithLatestFileModifications(
+          dockerArchive.layers,
+        ),
+      };
+  }
+}
+
+function layersWithLatestFileModifications(
+  layers: ExtractedLayers[],
+): ExtractedLayers {
   const extractedLayers: ExtractedLayers = {};
   // TODO: This removes the information about the layer name, maybe we would need it in the future?
-  for (const layer of dockerArchive.layers) {
+  for (const layer of layers) {
     // go over extracted files products found in this layer
     for (const filename of Object.keys(layer)) {
       // file was not found
@@ -31,11 +59,7 @@ export async function getDockerArchiveLayersAndManifest(
       }
     }
   }
-
-  return {
-    layers: extractedLayers,
-    manifest: dockerArchive.manifest,
-  };
+  return extractedLayers;
 }
 
 function isBufferType(type: string | Buffer): type is Buffer {

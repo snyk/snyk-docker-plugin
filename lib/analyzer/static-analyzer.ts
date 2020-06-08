@@ -1,7 +1,6 @@
 import * as Debug from "debug";
 import { DockerFileAnalysis } from "../docker-file";
-import { getDockerArchiveLayersAndManifest } from "../extractor";
-import { DockerArchiveManifest } from "../extractor/types";
+import * as archiveExtractor from "../extractor";
 import {
   getApkDbFileContent,
   getApkDbFileContentAction,
@@ -82,12 +81,15 @@ export async function analyze(
     );
   }
 
-  const dockerArchive = await getDockerArchiveLayersAndManifest(
+  const {
+    imageId,
+    manifestLayers,
+    extractedLayers,
+  } = await archiveExtractor.getArchiveLayersAndManifest(
+    options.imageType,
     options.imagePath,
     staticAnalysisActions,
   );
-
-  const extractedLayers = dockerArchive.layers;
 
   const [
     apkDbFileContent,
@@ -134,8 +136,6 @@ export async function analyze(
     throw new Error("Failed to detect installed OS packages");
   }
 
-  const imageId = imageIdFromArchiveManifest(dockerArchive.manifest);
-
   const binaries = getBinariesHashes(extractedLayers);
 
   const applicationDependenciesScanResults: ScannedProjectCustom[] = [];
@@ -149,20 +149,10 @@ export async function analyze(
     osRelease,
     results,
     binaries,
-    imageLayers: dockerArchive.manifest.Layers,
+    imageLayers: manifestLayers,
     applicationDependenciesScanResults,
     manifestFiles,
   };
-}
-
-function imageIdFromArchiveManifest(manifest: DockerArchiveManifest): string {
-  try {
-    return manifest.Config.split(".")[0];
-  } catch (err) {
-    debug(manifest);
-    debug(err);
-    throw new Error("Failed to extract image ID from archive manifest");
-  }
 }
 
 function shouldCheckForGlobs(options: StaticAnalysisOptions): boolean {
