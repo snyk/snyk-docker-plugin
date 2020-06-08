@@ -8,7 +8,7 @@ import { DockerArchiveManifest, ExtractAction, ExtractedLayers } from "./types";
  * @param extractActions This denotes a file pattern to look for and how to transform the file if it is found.
  * By default the file is returned raw if no processing is desired.
  */
-async function getDockerArchiveLayersAndManifest(
+export async function getDockerArchiveLayersAndManifest(
   fileSystemPath: string,
   extractActions: ExtractAction[],
 ): Promise<{
@@ -46,7 +46,7 @@ function isStringType(type: string | Buffer): type is string {
   return (type as string).substring !== undefined;
 }
 
-function getContentAsBuffer(
+export function getContentAsBuffer(
   extractedLayers: ExtractedLayers,
   extractAction: ExtractAction,
 ): Buffer | undefined {
@@ -54,7 +54,7 @@ function getContentAsBuffer(
   return content !== undefined && isBufferType(content) ? content : undefined;
 }
 
-function getContentAsString(
+export function getContentAsString(
   extractedLayers: ExtractedLayers,
   extractAction: ExtractAction,
 ): string | undefined {
@@ -79,9 +79,3 @@ function getContent(
     ? extractedLayers[firstFileNameMatch][extractAction.actionName]
     : undefined;
 }
-
-export {
-  getDockerArchiveLayersAndManifest,
-  getContentAsString,
-  getContentAsBuffer,
-};
