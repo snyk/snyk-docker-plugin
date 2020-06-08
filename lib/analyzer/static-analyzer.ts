@@ -47,12 +47,17 @@ import { ImageAnalysis, OSRelease, StaticAnalysis } from "./types";
 
 const debug = Debug("snyk");
 
+const supportedArchives: ImageType[] = [
+  ImageType.DockerArchive,
+  ImageType.OciArchive,
+];
+
 export async function analyze(
   targetImage: string,
   dockerfileAnalysis: DockerFileAnalysis | undefined,
   options: StaticAnalysisOptions,
 ): Promise<StaticAnalysis> {
-  if (options.imageType !== ImageType.DockerArchive) {
+  if (!supportedArchives.includes(options.imageType)) {
     throw new Error("Unhandled image type");
   }
 
@@ -143,7 +148,6 @@ export async function analyze(
     getNodeAppFileContent(extractedLayers),
   );
   applicationDependenciesScanResults.push(...nodeDependenciesScanResults);
-
   return {
     imageId,
     osRelease,

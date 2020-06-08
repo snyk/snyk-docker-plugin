@@ -1,16 +1,28 @@
 import { ImageType } from "./types";
 
-const dockerArchiveIdentifierLength = "docker-archive:".length;
-
 export function getImageType(targetImage: string): ImageType {
-  if (targetImage.startsWith("docker-archive:")) {
-    return ImageType.DockerArchive;
-  }
+  const imageIdentifier = targetImage.split(":")[0];
+  switch (imageIdentifier) {
+    case "docker-archive":
+      return ImageType.DockerArchive;
 
-  return ImageType.Identifier;
+    case "oci-archive":
+      return ImageType.OciArchive;
+
+    default:
+      return ImageType.Identifier;
+  }
 }
 
-export function getDockerArchivePath(targetImage: string): string {
-  // strip the "docker-archive:" prefix
-  return targetImage.substring(dockerArchiveIdentifierLength);
+export function getArchivePath(targetImage: string): string {
+  // strip the "docker-archive:" or "oci-archive:" prefix
+
+  const path = targetImage.split(":")[1];
+  if (!path) {
+    throw new Error(
+      'The provided archive path is missing image specific prefix, eg."docker-archive:" or "oci-archive:"',
+    );
+  }
+
+  return path;
 }

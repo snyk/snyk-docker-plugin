@@ -1,9 +1,9 @@
 import { test } from "tap";
-import { getDockerArchivePath, getImageType } from "../../lib/image-type";
+import { getArchivePath, getImageType } from "../../lib/image-type";
 import { ImageType } from "../../lib/types";
 
 test("getImageType() returns the expected transports", (t) => {
-  t.plan(2);
+  t.plan(3);
 
   t.same(
     getImageType("nginx:latest"),
@@ -15,19 +15,31 @@ test("getImageType() returns the expected transports", (t) => {
     ImageType.DockerArchive,
     "docker-archive is handled",
   );
+  t.same(
+    getImageType("oci-archive:/tmp/nginx.tar"),
+    ImageType.OciArchive,
+    "oci-archive is handled",
+  );
 });
 
-test("getDockerArchivePath() returns the expected results", (t) => {
-  t.plan(2);
+test("getArchivePath() returns the expected results", (t) => {
+  t.plan(3);
 
   t.same(
-    getDockerArchivePath("docker-archive:/tmp/nginx.tar"),
+    getArchivePath("docker-archive:/tmp/nginx.tar"),
     "/tmp/nginx.tar",
-    "returns extracted path",
+    "returns extracted path from docker-archive target image",
   );
+
   t.same(
-    getDockerArchivePath("bad-path"),
-    "",
-    "does not handle errors and returns empty path",
+    getArchivePath("oci-archive:/tmp/nginx.tar"),
+    "/tmp/nginx.tar",
+    "returns extracted path from oci-archive target image",
+  );
+
+  t.throws(
+    () => getArchivePath("bad-path"),
+    'The provided archive path is missing image specific prefix, eg."docker-archive:" or "oci-archive:"',
+    "throws expected error when provided bad path",
   );
 });

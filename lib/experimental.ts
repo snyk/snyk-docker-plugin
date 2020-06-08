@@ -5,7 +5,7 @@ import * as path from "path";
 import { pullIfNotLocal } from "./analyzer/image-inspector";
 import { Docker } from "./docker";
 import { DockerFileAnalysis } from "./docker-file";
-import { getDockerArchivePath, getImageType } from "./image-type";
+import { getArchivePath, getImageType } from "./image-type";
 import * as staticModule from "./static";
 import { ImageType, PluginResponse } from "./types";
 
@@ -18,8 +18,8 @@ export async function experimentalAnalysis(
   const imageType = getImageType(targetImage);
   switch (imageType) {
     case ImageType.DockerArchive:
-      return dockerArchive(targetImage, dockerfileAnalysis);
-
+    case ImageType.OciArchive:
+      return localArchive(targetImage, imageType, dockerfileAnalysis);
     case ImageType.Identifier:
       return distroless(targetImage, dockerfileAnalysis, options);
 
@@ -28,18 +28,19 @@ export async function experimentalAnalysis(
   }
 }
 
-async function dockerArchive(
+async function localArchive(
   targetImage: string,
+  imageType: ImageType,
   dockerfileAnalysis: DockerFileAnalysis | undefined,
 ): Promise<PluginResponse> {
-  const archivePath = getDockerArchivePath(targetImage);
+  const archivePath = getArchivePath(targetImage);
   if (!fs.existsSync(archivePath)) {
     throw new Error(
-      "The provided docker archive path does not exist on the filesystem",
+      "The provided archive path does not exist on the filesystem",
     );
   }
   if (!fs.lstatSync(archivePath).isFile()) {
-    throw new Error("The provided docker archive path is not a file");
+    throw new Error("The provided archive path is not a file");
   }
   // The target image becomes the base of the path, e.g. "archive.tar" for "/var/tmp/archive.tar"
   const imageIdentifier = path.basename(archivePath);
@@ -47,6 +48,7 @@ async function dockerArchive(
     imageIdentifier,
     archivePath,
     dockerfileAnalysis,
+    imageType,
   );
 }
 
@@ -82,6 +84,7 @@ export async function distroless(
       targetImage,
       archiveFullPath,
       dockerfileAnalysis,
+      ImageType.DockerArchive,
     );
   } finally {
     fs.unlinkSync(archiveFullPath);
@@ -92,11 +95,12 @@ async function getStaticAnalysisResult(
   targetImage: string,
   archivePath: string,
   dockerfileAnalysis: DockerFileAnalysis | undefined,
+  imageType: ImageType,
 ): Promise<PluginResponse> {
   const scanningOptions = {
     staticAnalysisOptions: {
       imagePath: archivePath,
-      imageType: ImageType.DockerArchive,
+      imageType,
       distroless: true,
     },
   };
