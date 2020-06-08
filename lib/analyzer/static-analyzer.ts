@@ -87,33 +87,33 @@ export async function analyze(
     staticAnalysisActions,
   );
 
-  const archiveLayers = dockerArchive.layers;
+  const extractedLayers = dockerArchive.layers;
 
   const [
     apkDbFileContent,
     aptDbFileContent,
     rpmDbFileContent,
   ] = await Promise.all([
-    getApkDbFileContent(archiveLayers),
-    getAptDbFileContent(archiveLayers),
-    getRpmDbFileContent(archiveLayers),
+    getApkDbFileContent(extractedLayers),
+    getAptDbFileContent(extractedLayers),
+    getRpmDbFileContent(extractedLayers),
   ]);
 
   let distrolessAptFiles: string[] = [];
   if (options.distroless) {
-    distrolessAptFiles = getAptFiles(archiveLayers);
+    distrolessAptFiles = getAptFiles(extractedLayers);
   }
 
   const manifestFiles: ManifestFile[] = [];
   if (checkForGlobs) {
-    const matchingFiles = filePatternStatic.getMatchingFiles(archiveLayers);
+    const matchingFiles = filePatternStatic.getMatchingFiles(extractedLayers);
     manifestFiles.push(...matchingFiles);
   }
 
   let osRelease: OSRelease;
   try {
     osRelease = await osReleaseDetector.detectStatically(
-      archiveLayers,
+      extractedLayers,
       dockerfileAnalysis,
     );
   } catch (err) {
@@ -136,11 +136,11 @@ export async function analyze(
 
   const imageId = imageIdFromArchiveManifest(dockerArchive.manifest);
 
-  const binaries = getBinariesHashes(archiveLayers);
+  const binaries = getBinariesHashes(extractedLayers);
 
   const applicationDependenciesScanResults: ScannedProjectCustom[] = [];
   const nodeDependenciesScanResults = await nodeFilesToScannedProjects(
-    getNodeAppFileContent(archiveLayers),
+    getNodeAppFileContent(extractedLayers),
   );
   applicationDependenciesScanResults.push(...nodeDependenciesScanResults);
 
