@@ -1,7 +1,6 @@
 import * as Debug from "debug";
 import { DockerFileAnalysis } from "../docker-file";
-import { getDockerArchiveLayersAndManifest } from "../extractor";
-import { DockerArchiveManifest } from "../extractor/types";
+import * as archiveExtractor from "../extractor";
 import {
   getApkDbFileContent,
   getApkDbFileContentAction,
@@ -82,38 +81,41 @@ export async function analyze(
     );
   }
 
-  const dockerArchive = await getDockerArchiveLayersAndManifest(
+  const {
+    imageId,
+    manifestLayers,
+    extractedLayers,
+  } = await archiveExtractor.getArchiveLayersAndManifest(
+    options.imageType,
     options.imagePath,
     staticAnalysisActions,
   );
-
-  const archiveLayers = dockerArchive.layers;
 
   const [
     apkDbFileContent,
     aptDbFileContent,
     rpmDbFileContent,
   ] = await Promise.all([
-    getApkDbFileContent(archiveLayers),
-    getAptDbFileContent(archiveLayers),
-    getRpmDbFileContent(archiveLayers),
+    getApkDbFileContent(extractedLayers),
+    getAptDbFileContent(extractedLayers),
+    getRpmDbFileContent(extractedLayers),
   ]);
 
   let distrolessAptFiles: string[] = [];
   if (options.distroless) {
-    distrolessAptFiles = getAptFiles(archiveLayers);
+    distrolessAptFiles = getAptFiles(extractedLayers);
   }
 
   const manifestFiles: ManifestFile[] = [];
   if (checkForGlobs) {
-    const matchingFiles = filePatternStatic.getMatchingFiles(archiveLayers);
+    const matchingFiles = filePatternStatic.getMatchingFiles(extractedLayers);
     manifestFiles.push(...matchingFiles);
   }
 
   let osRelease: OSRelease;
   try {
     osRelease = await osReleaseDetector.detectStatically(
-      archiveLayers,
+      extractedLayers,
       dockerfileAnalysis,
     );
   } catch (err) {
@@ -134,13 +136,11 @@ export async function analyze(
     throw new Error("Failed to detect installed OS packages");
   }
 
-  const imageId = imageIdFromArchiveManifest(dockerArchive.manifest);
-
-  const binaries = getBinariesHashes(archiveLayers);
+  const binaries = getBinariesHashes(extractedLayers);
 
   const applicationDependenciesScanResults: ScannedProjectCustom[] = [];
   const nodeDependenciesScanResults = await nodeFilesToScannedProjects(
-    getNodeAppFileContent(archiveLayers),
+    getNodeAppFileContent(extractedLayers),
   );
   applicationDependenciesScanResults.push(...nodeDependenciesScanResults);
 
@@ -149,20 +149,10 @@ export async function analyze(
     osRelease,
     results,
     binaries,
-    imageLayers: dockerArchive.manifest.Layers,
+    imageLayers: manifestLayers,
     applicationDependenciesScanResults,
     manifestFiles,
   };
-}
-
-function imageIdFromArchiveManifest(manifest: DockerArchiveManifest): string {
-  try {
-    return manifest.Config.split(".")[0];
-  } catch (err) {
-    debug(manifest);
-    debug(err);
-    throw new Error("Failed to extract image ID from archive manifest");
-  }
 }
 
 function shouldCheckForGlobs(options: StaticAnalysisOptions): boolean {
