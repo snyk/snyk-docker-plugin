@@ -71,14 +71,14 @@ test("docker-archive image type throws on bad files", async (t) => {
         dockerfile,
         pluginOptions,
       ),
-    Error("The provided docker archive path does not exist on the filesystem"),
+    Error("The provided archive path does not exist on the filesystem"),
     "throws when a file does not exists",
   );
 
   await t.rejects(
     async () =>
       await plugin.inspect("docker-archive:/tmp", dockerfile, pluginOptions),
-    Error("The provided docker archive path is not a file"),
+    Error("The provided archive path is not a file"),
     "throws when the provided path is a directory",
   );
 });
