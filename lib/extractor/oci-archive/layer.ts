@@ -1,3 +1,4 @@
+import * as Debug from "debug";
 import { createReadStream } from "fs";
 import * as gunzip from "gunzip-maybe";
 import { PassThrough } from "stream";
@@ -11,6 +12,8 @@ import {
   OciImageIndex,
   OciManifestInfo,
 } from "../types";
+
+const debug = Debug("snyk");
 
 /**
  * Retrieve the products of files content from the specified oci-archive.
@@ -75,7 +78,10 @@ export async function extractArchive(
           getLayersContentAndArchiveManifest(imageIndex, manifests, layers),
         );
       } catch (error) {
-        reject(error);
+        debug(
+          `Error getting layers and manifest content from oci archive: '${error}'`,
+        );
+        reject(new Error("Invalid OCI archive"));
       }
     });
 

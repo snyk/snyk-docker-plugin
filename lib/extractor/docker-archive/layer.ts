@@ -1,3 +1,4 @@
+import * as Debug from "debug";
 import { createReadStream } from "fs";
 import * as gunzip from "gunzip-maybe";
 import { basename } from "path";
@@ -11,6 +12,8 @@ import {
   ExtractedLayers,
   ExtractedLayersAndManifest,
 } from "../types";
+
+const debug = Debug("snyk");
 
 /**
  * Retrieve the products of files content from the specified docker-archive.
@@ -30,7 +33,15 @@ export async function extractArchive(
     tarExtractor.on("entry", async (header, stream, next) => {
       if (header.type === "file") {
         if (isTarFile(header.name)) {
-          layers[header.name] = await extractImageLayer(stream, extractActions);
+          try {
+            layers[header.name] = await extractImageLayer(
+              stream,
+              extractActions,
+            );
+          } catch (error) {
+            debug(`Error extracting layer content from: '${error}'`);
+            reject(new Error("Error reading tar archive"));
+          }
         } else if (isManifestFile(header.name)) {
           manifest = await getManifestFile(stream);
         }
@@ -41,7 +52,14 @@ export async function extractArchive(
     });
 
     tarExtractor.on("finish", () => {
-      resolve(getLayersContentAndArchiveManifest(manifest, layers));
+      try {
+        resolve(getLayersContentAndArchiveManifest(manifest, layers));
+      } catch (error) {
+        debug(
+          `Error getting layers and manifest content from docker archive: '${error}'`,
+        );
+        reject(new Error("Invalid docker archive"));
+      }
     });
 
     tarExtractor.on("error", (error) => reject(error));

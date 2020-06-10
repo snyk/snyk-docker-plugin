@@ -188,3 +188,35 @@ test("oci image extractor: extracted image content returned as expected", async 
     "Manifest returns expected layers content",
   );
 });
+
+test("image extractor: user friendly error thrown when invalid archive provided", async (t) => {
+  const extractActions: ExtractAction[] = [
+    {
+      actionName: "find_mock",
+      filePathMatches: (filePath) => filePath === "/snyk/mock.txt",
+      callback: async () => "this is a mock",
+    },
+  ];
+
+  await t.rejects(
+    () =>
+      getArchiveLayersAndManifest(
+        ImageType.OciArchive,
+        getFixture("docker-archives/skopeo-copy/nginx.tar"),
+        extractActions,
+      ),
+    new Error("Invalid OCI archive"),
+    "rejects with",
+  );
+
+  await t.rejects(
+    () =>
+      getArchiveLayersAndManifest(
+        ImageType.DockerArchive,
+        getFixture("oci-archives/nginx.tar"),
+        extractActions,
+      ),
+    new Error("Invalid docker archive"),
+    "rejects with",
+  );
+});
