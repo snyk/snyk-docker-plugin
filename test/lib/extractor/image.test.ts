@@ -216,7 +216,7 @@ test("image extractor: user friendly error thrown when invalid archive provided"
         getFixture("oci-archives/nginx.tar"),
         extractActions,
       ),
-    new Error("Invalid docker archive"),
+    new Error("Invalid Docker archive"),
     "rejects with",
   );
 });

@@ -58,7 +58,7 @@ export async function extractArchive(
         debug(
           `Error getting layers and manifest content from docker archive: '${error}'`,
         );
-        reject(new Error("Invalid docker archive"));
+        reject(new Error("Invalid Docker archive"));
       }
     });
 
