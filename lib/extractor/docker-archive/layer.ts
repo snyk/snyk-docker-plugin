@@ -58,7 +58,7 @@ export async function extractArchive(
         debug(
           `Error getting layers and manifest content from docker archive: '${error}'`,
         );
-        reject(new Error("Invalid docker archive"));
+        reject(new Error("Invalid Docker archive"));
       }
     });
 
@@ -82,6 +82,10 @@ function getLayersContentAndArchiveManifest(
   )
     .map((layerName) => layers[layerName])
     .reverse();
+
+  if (filteredLayers.length === 0) {
+    throw new Error("We found no layers in the provided image");
+  }
 
   return {
     layers: filteredLayers,
