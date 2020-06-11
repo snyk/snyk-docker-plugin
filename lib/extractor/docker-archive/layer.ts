@@ -83,6 +83,10 @@ function getLayersContentAndArchiveManifest(
     .map((layerName) => layers[layerName])
     .reverse();
 
+  if (filteredLayers.length === 0) {
+    throw new Error("We found no layers in the provided image");
+  }
+
   return {
     layers: filteredLayers,
     manifest,
