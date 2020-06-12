@@ -39,6 +39,12 @@ const getRedHatReleaseAction: ExtractAction = {
   callback: streamToString,
 };
 
+const getCentosReleaseAction: ExtractAction = {
+  actionName: "centos-release",
+  filePathMatches: (filePath) => filePath === OsReleaseFilePath.Centos,
+  callback: streamToString,
+};
+
 const getOracleReleaseAction: ExtractAction = {
   actionName: "oracle-release",
   filePathMatches: (filePath) => filePath === OsReleaseFilePath.Oracle,
@@ -52,6 +58,7 @@ const osReleaseActionMap = {
   [OsReleaseFilePath.Debian]: getDebianVersionAction,
   [OsReleaseFilePath.Alpine]: getAlpineReleaseAction,
   [OsReleaseFilePath.RedHat]: getRedHatReleaseAction,
+  [OsReleaseFilePath.Centos]: getCentosReleaseAction,
   [OsReleaseFilePath.Oracle]: getOracleReleaseAction,
 };
 
@@ -62,6 +69,7 @@ export const getOsReleaseActions: ExtractAction[] = [
   getDebianVersionAction,
   getAlpineReleaseAction,
   getRedHatReleaseAction,
+  getCentosReleaseAction,
   getOracleReleaseAction,
 ];
 

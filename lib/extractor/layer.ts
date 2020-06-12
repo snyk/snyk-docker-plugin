@@ -20,7 +20,7 @@ export async function extractImageLayer(
     const tarExtractor: Extract = extract();
 
     tarExtractor.on("entry", async (headers, stream, next) => {
-      if (headers.type === "file") {
+      if (headers.type === "file" || headers.type === "symlink") {
         const absoluteFileName = resolvePath("/", headers.name);
         // TODO wouldn't it be simpler to first check
         // if the filename matches any patterns?

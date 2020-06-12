@@ -61,6 +61,12 @@ export async function detect(
   }
 
   if (!osRelease) {
+    osRelease = await tryRedHatRelease(
+      getOsRelease(extractedLayers, OsReleaseFilePath.Centos),
+    );
+  }
+
+  if (!osRelease) {
     if (dockerfileAnalysis && dockerfileAnalysis.baseImage === "scratch") {
       // If the docker file was build from a scratch image
       // then we don't have a known OS
