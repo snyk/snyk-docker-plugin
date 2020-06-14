@@ -58,9 +58,6 @@ function parseLine(
         }
       }
       break;
-    case "o": // Origin
-      curPkg.Source = value;
-      break;
   }
   return curPkg;
 }
