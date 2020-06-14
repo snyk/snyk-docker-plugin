@@ -403,147 +403,17 @@ test("inspect redis:3.2.11-alpine", (t) => {
       t.match(
         deps,
         {
-          "busybox/busybox": {
-            name: "busybox/busybox",
+          busybox: {
+            name: "busybox",
             version: "1.27.2-r7",
-            dependencies: {
-              "musl/musl": {
-                name: "musl/musl",
-                version: "1.1.18-r3",
-              },
-            },
           },
-          "alpine-baselayout/alpine-baselayout": {
-            name: "alpine-baselayout/alpine-baselayout",
-            version: "3.0.5-r2",
-            dependencies: {
-              "busybox/busybox": {
-                name: "busybox/busybox",
-                version: "1.27.2-r7",
-              },
-              "musl/musl": {
-                name: "musl/musl",
-                version: "1.1.18-r3",
-              },
-            },
-          },
-          "alpine-keys/alpine-keys": {
-            name: "alpine-keys/alpine-keys",
-            version: "2.1-r1",
-          },
-          "libressl/libressl2.6-libcrypto": {
-            name: "libressl/libressl2.6-libcrypto",
+          "libressl2.6-libcrypto": {
+            name: "libressl2.6-libcrypto",
             version: "2.6.3-r0",
-            dependencies: {
-              "musl/musl": {
-                name: "musl/musl",
-                version: "1.1.18-r3",
-              },
-            },
           },
-          "libressl/libressl2.6-libssl": {
-            name: "libressl/libressl2.6-libssl",
-            version: "2.6.3-r0",
-            dependencies: {
-              "musl/musl": {
-                name: "musl/musl",
-                version: "1.1.18-r3",
-              },
-              "libressl/libressl2.6-libcrypto": {
-                name: "libressl/libressl2.6-libcrypto",
-                version: "2.6.3-r0",
-              },
-            },
-          },
-          "zlib/zlib": {
-            name: "zlib/zlib",
+          zlib: {
+            name: "zlib",
             version: "1.2.11-r1",
-            dependencies: {
-              "musl/musl": {
-                name: "musl/musl",
-                version: "1.1.18-r3",
-              },
-            },
-          },
-          "apk-tools/apk-tools": {
-            name: "apk-tools/apk-tools",
-            version: "2.8.2-r0",
-            dependencies: {
-              "musl/musl": {
-                name: "musl/musl",
-                version: "1.1.18-r3",
-              },
-              "libressl/libressl2.6-libcrypto": {
-                name: "libressl/libressl2.6-libcrypto",
-                version: "2.6.3-r0",
-              },
-              "libressl/libressl2.6-libssl": {
-                name: "libressl/libressl2.6-libssl",
-                version: "2.6.3-r0",
-              },
-              "zlib/zlib": {
-                name: "zlib/zlib",
-                version: "1.2.11-r1",
-              },
-            },
-          },
-          "pax-utils/scanelf": {
-            name: "pax-utils/scanelf",
-            version: "1.2.2-r1",
-            dependencies: {
-              "musl/musl": {
-                name: "musl/musl",
-                version: "1.1.18-r3",
-              },
-            },
-          },
-          "libc-dev/libc-utils": {
-            name: "libc-dev/libc-utils",
-            version: "0.7.1-r0",
-            dependencies: {
-              "musl/musl-utils": {
-                name: "musl/musl-utils",
-                version: "1.1.18-r3",
-                dependencies: {
-                  "pax-utils/scanelf": {
-                    name: "pax-utils/scanelf",
-                    version: "1.2.2-r1",
-                  },
-                  "musl/musl": {
-                    name: "musl/musl",
-                    version: "1.1.18-r3",
-                  },
-                },
-              },
-            },
-          },
-          "su-exec/su-exec": {
-            name: "su-exec/su-exec",
-            version: "0.2-r0",
-            dependencies: {
-              "musl/musl": {
-                name: "musl/musl",
-                version: "1.1.18-r3",
-              },
-            },
-          },
-          "musl/musl": {
-            name: "musl/musl",
-            version: "1.1.18-r3",
-          },
-          "musl/musl-utils": {
-            name: "musl/musl-utils",
-            version: "1.1.18-r3",
-          },
-          ".redis-rundeps": {
-            name: ".redis-rundeps",
-            version: "0",
-            dependencies: {
-              "musl/musl": {
-                name: "musl/musl",
-                version: "1.1.18-r3",
-              },
-            },
           },
         },
         "deps",

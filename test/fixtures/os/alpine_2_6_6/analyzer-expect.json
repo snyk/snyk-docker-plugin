@@ -18,7 +18,7 @@
         {
           "Name": "libc",
           "Version": "0.9.33.2-r22",
-          "Source": "libc0.9.32",
+          "Source": null,
           "Provides": [
             "so:ld64-uClibc.so.0.9.32",
             "so:libc.so.0.9.32",
@@ -37,7 +37,7 @@
         {
           "Name": "busybox",
           "Version": "1.21.1-r2",
-          "Source": "busybox",
+          "Source": null,
           "Provides": [],
           "Deps": {
             "so:libc.so.0.9.32": true,
@@ -49,7 +49,7 @@
         {
           "Name": "alpine-baselayout",
           "Version": "2.2.0-r6",
-          "Source": "alpine-baselayout",
+          "Source": null,
           "Provides": [],
           "Deps": {
             "busybox": true,
@@ -60,7 +60,7 @@
         {
           "Name": "openrc",
           "Version": "0.11.8-r0",
-          "Source": "openrc",
+          "Source": null,
           "Provides": [
             "so:libeinfo.so.1",
             "so:librc.so.1"
@@ -76,7 +76,7 @@
         {
           "Name": "alpine-conf",
           "Version": "2.12.0-r6",
-          "Source": "alpine-conf",
+          "Source": null,
           "Provides": [],
           "Deps": {
             "openrc": true,
@@ -87,7 +87,7 @@
         {
           "Name": "zlib",
           "Version": "1.2.8-r0",
-          "Source": "zlib",
+          "Source": null,
           "Provides": [
             "so:libz.so.1"
           ],
@@ -99,7 +99,7 @@
         {
           "Name": "libcrypto1.0",
           "Version": "1.0.1m-r0",
-          "Source": "openssl",
+          "Source": null,
           "Provides": [
             "so:libcrypto.so.1.0.0"
           ],
@@ -115,7 +115,7 @@
         {
           "Name": "apk-tools",
           "Version": "2.4.0-r1",
-          "Source": "apk-tools",
+          "Source": null,
           "Provides": [],
           "Deps": {
             "so:libc.so.0.9.32": true,
@@ -127,7 +127,7 @@
         {
           "Name": "busybox-initscripts",
           "Version": "2.2-r15",
-          "Source": "busybox-initscripts",
+          "Source": null,
           "Provides": [],
           "Deps": {
             "busybox": true,
@@ -138,7 +138,7 @@
         {
           "Name": "uclibc-utils",
           "Version": "0.9.33.2-r22",
-          "Source": "libc0.9.32",
+          "Source": null,
           "Provides": [],
           "Deps": {
             "busybox": true,
@@ -151,7 +151,7 @@
         {
           "Name": "libc-utils",
           "Version": "0.1-r0",
-          "Source": "libc",
+          "Source": null,
           "Provides": [],
           "Deps": {
             "uclibc-utils": true
@@ -161,7 +161,7 @@
         {
           "Name": "alpine-keys",
           "Version": "1.0-r0",
-          "Source": "alpine-keys",
+          "Source": null,
           "Provides": [],
           "Deps": {
             "alpine-base": true
@@ -171,7 +171,7 @@
         {
           "Name": "alpine-base",
           "Version": "2.6.6-r0",
-          "Source": "alpine-base",
+          "Source": null,
           "Provides": [],
           "Deps": {
             "alpine-baselayout": true,
