@@ -13,7 +13,7 @@
   "scripts": {
     "build": "tsc",
     "build-watch": "tsc -w",
-    "debug": "tsc-watch --project tsconfig.json --onSuccess 'node --inspect --debug-brk .'",
+    "debug": "tsc-watch --project tsconfig.json --onSuccess 'node --inspect --inspect-brk .'",
     "lint": "prettier --check '**/*.ts' && tslint --format stylish '**/*.ts' --exclude 'node_modules/**'",
     "format": "prettier --loglevel warn --write '**/*.ts' && tslint --fix --format stylish '**/*.ts' --exclude 'node_modules/**'",
     "test": "npm run lint && npm run unit-test",
@@ -40,6 +40,7 @@
     "sinon": "^6",
     "tap": "^14.10.6",
     "ts-node": "^8.1.0",
+    "tsc-watch": "^4.2.8",
     "tslint": "^5.16.0",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "3.7.5"
