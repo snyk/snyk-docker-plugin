@@ -81,6 +81,22 @@ export async function tryRedHatRelease(
   return { name, version, prettyName: "" };
 }
 
+export async function tryCentosRelease(
+  text: string,
+): Promise<OSRelease | null> {
+  if (!text) {
+    return null;
+  }
+  const idRes = text.match(/^(\S+)/m);
+  const versionRes = text.match(/(\d+)\./m);
+  if (!idRes || !versionRes) {
+    throw new Error("Failed to parse /etc/centos-release");
+  }
+  const name = idRes[1].replace(/"/g, "").toLowerCase();
+  const version = versionRes[1].replace(/"/g, "");
+  return { name, version, prettyName: "" };
+}
+
 export async function tryOracleRelease(
   text: string,
 ): Promise<OSRelease | null> {

@@ -24,6 +24,7 @@ export enum OsReleaseFilePath {
   Alpine = "/etc/alpine-release",
   RedHat = "/etc/redhat-release",
   Oracle = "/etc/oracle-release",
+  Centos = "/etc/centos-release",
 }
 
 export interface ManifestFile {
