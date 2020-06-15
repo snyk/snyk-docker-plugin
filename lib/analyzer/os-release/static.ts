@@ -10,6 +10,7 @@ import {
   tryOracleRelease,
   tryOSRelease,
   tryRedHatRelease,
+  tryCentosRelease,
 } from "./release-analyzer";
 
 export async function detect(
@@ -51,6 +52,12 @@ export async function detect(
   if (!osRelease) {
     osRelease = await tryOracleRelease(
       getOsRelease(extractedLayers, OsReleaseFilePath.Oracle),
+    );
+  }
+
+  if (!osRelease) {
+    osRelease = await tryCentosRelease(
+      getOsRelease(extractedLayers, OsReleaseFilePath.Centos),
     );
   }
 

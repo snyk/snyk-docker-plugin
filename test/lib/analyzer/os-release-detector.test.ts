@@ -8,11 +8,14 @@ import { test } from "tap";
 
 import * as osReleaseDetector from "../../../lib/analyzer/os-release";
 import * as subProcess from "../../../lib/sub-process";
+import { ImageType } from "../../../lib/types";
+import { getOsReleaseActions } from "../../../lib/inputs/os-release/static";
+import * as archiveExtractor from "../../../lib/extractor/index";
 
 const readOsFixtureFile = (...from) =>
   fs.readFileSync(path.join(__dirname, "../../fixtures/os", ...from), "utf8");
 
-test("os release detection", async (t) => {
+test("os release detection dynamically", async (t) => {
   const examples = {
     "alpine:2.6": {
       dir: "alpine_2_6_6",
@@ -213,6 +216,37 @@ test("os release detection", async (t) => {
     const actual = await osReleaseDetector.detectDynamically(
       targetImage,
       example.dockerfileAnalysis,
+    );
+    t.same(actual, example.expected, targetImage);
+  }
+});
+
+test("os release detection statically", async (t) => {
+  const examples = {
+    "centos:7": {
+      dir: "centos",
+      imageType: ImageType.DockerArchive,
+      imagePath: path.join(
+                    __dirname,
+                    "../../fixtures/docker-archives/skopeo-copy/centos-6.tar"
+                  ),
+      expected: {name: "centos", version: "6", prettyName: ""},
+      notes: "uses /etc/centos-release",
+    },
+  };
+
+  for (const targetImage of Object.keys(examples)) {
+    const example = examples[targetImage];
+    const {
+      extractedLayers,
+    } = await archiveExtractor.getArchiveLayersAndManifest(
+      example.imageType,
+      example.imagePath,
+      getOsReleaseActions
+    );
+    const actual = await osReleaseDetector.detectStatically(
+      extractedLayers,
+      undefined,
     );
     t.same(actual, example.expected, targetImage);
   }
