@@ -198,3 +198,26 @@ test("Analyses dockerfiles", async (t) => {
     });
   }
 });
+
+test("Analyses dockerfiles", async (t) => {
+    const examples = [
+    {
+      description: "a simple Dockerfile",
+      fixture: "egg",
+      expected: {
+        baseImage: "ubuntu:bionic",
+        dockerfilePackages: {},
+        dockerfileLayers: {},
+      },
+    },
+  ];
+  for (const example of examples) {
+    await t.test(example.description, async (t) => {
+      const pathToDockerfile = getDockerfileFixture(example.fixture);
+      const actual = await dockerFile.readDockerfileAndAnalyse(
+        pathToDockerfile,
+      );
+      t.same(actual, example.expected, "returns unexpected result");
+    });
+  }
+});
