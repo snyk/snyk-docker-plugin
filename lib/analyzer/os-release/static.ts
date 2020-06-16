@@ -5,6 +5,7 @@ import { OsReleaseFilePath } from "../../types";
 import { OSRelease } from "../types";
 import {
   tryAlpineRelease,
+  tryCentosRelease,
   tryDebianVersion,
   tryLsbRelease,
   tryOracleRelease,
@@ -57,6 +58,12 @@ export async function detect(
   if (!osRelease) {
     osRelease = await tryRedHatRelease(
       getOsRelease(extractedLayers, OsReleaseFilePath.RedHat),
+    );
+  }
+
+  if (!osRelease) {
+    osRelease = await tryCentosRelease(
+      getOsRelease(extractedLayers, OsReleaseFilePath.Centos),
     );
   }
 
