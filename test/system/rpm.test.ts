@@ -2,18 +2,55 @@ import * as path from "path";
 import { test } from "tap";
 
 import * as plugin from "../../lib";
-import { ImageType } from "../../lib/types";
+import { DepTree, ImageType } from "../../lib/types";
 
-function getFixture(fixturePath): string {
-  return path.join(__dirname, "../fixtures/docker-archives", fixturePath);
+function getFixture(fixturePath) {
+  return path.join(__dirname, "../fixtures", fixturePath);
 }
+
+/**
+ * The following bug proves that RPM packages do not have transitive dependencies.
+ * This is a limitation in our RPM scanning currently, where we cannot produce a tree of dependencies.
+ * More context here: https://snyk.slack.com/archives/CDSMEJ29E/p1592473698145800
+ */
+test("BUG: Dockerfile analysis does not produce transitive dependencies for RPM projects", async (t) => {
+  const thisIsJustAnImageIdentifier = "bug:bug";
+  const dockerfilePath = getFixture("dockerfiles/bug/Dockerfile");
+  const pluginOptions = {
+    staticAnalysisOptions: {
+      imagePath: getFixture("docker-archives/docker-save/bug.tar.gz"),
+      imageType: ImageType.DockerArchive,
+    },
+  };
+
+  const pluginResult = await plugin.inspect(
+    thisIsJustAnImageIdentifier,
+    dockerfilePath,
+    pluginOptions,
+  );
+
+  const results = pluginResult.scannedProjects;
+  const osScanResult = results.find((res) => "docker" in res.depTree)!;
+  const depTree = osScanResult.depTree as DepTree;
+  const dockerResult = depTree.docker;
+
+  t.same(depTree.packageFormatVersion, "rpm:0.0.1", "RPM project detected");
+  t.ok(
+    "kernel-headers" in depTree.dependencies,
+    "dependency is found in dependency tree",
+  );
+  t.notOk(
+    "kernel-headers" in dockerResult.dockerfilePackages,
+    "BUG: transitive dependency 'kernel-headers' not in 'dockerfilePackages'",
+  );
+});
 
 test("scanning an rpm-based image produces the expected response", async (t) => {
   const thisIsJustAnImageIdentifierInStaticAnalysis = "amazonlinux:2";
   const dockerfile = undefined;
   const pluginOptions = {
     staticAnalysisOptions: {
-      imagePath: getFixture("skopeo-copy/rpm.tar"),
+      imagePath: getFixture("docker-archives/skopeo-copy/rpm.tar"),
       imageType: ImageType.DockerArchive,
     },
   };
