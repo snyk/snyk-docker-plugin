@@ -144,10 +144,12 @@ export async function analyze(
   const binaries = getBinariesHashes(extractedLayers);
 
   const applicationDependenciesScanResults: ScannedProjectCustom[] = [];
-  const nodeDependenciesScanResults = await nodeFilesToScannedProjects(
-    getNodeAppFileContent(extractedLayers),
-  );
-  applicationDependenciesScanResults.push(...nodeDependenciesScanResults);
+  if (options.appScan) {
+    const nodeDependenciesScanResults = await nodeFilesToScannedProjects(
+      getNodeAppFileContent(extractedLayers),
+    );
+    applicationDependenciesScanResults.push(...nodeDependenciesScanResults);
+  }
   return {
     imageId,
     osRelease,

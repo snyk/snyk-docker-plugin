@@ -4,6 +4,7 @@ export interface StaticAnalysisOptions {
   imagePath: string;
   imageType: ImageType;
   distroless: boolean;
+  appScan: boolean;
   globsToFind: {
     include: string[];
     exclude: string[];
