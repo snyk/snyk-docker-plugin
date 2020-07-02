@@ -426,7 +426,7 @@ test("experimental static analysis for debian images", async (t) => {
 
   t.equal(
     dockerSaveStub.callCount,
-    1,
+    2, // once before the pull and once after
     "non-static experimental flag saves the image",
   );
 
@@ -460,7 +460,7 @@ test("experimental static analysis for debian images", async (t) => {
 
   t.equal(
     dockerSaveStub.callCount,
-    1,
+    2,
     "static experimental flag does not save the image",
   );
   t.same(

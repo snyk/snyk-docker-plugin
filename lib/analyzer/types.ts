@@ -66,3 +66,14 @@ export interface StaticAnalysis {
   applicationDependenciesScanResults: ScannedProjectCustom[];
   manifestFiles: ManifestFile[];
 }
+
+export interface ArchiveResult {
+  path: string;
+  removeArchive(): void;
+}
+
+export interface ImageDetails {
+  hostname: string;
+  imageName: string;
+  tag: string;
+}
