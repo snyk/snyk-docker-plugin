@@ -5,11 +5,23 @@ import * as fs from "fs";
 import * as path from "path";
 import * as sinon from "sinon";
 import { test } from "tap";
+import * as tmp from "tmp";
+import { v4 as uuidv4 } from "uuid";
 
 import * as imageInspector from "../../../lib/analyzer/image-inspector";
 import { ArchiveResult } from "../../../lib/analyzer/types";
 import { Docker } from "../../../lib/docker";
 import * as subProcess from "../../../lib/sub-process";
+
+function rmdirRecursive(customPath: string[]): void {
+  if (customPath.length < 2) {
+    return;
+  }
+
+  fs.rmdirSync(path.join(...customPath));
+  const next = customPath.slice(0, customPath.length - 1);
+  rmdirRecursive(next);
+}
 
 test("image id", async (t) => {
   const expectedId =
@@ -111,35 +123,61 @@ test("get image as an archive", async (t) => {
   const targetImage = "library/hello-world:latest";
 
   t.test("from the local daemon if it exists", async (t) => {
+    const customPath = "./other_custom/image/save/path/local/daemon";
+    const imageSavePath = path.join(customPath, uuidv4());
     const dockerPullSpy = sinon.spy(Docker.prototype, "pull");
-
     const loadImage = path.join(
       __dirname,
       "../../fixtures/docker-archives",
       "docker-save/hello-world.tar",
     );
     await subProcess.execute("docker", ["load", "--input", loadImage]);
-    const archiveLocation = await imageInspector.getImageArchive(targetImage);
+    const archiveLocation = await imageInspector.getImageArchive(
+      targetImage,
+      imageSavePath,
+    );
 
     t.teardown(async () => {
       dockerPullSpy.restore();
-      archiveLocation.removeArchive();
       await subProcess.execute("docker", ["image", "rm", targetImage]);
+      rmdirRecursive(customPath.split(path.sep));
     });
 
-    t.true(fs.existsSync(archiveLocation.path), "file exists on disk");
+    t.equal(
+      archiveLocation.path,
+      path.join(imageSavePath, "image.tar"),
+      "expected full image path",
+    );
+    t.ok(
+      fs.existsSync(path.join(imageSavePath, "image.tar")),
+      "image exists on disk",
+    );
     t.false(dockerPullSpy.called, "image was not pulled from remote registry");
+
+    archiveLocation.removeArchive();
+    t.notOk(
+      fs.existsSync(path.join(imageSavePath, "image.tar")),
+      "image should not exists on disk",
+    );
+    t.notOk(
+      fs.existsSync(imageSavePath),
+      "tmp folder should not exist on disk",
+    );
+    t.ok(fs.existsSync(customPath), "custom path should exist on disk");
   });
 
   t.test("from remote registry with binary", async (t) => {
+    const customPath = tmp.dirSync().name;
+    const imageSavePath = path.join(customPath, uuidv4());
     const dockerPullSpy = sinon.spy(Docker.prototype, "pull");
 
     const archiveLocation: ArchiveResult = await imageInspector.getImageArchive(
       targetImage,
+      imageSavePath,
     );
+
     t.teardown(async () => {
       dockerPullSpy.restore();
-      archiveLocation.removeArchive();
       await subProcess.execute("docker", ["image", "rm", targetImage]);
     });
 
@@ -147,29 +185,74 @@ test("get image as an archive", async (t) => {
       dockerPullSpy.notCalled,
       "image pulled from remote registry with binary",
     );
-    t.true(fs.existsSync(archiveLocation.path), "image exists on disks");
+    t.equal(
+      archiveLocation.path,
+      path.join(imageSavePath, "image.tar"),
+      "expected full image path",
+    );
+    t.true(
+      fs.existsSync(path.join(imageSavePath, "image.tar")),
+      "image exists on disk",
+    );
+
+    archiveLocation.removeArchive();
+    t.false(
+      fs.existsSync(path.join(imageSavePath, "image.tar")),
+      "image should not exists on disk",
+    );
+    t.notOk(
+      fs.existsSync(imageSavePath),
+      "tmp folder should not exist on disk",
+    );
+    t.ok(fs.existsSync(customPath), "custom path should exist on disk");
   });
 
   t.test("from remote registry without binary", async (t) => {
+    const customPath = "./new_custom/image/save/path";
+    const imageSavePath = path.join(customPath, uuidv4());
     const dockerPullSpy = sinon.spy(Docker.prototype, "pull");
     const subprocessStub = sinon.stub(subProcess, "execute");
     subprocessStub.throws();
 
-    const archiveLocation = await imageInspector.getImageArchive(targetImage);
+    const archiveLocation = await imageInspector.getImageArchive(
+      targetImage,
+      imageSavePath,
+    );
     t.teardown(() => {
       dockerPullSpy.restore();
       subprocessStub.restore();
-      archiveLocation.removeArchive();
+      rmdirRecursive(customPath.split(path.sep));
     });
 
     t.true(
       dockerPullSpy.called,
       "image pulled from remote registry without binary",
     );
-    t.true(fs.existsSync(archiveLocation.path), "image exists on disks");
+    t.equal(
+      archiveLocation.path,
+      path.join(imageSavePath, "image.tar"),
+      "expected full image path",
+    );
+    t.true(
+      fs.existsSync(path.join(imageSavePath, "image.tar")),
+      "image exists on disk",
+    );
+
+    archiveLocation.removeArchive();
+    t.false(
+      fs.existsSync(path.join(imageSavePath, "image.tar")),
+      "image should not exists on disk",
+    );
+    t.notOk(
+      fs.existsSync(imageSavePath),
+      "tmp folder should not exist on disk",
+    );
+    t.ok(fs.existsSync(customPath), "custom path should exist on disk");
   });
 
   t.test("from remote registry with authentication", async (t) => {
+    const customPath = "./my_custom/image/save/path/auth";
+    const imageSavePath = path.join(customPath, uuidv4());
     const dockerPullSpy: sinon.SinonSpy = sinon.spy(Docker.prototype, "pull");
     const subprocessStub = sinon.stub(subProcess, "execute");
     subprocessStub.throws();
@@ -185,6 +268,7 @@ test("get image as an archive", async (t) => {
 
     const archiveLocation = await imageInspector.getImageArchive(
       targetImage!,
+      imageSavePath,
       username,
       password,
     );
@@ -192,10 +276,29 @@ test("get image as an archive", async (t) => {
     t.teardown(() => {
       dockerPullSpy.restore();
       subprocessStub.restore();
-      archiveLocation.removeArchive();
+      rmdirRecursive(customPath.split(path.sep));
     });
 
     t.true(dockerPullSpy.calledOnce, "image pulled from remote registry");
-    t.true(fs.existsSync(archiveLocation.path), "image exists on disks");
+    t.equal(
+      archiveLocation.path,
+      path.join(imageSavePath, "image.tar"),
+      "expected full image path",
+    );
+    t.true(
+      fs.existsSync(path.join(imageSavePath, "image.tar")),
+      "image exists on disk",
+    );
+
+    archiveLocation.removeArchive();
+    t.false(
+      fs.existsSync(path.join(imageSavePath, "image.tar")),
+      "image should not exists on disk",
+    );
+    t.notOk(
+      fs.existsSync(imageSavePath),
+      "tmp folder should not exist on disk",
+    );
+    t.ok(fs.existsSync(customPath), "custom path should exist on disk");
   });
 });

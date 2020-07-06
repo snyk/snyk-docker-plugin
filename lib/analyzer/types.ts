@@ -77,3 +77,8 @@ export interface ImageDetails {
   imageName: string;
   tag: string;
 }
+
+export interface DestinationDir {
+  name: string;
+  removeCallback: () => void;
+}

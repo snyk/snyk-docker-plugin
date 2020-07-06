@@ -1,5 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
+import * as tmp from "tmp";
+import { v4 as uuidv4 } from "uuid";
 
 import { getImageArchive } from "./analyzer/image-inspector";
 import { DockerFileAnalysis } from "./docker-file";
@@ -67,8 +69,10 @@ export async function distroless(
     );
   }
 
+  const imageSavePath = fullImageSavePath(options?.imageSavePath);
   const archiveResult = await getImageArchive(
     targetImage,
+    imageSavePath,
     options?.username,
     options?.password,
   );
@@ -106,4 +110,13 @@ async function getStaticAnalysisResult(
     dockerfileAnalysis,
     scanningOptions,
   );
+}
+
+export function fullImageSavePath(imageSavePath: string | undefined): string {
+  let imagePath = tmp.dirSync().name;
+  if (imageSavePath) {
+    imagePath = imageSavePath;
+  }
+
+  return path.join(imagePath, uuidv4());
 }
