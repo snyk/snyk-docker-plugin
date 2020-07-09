@@ -101,7 +101,7 @@ jobs:
           name: Build
           command: npm run build
   release:
-    <<: *defaults
+    <<: *release_defaults
     steps:
       - checkout
       - run:
