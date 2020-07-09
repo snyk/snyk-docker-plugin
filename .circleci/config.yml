@@ -3,7 +3,7 @@ version: 2.1
 defaults: &defaults
   resource_class: small
   docker:
-    - image: node:8
+    - image: circleci/node:8
   working_directory: ~/snyk-docker-plugin
 
 release_defaults: &release_defaults
@@ -19,8 +19,8 @@ commands:
       - checkout
       - restore_cache:
           keys:
-            - v1-npm-cache-{{ checksum "package.json" }}
-            - v1-npm-cache-
+            - v2-npm-cache-{{ checksum "package.json" }}
+            - v2-npm-cache-
       - run:
           name: Use snyk-main npmjs user
           command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
@@ -28,7 +28,7 @@ commands:
           name: Install dependencies
           command: npm install
       - save_cache:
-          key: v1-npm-cache-{{ checksum "package.json" }}
+          key: v2-npm-cache-{{ checksum "package.json" }}
           paths:
             - ~/.npm
       - persist_to_workspace:
@@ -101,7 +101,7 @@ jobs:
           name: Build
           command: npm run build
   release:
-    <<: *release_defaults
+    <<: *defaults
     steps:
       - checkout
       - run:
