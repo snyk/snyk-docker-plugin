@@ -20,6 +20,9 @@
     "unit-test": "tap test/system test/lib -R=spec --timeout=300",
     "prepare": "npm run build"
   },
+  "engines": {
+    "node": ">=8"
+  },
   "dependencies": {
     "@snyk/rpm-parser": "^2.0.0",
     "@snyk/snyk-docker-pull": "^3.1.3",
