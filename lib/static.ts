@@ -88,6 +88,7 @@ function getStaticAnalysisOptions(options: any): StaticAnalysisOptions {
     imagePath: options.staticAnalysisOptions.imagePath,
     imageType: options.staticAnalysisOptions.imageType,
     distroless: options.staticAnalysisOptions.distroless,
+    appScan: options.staticAnalysisOptions.appScan,
     globsToFind: {
       include: options.manifestGlobs,
       exclude: options.manifestExcludeGlobs,

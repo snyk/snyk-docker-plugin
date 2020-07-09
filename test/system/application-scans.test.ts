@@ -15,6 +15,7 @@ test("scanning a container image with 2 applications", async (t) => {
   const staticAnalysisOptions = {
     imagePath: getFixture("docker-archives/skopeo-copy/rpm-npm-yarn.tar"),
     imageType: ImageType.DockerArchive,
+    appScan: true,
   };
 
   const pluginResult = await plugin.inspect(imageNameAndTag, dockerfile, {

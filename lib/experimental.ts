@@ -17,7 +17,7 @@ export async function experimentalAnalysis(
   switch (imageType) {
     case ImageType.DockerArchive:
     case ImageType.OciArchive:
-      return localArchive(targetImage, imageType, dockerfileAnalysis);
+      return localArchive(targetImage, imageType, dockerfileAnalysis, options);
     case ImageType.Identifier:
       return distroless(targetImage, dockerfileAnalysis, options);
 
@@ -30,6 +30,7 @@ async function localArchive(
   targetImage: string,
   imageType: ImageType,
   dockerfileAnalysis: DockerFileAnalysis | undefined,
+  options: any,
 ): Promise<PluginResponse> {
   const archivePath = getArchivePath(targetImage);
   if (!fs.existsSync(archivePath)) {
@@ -47,6 +48,7 @@ async function localArchive(
     archivePath,
     dockerfileAnalysis,
     imageType,
+    options["app-vulns"],
   );
 }
 
@@ -76,6 +78,7 @@ export async function distroless(
       archiveResult.path,
       dockerfileAnalysis,
       ImageType.DockerArchive,
+      options["app-vulns"],
     );
   } finally {
     archiveResult.removeArchive();
@@ -87,12 +90,14 @@ async function getStaticAnalysisResult(
   archivePath: string,
   dockerfileAnalysis: DockerFileAnalysis | undefined,
   imageType: ImageType,
+  appScan: boolean,
 ): Promise<PluginResponse> {
   const scanningOptions = {
     staticAnalysisOptions: {
       imagePath: archivePath,
       imageType,
       distroless: true,
+      appScan,
     },
   };
 
