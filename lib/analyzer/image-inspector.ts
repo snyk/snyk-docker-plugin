@@ -1,8 +1,15 @@
 import * as Debug from "debug";
+import * as fs from "fs";
+import * as mkdirp from "mkdirp";
 import * as path from "path";
-import * as tmp from "tmp";
+
 import { Docker, DockerOptions } from "../docker";
-import { ArchiveResult, DockerInspectOutput, ImageDetails } from "./types";
+import {
+  ArchiveResult,
+  DestinationDir,
+  DockerInspectOutput,
+  ImageDetails,
+} from "./types";
 
 export { detect, getImageArchive, extractImageDetails, pullIfNotLocal };
 
@@ -15,6 +22,16 @@ async function detect(
   const docker = new Docker(targetImage, options);
   const info = await docker.inspectImage(targetImage);
   return JSON.parse(info.stdout)[0];
+}
+
+function cleanupCallback(imagePath: string, imageName: string) {
+  return () => {
+    const fullImagePath = path.join(imagePath, imageName);
+    if (fs.existsSync(fullImagePath)) {
+      fs.unlinkSync(fullImagePath);
+    }
+    fs.rmdirSync(imagePath);
+  };
 }
 
 /**
@@ -39,17 +56,21 @@ async function detect(
  */
 async function getImageArchive(
   targetImage: string,
+  imageSavePath: string,
   username?: string,
   password?: string,
 ): Promise<ArchiveResult> {
   const docker = new Docker(targetImage);
-  const destination = tmp.dirSync({ unsafeCleanup: true });
+  mkdirp.sync(imageSavePath);
+  const destination: DestinationDir = {
+    name: imageSavePath,
+    removeCallback: cleanupCallback(imageSavePath, "image.tar"),
+  };
   const saveLocation: string = path.join(destination.name, "image.tar");
 
   try {
-    // TODO: Eventually need to provide support for specifying a user-defined
-    // temporary directory.
     await docker.save(targetImage, saveLocation);
+
     return {
       path: saveLocation,
       removeArchive: destination.removeCallback,
@@ -79,22 +100,21 @@ async function getImageArchive(
     }
   }
 
-  destination.removeCallback();
   const { hostname, imageName, tag } = await extractImageDetails(targetImage);
-
   debug(
     `Attempting to pull: registry: ${hostname}, image: ${imageName}, tag: ${tag}`,
   );
-  const pullResult = await docker.pull(
+  await docker.pull(
     hostname,
     imageName,
     tag,
+    imageSavePath,
     username,
     password,
   );
   return {
-    path: path.join(pullResult.stagingDir!.name, "image.tar"),
-    removeArchive: pullResult.stagingDir!.removeCallback,
+    path: saveLocation,
+    removeArchive: destination.removeCallback,
   };
 }
 

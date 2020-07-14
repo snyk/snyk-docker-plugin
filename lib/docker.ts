@@ -119,6 +119,7 @@ class Docker {
     registry: string,
     repo: string,
     tag: string,
+    imageSavePath: string,
     username?: string,
     password?: string,
   ): Promise<DockerPullResult> {
@@ -127,6 +128,7 @@ class Docker {
       username,
       password,
       loadImage: false,
+      imageSavePath,
     };
     return await dockerPull.pull(registry, repo, tag, opt);
   }
