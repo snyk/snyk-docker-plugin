@@ -1,3 +1,4 @@
+import * as fs from "fs";
 import * as path from "path";
 import * as lockFileParser from "snyk-nodejs-lockfile-parser";
 
@@ -71,10 +72,16 @@ function findManifestLockPairsInSameDirectory(
     }
 
     if (hasPackageJson && hasYarnLock) {
+      const yarnLock = fs.readFileSync(path.join(directoryPath, "yarn.lock"), {
+        encoding: "utf8",
+      });
+      const lockType = yarnLock.includes("__metadata")
+        ? lockFileParser.LockfileType.yarn2
+        : lockFileParser.LockfileType.yarn;
       manifestLockPathPairs.push({
         manifest: path.join(directoryPath, "package.json"),
         lock: path.join(directoryPath, "yarn.lock"),
-        lockType: lockFileParser.LockfileType.yarn,
+        lockType,
       });
       continue;
     }
