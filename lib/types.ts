@@ -1,4 +1,7 @@
 import { PkgTree } from "snyk-nodejs-lockfile-parser";
+import { AnalyzedPackage, Binary } from "./analyzer/types";
+import { DockerFileAnalysis } from "./docker-file";
+import { DockerFilePackages } from "./instruction-parser";
 
 export interface StaticAnalysisOptions {
   imagePath: string;
@@ -52,33 +55,56 @@ export interface PluginResponse {
 }
 
 export interface ScannedProjectCustom {
+  /** TODO: This would be OPTIONAL for ManifestFiles. */
   packageManager: string; // actually SupportedPackageManagers; in the CLI
   /**
    * Using "| PkgTree" here to be truthful to the type system.
    * For application dependencies scans we use a parser which has more optional fields than the DepTree.
    * We have different required and optional fields for OS scans and application dependencies scans, so
    * a future change should be mindful but find a way to unify them if possible.
+   * @deprecated Use "artifacts" instead!
    */
-  depTree: DepTree | PkgTree;
+  depTree?: DepTree | PkgTree;
+  artifacts?: ScannedArtifact[];
   targetFile?: string; // currently used for application-dependencies scans
-  meta?: any; // not to pollute with actual data; reserved for actual metadata
+  meta?: { [key: string]: any }; // not to pollute with actual data; reserved for actual metadata
 }
 
-export enum ScanType {
-  DependencyTree = "DependencyTree",
-  DependencyGraph = "DependencyGraph",
-  ManifestFiles = "ManifestFiles",
+export interface ScannedArtifact {
+  type: "depTree" | "pkgTree" | "hashes" | "manifestFile";
+  data: any;
+  meta?: { [key: string]: any };
 }
 
-export interface ScannedProjectExtended extends ScannedProjectCustom {
-  scanType: ScanType;
-  // unknowingly structured data; determined by `scanType`
-  data: unknown;
+/** Strongly typed ScannedArtifact whose data type is "manifestFile". */
+export interface ManifestFileArtifact extends ScannedArtifact {
+  type: "manifestFile";
+  data: ManifestFile;
 }
 
-export interface ScannedProjectManifestFiles extends ScannedProjectExtended {
-  scanType: ScanType.ManifestFiles;
-  data: ManifestFile[];
+/** Strongly typed ScannedArtifact whose data type is "depTree". */
+export interface DepTreeArtifact extends ScannedArtifact {
+  type: "depTree";
+  data: DepTree;
+  meta?: {
+    /**
+     * The imageName ties/groups scanned results together -- used to represent
+     * a group of related projects in Snyk (App+OS). Helps us understand
+     * whether application dependencies came from a specific image.
+     */
+    imageName?: string;
+    docker?: DockerFileAnalysis & {
+      imageId: string;
+      dockerfilePackages?: DockerFilePackages;
+      /** @deprecated Legacy payload to hold "key binaries", used in dynamic scanning. */
+      binaries?: AnalyzedPackage[] | Binary[];
+    };
+  };
+}
+
+export interface PkgTreeArtifact extends ScannedArtifact {
+  type: "pkgTree";
+  data: PkgTree;
 }
 
 export interface DepTreeDep {

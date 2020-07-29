@@ -19,31 +19,29 @@ function buildResponse(
   const finalDeps = excludeBaseImageDeps(deps, dockerfilePkgs, options);
   annotateLayerIds(finalDeps, dockerfilePkgs);
   const plugin = pluginMetadataRes(runtime, depsAnalysis);
-  const pkg = packageRes(
-    depsAnalysis,
-    dockerfileAnalysis,
-    dockerfilePkgs,
-    finalDeps,
-  );
+  const pkg = packageRes(depsAnalysis, finalDeps);
 
   const applicationDependenciesScanResults: types.ScannedProjectCustom[] =
     depsAnalysis.applicationDependenciesScanResults || [];
 
-  const scannedProjects = [
-    {
-      packageManager: plugin.packageManager,
-      depTree: pkg,
-    },
+  const osDependenciesScanResult: types.ScannedProjectCustom = osDependenciesScannedProject(
+    plugin,
+    pkg,
+    depsAnalysis,
+    dockerfileAnalysis,
+    dockerfilePkgs,
+  );
+
+  const scannedProjects: types.ScannedProjectCustom[] = [
+    osDependenciesScanResult,
     ...applicationDependenciesScanResults,
   ];
 
   if (manifestFiles.length > 0) {
-    scannedProjects.push({
-      scanType: types.ScanType.ManifestFiles,
-      data: manifestFiles,
-      packageManager: "PLEASE DON'T USE THIS",
-      depTree: { dependencies: {} },
-    } as types.ScannedProjectManifestFiles);
+    const manifestFilesScanResults = manifestFilesScannedProjects(
+      manifestFiles,
+    );
+    scannedProjects.push(...manifestFilesScanResults);
   }
 
   const scannedProjectsWithImageName = assignImageNameToScannedProjectMeta(
@@ -54,6 +52,52 @@ function buildResponse(
   return {
     plugin,
     scannedProjects: scannedProjectsWithImageName,
+  };
+}
+
+function manifestFilesScannedProjects(
+  manifestFiles: types.ManifestFile[],
+): types.ScannedProjectCustom[] {
+  const manifestFileScans = manifestFiles.map<types.ScannedProjectCustom>(
+    (manifestFile) => {
+      const manifestFileArtifact: types.ManifestFileArtifact = {
+        type: "manifestFile",
+        data: manifestFile,
+      };
+
+      return {
+        // TODO: this is optional... shall we mark it as such?
+        packageManager: "PLEASE DON'T USE THIS",
+        artifacts: [manifestFileArtifact],
+      };
+    },
+  );
+  return manifestFileScans;
+}
+
+function osDependenciesScannedProject(
+  plugin: types.PluginMetadata,
+  pkg: types.DepTree,
+  depsAnalysis: any,
+  dockerfileAnalysis: DockerFileAnalysis | undefined,
+  dockerfilePkgs: DockerFilePackages | undefined,
+): types.ScannedProjectCustom {
+  const depTreeArtifact: types.DepTreeArtifact = {
+    type: "depTree",
+    data: pkg,
+    meta: {
+      docker: {
+        ...depsAnalysis.package.docker,
+        ...dockerfileAnalysis,
+        dockerfilePackages: dockerfilePkgs,
+        binaries: depsAnalysis.binaries,
+      },
+    },
+  };
+
+  return {
+    packageManager: plugin.packageManager,
+    artifacts: [depTreeArtifact],
   };
 }
 
@@ -80,27 +124,17 @@ function pluginMetadataRes(
   return {
     name: "snyk-docker-plugin",
     runtime,
+    // TODO: The following 3 fields should not be here... They are not plugin metadata!
     packageManager: depsAnalysis.packageManager,
     dockerImageId: depsAnalysis.imageId,
     imageLayers: depsAnalysis.imageLayers,
   };
 }
 
-function packageRes(
-  depsAnalysis,
-  dockerfileAnalysis,
-  dockerfilePkgs,
-  deps,
-): types.DepTree {
+function packageRes(depsAnalysis, deps): types.DepTree {
   return {
     ...depsAnalysis.package,
     dependencies: deps,
-    docker: {
-      ...depsAnalysis.package.docker,
-      ...dockerfileAnalysis,
-      dockerfilePackages: dockerfilePkgs,
-      binaries: depsAnalysis.binaries,
-    },
   };
 }
 

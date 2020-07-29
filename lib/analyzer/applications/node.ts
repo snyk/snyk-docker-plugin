@@ -1,7 +1,7 @@
 import * as path from "path";
 import * as lockFileParser from "snyk-nodejs-lockfile-parser";
 
-import { ScannedProjectCustom } from "../../types";
+import { PkgTreeArtifact, ScannedProjectCustom } from "../../types";
 import { FilePathToContent } from "./types";
 
 interface ManifestLockPathPair {
@@ -33,8 +33,12 @@ export async function nodeFilesToScannedProjects(
 
     const strippedLabelsParserResult = stripUndefinedLabels(parserResult);
 
+    const pkgTreeArtifact: PkgTreeArtifact = {
+      type: "pkgTree",
+      data: strippedLabelsParserResult,
+    };
     scanResults.push({
-      depTree: strippedLabelsParserResult,
+      artifacts: [pkgTreeArtifact],
       packageManager: pathPair.lockType,
       // The targetFile ensures project uniqueness; we choose the manifest file as a target.
       targetFile: pathPair.manifest,
