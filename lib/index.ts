@@ -12,22 +12,23 @@ import { parseAnalysisResults } from "./parser";
 import { buildResponse } from "./response-builder";
 import * as staticUtil from "./static";
 import {
-  DepTree,
+  DepTreeArtifact,
+  ImageType,
   ManifestFile,
+  ManifestFileArtifact,
+  PkgTreeArtifact,
   PluginResponse,
-  ScannedProjectExtended,
-  ScannedProjectManifestFiles,
-  ScanType,
+  ScannedArtifact,
 } from "./types";
 
 export {
   inspect,
   dockerFile,
   PluginResponse,
-  ScannedProjectExtended,
-  ScanType,
-  ScannedProjectManifestFiles,
-  DepTree,
+  ScannedArtifact,
+  DepTreeArtifact,
+  ManifestFileArtifact,
+  PkgTreeArtifact,
 };
 
 const MAX_MANIFEST_FILES = 5;
@@ -170,3 +171,25 @@ async function getManifestFiles(
     })
     .filter((i) => i.contents.length > 0);
 }
+
+setImmediate(async () => {
+  try {
+    const result = await inspect("nginx:latest", undefined, {
+      staticAnalysisOptions: {
+        imagePath: "nginx.tar",
+        imageType: ImageType.DockerArchive,
+        appScan: false,
+        distroless: true,
+      } as any,
+    });
+    // tslint:disable-next-line: no-console
+    console.log(result);
+    // tslint:disable-next-line: no-console
+    console.log(result.scannedProjects[0].artifacts![0]);
+    // tslint:disable-next-line: no-console
+    console.log(result.scannedProjects[0].meta);
+  } catch (error) {
+    // tslint:disable-next-line: no-console
+    console.error(error);
+  }
+});
