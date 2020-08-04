@@ -1,4 +1,5 @@
 import * as gunzip from "gunzip-maybe";
+import * as path from "path";
 import { resolve as resolvePath } from "path";
 import { Readable } from "stream";
 import { extract, Extract } from "tar-stream";
@@ -21,7 +22,7 @@ export async function extractImageLayer(
 
     tarExtractor.on("entry", async (headers, stream, next) => {
       if (headers.type === "file") {
-        const absoluteFileName = resolvePath("/", headers.name);
+        const absoluteFileName = resolvePath(path.sep, headers.name);
         // TODO wouldn't it be simpler to first check
         // if the filename matches any patterns?
         const processedResult = await extractFileAndProcess(
