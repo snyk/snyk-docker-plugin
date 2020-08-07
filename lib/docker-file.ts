@@ -1,5 +1,6 @@
 import { DockerfileParser } from "dockerfile-ast";
 import * as fs from "fs";
+import { normalize as normalizePath } from "path";
 import {
   DockerFileLayers,
   DockerFilePackages,
@@ -23,7 +24,7 @@ async function readDockerfileAndAnalyse(
     return undefined;
   }
 
-  const contents = await readFile(targetFilePath);
+  const contents = await readFile(normalizePath(targetFilePath));
   return analyseDockerfile(contents);
 }
 

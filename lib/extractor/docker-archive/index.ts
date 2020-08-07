@@ -1,9 +1,10 @@
+import { normalize as normalizePath } from "path";
 import { DockerArchiveManifest } from "../types";
 
 export { extractArchive } from "./layer";
 
 export function getManifestLayers(manifest: DockerArchiveManifest) {
-  return manifest.Layers;
+  return manifest.Layers.map((layer) => normalizePath(layer));
 }
 
 export function getImageIdFromManifest(

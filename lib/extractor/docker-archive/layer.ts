@@ -1,7 +1,7 @@
 import * as Debug from "debug";
 import { createReadStream } from "fs";
 import * as gunzip from "gunzip-maybe";
-import { basename } from "path";
+import { basename, normalize as normalizePath } from "path";
 import { Readable } from "stream";
 import { extract, Extract } from "tar-stream";
 import { streamToJson } from "../../stream-utils";
@@ -32,9 +32,10 @@ export async function extractArchive(
 
     tarExtractor.on("entry", async (header, stream, next) => {
       if (header.type === "file") {
-        if (isTarFile(header.name)) {
+        const normalizedName = normalizePath(header.name);
+        if (isTarFile(normalizedName)) {
           try {
-            layers[header.name] = await extractImageLayer(
+            layers[normalizedName] = await extractImageLayer(
               stream,
               extractActions,
             );
@@ -42,7 +43,7 @@ export async function extractArchive(
             debug(`Error extracting layer content from: '${error}'`);
             reject(new Error("Error reading tar archive"));
           }
-        } else if (isManifestFile(header.name)) {
+        } else if (isManifestFile(normalizedName)) {
           manifest = await getManifestFile(stream);
         }
       }
@@ -77,9 +78,11 @@ function getLayersContentAndArchiveManifest(
   // skip (ignore) non-existent layers
   // get the layers content without the name
   // reverse layers order from last to first
-  const filteredLayers = manifest.Layers.filter(
-    (layersName) => layers[layersName],
-  )
+  const layersWithNormalizedNames = manifest.Layers.map((layersName) =>
+    normalizePath(layersName),
+  );
+  const filteredLayers = layersWithNormalizedNames
+    .filter((layersName) => layers[layersName])
     .map((layerName) => layers[layerName])
     .reverse();
 

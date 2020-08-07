@@ -1,6 +1,7 @@
 import * as Debug from "debug";
 import { createReadStream } from "fs";
 import * as gunzip from "gunzip-maybe";
+import { normalize as normalizePath, sep as pathSeparator } from "path";
 import { PassThrough } from "stream";
 import { extract, Extract } from "tar-stream";
 import { streamToJson } from "../../stream-utils";
@@ -37,7 +38,8 @@ export async function extractArchive(
 
     tarExtractor.on("entry", async (header, stream, next) => {
       if (header.type === "file") {
-        if (isImageIndexFile(header.name)) {
+        const normalizedHeaderName = normalizePath(header.name);
+        if (isImageIndexFile(normalizedHeaderName)) {
           imageIndex = await streamToJson<OciImageIndex>(stream);
         } else {
           const jsonStream = new PassThrough();
@@ -55,7 +57,7 @@ export async function extractArchive(
 
           // header format is /blobs/hash_name/hash_value
           // we're extracting hash_name:hash_value format to match manifest digest
-          const headerParts = header.name.split("/");
+          const headerParts = normalizedHeaderName.split(pathSeparator);
           const hashName = headerParts[1];
           const hashValue = headerParts[headerParts.length - 1];
           const digest = `${hashName}:${hashValue}`;

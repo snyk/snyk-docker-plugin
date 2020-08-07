@@ -1,4 +1,5 @@
 import * as Debug from "debug";
+import { normalize as normalizePath } from "path";
 import { DockerOptions } from "../docker";
 import * as dockerFile from "../docker-file";
 import * as binariesAnalyzer from "../inputs/binaries/docker";
@@ -83,7 +84,9 @@ export async function analyze(
     osRelease,
     results: pkgManagerAnalysis,
     binaries: binariesAnalysis,
-    imageLayers: imageInspection.RootFS && imageInspection.RootFS.Layers,
+    imageLayers:
+      imageInspection.RootFS &&
+      imageInspection.RootFS.Layers.map((layer) => normalizePath(layer)),
   };
 }
 
