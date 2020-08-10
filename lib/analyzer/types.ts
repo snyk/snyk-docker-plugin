@@ -1,4 +1,4 @@
-import { ManifestFile, ScannedProjectCustom } from "../types";
+import { ManifestFile, ScanResult } from "../types";
 
 export interface AnalyzedPackage {
   Name: string;
@@ -63,7 +63,7 @@ export interface StaticAnalysis {
   results: ImageAnalysis[];
   binaries: string[];
   imageLayers: string[];
-  applicationDependenciesScanResults: ScannedProjectCustom[];
+  applicationDependenciesScanResults: ScanResult[];
   manifestFiles: ManifestFile[];
 }
 

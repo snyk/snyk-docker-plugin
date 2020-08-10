@@ -32,7 +32,7 @@ import {
 import {
   ImageType,
   ManifestFile,
-  ScannedProjectCustom,
+  ScanResult,
   StaticAnalysisOptions,
 } from "../types";
 import { nodeFilesToScannedProjects } from "./applications";
@@ -143,7 +143,7 @@ export async function analyze(
 
   const binaries = getBinariesHashes(extractedLayers);
 
-  const applicationDependenciesScanResults: ScannedProjectCustom[] = [];
+  const applicationDependenciesScanResults: ScanResult[] = [];
   if (options.appScan) {
     const nodeDependenciesScanResults = await nodeFilesToScannedProjects(
       getNodeAppFileContent(extractedLayers),

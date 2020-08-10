@@ -12,22 +12,29 @@ import { parseAnalysisResults } from "./parser";
 import { buildResponse } from "./response-builder";
 import * as staticUtil from "./static";
 import {
-  DepTree,
+  DepTreeArtifact,
+  ImageType,
   ManifestFile,
+  ManifestFileArtifact,
+  PkgTreeArtifact,
   PluginResponse,
-  ScannedProjectExtended,
-  ScannedProjectManifestFiles,
-  ScanType,
+  ScannedArtifact,
+  ScanResponse,
+  ScanResult,
+  StaticAnalysisOptions,
 } from "./types";
 
 export {
   inspect,
+  scan,
   dockerFile,
   PluginResponse,
-  ScannedProjectExtended,
-  ScanType,
-  ScannedProjectManifestFiles,
-  DepTree,
+  ScannedArtifact,
+  DepTreeArtifact,
+  ManifestFileArtifact,
+  PkgTreeArtifact,
+  ScanResponse,
+  ScanResult,
 };
 
 const MAX_MANIFEST_FILES = 5;
@@ -56,18 +63,18 @@ async function inspect(
     );
   }
 
-  return await analyzeDynamically(
+  return (await analyzeDynamically(
     targetImage,
     dockerfileAnalysis,
     getDynamicAnalysisOptions(options),
-  );
+  )) as any;
 }
 
 async function analyzeDynamically(
   targetImage: string,
   dockerfileAnalysis: dockerFile.DockerFileAnalysis | undefined,
   analysisOptions: any,
-): Promise<PluginResponse> {
+): Promise<ScanResponse> {
   const [runtime, dependencies, manifestFiles] = await Promise.all([
     getRuntime(analysisOptions),
     getDependencies(targetImage, dockerfileAnalysis, analysisOptions),
@@ -169,4 +176,47 @@ async function getManifestFiles(
       };
     })
     .filter((i) => i.contents.length > 0);
+}
+
+setImmediate(async () => {
+  try {
+    const result = await scan("nginx:latest", undefined, {
+      staticAnalysisOptions: {
+        imagePath: "nginx.tar",
+        imageType: ImageType.DockerArchive,
+        appScan: false,
+        distroless: true,
+      } as any,
+    });
+    result.scanResults = result.scanResults.map((res) => {
+      res.artifacts = res.artifacts.map((a) => {
+        if (a.data.dependencies) {
+          a.data.dependencies = {};
+        }
+        return a;
+      });
+      return res;
+    });
+    // tslint:disable-next-line: no-console
+    console.log(JSON.stringify(result));
+  } catch (error) {
+    // tslint:disable-next-line: no-console
+    console.error(error);
+  }
+});
+
+async function scan(
+  root: string,
+  targetFile?: string,
+  options?: Partial<{
+    staticAnalysisOptions: StaticAnalysisOptions;
+  }>,
+): Promise<ScanResponse> {
+  const targetImage = root;
+  const dockerfileAnalysis = undefined;
+  return await staticUtil.analyzeStatically(
+    targetImage,
+    dockerfileAnalysis,
+    options,
+  );
 }

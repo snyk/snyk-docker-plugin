@@ -5,7 +5,7 @@ import { tryGetAnalysisError } from "./errors";
 import { parseAnalysisResults } from "./parser";
 import { buildResponse } from "./response-builder";
 import {
-  PluginResponse,
+  BinariesHashesArtifact,
   PluginResponseStatic,
   StaticAnalysisOptions,
 } from "./types";
@@ -14,7 +14,7 @@ export async function analyzeStatically(
   targetImage: string,
   dockerfileAnalysis: DockerFileAnalysis | undefined,
   options: any,
-): Promise<PluginResponse> {
+): Promise<any> {
   const staticAnalysisOptions = getStaticAnalysisOptions(options);
 
   // Relevant only if using a Docker runtime. Optional, but we may consider what to put here
@@ -61,6 +61,13 @@ export async function analyzeStatically(
       ),
       hashes: [],
     };
+    const hashesArtifact: BinariesHashesArtifact = {
+      type: "hashes",
+      data: {
+        hashes: staticAnalysis.binaries,
+      },
+    };
+    response.scanResults[0].artifacts.push(hashesArtifact);
     response.hashes = staticAnalysis.binaries;
     return response;
   } catch (error) {

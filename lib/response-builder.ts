@@ -13,47 +13,91 @@ function buildResponse(
   dockerfileAnalysis: DockerFileAnalysis | undefined,
   manifestFiles: types.ManifestFile[],
   options,
-): types.PluginResponse {
+): types.ScanResponse {
   const deps = depsAnalysis.package.dependencies;
   const dockerfilePkgs = collectDockerfilePkgs(dockerfileAnalysis, deps);
   const finalDeps = excludeBaseImageDeps(deps, dockerfilePkgs, options);
   annotateLayerIds(finalDeps, dockerfilePkgs);
   const plugin = pluginMetadataRes(runtime, depsAnalysis);
-  const pkg = packageRes(
+  const pkg = packageRes(depsAnalysis, finalDeps);
+
+  const applicationDependenciesScanResults: types.ScanResult[] =
+    depsAnalysis.applicationDependenciesScanResults || [];
+
+  const osDependenciesScanResult: types.ScanResult = osDependenciesScannedProject(
+    plugin,
+    pkg,
     depsAnalysis,
     dockerfileAnalysis,
     dockerfilePkgs,
-    finalDeps,
   );
 
-  const applicationDependenciesScanResults: types.ScannedProjectCustom[] =
-    depsAnalysis.applicationDependenciesScanResults || [];
-
-  const scannedProjects = [
-    {
-      packageManager: plugin.packageManager,
-      depTree: pkg,
-    },
+  const scannedProjects: types.ScanResult[] = [
+    osDependenciesScanResult,
     ...applicationDependenciesScanResults,
   ];
 
   if (manifestFiles.length > 0) {
-    scannedProjects.push({
-      scanType: types.ScanType.ManifestFiles,
-      data: manifestFiles,
-      packageManager: "PLEASE DON'T USE THIS",
-      depTree: { dependencies: {} },
-    } as types.ScannedProjectManifestFiles);
+    const manifestFilesScanResults = manifestFilesScannedProjects(
+      manifestFiles,
+    );
+    scannedProjects.push(...manifestFilesScanResults);
   }
 
-  const scannedProjectsWithImageName = assignImageNameToScannedProjectMeta(
+  const scanResultsWithImageName = assignImageNameToScannedProjectMeta(
     pkg.name,
     scannedProjects,
   );
 
   return {
     plugin,
-    scannedProjects: scannedProjectsWithImageName,
+    scanResults: scanResultsWithImageName,
+  };
+}
+
+function manifestFilesScannedProjects(
+  manifestFiles: types.ManifestFile[],
+): types.ScanResult[] {
+  const manifestFileScans = manifestFiles.map<types.ScanResult>(
+    (manifestFile) => {
+      const manifestFileArtifact: types.ManifestFileArtifact = {
+        type: "manifestFile",
+        data: manifestFile,
+      };
+
+      const manifestFileScanResult: types.ScanResult = {
+        artifacts: [manifestFileArtifact],
+      };
+      return manifestFileScanResult;
+    },
+  );
+  return manifestFileScans;
+}
+
+function osDependenciesScannedProject(
+  plugin: types.PluginMetadata,
+  pkg: types.DepTree,
+  depsAnalysis: any,
+  dockerfileAnalysis: DockerFileAnalysis | undefined,
+  dockerfilePkgs: DockerFilePackages | undefined,
+): types.ScanResult {
+  const depTreeArtifact: types.DepTreeArtifact = {
+    type: "depTree",
+    data: pkg,
+    meta: {
+      docker: {
+        ...depsAnalysis.package.docker,
+        ...dockerfileAnalysis,
+        dockerfilePackages: dockerfilePkgs,
+        binaries: depsAnalysis.binaries,
+      },
+      imageName: pkg.name,
+      packageManager: depsAnalysis.packageManager,
+    },
+  };
+
+  return {
+    artifacts: [depTreeArtifact],
   };
 }
 
@@ -62,13 +106,16 @@ function buildResponse(
  */
 function assignImageNameToScannedProjectMeta(
   imageName: string,
-  scannedProjects: types.ScannedProjectCustom[],
-): types.ScannedProjectCustom[] {
-  return scannedProjects.map((project) => {
+  scanResults: types.ScanResult[],
+): types.ScanResult[] {
+  return scanResults.map((project) => {
     if (project.meta === undefined) {
-      project.meta = {};
+      project.meta = {
+        imageName,
+      };
+    } else if (!project.meta.imageName) {
+      project.meta.imageName = imageName;
     }
-    project.meta.imageName = imageName;
     return project;
   });
 }
@@ -80,27 +127,17 @@ function pluginMetadataRes(
   return {
     name: "snyk-docker-plugin",
     runtime,
+    // TODO: The following 3 fields should not be here... They are not plugin metadata!
     packageManager: depsAnalysis.packageManager,
     dockerImageId: depsAnalysis.imageId,
     imageLayers: depsAnalysis.imageLayers,
   };
 }
 
-function packageRes(
-  depsAnalysis,
-  dockerfileAnalysis,
-  dockerfilePkgs,
-  deps,
-): types.DepTree {
+function packageRes(depsAnalysis, deps): types.DepTree {
   return {
     ...depsAnalysis.package,
     dependencies: deps,
-    docker: {
-      ...depsAnalysis.package.docker,
-      ...dockerfileAnalysis,
-      dockerfilePackages: dockerfilePkgs,
-      binaries: depsAnalysis.binaries,
-    },
   };
 }
 
