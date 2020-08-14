@@ -4,11 +4,11 @@ import { test } from "tap";
 import * as plugin from "../../lib";
 
 function getFixture(fixturePath): string {
-  return path.join(__dirname, "../fixtures/docker-archives", fixturePath);
+  return path.join(__dirname, "../fixtures", fixturePath);
 }
 
 test("docker-archive image type can be scanned", async (t) => {
-  const fixturePath = getFixture("docker-save/nginx.tar");
+  const fixturePath = getFixture("docker-archives/docker-save/nginx.tar");
   const imageNameAndTag = `docker-archive:${fixturePath}`;
 
   const dockerfile = undefined;
@@ -80,6 +80,58 @@ test("docker-archive image type throws on bad files", async (t) => {
       await plugin.inspect("docker-archive:/tmp", dockerfile, pluginOptions),
     Error("The provided archive path is not a file"),
     "throws when the provided path is a directory",
+  );
+});
+
+test("oci-archive image type can be scanned", async (t) => {
+  const fixturePath = getFixture("oci-archives/alpine-3.12.0.tar");
+  const imageNameAndTag = `oci-archive:${fixturePath}`;
+
+  const dockerfile = undefined;
+  const pluginOptions = {
+    experimental: true,
+  };
+
+  const pluginResult = await plugin.inspect(
+    imageNameAndTag,
+    dockerfile,
+    pluginOptions,
+  );
+
+  t.same(
+    pluginResult.scannedProjects[0].depTree.name,
+    "docker-image|alpine-3.12.0.tar",
+    "Image name matches",
+  );
+  t.same(
+    pluginResult.scannedProjects[0].depTree.version,
+    "",
+    "Version must be empty",
+  );
+  t.same(
+    pluginResult.plugin.dockerImageId,
+    "sha256:0f5f445df8ccbd8a062ad3d02d459e8549d9998c62a5b7cbf77baf68aa73bf5b",
+    "The image ID matches",
+  );
+  t.same(
+    pluginResult.plugin.packageManager,
+    "apk",
+    "Correct package manager detected",
+  );
+  t.ok(
+    pluginResult.scannedProjects[0].depTree.dependencies &&
+      "alpine-keys/alpine-keys" in
+        pluginResult.scannedProjects[0].depTree.dependencies,
+    "Contains some expected dependency",
+  );
+  t.deepEqual(
+    pluginResult.plugin.imageLayers,
+    [
+      path.normalize(
+        "sha256:df20fa9351a15782c64e6dddb2d4a6f50bf6d3688060a34c4014b0d9a752eb4c",
+      ),
+    ],
+    "Layers are read correctly",
   );
 });
 
