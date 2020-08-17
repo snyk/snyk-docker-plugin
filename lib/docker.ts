@@ -8,6 +8,7 @@ import * as Modem from "docker-modem";
 import { eventLoopSpinner } from "event-loop-spinner";
 import { createWriteStream } from "fs";
 import * as minimatch from "minimatch";
+import { platform } from "os";
 import * as fspath from "path";
 import { Stream } from "stream";
 import * as lsu from "./ls-utils";
@@ -72,9 +73,11 @@ class Docker {
 
   constructor(private targetImage: string, options?: DockerOptions) {
     this.optionsList = Docker.createOptionsList(options);
-    this.socketPath = options?.socketPath
-      ? options.socketPath
-      : "/var/run/docker.sock";
+    this.socketPath =
+      options?.socketPath ||
+      (platform() === "win32"
+        ? "\\\\.\\pipe\\docker_engine"
+        : "/var/run/docker.sock");
   }
 
   /**

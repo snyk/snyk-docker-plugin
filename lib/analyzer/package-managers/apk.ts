@@ -26,7 +26,7 @@ function parseLine(
   pkgs: AnalyzedPackage[],
 ) {
   const key = text.charAt(0);
-  const value = text.substr(2);
+  const value = text.substr(2).trim();
   switch (key) {
     case "P": // Package
       curPkg = {

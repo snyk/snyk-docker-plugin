@@ -1,5 +1,6 @@
 import { getPackages } from "@snyk/rpm-parser";
 import * as Debug from "debug";
+import { normalize as normalizePath } from "path";
 import { getContentAsBuffer } from "../../extractor";
 import { ExtractAction, ExtractedLayers } from "../../extractor/types";
 import { streamToBuffer } from "../../stream-utils";
@@ -8,7 +9,8 @@ const debug = Debug("snyk");
 
 export const getRpmDbFileContentAction: ExtractAction = {
   actionName: "rpm-db",
-  filePathMatches: (filePath) => filePath === "/var/lib/rpm/Packages",
+  filePathMatches: (filePath) =>
+    filePath === normalizePath("/var/lib/rpm/Packages"),
   callback: streamToBuffer,
 };
 

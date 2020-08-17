@@ -1,9 +1,21 @@
 version: 2.1
 
+orbs:
+  win: circleci/windows@2.2.0
+
 defaults: &defaults
   resource_class: small
   docker:
     - image: circleci/node:8
+  working_directory: ~/snyk-docker-plugin
+
+windows_defaults: &windows_defaults
+  executor:
+    name: win/default
+  parameters:
+    node_version:
+      type: string
+      default: ''
   working_directory: ~/snyk-docker-plugin
 
 release_defaults: &release_defaults
@@ -63,6 +75,19 @@ commands:
       - run:
           name: Notify Slack on success
           command: ./.circleci/slack-notify-success.sh
+  install_node_npm:
+    description: Install specific Node version
+    parameters:
+      node_version:
+        type: string
+        default: ''
+    steps:
+      - run:
+          name: Install specific version of Node
+          command: nvm install << parameters.node_version >>
+      - run:
+          name: Use specific version of Node
+          command: nvm use << parameters.node_version >>
 
 jobs:
   install:
@@ -92,6 +117,18 @@ jobs:
           name: Run tests
           command: npm test
       - notify_slack_on_failure
+  test_windows:
+    <<: *windows_defaults
+    steps:
+      - checkout
+      - install_node_npm:
+          node_version: << parameters.node_version >>
+      - run: docker --version
+      - run:
+          name: Use snyk-main npmjs user
+          command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
+      - run: npm install
+      - run: npm run test-windows
   build:
     <<: *defaults
     steps:
@@ -143,6 +180,12 @@ workflows:
           context: nodejs-install
           requires:
             - Install
+      - test_windows:
+          name: Test Windows
+          context: nodejs-install
+          node_version: '8.17.0'
+          requires:
+            - Install
       - release:
           name: Release to GitHub
           context: nodejs-lib-release
@@ -154,3 +197,4 @@ workflows:
             - Lint
             - Build
             - Test
+            - Test Windows

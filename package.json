@@ -14,9 +14,10 @@
     "build": "tsc",
     "build-watch": "tsc -w",
     "debug": "tsc-watch --project tsconfig.json --onSuccess 'node --inspect --inspect-brk .'",
-    "lint": "prettier --check '{lib,test}/**/*.ts' && tslint --format stylish '{lib,test}/**/*.ts'",
+    "lint": "prettier --check \"{lib,test}/**/*.ts\" && tslint --format stylish \"{lib,test}/**/*.ts\"",
     "format": "prettier --loglevel warn --write '{lib,test}/**/*.ts' && tslint --fix --format stylish '{lib,test}/**/*.ts'",
     "test": "npm run lint && npm run unit-test",
+    "test-windows": "npm run lint && tap test/windows -R=spec --timeout=300",
     "unit-test": "tap test/system test/lib -R=spec --timeout=300",
     "prepare": "npm run build"
   },

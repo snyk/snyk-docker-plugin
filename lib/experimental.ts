@@ -115,7 +115,7 @@ async function getStaticAnalysisResult(
 export function fullImageSavePath(imageSavePath: string | undefined): string {
   let imagePath = tmp.dirSync().name;
   if (imageSavePath) {
-    imagePath = imageSavePath;
+    imagePath = path.normalize(imageSavePath);
   }
 
   return path.join(imagePath, uuidv4());
