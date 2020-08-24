@@ -44,7 +44,10 @@ export async function extractArchive(
             reject(new Error("Error reading tar archive"));
           }
         } else if (isManifestFile(normalizedName)) {
-          manifest = await getManifestFile(stream);
+          const manifestArray = await getManifestFile<DockerArchiveManifest[]>(
+            stream,
+          );
+          manifest = manifestArray[0];
         }
       }
 
@@ -99,10 +102,8 @@ function getLayersContentAndArchiveManifest(
 /**
  * Note: consumes the stream.
  */
-function getManifestFile(stream: Readable): Promise<DockerArchiveManifest> {
-  return streamToJson<DockerArchiveManifest>(stream).then((manifest) => {
-    return manifest[0];
-  });
+async function getManifestFile<T>(stream: Readable): Promise<T> {
+  return streamToJson<T>(stream);
 }
 
 function isManifestFile(name: string): boolean {
