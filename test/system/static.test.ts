@@ -89,6 +89,15 @@ test("static analysis builds the expected response", async (t) => {
     ["ce3539cc184915f96add8551b0e7a37d80c560fe3ffe40cfe4585ea3a8dc14e9.tar"],
     "Layers are read correctly",
   );
+  t.deepEqual(
+    pluginResultWithSkopeoCopy.plugin.rootFs,
+    [
+      "sha256:2db44bce66cde56fca25aeeb7d09dc924b748e3adfe58c9cc3eb2bd2f68a1b68",
+      "sha256:16d1b1dd2a23a7a79426299fde8be361194007dfebb3438f96735755283becf8",
+      "sha256:ce3539cc184915f96add8551b0e7a37d80c560fe3ffe40cfe4585ea3a8dc14e9",
+    ],
+    "Base image layers are read correctly",
+  );
   t.ok(
     pluginResultWithSkopeoCopy.scannedProjects[0].depTree.dependencies &&
       "adduser" in
@@ -103,6 +112,16 @@ test("static analysis builds the expected response", async (t) => {
       "ac415f8e415b242117277e7ee5224b30389698b46101e0f28224490af3b90a9d/layer.tar",
     ],
     "Layers are read correctly",
+  );
+
+  t.deepEqual(
+    pluginResultWithSkopeoCopy.plugin.rootFs,
+    [
+      "sha256:2db44bce66cde56fca25aeeb7d09dc924b748e3adfe58c9cc3eb2bd2f68a1b68",
+      "sha256:16d1b1dd2a23a7a79426299fde8be361194007dfebb3438f96735755283becf8",
+      "sha256:ce3539cc184915f96add8551b0e7a37d80c560fe3ffe40cfe4585ea3a8dc14e9",
+    ],
+    "Base image layers are read correctly",
   );
 
   t.deepEqual(

@@ -90,6 +90,7 @@ export async function analyze(
     imageId,
     manifestLayers,
     extractedLayers,
+    rootFsLayers,
   } = await archiveExtractor.getArchiveLayersAndManifest(
     options.imageType,
     options.imagePath,
@@ -156,6 +157,7 @@ export async function analyze(
     results,
     binaries,
     imageLayers: manifestLayers,
+    rootFsLayers,
     applicationDependenciesScanResults,
     manifestFiles,
   };

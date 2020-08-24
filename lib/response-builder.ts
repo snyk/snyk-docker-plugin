@@ -83,6 +83,7 @@ function pluginMetadataRes(
     packageManager: depsAnalysis.packageManager,
     dockerImageId: depsAnalysis.imageId,
     imageLayers: depsAnalysis.imageLayers,
+    rootFs: depsAnalysis.rootFsLayers,
   };
 }
 

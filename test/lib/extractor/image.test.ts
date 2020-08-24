@@ -128,6 +128,16 @@ test("image extractor: ensure the layer results are the same for docker and for 
     ["ce3539cc184915f96add8551b0e7a37d80c560fe3ffe40cfe4585ea3a8dc14e9.tar"],
     "Layers match",
   );
+
+  t.deepEqual(
+    dockerResult.rootFsLayers,
+    [
+      "sha256:2db44bce66cde56fca25aeeb7d09dc924b748e3adfe58c9cc3eb2bd2f68a1b68",
+      "sha256:16d1b1dd2a23a7a79426299fde8be361194007dfebb3438f96735755283becf8",
+      "sha256:ce3539cc184915f96add8551b0e7a37d80c560fe3ffe40cfe4585ea3a8dc14e9",
+    ],
+    "Base image layers match",
+  );
 });
 
 test("oci image extractor: extracted image content returned as expected", async (t) => {
@@ -187,6 +197,8 @@ test("oci image extractor: extracted image content returned as expected", async 
     ],
     "Manifest returns expected layers content",
   );
+
+  t.notOk(result.rootFsLayers, "Base image layers is null");
 });
 
 test("image extractor: user friendly error thrown when invalid archive provided", async (t) => {

@@ -10,6 +10,7 @@ export interface ExtractionResult {
   imageId: string;
   manifestLayers: string[];
   extractedLayers: ExtractedLayers;
+  rootFsLayers?: string[];
 }
 
 export interface ExtractedLayers {
@@ -19,6 +20,7 @@ export interface ExtractedLayers {
 export interface ExtractedLayersAndManifest {
   layers: ExtractedLayers[];
   manifest: DockerArchiveManifest;
+  imageConfig: DockerArchiveImageConfig;
 }
 
 export interface DockerArchiveManifest {
@@ -27,6 +29,10 @@ export interface DockerArchiveManifest {
   RepoTags: string[];
   // The names of the layers in this archive, usually in the format "<sha256>.tar" or "<sha256>/layer.tar".
   Layers: string[];
+}
+
+export interface DockerArchiveImageConfig {
+  rootfs: { diff_ids: string[] };
 }
 
 export interface OciArchiveLayer {
