@@ -63,6 +63,7 @@ export interface StaticAnalysis {
   results: ImageAnalysis[];
   binaries: string[];
   imageLayers: string[];
+  rootFsLayers?: string[];
   applicationDependenciesScanResults: ScannedProjectCustom[];
   manifestFiles: ManifestFile[];
 }

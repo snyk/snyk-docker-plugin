@@ -7,6 +7,7 @@ import { extract, Extract } from "tar-stream";
 import { streamToJson } from "../../stream-utils";
 import { extractImageLayer } from "../layer";
 import {
+  DockerArchiveImageConfig,
   DockerArchiveManifest,
   ExtractAction,
   ExtractedLayers,
@@ -29,6 +30,7 @@ export async function extractArchive(
     const tarExtractor: Extract = extract();
     const layers: Record<string, ExtractedLayers> = {};
     let manifest: DockerArchiveManifest;
+    let imageConfig: DockerArchiveImageConfig;
 
     tarExtractor.on("entry", async (header, stream, next) => {
       if (header.type === "file") {
@@ -44,7 +46,12 @@ export async function extractArchive(
             reject(new Error("Error reading tar archive"));
           }
         } else if (isManifestFile(normalizedName)) {
-          manifest = await getManifestFile(stream);
+          const manifestArray = await getManifestFile<DockerArchiveManifest[]>(
+            stream,
+          );
+          manifest = manifestArray[0];
+        } else if (isImageConfigFile(normalizedName)) {
+          imageConfig = await getManifestFile<DockerArchiveImageConfig>(stream);
         }
       }
 
@@ -54,7 +61,9 @@ export async function extractArchive(
 
     tarExtractor.on("finish", () => {
       try {
-        resolve(getLayersContentAndArchiveManifest(manifest, layers));
+        resolve(
+          getLayersContentAndArchiveManifest(manifest, imageConfig, layers),
+        );
       } catch (error) {
         debug(
           `Error getting layers and manifest content from docker archive: '${error}'`,
@@ -73,6 +82,7 @@ export async function extractArchive(
 
 function getLayersContentAndArchiveManifest(
   manifest: DockerArchiveManifest,
+  imageConfig: DockerArchiveImageConfig,
   layers: Record<string, ExtractedLayers>,
 ): ExtractedLayersAndManifest {
   // skip (ignore) non-existent layers
@@ -93,20 +103,24 @@ function getLayersContentAndArchiveManifest(
   return {
     layers: filteredLayers,
     manifest,
+    imageConfig,
   };
 }
 
 /**
  * Note: consumes the stream.
  */
-function getManifestFile(stream: Readable): Promise<DockerArchiveManifest> {
-  return streamToJson<DockerArchiveManifest>(stream).then((manifest) => {
-    return manifest[0];
-  });
+async function getManifestFile<T>(stream: Readable): Promise<T> {
+  return streamToJson<T>(stream);
 }
 
 function isManifestFile(name: string): boolean {
   return name === "manifest.json";
+}
+
+function isImageConfigFile(name: string): boolean {
+  const configRegex = new RegExp("[A-Fa-f0-9]{64}\\.json");
+  return configRegex.test(name);
 }
 
 function isTarFile(name: string): boolean {

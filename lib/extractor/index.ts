@@ -41,6 +41,9 @@ export async function getArchiveLayersAndManifest(
         extractedLayers: layersWithLatestFileModifications(
           dockerArchive.layers,
         ),
+        rootFsLayers: dockerExtractor.getRootFsLayersFromConfig(
+          dockerArchive.imageConfig,
+        ),
       };
   }
 }

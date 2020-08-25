@@ -40,6 +40,7 @@ export interface PluginMetadata {
   packageManager: any;
   dockerImageId: string;
   imageLayers: string[];
+  rootFs?: string[];
 }
 
 export interface PluginResponseStatic extends PluginResponse {
