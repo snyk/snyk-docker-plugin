@@ -85,8 +85,9 @@ export async function analyze(
     results: pkgManagerAnalysis,
     binaries: binariesAnalysis,
     imageLayers:
-      imageInspection.RootFS &&
-      imageInspection.RootFS.Layers.map((layer) => normalizePath(layer)),
+      imageInspection.RootFS && imageInspection.RootFS.Layers !== undefined
+        ? imageInspection.RootFS.Layers.map((layer) => normalizePath(layer))
+        : [],
   };
 }
 
