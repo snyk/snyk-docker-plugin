@@ -4,7 +4,9 @@ import { DockerArchiveImageConfig, DockerArchiveManifest } from "../types";
 export { extractArchive } from "./layer";
 
 export function getManifestLayers(manifest: DockerArchiveManifest) {
-  return manifest.Layers.map((layer) => normalizePath(layer));
+  return (
+    manifest.Layers && manifest.Layers.map((layer) => normalizePath(layer))
+  );
 }
 
 export function getImageIdFromManifest(
