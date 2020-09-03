@@ -443,9 +443,8 @@ test("experimental static analysis for debian images", async (t) => {
     pluginOptionsExperimental,
   );
 
-  t.equal(
-    dockerSaveStub.callCount,
-    2, // once before the pull and once after
+  t.true(
+    dockerSaveStub.calledOnce,
     "non-static experimental flag saves the image",
   );
 
@@ -477,9 +476,8 @@ test("experimental static analysis for debian images", async (t) => {
     "identical dependencies for regular Debian images between experimental and static scans",
   );
 
-  t.equal(
-    dockerSaveStub.callCount,
-    2,
+  t.true(
+    dockerSaveStub.calledOnce,
     "static experimental flag does not save the image",
   );
   t.same(

@@ -23,6 +23,7 @@ interface DockerOptions {
   tlsCaCert?: string;
   tlsKey?: string;
   socketPath?: string;
+  platform?: string;
 }
 
 const SystemDirectories = ["dev", "proc", "sys"];
@@ -136,8 +137,12 @@ class Docker {
     return await dockerPull.pull(registry, repo, tag, opt);
   }
 
-  public async pullCli(targetImage: string) {
-    return subProcess.execute("docker", ["pull", targetImage]);
+  public async pullCli(targetImage: string, options?: DockerOptions) {
+    return subProcess.execute("docker", [
+      "pull",
+      options?.platform ? `--platform=${options.platform}` : "",
+      targetImage,
+    ]);
   }
 
   public async save(targetImage: string, destination: string) {

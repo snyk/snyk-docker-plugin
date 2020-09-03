@@ -15,13 +15,20 @@ export { detect, getImageArchive, extractImageDetails, pullIfNotLocal };
 
 const debug = Debug("snyk");
 
+async function getInspectResult(
+  docker: Docker,
+  targetImage: string,
+): Promise<DockerInspectOutput> {
+  const info = await docker.inspectImage(targetImage);
+  return JSON.parse(info.stdout)[0];
+}
+
 async function detect(
   targetImage: string,
   options?: DockerOptions,
 ): Promise<DockerInspectOutput> {
   const docker = new Docker(targetImage, options);
-  const info = await docker.inspectImage(targetImage);
-  return JSON.parse(info.stdout)[0];
+  return getInspectResult(docker, targetImage);
 }
 
 function cleanupCallback(imagePath: string, imageName: string) {
@@ -53,12 +60,14 @@ function cleanupCallback(imagePath: string, imageName: string) {
  *    `latest`.
  * @param {string} [username] - Optional username for private repo auth.
  * @param {string} [password] - Optional password for private repo auth.
+ * @param {string} [platform] - Optional platform parameter to pull specific image arch.
  */
 async function getImageArchive(
   targetImage: string,
   imageSavePath: string,
   username?: string,
   password?: string,
+  platform?: string,
 ): Promise<ArchiveResult> {
   const docker = new Docker(targetImage);
   mkdirp.sync(imageSavePath);
@@ -69,6 +78,14 @@ async function getImageArchive(
   const saveLocation: string = path.join(destination.name, "image.tar");
 
   try {
+    const inspectResult = await getInspectResult(docker, targetImage);
+    if (
+      platform !== undefined &&
+      !isLocalImageSameArchitecture(platform, inspectResult.Architecture)
+    ) {
+      throw new Error("Pulling an image with updated architecture required");
+    }
+
     await docker.save(targetImage, saveLocation);
 
     return {
@@ -77,7 +94,7 @@ async function getImageArchive(
     };
   } catch {
     debug(
-      `${targetImage} does not exist locally, proceeding to pull image from remote registry.`,
+      `${targetImage} does not exist locally or updating arch required, proceeding to pull image from remote registry.`,
     );
   }
 
@@ -89,7 +106,7 @@ async function getImageArchive(
         );
       }
 
-      await docker.pullCli(targetImage);
+      await docker.pullCli(targetImage, { platform });
       await docker.save(targetImage, saveLocation);
       return {
         path: saveLocation,
@@ -153,6 +170,22 @@ async function extractImageDetails(targetImage: string): Promise<ImageDetails> {
     imageName,
     tag,
   };
+}
+
+function isLocalImageSameArchitecture(
+  platformOption: string,
+  inspectResultArchitecture: string,
+): boolean {
+  let platformArchitecture: string;
+  try {
+    // Note: this is using the same flag/input pattern as the new Docker buildx: eg. linux/arm64/v8
+    platformArchitecture = platformOption.split("/")[1];
+  } catch (error) {
+    debug(`Error parsing platform flag: '${error}'`);
+    return false;
+  }
+
+  return platformArchitecture === inspectResultArchitecture;
 }
 
 async function pullIfNotLocal(targetImage: string, options?: DockerOptions) {
