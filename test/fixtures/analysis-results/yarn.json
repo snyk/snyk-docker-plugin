@@ -5308,6 +5308,6 @@
   "name": "goof",
   "size": 914,
   "version": "0.0.3",
-  "meta": { "nodeVersion": "6.14.1" },
+  "meta": { "nodeVersion": "6.14.1", "packageManagerVersion": "1" },
   "labels": {}
 }
