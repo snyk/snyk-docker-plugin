@@ -94,6 +94,7 @@ function getDynamicAnalysisOptions(options?: any): any {
         tlskey: options.tlskey,
         manifestGlobs: options.manifestGlobs,
         manifestExcludeGlobs: options.manifestExcludeGlobs,
+        platform: options.platform,
       }
     : {};
 }

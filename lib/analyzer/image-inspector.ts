@@ -15,13 +15,20 @@ export { detect, getImageArchive, extractImageDetails, pullIfNotLocal };
 
 const debug = Debug("snyk");
 
+async function getInspectResult(
+  docker: Docker,
+  targetImage: string,
+): Promise<DockerInspectOutput> {
+  const info = await docker.inspectImage(targetImage);
+  return JSON.parse(info.stdout)[0];
+}
+
 async function detect(
   targetImage: string,
   options?: DockerOptions,
 ): Promise<DockerInspectOutput> {
   const docker = new Docker(targetImage, options);
-  const info = await docker.inspectImage(targetImage);
-  return JSON.parse(info.stdout)[0];
+  return getInspectResult(docker, targetImage);
 }
 
 function cleanupCallback(imagePath: string, imageName: string) {
@@ -155,13 +162,46 @@ async function extractImageDetails(targetImage: string): Promise<ImageDetails> {
   };
 }
 
+function isLocalImageSameArchitecture(
+  platformOption: string,
+  inspectResultArchitecture: string,
+) {
+  let platformArchitecture: string;
+  try {
+    // Note: this is using the same flag/input pattern as the new Docker buildx: eg. linux/arm64/v8
+    platformArchitecture = platformOption.split("/")[1];
+  } catch (error) {
+    debug(`Error parsing platform flag: '${error}'`);
+    return false;
+  }
+
+  return platformArchitecture === inspectResultArchitecture;
+}
+
 async function pullIfNotLocal(targetImage: string, options?: DockerOptions) {
   const docker = new Docker(targetImage);
+  let doesExistLocally: boolean = false;
+  let inspectResult: DockerInspectOutput | undefined;
+
   try {
-    await docker.inspectImage(targetImage);
-    return;
+    inspectResult = await getInspectResult(docker, targetImage);
+    doesExistLocally = true;
   } catch (err) {
     // image doesn't exist locally
   }
-  await docker.pullCli(targetImage);
+
+  if (
+    !doesExistLocally ||
+    (options &&
+      options.platform !== undefined &&
+      inspectResult !== undefined &&
+      !isLocalImageSameArchitecture(
+        options.platform,
+        inspectResult.Architecture,
+      ))
+  ) {
+    await docker.pullCli(targetImage, options);
+  }
+
+  return;
 }

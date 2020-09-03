@@ -302,3 +302,83 @@ test("get image as an archive", async (t) => {
     t.ok(fs.existsSync(customPath), "custom path should exist on disk");
   });
 });
+
+test("pullIfNotLocal", async (t) => {
+  t.test("pulls image if not present locally", async (t) => {
+    const targetImage = "library/hello-world:latest";
+    const inspectImageStub = sinon.stub(Docker.prototype, "inspectImage");
+    inspectImageStub.throws();
+
+    const dockerPullCliSpy = sinon.spy(Docker.prototype, "pullCli");
+
+    t.teardown(() => {
+      sinon.restore();
+    });
+
+    imageInspector.pullIfNotLocal(targetImage);
+
+    t.true(dockerPullCliSpy.called, "docker pullCli called");
+  });
+
+  t.test(
+    "does not pull the image if present locally and same architecture",
+    async (t) => {
+      const targetImage = "library/hello-world:latest";
+      const inspectImageStub = sinon.stub(Docker.prototype, "inspectImage");
+      const stubbedData = [
+        {
+          Id: "image_id",
+          RootFS: {
+            Layers: {},
+          },
+          Architecture: "arm64",
+        },
+      ];
+      inspectImageStub.resolves({
+        stdout: JSON.stringify(stubbedData),
+        stderr: "",
+      });
+
+      const dockerPullCliSpy = sinon.spy(Docker.prototype, "pullCli");
+
+      t.teardown(() => {
+        sinon.restore();
+      });
+
+      imageInspector.pullIfNotLocal(targetImage, { platform: "linux/arm64" });
+
+      t.false(dockerPullCliSpy.called, "docker pullCli not called");
+    },
+  );
+
+  t.test(
+    "does pull the image if present locally but different architecture",
+    async (t) => {
+      const targetImage = "library/hello-world:latest";
+      const inspectImageStub = sinon.stub(Docker.prototype, "inspectImage");
+      const stubbedData = [
+        {
+          Id: "image_id",
+          RootFS: {
+            Layers: {},
+          },
+          Architecture: "amd64",
+        },
+      ];
+      inspectImageStub.resolves({
+        stdout: JSON.stringify(stubbedData),
+        stderr: "",
+      });
+
+      const dockerPullCliSpy = sinon.spy(Docker.prototype, "pullCli");
+
+      t.teardown(() => {
+        sinon.restore();
+      });
+
+      imageInspector.pullIfNotLocal(targetImage, { platform: "linux/arm64" });
+
+      t.true(dockerPullCliSpy.called, "docker pullCli called");
+    },
+  );
+});
