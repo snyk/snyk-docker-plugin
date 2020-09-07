@@ -41,6 +41,83 @@ function cleanupCallback(imagePath: string, imageName: string) {
   };
 }
 
+async function pullWithDockerBinary(
+  docker: Docker,
+  targetImage: string,
+  saveLocation: string,
+  username: string | undefined,
+  password: string | undefined,
+  platform: string | undefined,
+): Promise<boolean> {
+  let pullAndSaveSuccessful = false;
+  try {
+    if (username || password) {
+      debug(
+        "using local docker binary credentials. the credentials you provided will be ignored",
+      );
+    }
+    await docker.pullCli(targetImage, { platform });
+    await docker.save(targetImage, saveLocation);
+    return (pullAndSaveSuccessful = true);
+  } catch (err) {
+    debug(`couldn't pull ${targetImage} using docker binary: ${err}`);
+    return pullAndSaveSuccessful;
+  }
+}
+
+async function pullFromContainerRegistry(
+  docker: Docker,
+  targetImage: string,
+  imageSavePath: string,
+  username: string | undefined,
+  password: string | undefined,
+): Promise<void> {
+  const { hostname, imageName, tag } = await extractImageDetails(targetImage);
+  debug(
+    `Attempting to pull: registry: ${hostname}, image: ${imageName}, tag: ${tag}`,
+  );
+  await docker.pull(
+    hostname,
+    imageName,
+    tag,
+    imageSavePath,
+    username,
+    password,
+  );
+}
+
+async function pullImage(
+  docker: Docker,
+  targetImage: string,
+  saveLocation: string,
+  imageSavePath: string,
+  username: string | undefined,
+  password: string | undefined,
+  platform: string | undefined,
+): Promise<void> {
+  if (await Docker.binaryExists()) {
+    const pullAndSaveSuccessful = await pullWithDockerBinary(
+      docker,
+      targetImage,
+      saveLocation,
+      username,
+      password,
+      platform,
+    );
+    if (pullAndSaveSuccessful) {
+      return;
+    }
+  }
+
+  await pullFromContainerRegistry(
+    docker,
+    targetImage,
+    imageSavePath,
+    username,
+    password,
+  );
+}
+
 /**
  * In the case that an `ImageType.Identifier` is detected we need to produce
  * an image archive, either by saving the image if it's already loaded into
@@ -76,59 +153,49 @@ async function getImageArchive(
     removeCallback: cleanupCallback(imageSavePath, "image.tar"),
   };
   const saveLocation: string = path.join(destination.name, "image.tar");
+  let inspectResult: DockerInspectOutput | undefined;
 
   try {
-    const inspectResult = await getInspectResult(docker, targetImage);
-    if (
-      platform !== undefined &&
-      !isLocalImageSameArchitecture(platform, inspectResult.Architecture)
-    ) {
-      throw new Error("Pulling an image with updated architecture required");
-    }
+    inspectResult = await getInspectResult(docker, targetImage);
+  } catch {
+    debug(`${targetImage} does not exist locally, proceeding to pull image.`);
+  }
 
-    await docker.save(targetImage, saveLocation);
+  if (inspectResult === undefined) {
+    await pullImage(
+      docker,
+      targetImage,
+      saveLocation,
+      imageSavePath,
+      username,
+      password,
+      platform,
+    );
 
     return {
       path: saveLocation,
       removeArchive: destination.removeCallback,
     };
-  } catch {
-    debug(
-      `${targetImage} does not exist locally or updating arch required, proceeding to pull image from remote registry.`,
+  }
+
+  if (
+    platform !== undefined &&
+    inspectResult &&
+    !isLocalImageSameArchitecture(platform, inspectResult.Architecture)
+  ) {
+    await pullImage(
+      docker,
+      targetImage,
+      saveLocation,
+      imageSavePath,
+      username,
+      password,
+      platform,
     );
+  } else {
+    await docker.save(targetImage, saveLocation);
   }
 
-  if (await Docker.binaryExists()) {
-    try {
-      if (username || password) {
-        debug(
-          "using local docker binary credentials. the credentials you provided will be ignored",
-        );
-      }
-
-      await docker.pullCli(targetImage, { platform });
-      await docker.save(targetImage, saveLocation);
-      return {
-        path: saveLocation,
-        removeArchive: destination.removeCallback,
-      };
-    } catch (err) {
-      debug(`couldn't pull ${targetImage} using docker binary: ${err}`);
-    }
-  }
-
-  const { hostname, imageName, tag } = await extractImageDetails(targetImage);
-  debug(
-    `Attempting to pull: registry: ${hostname}, image: ${imageName}, tag: ${tag}`,
-  );
-  await docker.pull(
-    hostname,
-    imageName,
-    tag,
-    imageSavePath,
-    username,
-    password,
-  );
   return {
     path: saveLocation,
     removeArchive: destination.removeCallback,
