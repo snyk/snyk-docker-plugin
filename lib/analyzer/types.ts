@@ -13,6 +13,7 @@ export interface AnalyzedPackage {
 
 export interface DockerInspectOutput {
   Id: string;
+  Architecture: string;
   RootFS: {
     Type: string;
     Layers: string[];

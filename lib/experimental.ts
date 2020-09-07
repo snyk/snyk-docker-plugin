@@ -75,6 +75,7 @@ export async function distroless(
     imageSavePath,
     options?.username,
     options?.password,
+    options?.platform,
   );
   try {
     return await getStaticAnalysisResult(

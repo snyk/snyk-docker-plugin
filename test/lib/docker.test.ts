@@ -503,3 +503,37 @@ test("findGlobs", async (t) => {
     },
   );
 });
+
+test("pullCli", async (t) => {
+  const stub = sinon.stub(subProcess, "execute");
+  stub.resolves("text");
+  t.beforeEach(async () => {
+    stub.resetHistory();
+  });
+  t.tearDown(() => {
+    stub.restore();
+  });
+
+  const targetImage = "some:image";
+  const docker = new Docker(targetImage);
+
+  t.test("no args", async (t) => {
+    await docker.pullCli(targetImage);
+    const subProcessArgs = stub.getCall(0).args;
+    t.same(
+      subProcessArgs,
+      ["docker", ["pull", "", targetImage]],
+      "args passed to subProcess.execute as expected",
+    );
+  });
+
+  t.test("with args", async (t) => {
+    await docker.pullCli(targetImage, { platform: "linux/arm64/v8" });
+    const subProcessArgs = stub.getCall(0).args;
+    t.same(
+      subProcessArgs,
+      ["docker", ["pull", "--platform=linux/arm64/v8", targetImage]],
+      "args passed to subProcess.execute as expected",
+    );
+  });
+});

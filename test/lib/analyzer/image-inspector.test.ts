@@ -207,6 +207,66 @@ test("get image as an archive", async (t) => {
     t.ok(fs.existsSync(customPath), "custom path should exist on disk");
   });
 
+  t.test(
+    "from remote registry when updated architecture required",
+    async (t) => {
+      const customPath = tmp.dirSync().name;
+      const imageSavePath = path.join(customPath, uuidv4());
+      const dockerPullSpy = sinon.spy(Docker.prototype, "pullCli");
+      const inspectImageStub = sinon.stub(Docker.prototype, "inspectImage");
+      const stubbedData = [
+        {
+          Id: "image_id",
+          RootFS: {
+            Layers: {},
+          },
+          Architecture: "amd64",
+        },
+      ];
+      inspectImageStub.resolves({
+        stdout: JSON.stringify(stubbedData),
+        stderr: "",
+      });
+
+      const archiveLocation: ArchiveResult = await imageInspector.getImageArchive(
+        targetImage,
+        imageSavePath,
+        undefined,
+        undefined,
+        "linux/arm64",
+      );
+
+      t.teardown(async () => {
+        sinon.restore();
+      });
+
+      t.true(
+        dockerPullSpy.called,
+        "image pulled from remote registry with binary",
+      );
+      t.equal(
+        archiveLocation.path,
+        path.join(imageSavePath, "image.tar"),
+        "expected full image path",
+      );
+      t.true(
+        fs.existsSync(path.join(imageSavePath, "image.tar")),
+        "image exists on disk",
+      );
+
+      archiveLocation.removeArchive();
+      t.false(
+        fs.existsSync(path.join(imageSavePath, "image.tar")),
+        "image should not exists on disk",
+      );
+      t.notOk(
+        fs.existsSync(imageSavePath),
+        "tmp folder should not exist on disk",
+      );
+      t.ok(fs.existsSync(customPath), "custom path should exist on disk");
+    },
+  );
+
   t.test("from remote registry without binary", async (t) => {
     const customPath = "./new_custom/image/save/path";
     const imageSavePath = path.join(customPath, uuidv4());
