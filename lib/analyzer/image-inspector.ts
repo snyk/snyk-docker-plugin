@@ -61,6 +61,13 @@ async function pullWithDockerBinary(
     return (pullAndSaveSuccessful = true);
   } catch (err) {
     debug(`couldn't pull ${targetImage} using docker binary: ${err}`);
+
+    if (
+      err.stderr &&
+      err.stderr.includes("unknown operating system or architecture")
+    ) {
+      throw new Error("Unknown operating system or architecture");
+    }
     return pullAndSaveSuccessful;
   }
 }
