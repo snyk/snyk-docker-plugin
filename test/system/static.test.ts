@@ -650,3 +650,35 @@ test("static scanning NGINX with dockerfile analysis matches expected values", a
     "found gnupg1 in dockerfile packages",
   );
 });
+
+test("static analysis for arm based image", async (t) => {
+  const imageNameAndTag = "arm64v8/nginx:1.19.2-alpine";
+  const dockerfile = undefined;
+  const pluginOptions = {
+    experimental: true,
+  };
+
+  const pluginResult = await plugin.inspect(
+    imageNameAndTag,
+    dockerfile,
+    pluginOptions,
+  );
+
+  const depTree = pluginResult.scannedProjects[0].depTree as DepTree;
+
+  t.ok("dependencies" in depTree, "packages have dependencies");
+  t.equal(
+    pluginResult.scannedProjects[0].meta.imageName,
+    "docker-image|arm64v8/nginx",
+    "imageName exists in the scan result",
+  );
+  t.deepEqual(
+    depTree.targetOS,
+    {
+      name: "alpine",
+      version: "3.12.0",
+      prettyName: "Alpine Linux v3.12",
+    },
+    "found os scan result",
+  );
+});
