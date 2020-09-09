@@ -15,7 +15,7 @@ windows_defaults: &windows_defaults
   parameters:
     node_version:
       type: string
-      default: ''
+      default: ""
   working_directory: ~/snyk-docker-plugin
 
 release_defaults: &release_defaults
@@ -80,7 +80,7 @@ commands:
     parameters:
       node_version:
         type: string
-        default: ''
+        default: ""
     steps:
       - run:
           name: Install specific version of Node
@@ -183,7 +183,7 @@ workflows:
       - test_windows:
           name: Test Windows
           context: nodejs-install
-          node_version: '8.17.0'
+          node_version: "8.17.0"
           requires:
             - Install
       - release:
