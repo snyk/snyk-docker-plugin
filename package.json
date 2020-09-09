@@ -28,7 +28,7 @@
     "@snyk/rpm-parser": "^2.0.0",
     "@snyk/snyk-docker-pull": "^3.2.0",
     "debug": "^4.1.1",
-    "docker-modem": "2.1.3",
+    "docker-modem": "2.1.4",
     "dockerfile-ast": "0.0.30",
     "event-loop-spinner": "^2.0.0",
     "gunzip-maybe": "^1.4.2",
