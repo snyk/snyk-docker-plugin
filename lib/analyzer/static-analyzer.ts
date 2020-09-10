@@ -91,7 +91,8 @@ export async function analyze(
     manifestLayers,
     extractedLayers,
     rootFsLayers,
-  } = await archiveExtractor.getArchiveLayersAndManifest(
+    platform,
+  } = await archiveExtractor.extractImageContent(
     options.imageType,
     options.imagePath,
     staticAnalysisActions,
