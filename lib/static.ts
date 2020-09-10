@@ -1,20 +1,17 @@
+import { legacy } from "@snyk/dep-graph";
 import * as analyzer from "./analyzer";
 import { buildTree } from "./dependency-tree";
 import { DockerFileAnalysis } from "./docker-file";
 import { tryGetAnalysisError } from "./errors";
 import { parseAnalysisResults } from "./parser";
 import { buildResponse } from "./response-builder";
-import {
-  PluginResponse,
-  PluginResponseStatic,
-  StaticAnalysisOptions,
-} from "./types";
+import { ScanOptions, ScanResult } from "./types";
 
 export async function analyzeStatically(
   targetImage: string,
   dockerfileAnalysis: DockerFileAnalysis | undefined,
-  options: any,
-): Promise<PluginResponse> {
+  options?: Partial<ScanOptions>,
+): Promise<ScanResult[]> {
   const staticAnalysisOptions = getStaticAnalysisOptions(options);
 
   // Relevant only if using a Docker runtime. Optional, but we may consider what to put here
@@ -40,7 +37,13 @@ export async function analyzeStatically(
       parsedAnalysisResult.targetOS,
     );
 
+    const depGraph = await legacy.depTreeToGraph(
+      dependenciesTree,
+      parsedAnalysisResult.type,
+    );
+
     const analysis = {
+      depGraph,
       package: dependenciesTree,
       packageManager: parsedAnalysisResult.type,
       imageId: parsedAnalysisResult.imageId,
@@ -52,18 +55,14 @@ export async function analyzeStatically(
     };
 
     // hacking our way through types for backwards compatibility
-    const response: PluginResponseStatic = {
-      ...buildResponse(
-        runtime,
-        analysis,
-        dockerfileAnalysis,
-        staticAnalysis.manifestFiles,
-        staticAnalysisOptions,
-      ),
-      hashes: [],
-    };
-    response.hashes = staticAnalysis.binaries;
-    return response;
+    return buildResponse(
+      runtime,
+      analysis,
+      dockerfileAnalysis,
+      staticAnalysis.manifestFiles,
+      staticAnalysis.binaries,
+      staticAnalysisOptions,
+    );
   } catch (error) {
     const analysisError = tryGetAnalysisError(error, targetImage);
     throw analysisError;
@@ -75,21 +74,16 @@ export function isRequestingStaticAnalysis(options?: any): boolean {
 }
 
 // TODO: this function needs to go as soon as the dynamic scanning goes
-function getStaticAnalysisOptions(options: any): StaticAnalysisOptions {
-  if (
-    !options ||
-    !options.staticAnalysisOptions ||
-    !options.staticAnalysisOptions.imagePath ||
-    options.staticAnalysisOptions.imageType === undefined
-  ) {
+function getStaticAnalysisOptions(options: any): Partial<ScanOptions> {
+  if (!options || !options.imagePath || options.imageType === undefined) {
     throw new Error("Missing required parameters for static analysis");
   }
 
   return {
-    imagePath: options.staticAnalysisOptions.imagePath,
-    imageType: options.staticAnalysisOptions.imageType,
-    distroless: options.staticAnalysisOptions.distroless,
-    appScan: options.staticAnalysisOptions.appScan,
+    imagePath: options.imagePath,
+    imageType: options.imageType,
+    experimental: options.experimental,
+    appScan: options.appScan,
     globsToFind: {
       include: options.manifestGlobs,
       exclude: options.manifestExcludeGlobs,

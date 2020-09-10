@@ -12,8 +12,10 @@ function buildResponse(
   depsAnalysis,
   dockerfileAnalysis: DockerFileAnalysis | undefined,
   manifestFiles: types.ManifestFile[],
+  hashes: string[],
   options,
-): types.PluginResponse {
+): types.ScanResult[] {
+  const depGraph = depsAnalysis.depGraph;
   const deps = depsAnalysis.package.dependencies;
   const dockerfilePkgs = collectDockerfilePkgs(dockerfileAnalysis, deps);
   const finalDeps = excludeBaseImageDeps(deps, dockerfilePkgs, options);
@@ -26,35 +28,53 @@ function buildResponse(
     finalDeps,
   );
 
-  const applicationDependenciesScanResults: types.ScannedProjectCustom[] =
+  const applicationDependenciesScanResults: types.ScanResult[] =
     depsAnalysis.applicationDependenciesScanResults || [];
 
-  const scannedProjects = [
+  const scanResults: types.ScanResult[] = [
     {
-      packageManager: plugin.packageManager,
-      depTree: pkg,
+      artifacts: [
+        {
+          type: "depGraph",
+          data: depGraph,
+          meta: {},
+        },
+      ],
+      meta: {
+        // Why is this appearing twice (here and in dockerfileAnalysis)? Which one do consumers use?
+        dockerfilePkgs,
+        dockerfileAnalysis,
+        dockerImageId: plugin.dockerImageId,
+        imageLayers: plugin.imageLayers,
+        rootFs: plugin.rootFs,
+      },
     },
     ...applicationDependenciesScanResults,
   ];
 
+  if (hashes) {
+    scanResults[0].artifacts.push({
+      type: "hashes",
+      data: { hashes },
+      meta: {},
+    });
+  }
+
   if (manifestFiles.length > 0) {
-    scannedProjects.push({
-      scanType: types.ScanType.ManifestFiles,
-      data: manifestFiles,
-      packageManager: "PLEASE DON'T USE THIS",
-      depTree: { dependencies: {} },
-    } as types.ScannedProjectManifestFiles);
+    scanResults.push(
+      ...manifestFiles.map((manifestFile) => ({
+        artifacts: [{ type: "manifestFile", data: manifestFile, meta: {} }],
+        meta: {},
+      })),
+    );
   }
 
   const scannedProjectsWithImageName = assignImageNameToScannedProjectMeta(
     pkg.name,
-    scannedProjects,
+    scanResults,
   );
 
-  return {
-    plugin,
-    scannedProjects: scannedProjectsWithImageName,
-  };
+  return scannedProjectsWithImageName;
 }
 
 /**
@@ -62,21 +82,18 @@ function buildResponse(
  */
 function assignImageNameToScannedProjectMeta(
   imageName: string,
-  scannedProjects: types.ScannedProjectCustom[],
-): types.ScannedProjectCustom[] {
-  return scannedProjects.map((project) => {
-    if (project.meta === undefined) {
-      project.meta = {};
+  scanResults: types.ScanResult[],
+): types.ScanResult[] {
+  return scanResults.map((scanResult) => {
+    if (scanResult.meta === undefined) {
+      scanResult.meta = {};
     }
-    project.meta.imageName = imageName;
-    return project;
+    scanResult.meta.imageName = imageName;
+    return scanResult;
   });
 }
 
-function pluginMetadataRes(
-  runtime: string | undefined,
-  depsAnalysis,
-): types.PluginMetadata {
+function pluginMetadataRes(runtime: string | undefined, depsAnalysis) {
   return {
     name: "snyk-docker-plugin",
     runtime,

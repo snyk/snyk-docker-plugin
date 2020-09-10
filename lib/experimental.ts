@@ -7,13 +7,13 @@ import { getImageArchive } from "./analyzer/image-inspector";
 import { DockerFileAnalysis } from "./docker-file";
 import { getArchivePath, getImageType } from "./image-type";
 import * as staticModule from "./static";
-import { ImageType, PluginResponse } from "./types";
+import { ImageType, ScanOptions, ScanResult } from "./types";
 
 export async function experimentalAnalysis(
   targetImage: string,
   dockerfileAnalysis: DockerFileAnalysis | undefined,
-  options: any,
-): Promise<PluginResponse> {
+  options?: Partial<ScanOptions>,
+): Promise<ScanResult[]> {
   // assume Distroless scanning
   const imageType = getImageType(targetImage);
   switch (imageType) {
@@ -32,8 +32,8 @@ async function localArchive(
   targetImage: string,
   imageType: ImageType,
   dockerfileAnalysis: DockerFileAnalysis | undefined,
-  options: any,
-): Promise<PluginResponse> {
+  options?: Partial<ScanOptions>,
+): Promise<ScanResult[]> {
   const archivePath = getArchivePath(targetImage);
   if (!fs.existsSync(archivePath)) {
     throw new Error(
@@ -50,7 +50,7 @@ async function localArchive(
     archivePath,
     dockerfileAnalysis,
     imageType,
-    options["app-vulns"],
+    options?.["app-vulns"] || false,
   );
 }
 
@@ -58,10 +58,12 @@ async function localArchive(
 export async function distroless(
   targetImage: string,
   dockerfileAnalysis: DockerFileAnalysis | undefined,
-  options: any,
-): Promise<PluginResponse> {
+  options?: Partial<ScanOptions>,
+): Promise<ScanResult[]> {
   if (staticModule.isRequestingStaticAnalysis(options)) {
-    options.staticAnalysisOptions.distroless = true;
+    if (!options) {
+      options = { experimental: true };
+    }
     return staticModule.analyzeStatically(
       targetImage,
       dockerfileAnalysis,
@@ -83,7 +85,7 @@ export async function distroless(
       archiveResult.path,
       dockerfileAnalysis,
       ImageType.DockerArchive,
-      options["app-vulns"],
+      options?.["app-vulns"] || false,
     );
   } finally {
     archiveResult.removeArchive();
@@ -96,14 +98,12 @@ async function getStaticAnalysisResult(
   dockerfileAnalysis: DockerFileAnalysis | undefined,
   imageType: ImageType,
   appScan: boolean,
-): Promise<PluginResponse> {
-  const scanningOptions = {
-    staticAnalysisOptions: {
-      imagePath: archivePath,
-      imageType,
-      distroless: true,
-      appScan,
-    },
+): Promise<ScanResult[]> {
+  const scanningOptions: Partial<ScanOptions> = {
+    imagePath: archivePath,
+    imageType,
+    experimental: true,
+    appScan,
   };
 
   return await staticModule.analyzeStatically(

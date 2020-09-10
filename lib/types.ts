@@ -1,20 +1,10 @@
-import { PkgTree } from "snyk-nodejs-lockfile-parser";
-
-export interface StaticAnalysisOptions {
-  imagePath: string;
-  imageType: ImageType;
-  distroless: boolean;
-  appScan: boolean;
-  globsToFind: {
-    include: string[];
-    exclude: string[];
-  };
-}
+import { DockerFileAnalysis } from "./docker-file";
+import { DockerFilePackages } from "./instruction-parser";
 
 export enum ImageType {
   Identifier, // e.g. "nginx:latest"
   DockerArchive = "docker-archive", // e.g. "docker-archive:/tmp/nginx.tar"
-  OciArchive = "oci-archive",
+  OciArchive = "oci-archive", // e.g. "oci-archive:/tmp/nginx.tar"
 }
 
 export enum OsReleaseFilePath {
@@ -34,52 +24,52 @@ export interface ManifestFile {
   contents: Buffer;
 }
 
-export interface PluginMetadata {
-  name: string;
-  runtime: string | undefined;
-  packageManager: any;
-  dockerImageId: string;
-  imageLayers: string[];
-  rootFs?: string[];
+export interface Artifact {
+  type: string;
+  data: any;
+  meta: { [key: string]: any };
 }
 
-export interface PluginResponseStatic extends PluginResponse {
-  hashes: string[];
+export interface ScanResult {
+  artifacts: Artifact[];
+  meta: {
+    [key: string]: any;
+  };
+}
+export interface OsDepsScanResult extends ScanResult {
+  meta: {
+    dockerfileAnalysis?: DockerFileAnalysis;
+    dockerfilePkgs?: DockerFilePackages;
+    dockerImageId?: string;
+    imageLayers?: string[];
+    rootFs?: string[];
+    /** Groups related scan results together in Snyk (as a project grouping). */
+    imageName?: string;
+  };
 }
 
-export interface PluginResponse {
-  plugin: PluginMetadata;
-  scannedProjects: ScannedProjectCustom[];
+export interface AppDepsScanResult extends ScanResult {
+  meta: {
+    targetFile?: string;
+    /** Groups related scan results together in Snyk (as a project grouping). */
+    imageName?: string;
+  };
 }
 
-export interface ScannedProjectCustom {
-  packageManager: string; // actually SupportedPackageManagers; in the CLI
-  /**
-   * Using "| PkgTree" here to be truthful to the type system.
-   * For application dependencies scans we use a parser which has more optional fields than the DepTree.
-   * We have different required and optional fields for OS scans and application dependencies scans, so
-   * a future change should be mindful but find a way to unify them if possible.
-   */
-  depTree: DepTree | PkgTree;
-  targetFile?: string; // currently used for application-dependencies scans
-  meta?: any; // not to pollute with actual data; reserved for actual metadata
-}
-
-export enum ScanType {
-  DependencyTree = "DependencyTree",
-  DependencyGraph = "DependencyGraph",
-  ManifestFiles = "ManifestFiles",
-}
-
-export interface ScannedProjectExtended extends ScannedProjectCustom {
-  scanType: ScanType;
-  // unknowingly structured data; determined by `scanType`
-  data: unknown;
-}
-
-export interface ScannedProjectManifestFiles extends ScannedProjectExtended {
-  scanType: ScanType.ManifestFiles;
-  data: ManifestFile[];
+export interface ScanOptions {
+  imagePath: string;
+  imageSavePath: string;
+  imageType: ImageType;
+  experimental: boolean;
+  appScan: boolean;
+  "app-vulns": boolean;
+  globsToFind: {
+    include: string[];
+    exclude: string[];
+  };
+  username: string;
+  password: string;
+  platform: string;
 }
 
 export interface DepTreeDep {
@@ -109,19 +99,3 @@ export interface DepTree extends DepTreeDep {
   };
   files?: any;
 }
-
-// export type SupportedPackageManagers =
-//   | 'rubygems'
-//   | 'npm'
-//   | 'yarn'
-//   | 'maven'
-//   | 'pip'
-//   | 'sbt'
-//   | 'gradle'
-//   | 'golangdep'
-//   | 'govendor'
-//   | 'gomodules'
-//   | 'nuget'
-//   | 'paket'
-//   | 'composer'
-//   | 'cocoapods';

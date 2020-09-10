@@ -29,12 +29,7 @@ import {
   getRpmDbFileContent,
   getRpmDbFileContentAction,
 } from "../inputs/rpm/static";
-import {
-  ImageType,
-  ManifestFile,
-  ScannedProjectCustom,
-  StaticAnalysisOptions,
-} from "../types";
+import { ManifestFile, ScanOptions, ScanResult } from "../types";
 import { nodeFilesToScannedProjects } from "./applications";
 import * as osReleaseDetector from "./os-release";
 import { analyze as apkAnalyze } from "./package-managers/apk";
@@ -47,20 +42,11 @@ import { ImageAnalysis, OSRelease, StaticAnalysis } from "./types";
 
 const debug = Debug("snyk");
 
-const supportedArchives: ImageType[] = [
-  ImageType.DockerArchive,
-  ImageType.OciArchive,
-];
-
 export async function analyze(
   targetImage: string,
   dockerfileAnalysis: DockerFileAnalysis | undefined,
-  options: StaticAnalysisOptions,
+  options?: Partial<ScanOptions>,
 ): Promise<StaticAnalysis> {
-  if (!supportedArchives.includes(options.imageType)) {
-    throw new Error("Unhandled image type");
-  }
-
   const staticAnalysisActions = [
     getApkDbFileContentAction,
     getDpkgFileContentAction,
@@ -72,7 +58,7 @@ export async function analyze(
     getNodeAppFileContentAction,
   ];
 
-  if (options.distroless) {
+  if (options?.experimental) {
     staticAnalysisActions.push(getDpkgPackageFileContentAction);
   }
 
@@ -80,8 +66,8 @@ export async function analyze(
   if (checkForGlobs) {
     staticAnalysisActions.push(
       filePatternStatic.generateExtractAction(
-        options.globsToFind.include,
-        options.globsToFind.exclude,
+        options!.globsToFind!.include,
+        options!.globsToFind!.exclude,
       ),
     );
   }
@@ -92,8 +78,8 @@ export async function analyze(
     extractedLayers,
     rootFsLayers,
   } = await archiveExtractor.getArchiveLayersAndManifest(
-    options.imageType,
-    options.imagePath,
+    options!.imageType!,
+    options!.imagePath!,
     staticAnalysisActions,
   );
 
@@ -108,7 +94,7 @@ export async function analyze(
   ]);
 
   let distrolessAptFiles: string[] = [];
-  if (options.distroless) {
+  if (options?.experimental) {
     distrolessAptFiles = getAptFiles(extractedLayers);
   }
 
@@ -144,8 +130,8 @@ export async function analyze(
 
   const binaries = getBinariesHashes(extractedLayers);
 
-  const applicationDependenciesScanResults: ScannedProjectCustom[] = [];
-  if (options.appScan) {
+  const applicationDependenciesScanResults: ScanResult[] = [];
+  if (options?.appScan) {
     const nodeDependenciesScanResults = await nodeFilesToScannedProjects(
       getNodeAppFileContent(extractedLayers),
     );
@@ -163,12 +149,11 @@ export async function analyze(
   };
 }
 
-function shouldCheckForGlobs(options: StaticAnalysisOptions): boolean {
+function shouldCheckForGlobs(options?: Partial<ScanOptions>): boolean {
   return (
-    options &&
-    options.globsToFind &&
-    options.globsToFind.include &&
-    Array.isArray(options.globsToFind.include) &&
-    options.globsToFind.include.length > 0
+    (options?.globsToFind?.include &&
+      Array.isArray(options.globsToFind.include) &&
+      options.globsToFind.include.length > 0) ||
+    false
   );
 }

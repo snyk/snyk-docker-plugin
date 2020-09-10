@@ -1,0 +1,56 @@
+[
+  {
+    "artifacts": [
+      {
+        "type": "depGraph",
+        "data": {...},
+        "meta": {}
+      },
+      {
+        "type": "hashes",
+        "data": {
+          "hashes": [
+            "9191fbcdcc737314df97c5016a841199b743ac3fa9959dfade38e17bfdaf30b5"
+          ]
+        },
+        "meta": {}
+      }
+    ],
+    "meta": {
+      "dockerfileAnalysis": {
+        "baseImage": "nginx:1.18.0",
+        "dockerfilePackages": {
+          "openssl@1.5.0": { "instruction": "RUN apk add openssl@1.5.0" }
+        },
+        "dockerfileLayers": {
+          "UlVOIGFwayBhZGQgb3BlbnNzbEAxLjUuMA==": {
+            "instruction": "RUN apk add openssl@1.5.0"
+          }
+        }
+      },
+      "dockerImageId": "1f03634ed476756c8ed6e739b267dfa6d372ebec4a6f546f09268925355753a9",
+      "imageLayers": [
+        "77c58f19bd6e67185938abb6bbb6ec229e07a5e607453904294d982de141d2f0/layer.tar",
+        ...
+      ],
+      "rootFs": [
+        "sha256:226bfaae015f1d5712cfced3b5b628206618eaacf72f4a44d0e4084071996319",
+        ...
+      ],
+      "imageName": "docker-image|snyk/kubernetes-monitor"
+    }
+  },
+  {
+    "artifacts": [
+      {
+        "type": "depGraph",
+        "data": {...},
+        "meta": { "targetFile": "/srv/app/package.json" }
+      }
+    ],
+    "meta": {
+      "targetFile": "/srv/app/package.json",
+      "imageName": "docker-image|snyk/kubernetes-monitor"
+    }
+  }
+]

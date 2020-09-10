@@ -1,7 +1,8 @@
+import { legacy } from "@snyk/dep-graph";
 import * as path from "path";
 import * as lockFileParser from "snyk-nodejs-lockfile-parser";
 
-import { ScannedProjectCustom } from "../../types";
+import { ScanResult } from "../../types";
 import { FilePathToContent } from "./types";
 
 interface ManifestLockPathPair {
@@ -12,8 +13,8 @@ interface ManifestLockPathPair {
 
 export async function nodeFilesToScannedProjects(
   filePathToContent: FilePathToContent,
-): Promise<ScannedProjectCustom[]> {
-  const scanResults: ScannedProjectCustom[] = [];
+): Promise<ScanResult[]> {
+  const scanResults: ScanResult[] = [];
 
   const filePairs = findManifestLockPairsInSameDirectory(filePathToContent);
 
@@ -32,12 +33,27 @@ export async function nodeFilesToScannedProjects(
     );
 
     const strippedLabelsParserResult = stripUndefinedLabels(parserResult);
+    const depGraph = await legacy.depTreeToGraph(
+      strippedLabelsParserResult,
+      pathPair.lockType,
+    );
 
     scanResults.push({
-      depTree: strippedLabelsParserResult,
-      packageManager: pathPair.lockType,
-      // The targetFile ensures project uniqueness; we choose the manifest file as a target.
-      targetFile: pathPair.manifest,
+      artifacts: [
+        {
+          type: "depGraph",
+          data: depGraph,
+          // TODO: where does targetFile go?
+          meta: {
+            targetFile: pathPair.manifest,
+          },
+        },
+      ],
+      meta: {
+        // The targetFile ensures project uniqueness; we choose the manifest file as a target.
+        // TODO: where does targetFile go?
+        targetFile: pathPair.manifest,
+      },
     });
   }
 
