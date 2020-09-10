@@ -77,7 +77,7 @@ test("image extractor: can read content with multiple callbacks", async (t) => {
   );
 });
 
-test("image extractor: ensure the layer results are the same for docker and for skopeo docker-archives", async (t) => {
+test("image extractor: ensure the results are the same for docker and for skopeo docker-archives", async (t) => {
   const returnedContent = "this is a mock";
   const fileNamePattern = "/snyk/mock.txt";
   const actionName = "find_mock";
@@ -138,6 +138,8 @@ test("image extractor: ensure the layer results are the same for docker and for 
     ],
     "Base image layers match",
   );
+
+  t.equal(dockerResult.platform, skopeoResult.platform, "Platform matches");
 });
 
 test("oci image extractor: extracted image content returned as expected", async (t) => {

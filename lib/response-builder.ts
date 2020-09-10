@@ -33,6 +33,7 @@ function buildResponse(
     {
       packageManager: plugin.packageManager,
       depTree: pkg,
+      meta: { platform: depsAnalysis.platform },
     },
     ...applicationDependenciesScanResults,
   ];

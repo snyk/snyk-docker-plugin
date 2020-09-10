@@ -44,6 +44,9 @@ export async function extractImageContent(
         rootFsLayers: dockerExtractor.getRootFsLayersFromConfig(
           dockerArchive.imageConfig,
         ),
+        platform: dockerExtractor.getPlatformFromConfig(
+          dockerArchive.imageConfig,
+        ),
       };
   }
 }

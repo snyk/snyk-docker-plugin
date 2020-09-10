@@ -155,6 +155,7 @@ export async function analyze(
   return {
     imageId,
     osRelease,
+    platform,
     results,
     binaries,
     imageLayers: manifestLayers,

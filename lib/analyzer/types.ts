@@ -52,6 +52,7 @@ export interface IAptFiles {
 
 export interface DynamicAnalysis {
   imageId: string;
+  platform?: string;
   osRelease: OSRelease;
   results: ImageAnalysis[];
   binaries: ImageAnalysis;
@@ -60,6 +61,7 @@ export interface DynamicAnalysis {
 
 export interface StaticAnalysis {
   imageId: string;
+  platform?: string;
   osRelease: OSRelease;
   results: ImageAnalysis[];
   binaries: string[];

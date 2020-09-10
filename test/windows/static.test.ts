@@ -108,6 +108,12 @@ test("static analysis builds the expected response", async (t) => {
     pluginResultWithDockerSave.scannedProjects[0].depTree.dependencies,
     "The plugin scans both skopeo-copy and docker-save archives the same way",
   );
+
+  t.equal(
+    pluginResultWithSkopeoCopy.scannedProjects[0].meta.platform,
+    pluginResultWithDockerSave.scannedProjects[0].meta.platform,
+    "Platform is returned with the result same way",
+  );
 });
 
 test("static analysis provides hashes for key binaries", async (t) => {
@@ -211,6 +217,11 @@ test("static analysis works for scratch images", async (t) => {
     "operating system for scratch image is unknown",
   );
   t.same(depTree.version, "1.31.1", "Version matches");
+  t.equals(
+    pluginResultWithSkopeoCopy.scannedProjects[0].meta.platform,
+    "linux/amd64",
+    "Platform is returned with the result same way",
+  );
 });
 
 test("static scanning NGINX with dockerfile analysis matches expected values", async (t) => {

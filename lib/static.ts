@@ -47,6 +47,7 @@ export async function analyzeStatically(
       binaries: parsedAnalysisResult.binaries,
       imageLayers: parsedAnalysisResult.imageLayers,
       rootFsLayers: staticAnalysis.rootFsLayers,
+      platform: staticAnalysis.platform,
       applicationDependenciesScanResults:
         staticAnalysis.applicationDependenciesScanResults,
     };
