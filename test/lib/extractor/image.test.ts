@@ -1,6 +1,6 @@
 import * as path from "path";
 import { test } from "tap";
-import { getArchiveLayersAndManifest } from "../../../lib/extractor";
+import { extractImageContent } from "../../../lib/extractor";
 import { ExtractAction } from "../../../lib/extractor/types";
 import { streamToString } from "../../../lib/stream-utils";
 import { ImageType } from "../../../lib/types";
@@ -24,14 +24,14 @@ test("image extractor: callbacks are issued when files are found", async (t) => 
   ];
 
   // Try a docker-archive first
-  await getArchiveLayersAndManifest(
+  await extractImageContent(
     ImageType.DockerArchive,
     getFixture("docker-archives/docker-save/nginx.tar"),
     extractActions,
   );
 
   // Try a skopeo docker-archive
-  await getArchiveLayersAndManifest(
+  await extractImageContent(
     ImageType.DockerArchive,
     getFixture("docker-archives/skopeo-copy/nginx.tar"),
     extractActions,
@@ -63,21 +63,21 @@ test("image extractor: can read content with multiple callbacks", async (t) => {
   ];
 
   // Try a docker-archive first
-  await getArchiveLayersAndManifest(
+  await extractImageContent(
     ImageType.DockerArchive,
     getFixture("docker-archives/docker-save/nginx.tar"),
     extractActions,
   );
 
   // Try a skopeo docker-archive
-  await getArchiveLayersAndManifest(
+  await extractImageContent(
     ImageType.DockerArchive,
     getFixture("docker-archives/skopeo-copy/nginx.tar"),
     extractActions,
   );
 });
 
-test("image extractor: ensure the layer results are the same for docker and for skopeo docker-archives", async (t) => {
+test("image extractor: ensure the results are the same for docker and for skopeo docker-archives", async (t) => {
   const returnedContent = "this is a mock";
   const fileNamePattern = "/snyk/mock.txt";
   const actionName = "find_mock";
@@ -90,13 +90,13 @@ test("image extractor: ensure the layer results are the same for docker and for 
     },
   ];
 
-  const dockerResult = await getArchiveLayersAndManifest(
+  const dockerResult = await extractImageContent(
     ImageType.DockerArchive,
     getFixture("docker-archives/skopeo-copy/nginx.tar"),
     extractActions,
   );
 
-  const skopeoResult = await getArchiveLayersAndManifest(
+  const skopeoResult = await extractImageContent(
     ImageType.DockerArchive,
     getFixture("docker-archives/skopeo-copy/nginx.tar"),
     extractActions,
@@ -138,6 +138,8 @@ test("image extractor: ensure the layer results are the same for docker and for 
     ],
     "Base image layers match",
   );
+
+  t.equal(dockerResult.platform, skopeoResult.platform, "Platform matches");
 });
 
 test("oci image extractor: extracted image content returned as expected", async (t) => {
@@ -162,7 +164,7 @@ test("oci image extractor: extracted image content returned as expected", async 
     },
   ];
 
-  const result = await getArchiveLayersAndManifest(
+  const result = await extractImageContent(
     ImageType.OciArchive,
     getFixture("oci-archives/nginx.tar"),
     extractActions,
@@ -212,7 +214,7 @@ test("image extractor: user friendly error thrown when invalid archive provided"
 
   await t.rejects(
     () =>
-      getArchiveLayersAndManifest(
+      extractImageContent(
         ImageType.OciArchive,
         getFixture("docker-archives/skopeo-copy/nginx.tar"),
         extractActions,
@@ -223,7 +225,7 @@ test("image extractor: user friendly error thrown when invalid archive provided"
 
   await t.rejects(
     () =>
-      getArchiveLayersAndManifest(
+      extractImageContent(
         ImageType.DockerArchive,
         getFixture("oci-archives/nginx.tar"),
         extractActions,
@@ -234,7 +236,7 @@ test("image extractor: user friendly error thrown when invalid archive provided"
 
   await t.rejects(
     () =>
-      getArchiveLayersAndManifest(
+      extractImageContent(
         ImageType.DockerArchive,
         getFixture("oci-archives/oci-with-manifest.tar"),
         extractActions,

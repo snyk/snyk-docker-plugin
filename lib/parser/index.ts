@@ -48,6 +48,7 @@ export function parseAnalysisResults(
 
   return {
     imageId: analysis.imageId,
+    platform: analysis.platform,
     targetOS: analysis.osRelease,
     type: depType,
     depInfosList: analysisResult.Analysis,

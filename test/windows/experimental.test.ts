@@ -56,6 +56,11 @@ test("docker-archive image type can be scanned", async (t) => {
     ],
     "Layers are read correctly",
   );
+  t.same(
+    pluginResult.scannedProjects[0].meta.platform,
+    "linux/amd64",
+    "Correct platform detected",
+  );
 });
 
 test("oci-archive image type can be scanned", async (t) => {
@@ -158,5 +163,10 @@ test("static scan for Identifier type image (nginx:1.19.0)", async (t) => {
       layer.endsWith("layer.tar"),
     ),
     "Every found layer has the correct name",
+  );
+  t.same(
+    pluginResult.scannedProjects[0].meta.platform,
+    "linux/amd64",
+    "Correct platform detected",
   );
 });

@@ -54,6 +54,11 @@ test("docker-archive image type can be scanned", async (t) => {
     ],
     "Layers are read correctly",
   );
+  t.same(
+    pluginResult.scannedProjects[0].meta.platform,
+    "linux/amd64",
+    "Correct platform detected",
+  );
 });
 
 test("docker-archive image type throws on bad files", async (t) => {
@@ -183,5 +188,10 @@ test("static scan for Identifier type image (nginx:1.19.0)", async (t) => {
       "44fc3f4af0d0f3587192b742d77b7c1c85cfd230bfb5474f6e1619da7962e3e3/layer.tar",
     ],
     "Layers are read correctly",
+  );
+  t.same(
+    pluginResult.scannedProjects[0].meta.platform,
+    "linux/amd64",
+    "Correct platform detected",
   );
 });

@@ -237,9 +237,7 @@ test("os release detection statically", async (t) => {
 
   for (const targetImage of Object.keys(examples)) {
     const example = examples[targetImage];
-    const {
-      extractedLayers,
-    } = await archiveExtractor.getArchiveLayersAndManifest(
+    const { extractedLayers } = await archiveExtractor.extractImageContent(
       example.imageType,
       example.imagePath,
       getOsReleaseActions,

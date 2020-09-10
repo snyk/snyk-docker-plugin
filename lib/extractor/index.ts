@@ -10,7 +10,7 @@ import { ExtractAction, ExtractedLayers, ExtractionResult } from "./types";
  * @param extractActions This denotes a file pattern to look for and how to transform the file if it is found.
  * By default the file is returned raw if no processing is desired.
  */
-export async function getArchiveLayersAndManifest(
+export async function extractImageContent(
   imageType: ImageType,
   fileSystemPath: string,
   extractActions: ExtractAction[],
@@ -42,6 +42,9 @@ export async function getArchiveLayersAndManifest(
           dockerArchive.layers,
         ),
         rootFsLayers: dockerExtractor.getRootFsLayersFromConfig(
+          dockerArchive.imageConfig,
+        ),
+        platform: dockerExtractor.getPlatformFromConfig(
           dockerArchive.imageConfig,
         ),
       };

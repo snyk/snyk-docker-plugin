@@ -11,6 +11,7 @@ export interface ExtractionResult {
   manifestLayers: string[];
   extractedLayers: ExtractedLayers;
   rootFsLayers?: string[];
+  platform?: string;
 }
 
 export interface ExtractedLayers {
@@ -32,6 +33,8 @@ export interface DockerArchiveManifest {
 }
 
 export interface DockerArchiveImageConfig {
+  architecture: string;
+  os: string;
   rootfs: { diff_ids: string[] };
 }
 

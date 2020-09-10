@@ -124,6 +124,12 @@ test("static analysis builds the expected response", async (t) => {
     "Base image layers are read correctly",
   );
 
+  t.equal(
+    pluginResultWithSkopeoCopy.scannedProjects[0].meta.platform,
+    pluginResultWithDockerSave.scannedProjects[0].meta.platform,
+    "Platform is returned with the result same way",
+  );
+
   t.deepEqual(
     pluginResultWithSkopeoCopy.scannedProjects[0].depTree.dependencies,
     pluginResultWithDockerSave.scannedProjects[0].depTree.dependencies,
@@ -298,6 +304,11 @@ test("static analysis works for scratch images", async (t) => {
     "operating system for scratch image is unknown",
   );
   t.same(depTree.version, "1.31.1", "Version matches");
+  t.equals(
+    pluginResultWithSkopeoCopy.scannedProjects[0].meta.platform,
+    "linux/amd64",
+    "Platform is returned with the result same way",
+  );
 });
 
 test("static analysis for distroless base-debian9", async (t) => {
@@ -680,5 +691,10 @@ test("static analysis for arm based image", async (t) => {
       prettyName: "Alpine Linux v3.12",
     },
     "found os scan result",
+  );
+  t.equal(
+    pluginResult.scannedProjects[0].meta.platform,
+    "linux/arm64",
+    "Platform is returned with the result same way",
   );
 });

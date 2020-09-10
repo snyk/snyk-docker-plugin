@@ -69,9 +69,14 @@ test("scanning a container image with 2 applications", async (t) => {
 
   t.ok(pluginResult.scannedProjects[0].meta, "os scan meta is not falsy");
   t.same(
-    pluginResult.scannedProjects[0].meta,
-    pluginResult.scannedProjects[1].meta,
-    "os scan meta and app meta are identical",
+    pluginResult.scannedProjects[0].meta.platform,
+    "linux/amd64",
+    "os scan meta includes platform information",
+  );
+  t.same(
+    pluginResult.scannedProjects[0].meta.imageName,
+    pluginResult.scannedProjects[1].meta.imageName,
+    "os scan meta matches app scan meta imageName",
   );
   t.same(
     pluginResult.scannedProjects[1].meta,

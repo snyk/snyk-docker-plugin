@@ -26,3 +26,11 @@ export function getRootFsLayersFromConfig(
     throw new Error("Failed to extract rootfs array from image config");
   }
 }
+
+export function getPlatformFromConfig(
+  imageConfig: DockerArchiveImageConfig,
+): string | undefined {
+  return imageConfig.os && imageConfig.architecture
+    ? `${imageConfig.os}/${imageConfig.architecture}`
+    : undefined;
+}
