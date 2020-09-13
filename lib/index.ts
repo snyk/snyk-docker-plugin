@@ -110,7 +110,7 @@ async function getDependencies(
       options,
     );
     const result = parseAnalysisResults(targetImage, output);
-    const pkg = buildTree(
+    const pkg = await buildTree(
       targetImage,
       result.type,
       result.depInfosList,

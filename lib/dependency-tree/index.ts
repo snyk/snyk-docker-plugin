@@ -1,4 +1,6 @@
-export function buildTree(
+import { eventLoopSpinner } from "event-loop-spinner";
+
+export async function buildTree(
   targetImage: string,
   depType,
   depInfosList,
@@ -61,7 +63,7 @@ export function buildTree(
 
   const depsCounts = {};
   for (const depInfo of depInfosList) {
-    countDepsRecursive(
+    await countDepsRecursive(
       depInfo.Name,
       new Set(),
       depsMap,
@@ -74,10 +76,10 @@ export function buildTree(
     return depsCounts[depName] > DEP_FREQ_THRESHOLD;
   });
 
-  const attachDeps = (depInfos) => {
+  const attachDeps = async (depInfos) => {
     const depNamesToSkip = new Set(tooFrequentDepNames);
     for (const depInfo of depInfos) {
-      const subtree = buildTreeRecursive(
+      const subtree = await buildTreeRecursive(
         depInfo.Name,
         new Set(),
         depsMap,
@@ -94,7 +96,7 @@ export function buildTree(
   const manuallyInstalledDeps = depInfosList.filter((depInfo) => {
     return !depInfo.AutoInstalled;
   });
-  attachDeps(manuallyInstalledDeps);
+  await attachDeps(manuallyInstalledDeps);
 
   // attach (as direct deps) pkgs marked as auto-insatalled,
   //  but not dependant upon:
@@ -102,7 +104,7 @@ export function buildTree(
     const depName = depInfo.Name;
     return !depsMap[depName]._visited;
   });
-  attachDeps(notVisitedDeps);
+  await attachDeps(notVisitedDeps);
 
   // group all the "too frequest" deps under a meta package:
   if (tooFrequentDepNames.length > 0) {
@@ -130,13 +132,17 @@ export function buildTree(
   return root;
 }
 
-function buildTreeRecursive(
+async function buildTreeRecursive(
   depName,
   ancestors,
   depsMap,
   virtualDepsMap,
   depNamesToSkip,
 ) {
+  if (eventLoopSpinner.isStarving()) {
+    await eventLoopSpinner.spin();
+  }
+
   const depInfo = depsMap[depName] || virtualDepsMap[depName];
   if (!depInfo) {
     return null;
@@ -166,7 +172,7 @@ function buildTreeRecursive(
 
   const deps = depInfo.Deps || {};
   for (const name of Object.keys(deps)) {
-    const subTree = buildTreeRecursive(
+    const subTree = await buildTreeRecursive(
       name,
       newAncestors,
       depsMap,
@@ -186,13 +192,17 @@ function buildTreeRecursive(
   return tree;
 }
 
-function countDepsRecursive(
+async function countDepsRecursive(
   depName,
   ancestors,
   depsMap,
   virtualDepsMap,
   depCounts,
 ) {
+  if (eventLoopSpinner.isStarving()) {
+    await eventLoopSpinner.spin();
+  }
+
   const depInfo = depsMap[depName] || virtualDepsMap[depName];
   if (!depInfo) {
     return;
