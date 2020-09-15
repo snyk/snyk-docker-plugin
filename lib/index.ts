@@ -1,6 +1,5 @@
 import * as dockerFile from "./docker-file";
 import { experimentalAnalysis } from "./experimental";
-import * as staticUtil from "./static";
 import {
   AppDepsScanResult,
   OsDepsScanResult,
