@@ -21,23 +21,15 @@ async function scan(
     targetFile,
   );
 
-  if (options && options.experimental) {
-    return await experimentalAnalysis(targetImage, dockerfileAnalysis, options);
-  }
-
-  return await staticUtil.analyzeStatically(
-    targetImage,
-    dockerfileAnalysis,
-    options,
-  );
+  return await experimentalAnalysis(targetImage, dockerfileAnalysis, options);
 }
 
-setImmediate(async () => {
-  const result = await scan("snyk/kubernetes-monitor:1.32.2", "Dockerfile", {
-    experimental: true,
-    appScan: true,
-    "app-vulns": true,
-  });
-  // tslint:disable-next-line: no-console
-  console.log(JSON.stringify(result));
-});
+// setImmediate(async () => {
+//   const result = await scan("snyk/kubernetes-monitor:1.32.2", "Dockerfile", {
+//     experimental: true,
+//     appScan: true,
+//     "app-vulns": true,
+//   });
+//   // tslint:disable-next-line: no-console
+//   console.log(JSON.stringify(result));
+// });
