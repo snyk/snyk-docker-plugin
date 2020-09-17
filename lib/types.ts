@@ -1,3 +1,4 @@
+import { DepGraphData } from "@snyk/dep-graph";
 import { PkgTree } from "snyk-nodejs-lockfile-parser";
 
 export interface StaticAnalysisOptions {
@@ -109,19 +110,75 @@ export interface DepTree extends DepTreeDep {
   };
   files?: any;
 }
+export interface GitTarget {
+  remoteUrl: string;
+  branch: string;
+}
 
-// export type SupportedPackageManagers =
-//   | 'rubygems'
-//   | 'npm'
-//   | 'yarn'
-//   | 'maven'
-//   | 'pip'
-//   | 'sbt'
-//   | 'gradle'
-//   | 'golangdep'
-//   | 'govendor'
-//   | 'gomodules'
-//   | 'nuget'
-//   | 'paket'
-//   | 'composer'
-//   | 'cocoapods';
+export interface ContainerTarget {
+  image: string;
+}
+
+export interface ScanResult {
+  identity: Identity;
+  target: GitTarget | ContainerTarget;
+  facts: Facts[];
+}
+export interface Identity {
+  type: string; // ex-packageManager, becomes project.type
+  targetFile?: string;
+  args?: { [key: string]: string };
+}
+export interface Facts {
+  type: string;
+  data: any;
+}
+
+export interface Issue {
+  pkgName: string;
+  pkgVersion?: string;
+  issueId: string;
+  fixInfo: {
+    nearestFixedInVersion?: string; // TODO: add more fix info
+  };
+}
+
+export interface IssuesData {
+  [issueId: string]: {
+    id: string;
+    severity: string;
+    from: string[][];
+    title: string;
+  };
+}
+
+export interface BaseImageRemediationAdvice {
+  message: string;
+  bold?: boolean;
+  color?: string;
+}
+
+interface BaseImageRemediation {
+  code: string;
+  advice: BaseImageRemediationAdvice[];
+  message?: string; // TODO: check if this is still being sent
+}
+
+export interface TestResult {
+  org: string;
+  docker: {
+    baseImage?: string;
+    baseImageRemediation?: BaseImageRemediation;
+  };
+  issues: Issue[];
+  issuesData: IssuesData;
+  depGraphData: DepGraphData;
+}
+
+export interface Options {
+  path: string;
+  file?: string;
+  debug?: boolean;
+  isDockerUser?: boolean;
+  config?: any;
+}

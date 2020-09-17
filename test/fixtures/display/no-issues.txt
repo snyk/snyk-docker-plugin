@@ -1,0 +1,18 @@
+
+
+
+[32mOrganization:      [39m org-test
+[32mPackage manager:   [39m rpm
+[32mProject name:      [39m docker-image|snyk/kubernetes-monitor
+[32mDocker image:      [39m snyk/kubernetes-monitor
+
+
+[32m✓ Tested 90 dependencies for known issues, no vulnerable paths found.[39m
+
+
+[1m[37mPro tip: use `--file` option to get base image remediation advice.[39m[22m
+[1m[37mExample: $ snyk test --docker undefined --file=path/to/Dockerfile[39m[22m
+
+
+To remove this message in the future, please run `snyk config set disableSuggestions=true`
+

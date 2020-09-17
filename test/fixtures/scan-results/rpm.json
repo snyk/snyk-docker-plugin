@@ -1,0 +1,75 @@
+{
+  "facts": [
+    {
+      "type": "depGraph",
+      "data": {
+        "schemaVersion": "1.2.0",
+        "pkgManager": {
+          "name": "rpm",
+          "repositories": [{ "alias": "rhel:8.2" }]
+        },
+        "pkgs": [
+          {
+            "id": "docker-image|snyk/kubernetes-monitor@1.32.2",
+            "info": {
+              "name": "docker-image|snyk/kubernetes-monitor",
+              "version": "1.32.2"
+            }
+          },
+          {
+            "id": "acl@2.2.53-1.el8",
+            "info": { "name": "acl", "version": "2.2.53-1.el8" }
+          }
+        ],
+        "graph": {
+          "rootNodeId": "root-node",
+          "nodes": [
+            {
+              "nodeId": "root-node",
+              "pkgId": "docker-image|snyk/kubernetes-monitor@1.32.2",
+              "deps": [{ "nodeId": "acl@2.2.53-1.el8" }]
+            },
+            {
+              "nodeId": "acl@2.2.53-1.el8",
+              "pkgId": "acl@2.2.53-1.el8",
+              "deps": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "hashes",
+      "data": [
+        "9191fbcdcc737314df97c5016a841199b743ac3fa9959dfade38e17bfdaf30b5"
+      ]
+    },
+    {
+      "type": "dockerfileAnalysis",
+      "data": {
+        "baseImage": "nginx:1.18.0",
+        "dockerfilePackages": {
+          "openssl@1.5.0": { "instruction": "RUN apk add openssl@1.5.0" }
+        },
+        "dockerfileLayers": {
+          "UlVOIGFwayBhZGQgb3BlbnNzbEAxLjUuMA==": {
+            "instruction": "RUN apk add openssl@1.5.0"
+          }
+        }
+      }
+    },
+    {
+      "type": "rootFs",
+      "data": [
+        "sha256:226bfaae015f1d5712cfced3b5b628206618eaacf72f4a44d0e4084071996319",
+        "sha256:70056249a0e202adae10aa45fef56ac4cc6497619767753515022bc9c1278251"
+      ]
+    }
+  ],
+  "identity": {
+    "type": "rpm"
+  },
+  "target": {
+    "image": "docker-image|snyk/kubernetes-monitor"
+  }
+}
