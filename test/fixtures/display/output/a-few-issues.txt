@@ -1,0 +1,51 @@
+[1m[34m✗ Low severity vulnerability found in bash[39m[22m
+  Description: CVE-2019-18276
+  Info: https://snyk.io/vuln/SNYK-UBUNTU2004-BASH-581100
+  Introduced through: bash@5.0-6ubuntu1.1
+  From: bash@5.0-6ubuntu1.1
+
+[1m[33m✗ Medium severity vulnerability found in systemd/libsystemd0[39m[22m
+  Description: Information Exposure
+  Info: https://snyk.io/vuln/SNYK-UBUNTU2004-SYSTEMD-582552
+  Introduced through: systemd/libsystemd0@245.4-4ubuntu3.2, apt@2.0.2ubuntu0.1, procps/libprocps8@2:3.3.16-1ubuntu2, util-linux/bsdutils@1:2.34-0.1ubuntu9, util-linux/mount@2.34-0.1ubuntu9, systemd/libudev1@245.4-4ubuntu3.2
+  From: systemd/libsystemd0@245.4-4ubuntu3.2
+  From: apt@2.0.2ubuntu0.1 > systemd/libsystemd0@245.4-4ubuntu3.2
+  From: procps/libprocps8@2:3.3.16-1ubuntu2 > systemd/libsystemd0@245.4-4ubuntu3.2
+  and 3 more...
+
+[1m[31m✗ High severity vulnerability found in gnutls28/libgnutls30[39m[22m
+  Description: Out-of-bounds Write
+  Info: https://snyk.io/vuln/SNYK-UBUNTU2004-GNUTLS28-609972
+  Introduced through: gnutls28/libgnutls30@3.6.13-2ubuntu1.2, apt@2.0.2ubuntu0.1
+  From: gnutls28/libgnutls30@3.6.13-2ubuntu1.2
+  From: apt@2.0.2ubuntu0.1 > gnutls28/libgnutls30@3.6.13-2ubuntu1.2
+[1m[32m  Fixed in: 3.6.13-2ubuntu1.3[39m[22m
+
+
+
+[32mOrganization:      [39m org-test
+[32mPackage manager:   [39m rpm
+[32mProject name:      [39m docker-image|snyk/kubernetes-monitor
+[32mDocker image:      [39m snyk/kubernetes-monitor
+[32mBase image:        [39m ubuntu
+[32mLicenses:          [39m [32menabled[39m
+
+
+Tested 90 dependencies for known issues, [1m[31mfound 3 issues.[39m[22m
+
+
+[32m[1mRecommendations for base image upgrade:[22m[39m
+[32m[1m[22m[39m
+Base Image    Vulnerabilities  Severity
+ubuntu:14.04  34               6 high, 11 medium, 17 low
+
+Base Image              Vulnerabilities  Severity
+ubuntu:devel            0                0 high, 0 medium, 0 low
+ubuntu:cosmic           0                0 high, 0 medium, 0 low
+ubuntu:18.10            0                0 high, 0 medium, 0 low
+ubuntu:rolling          0                0 high, 0 medium, 0 low
+ubuntu:19.04            0                0 high, 0 medium, 0 low
+ubuntu:disco            0                0 high, 0 medium, 0 low
+ubuntu:disco-20181112   0                0 high, 0 medium, 0 low
+ubuntu:cosmic-20181114  0                0 high, 0 medium, 0 low
+

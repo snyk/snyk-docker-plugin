@@ -1,0 +1,29 @@
+{
+   "org":"org-test",
+   "licensesPolicy": null,
+   "docker":{
+      "baseImage":"ubuntu",
+      "baseImageRemediation":{
+         "code":"REMEDIATION_AVAILABLE",
+         "advice":[
+            {
+               "message":"Recommendations for base image upgrade:\n",
+               "bold":true,
+               "color":"green"
+            },
+            {
+               "message":"Base Image    Vulnerabilities  Severity\nubuntu:14.04  34               6 high, 11 medium, 17 low\n"
+            },
+            {
+               "message":"Base Image              Vulnerabilities  Severity\nubuntu:devel            0                0 high, 0 medium, 0 low\nubuntu:cosmic           0                0 high, 0 medium, 0 low\nubuntu:18.10            0                0 high, 0 medium, 0 low\nubuntu:rolling          0                0 high, 0 medium, 0 low\nubuntu:19.04            0                0 high, 0 medium, 0 low\nubuntu:disco            0                0 high, 0 medium, 0 low\nubuntu:disco-20181112   0                0 high, 0 medium, 0 low\nubuntu:cosmic-20181114  0                0 high, 0 medium, 0 low"
+            }
+         ]
+      }
+   },
+   "issues":[
+
+   ],
+   "issuesData":{
+
+   }
+}
