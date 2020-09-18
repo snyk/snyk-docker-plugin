@@ -55,16 +55,14 @@ function buildResponse(
   if (hashes) {
     scanResults[0].artifacts.push({
       type: "hashes",
-      data: { hashes },
-      meta: {},
+      data: hashes,
     });
   }
 
   if (manifestFiles.length > 0) {
     scanResults.push(
       ...manifestFiles.map((manifestFile) => ({
-        artifacts: [{ type: "manifestFile", data: manifestFile, meta: {} }],
-        meta: {},
+        artifacts: [{ type: "manifestFile", data: manifestFile }],
       })),
     );
   }

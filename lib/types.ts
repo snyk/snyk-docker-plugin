@@ -27,12 +27,12 @@ export interface ManifestFile {
 export interface Artifact {
   type: string;
   data: any;
-  meta: { [key: string]: any };
+  meta?: { [key: string]: any };
 }
 
 export interface ScanResult {
   artifacts: Artifact[];
-  meta: {
+  meta?: {
     [key: string]: any;
   };
 }
