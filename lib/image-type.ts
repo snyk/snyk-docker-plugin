@@ -21,7 +21,7 @@ export function getArchivePath(targetImage: string): string {
     !targetImage.startsWith("oci-archive:")
   ) {
     throw new Error(
-      'The provided archive path is missing image specific prefix, eg."docker-archive:" or "oci-archive:"',
+      'The provided archive path is missing a prefix, for example "docker-archive:" or "oci-archive:"',
     );
   }
 

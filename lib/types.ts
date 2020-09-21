@@ -1,21 +1,12 @@
 import { DepGraphData } from "@snyk/dep-graph";
-import { PkgTree } from "snyk-nodejs-lockfile-parser";
 
-export interface StaticAnalysisOptions {
-  imagePath: string;
-  imageType: ImageType;
-  distroless: boolean;
-  appScan: boolean;
-  globsToFind: {
-    include: string[];
-    exclude: string[];
-  };
-}
+import { DockerFileAnalysis } from "./docker-file";
+import { DockerFilePackages } from "./instruction-parser";
 
 export enum ImageType {
   Identifier, // e.g. "nginx:latest"
   DockerArchive = "docker-archive", // e.g. "docker-archive:/tmp/nginx.tar"
-  OciArchive = "oci-archive",
+  OciArchive = "oci-archive", // e.g. "oci-archive:/tmp/nginx.tar"
 }
 
 export enum OsReleaseFilePath {
@@ -35,52 +26,105 @@ export interface ManifestFile {
   contents: Buffer;
 }
 
-export interface PluginMetadata {
-  name: string;
-  runtime: string | undefined;
-  packageManager: any;
-  dockerImageId: string;
-  imageLayers: string[];
-  rootFs?: string[];
-}
-
-export interface PluginResponseStatic extends PluginResponse {
-  hashes: string[];
-}
+export type FactType =
+  | "depGraph"
+  | "keyBinariesHashes"
+  | "imageLayers"
+  | "dockerfileAnalysis"
+  | "rootFs"
+  | "imageId"
+  | "imageOsReleasePrettyName";
 
 export interface PluginResponse {
-  plugin: PluginMetadata;
-  scannedProjects: ScannedProjectCustom[];
-}
+  /** The first result is guaranteed to be the OS dependencies scan result. */
+  scanResults: ScanResult[];
 
-export interface ScannedProjectCustom {
-  packageManager: string; // actually SupportedPackageManagers; in the CLI
   /**
-   * Using "| PkgTree" here to be truthful to the type system.
-   * For application dependencies scans we use a parser which has more optional fields than the DepTree.
-   * We have different required and optional fields for OS scans and application dependencies scans, so
-   * a future change should be mindful but find a way to unify them if possible.
+   * WARNING: This field does not appear in other CLI plugins! NOT to be used by the CLI.
+   *
+   * Manifests file are a special case, used only for the APP+OS deps feature.
+   * They are collected if "globsToFind" are included in the options passed to the plugin.
+   * They are NOT be processed like a normal ScanResult+Fact and they flow through a separate code path.
    */
-  depTree: DepTree | PkgTree;
-  targetFile?: string; // currently used for application-dependencies scans
-  meta?: any; // not to pollute with actual data; reserved for actual metadata
+  manifestFiles?: ManifestFile[];
 }
 
-export enum ScanType {
-  DependencyTree = "DependencyTree",
-  DependencyGraph = "DependencyGraph",
-  ManifestFiles = "ManifestFiles",
+export interface ScanResult {
+  /** User-friendly name to use as the name of the Project that Snyk creates. */
+  name?: string;
+  /** Contains the Snyk policy file content. */
+  policy?: string;
+  /** The target defines "where" you found this scan result. */
+  target: ContainerTarget;
+  /** Identity defines "what" you found. */
+  identity: Identity;
+  /** Facts are the collection of things you found. */
+  facts: Fact[];
 }
 
-export interface ScannedProjectExtended extends ScannedProjectCustom {
-  scanType: ScanType;
-  // unknowingly structured data; determined by `scanType`
-  data: unknown;
+export interface ContainerTarget {
+  image: string;
 }
 
-export interface ScannedProjectManifestFiles extends ScannedProjectExtended {
-  scanType: ScanType.ManifestFiles;
-  data: ManifestFile[];
+/**
+ * The identity of a scan result allows to uniquely locate "what" you found.
+ * Any differences in the identity influences how a Project is created in Snyk
+ * and can result in a completely different Project (for example, if "args.targetFramework" differs).
+ */
+export interface Identity {
+  /** This used to be represented as "packageManager". It becomes the project.type. */
+  type: string;
+  targetFile?: string;
+  args?: { [key: string]: string };
+}
+
+/**
+ * A collection of things that were found as part of a scan.
+ * As the developer and owner, you are responsible for defining and maintaining your own Facts.
+ * Examples of facts: a dependency graph, a list of file content hashes, Dockerfile analysis.
+ */
+export interface Fact {
+  type: FactType;
+  data: any;
+}
+
+/**
+ * WARNING! WARNING! WARNING!
+ * The CLI may pass certain values as strings.
+ * Please make sure to sanitize ALL input and not assume it is a "number" or "boolean".
+ */
+export interface PluginOptions {
+  /** This can be an image identifier, or a path to an OCI or Docker archive. */
+  path: string;
+  /** Override the default plugin path when pulling images to the filesystem. */
+  imageSavePath: string;
+  /** Path to a Dockerfile. */
+  file: string;
+
+  /**
+   * Provide patterns on which to match for detecting applications.
+   * Used for the APP+OS deps feature, not by the CLI.
+   */
+  globsToFind: {
+    include: string[];
+    exclude: string[];
+  };
+
+  /** For authentication to a container registry. */
+  username: string;
+  /** For authentication to a container registry. */
+  password: string;
+
+  /**
+   * Format is "operating-system/processor-architecture", for example "linux/arm64/v8".
+   * The default is "linux/amd64".
+   */
+  platform: string;
+
+  /** Whether to enable application dependencies scanning. The default is "false" */
+  "app-vulns": boolean | string;
+  /** The default is "false". */
+  "exclude-base-image-vulns": boolean | string;
 }
 
 export interface DepTreeDep {
@@ -94,6 +138,7 @@ export interface DepTreeDep {
   };
 }
 
+/** @deprecated Prefer building Graphs instead of Trees. */
 export interface DepTree extends DepTreeDep {
   type?: string;
   packageFormatVersion: string;
@@ -105,33 +150,15 @@ export interface DepTree extends DepTreeDep {
 
   targetFile?: string;
   policy?: string;
-  docker: {
-    [key: string]: any; // TODO
+  docker?: {
+    dockerfileAnalysis?: DockerFileAnalysis;
+    dockerfilePkgs?: DockerFilePackages;
+    dockerImageId?: string;
+    imageLayers?: string[];
+    rootFs?: string[];
+    imageName?: string;
   };
   files?: any;
-}
-export interface GitTarget {
-  remoteUrl: string;
-  branch: string;
-}
-
-export interface ContainerTarget {
-  image: string;
-}
-
-export interface ScanResult {
-  identity: Identity;
-  target: GitTarget | ContainerTarget;
-  facts: Facts[];
-}
-export interface Identity {
-  type: string; // ex-packageManager, becomes project.type
-  targetFile?: string;
-  args?: { [key: string]: string };
-}
-export interface Facts {
-  type: string;
-  data: any;
 }
 
 export interface Issue {

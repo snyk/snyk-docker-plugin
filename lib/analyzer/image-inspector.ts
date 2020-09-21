@@ -27,7 +27,7 @@ async function detect(
   targetImage: string,
   options?: DockerOptions,
 ): Promise<DockerInspectOutput> {
-  const docker = new Docker(targetImage, options);
+  const docker = new Docker(options);
   return getInspectResult(docker, targetImage);
 }
 
@@ -162,7 +162,7 @@ async function getImageArchive(
   password?: string,
   platform?: string,
 ): Promise<ArchiveResult> {
-  const docker = new Docker(targetImage);
+  const docker = new Docker();
   mkdirp.sync(imageSavePath);
   const destination: DestinationDir = {
     name: imageSavePath,
@@ -272,7 +272,7 @@ function isLocalImageSameArchitecture(
 }
 
 async function pullIfNotLocal(targetImage: string, options?: DockerOptions) {
-  const docker = new Docker(targetImage);
+  const docker = new Docker();
   try {
     await docker.inspectImage(targetImage);
     return;

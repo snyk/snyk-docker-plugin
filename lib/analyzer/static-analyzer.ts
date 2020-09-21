@@ -29,13 +29,9 @@ import {
   getRpmDbFileContent,
   getRpmDbFileContentAction,
 } from "../inputs/rpm/static";
-import {
-  ImageType,
-  ManifestFile,
-  ScannedProjectCustom,
-  StaticAnalysisOptions,
-} from "../types";
+import { ImageType, ManifestFile } from "../types";
 import { nodeFilesToScannedProjects } from "./applications";
+import { AppDepsScanResultWithoutTarget } from "./applications/types";
 import * as osReleaseDetector from "./os-release";
 import { analyze as apkAnalyze } from "./package-managers/apk";
 import {
@@ -47,20 +43,14 @@ import { ImageAnalysis, OSRelease, StaticAnalysis } from "./types";
 
 const debug = Debug("snyk");
 
-const supportedArchives: ImageType[] = [
-  ImageType.DockerArchive,
-  ImageType.OciArchive,
-];
-
 export async function analyze(
   targetImage: string,
   dockerfileAnalysis: DockerFileAnalysis | undefined,
-  options: StaticAnalysisOptions,
+  imageType: ImageType,
+  imagePath: string,
+  globsToFind: { include: string[]; exclude: string[] },
+  appScan: boolean,
 ): Promise<StaticAnalysis> {
-  if (!supportedArchives.includes(options.imageType)) {
-    throw new Error("Unhandled image type");
-  }
-
   const staticAnalysisActions = [
     getApkDbFileContentAction,
     getDpkgFileContentAction,
@@ -70,18 +60,15 @@ export async function analyze(
     getNodeBinariesFileContentAction,
     getOpenJDKBinariesFileContentAction,
     getNodeAppFileContentAction,
+    getDpkgPackageFileContentAction,
   ];
 
-  if (options.distroless) {
-    staticAnalysisActions.push(getDpkgPackageFileContentAction);
-  }
-
-  const checkForGlobs = shouldCheckForGlobs(options);
+  const checkForGlobs = shouldCheckForGlobs(globsToFind);
   if (checkForGlobs) {
     staticAnalysisActions.push(
       filePatternStatic.generateExtractAction(
-        options.globsToFind.include,
-        options.globsToFind.exclude,
+        globsToFind.include,
+        globsToFind.exclude,
       ),
     );
   }
@@ -93,8 +80,8 @@ export async function analyze(
     rootFsLayers,
     platform,
   } = await archiveExtractor.extractImageContent(
-    options.imageType,
-    options.imagePath,
+    imageType,
+    imagePath,
     staticAnalysisActions,
   );
 
@@ -108,10 +95,7 @@ export async function analyze(
     getRpmDbFileContent(extractedLayers),
   ]);
 
-  let distrolessAptFiles: string[] = [];
-  if (options.distroless) {
-    distrolessAptFiles = getAptFiles(extractedLayers);
-  }
+  const distrolessAptFiles = getAptFiles(extractedLayers);
 
   const manifestFiles: ManifestFile[] = [];
   if (checkForGlobs) {
@@ -145,13 +129,14 @@ export async function analyze(
 
   const binaries = getBinariesHashes(extractedLayers);
 
-  const applicationDependenciesScanResults: ScannedProjectCustom[] = [];
-  if (options.appScan) {
+  const applicationDependenciesScanResults: AppDepsScanResultWithoutTarget[] = [];
+  if (appScan) {
     const nodeDependenciesScanResults = await nodeFilesToScannedProjects(
       getNodeAppFileContent(extractedLayers),
     );
     applicationDependenciesScanResults.push(...nodeDependenciesScanResults);
   }
+
   return {
     imageId,
     osRelease,
@@ -165,12 +150,9 @@ export async function analyze(
   };
 }
 
-function shouldCheckForGlobs(options: StaticAnalysisOptions): boolean {
-  return (
-    options &&
-    options.globsToFind &&
-    options.globsToFind.include &&
-    Array.isArray(options.globsToFind.include) &&
-    options.globsToFind.include.length > 0
-  );
+function shouldCheckForGlobs(globsToFind: {
+  include: string[];
+  exclude: string[];
+}): boolean {
+  return globsToFind.include.length > 0;
 }

@@ -1,9 +1,11 @@
+import { DepTree } from "../types";
+
 export function buildTree(
   targetImage: string,
   depType,
   depInfosList,
   targetOS,
-) {
+): DepTree {
   // A tag can only occur in the last section of a docker image name, so
   // check any colon separator after the final '/'. If there are no '/',
   // which is common when using Docker's official images such as

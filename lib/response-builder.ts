@@ -1,3 +1,5 @@
+import { DepGraph } from "@snyk/dep-graph";
+import { StaticAnalysis } from "./analyzer/types";
 // Module that provides functions to collect and build response after all
 // analyses' are done.
 
@@ -8,105 +10,120 @@ import * as types from "./types";
 export { buildResponse };
 
 function buildResponse(
-  runtime: string | undefined,
-  depsAnalysis,
+  depsAnalysis: StaticAnalysis & { depGraph: DepGraph; depTree: types.DepTree },
   dockerfileAnalysis: DockerFileAnalysis | undefined,
-  manifestFiles: types.ManifestFile[],
-  options,
+  excludeBaseImageVulns: boolean,
 ): types.PluginResponse {
-  const deps = depsAnalysis.package.dependencies;
+  const depGraph = depsAnalysis.depGraph;
+  const deps = depsAnalysis.depTree.dependencies;
   const dockerfilePkgs = collectDockerfilePkgs(dockerfileAnalysis, deps);
-  const finalDeps = excludeBaseImageDeps(deps, dockerfilePkgs, options);
-  annotateLayerIds(finalDeps, dockerfilePkgs);
-  const plugin = pluginMetadataRes(runtime, depsAnalysis);
-  const pkg = packageRes(
-    depsAnalysis,
-    dockerfileAnalysis,
+  const finalDeps = excludeBaseImageDeps(
+    deps,
     dockerfilePkgs,
-    finalDeps,
+    excludeBaseImageVulns,
   );
+  annotateLayerIds(finalDeps, dockerfilePkgs);
 
-  const applicationDependenciesScanResults: types.ScannedProjectCustom[] =
-    depsAnalysis.applicationDependenciesScanResults || [];
+  const additionalOsDepsFacts: types.Fact[] = [];
 
-  const scannedProjects = [
+  const hashes = depsAnalysis.binaries;
+  if (hashes && hashes.length > 0) {
+    additionalOsDepsFacts.push({
+      type: "keyBinariesHashes",
+      data: hashes,
+    });
+  }
+
+  if (dockerfileAnalysis) {
+    additionalOsDepsFacts.push({
+      type: "dockerfileAnalysis",
+      data: dockerfileAnalysis,
+    });
+  }
+
+  if (depsAnalysis.imageId) {
+    additionalOsDepsFacts.push({
+      type: "imageId",
+      data: depsAnalysis.imageId,
+    });
+  }
+
+  if (depsAnalysis.imageLayers && depsAnalysis.imageLayers.length > 0) {
+    additionalOsDepsFacts.push({
+      type: "imageLayers",
+      data: depsAnalysis.imageLayers,
+    });
+  }
+
+  if (
+    depsAnalysis.rootFsLayers &&
+    Array.isArray(depsAnalysis.rootFsLayers) &&
+    depsAnalysis.rootFsLayers.length > 0
+  ) {
+    additionalOsDepsFacts.push({
+      type: "rootFs",
+      data: depsAnalysis.rootFsLayers,
+    });
+  }
+
+  if (depsAnalysis.depTree.targetOS.prettyName) {
+    additionalOsDepsFacts.push({
+      type: "imageOsReleasePrettyName",
+      data: depsAnalysis.depTree.targetOS.prettyName,
+    });
+  }
+
+  const applicationDependenciesScanResults: types.ScanResult[] = (
+    depsAnalysis.applicationDependenciesScanResults || []
+  ).map((appDepsScanResult) => ({
+    ...appDepsScanResult,
+    target: {
+      image: depGraph.rootPkg.name,
+    },
+  }));
+
+  const args =
+    depsAnalysis.platform !== undefined
+      ? { platform: depsAnalysis.platform }
+      : undefined;
+
+  const scanResults: types.ScanResult[] = [
     {
-      packageManager: plugin.packageManager,
-      depTree: pkg,
-      meta: { platform: depsAnalysis.platform },
+      facts: [
+        {
+          type: "depGraph",
+          data: depGraph,
+        },
+        ...additionalOsDepsFacts,
+      ],
+      target: {
+        image: depGraph.rootPkg.name,
+      },
+      identity: {
+        type: depGraph.pkgManager.name,
+        args,
+      },
     },
     ...applicationDependenciesScanResults,
   ];
 
-  if (manifestFiles.length > 0) {
-    scannedProjects.push({
-      scanType: types.ScanType.ManifestFiles,
-      data: manifestFiles,
-      packageManager: "PLEASE DON'T USE THIS",
-      depTree: { dependencies: {} },
-    } as types.ScannedProjectManifestFiles);
-  }
-
-  const scannedProjectsWithImageName = assignImageNameToScannedProjectMeta(
-    pkg.name,
-    scannedProjects,
-  );
+  const manifestFiles =
+    depsAnalysis.manifestFiles.length > 0
+      ? depsAnalysis.manifestFiles
+      : undefined;
 
   return {
-    plugin,
-    scannedProjects: scannedProjectsWithImageName,
+    scanResults,
+    manifestFiles,
   };
 }
 
-/**
- * By sharing the same fields in the meta object, projects can be treated as related.
- */
-function assignImageNameToScannedProjectMeta(
-  imageName: string,
-  scannedProjects: types.ScannedProjectCustom[],
-): types.ScannedProjectCustom[] {
-  return scannedProjects.map((project) => {
-    if (project.meta === undefined) {
-      project.meta = {};
-    }
-    project.meta.imageName = imageName;
-    return project;
-  });
-}
-
-function pluginMetadataRes(
-  runtime: string | undefined,
-  depsAnalysis,
-): types.PluginMetadata {
-  return {
-    name: "snyk-docker-plugin",
-    runtime,
-    packageManager: depsAnalysis.packageManager,
-    dockerImageId: depsAnalysis.imageId,
-    imageLayers: depsAnalysis.imageLayers,
-    rootFs: depsAnalysis.rootFsLayers,
-  };
-}
-
-function packageRes(
-  depsAnalysis,
-  dockerfileAnalysis,
-  dockerfilePkgs,
-  deps,
-): types.DepTree {
-  return {
-    ...depsAnalysis.package,
-    dependencies: deps,
-    docker: {
-      ...depsAnalysis.package.docker,
-      ...dockerfileAnalysis,
-      dockerfilePackages: dockerfilePkgs,
-      binaries: depsAnalysis.binaries,
-    },
-  };
-}
-
-function collectDockerfilePkgs(dockerAnalysis, deps) {
+function collectDockerfilePkgs(
+  dockerAnalysis: DockerFileAnalysis | undefined,
+  deps: {
+    [depName: string]: types.DepTreeDep;
+  },
+) {
   if (!dockerAnalysis) {
     return;
   }
@@ -120,7 +137,9 @@ function collectDockerfilePkgs(dockerAnalysis, deps) {
 // the dockerfile, and the instruction that installed it.
 function getDockerfileDependencies(
   dockerfilePackages: DockerFilePackages,
-  dependencies,
+  dependencies: {
+    [depName: string]: types.DepTreeDep;
+  },
 ): DockerFilePackages {
   for (const dependencyName in dependencies) {
     if (dependencies.hasOwnProperty(dependencyName)) {
@@ -152,15 +171,26 @@ function collectDeps(pkg) {
 // Skip processing if option disabled or dockerfilePkgs is undefined. We
 // can't exclude anything in that case, because we can't tell which deps are
 // from dockerfile and which from base image.
-function excludeBaseImageDeps(deps, dockerfilePkgs, options = {}) {
-  if (!options["exclude-base-image-vulns"] || !dockerfilePkgs) {
+function excludeBaseImageDeps(
+  deps: {
+    [depName: string]: types.DepTreeDep;
+  },
+  dockerfilePkgs: DockerFilePackages | undefined,
+  excludeBaseImageVulns: boolean,
+) {
+  if (!excludeBaseImageVulns || !dockerfilePkgs) {
     return deps;
   }
 
   return extractDockerfileDeps(deps, dockerfilePkgs);
 }
 
-function extractDockerfileDeps(allDeps, dockerfilePkgs) {
+function extractDockerfileDeps(
+  allDeps: {
+    [depName: string]: types.DepTreeDep;
+  },
+  dockerfilePkgs: DockerFilePackages,
+) {
   return Object.keys(allDeps)
     .filter((depName) => dockerfilePkgs[depName])
     .reduce((extractedDeps, depName) => {
