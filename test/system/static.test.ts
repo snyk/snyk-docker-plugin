@@ -698,3 +698,69 @@ test("static analysis for arm based image", async (t) => {
     "Platform is returned with the result same way",
   );
 });
+
+test("able to scan SUSE images", async (t) => {
+  const imgName = "registry.suse.com/suse/sle15";
+  const imgTag = "15.1";
+  const img = imgName + ":" + imgTag;
+
+  const pluginResultStatic = await plugin.inspect(img, undefined, {
+    experimental: true,
+  });
+  const pluginRes = pluginResultStatic.plugin;
+  const pkg = pluginResultStatic.scannedProjects[0];
+
+  t.equal(pluginRes.packageManager, "rpm", "returns rpm package manager");
+
+  t.match(
+    pkg.depTree,
+    {
+      name: "docker-image|" + imgName,
+      version: imgTag,
+      packageFormatVersion: "rpm:0.0.1",
+      targetOS: {
+        name: "sles",
+        version: "15.1",
+        prettyName: "SUSE Linux Enterprise Server 15 SP1",
+      },
+      docker: {},
+    },
+    "dependency tree contains expected data",
+  );
+
+  const deps = pkg.depTree.dependencies;
+  t.equal(Object.keys(deps).length, 121, "expected number of direct deps");
+});
+
+test("able to scan opensuse/leap images", async (t) => {
+  const imgName = "opensuse/leap";
+  const imgTag = "15.1";
+  const img = imgName + ":" + imgTag;
+
+  const pluginResultStatic = await plugin.inspect(img, undefined, {
+    experimental: true,
+  });
+  const pluginRes = pluginResultStatic.plugin;
+  const pkg = pluginResultStatic.scannedProjects[0];
+
+  t.equal(pluginRes.packageManager, "rpm", "returns rpm package manager");
+
+  t.match(
+    pkg.depTree,
+    {
+      name: "docker-image|" + imgName,
+      version: imgTag,
+      packageFormatVersion: "rpm:0.0.1",
+      targetOS: {
+        name: "opensuse-leap",
+        version: "15.1",
+        prettyName: "openSUSE Leap 15.1",
+      },
+      docker: {},
+    },
+    "dependency tree contains expected data",
+  );
+
+  const deps = pkg.depTree.dependencies;
+  t.equal(Object.keys(deps).length, 124, "expected number of direct deps");
+});

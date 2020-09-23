@@ -10,7 +10,8 @@ const debug = Debug("snyk");
 export const getRpmDbFileContentAction: ExtractAction = {
   actionName: "rpm-db",
   filePathMatches: (filePath) =>
-    filePath === normalizePath("/var/lib/rpm/Packages"),
+    filePath === normalizePath("/var/lib/rpm/Packages") ||
+    filePath === normalizePath("/usr/lib/sysimage/rpm/Packages"),
   callback: streamToBuffer,
 };
 

@@ -76,5 +76,14 @@ export async function detect(
     osRelease.name = "oracle";
   }
 
+  // Support round version. ie change SLES 15 to SLES 15.0
+  if (
+    osRelease.name.trim() === "sles" &&
+    osRelease.version &&
+    !osRelease.version.includes(".")
+  ) {
+    osRelease.version += ".0";
+  }
+
   return osRelease;
 }

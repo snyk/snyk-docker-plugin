@@ -169,6 +169,15 @@ test("os release detection dynamically", async (t) => {
       expected: { name: "unknown", version: "0.0", prettyName: "" },
       notes: "when nothing is found",
     },
+    "sles:15": {
+      dir: "sles_15",
+      expected: {
+        name: "sles",
+        version: "15.0",
+        prettyName: "SUSE Linux Enterprise Server 15",
+      },
+      notes: "uses /etc/os-release",
+    },
   };
 
   const execStub = sinon.stub(subProcess, "execute");
