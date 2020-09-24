@@ -92,7 +92,7 @@ test("save from docker daemon", async (t) => {
   const docker = new Docker(targetImage);
   let expectedChecksum: string;
 
-  t.test("prerequisites for next tests", async () => {
+  await t.test("prerequisites for next tests", async () => {
     const loadImage = path.join(
       __dirname,
       "../fixtures/docker-archives",
@@ -102,7 +102,7 @@ test("save from docker daemon", async (t) => {
     await subProcess.execute("docker", ["load", "--input", loadImage]);
   });
 
-  t.test("image saved to specified location", async (t) => {
+  await t.test("image saved to specified location", async (t) => {
     const destination = path.join(os.tmpdir(), "image.tar");
 
     t.tearDown(() => {
@@ -121,7 +121,7 @@ test("save from docker daemon", async (t) => {
     );
   });
 
-  t.test("promise rejects when image doesn't exist", async (t) => {
+  await t.test("promise rejects when image doesn't exist", async (t) => {
     const image = "someImage:latest";
     await t.rejects(
       docker.save(image, "/tmp/image.tar"),
@@ -131,7 +131,7 @@ test("save from docker daemon", async (t) => {
     t.false(existsSync("/tmp/image.tar"));
   });
 
-  t.test(
+  await t.test(
     "promise rejects when image cannot be written to destination",
     async (t) => {
       const destination = "/somefolder/image.tar";

@@ -139,7 +139,6 @@ test("get image as an archive", async (t) => {
 
     t.teardown(async () => {
       dockerPullSpy.restore();
-      await subProcess.execute("docker", ["image", "rm", targetImage]);
       rmdirRecursive(customPath.split(path.sep));
     });
 
