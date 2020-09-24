@@ -90,13 +90,17 @@ test("docker run", async (t) => {
 test("save from docker daemon", async (t) => {
   const targetImage = "hello-world:latest";
   const docker = new Docker(targetImage);
-  const loadImage = path.join(
-    __dirname,
-    "../fixtures/docker-archives",
-    "docker-save/hello-world.tar",
-  );
-  const expectedChecksum = await getChecksum(loadImage);
-  await subProcess.execute("docker", ["load", "--input", loadImage]);
+  let expectedChecksum: string;
+
+  t.test("prerequisites for next tests", async () => {
+    const loadImage = path.join(
+      __dirname,
+      "../fixtures/docker-archives",
+      "docker-save/hello-world.tar",
+    );
+    expectedChecksum = await getChecksum(loadImage);
+    await subProcess.execute("docker", ["load", "--input", loadImage]);
+  });
 
   t.test("image saved to specified location", async (t) => {
     const destination = path.join(os.tmpdir(), "image.tar");
