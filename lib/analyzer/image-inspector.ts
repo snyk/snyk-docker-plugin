@@ -68,6 +68,15 @@ async function pullWithDockerBinary(
     ) {
       throw new Error("Unknown operating system or architecture");
     }
+
+    if (
+      err.message &&
+      err.message.includes(
+        '"--platform" is only supported on a Docker daemon with experimental features enabled',
+      )
+    ) {
+      throw err;
+    }
     return pullAndSaveSuccessful;
   }
 }

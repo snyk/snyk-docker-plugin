@@ -137,12 +137,24 @@ class Docker {
     return await dockerPull.pull(registry, repo, tag, opt);
   }
 
+  public async isDockerExperimentalEnabled(): Promise<boolean> {
+    const output = await subProcess.execute("docker", ["system", "info"]);
+    return output.stdout.includes("Experimental: true");
+  }
+
   public async pullCli(targetImage: string, options?: DockerOptions) {
-    return subProcess.execute("docker", [
-      "pull",
-      options?.platform ? `--platform=${options.platform}` : "",
-      targetImage,
-    ]);
+    let platformOption: string = "";
+    if (options?.platform) {
+      if (await this.isDockerExperimentalEnabled()) {
+        platformOption = `--platform=${options.platform}`;
+      } else {
+        throw new Error(
+          '"--platform" is only supported on a Docker daemon with experimental features enabled',
+        );
+      }
+    }
+
+    return subProcess.execute("docker", ["pull", platformOption, targetImage]);
   }
 
   public async save(targetImage: string, destination: string) {

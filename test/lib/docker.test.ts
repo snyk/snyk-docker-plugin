@@ -510,7 +510,7 @@ test("findGlobs", async (t) => {
 
 test("pullCli", async (t) => {
   const stub = sinon.stub(subProcess, "execute");
-  stub.resolves("text");
+  stub.resolves({ stdout: "Experimental: true" });
   t.beforeEach(async () => {
     stub.resetHistory();
   });
@@ -533,11 +533,25 @@ test("pullCli", async (t) => {
 
   t.test("with args", async (t) => {
     await docker.pullCli(targetImage, { platform: "linux/arm64/v8" });
-    const subProcessArgs = stub.getCall(0).args;
+    const subProcessArgs = stub.getCall(1).args;
     t.same(
       subProcessArgs,
       ["docker", ["pull", "--platform=linux/arm64/v8", targetImage]],
       "args passed to subProcess.execute as expected",
     );
   });
+
+  t.test(
+    "with platform arg, when no experimental features enabled",
+    async (t) => {
+      stub.resolves({ stdout: "Experimental: false" });
+
+      await t.rejects(
+        async () =>
+          await docker.pullCli(targetImage, { platform: "linux/arm64/v8" }),
+        '"--platform" is only supported on a Docker daemon with experimental features enabled',
+        "throws expected error",
+      );
+    },
+  );
 });
