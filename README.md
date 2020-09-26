@@ -9,7 +9,7 @@ Snyk helps you find, fix and monitor for known vulnerabilities in your dependenc
 
 ## Snyk Docker CLI Plugin
 
-This plugin provides dependency metadata for Docker images. 
+This plugin provides dependency metadata for Docker images.
 
 ## Running Tests
 
@@ -20,3 +20,7 @@ To run tests the following environment variables need to be set:
 `DOCKER_HUB_PASSWORD`
 
 `DOCKER_HUB_PRIVATE_IMAGE` should refer to an image that is hosted on Docker Hub but not available publicly. During CI test this is set to `snykgoof/dockergoof:alpine`.
+
+## Writing Tests
+
+Refer to [test/README.md](test/README.md).

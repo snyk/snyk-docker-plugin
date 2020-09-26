@@ -1,0 +1,409 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`dockerfile analysis should correctly return a dockerfile analysis as part of image scanning 1`] = `
+Object {
+  "manifestFiles": undefined,
+  "scanResults": Array [
+    Object {
+      "facts": Array [
+        Object {
+          "data": Object {
+            "graph": Object {
+              "nodes": Array [
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "alpine-baselayout/alpine-baselayout@3.2.0-r6",
+                    },
+                    Object {
+                      "nodeId": "alpine-keys/alpine-keys@2.2-r0",
+                    },
+                    Object {
+                      "nodeId": "apk-tools/apk-tools@2.10.5-r1",
+                    },
+                    Object {
+                      "nodeId": "busybox/busybox@1.31.1-r16|2",
+                    },
+                    Object {
+                      "nodeId": "busybox/ssl_client@1.31.1-r16",
+                    },
+                    Object {
+                      "nodeId": "ca-certificates/ca-certificates-bundle@20191127-r2",
+                    },
+                    Object {
+                      "nodeId": "libc-dev/libc-utils@0.7.2-r3",
+                    },
+                    Object {
+                      "nodeId": "libtls-standalone/libtls-standalone@2.9.1-r1|2",
+                    },
+                    Object {
+                      "nodeId": "musl/musl@1.1.24-r8",
+                    },
+                    Object {
+                      "nodeId": "musl/musl-utils@1.1.24-r8|2",
+                    },
+                    Object {
+                      "nodeId": "openssl/libcrypto1.1@1.1.1g-r0|2",
+                    },
+                    Object {
+                      "nodeId": "openssl/libssl1.1@1.1.1g-r0|2",
+                    },
+                    Object {
+                      "nodeId": "pax-utils/scanelf@1.2.6-r0|2",
+                    },
+                    Object {
+                      "nodeId": "zlib/zlib@1.2.11-r3|2",
+                    },
+                  ],
+                  "nodeId": "root-node",
+                  "pkgId": "docker-image|alpine-3.12.0.tar@",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "busybox/busybox@1.31.1-r16|1",
+                  "pkgId": "busybox/busybox@1.31.1-r16",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "musl/musl@1.1.24-r8",
+                    },
+                  ],
+                  "nodeId": "busybox/busybox@1.31.1-r16|2",
+                  "pkgId": "busybox/busybox@1.31.1-r16",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "musl/musl@1.1.24-r8",
+                  "pkgId": "musl/musl@1.1.24-r8",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "busybox/busybox@1.31.1-r16|1",
+                    },
+                    Object {
+                      "nodeId": "musl/musl@1.1.24-r8",
+                    },
+                  ],
+                  "nodeId": "alpine-baselayout/alpine-baselayout@3.2.0-r6",
+                  "pkgId": "alpine-baselayout/alpine-baselayout@3.2.0-r6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "alpine-keys/alpine-keys@2.2-r0",
+                  "pkgId": "alpine-keys/alpine-keys@2.2-r0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "openssl/libcrypto1.1@1.1.1g-r0|1",
+                  "pkgId": "openssl/libcrypto1.1@1.1.1g-r0",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "musl/musl@1.1.24-r8",
+                    },
+                  ],
+                  "nodeId": "openssl/libcrypto1.1@1.1.1g-r0|2",
+                  "pkgId": "openssl/libcrypto1.1@1.1.1g-r0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "openssl/libssl1.1@1.1.1g-r0|1",
+                  "pkgId": "openssl/libssl1.1@1.1.1g-r0",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "musl/musl@1.1.24-r8",
+                    },
+                    Object {
+                      "nodeId": "openssl/libcrypto1.1@1.1.1g-r0|1",
+                    },
+                  ],
+                  "nodeId": "openssl/libssl1.1@1.1.1g-r0|2",
+                  "pkgId": "openssl/libssl1.1@1.1.1g-r0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "zlib/zlib@1.2.11-r3|1",
+                  "pkgId": "zlib/zlib@1.2.11-r3",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "musl/musl@1.1.24-r8",
+                    },
+                  ],
+                  "nodeId": "zlib/zlib@1.2.11-r3|2",
+                  "pkgId": "zlib/zlib@1.2.11-r3",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "musl/musl@1.1.24-r8",
+                    },
+                    Object {
+                      "nodeId": "openssl/libcrypto1.1@1.1.1g-r0|1",
+                    },
+                    Object {
+                      "nodeId": "openssl/libssl1.1@1.1.1g-r0|1",
+                    },
+                    Object {
+                      "nodeId": "zlib/zlib@1.2.11-r3|1",
+                    },
+                  ],
+                  "nodeId": "apk-tools/apk-tools@2.10.5-r1",
+                  "pkgId": "apk-tools/apk-tools@2.10.5-r1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libtls-standalone/libtls-standalone@2.9.1-r1|1",
+                  "pkgId": "libtls-standalone/libtls-standalone@2.9.1-r1",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "ca-certificates/ca-certificates-bundle@20191127-r2",
+                    },
+                    Object {
+                      "nodeId": "musl/musl@1.1.24-r8",
+                    },
+                    Object {
+                      "nodeId": "openssl/libcrypto1.1@1.1.1g-r0|1",
+                    },
+                    Object {
+                      "nodeId": "openssl/libssl1.1@1.1.1g-r0|1",
+                    },
+                  ],
+                  "nodeId": "libtls-standalone/libtls-standalone@2.9.1-r1|2",
+                  "pkgId": "libtls-standalone/libtls-standalone@2.9.1-r1",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "libtls-standalone/libtls-standalone@2.9.1-r1|1",
+                    },
+                    Object {
+                      "nodeId": "musl/musl@1.1.24-r8",
+                    },
+                  ],
+                  "nodeId": "busybox/ssl_client@1.31.1-r16",
+                  "pkgId": "busybox/ssl_client@1.31.1-r16",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "ca-certificates/ca-certificates-bundle@20191127-r2",
+                  "pkgId": "ca-certificates/ca-certificates-bundle@20191127-r2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "musl/musl-utils@1.1.24-r8|1",
+                  "pkgId": "musl/musl-utils@1.1.24-r8",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "musl/musl@1.1.24-r8",
+                    },
+                    Object {
+                      "nodeId": "pax-utils/scanelf@1.2.6-r0|1",
+                    },
+                  ],
+                  "nodeId": "musl/musl-utils@1.1.24-r8|2",
+                  "pkgId": "musl/musl-utils@1.1.24-r8",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "musl/musl-utils@1.1.24-r8|1",
+                    },
+                  ],
+                  "nodeId": "libc-dev/libc-utils@0.7.2-r3",
+                  "pkgId": "libc-dev/libc-utils@0.7.2-r3",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pax-utils/scanelf@1.2.6-r0|1",
+                  "pkgId": "pax-utils/scanelf@1.2.6-r0",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "musl/musl@1.1.24-r8",
+                    },
+                  ],
+                  "nodeId": "pax-utils/scanelf@1.2.6-r0|2",
+                  "pkgId": "pax-utils/scanelf@1.2.6-r0",
+                },
+              ],
+              "rootNodeId": "root-node",
+            },
+            "pkgManager": Object {
+              "name": "apk",
+              "repositories": Array [
+                Object {
+                  "alias": "alpine:3.12.0",
+                },
+              ],
+            },
+            "pkgs": Array [
+              Object {
+                "id": "docker-image|alpine-3.12.0.tar@",
+                "info": Object {
+                  "name": "docker-image|alpine-3.12.0.tar",
+                  "version": undefined,
+                },
+              },
+              Object {
+                "id": "busybox/busybox@1.31.1-r16",
+                "info": Object {
+                  "name": "busybox/busybox",
+                  "version": "1.31.1-r16",
+                },
+              },
+              Object {
+                "id": "musl/musl@1.1.24-r8",
+                "info": Object {
+                  "name": "musl/musl",
+                  "version": "1.1.24-r8",
+                },
+              },
+              Object {
+                "id": "alpine-baselayout/alpine-baselayout@3.2.0-r6",
+                "info": Object {
+                  "name": "alpine-baselayout/alpine-baselayout",
+                  "version": "3.2.0-r6",
+                },
+              },
+              Object {
+                "id": "alpine-keys/alpine-keys@2.2-r0",
+                "info": Object {
+                  "name": "alpine-keys/alpine-keys",
+                  "version": "2.2-r0",
+                },
+              },
+              Object {
+                "id": "openssl/libcrypto1.1@1.1.1g-r0",
+                "info": Object {
+                  "name": "openssl/libcrypto1.1",
+                  "version": "1.1.1g-r0",
+                },
+              },
+              Object {
+                "id": "openssl/libssl1.1@1.1.1g-r0",
+                "info": Object {
+                  "name": "openssl/libssl1.1",
+                  "version": "1.1.1g-r0",
+                },
+              },
+              Object {
+                "id": "zlib/zlib@1.2.11-r3",
+                "info": Object {
+                  "name": "zlib/zlib",
+                  "version": "1.2.11-r3",
+                },
+              },
+              Object {
+                "id": "apk-tools/apk-tools@2.10.5-r1",
+                "info": Object {
+                  "name": "apk-tools/apk-tools",
+                  "version": "2.10.5-r1",
+                },
+              },
+              Object {
+                "id": "libtls-standalone/libtls-standalone@2.9.1-r1",
+                "info": Object {
+                  "name": "libtls-standalone/libtls-standalone",
+                  "version": "2.9.1-r1",
+                },
+              },
+              Object {
+                "id": "busybox/ssl_client@1.31.1-r16",
+                "info": Object {
+                  "name": "busybox/ssl_client",
+                  "version": "1.31.1-r16",
+                },
+              },
+              Object {
+                "id": "ca-certificates/ca-certificates-bundle@20191127-r2",
+                "info": Object {
+                  "name": "ca-certificates/ca-certificates-bundle",
+                  "version": "20191127-r2",
+                },
+              },
+              Object {
+                "id": "musl/musl-utils@1.1.24-r8",
+                "info": Object {
+                  "name": "musl/musl-utils",
+                  "version": "1.1.24-r8",
+                },
+              },
+              Object {
+                "id": "libc-dev/libc-utils@0.7.2-r3",
+                "info": Object {
+                  "name": "libc-dev/libc-utils",
+                  "version": "0.7.2-r3",
+                },
+              },
+              Object {
+                "id": "pax-utils/scanelf@1.2.6-r0",
+                "info": Object {
+                  "name": "pax-utils/scanelf",
+                  "version": "1.2.6-r0",
+                },
+              },
+            ],
+            "schemaVersion": "1.2.0",
+          },
+          "type": "depGraph",
+        },
+        Object {
+          "data": Object {
+            "baseImage": "alpine:3.12.0",
+            "dockerfileLayers": Object {
+              "UlVOIGFwayBhZGQgbGlic3NsIG5vbmV4aXN0ZW50IGZpeHR1cmU=": Object {
+                "instruction": "RUN apk add libssl nonexistent fixture",
+              },
+            },
+            "dockerfilePackages": Object {
+              "fixture": Object {
+                "instruction": "RUN apk add libssl nonexistent fixture",
+              },
+              "libssl": Object {
+                "instruction": "RUN apk add libssl nonexistent fixture",
+              },
+              "nonexistent": Object {
+                "instruction": "RUN apk add libssl nonexistent fixture",
+              },
+            },
+          },
+          "type": "dockerfileAnalysis",
+        },
+        Object {
+          "data": "sha256:0f5f445df8ccbd8a062ad3d02d459e8549d9998c62a5b7cbf77baf68aa73bf5b",
+          "type": "imageId",
+        },
+        Object {
+          "data": Array [
+            "sha256:df20fa9351a15782c64e6dddb2d4a6f50bf6d3688060a34c4014b0d9a752eb4c",
+          ],
+          "type": "imageLayers",
+        },
+        Object {
+          "data": "Alpine Linux v3.12",
+          "type": "imageOsReleasePrettyName",
+        },
+      ],
+      "identity": Object {
+        "args": undefined,
+        "type": "apk",
+      },
+      "target": Object {
+        "image": "docker-image|alpine-3.12.0.tar",
+      },
+    },
+  ],
+}
+`;

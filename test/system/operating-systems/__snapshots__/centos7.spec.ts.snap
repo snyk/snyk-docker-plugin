@@ -1,0 +1,4561 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`centos tests should correctly analyze a centos image by sha256 1`] = `
+Object {
+  "manifestFiles": undefined,
+  "scanResults": Array [
+    Object {
+      "facts": Array [
+        Object {
+          "data": Object {
+            "graph": Object {
+              "nodes": Array [
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "acl@2.2.51-15.el7",
+                    },
+                    Object {
+                      "nodeId": "audit-libs@2.8.5-4.el7",
+                    },
+                    Object {
+                      "nodeId": "basesystem@10.0-7.el7.centos",
+                    },
+                    Object {
+                      "nodeId": "bash@4.2.46-34.el7",
+                    },
+                    Object {
+                      "nodeId": "bind-license@32:9.11.4-16.P2.el7",
+                    },
+                    Object {
+                      "nodeId": "binutils@2.27-43.base.el7",
+                    },
+                    Object {
+                      "nodeId": "bzip2-libs@1.0.6-13.el7",
+                    },
+                    Object {
+                      "nodeId": "ca-certificates@2019.2.32-76.el7_7",
+                    },
+                    Object {
+                      "nodeId": "centos-release@7-8.2003.0.el7.centos",
+                    },
+                    Object {
+                      "nodeId": "chkconfig@1.7.4-1.el7",
+                    },
+                    Object {
+                      "nodeId": "coreutils@8.22-24.el7",
+                    },
+                    Object {
+                      "nodeId": "cpio@2.11-27.el7",
+                    },
+                    Object {
+                      "nodeId": "cracklib@2.9.0-11.el7",
+                    },
+                    Object {
+                      "nodeId": "cracklib-dicts@2.9.0-11.el7",
+                    },
+                    Object {
+                      "nodeId": "cryptsetup-libs@2.0.3-6.el7",
+                    },
+                    Object {
+                      "nodeId": "curl@7.29.0-57.el7",
+                    },
+                    Object {
+                      "nodeId": "cyrus-sasl-lib@2.1.26-23.el7",
+                    },
+                    Object {
+                      "nodeId": "dbus@1:1.10.24-13.el7_6",
+                    },
+                    Object {
+                      "nodeId": "dbus-glib@0.100-7.el7",
+                    },
+                    Object {
+                      "nodeId": "dbus-libs@1:1.10.24-13.el7_6",
+                    },
+                    Object {
+                      "nodeId": "dbus-python@1.1.1-9.el7",
+                    },
+                    Object {
+                      "nodeId": "device-mapper@7:1.02.164-7.el7",
+                    },
+                    Object {
+                      "nodeId": "device-mapper-libs@7:1.02.164-7.el7",
+                    },
+                    Object {
+                      "nodeId": "diffutils@3.3-5.el7",
+                    },
+                    Object {
+                      "nodeId": "dracut@033-568.el7",
+                    },
+                    Object {
+                      "nodeId": "elfutils-default-yama-scope@0.176-4.el7",
+                    },
+                    Object {
+                      "nodeId": "elfutils-libelf@0.176-4.el7",
+                    },
+                    Object {
+                      "nodeId": "elfutils-libs@0.176-4.el7",
+                    },
+                    Object {
+                      "nodeId": "expat@2.1.0-11.el7",
+                    },
+                    Object {
+                      "nodeId": "file-libs@5.11-36.el7",
+                    },
+                    Object {
+                      "nodeId": "filesystem@3.2-25.el7",
+                    },
+                    Object {
+                      "nodeId": "findutils@1:4.5.11-6.el7",
+                    },
+                    Object {
+                      "nodeId": "gawk@4.0.2-4.el7_3.1",
+                    },
+                    Object {
+                      "nodeId": "gdbm@1.10-8.el7",
+                    },
+                    Object {
+                      "nodeId": "geoipupdate@2.5.0-1.el7",
+                    },
+                    Object {
+                      "nodeId": "glib2@2.56.1-5.el7",
+                    },
+                    Object {
+                      "nodeId": "glibc@2.17-307.el7.1",
+                    },
+                    Object {
+                      "nodeId": "glibc-common@2.17-307.el7.1",
+                    },
+                    Object {
+                      "nodeId": "gmp@1:6.0.0-15.el7",
+                    },
+                    Object {
+                      "nodeId": "gnupg2@2.0.22-5.el7_5",
+                    },
+                    Object {
+                      "nodeId": "gobject-introspection@1.56.1-1.el7",
+                    },
+                    Object {
+                      "nodeId": "gpgme@1.3.2-5.el7",
+                    },
+                    Object {
+                      "nodeId": "grep@2.20-3.el7",
+                    },
+                    Object {
+                      "nodeId": "gzip@1.5-10.el7",
+                    },
+                    Object {
+                      "nodeId": "hardlink@1:1.0-19.el7",
+                    },
+                    Object {
+                      "nodeId": "hostname@3.13-3.el7_7.1",
+                    },
+                    Object {
+                      "nodeId": "info@5.1-5.el7",
+                    },
+                    Object {
+                      "nodeId": "iputils@20160308-10.el7",
+                    },
+                    Object {
+                      "nodeId": "json-c@0.11-4.el7_0",
+                    },
+                    Object {
+                      "nodeId": "keyutils-libs@1.5.8-3.el7",
+                    },
+                    Object {
+                      "nodeId": "kmod@20-28.el7",
+                    },
+                    Object {
+                      "nodeId": "kmod-libs@20-28.el7",
+                    },
+                    Object {
+                      "nodeId": "kpartx@0.4.9-131.el7",
+                    },
+                    Object {
+                      "nodeId": "krb5-libs@1.15.1-46.el7",
+                    },
+                    Object {
+                      "nodeId": "libacl@2.2.51-15.el7",
+                    },
+                    Object {
+                      "nodeId": "libassuan@2.1.0-3.el7",
+                    },
+                    Object {
+                      "nodeId": "libattr@2.4.46-13.el7",
+                    },
+                    Object {
+                      "nodeId": "libblkid@2.23.2-63.el7",
+                    },
+                    Object {
+                      "nodeId": "libcap@2.22-11.el7",
+                    },
+                    Object {
+                      "nodeId": "libcap-ng@0.7.5-4.el7",
+                    },
+                    Object {
+                      "nodeId": "libcom_err@1.42.9-17.el7",
+                    },
+                    Object {
+                      "nodeId": "libcurl@7.29.0-57.el7",
+                    },
+                    Object {
+                      "nodeId": "libdb@5.3.21-25.el7",
+                    },
+                    Object {
+                      "nodeId": "libdb-utils@5.3.21-25.el7",
+                    },
+                    Object {
+                      "nodeId": "libffi@3.0.13-19.el7",
+                    },
+                    Object {
+                      "nodeId": "libgcc@4.8.5-39.el7",
+                    },
+                    Object {
+                      "nodeId": "libgcrypt@1.5.3-14.el7",
+                    },
+                    Object {
+                      "nodeId": "libgpg-error@1.12-3.el7",
+                    },
+                    Object {
+                      "nodeId": "libidn@1.28-4.el7",
+                    },
+                    Object {
+                      "nodeId": "libmount@2.23.2-63.el7",
+                    },
+                    Object {
+                      "nodeId": "libpwquality@1.2.3-5.el7",
+                    },
+                    Object {
+                      "nodeId": "libselinux@2.5-15.el7",
+                    },
+                    Object {
+                      "nodeId": "libsemanage@2.5-14.el7",
+                    },
+                    Object {
+                      "nodeId": "libsepol@2.5-10.el7",
+                    },
+                    Object {
+                      "nodeId": "libsmartcols@2.23.2-63.el7",
+                    },
+                    Object {
+                      "nodeId": "libssh2@1.8.0-3.el7",
+                    },
+                    Object {
+                      "nodeId": "libstdc++@4.8.5-39.el7",
+                    },
+                    Object {
+                      "nodeId": "libtasn1@4.10-1.el7",
+                    },
+                    Object {
+                      "nodeId": "libuser@0.60-9.el7",
+                    },
+                    Object {
+                      "nodeId": "libutempter@1.1.6-4.el7",
+                    },
+                    Object {
+                      "nodeId": "libuuid@2.23.2-63.el7",
+                    },
+                    Object {
+                      "nodeId": "libverto@0.2.5-4.el7",
+                    },
+                    Object {
+                      "nodeId": "libxml2@2.9.1-6.el7.4",
+                    },
+                    Object {
+                      "nodeId": "libxml2-python@2.9.1-6.el7.4",
+                    },
+                    Object {
+                      "nodeId": "lua@5.1.4-15.el7",
+                    },
+                    Object {
+                      "nodeId": "lz4@1.7.5-3.el7",
+                    },
+                    Object {
+                      "nodeId": "ncurses@5.9-14.20130511.el7_4",
+                    },
+                    Object {
+                      "nodeId": "ncurses-base@5.9-14.20130511.el7_4",
+                    },
+                    Object {
+                      "nodeId": "ncurses-libs@5.9-14.20130511.el7_4",
+                    },
+                    Object {
+                      "nodeId": "nspr@4.21.0-1.el7",
+                    },
+                    Object {
+                      "nodeId": "nss@3.44.0-7.el7_7",
+                    },
+                    Object {
+                      "nodeId": "nss-pem@1.0.3-7.el7",
+                    },
+                    Object {
+                      "nodeId": "nss-softokn@3.44.0-8.el7_7",
+                    },
+                    Object {
+                      "nodeId": "nss-softokn-freebl@3.44.0-8.el7_7",
+                    },
+                    Object {
+                      "nodeId": "nss-sysinit@3.44.0-7.el7_7",
+                    },
+                    Object {
+                      "nodeId": "nss-tools@3.44.0-7.el7_7",
+                    },
+                    Object {
+                      "nodeId": "nss-util@3.44.0-4.el7_7",
+                    },
+                    Object {
+                      "nodeId": "openldap@2.4.44-21.el7_6",
+                    },
+                    Object {
+                      "nodeId": "openssl-libs@1:1.0.2k-19.el7",
+                    },
+                    Object {
+                      "nodeId": "p11-kit@0.23.5-3.el7",
+                    },
+                    Object {
+                      "nodeId": "p11-kit-trust@0.23.5-3.el7",
+                    },
+                    Object {
+                      "nodeId": "pam@1.1.8-23.el7",
+                    },
+                    Object {
+                      "nodeId": "passwd@0.79-6.el7",
+                    },
+                    Object {
+                      "nodeId": "pcre@8.32-17.el7",
+                    },
+                    Object {
+                      "nodeId": "pinentry@0.8.1-17.el7",
+                    },
+                    Object {
+                      "nodeId": "pkgconfig@1:0.27.1-4.el7",
+                    },
+                    Object {
+                      "nodeId": "popt@1.13-16.el7",
+                    },
+                    Object {
+                      "nodeId": "procps-ng@3.3.10-27.el7",
+                    },
+                    Object {
+                      "nodeId": "pth@2.0.7-23.el7",
+                    },
+                    Object {
+                      "nodeId": "pygpgme@0.3-9.el7",
+                    },
+                    Object {
+                      "nodeId": "pyliblzma@0.5.3-11.el7",
+                    },
+                    Object {
+                      "nodeId": "python@2.7.5-88.el7",
+                    },
+                    Object {
+                      "nodeId": "python-chardet@2.2.1-3.el7",
+                    },
+                    Object {
+                      "nodeId": "python-gobject-base@3.22.0-1.el7_4.1",
+                    },
+                    Object {
+                      "nodeId": "python-iniparse@0.4-9.el7",
+                    },
+                    Object {
+                      "nodeId": "python-kitchen@1.1.1-5.el7",
+                    },
+                    Object {
+                      "nodeId": "python-libs@2.7.5-88.el7",
+                    },
+                    Object {
+                      "nodeId": "python-pycurl@7.19.0-19.el7",
+                    },
+                    Object {
+                      "nodeId": "python-urlgrabber@3.10-10.el7",
+                    },
+                    Object {
+                      "nodeId": "pyxattr@0.5.1-5.el7",
+                    },
+                    Object {
+                      "nodeId": "qrencode-libs@3.4.1-3.el7",
+                    },
+                    Object {
+                      "nodeId": "readline@6.2-11.el7",
+                    },
+                    Object {
+                      "nodeId": "rootfiles@8.1-11.el7",
+                    },
+                    Object {
+                      "nodeId": "rpm@4.11.3-43.el7",
+                    },
+                    Object {
+                      "nodeId": "rpm-build-libs@4.11.3-43.el7",
+                    },
+                    Object {
+                      "nodeId": "rpm-libs@4.11.3-43.el7",
+                    },
+                    Object {
+                      "nodeId": "rpm-python@4.11.3-43.el7",
+                    },
+                    Object {
+                      "nodeId": "sed@4.2.2-6.el7",
+                    },
+                    Object {
+                      "nodeId": "setup@2.8.71-11.el7",
+                    },
+                    Object {
+                      "nodeId": "shadow-utils@2:4.6-5.el7",
+                    },
+                    Object {
+                      "nodeId": "shared-mime-info@1.8-5.el7",
+                    },
+                    Object {
+                      "nodeId": "sqlite@3.7.17-8.el7_7.1",
+                    },
+                    Object {
+                      "nodeId": "systemd@219-73.el7.1",
+                    },
+                    Object {
+                      "nodeId": "systemd-libs@219-73.el7.1",
+                    },
+                    Object {
+                      "nodeId": "tar@2:1.26-35.el7",
+                    },
+                    Object {
+                      "nodeId": "tzdata@2019c-1.el7",
+                    },
+                    Object {
+                      "nodeId": "ustr@1.0.4-16.el7",
+                    },
+                    Object {
+                      "nodeId": "util-linux@2.23.2-63.el7",
+                    },
+                    Object {
+                      "nodeId": "vim-minimal@2:7.4.629-6.el7",
+                    },
+                    Object {
+                      "nodeId": "xz@5.2.2-1.el7",
+                    },
+                    Object {
+                      "nodeId": "xz-libs@5.2.2-1.el7",
+                    },
+                    Object {
+                      "nodeId": "yum@3.4.3-167.el7.centos",
+                    },
+                    Object {
+                      "nodeId": "yum-metadata-parser@1.1.4-10.el7",
+                    },
+                    Object {
+                      "nodeId": "yum-plugin-fastestmirror@1.1.31-53.el7",
+                    },
+                    Object {
+                      "nodeId": "yum-plugin-ovl@1.1.31-53.el7",
+                    },
+                    Object {
+                      "nodeId": "yum-utils@1.1.31-53.el7",
+                    },
+                    Object {
+                      "nodeId": "zlib@1.2.7-18.el7",
+                    },
+                  ],
+                  "nodeId": "root-node",
+                  "pkgId": "docker-image|centos@",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "acl@2.2.51-15.el7",
+                  "pkgId": "acl@2.2.51-15.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "audit-libs@2.8.5-4.el7",
+                  "pkgId": "audit-libs@2.8.5-4.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "basesystem@10.0-7.el7.centos",
+                  "pkgId": "basesystem@10.0-7.el7.centos",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "bash@4.2.46-34.el7",
+                  "pkgId": "bash@4.2.46-34.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "bind-license@32:9.11.4-16.P2.el7",
+                  "pkgId": "bind-license@32:9.11.4-16.P2.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "binutils@2.27-43.base.el7",
+                  "pkgId": "binutils@2.27-43.base.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "bzip2-libs@1.0.6-13.el7",
+                  "pkgId": "bzip2-libs@1.0.6-13.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "ca-certificates@2019.2.32-76.el7_7",
+                  "pkgId": "ca-certificates@2019.2.32-76.el7_7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "centos-release@7-8.2003.0.el7.centos",
+                  "pkgId": "centos-release@7-8.2003.0.el7.centos",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "chkconfig@1.7.4-1.el7",
+                  "pkgId": "chkconfig@1.7.4-1.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "coreutils@8.22-24.el7",
+                  "pkgId": "coreutils@8.22-24.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "cpio@2.11-27.el7",
+                  "pkgId": "cpio@2.11-27.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "cracklib@2.9.0-11.el7",
+                  "pkgId": "cracklib@2.9.0-11.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "cracklib-dicts@2.9.0-11.el7",
+                  "pkgId": "cracklib-dicts@2.9.0-11.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "cryptsetup-libs@2.0.3-6.el7",
+                  "pkgId": "cryptsetup-libs@2.0.3-6.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "curl@7.29.0-57.el7",
+                  "pkgId": "curl@7.29.0-57.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "cyrus-sasl-lib@2.1.26-23.el7",
+                  "pkgId": "cyrus-sasl-lib@2.1.26-23.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "dbus@1:1.10.24-13.el7_6",
+                  "pkgId": "dbus@1:1.10.24-13.el7_6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "dbus-glib@0.100-7.el7",
+                  "pkgId": "dbus-glib@0.100-7.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "dbus-libs@1:1.10.24-13.el7_6",
+                  "pkgId": "dbus-libs@1:1.10.24-13.el7_6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "dbus-python@1.1.1-9.el7",
+                  "pkgId": "dbus-python@1.1.1-9.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "device-mapper@7:1.02.164-7.el7",
+                  "pkgId": "device-mapper@7:1.02.164-7.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "device-mapper-libs@7:1.02.164-7.el7",
+                  "pkgId": "device-mapper-libs@7:1.02.164-7.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "diffutils@3.3-5.el7",
+                  "pkgId": "diffutils@3.3-5.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "dracut@033-568.el7",
+                  "pkgId": "dracut@033-568.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "elfutils-default-yama-scope@0.176-4.el7",
+                  "pkgId": "elfutils-default-yama-scope@0.176-4.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "elfutils-libelf@0.176-4.el7",
+                  "pkgId": "elfutils-libelf@0.176-4.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "elfutils-libs@0.176-4.el7",
+                  "pkgId": "elfutils-libs@0.176-4.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "expat@2.1.0-11.el7",
+                  "pkgId": "expat@2.1.0-11.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "file-libs@5.11-36.el7",
+                  "pkgId": "file-libs@5.11-36.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "filesystem@3.2-25.el7",
+                  "pkgId": "filesystem@3.2-25.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "findutils@1:4.5.11-6.el7",
+                  "pkgId": "findutils@1:4.5.11-6.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gawk@4.0.2-4.el7_3.1",
+                  "pkgId": "gawk@4.0.2-4.el7_3.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gdbm@1.10-8.el7",
+                  "pkgId": "gdbm@1.10-8.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "geoipupdate@2.5.0-1.el7",
+                  "pkgId": "geoipupdate@2.5.0-1.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "glib2@2.56.1-5.el7",
+                  "pkgId": "glib2@2.56.1-5.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "glibc@2.17-307.el7.1",
+                  "pkgId": "glibc@2.17-307.el7.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "glibc-common@2.17-307.el7.1",
+                  "pkgId": "glibc-common@2.17-307.el7.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gmp@1:6.0.0-15.el7",
+                  "pkgId": "gmp@1:6.0.0-15.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gnupg2@2.0.22-5.el7_5",
+                  "pkgId": "gnupg2@2.0.22-5.el7_5",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gobject-introspection@1.56.1-1.el7",
+                  "pkgId": "gobject-introspection@1.56.1-1.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gpgme@1.3.2-5.el7",
+                  "pkgId": "gpgme@1.3.2-5.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "grep@2.20-3.el7",
+                  "pkgId": "grep@2.20-3.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gzip@1.5-10.el7",
+                  "pkgId": "gzip@1.5-10.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "hardlink@1:1.0-19.el7",
+                  "pkgId": "hardlink@1:1.0-19.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "hostname@3.13-3.el7_7.1",
+                  "pkgId": "hostname@3.13-3.el7_7.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "info@5.1-5.el7",
+                  "pkgId": "info@5.1-5.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "iputils@20160308-10.el7",
+                  "pkgId": "iputils@20160308-10.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "json-c@0.11-4.el7_0",
+                  "pkgId": "json-c@0.11-4.el7_0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "keyutils-libs@1.5.8-3.el7",
+                  "pkgId": "keyutils-libs@1.5.8-3.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "kmod@20-28.el7",
+                  "pkgId": "kmod@20-28.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "kmod-libs@20-28.el7",
+                  "pkgId": "kmod-libs@20-28.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "kpartx@0.4.9-131.el7",
+                  "pkgId": "kpartx@0.4.9-131.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "krb5-libs@1.15.1-46.el7",
+                  "pkgId": "krb5-libs@1.15.1-46.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libacl@2.2.51-15.el7",
+                  "pkgId": "libacl@2.2.51-15.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libassuan@2.1.0-3.el7",
+                  "pkgId": "libassuan@2.1.0-3.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libattr@2.4.46-13.el7",
+                  "pkgId": "libattr@2.4.46-13.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libblkid@2.23.2-63.el7",
+                  "pkgId": "libblkid@2.23.2-63.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libcap@2.22-11.el7",
+                  "pkgId": "libcap@2.22-11.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libcap-ng@0.7.5-4.el7",
+                  "pkgId": "libcap-ng@0.7.5-4.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libcom_err@1.42.9-17.el7",
+                  "pkgId": "libcom_err@1.42.9-17.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libcurl@7.29.0-57.el7",
+                  "pkgId": "libcurl@7.29.0-57.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libdb@5.3.21-25.el7",
+                  "pkgId": "libdb@5.3.21-25.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libdb-utils@5.3.21-25.el7",
+                  "pkgId": "libdb-utils@5.3.21-25.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libffi@3.0.13-19.el7",
+                  "pkgId": "libffi@3.0.13-19.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libgcc@4.8.5-39.el7",
+                  "pkgId": "libgcc@4.8.5-39.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libgcrypt@1.5.3-14.el7",
+                  "pkgId": "libgcrypt@1.5.3-14.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libgpg-error@1.12-3.el7",
+                  "pkgId": "libgpg-error@1.12-3.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libidn@1.28-4.el7",
+                  "pkgId": "libidn@1.28-4.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libmount@2.23.2-63.el7",
+                  "pkgId": "libmount@2.23.2-63.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libpwquality@1.2.3-5.el7",
+                  "pkgId": "libpwquality@1.2.3-5.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libselinux@2.5-15.el7",
+                  "pkgId": "libselinux@2.5-15.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libsemanage@2.5-14.el7",
+                  "pkgId": "libsemanage@2.5-14.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libsepol@2.5-10.el7",
+                  "pkgId": "libsepol@2.5-10.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libsmartcols@2.23.2-63.el7",
+                  "pkgId": "libsmartcols@2.23.2-63.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libssh2@1.8.0-3.el7",
+                  "pkgId": "libssh2@1.8.0-3.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libstdc++@4.8.5-39.el7",
+                  "pkgId": "libstdc++@4.8.5-39.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libtasn1@4.10-1.el7",
+                  "pkgId": "libtasn1@4.10-1.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libuser@0.60-9.el7",
+                  "pkgId": "libuser@0.60-9.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libutempter@1.1.6-4.el7",
+                  "pkgId": "libutempter@1.1.6-4.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libuuid@2.23.2-63.el7",
+                  "pkgId": "libuuid@2.23.2-63.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libverto@0.2.5-4.el7",
+                  "pkgId": "libverto@0.2.5-4.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libxml2@2.9.1-6.el7.4",
+                  "pkgId": "libxml2@2.9.1-6.el7.4",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libxml2-python@2.9.1-6.el7.4",
+                  "pkgId": "libxml2-python@2.9.1-6.el7.4",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "lua@5.1.4-15.el7",
+                  "pkgId": "lua@5.1.4-15.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "lz4@1.7.5-3.el7",
+                  "pkgId": "lz4@1.7.5-3.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "ncurses@5.9-14.20130511.el7_4",
+                  "pkgId": "ncurses@5.9-14.20130511.el7_4",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "ncurses-base@5.9-14.20130511.el7_4",
+                  "pkgId": "ncurses-base@5.9-14.20130511.el7_4",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "ncurses-libs@5.9-14.20130511.el7_4",
+                  "pkgId": "ncurses-libs@5.9-14.20130511.el7_4",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "nspr@4.21.0-1.el7",
+                  "pkgId": "nspr@4.21.0-1.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "nss@3.44.0-7.el7_7",
+                  "pkgId": "nss@3.44.0-7.el7_7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "nss-pem@1.0.3-7.el7",
+                  "pkgId": "nss-pem@1.0.3-7.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "nss-softokn@3.44.0-8.el7_7",
+                  "pkgId": "nss-softokn@3.44.0-8.el7_7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "nss-softokn-freebl@3.44.0-8.el7_7",
+                  "pkgId": "nss-softokn-freebl@3.44.0-8.el7_7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "nss-sysinit@3.44.0-7.el7_7",
+                  "pkgId": "nss-sysinit@3.44.0-7.el7_7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "nss-tools@3.44.0-7.el7_7",
+                  "pkgId": "nss-tools@3.44.0-7.el7_7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "nss-util@3.44.0-4.el7_7",
+                  "pkgId": "nss-util@3.44.0-4.el7_7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "openldap@2.4.44-21.el7_6",
+                  "pkgId": "openldap@2.4.44-21.el7_6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "openssl-libs@1:1.0.2k-19.el7",
+                  "pkgId": "openssl-libs@1:1.0.2k-19.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "p11-kit@0.23.5-3.el7",
+                  "pkgId": "p11-kit@0.23.5-3.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "p11-kit-trust@0.23.5-3.el7",
+                  "pkgId": "p11-kit-trust@0.23.5-3.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pam@1.1.8-23.el7",
+                  "pkgId": "pam@1.1.8-23.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "passwd@0.79-6.el7",
+                  "pkgId": "passwd@0.79-6.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pcre@8.32-17.el7",
+                  "pkgId": "pcre@8.32-17.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pinentry@0.8.1-17.el7",
+                  "pkgId": "pinentry@0.8.1-17.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pkgconfig@1:0.27.1-4.el7",
+                  "pkgId": "pkgconfig@1:0.27.1-4.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "popt@1.13-16.el7",
+                  "pkgId": "popt@1.13-16.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "procps-ng@3.3.10-27.el7",
+                  "pkgId": "procps-ng@3.3.10-27.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pth@2.0.7-23.el7",
+                  "pkgId": "pth@2.0.7-23.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pygpgme@0.3-9.el7",
+                  "pkgId": "pygpgme@0.3-9.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pyliblzma@0.5.3-11.el7",
+                  "pkgId": "pyliblzma@0.5.3-11.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "python@2.7.5-88.el7",
+                  "pkgId": "python@2.7.5-88.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "python-chardet@2.2.1-3.el7",
+                  "pkgId": "python-chardet@2.2.1-3.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "python-gobject-base@3.22.0-1.el7_4.1",
+                  "pkgId": "python-gobject-base@3.22.0-1.el7_4.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "python-iniparse@0.4-9.el7",
+                  "pkgId": "python-iniparse@0.4-9.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "python-kitchen@1.1.1-5.el7",
+                  "pkgId": "python-kitchen@1.1.1-5.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "python-libs@2.7.5-88.el7",
+                  "pkgId": "python-libs@2.7.5-88.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "python-pycurl@7.19.0-19.el7",
+                  "pkgId": "python-pycurl@7.19.0-19.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "python-urlgrabber@3.10-10.el7",
+                  "pkgId": "python-urlgrabber@3.10-10.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pyxattr@0.5.1-5.el7",
+                  "pkgId": "pyxattr@0.5.1-5.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "qrencode-libs@3.4.1-3.el7",
+                  "pkgId": "qrencode-libs@3.4.1-3.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "readline@6.2-11.el7",
+                  "pkgId": "readline@6.2-11.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "rootfiles@8.1-11.el7",
+                  "pkgId": "rootfiles@8.1-11.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "rpm@4.11.3-43.el7",
+                  "pkgId": "rpm@4.11.3-43.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "rpm-build-libs@4.11.3-43.el7",
+                  "pkgId": "rpm-build-libs@4.11.3-43.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "rpm-libs@4.11.3-43.el7",
+                  "pkgId": "rpm-libs@4.11.3-43.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "rpm-python@4.11.3-43.el7",
+                  "pkgId": "rpm-python@4.11.3-43.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "sed@4.2.2-6.el7",
+                  "pkgId": "sed@4.2.2-6.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "setup@2.8.71-11.el7",
+                  "pkgId": "setup@2.8.71-11.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "shadow-utils@2:4.6-5.el7",
+                  "pkgId": "shadow-utils@2:4.6-5.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "shared-mime-info@1.8-5.el7",
+                  "pkgId": "shared-mime-info@1.8-5.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "sqlite@3.7.17-8.el7_7.1",
+                  "pkgId": "sqlite@3.7.17-8.el7_7.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "systemd@219-73.el7.1",
+                  "pkgId": "systemd@219-73.el7.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "systemd-libs@219-73.el7.1",
+                  "pkgId": "systemd-libs@219-73.el7.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "tar@2:1.26-35.el7",
+                  "pkgId": "tar@2:1.26-35.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "tzdata@2019c-1.el7",
+                  "pkgId": "tzdata@2019c-1.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "ustr@1.0.4-16.el7",
+                  "pkgId": "ustr@1.0.4-16.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "util-linux@2.23.2-63.el7",
+                  "pkgId": "util-linux@2.23.2-63.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "vim-minimal@2:7.4.629-6.el7",
+                  "pkgId": "vim-minimal@2:7.4.629-6.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "xz@5.2.2-1.el7",
+                  "pkgId": "xz@5.2.2-1.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "xz-libs@5.2.2-1.el7",
+                  "pkgId": "xz-libs@5.2.2-1.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "yum@3.4.3-167.el7.centos",
+                  "pkgId": "yum@3.4.3-167.el7.centos",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "yum-metadata-parser@1.1.4-10.el7",
+                  "pkgId": "yum-metadata-parser@1.1.4-10.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "yum-plugin-fastestmirror@1.1.31-53.el7",
+                  "pkgId": "yum-plugin-fastestmirror@1.1.31-53.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "yum-plugin-ovl@1.1.31-53.el7",
+                  "pkgId": "yum-plugin-ovl@1.1.31-53.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "yum-utils@1.1.31-53.el7",
+                  "pkgId": "yum-utils@1.1.31-53.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "zlib@1.2.7-18.el7",
+                  "pkgId": "zlib@1.2.7-18.el7",
+                },
+              ],
+              "rootNodeId": "root-node",
+            },
+            "pkgManager": Object {
+              "name": "rpm",
+              "repositories": Array [
+                Object {
+                  "alias": "centos:7",
+                },
+              ],
+            },
+            "pkgs": Array [
+              Object {
+                "id": "docker-image|centos@",
+                "info": Object {
+                  "name": "docker-image|centos",
+                  "version": undefined,
+                },
+              },
+              Object {
+                "id": "acl@2.2.51-15.el7",
+                "info": Object {
+                  "name": "acl",
+                  "version": "2.2.51-15.el7",
+                },
+              },
+              Object {
+                "id": "audit-libs@2.8.5-4.el7",
+                "info": Object {
+                  "name": "audit-libs",
+                  "version": "2.8.5-4.el7",
+                },
+              },
+              Object {
+                "id": "basesystem@10.0-7.el7.centos",
+                "info": Object {
+                  "name": "basesystem",
+                  "version": "10.0-7.el7.centos",
+                },
+              },
+              Object {
+                "id": "bash@4.2.46-34.el7",
+                "info": Object {
+                  "name": "bash",
+                  "version": "4.2.46-34.el7",
+                },
+              },
+              Object {
+                "id": "bind-license@32:9.11.4-16.P2.el7",
+                "info": Object {
+                  "name": "bind-license",
+                  "version": "32:9.11.4-16.P2.el7",
+                },
+              },
+              Object {
+                "id": "binutils@2.27-43.base.el7",
+                "info": Object {
+                  "name": "binutils",
+                  "version": "2.27-43.base.el7",
+                },
+              },
+              Object {
+                "id": "bzip2-libs@1.0.6-13.el7",
+                "info": Object {
+                  "name": "bzip2-libs",
+                  "version": "1.0.6-13.el7",
+                },
+              },
+              Object {
+                "id": "ca-certificates@2019.2.32-76.el7_7",
+                "info": Object {
+                  "name": "ca-certificates",
+                  "version": "2019.2.32-76.el7_7",
+                },
+              },
+              Object {
+                "id": "centos-release@7-8.2003.0.el7.centos",
+                "info": Object {
+                  "name": "centos-release",
+                  "version": "7-8.2003.0.el7.centos",
+                },
+              },
+              Object {
+                "id": "chkconfig@1.7.4-1.el7",
+                "info": Object {
+                  "name": "chkconfig",
+                  "version": "1.7.4-1.el7",
+                },
+              },
+              Object {
+                "id": "coreutils@8.22-24.el7",
+                "info": Object {
+                  "name": "coreutils",
+                  "version": "8.22-24.el7",
+                },
+              },
+              Object {
+                "id": "cpio@2.11-27.el7",
+                "info": Object {
+                  "name": "cpio",
+                  "version": "2.11-27.el7",
+                },
+              },
+              Object {
+                "id": "cracklib@2.9.0-11.el7",
+                "info": Object {
+                  "name": "cracklib",
+                  "version": "2.9.0-11.el7",
+                },
+              },
+              Object {
+                "id": "cracklib-dicts@2.9.0-11.el7",
+                "info": Object {
+                  "name": "cracklib-dicts",
+                  "version": "2.9.0-11.el7",
+                },
+              },
+              Object {
+                "id": "cryptsetup-libs@2.0.3-6.el7",
+                "info": Object {
+                  "name": "cryptsetup-libs",
+                  "version": "2.0.3-6.el7",
+                },
+              },
+              Object {
+                "id": "curl@7.29.0-57.el7",
+                "info": Object {
+                  "name": "curl",
+                  "version": "7.29.0-57.el7",
+                },
+              },
+              Object {
+                "id": "cyrus-sasl-lib@2.1.26-23.el7",
+                "info": Object {
+                  "name": "cyrus-sasl-lib",
+                  "version": "2.1.26-23.el7",
+                },
+              },
+              Object {
+                "id": "dbus@1:1.10.24-13.el7_6",
+                "info": Object {
+                  "name": "dbus",
+                  "version": "1:1.10.24-13.el7_6",
+                },
+              },
+              Object {
+                "id": "dbus-glib@0.100-7.el7",
+                "info": Object {
+                  "name": "dbus-glib",
+                  "version": "0.100-7.el7",
+                },
+              },
+              Object {
+                "id": "dbus-libs@1:1.10.24-13.el7_6",
+                "info": Object {
+                  "name": "dbus-libs",
+                  "version": "1:1.10.24-13.el7_6",
+                },
+              },
+              Object {
+                "id": "dbus-python@1.1.1-9.el7",
+                "info": Object {
+                  "name": "dbus-python",
+                  "version": "1.1.1-9.el7",
+                },
+              },
+              Object {
+                "id": "device-mapper@7:1.02.164-7.el7",
+                "info": Object {
+                  "name": "device-mapper",
+                  "version": "7:1.02.164-7.el7",
+                },
+              },
+              Object {
+                "id": "device-mapper-libs@7:1.02.164-7.el7",
+                "info": Object {
+                  "name": "device-mapper-libs",
+                  "version": "7:1.02.164-7.el7",
+                },
+              },
+              Object {
+                "id": "diffutils@3.3-5.el7",
+                "info": Object {
+                  "name": "diffutils",
+                  "version": "3.3-5.el7",
+                },
+              },
+              Object {
+                "id": "dracut@033-568.el7",
+                "info": Object {
+                  "name": "dracut",
+                  "version": "033-568.el7",
+                },
+              },
+              Object {
+                "id": "elfutils-default-yama-scope@0.176-4.el7",
+                "info": Object {
+                  "name": "elfutils-default-yama-scope",
+                  "version": "0.176-4.el7",
+                },
+              },
+              Object {
+                "id": "elfutils-libelf@0.176-4.el7",
+                "info": Object {
+                  "name": "elfutils-libelf",
+                  "version": "0.176-4.el7",
+                },
+              },
+              Object {
+                "id": "elfutils-libs@0.176-4.el7",
+                "info": Object {
+                  "name": "elfutils-libs",
+                  "version": "0.176-4.el7",
+                },
+              },
+              Object {
+                "id": "expat@2.1.0-11.el7",
+                "info": Object {
+                  "name": "expat",
+                  "version": "2.1.0-11.el7",
+                },
+              },
+              Object {
+                "id": "file-libs@5.11-36.el7",
+                "info": Object {
+                  "name": "file-libs",
+                  "version": "5.11-36.el7",
+                },
+              },
+              Object {
+                "id": "filesystem@3.2-25.el7",
+                "info": Object {
+                  "name": "filesystem",
+                  "version": "3.2-25.el7",
+                },
+              },
+              Object {
+                "id": "findutils@1:4.5.11-6.el7",
+                "info": Object {
+                  "name": "findutils",
+                  "version": "1:4.5.11-6.el7",
+                },
+              },
+              Object {
+                "id": "gawk@4.0.2-4.el7_3.1",
+                "info": Object {
+                  "name": "gawk",
+                  "version": "4.0.2-4.el7_3.1",
+                },
+              },
+              Object {
+                "id": "gdbm@1.10-8.el7",
+                "info": Object {
+                  "name": "gdbm",
+                  "version": "1.10-8.el7",
+                },
+              },
+              Object {
+                "id": "geoipupdate@2.5.0-1.el7",
+                "info": Object {
+                  "name": "geoipupdate",
+                  "version": "2.5.0-1.el7",
+                },
+              },
+              Object {
+                "id": "glib2@2.56.1-5.el7",
+                "info": Object {
+                  "name": "glib2",
+                  "version": "2.56.1-5.el7",
+                },
+              },
+              Object {
+                "id": "glibc@2.17-307.el7.1",
+                "info": Object {
+                  "name": "glibc",
+                  "version": "2.17-307.el7.1",
+                },
+              },
+              Object {
+                "id": "glibc-common@2.17-307.el7.1",
+                "info": Object {
+                  "name": "glibc-common",
+                  "version": "2.17-307.el7.1",
+                },
+              },
+              Object {
+                "id": "gmp@1:6.0.0-15.el7",
+                "info": Object {
+                  "name": "gmp",
+                  "version": "1:6.0.0-15.el7",
+                },
+              },
+              Object {
+                "id": "gnupg2@2.0.22-5.el7_5",
+                "info": Object {
+                  "name": "gnupg2",
+                  "version": "2.0.22-5.el7_5",
+                },
+              },
+              Object {
+                "id": "gobject-introspection@1.56.1-1.el7",
+                "info": Object {
+                  "name": "gobject-introspection",
+                  "version": "1.56.1-1.el7",
+                },
+              },
+              Object {
+                "id": "gpgme@1.3.2-5.el7",
+                "info": Object {
+                  "name": "gpgme",
+                  "version": "1.3.2-5.el7",
+                },
+              },
+              Object {
+                "id": "grep@2.20-3.el7",
+                "info": Object {
+                  "name": "grep",
+                  "version": "2.20-3.el7",
+                },
+              },
+              Object {
+                "id": "gzip@1.5-10.el7",
+                "info": Object {
+                  "name": "gzip",
+                  "version": "1.5-10.el7",
+                },
+              },
+              Object {
+                "id": "hardlink@1:1.0-19.el7",
+                "info": Object {
+                  "name": "hardlink",
+                  "version": "1:1.0-19.el7",
+                },
+              },
+              Object {
+                "id": "hostname@3.13-3.el7_7.1",
+                "info": Object {
+                  "name": "hostname",
+                  "version": "3.13-3.el7_7.1",
+                },
+              },
+              Object {
+                "id": "info@5.1-5.el7",
+                "info": Object {
+                  "name": "info",
+                  "version": "5.1-5.el7",
+                },
+              },
+              Object {
+                "id": "iputils@20160308-10.el7",
+                "info": Object {
+                  "name": "iputils",
+                  "version": "20160308-10.el7",
+                },
+              },
+              Object {
+                "id": "json-c@0.11-4.el7_0",
+                "info": Object {
+                  "name": "json-c",
+                  "version": "0.11-4.el7_0",
+                },
+              },
+              Object {
+                "id": "keyutils-libs@1.5.8-3.el7",
+                "info": Object {
+                  "name": "keyutils-libs",
+                  "version": "1.5.8-3.el7",
+                },
+              },
+              Object {
+                "id": "kmod@20-28.el7",
+                "info": Object {
+                  "name": "kmod",
+                  "version": "20-28.el7",
+                },
+              },
+              Object {
+                "id": "kmod-libs@20-28.el7",
+                "info": Object {
+                  "name": "kmod-libs",
+                  "version": "20-28.el7",
+                },
+              },
+              Object {
+                "id": "kpartx@0.4.9-131.el7",
+                "info": Object {
+                  "name": "kpartx",
+                  "version": "0.4.9-131.el7",
+                },
+              },
+              Object {
+                "id": "krb5-libs@1.15.1-46.el7",
+                "info": Object {
+                  "name": "krb5-libs",
+                  "version": "1.15.1-46.el7",
+                },
+              },
+              Object {
+                "id": "libacl@2.2.51-15.el7",
+                "info": Object {
+                  "name": "libacl",
+                  "version": "2.2.51-15.el7",
+                },
+              },
+              Object {
+                "id": "libassuan@2.1.0-3.el7",
+                "info": Object {
+                  "name": "libassuan",
+                  "version": "2.1.0-3.el7",
+                },
+              },
+              Object {
+                "id": "libattr@2.4.46-13.el7",
+                "info": Object {
+                  "name": "libattr",
+                  "version": "2.4.46-13.el7",
+                },
+              },
+              Object {
+                "id": "libblkid@2.23.2-63.el7",
+                "info": Object {
+                  "name": "libblkid",
+                  "version": "2.23.2-63.el7",
+                },
+              },
+              Object {
+                "id": "libcap@2.22-11.el7",
+                "info": Object {
+                  "name": "libcap",
+                  "version": "2.22-11.el7",
+                },
+              },
+              Object {
+                "id": "libcap-ng@0.7.5-4.el7",
+                "info": Object {
+                  "name": "libcap-ng",
+                  "version": "0.7.5-4.el7",
+                },
+              },
+              Object {
+                "id": "libcom_err@1.42.9-17.el7",
+                "info": Object {
+                  "name": "libcom_err",
+                  "version": "1.42.9-17.el7",
+                },
+              },
+              Object {
+                "id": "libcurl@7.29.0-57.el7",
+                "info": Object {
+                  "name": "libcurl",
+                  "version": "7.29.0-57.el7",
+                },
+              },
+              Object {
+                "id": "libdb@5.3.21-25.el7",
+                "info": Object {
+                  "name": "libdb",
+                  "version": "5.3.21-25.el7",
+                },
+              },
+              Object {
+                "id": "libdb-utils@5.3.21-25.el7",
+                "info": Object {
+                  "name": "libdb-utils",
+                  "version": "5.3.21-25.el7",
+                },
+              },
+              Object {
+                "id": "libffi@3.0.13-19.el7",
+                "info": Object {
+                  "name": "libffi",
+                  "version": "3.0.13-19.el7",
+                },
+              },
+              Object {
+                "id": "libgcc@4.8.5-39.el7",
+                "info": Object {
+                  "name": "libgcc",
+                  "version": "4.8.5-39.el7",
+                },
+              },
+              Object {
+                "id": "libgcrypt@1.5.3-14.el7",
+                "info": Object {
+                  "name": "libgcrypt",
+                  "version": "1.5.3-14.el7",
+                },
+              },
+              Object {
+                "id": "libgpg-error@1.12-3.el7",
+                "info": Object {
+                  "name": "libgpg-error",
+                  "version": "1.12-3.el7",
+                },
+              },
+              Object {
+                "id": "libidn@1.28-4.el7",
+                "info": Object {
+                  "name": "libidn",
+                  "version": "1.28-4.el7",
+                },
+              },
+              Object {
+                "id": "libmount@2.23.2-63.el7",
+                "info": Object {
+                  "name": "libmount",
+                  "version": "2.23.2-63.el7",
+                },
+              },
+              Object {
+                "id": "libpwquality@1.2.3-5.el7",
+                "info": Object {
+                  "name": "libpwquality",
+                  "version": "1.2.3-5.el7",
+                },
+              },
+              Object {
+                "id": "libselinux@2.5-15.el7",
+                "info": Object {
+                  "name": "libselinux",
+                  "version": "2.5-15.el7",
+                },
+              },
+              Object {
+                "id": "libsemanage@2.5-14.el7",
+                "info": Object {
+                  "name": "libsemanage",
+                  "version": "2.5-14.el7",
+                },
+              },
+              Object {
+                "id": "libsepol@2.5-10.el7",
+                "info": Object {
+                  "name": "libsepol",
+                  "version": "2.5-10.el7",
+                },
+              },
+              Object {
+                "id": "libsmartcols@2.23.2-63.el7",
+                "info": Object {
+                  "name": "libsmartcols",
+                  "version": "2.23.2-63.el7",
+                },
+              },
+              Object {
+                "id": "libssh2@1.8.0-3.el7",
+                "info": Object {
+                  "name": "libssh2",
+                  "version": "1.8.0-3.el7",
+                },
+              },
+              Object {
+                "id": "libstdc++@4.8.5-39.el7",
+                "info": Object {
+                  "name": "libstdc++",
+                  "version": "4.8.5-39.el7",
+                },
+              },
+              Object {
+                "id": "libtasn1@4.10-1.el7",
+                "info": Object {
+                  "name": "libtasn1",
+                  "version": "4.10-1.el7",
+                },
+              },
+              Object {
+                "id": "libuser@0.60-9.el7",
+                "info": Object {
+                  "name": "libuser",
+                  "version": "0.60-9.el7",
+                },
+              },
+              Object {
+                "id": "libutempter@1.1.6-4.el7",
+                "info": Object {
+                  "name": "libutempter",
+                  "version": "1.1.6-4.el7",
+                },
+              },
+              Object {
+                "id": "libuuid@2.23.2-63.el7",
+                "info": Object {
+                  "name": "libuuid",
+                  "version": "2.23.2-63.el7",
+                },
+              },
+              Object {
+                "id": "libverto@0.2.5-4.el7",
+                "info": Object {
+                  "name": "libverto",
+                  "version": "0.2.5-4.el7",
+                },
+              },
+              Object {
+                "id": "libxml2@2.9.1-6.el7.4",
+                "info": Object {
+                  "name": "libxml2",
+                  "version": "2.9.1-6.el7.4",
+                },
+              },
+              Object {
+                "id": "libxml2-python@2.9.1-6.el7.4",
+                "info": Object {
+                  "name": "libxml2-python",
+                  "version": "2.9.1-6.el7.4",
+                },
+              },
+              Object {
+                "id": "lua@5.1.4-15.el7",
+                "info": Object {
+                  "name": "lua",
+                  "version": "5.1.4-15.el7",
+                },
+              },
+              Object {
+                "id": "lz4@1.7.5-3.el7",
+                "info": Object {
+                  "name": "lz4",
+                  "version": "1.7.5-3.el7",
+                },
+              },
+              Object {
+                "id": "ncurses@5.9-14.20130511.el7_4",
+                "info": Object {
+                  "name": "ncurses",
+                  "version": "5.9-14.20130511.el7_4",
+                },
+              },
+              Object {
+                "id": "ncurses-base@5.9-14.20130511.el7_4",
+                "info": Object {
+                  "name": "ncurses-base",
+                  "version": "5.9-14.20130511.el7_4",
+                },
+              },
+              Object {
+                "id": "ncurses-libs@5.9-14.20130511.el7_4",
+                "info": Object {
+                  "name": "ncurses-libs",
+                  "version": "5.9-14.20130511.el7_4",
+                },
+              },
+              Object {
+                "id": "nspr@4.21.0-1.el7",
+                "info": Object {
+                  "name": "nspr",
+                  "version": "4.21.0-1.el7",
+                },
+              },
+              Object {
+                "id": "nss@3.44.0-7.el7_7",
+                "info": Object {
+                  "name": "nss",
+                  "version": "3.44.0-7.el7_7",
+                },
+              },
+              Object {
+                "id": "nss-pem@1.0.3-7.el7",
+                "info": Object {
+                  "name": "nss-pem",
+                  "version": "1.0.3-7.el7",
+                },
+              },
+              Object {
+                "id": "nss-softokn@3.44.0-8.el7_7",
+                "info": Object {
+                  "name": "nss-softokn",
+                  "version": "3.44.0-8.el7_7",
+                },
+              },
+              Object {
+                "id": "nss-softokn-freebl@3.44.0-8.el7_7",
+                "info": Object {
+                  "name": "nss-softokn-freebl",
+                  "version": "3.44.0-8.el7_7",
+                },
+              },
+              Object {
+                "id": "nss-sysinit@3.44.0-7.el7_7",
+                "info": Object {
+                  "name": "nss-sysinit",
+                  "version": "3.44.0-7.el7_7",
+                },
+              },
+              Object {
+                "id": "nss-tools@3.44.0-7.el7_7",
+                "info": Object {
+                  "name": "nss-tools",
+                  "version": "3.44.0-7.el7_7",
+                },
+              },
+              Object {
+                "id": "nss-util@3.44.0-4.el7_7",
+                "info": Object {
+                  "name": "nss-util",
+                  "version": "3.44.0-4.el7_7",
+                },
+              },
+              Object {
+                "id": "openldap@2.4.44-21.el7_6",
+                "info": Object {
+                  "name": "openldap",
+                  "version": "2.4.44-21.el7_6",
+                },
+              },
+              Object {
+                "id": "openssl-libs@1:1.0.2k-19.el7",
+                "info": Object {
+                  "name": "openssl-libs",
+                  "version": "1:1.0.2k-19.el7",
+                },
+              },
+              Object {
+                "id": "p11-kit@0.23.5-3.el7",
+                "info": Object {
+                  "name": "p11-kit",
+                  "version": "0.23.5-3.el7",
+                },
+              },
+              Object {
+                "id": "p11-kit-trust@0.23.5-3.el7",
+                "info": Object {
+                  "name": "p11-kit-trust",
+                  "version": "0.23.5-3.el7",
+                },
+              },
+              Object {
+                "id": "pam@1.1.8-23.el7",
+                "info": Object {
+                  "name": "pam",
+                  "version": "1.1.8-23.el7",
+                },
+              },
+              Object {
+                "id": "passwd@0.79-6.el7",
+                "info": Object {
+                  "name": "passwd",
+                  "version": "0.79-6.el7",
+                },
+              },
+              Object {
+                "id": "pcre@8.32-17.el7",
+                "info": Object {
+                  "name": "pcre",
+                  "version": "8.32-17.el7",
+                },
+              },
+              Object {
+                "id": "pinentry@0.8.1-17.el7",
+                "info": Object {
+                  "name": "pinentry",
+                  "version": "0.8.1-17.el7",
+                },
+              },
+              Object {
+                "id": "pkgconfig@1:0.27.1-4.el7",
+                "info": Object {
+                  "name": "pkgconfig",
+                  "version": "1:0.27.1-4.el7",
+                },
+              },
+              Object {
+                "id": "popt@1.13-16.el7",
+                "info": Object {
+                  "name": "popt",
+                  "version": "1.13-16.el7",
+                },
+              },
+              Object {
+                "id": "procps-ng@3.3.10-27.el7",
+                "info": Object {
+                  "name": "procps-ng",
+                  "version": "3.3.10-27.el7",
+                },
+              },
+              Object {
+                "id": "pth@2.0.7-23.el7",
+                "info": Object {
+                  "name": "pth",
+                  "version": "2.0.7-23.el7",
+                },
+              },
+              Object {
+                "id": "pygpgme@0.3-9.el7",
+                "info": Object {
+                  "name": "pygpgme",
+                  "version": "0.3-9.el7",
+                },
+              },
+              Object {
+                "id": "pyliblzma@0.5.3-11.el7",
+                "info": Object {
+                  "name": "pyliblzma",
+                  "version": "0.5.3-11.el7",
+                },
+              },
+              Object {
+                "id": "python@2.7.5-88.el7",
+                "info": Object {
+                  "name": "python",
+                  "version": "2.7.5-88.el7",
+                },
+              },
+              Object {
+                "id": "python-chardet@2.2.1-3.el7",
+                "info": Object {
+                  "name": "python-chardet",
+                  "version": "2.2.1-3.el7",
+                },
+              },
+              Object {
+                "id": "python-gobject-base@3.22.0-1.el7_4.1",
+                "info": Object {
+                  "name": "python-gobject-base",
+                  "version": "3.22.0-1.el7_4.1",
+                },
+              },
+              Object {
+                "id": "python-iniparse@0.4-9.el7",
+                "info": Object {
+                  "name": "python-iniparse",
+                  "version": "0.4-9.el7",
+                },
+              },
+              Object {
+                "id": "python-kitchen@1.1.1-5.el7",
+                "info": Object {
+                  "name": "python-kitchen",
+                  "version": "1.1.1-5.el7",
+                },
+              },
+              Object {
+                "id": "python-libs@2.7.5-88.el7",
+                "info": Object {
+                  "name": "python-libs",
+                  "version": "2.7.5-88.el7",
+                },
+              },
+              Object {
+                "id": "python-pycurl@7.19.0-19.el7",
+                "info": Object {
+                  "name": "python-pycurl",
+                  "version": "7.19.0-19.el7",
+                },
+              },
+              Object {
+                "id": "python-urlgrabber@3.10-10.el7",
+                "info": Object {
+                  "name": "python-urlgrabber",
+                  "version": "3.10-10.el7",
+                },
+              },
+              Object {
+                "id": "pyxattr@0.5.1-5.el7",
+                "info": Object {
+                  "name": "pyxattr",
+                  "version": "0.5.1-5.el7",
+                },
+              },
+              Object {
+                "id": "qrencode-libs@3.4.1-3.el7",
+                "info": Object {
+                  "name": "qrencode-libs",
+                  "version": "3.4.1-3.el7",
+                },
+              },
+              Object {
+                "id": "readline@6.2-11.el7",
+                "info": Object {
+                  "name": "readline",
+                  "version": "6.2-11.el7",
+                },
+              },
+              Object {
+                "id": "rootfiles@8.1-11.el7",
+                "info": Object {
+                  "name": "rootfiles",
+                  "version": "8.1-11.el7",
+                },
+              },
+              Object {
+                "id": "rpm@4.11.3-43.el7",
+                "info": Object {
+                  "name": "rpm",
+                  "version": "4.11.3-43.el7",
+                },
+              },
+              Object {
+                "id": "rpm-build-libs@4.11.3-43.el7",
+                "info": Object {
+                  "name": "rpm-build-libs",
+                  "version": "4.11.3-43.el7",
+                },
+              },
+              Object {
+                "id": "rpm-libs@4.11.3-43.el7",
+                "info": Object {
+                  "name": "rpm-libs",
+                  "version": "4.11.3-43.el7",
+                },
+              },
+              Object {
+                "id": "rpm-python@4.11.3-43.el7",
+                "info": Object {
+                  "name": "rpm-python",
+                  "version": "4.11.3-43.el7",
+                },
+              },
+              Object {
+                "id": "sed@4.2.2-6.el7",
+                "info": Object {
+                  "name": "sed",
+                  "version": "4.2.2-6.el7",
+                },
+              },
+              Object {
+                "id": "setup@2.8.71-11.el7",
+                "info": Object {
+                  "name": "setup",
+                  "version": "2.8.71-11.el7",
+                },
+              },
+              Object {
+                "id": "shadow-utils@2:4.6-5.el7",
+                "info": Object {
+                  "name": "shadow-utils",
+                  "version": "2:4.6-5.el7",
+                },
+              },
+              Object {
+                "id": "shared-mime-info@1.8-5.el7",
+                "info": Object {
+                  "name": "shared-mime-info",
+                  "version": "1.8-5.el7",
+                },
+              },
+              Object {
+                "id": "sqlite@3.7.17-8.el7_7.1",
+                "info": Object {
+                  "name": "sqlite",
+                  "version": "3.7.17-8.el7_7.1",
+                },
+              },
+              Object {
+                "id": "systemd@219-73.el7.1",
+                "info": Object {
+                  "name": "systemd",
+                  "version": "219-73.el7.1",
+                },
+              },
+              Object {
+                "id": "systemd-libs@219-73.el7.1",
+                "info": Object {
+                  "name": "systemd-libs",
+                  "version": "219-73.el7.1",
+                },
+              },
+              Object {
+                "id": "tar@2:1.26-35.el7",
+                "info": Object {
+                  "name": "tar",
+                  "version": "2:1.26-35.el7",
+                },
+              },
+              Object {
+                "id": "tzdata@2019c-1.el7",
+                "info": Object {
+                  "name": "tzdata",
+                  "version": "2019c-1.el7",
+                },
+              },
+              Object {
+                "id": "ustr@1.0.4-16.el7",
+                "info": Object {
+                  "name": "ustr",
+                  "version": "1.0.4-16.el7",
+                },
+              },
+              Object {
+                "id": "util-linux@2.23.2-63.el7",
+                "info": Object {
+                  "name": "util-linux",
+                  "version": "2.23.2-63.el7",
+                },
+              },
+              Object {
+                "id": "vim-minimal@2:7.4.629-6.el7",
+                "info": Object {
+                  "name": "vim-minimal",
+                  "version": "2:7.4.629-6.el7",
+                },
+              },
+              Object {
+                "id": "xz@5.2.2-1.el7",
+                "info": Object {
+                  "name": "xz",
+                  "version": "5.2.2-1.el7",
+                },
+              },
+              Object {
+                "id": "xz-libs@5.2.2-1.el7",
+                "info": Object {
+                  "name": "xz-libs",
+                  "version": "5.2.2-1.el7",
+                },
+              },
+              Object {
+                "id": "yum@3.4.3-167.el7.centos",
+                "info": Object {
+                  "name": "yum",
+                  "version": "3.4.3-167.el7.centos",
+                },
+              },
+              Object {
+                "id": "yum-metadata-parser@1.1.4-10.el7",
+                "info": Object {
+                  "name": "yum-metadata-parser",
+                  "version": "1.1.4-10.el7",
+                },
+              },
+              Object {
+                "id": "yum-plugin-fastestmirror@1.1.31-53.el7",
+                "info": Object {
+                  "name": "yum-plugin-fastestmirror",
+                  "version": "1.1.31-53.el7",
+                },
+              },
+              Object {
+                "id": "yum-plugin-ovl@1.1.31-53.el7",
+                "info": Object {
+                  "name": "yum-plugin-ovl",
+                  "version": "1.1.31-53.el7",
+                },
+              },
+              Object {
+                "id": "yum-utils@1.1.31-53.el7",
+                "info": Object {
+                  "name": "yum-utils",
+                  "version": "1.1.31-53.el7",
+                },
+              },
+              Object {
+                "id": "zlib@1.2.7-18.el7",
+                "info": Object {
+                  "name": "zlib",
+                  "version": "1.2.7-18.el7",
+                },
+              },
+            ],
+            "schemaVersion": "1.2.0",
+          },
+          "type": "depGraph",
+        },
+        Object {
+          "data": "afb6fca791e071c66276202f8efca5ce3d3dc4fb218bcddff1bc565d981ddd1e",
+          "type": "imageId",
+        },
+        Object {
+          "data": Array [
+            "15bad9f44dc39404a46e24c4feee6b2ae903e31ddccd9b14571a1a6afb4516c5/layer.tar",
+          ],
+          "type": "imageLayers",
+        },
+        Object {
+          "data": Array [
+            "sha256:fb82b029bea0a2a3b6a62a9c1e47e57fae2a82f629b2d1a346da4fc8fb53a0b6",
+          ],
+          "type": "rootFs",
+        },
+        Object {
+          "data": "CentOS Linux 7 (Core)",
+          "type": "imageOsReleasePrettyName",
+        },
+      ],
+      "identity": Object {
+        "args": Object {
+          "platform": "linux/amd64",
+        },
+        "type": "rpm",
+      },
+      "target": Object {
+        "image": "docker-image|centos",
+      },
+    },
+  ],
+}
+`;
+
+exports[`centos tests should correctly analyze a centos image by tag 1`] = `
+Object {
+  "manifestFiles": undefined,
+  "scanResults": Array [
+    Object {
+      "facts": Array [
+        Object {
+          "data": Object {
+            "graph": Object {
+              "nodes": Array [
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "acl@2.2.51-15.el7",
+                    },
+                    Object {
+                      "nodeId": "audit-libs@2.8.5-4.el7",
+                    },
+                    Object {
+                      "nodeId": "basesystem@10.0-7.el7.centos",
+                    },
+                    Object {
+                      "nodeId": "bash@4.2.46-34.el7",
+                    },
+                    Object {
+                      "nodeId": "bind-license@32:9.11.4-16.P2.el7",
+                    },
+                    Object {
+                      "nodeId": "binutils@2.27-43.base.el7",
+                    },
+                    Object {
+                      "nodeId": "bzip2-libs@1.0.6-13.el7",
+                    },
+                    Object {
+                      "nodeId": "ca-certificates@2019.2.32-76.el7_7",
+                    },
+                    Object {
+                      "nodeId": "centos-release@7-8.2003.0.el7.centos",
+                    },
+                    Object {
+                      "nodeId": "chkconfig@1.7.4-1.el7",
+                    },
+                    Object {
+                      "nodeId": "coreutils@8.22-24.el7",
+                    },
+                    Object {
+                      "nodeId": "cpio@2.11-27.el7",
+                    },
+                    Object {
+                      "nodeId": "cracklib@2.9.0-11.el7",
+                    },
+                    Object {
+                      "nodeId": "cracklib-dicts@2.9.0-11.el7",
+                    },
+                    Object {
+                      "nodeId": "cryptsetup-libs@2.0.3-6.el7",
+                    },
+                    Object {
+                      "nodeId": "curl@7.29.0-57.el7",
+                    },
+                    Object {
+                      "nodeId": "cyrus-sasl-lib@2.1.26-23.el7",
+                    },
+                    Object {
+                      "nodeId": "dbus@1:1.10.24-13.el7_6",
+                    },
+                    Object {
+                      "nodeId": "dbus-glib@0.100-7.el7",
+                    },
+                    Object {
+                      "nodeId": "dbus-libs@1:1.10.24-13.el7_6",
+                    },
+                    Object {
+                      "nodeId": "dbus-python@1.1.1-9.el7",
+                    },
+                    Object {
+                      "nodeId": "device-mapper@7:1.02.164-7.el7",
+                    },
+                    Object {
+                      "nodeId": "device-mapper-libs@7:1.02.164-7.el7",
+                    },
+                    Object {
+                      "nodeId": "diffutils@3.3-5.el7",
+                    },
+                    Object {
+                      "nodeId": "dracut@033-568.el7",
+                    },
+                    Object {
+                      "nodeId": "elfutils-default-yama-scope@0.176-4.el7",
+                    },
+                    Object {
+                      "nodeId": "elfutils-libelf@0.176-4.el7",
+                    },
+                    Object {
+                      "nodeId": "elfutils-libs@0.176-4.el7",
+                    },
+                    Object {
+                      "nodeId": "expat@2.1.0-11.el7",
+                    },
+                    Object {
+                      "nodeId": "file-libs@5.11-36.el7",
+                    },
+                    Object {
+                      "nodeId": "filesystem@3.2-25.el7",
+                    },
+                    Object {
+                      "nodeId": "findutils@1:4.5.11-6.el7",
+                    },
+                    Object {
+                      "nodeId": "gawk@4.0.2-4.el7_3.1",
+                    },
+                    Object {
+                      "nodeId": "gdbm@1.10-8.el7",
+                    },
+                    Object {
+                      "nodeId": "geoipupdate@2.5.0-1.el7",
+                    },
+                    Object {
+                      "nodeId": "glib2@2.56.1-5.el7",
+                    },
+                    Object {
+                      "nodeId": "glibc@2.17-307.el7.1",
+                    },
+                    Object {
+                      "nodeId": "glibc-common@2.17-307.el7.1",
+                    },
+                    Object {
+                      "nodeId": "gmp@1:6.0.0-15.el7",
+                    },
+                    Object {
+                      "nodeId": "gnupg2@2.0.22-5.el7_5",
+                    },
+                    Object {
+                      "nodeId": "gobject-introspection@1.56.1-1.el7",
+                    },
+                    Object {
+                      "nodeId": "gpgme@1.3.2-5.el7",
+                    },
+                    Object {
+                      "nodeId": "grep@2.20-3.el7",
+                    },
+                    Object {
+                      "nodeId": "gzip@1.5-10.el7",
+                    },
+                    Object {
+                      "nodeId": "hardlink@1:1.0-19.el7",
+                    },
+                    Object {
+                      "nodeId": "hostname@3.13-3.el7_7.1",
+                    },
+                    Object {
+                      "nodeId": "info@5.1-5.el7",
+                    },
+                    Object {
+                      "nodeId": "iputils@20160308-10.el7",
+                    },
+                    Object {
+                      "nodeId": "json-c@0.11-4.el7_0",
+                    },
+                    Object {
+                      "nodeId": "keyutils-libs@1.5.8-3.el7",
+                    },
+                    Object {
+                      "nodeId": "kmod@20-28.el7",
+                    },
+                    Object {
+                      "nodeId": "kmod-libs@20-28.el7",
+                    },
+                    Object {
+                      "nodeId": "kpartx@0.4.9-131.el7",
+                    },
+                    Object {
+                      "nodeId": "krb5-libs@1.15.1-46.el7",
+                    },
+                    Object {
+                      "nodeId": "libacl@2.2.51-15.el7",
+                    },
+                    Object {
+                      "nodeId": "libassuan@2.1.0-3.el7",
+                    },
+                    Object {
+                      "nodeId": "libattr@2.4.46-13.el7",
+                    },
+                    Object {
+                      "nodeId": "libblkid@2.23.2-63.el7",
+                    },
+                    Object {
+                      "nodeId": "libcap@2.22-11.el7",
+                    },
+                    Object {
+                      "nodeId": "libcap-ng@0.7.5-4.el7",
+                    },
+                    Object {
+                      "nodeId": "libcom_err@1.42.9-17.el7",
+                    },
+                    Object {
+                      "nodeId": "libcurl@7.29.0-57.el7",
+                    },
+                    Object {
+                      "nodeId": "libdb@5.3.21-25.el7",
+                    },
+                    Object {
+                      "nodeId": "libdb-utils@5.3.21-25.el7",
+                    },
+                    Object {
+                      "nodeId": "libffi@3.0.13-19.el7",
+                    },
+                    Object {
+                      "nodeId": "libgcc@4.8.5-39.el7",
+                    },
+                    Object {
+                      "nodeId": "libgcrypt@1.5.3-14.el7",
+                    },
+                    Object {
+                      "nodeId": "libgpg-error@1.12-3.el7",
+                    },
+                    Object {
+                      "nodeId": "libidn@1.28-4.el7",
+                    },
+                    Object {
+                      "nodeId": "libmount@2.23.2-63.el7",
+                    },
+                    Object {
+                      "nodeId": "libpwquality@1.2.3-5.el7",
+                    },
+                    Object {
+                      "nodeId": "libselinux@2.5-15.el7",
+                    },
+                    Object {
+                      "nodeId": "libsemanage@2.5-14.el7",
+                    },
+                    Object {
+                      "nodeId": "libsepol@2.5-10.el7",
+                    },
+                    Object {
+                      "nodeId": "libsmartcols@2.23.2-63.el7",
+                    },
+                    Object {
+                      "nodeId": "libssh2@1.8.0-3.el7",
+                    },
+                    Object {
+                      "nodeId": "libstdc++@4.8.5-39.el7",
+                    },
+                    Object {
+                      "nodeId": "libtasn1@4.10-1.el7",
+                    },
+                    Object {
+                      "nodeId": "libuser@0.60-9.el7",
+                    },
+                    Object {
+                      "nodeId": "libutempter@1.1.6-4.el7",
+                    },
+                    Object {
+                      "nodeId": "libuuid@2.23.2-63.el7",
+                    },
+                    Object {
+                      "nodeId": "libverto@0.2.5-4.el7",
+                    },
+                    Object {
+                      "nodeId": "libxml2@2.9.1-6.el7.4",
+                    },
+                    Object {
+                      "nodeId": "libxml2-python@2.9.1-6.el7.4",
+                    },
+                    Object {
+                      "nodeId": "lua@5.1.4-15.el7",
+                    },
+                    Object {
+                      "nodeId": "lz4@1.7.5-3.el7",
+                    },
+                    Object {
+                      "nodeId": "ncurses@5.9-14.20130511.el7_4",
+                    },
+                    Object {
+                      "nodeId": "ncurses-base@5.9-14.20130511.el7_4",
+                    },
+                    Object {
+                      "nodeId": "ncurses-libs@5.9-14.20130511.el7_4",
+                    },
+                    Object {
+                      "nodeId": "nspr@4.21.0-1.el7",
+                    },
+                    Object {
+                      "nodeId": "nss@3.44.0-7.el7_7",
+                    },
+                    Object {
+                      "nodeId": "nss-pem@1.0.3-7.el7",
+                    },
+                    Object {
+                      "nodeId": "nss-softokn@3.44.0-8.el7_7",
+                    },
+                    Object {
+                      "nodeId": "nss-softokn-freebl@3.44.0-8.el7_7",
+                    },
+                    Object {
+                      "nodeId": "nss-sysinit@3.44.0-7.el7_7",
+                    },
+                    Object {
+                      "nodeId": "nss-tools@3.44.0-7.el7_7",
+                    },
+                    Object {
+                      "nodeId": "nss-util@3.44.0-4.el7_7",
+                    },
+                    Object {
+                      "nodeId": "openldap@2.4.44-21.el7_6",
+                    },
+                    Object {
+                      "nodeId": "openssl-libs@1:1.0.2k-19.el7",
+                    },
+                    Object {
+                      "nodeId": "p11-kit@0.23.5-3.el7",
+                    },
+                    Object {
+                      "nodeId": "p11-kit-trust@0.23.5-3.el7",
+                    },
+                    Object {
+                      "nodeId": "pam@1.1.8-23.el7",
+                    },
+                    Object {
+                      "nodeId": "passwd@0.79-6.el7",
+                    },
+                    Object {
+                      "nodeId": "pcre@8.32-17.el7",
+                    },
+                    Object {
+                      "nodeId": "pinentry@0.8.1-17.el7",
+                    },
+                    Object {
+                      "nodeId": "pkgconfig@1:0.27.1-4.el7",
+                    },
+                    Object {
+                      "nodeId": "popt@1.13-16.el7",
+                    },
+                    Object {
+                      "nodeId": "procps-ng@3.3.10-27.el7",
+                    },
+                    Object {
+                      "nodeId": "pth@2.0.7-23.el7",
+                    },
+                    Object {
+                      "nodeId": "pygpgme@0.3-9.el7",
+                    },
+                    Object {
+                      "nodeId": "pyliblzma@0.5.3-11.el7",
+                    },
+                    Object {
+                      "nodeId": "python@2.7.5-88.el7",
+                    },
+                    Object {
+                      "nodeId": "python-chardet@2.2.1-3.el7",
+                    },
+                    Object {
+                      "nodeId": "python-gobject-base@3.22.0-1.el7_4.1",
+                    },
+                    Object {
+                      "nodeId": "python-iniparse@0.4-9.el7",
+                    },
+                    Object {
+                      "nodeId": "python-kitchen@1.1.1-5.el7",
+                    },
+                    Object {
+                      "nodeId": "python-libs@2.7.5-88.el7",
+                    },
+                    Object {
+                      "nodeId": "python-pycurl@7.19.0-19.el7",
+                    },
+                    Object {
+                      "nodeId": "python-urlgrabber@3.10-10.el7",
+                    },
+                    Object {
+                      "nodeId": "pyxattr@0.5.1-5.el7",
+                    },
+                    Object {
+                      "nodeId": "qrencode-libs@3.4.1-3.el7",
+                    },
+                    Object {
+                      "nodeId": "readline@6.2-11.el7",
+                    },
+                    Object {
+                      "nodeId": "rootfiles@8.1-11.el7",
+                    },
+                    Object {
+                      "nodeId": "rpm@4.11.3-43.el7",
+                    },
+                    Object {
+                      "nodeId": "rpm-build-libs@4.11.3-43.el7",
+                    },
+                    Object {
+                      "nodeId": "rpm-libs@4.11.3-43.el7",
+                    },
+                    Object {
+                      "nodeId": "rpm-python@4.11.3-43.el7",
+                    },
+                    Object {
+                      "nodeId": "sed@4.2.2-6.el7",
+                    },
+                    Object {
+                      "nodeId": "setup@2.8.71-11.el7",
+                    },
+                    Object {
+                      "nodeId": "shadow-utils@2:4.6-5.el7",
+                    },
+                    Object {
+                      "nodeId": "shared-mime-info@1.8-5.el7",
+                    },
+                    Object {
+                      "nodeId": "sqlite@3.7.17-8.el7_7.1",
+                    },
+                    Object {
+                      "nodeId": "systemd@219-73.el7.1",
+                    },
+                    Object {
+                      "nodeId": "systemd-libs@219-73.el7.1",
+                    },
+                    Object {
+                      "nodeId": "tar@2:1.26-35.el7",
+                    },
+                    Object {
+                      "nodeId": "tzdata@2019c-1.el7",
+                    },
+                    Object {
+                      "nodeId": "ustr@1.0.4-16.el7",
+                    },
+                    Object {
+                      "nodeId": "util-linux@2.23.2-63.el7",
+                    },
+                    Object {
+                      "nodeId": "vim-minimal@2:7.4.629-6.el7",
+                    },
+                    Object {
+                      "nodeId": "xz@5.2.2-1.el7",
+                    },
+                    Object {
+                      "nodeId": "xz-libs@5.2.2-1.el7",
+                    },
+                    Object {
+                      "nodeId": "yum@3.4.3-167.el7.centos",
+                    },
+                    Object {
+                      "nodeId": "yum-metadata-parser@1.1.4-10.el7",
+                    },
+                    Object {
+                      "nodeId": "yum-plugin-fastestmirror@1.1.31-53.el7",
+                    },
+                    Object {
+                      "nodeId": "yum-plugin-ovl@1.1.31-53.el7",
+                    },
+                    Object {
+                      "nodeId": "yum-utils@1.1.31-53.el7",
+                    },
+                    Object {
+                      "nodeId": "zlib@1.2.7-18.el7",
+                    },
+                  ],
+                  "nodeId": "root-node",
+                  "pkgId": "docker-image|centos@7.8.2003",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "acl@2.2.51-15.el7",
+                  "pkgId": "acl@2.2.51-15.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "audit-libs@2.8.5-4.el7",
+                  "pkgId": "audit-libs@2.8.5-4.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "basesystem@10.0-7.el7.centos",
+                  "pkgId": "basesystem@10.0-7.el7.centos",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "bash@4.2.46-34.el7",
+                  "pkgId": "bash@4.2.46-34.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "bind-license@32:9.11.4-16.P2.el7",
+                  "pkgId": "bind-license@32:9.11.4-16.P2.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "binutils@2.27-43.base.el7",
+                  "pkgId": "binutils@2.27-43.base.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "bzip2-libs@1.0.6-13.el7",
+                  "pkgId": "bzip2-libs@1.0.6-13.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "ca-certificates@2019.2.32-76.el7_7",
+                  "pkgId": "ca-certificates@2019.2.32-76.el7_7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "centos-release@7-8.2003.0.el7.centos",
+                  "pkgId": "centos-release@7-8.2003.0.el7.centos",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "chkconfig@1.7.4-1.el7",
+                  "pkgId": "chkconfig@1.7.4-1.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "coreutils@8.22-24.el7",
+                  "pkgId": "coreutils@8.22-24.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "cpio@2.11-27.el7",
+                  "pkgId": "cpio@2.11-27.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "cracklib@2.9.0-11.el7",
+                  "pkgId": "cracklib@2.9.0-11.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "cracklib-dicts@2.9.0-11.el7",
+                  "pkgId": "cracklib-dicts@2.9.0-11.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "cryptsetup-libs@2.0.3-6.el7",
+                  "pkgId": "cryptsetup-libs@2.0.3-6.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "curl@7.29.0-57.el7",
+                  "pkgId": "curl@7.29.0-57.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "cyrus-sasl-lib@2.1.26-23.el7",
+                  "pkgId": "cyrus-sasl-lib@2.1.26-23.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "dbus@1:1.10.24-13.el7_6",
+                  "pkgId": "dbus@1:1.10.24-13.el7_6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "dbus-glib@0.100-7.el7",
+                  "pkgId": "dbus-glib@0.100-7.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "dbus-libs@1:1.10.24-13.el7_6",
+                  "pkgId": "dbus-libs@1:1.10.24-13.el7_6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "dbus-python@1.1.1-9.el7",
+                  "pkgId": "dbus-python@1.1.1-9.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "device-mapper@7:1.02.164-7.el7",
+                  "pkgId": "device-mapper@7:1.02.164-7.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "device-mapper-libs@7:1.02.164-7.el7",
+                  "pkgId": "device-mapper-libs@7:1.02.164-7.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "diffutils@3.3-5.el7",
+                  "pkgId": "diffutils@3.3-5.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "dracut@033-568.el7",
+                  "pkgId": "dracut@033-568.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "elfutils-default-yama-scope@0.176-4.el7",
+                  "pkgId": "elfutils-default-yama-scope@0.176-4.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "elfutils-libelf@0.176-4.el7",
+                  "pkgId": "elfutils-libelf@0.176-4.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "elfutils-libs@0.176-4.el7",
+                  "pkgId": "elfutils-libs@0.176-4.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "expat@2.1.0-11.el7",
+                  "pkgId": "expat@2.1.0-11.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "file-libs@5.11-36.el7",
+                  "pkgId": "file-libs@5.11-36.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "filesystem@3.2-25.el7",
+                  "pkgId": "filesystem@3.2-25.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "findutils@1:4.5.11-6.el7",
+                  "pkgId": "findutils@1:4.5.11-6.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gawk@4.0.2-4.el7_3.1",
+                  "pkgId": "gawk@4.0.2-4.el7_3.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gdbm@1.10-8.el7",
+                  "pkgId": "gdbm@1.10-8.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "geoipupdate@2.5.0-1.el7",
+                  "pkgId": "geoipupdate@2.5.0-1.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "glib2@2.56.1-5.el7",
+                  "pkgId": "glib2@2.56.1-5.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "glibc@2.17-307.el7.1",
+                  "pkgId": "glibc@2.17-307.el7.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "glibc-common@2.17-307.el7.1",
+                  "pkgId": "glibc-common@2.17-307.el7.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gmp@1:6.0.0-15.el7",
+                  "pkgId": "gmp@1:6.0.0-15.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gnupg2@2.0.22-5.el7_5",
+                  "pkgId": "gnupg2@2.0.22-5.el7_5",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gobject-introspection@1.56.1-1.el7",
+                  "pkgId": "gobject-introspection@1.56.1-1.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gpgme@1.3.2-5.el7",
+                  "pkgId": "gpgme@1.3.2-5.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "grep@2.20-3.el7",
+                  "pkgId": "grep@2.20-3.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gzip@1.5-10.el7",
+                  "pkgId": "gzip@1.5-10.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "hardlink@1:1.0-19.el7",
+                  "pkgId": "hardlink@1:1.0-19.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "hostname@3.13-3.el7_7.1",
+                  "pkgId": "hostname@3.13-3.el7_7.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "info@5.1-5.el7",
+                  "pkgId": "info@5.1-5.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "iputils@20160308-10.el7",
+                  "pkgId": "iputils@20160308-10.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "json-c@0.11-4.el7_0",
+                  "pkgId": "json-c@0.11-4.el7_0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "keyutils-libs@1.5.8-3.el7",
+                  "pkgId": "keyutils-libs@1.5.8-3.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "kmod@20-28.el7",
+                  "pkgId": "kmod@20-28.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "kmod-libs@20-28.el7",
+                  "pkgId": "kmod-libs@20-28.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "kpartx@0.4.9-131.el7",
+                  "pkgId": "kpartx@0.4.9-131.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "krb5-libs@1.15.1-46.el7",
+                  "pkgId": "krb5-libs@1.15.1-46.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libacl@2.2.51-15.el7",
+                  "pkgId": "libacl@2.2.51-15.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libassuan@2.1.0-3.el7",
+                  "pkgId": "libassuan@2.1.0-3.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libattr@2.4.46-13.el7",
+                  "pkgId": "libattr@2.4.46-13.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libblkid@2.23.2-63.el7",
+                  "pkgId": "libblkid@2.23.2-63.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libcap@2.22-11.el7",
+                  "pkgId": "libcap@2.22-11.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libcap-ng@0.7.5-4.el7",
+                  "pkgId": "libcap-ng@0.7.5-4.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libcom_err@1.42.9-17.el7",
+                  "pkgId": "libcom_err@1.42.9-17.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libcurl@7.29.0-57.el7",
+                  "pkgId": "libcurl@7.29.0-57.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libdb@5.3.21-25.el7",
+                  "pkgId": "libdb@5.3.21-25.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libdb-utils@5.3.21-25.el7",
+                  "pkgId": "libdb-utils@5.3.21-25.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libffi@3.0.13-19.el7",
+                  "pkgId": "libffi@3.0.13-19.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libgcc@4.8.5-39.el7",
+                  "pkgId": "libgcc@4.8.5-39.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libgcrypt@1.5.3-14.el7",
+                  "pkgId": "libgcrypt@1.5.3-14.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libgpg-error@1.12-3.el7",
+                  "pkgId": "libgpg-error@1.12-3.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libidn@1.28-4.el7",
+                  "pkgId": "libidn@1.28-4.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libmount@2.23.2-63.el7",
+                  "pkgId": "libmount@2.23.2-63.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libpwquality@1.2.3-5.el7",
+                  "pkgId": "libpwquality@1.2.3-5.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libselinux@2.5-15.el7",
+                  "pkgId": "libselinux@2.5-15.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libsemanage@2.5-14.el7",
+                  "pkgId": "libsemanage@2.5-14.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libsepol@2.5-10.el7",
+                  "pkgId": "libsepol@2.5-10.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libsmartcols@2.23.2-63.el7",
+                  "pkgId": "libsmartcols@2.23.2-63.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libssh2@1.8.0-3.el7",
+                  "pkgId": "libssh2@1.8.0-3.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libstdc++@4.8.5-39.el7",
+                  "pkgId": "libstdc++@4.8.5-39.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libtasn1@4.10-1.el7",
+                  "pkgId": "libtasn1@4.10-1.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libuser@0.60-9.el7",
+                  "pkgId": "libuser@0.60-9.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libutempter@1.1.6-4.el7",
+                  "pkgId": "libutempter@1.1.6-4.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libuuid@2.23.2-63.el7",
+                  "pkgId": "libuuid@2.23.2-63.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libverto@0.2.5-4.el7",
+                  "pkgId": "libverto@0.2.5-4.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libxml2@2.9.1-6.el7.4",
+                  "pkgId": "libxml2@2.9.1-6.el7.4",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libxml2-python@2.9.1-6.el7.4",
+                  "pkgId": "libxml2-python@2.9.1-6.el7.4",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "lua@5.1.4-15.el7",
+                  "pkgId": "lua@5.1.4-15.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "lz4@1.7.5-3.el7",
+                  "pkgId": "lz4@1.7.5-3.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "ncurses@5.9-14.20130511.el7_4",
+                  "pkgId": "ncurses@5.9-14.20130511.el7_4",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "ncurses-base@5.9-14.20130511.el7_4",
+                  "pkgId": "ncurses-base@5.9-14.20130511.el7_4",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "ncurses-libs@5.9-14.20130511.el7_4",
+                  "pkgId": "ncurses-libs@5.9-14.20130511.el7_4",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "nspr@4.21.0-1.el7",
+                  "pkgId": "nspr@4.21.0-1.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "nss@3.44.0-7.el7_7",
+                  "pkgId": "nss@3.44.0-7.el7_7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "nss-pem@1.0.3-7.el7",
+                  "pkgId": "nss-pem@1.0.3-7.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "nss-softokn@3.44.0-8.el7_7",
+                  "pkgId": "nss-softokn@3.44.0-8.el7_7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "nss-softokn-freebl@3.44.0-8.el7_7",
+                  "pkgId": "nss-softokn-freebl@3.44.0-8.el7_7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "nss-sysinit@3.44.0-7.el7_7",
+                  "pkgId": "nss-sysinit@3.44.0-7.el7_7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "nss-tools@3.44.0-7.el7_7",
+                  "pkgId": "nss-tools@3.44.0-7.el7_7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "nss-util@3.44.0-4.el7_7",
+                  "pkgId": "nss-util@3.44.0-4.el7_7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "openldap@2.4.44-21.el7_6",
+                  "pkgId": "openldap@2.4.44-21.el7_6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "openssl-libs@1:1.0.2k-19.el7",
+                  "pkgId": "openssl-libs@1:1.0.2k-19.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "p11-kit@0.23.5-3.el7",
+                  "pkgId": "p11-kit@0.23.5-3.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "p11-kit-trust@0.23.5-3.el7",
+                  "pkgId": "p11-kit-trust@0.23.5-3.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pam@1.1.8-23.el7",
+                  "pkgId": "pam@1.1.8-23.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "passwd@0.79-6.el7",
+                  "pkgId": "passwd@0.79-6.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pcre@8.32-17.el7",
+                  "pkgId": "pcre@8.32-17.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pinentry@0.8.1-17.el7",
+                  "pkgId": "pinentry@0.8.1-17.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pkgconfig@1:0.27.1-4.el7",
+                  "pkgId": "pkgconfig@1:0.27.1-4.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "popt@1.13-16.el7",
+                  "pkgId": "popt@1.13-16.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "procps-ng@3.3.10-27.el7",
+                  "pkgId": "procps-ng@3.3.10-27.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pth@2.0.7-23.el7",
+                  "pkgId": "pth@2.0.7-23.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pygpgme@0.3-9.el7",
+                  "pkgId": "pygpgme@0.3-9.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pyliblzma@0.5.3-11.el7",
+                  "pkgId": "pyliblzma@0.5.3-11.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "python@2.7.5-88.el7",
+                  "pkgId": "python@2.7.5-88.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "python-chardet@2.2.1-3.el7",
+                  "pkgId": "python-chardet@2.2.1-3.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "python-gobject-base@3.22.0-1.el7_4.1",
+                  "pkgId": "python-gobject-base@3.22.0-1.el7_4.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "python-iniparse@0.4-9.el7",
+                  "pkgId": "python-iniparse@0.4-9.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "python-kitchen@1.1.1-5.el7",
+                  "pkgId": "python-kitchen@1.1.1-5.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "python-libs@2.7.5-88.el7",
+                  "pkgId": "python-libs@2.7.5-88.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "python-pycurl@7.19.0-19.el7",
+                  "pkgId": "python-pycurl@7.19.0-19.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "python-urlgrabber@3.10-10.el7",
+                  "pkgId": "python-urlgrabber@3.10-10.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pyxattr@0.5.1-5.el7",
+                  "pkgId": "pyxattr@0.5.1-5.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "qrencode-libs@3.4.1-3.el7",
+                  "pkgId": "qrencode-libs@3.4.1-3.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "readline@6.2-11.el7",
+                  "pkgId": "readline@6.2-11.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "rootfiles@8.1-11.el7",
+                  "pkgId": "rootfiles@8.1-11.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "rpm@4.11.3-43.el7",
+                  "pkgId": "rpm@4.11.3-43.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "rpm-build-libs@4.11.3-43.el7",
+                  "pkgId": "rpm-build-libs@4.11.3-43.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "rpm-libs@4.11.3-43.el7",
+                  "pkgId": "rpm-libs@4.11.3-43.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "rpm-python@4.11.3-43.el7",
+                  "pkgId": "rpm-python@4.11.3-43.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "sed@4.2.2-6.el7",
+                  "pkgId": "sed@4.2.2-6.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "setup@2.8.71-11.el7",
+                  "pkgId": "setup@2.8.71-11.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "shadow-utils@2:4.6-5.el7",
+                  "pkgId": "shadow-utils@2:4.6-5.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "shared-mime-info@1.8-5.el7",
+                  "pkgId": "shared-mime-info@1.8-5.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "sqlite@3.7.17-8.el7_7.1",
+                  "pkgId": "sqlite@3.7.17-8.el7_7.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "systemd@219-73.el7.1",
+                  "pkgId": "systemd@219-73.el7.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "systemd-libs@219-73.el7.1",
+                  "pkgId": "systemd-libs@219-73.el7.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "tar@2:1.26-35.el7",
+                  "pkgId": "tar@2:1.26-35.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "tzdata@2019c-1.el7",
+                  "pkgId": "tzdata@2019c-1.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "ustr@1.0.4-16.el7",
+                  "pkgId": "ustr@1.0.4-16.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "util-linux@2.23.2-63.el7",
+                  "pkgId": "util-linux@2.23.2-63.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "vim-minimal@2:7.4.629-6.el7",
+                  "pkgId": "vim-minimal@2:7.4.629-6.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "xz@5.2.2-1.el7",
+                  "pkgId": "xz@5.2.2-1.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "xz-libs@5.2.2-1.el7",
+                  "pkgId": "xz-libs@5.2.2-1.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "yum@3.4.3-167.el7.centos",
+                  "pkgId": "yum@3.4.3-167.el7.centos",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "yum-metadata-parser@1.1.4-10.el7",
+                  "pkgId": "yum-metadata-parser@1.1.4-10.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "yum-plugin-fastestmirror@1.1.31-53.el7",
+                  "pkgId": "yum-plugin-fastestmirror@1.1.31-53.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "yum-plugin-ovl@1.1.31-53.el7",
+                  "pkgId": "yum-plugin-ovl@1.1.31-53.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "yum-utils@1.1.31-53.el7",
+                  "pkgId": "yum-utils@1.1.31-53.el7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "zlib@1.2.7-18.el7",
+                  "pkgId": "zlib@1.2.7-18.el7",
+                },
+              ],
+              "rootNodeId": "root-node",
+            },
+            "pkgManager": Object {
+              "name": "rpm",
+              "repositories": Array [
+                Object {
+                  "alias": "centos:7",
+                },
+              ],
+            },
+            "pkgs": Array [
+              Object {
+                "id": "docker-image|centos@7.8.2003",
+                "info": Object {
+                  "name": "docker-image|centos",
+                  "version": "7.8.2003",
+                },
+              },
+              Object {
+                "id": "acl@2.2.51-15.el7",
+                "info": Object {
+                  "name": "acl",
+                  "version": "2.2.51-15.el7",
+                },
+              },
+              Object {
+                "id": "audit-libs@2.8.5-4.el7",
+                "info": Object {
+                  "name": "audit-libs",
+                  "version": "2.8.5-4.el7",
+                },
+              },
+              Object {
+                "id": "basesystem@10.0-7.el7.centos",
+                "info": Object {
+                  "name": "basesystem",
+                  "version": "10.0-7.el7.centos",
+                },
+              },
+              Object {
+                "id": "bash@4.2.46-34.el7",
+                "info": Object {
+                  "name": "bash",
+                  "version": "4.2.46-34.el7",
+                },
+              },
+              Object {
+                "id": "bind-license@32:9.11.4-16.P2.el7",
+                "info": Object {
+                  "name": "bind-license",
+                  "version": "32:9.11.4-16.P2.el7",
+                },
+              },
+              Object {
+                "id": "binutils@2.27-43.base.el7",
+                "info": Object {
+                  "name": "binutils",
+                  "version": "2.27-43.base.el7",
+                },
+              },
+              Object {
+                "id": "bzip2-libs@1.0.6-13.el7",
+                "info": Object {
+                  "name": "bzip2-libs",
+                  "version": "1.0.6-13.el7",
+                },
+              },
+              Object {
+                "id": "ca-certificates@2019.2.32-76.el7_7",
+                "info": Object {
+                  "name": "ca-certificates",
+                  "version": "2019.2.32-76.el7_7",
+                },
+              },
+              Object {
+                "id": "centos-release@7-8.2003.0.el7.centos",
+                "info": Object {
+                  "name": "centos-release",
+                  "version": "7-8.2003.0.el7.centos",
+                },
+              },
+              Object {
+                "id": "chkconfig@1.7.4-1.el7",
+                "info": Object {
+                  "name": "chkconfig",
+                  "version": "1.7.4-1.el7",
+                },
+              },
+              Object {
+                "id": "coreutils@8.22-24.el7",
+                "info": Object {
+                  "name": "coreutils",
+                  "version": "8.22-24.el7",
+                },
+              },
+              Object {
+                "id": "cpio@2.11-27.el7",
+                "info": Object {
+                  "name": "cpio",
+                  "version": "2.11-27.el7",
+                },
+              },
+              Object {
+                "id": "cracklib@2.9.0-11.el7",
+                "info": Object {
+                  "name": "cracklib",
+                  "version": "2.9.0-11.el7",
+                },
+              },
+              Object {
+                "id": "cracklib-dicts@2.9.0-11.el7",
+                "info": Object {
+                  "name": "cracklib-dicts",
+                  "version": "2.9.0-11.el7",
+                },
+              },
+              Object {
+                "id": "cryptsetup-libs@2.0.3-6.el7",
+                "info": Object {
+                  "name": "cryptsetup-libs",
+                  "version": "2.0.3-6.el7",
+                },
+              },
+              Object {
+                "id": "curl@7.29.0-57.el7",
+                "info": Object {
+                  "name": "curl",
+                  "version": "7.29.0-57.el7",
+                },
+              },
+              Object {
+                "id": "cyrus-sasl-lib@2.1.26-23.el7",
+                "info": Object {
+                  "name": "cyrus-sasl-lib",
+                  "version": "2.1.26-23.el7",
+                },
+              },
+              Object {
+                "id": "dbus@1:1.10.24-13.el7_6",
+                "info": Object {
+                  "name": "dbus",
+                  "version": "1:1.10.24-13.el7_6",
+                },
+              },
+              Object {
+                "id": "dbus-glib@0.100-7.el7",
+                "info": Object {
+                  "name": "dbus-glib",
+                  "version": "0.100-7.el7",
+                },
+              },
+              Object {
+                "id": "dbus-libs@1:1.10.24-13.el7_6",
+                "info": Object {
+                  "name": "dbus-libs",
+                  "version": "1:1.10.24-13.el7_6",
+                },
+              },
+              Object {
+                "id": "dbus-python@1.1.1-9.el7",
+                "info": Object {
+                  "name": "dbus-python",
+                  "version": "1.1.1-9.el7",
+                },
+              },
+              Object {
+                "id": "device-mapper@7:1.02.164-7.el7",
+                "info": Object {
+                  "name": "device-mapper",
+                  "version": "7:1.02.164-7.el7",
+                },
+              },
+              Object {
+                "id": "device-mapper-libs@7:1.02.164-7.el7",
+                "info": Object {
+                  "name": "device-mapper-libs",
+                  "version": "7:1.02.164-7.el7",
+                },
+              },
+              Object {
+                "id": "diffutils@3.3-5.el7",
+                "info": Object {
+                  "name": "diffutils",
+                  "version": "3.3-5.el7",
+                },
+              },
+              Object {
+                "id": "dracut@033-568.el7",
+                "info": Object {
+                  "name": "dracut",
+                  "version": "033-568.el7",
+                },
+              },
+              Object {
+                "id": "elfutils-default-yama-scope@0.176-4.el7",
+                "info": Object {
+                  "name": "elfutils-default-yama-scope",
+                  "version": "0.176-4.el7",
+                },
+              },
+              Object {
+                "id": "elfutils-libelf@0.176-4.el7",
+                "info": Object {
+                  "name": "elfutils-libelf",
+                  "version": "0.176-4.el7",
+                },
+              },
+              Object {
+                "id": "elfutils-libs@0.176-4.el7",
+                "info": Object {
+                  "name": "elfutils-libs",
+                  "version": "0.176-4.el7",
+                },
+              },
+              Object {
+                "id": "expat@2.1.0-11.el7",
+                "info": Object {
+                  "name": "expat",
+                  "version": "2.1.0-11.el7",
+                },
+              },
+              Object {
+                "id": "file-libs@5.11-36.el7",
+                "info": Object {
+                  "name": "file-libs",
+                  "version": "5.11-36.el7",
+                },
+              },
+              Object {
+                "id": "filesystem@3.2-25.el7",
+                "info": Object {
+                  "name": "filesystem",
+                  "version": "3.2-25.el7",
+                },
+              },
+              Object {
+                "id": "findutils@1:4.5.11-6.el7",
+                "info": Object {
+                  "name": "findutils",
+                  "version": "1:4.5.11-6.el7",
+                },
+              },
+              Object {
+                "id": "gawk@4.0.2-4.el7_3.1",
+                "info": Object {
+                  "name": "gawk",
+                  "version": "4.0.2-4.el7_3.1",
+                },
+              },
+              Object {
+                "id": "gdbm@1.10-8.el7",
+                "info": Object {
+                  "name": "gdbm",
+                  "version": "1.10-8.el7",
+                },
+              },
+              Object {
+                "id": "geoipupdate@2.5.0-1.el7",
+                "info": Object {
+                  "name": "geoipupdate",
+                  "version": "2.5.0-1.el7",
+                },
+              },
+              Object {
+                "id": "glib2@2.56.1-5.el7",
+                "info": Object {
+                  "name": "glib2",
+                  "version": "2.56.1-5.el7",
+                },
+              },
+              Object {
+                "id": "glibc@2.17-307.el7.1",
+                "info": Object {
+                  "name": "glibc",
+                  "version": "2.17-307.el7.1",
+                },
+              },
+              Object {
+                "id": "glibc-common@2.17-307.el7.1",
+                "info": Object {
+                  "name": "glibc-common",
+                  "version": "2.17-307.el7.1",
+                },
+              },
+              Object {
+                "id": "gmp@1:6.0.0-15.el7",
+                "info": Object {
+                  "name": "gmp",
+                  "version": "1:6.0.0-15.el7",
+                },
+              },
+              Object {
+                "id": "gnupg2@2.0.22-5.el7_5",
+                "info": Object {
+                  "name": "gnupg2",
+                  "version": "2.0.22-5.el7_5",
+                },
+              },
+              Object {
+                "id": "gobject-introspection@1.56.1-1.el7",
+                "info": Object {
+                  "name": "gobject-introspection",
+                  "version": "1.56.1-1.el7",
+                },
+              },
+              Object {
+                "id": "gpgme@1.3.2-5.el7",
+                "info": Object {
+                  "name": "gpgme",
+                  "version": "1.3.2-5.el7",
+                },
+              },
+              Object {
+                "id": "grep@2.20-3.el7",
+                "info": Object {
+                  "name": "grep",
+                  "version": "2.20-3.el7",
+                },
+              },
+              Object {
+                "id": "gzip@1.5-10.el7",
+                "info": Object {
+                  "name": "gzip",
+                  "version": "1.5-10.el7",
+                },
+              },
+              Object {
+                "id": "hardlink@1:1.0-19.el7",
+                "info": Object {
+                  "name": "hardlink",
+                  "version": "1:1.0-19.el7",
+                },
+              },
+              Object {
+                "id": "hostname@3.13-3.el7_7.1",
+                "info": Object {
+                  "name": "hostname",
+                  "version": "3.13-3.el7_7.1",
+                },
+              },
+              Object {
+                "id": "info@5.1-5.el7",
+                "info": Object {
+                  "name": "info",
+                  "version": "5.1-5.el7",
+                },
+              },
+              Object {
+                "id": "iputils@20160308-10.el7",
+                "info": Object {
+                  "name": "iputils",
+                  "version": "20160308-10.el7",
+                },
+              },
+              Object {
+                "id": "json-c@0.11-4.el7_0",
+                "info": Object {
+                  "name": "json-c",
+                  "version": "0.11-4.el7_0",
+                },
+              },
+              Object {
+                "id": "keyutils-libs@1.5.8-3.el7",
+                "info": Object {
+                  "name": "keyutils-libs",
+                  "version": "1.5.8-3.el7",
+                },
+              },
+              Object {
+                "id": "kmod@20-28.el7",
+                "info": Object {
+                  "name": "kmod",
+                  "version": "20-28.el7",
+                },
+              },
+              Object {
+                "id": "kmod-libs@20-28.el7",
+                "info": Object {
+                  "name": "kmod-libs",
+                  "version": "20-28.el7",
+                },
+              },
+              Object {
+                "id": "kpartx@0.4.9-131.el7",
+                "info": Object {
+                  "name": "kpartx",
+                  "version": "0.4.9-131.el7",
+                },
+              },
+              Object {
+                "id": "krb5-libs@1.15.1-46.el7",
+                "info": Object {
+                  "name": "krb5-libs",
+                  "version": "1.15.1-46.el7",
+                },
+              },
+              Object {
+                "id": "libacl@2.2.51-15.el7",
+                "info": Object {
+                  "name": "libacl",
+                  "version": "2.2.51-15.el7",
+                },
+              },
+              Object {
+                "id": "libassuan@2.1.0-3.el7",
+                "info": Object {
+                  "name": "libassuan",
+                  "version": "2.1.0-3.el7",
+                },
+              },
+              Object {
+                "id": "libattr@2.4.46-13.el7",
+                "info": Object {
+                  "name": "libattr",
+                  "version": "2.4.46-13.el7",
+                },
+              },
+              Object {
+                "id": "libblkid@2.23.2-63.el7",
+                "info": Object {
+                  "name": "libblkid",
+                  "version": "2.23.2-63.el7",
+                },
+              },
+              Object {
+                "id": "libcap@2.22-11.el7",
+                "info": Object {
+                  "name": "libcap",
+                  "version": "2.22-11.el7",
+                },
+              },
+              Object {
+                "id": "libcap-ng@0.7.5-4.el7",
+                "info": Object {
+                  "name": "libcap-ng",
+                  "version": "0.7.5-4.el7",
+                },
+              },
+              Object {
+                "id": "libcom_err@1.42.9-17.el7",
+                "info": Object {
+                  "name": "libcom_err",
+                  "version": "1.42.9-17.el7",
+                },
+              },
+              Object {
+                "id": "libcurl@7.29.0-57.el7",
+                "info": Object {
+                  "name": "libcurl",
+                  "version": "7.29.0-57.el7",
+                },
+              },
+              Object {
+                "id": "libdb@5.3.21-25.el7",
+                "info": Object {
+                  "name": "libdb",
+                  "version": "5.3.21-25.el7",
+                },
+              },
+              Object {
+                "id": "libdb-utils@5.3.21-25.el7",
+                "info": Object {
+                  "name": "libdb-utils",
+                  "version": "5.3.21-25.el7",
+                },
+              },
+              Object {
+                "id": "libffi@3.0.13-19.el7",
+                "info": Object {
+                  "name": "libffi",
+                  "version": "3.0.13-19.el7",
+                },
+              },
+              Object {
+                "id": "libgcc@4.8.5-39.el7",
+                "info": Object {
+                  "name": "libgcc",
+                  "version": "4.8.5-39.el7",
+                },
+              },
+              Object {
+                "id": "libgcrypt@1.5.3-14.el7",
+                "info": Object {
+                  "name": "libgcrypt",
+                  "version": "1.5.3-14.el7",
+                },
+              },
+              Object {
+                "id": "libgpg-error@1.12-3.el7",
+                "info": Object {
+                  "name": "libgpg-error",
+                  "version": "1.12-3.el7",
+                },
+              },
+              Object {
+                "id": "libidn@1.28-4.el7",
+                "info": Object {
+                  "name": "libidn",
+                  "version": "1.28-4.el7",
+                },
+              },
+              Object {
+                "id": "libmount@2.23.2-63.el7",
+                "info": Object {
+                  "name": "libmount",
+                  "version": "2.23.2-63.el7",
+                },
+              },
+              Object {
+                "id": "libpwquality@1.2.3-5.el7",
+                "info": Object {
+                  "name": "libpwquality",
+                  "version": "1.2.3-5.el7",
+                },
+              },
+              Object {
+                "id": "libselinux@2.5-15.el7",
+                "info": Object {
+                  "name": "libselinux",
+                  "version": "2.5-15.el7",
+                },
+              },
+              Object {
+                "id": "libsemanage@2.5-14.el7",
+                "info": Object {
+                  "name": "libsemanage",
+                  "version": "2.5-14.el7",
+                },
+              },
+              Object {
+                "id": "libsepol@2.5-10.el7",
+                "info": Object {
+                  "name": "libsepol",
+                  "version": "2.5-10.el7",
+                },
+              },
+              Object {
+                "id": "libsmartcols@2.23.2-63.el7",
+                "info": Object {
+                  "name": "libsmartcols",
+                  "version": "2.23.2-63.el7",
+                },
+              },
+              Object {
+                "id": "libssh2@1.8.0-3.el7",
+                "info": Object {
+                  "name": "libssh2",
+                  "version": "1.8.0-3.el7",
+                },
+              },
+              Object {
+                "id": "libstdc++@4.8.5-39.el7",
+                "info": Object {
+                  "name": "libstdc++",
+                  "version": "4.8.5-39.el7",
+                },
+              },
+              Object {
+                "id": "libtasn1@4.10-1.el7",
+                "info": Object {
+                  "name": "libtasn1",
+                  "version": "4.10-1.el7",
+                },
+              },
+              Object {
+                "id": "libuser@0.60-9.el7",
+                "info": Object {
+                  "name": "libuser",
+                  "version": "0.60-9.el7",
+                },
+              },
+              Object {
+                "id": "libutempter@1.1.6-4.el7",
+                "info": Object {
+                  "name": "libutempter",
+                  "version": "1.1.6-4.el7",
+                },
+              },
+              Object {
+                "id": "libuuid@2.23.2-63.el7",
+                "info": Object {
+                  "name": "libuuid",
+                  "version": "2.23.2-63.el7",
+                },
+              },
+              Object {
+                "id": "libverto@0.2.5-4.el7",
+                "info": Object {
+                  "name": "libverto",
+                  "version": "0.2.5-4.el7",
+                },
+              },
+              Object {
+                "id": "libxml2@2.9.1-6.el7.4",
+                "info": Object {
+                  "name": "libxml2",
+                  "version": "2.9.1-6.el7.4",
+                },
+              },
+              Object {
+                "id": "libxml2-python@2.9.1-6.el7.4",
+                "info": Object {
+                  "name": "libxml2-python",
+                  "version": "2.9.1-6.el7.4",
+                },
+              },
+              Object {
+                "id": "lua@5.1.4-15.el7",
+                "info": Object {
+                  "name": "lua",
+                  "version": "5.1.4-15.el7",
+                },
+              },
+              Object {
+                "id": "lz4@1.7.5-3.el7",
+                "info": Object {
+                  "name": "lz4",
+                  "version": "1.7.5-3.el7",
+                },
+              },
+              Object {
+                "id": "ncurses@5.9-14.20130511.el7_4",
+                "info": Object {
+                  "name": "ncurses",
+                  "version": "5.9-14.20130511.el7_4",
+                },
+              },
+              Object {
+                "id": "ncurses-base@5.9-14.20130511.el7_4",
+                "info": Object {
+                  "name": "ncurses-base",
+                  "version": "5.9-14.20130511.el7_4",
+                },
+              },
+              Object {
+                "id": "ncurses-libs@5.9-14.20130511.el7_4",
+                "info": Object {
+                  "name": "ncurses-libs",
+                  "version": "5.9-14.20130511.el7_4",
+                },
+              },
+              Object {
+                "id": "nspr@4.21.0-1.el7",
+                "info": Object {
+                  "name": "nspr",
+                  "version": "4.21.0-1.el7",
+                },
+              },
+              Object {
+                "id": "nss@3.44.0-7.el7_7",
+                "info": Object {
+                  "name": "nss",
+                  "version": "3.44.0-7.el7_7",
+                },
+              },
+              Object {
+                "id": "nss-pem@1.0.3-7.el7",
+                "info": Object {
+                  "name": "nss-pem",
+                  "version": "1.0.3-7.el7",
+                },
+              },
+              Object {
+                "id": "nss-softokn@3.44.0-8.el7_7",
+                "info": Object {
+                  "name": "nss-softokn",
+                  "version": "3.44.0-8.el7_7",
+                },
+              },
+              Object {
+                "id": "nss-softokn-freebl@3.44.0-8.el7_7",
+                "info": Object {
+                  "name": "nss-softokn-freebl",
+                  "version": "3.44.0-8.el7_7",
+                },
+              },
+              Object {
+                "id": "nss-sysinit@3.44.0-7.el7_7",
+                "info": Object {
+                  "name": "nss-sysinit",
+                  "version": "3.44.0-7.el7_7",
+                },
+              },
+              Object {
+                "id": "nss-tools@3.44.0-7.el7_7",
+                "info": Object {
+                  "name": "nss-tools",
+                  "version": "3.44.0-7.el7_7",
+                },
+              },
+              Object {
+                "id": "nss-util@3.44.0-4.el7_7",
+                "info": Object {
+                  "name": "nss-util",
+                  "version": "3.44.0-4.el7_7",
+                },
+              },
+              Object {
+                "id": "openldap@2.4.44-21.el7_6",
+                "info": Object {
+                  "name": "openldap",
+                  "version": "2.4.44-21.el7_6",
+                },
+              },
+              Object {
+                "id": "openssl-libs@1:1.0.2k-19.el7",
+                "info": Object {
+                  "name": "openssl-libs",
+                  "version": "1:1.0.2k-19.el7",
+                },
+              },
+              Object {
+                "id": "p11-kit@0.23.5-3.el7",
+                "info": Object {
+                  "name": "p11-kit",
+                  "version": "0.23.5-3.el7",
+                },
+              },
+              Object {
+                "id": "p11-kit-trust@0.23.5-3.el7",
+                "info": Object {
+                  "name": "p11-kit-trust",
+                  "version": "0.23.5-3.el7",
+                },
+              },
+              Object {
+                "id": "pam@1.1.8-23.el7",
+                "info": Object {
+                  "name": "pam",
+                  "version": "1.1.8-23.el7",
+                },
+              },
+              Object {
+                "id": "passwd@0.79-6.el7",
+                "info": Object {
+                  "name": "passwd",
+                  "version": "0.79-6.el7",
+                },
+              },
+              Object {
+                "id": "pcre@8.32-17.el7",
+                "info": Object {
+                  "name": "pcre",
+                  "version": "8.32-17.el7",
+                },
+              },
+              Object {
+                "id": "pinentry@0.8.1-17.el7",
+                "info": Object {
+                  "name": "pinentry",
+                  "version": "0.8.1-17.el7",
+                },
+              },
+              Object {
+                "id": "pkgconfig@1:0.27.1-4.el7",
+                "info": Object {
+                  "name": "pkgconfig",
+                  "version": "1:0.27.1-4.el7",
+                },
+              },
+              Object {
+                "id": "popt@1.13-16.el7",
+                "info": Object {
+                  "name": "popt",
+                  "version": "1.13-16.el7",
+                },
+              },
+              Object {
+                "id": "procps-ng@3.3.10-27.el7",
+                "info": Object {
+                  "name": "procps-ng",
+                  "version": "3.3.10-27.el7",
+                },
+              },
+              Object {
+                "id": "pth@2.0.7-23.el7",
+                "info": Object {
+                  "name": "pth",
+                  "version": "2.0.7-23.el7",
+                },
+              },
+              Object {
+                "id": "pygpgme@0.3-9.el7",
+                "info": Object {
+                  "name": "pygpgme",
+                  "version": "0.3-9.el7",
+                },
+              },
+              Object {
+                "id": "pyliblzma@0.5.3-11.el7",
+                "info": Object {
+                  "name": "pyliblzma",
+                  "version": "0.5.3-11.el7",
+                },
+              },
+              Object {
+                "id": "python@2.7.5-88.el7",
+                "info": Object {
+                  "name": "python",
+                  "version": "2.7.5-88.el7",
+                },
+              },
+              Object {
+                "id": "python-chardet@2.2.1-3.el7",
+                "info": Object {
+                  "name": "python-chardet",
+                  "version": "2.2.1-3.el7",
+                },
+              },
+              Object {
+                "id": "python-gobject-base@3.22.0-1.el7_4.1",
+                "info": Object {
+                  "name": "python-gobject-base",
+                  "version": "3.22.0-1.el7_4.1",
+                },
+              },
+              Object {
+                "id": "python-iniparse@0.4-9.el7",
+                "info": Object {
+                  "name": "python-iniparse",
+                  "version": "0.4-9.el7",
+                },
+              },
+              Object {
+                "id": "python-kitchen@1.1.1-5.el7",
+                "info": Object {
+                  "name": "python-kitchen",
+                  "version": "1.1.1-5.el7",
+                },
+              },
+              Object {
+                "id": "python-libs@2.7.5-88.el7",
+                "info": Object {
+                  "name": "python-libs",
+                  "version": "2.7.5-88.el7",
+                },
+              },
+              Object {
+                "id": "python-pycurl@7.19.0-19.el7",
+                "info": Object {
+                  "name": "python-pycurl",
+                  "version": "7.19.0-19.el7",
+                },
+              },
+              Object {
+                "id": "python-urlgrabber@3.10-10.el7",
+                "info": Object {
+                  "name": "python-urlgrabber",
+                  "version": "3.10-10.el7",
+                },
+              },
+              Object {
+                "id": "pyxattr@0.5.1-5.el7",
+                "info": Object {
+                  "name": "pyxattr",
+                  "version": "0.5.1-5.el7",
+                },
+              },
+              Object {
+                "id": "qrencode-libs@3.4.1-3.el7",
+                "info": Object {
+                  "name": "qrencode-libs",
+                  "version": "3.4.1-3.el7",
+                },
+              },
+              Object {
+                "id": "readline@6.2-11.el7",
+                "info": Object {
+                  "name": "readline",
+                  "version": "6.2-11.el7",
+                },
+              },
+              Object {
+                "id": "rootfiles@8.1-11.el7",
+                "info": Object {
+                  "name": "rootfiles",
+                  "version": "8.1-11.el7",
+                },
+              },
+              Object {
+                "id": "rpm@4.11.3-43.el7",
+                "info": Object {
+                  "name": "rpm",
+                  "version": "4.11.3-43.el7",
+                },
+              },
+              Object {
+                "id": "rpm-build-libs@4.11.3-43.el7",
+                "info": Object {
+                  "name": "rpm-build-libs",
+                  "version": "4.11.3-43.el7",
+                },
+              },
+              Object {
+                "id": "rpm-libs@4.11.3-43.el7",
+                "info": Object {
+                  "name": "rpm-libs",
+                  "version": "4.11.3-43.el7",
+                },
+              },
+              Object {
+                "id": "rpm-python@4.11.3-43.el7",
+                "info": Object {
+                  "name": "rpm-python",
+                  "version": "4.11.3-43.el7",
+                },
+              },
+              Object {
+                "id": "sed@4.2.2-6.el7",
+                "info": Object {
+                  "name": "sed",
+                  "version": "4.2.2-6.el7",
+                },
+              },
+              Object {
+                "id": "setup@2.8.71-11.el7",
+                "info": Object {
+                  "name": "setup",
+                  "version": "2.8.71-11.el7",
+                },
+              },
+              Object {
+                "id": "shadow-utils@2:4.6-5.el7",
+                "info": Object {
+                  "name": "shadow-utils",
+                  "version": "2:4.6-5.el7",
+                },
+              },
+              Object {
+                "id": "shared-mime-info@1.8-5.el7",
+                "info": Object {
+                  "name": "shared-mime-info",
+                  "version": "1.8-5.el7",
+                },
+              },
+              Object {
+                "id": "sqlite@3.7.17-8.el7_7.1",
+                "info": Object {
+                  "name": "sqlite",
+                  "version": "3.7.17-8.el7_7.1",
+                },
+              },
+              Object {
+                "id": "systemd@219-73.el7.1",
+                "info": Object {
+                  "name": "systemd",
+                  "version": "219-73.el7.1",
+                },
+              },
+              Object {
+                "id": "systemd-libs@219-73.el7.1",
+                "info": Object {
+                  "name": "systemd-libs",
+                  "version": "219-73.el7.1",
+                },
+              },
+              Object {
+                "id": "tar@2:1.26-35.el7",
+                "info": Object {
+                  "name": "tar",
+                  "version": "2:1.26-35.el7",
+                },
+              },
+              Object {
+                "id": "tzdata@2019c-1.el7",
+                "info": Object {
+                  "name": "tzdata",
+                  "version": "2019c-1.el7",
+                },
+              },
+              Object {
+                "id": "ustr@1.0.4-16.el7",
+                "info": Object {
+                  "name": "ustr",
+                  "version": "1.0.4-16.el7",
+                },
+              },
+              Object {
+                "id": "util-linux@2.23.2-63.el7",
+                "info": Object {
+                  "name": "util-linux",
+                  "version": "2.23.2-63.el7",
+                },
+              },
+              Object {
+                "id": "vim-minimal@2:7.4.629-6.el7",
+                "info": Object {
+                  "name": "vim-minimal",
+                  "version": "2:7.4.629-6.el7",
+                },
+              },
+              Object {
+                "id": "xz@5.2.2-1.el7",
+                "info": Object {
+                  "name": "xz",
+                  "version": "5.2.2-1.el7",
+                },
+              },
+              Object {
+                "id": "xz-libs@5.2.2-1.el7",
+                "info": Object {
+                  "name": "xz-libs",
+                  "version": "5.2.2-1.el7",
+                },
+              },
+              Object {
+                "id": "yum@3.4.3-167.el7.centos",
+                "info": Object {
+                  "name": "yum",
+                  "version": "3.4.3-167.el7.centos",
+                },
+              },
+              Object {
+                "id": "yum-metadata-parser@1.1.4-10.el7",
+                "info": Object {
+                  "name": "yum-metadata-parser",
+                  "version": "1.1.4-10.el7",
+                },
+              },
+              Object {
+                "id": "yum-plugin-fastestmirror@1.1.31-53.el7",
+                "info": Object {
+                  "name": "yum-plugin-fastestmirror",
+                  "version": "1.1.31-53.el7",
+                },
+              },
+              Object {
+                "id": "yum-plugin-ovl@1.1.31-53.el7",
+                "info": Object {
+                  "name": "yum-plugin-ovl",
+                  "version": "1.1.31-53.el7",
+                },
+              },
+              Object {
+                "id": "yum-utils@1.1.31-53.el7",
+                "info": Object {
+                  "name": "yum-utils",
+                  "version": "1.1.31-53.el7",
+                },
+              },
+              Object {
+                "id": "zlib@1.2.7-18.el7",
+                "info": Object {
+                  "name": "zlib",
+                  "version": "1.2.7-18.el7",
+                },
+              },
+            ],
+            "schemaVersion": "1.2.0",
+          },
+          "type": "depGraph",
+        },
+        Object {
+          "data": "afb6fca791e071c66276202f8efca5ce3d3dc4fb218bcddff1bc565d981ddd1e",
+          "type": "imageId",
+        },
+        Object {
+          "data": Array [
+            "15bad9f44dc39404a46e24c4feee6b2ae903e31ddccd9b14571a1a6afb4516c5/layer.tar",
+          ],
+          "type": "imageLayers",
+        },
+        Object {
+          "data": Array [
+            "sha256:fb82b029bea0a2a3b6a62a9c1e47e57fae2a82f629b2d1a346da4fc8fb53a0b6",
+          ],
+          "type": "rootFs",
+        },
+        Object {
+          "data": "CentOS Linux 7 (Core)",
+          "type": "imageOsReleasePrettyName",
+        },
+      ],
+      "identity": Object {
+        "args": Object {
+          "platform": "linux/amd64",
+        },
+        "type": "rpm",
+      },
+      "target": Object {
+        "image": "docker-image|centos",
+      },
+    },
+  ],
+}
+`;
