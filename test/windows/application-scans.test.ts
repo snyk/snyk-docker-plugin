@@ -1,86 +1,97 @@
+import { DepGraph } from "@snyk/dep-graph";
 import * as path from "path";
 import { test } from "tap";
 
 import * as plugin from "../../lib";
-import { ImageType } from "../../lib/types";
 
 function getFixture(fixturePath: string): string {
   return path.join(__dirname, "../fixtures", fixturePath);
 }
 
 test("scanning a container image with 2 applications", async (t) => {
-  const imageNameAndTag = "amazonlinux:2";
-  const dockerfile = undefined;
+  const fixturePath = getFixture(
+    "docker-archives/skopeo-copy/rpm-npm-yarn.tar",
+  );
+  const imageNameAndTag = `docker-archive:${fixturePath}`;
 
-  const staticAnalysisOptions = {
-    imagePath: getFixture("docker-archives/skopeo-copy/rpm-npm-yarn.tar"),
-    imageType: ImageType.DockerArchive,
-    appScan: true,
-  };
-
-  const pluginResult = await plugin.inspect(imageNameAndTag, dockerfile, {
-    staticAnalysisOptions,
+  const pluginResult = await plugin.scan({
+    path: imageNameAndTag,
+    "app-vulns": true,
   });
 
   t.ok(
-    "scannedProjects" in pluginResult &&
-      Array.isArray(pluginResult.scannedProjects),
-    "scannedProjects is in plugin response and has the correct type",
+    "scanResults" in pluginResult && Array.isArray(pluginResult.scanResults),
+    "scanResults is in plugin response and has the correct type",
   );
-  t.same(pluginResult.scannedProjects.length, 3, "contains 3 scan results");
+  t.same(pluginResult.scanResults.length, 3, "contains 3 scan results");
 
-  const npmScan = pluginResult.scannedProjects[1];
+  const npmScan = pluginResult.scanResults[1];
   await t.test("first scanned project is scanned correctly", async (subt) => {
     subt.same(
-      npmScan.packageManager,
+      npmScan.identity.type,
       "npm",
       "npm as package manager is scanned correctly",
     );
     subt.same(
-      npmScan.targetFile,
+      npmScan.identity.targetFile,
       path.normalize("/srv/npm-app/package.json"),
       "path to targetFile is correct",
     );
+
+    const depGraphFact = npmScan.facts.find((fact) => fact.type === "depGraph");
+    subt.ok(
+      depGraphFact !== undefined,
+      "scan result contains a dependency graph",
+    );
+    const depGraph: DepGraph = depGraphFact!.data;
     subt.same(
-      npmScan.depTree,
+      depGraph.toJSON(),
       require(getFixture("analysis-results/npm.json")),
-      "returned dependency tree is the same",
+      "returned dependency graph is the same",
     );
   });
 
-  const yarnScan = pluginResult.scannedProjects[2];
+  const yarnScan = pluginResult.scanResults[2];
   await t.test("second scanned project is scanned correctly", async (subt) => {
     subt.same(
-      yarnScan.packageManager,
+      yarnScan.identity.type,
       "yarn",
       "yarn as package manager is scanned correctly",
     );
     subt.same(
-      yarnScan.targetFile,
+      yarnScan.identity.targetFile,
       path.normalize("/srv/yarn-app/package.json"),
       "path to targetFile is correct",
     );
+    const depGraphFact = yarnScan.facts.find(
+      (fact) => fact.type === "depGraph",
+    );
+    subt.ok(
+      depGraphFact !== undefined,
+      "scan result contains a dependency graph",
+    );
+    const depGraph: DepGraph = depGraphFact!.data;
     subt.same(
-      yarnScan.depTree,
+      depGraph.toJSON(),
       require(getFixture("analysis-results/yarn.json")),
-      "returned dependency tree is the same",
+      "returned dependency graph is the same",
     );
   });
 
-  t.ok(pluginResult.scannedProjects[0].meta, "os scan meta is not falsy");
+  t.ok(pluginResult.scanResults[0].target, "os scan target is not falsy");
   t.same(
-    pluginResult.scannedProjects[0].meta.platform,
+    pluginResult.scanResults[0].identity.args?.platform,
     "linux/amd64",
-    "os scan meta includes platform information",
+    "os scan result includes platform information",
   );
   t.same(
-    pluginResult.scannedProjects[0].meta.imageName,
-    pluginResult.scannedProjects[1].meta.imageName,
-    "os scan meta matches app scan meta imageName",
+    pluginResult.scanResults[0].target,
+    pluginResult.scanResults[1].target,
+    "os scan target matches app scan target",
   );
   t.same(
-    pluginResult.scannedProjects[1].meta,
-    pluginResult.scannedProjects[2].meta,
-    "both applications meta is identical",
+    pluginResult.scanResults[1].target,
+    pluginResult.scanResults[2].target,
+    "app scans match their targets",
   );
 });

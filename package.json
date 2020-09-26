@@ -19,7 +19,7 @@
     "test": "npm run lint && npm run unit-test",
     "test-jest": "jest",
     "test-windows": "npm run lint && tap test/windows -R=spec --timeout=300",
-    "unit-test": "tap test/system test/lib -R=spec --timeout=300",
+    "unit-test": "tap test/system/**/*.test.ts test/lib -R=spec --timeout=300",
     "prepare": "npm run build"
   },
   "engines": {

@@ -1,3 +1,4 @@
+import { DepGraph } from "@snyk/dep-graph";
 import * as os from "os";
 import * as path from "path";
 import sinon = require("sinon");
@@ -5,92 +6,72 @@ import { test } from "tap";
 
 import * as plugin from "../../lib";
 import { Docker } from "../../lib/docker";
+import { DockerFileAnalysis } from "../../lib/docker-file";
 import * as subProcess from "../../lib/sub-process";
-import {
-  DepTree,
-  ImageType,
-  PluginResponseStatic,
-  ScannedProjectExtended,
-  ScannedProjectManifestFiles,
-  ScanType,
-} from "../../lib/types";
 
 const getFixture = (fixturePath) =>
   path.join(__dirname, "../fixtures/docker-archives", fixturePath);
 
 test("static analysis builds the expected response", async (t) => {
-  const thisIsJustAnImageIdentifierInStaticAnalysis = "node:doesnotexist";
-  const dockerfile = undefined;
-  const pluginOptionsWithSkopeoCopy = {
-    staticAnalysisOptions: {
-      imagePath: getFixture("skopeo-copy/nginx.tar"),
-      imageType: ImageType.DockerArchive,
-    },
-  };
+  const pluginResultWithSkopeoCopy = await plugin.scan({
+    path: `docker-archive:${getFixture("skopeo-copy/nginx.tar")}`,
+  });
 
-  const pluginOptionsWithCompressedSkopeoCopy = {
-    staticAnalysisOptions: {
-      imagePath: getFixture("skopeo-copy/nginx-compressed-layers.tar"),
-      imageType: ImageType.DockerArchive,
-    },
-  };
+  const pluginResultWithCompressedSkopeoCopy = await plugin.scan({
+    path: `docker-archive:${getFixture(
+      "skopeo-copy/nginx-compressed-layers.tar",
+    )}`,
+  });
 
-  const pluginOptionsWithDockerSave = {
-    staticAnalysisOptions: {
-      imagePath: getFixture("docker-save/nginx.tar"),
-      imageType: ImageType.DockerArchive,
-    },
-  };
-
-  const pluginResultWithSkopeoCopy = await plugin.inspect(
-    thisIsJustAnImageIdentifierInStaticAnalysis,
-    dockerfile,
-    pluginOptionsWithSkopeoCopy,
-  );
-
-  const pluginResultWithCompressedSkopeoCopy = await plugin.inspect(
-    thisIsJustAnImageIdentifierInStaticAnalysis,
-    dockerfile,
-    pluginOptionsWithCompressedSkopeoCopy,
-  );
-
-  const pluginResultWithDockerSave = await plugin.inspect(
-    thisIsJustAnImageIdentifierInStaticAnalysis,
-    dockerfile,
-    pluginOptionsWithDockerSave,
-  );
+  const pluginResultWithDockerSave = await plugin.scan({
+    path: `docker-archive:${getFixture("docker-save/nginx.tar")}`,
+  });
 
   // Test the skopeo-copy result.
   t.ok(
-    "scannedProjects" in pluginResultWithSkopeoCopy &&
-      Array.isArray(pluginResultWithSkopeoCopy.scannedProjects) &&
-      pluginResultWithSkopeoCopy.scannedProjects.length === 1 &&
-      "plugin" in pluginResultWithSkopeoCopy,
+    "scanResults" in pluginResultWithSkopeoCopy &&
+      Array.isArray(pluginResultWithSkopeoCopy.scanResults) &&
+      pluginResultWithSkopeoCopy.scanResults.length === 1,
     "Has the expected result properties",
   );
 
+  const skopeoCopyDepGraph: DepGraph = pluginResultWithSkopeoCopy.scanResults[0].facts.find(
+    (fact) => fact.type === "depGraph",
+  )!.data;
+  t.same(skopeoCopyDepGraph.rootPkg.version, undefined, "Version is missing");
+
+  const skopeoCopyImageId: string = pluginResultWithSkopeoCopy.scanResults[0].facts.find(
+    (fact) => fact.type === "imageId",
+  )!.data;
   t.same(
-    pluginResultWithSkopeoCopy.scannedProjects[0].depTree.version,
-    "doesnotexist",
-    "Version matches",
-  );
-  t.same(
-    pluginResultWithSkopeoCopy.plugin.dockerImageId,
+    skopeoCopyImageId,
     "ab56bba91343aafcdd94b7a44b42e12f32719b9a2b8579e93017c1280f48e8f3",
     "The image ID matches",
   );
   t.same(
-    pluginResultWithSkopeoCopy.plugin.packageManager,
+    pluginResultWithSkopeoCopy.scanResults[0].identity.type,
     "deb",
     "Correct package manager detected",
   );
+
+  const skopeoCopyImageLayers: string[] = pluginResultWithSkopeoCopy.scanResults[0].facts.find(
+    (fact) => fact.type === "imageLayers",
+  )!.data;
   t.deepEqual(
-    pluginResultWithSkopeoCopy.plugin.imageLayers,
+    skopeoCopyImageLayers,
     ["ce3539cc184915f96add8551b0e7a37d80c560fe3ffe40cfe4585ea3a8dc14e9.tar"],
     "Layers are read correctly",
   );
+  t.ok(
+    skopeoCopyDepGraph.getDepPkgs().find((dep) => dep.name === "adduser"),
+    "Contains some expected dependency",
+  );
+
+  const skopeoCopyRootFs: string[] = pluginResultWithSkopeoCopy.scanResults[0].facts.find(
+    (fact) => fact.type === "rootFs",
+  )!.data;
   t.deepEqual(
-    pluginResultWithSkopeoCopy.plugin.rootFs,
+    skopeoCopyRootFs,
     [
       "sha256:2db44bce66cde56fca25aeeb7d09dc924b748e3adfe58c9cc3eb2bd2f68a1b68",
       "sha256:16d1b1dd2a23a7a79426299fde8be361194007dfebb3438f96735755283becf8",
@@ -98,24 +79,57 @@ test("static analysis builds the expected response", async (t) => {
     ],
     "Base image layers are read correctly",
   );
-  t.ok(
-    pluginResultWithSkopeoCopy.scannedProjects[0].depTree.dependencies &&
-      "adduser" in
-        pluginResultWithSkopeoCopy.scannedProjects[0].depTree.dependencies,
-    "Contains some expected dependency",
-  );
 
   // Test the docker-save result.
+  const dockerSaveImageLayers: string[] = pluginResultWithDockerSave.scanResults[0].facts.find(
+    (fact) => fact.type === "imageLayers",
+  )!.data;
   t.deepEqual(
-    pluginResultWithDockerSave.plugin.imageLayers,
+    dockerSaveImageLayers,
     [
-      "ac415f8e415b242117277e7ee5224b30389698b46101e0f28224490af3b90a9d/layer.tar",
+      path.normalize(
+        "ac415f8e415b242117277e7ee5224b30389698b46101e0f28224490af3b90a9d/layer.tar",
+      ),
     ],
     "Layers are read correctly",
   );
 
+  const dockerSaveDepGraph: DepGraph = pluginResultWithDockerSave.scanResults[0].facts.find(
+    (fact) => fact.type === "depGraph",
+  )!.data;
   t.deepEqual(
-    pluginResultWithSkopeoCopy.plugin.rootFs,
+    skopeoCopyDepGraph.getDepPkgs(),
+    dockerSaveDepGraph.getDepPkgs(),
+    "The plugin scans both skopeo-copy and docker-save archives the same way",
+  );
+
+  const dockerSaveRootFs: string[] = pluginResultWithDockerSave.scanResults[0].facts.find(
+    (fact) => fact.type === "rootFs",
+  )!.data;
+  t.deepEqual(
+    dockerSaveRootFs,
+    [
+      "sha256:1c95c77433e8d7bf0f519c9d8c9ca967e2603f0defbf379130d9a841cca2e28e",
+      "sha256:002a63507c1caa5cc0e1af10e5b888f6ba20d06275e989a452581d789a48948e",
+      "sha256:12fdf55172df870a613a79c4757006c5b28e66a8621c3e26916678378568f078",
+    ],
+    "Base image layers are read correctly",
+  );
+
+  const compressedSkopeoCopyDepGraph: DepGraph = pluginResultWithCompressedSkopeoCopy.scanResults[0].facts.find(
+    (fact) => fact.type === "depGraph",
+  )!.data;
+  t.deepEqual(
+    compressedSkopeoCopyDepGraph.getDepPkgs(),
+    dockerSaveDepGraph.getDepPkgs(),
+    "The plugin scans both skopeo-copy and docker-save archives the same way",
+  );
+
+  const compressedSkopeoCopyRootFs: string[] = pluginResultWithCompressedSkopeoCopy.scanResults[0].facts.find(
+    (fact) => fact.type === "rootFs",
+  )!.data;
+  t.deepEqual(
+    compressedSkopeoCopyRootFs,
     [
       "sha256:2db44bce66cde56fca25aeeb7d09dc924b748e3adfe58c9cc3eb2bd2f68a1b68",
       "sha256:16d1b1dd2a23a7a79426299fde8be361194007dfebb3438f96735755283becf8",
@@ -125,105 +139,60 @@ test("static analysis builds the expected response", async (t) => {
   );
 
   t.equal(
-    pluginResultWithSkopeoCopy.scannedProjects[0].meta.platform,
-    pluginResultWithDockerSave.scannedProjects[0].meta.platform,
+    pluginResultWithSkopeoCopy.scanResults[0].identity.args?.platform,
+    pluginResultWithDockerSave.scanResults[0].identity.args?.platform,
     "Platform is returned with the result same way",
-  );
-
-  t.deepEqual(
-    pluginResultWithSkopeoCopy.scannedProjects[0].depTree.dependencies,
-    pluginResultWithDockerSave.scannedProjects[0].depTree.dependencies,
-    "The plugin scans both skopeo-copy and docker-save archives the same way",
-  );
-
-  t.deepEqual(
-    pluginResultWithCompressedSkopeoCopy.scannedProjects[0].depTree
-      .dependencies,
-    pluginResultWithDockerSave.scannedProjects[0].depTree.dependencies,
-    "The plugin scans both skopeo-copy and docker-save archives the same way",
   );
 });
 
 test("omitting required options for static analysis", async (t) => {
-  const emptyOptions = {
-    staticAnalysisOptions: {},
-  };
-  const targetFile = undefined;
   await t.rejects(
-    plugin.inspect("nginx:latest", targetFile, emptyOptions),
-    Error("Missing required parameters for static analysis"),
+    plugin.scan(undefined),
+    Error("No plugin options provided"),
     "static analysis requires parameters",
   );
 
-  const onlyPathOptions = {
-    staticAnalysisOptions: {
-      imagePath: "/var/tmp/image.nonexistent",
-    },
-  };
   await t.rejects(
-    plugin.inspect("nginx:latest", targetFile, onlyPathOptions),
-    Error("Missing required parameters for static analysis"),
-    "static analysis rejects on having imagePath but missing imageType",
+    plugin.scan({}),
+    Error("No image identifier or path provided"),
+    "static analysis requires parameters",
   );
 
-  const onlyTypeOptions = {
-    staticAnalysisOptions: {
-      imageType: ImageType.DockerArchive,
-    },
-  };
   await t.rejects(
-    plugin.inspect("nginx:latest", targetFile, onlyTypeOptions),
-    Error("Missing required parameters for static analysis"),
-    "static analysis rejects on having imageTypee but missing imagePath",
+    plugin.scan({ path: "/var/tmp/image.nonexistent" }),
+    undefined,
+    "static analysis rejects on having imagePath but missing imageType",
   );
 });
 
 test("/etc/os-release links to /usr/lib/os-release", async (t) => {
-  const thisIsJustAnImageIdentifierInStaticAnalysis = "node:doesnotexist";
-  const dockerfile = undefined;
-  const pluginOptionsWithDockerSave = {
-    staticAnalysisOptions: {
-      imagePath: getFixture("docker-save/nginx-os-release-link.tar"),
-      imageType: ImageType.DockerArchive,
-    },
-  };
+  const fixturePath = getFixture("docker-save/nginx-os-release-link.tar");
+  const imagePath = `docker-archive:${fixturePath}`;
 
-  const pluginResultWithDockerSave = await plugin.inspect(
-    thisIsJustAnImageIdentifierInStaticAnalysis,
-    dockerfile,
-    pluginOptionsWithDockerSave,
-  );
-
-  const depTree = pluginResultWithDockerSave.scannedProjects[0]
-    .depTree as DepTree;
-  t.deepEqual(depTree.targetOS, {
-    name: "debian",
-    version: "10",
-    prettyName: "Debian GNU/Linux 10 (buster)",
+  const pluginResultWithDockerSave = await plugin.scan({
+    path: imagePath,
   });
+
+  const depGraph: DepGraph = pluginResultWithDockerSave.scanResults[0].facts.find(
+    (fact) => fact.type === "depGraph",
+  )!.data;
+
+  t.deepEqual(depGraph.pkgManager.repositories, [{ alias: "debian:10" }]);
 });
 
 test("static analysis provides hashes for key binaries", async (t) => {
-  const thisIsJustAnImageIdentifierInStaticAnalysis = "node:doesnotexist";
-  const dockerfile = undefined;
-  const pluginOptionsWithSkopeoCopy = {
-    staticAnalysisOptions: {
-      imagePath: getFixture("skopeo-copy/nodes-fake-multi.tar"),
-      imageType: ImageType.DockerArchive,
-    },
-  };
+  const fixturePath = getFixture("skopeo-copy/nodes-fake-multi.tar");
+  const imagePath = `docker-archive:${fixturePath}`;
 
-  const pluginResultWithSkopeoCopy = (await plugin.inspect(
-    thisIsJustAnImageIdentifierInStaticAnalysis,
-    dockerfile,
-    pluginOptionsWithSkopeoCopy,
-  )) as PluginResponseStatic;
+  const pluginResultWithSkopeoCopy = await plugin.scan({
+    path: imagePath,
+  });
 
-  t.equals(
-    pluginResultWithSkopeoCopy.hashes.length,
-    4,
-    "found four key binaries",
-  );
+  const keyBinariesHashes: string[] = pluginResultWithSkopeoCopy.scanResults[0].facts.find(
+    (fact) => fact.type === "keyBinariesHashes",
+  )!.data;
+
+  t.equals(keyBinariesHashes.length, 4, "found four key binaries");
   const expectedHashes = [
     "f20f16782d8c442142560d1dad09561161fb495179751db200d9db6caf6ad832",
     "c7f4fefb1e2994b8ac23134ea9c2b7aa8b2d088b8863fa33012ca7b8824e1bed",
@@ -231,81 +200,69 @@ test("static analysis provides hashes for key binaries", async (t) => {
     "62f8defe3fe085af9b6e48f85ffb90a863c44d53b9c3f4f237b04c232f350083",
   ];
   t.deepEqual(
-    pluginResultWithSkopeoCopy.hashes.sort(),
+    keyBinariesHashes.sort(),
     expectedHashes.sort(),
     "all key binaries match hashes",
   );
 });
 
 test("static analysis provides hashes for found openjdk binaries", async (t) => {
-  const thisIsJustAnImageIdentifierInStaticAnalysis = "openjdk:doesnotexist";
-  const dockerfile = undefined;
-  const pluginOptions = {
-    staticAnalysisOptions: {
-      imagePath: getFixture("docker-save/openjdk.tar"),
-      imageType: ImageType.DockerArchive,
-    },
-  };
+  const fixturePath = getFixture("docker-save/openjdk.tar");
+  const imagePath = `docker-archive:${fixturePath}`;
 
-  const pluginResult = (await plugin.inspect(
-    thisIsJustAnImageIdentifierInStaticAnalysis,
-    dockerfile,
-    pluginOptions,
-  )) as PluginResponseStatic;
+  const pluginResult = await plugin.scan({
+    path: imagePath,
+  });
 
-  t.equals(pluginResult.hashes.length, 1, "found one openjdk key binary");
+  const keyBinariesHashes: string[] = pluginResult.scanResults[0].facts.find(
+    (fact) => fact.type === "keyBinariesHashes",
+  )!.data;
+
+  t.equals(keyBinariesHashes.length, 1, "found one openjdk key binary");
   const expectedHashes = [
     "004182a1acb5aad313f4554cbafe474a9bdc143260576ac3fa4ab388c3f40476",
   ];
   t.deepEqual(
-    pluginResult.hashes,
+    keyBinariesHashes,
     expectedHashes,
     "all key binaries match hashes",
   );
 });
 
 test("static analysis works for scratch images", async (t) => {
-  const thisIsJustAnImageIdentifierInStaticAnalysis = "busybox:1.31.1";
-  const dockerfile = undefined;
-  const pluginOptionsWithSkopeoCopy = {
-    staticAnalysisOptions: {
-      imagePath: getFixture("skopeo-copy/busybox.tar"),
-      imageType: ImageType.DockerArchive,
-    },
-  };
+  const fixturePath = getFixture("skopeo-copy/busybox.tar");
+  const imagePath = `docker-archive:${fixturePath}`;
 
-  const pluginResultWithSkopeoCopy = (await plugin.inspect(
-    thisIsJustAnImageIdentifierInStaticAnalysis,
-    dockerfile,
-    pluginOptionsWithSkopeoCopy,
-  )) as PluginResponseStatic;
+  const pluginResultWithSkopeoCopy = await plugin.scan({
+    path: imagePath,
+  });
 
-  const depTree = pluginResultWithSkopeoCopy.scannedProjects[0]
-    .depTree as DepTree;
+  const depGraph: DepGraph = pluginResultWithSkopeoCopy.scanResults[0].facts.find(
+    (fact) => fact.type === "depGraph",
+  )!.data;
+  const imageId: string = pluginResultWithSkopeoCopy.scanResults[0].facts.find(
+    (fact) => fact.type === "imageId",
+  )!.data;
+
   t.equals(
-    pluginResultWithSkopeoCopy.plugin.dockerImageId,
+    imageId,
     "6d5fcfe5ff170471fcc3c8b47631d6d71202a1fd44cf3c147e50c8de21cf0648",
     "image ID identified correctly",
   );
   t.equals(
-    pluginResultWithSkopeoCopy.plugin.packageManager,
+    pluginResultWithSkopeoCopy.scanResults[0].identity.type,
     "linux",
     "linux is the hackish package manager when nothing else is found",
   );
-  t.same(depTree.dependencies, {}, "no known packages found");
-  t.equals(
-    depTree.packageFormatVersion,
-    "linux:0.0.1",
-    "the version of the linux package manager is 0.0.1",
-  );
+  t.same(depGraph.getDepPkgs(), [], "no known packages found");
   t.deepEquals(
-    depTree.targetOS,
-    { name: "unknown", version: "0.0", prettyName: "" },
+    depGraph.pkgManager.repositories,
+    [{ alias: "unknown:0.0" }],
     "operating system for scratch image is unknown",
   );
-  t.same(depTree.version, "1.31.1", "Version matches");
+  t.same(depGraph.rootPkg.version, undefined, "Version is missing");
   t.equals(
-    pluginResultWithSkopeoCopy.scannedProjects[0].meta.platform,
+    pluginResultWithSkopeoCopy.scanResults[0].identity.args?.platform,
     "linux/amd64",
     "Platform is returned with the result same way",
   );
@@ -316,58 +273,43 @@ test("static analysis for distroless base-debian9", async (t) => {
   const imageNameAndTag =
     "gcr.io/distroless/base-debian9:70b8c7f2d41a844d310c23e0695388c916a364ed";
 
-  const dockerfile = undefined;
-  const pluginOptions = {
-    experimental: true,
-  };
+  const pluginResult = await plugin.scan({
+    path: imageNameAndTag,
+  });
 
-  const pluginResult = await plugin.inspect(
-    imageNameAndTag,
-    dockerfile,
-    pluginOptions,
-  );
+  const depGraph: DepGraph = pluginResult.scanResults[0].facts.find(
+    (fact) => fact.type === "depGraph",
+  )!.data;
 
-  const expectedDependencies = {
-    "glibc/libc6": { name: "glibc/libc6", version: "2.24-11+deb9u4" },
-    "openssl/libssl1.1": {
-      name: "openssl/libssl1.1",
-      version: "1.1.0l-1~deb9u1",
-      dependencies: {
-        "glibc/libc6": { name: "glibc/libc6", version: "2.24-11+deb9u4" },
-      },
-    },
-    openssl: {
-      name: "openssl",
-      version: "1.1.0l-1~deb9u1",
-      dependencies: {
-        "glibc/libc6": { name: "glibc/libc6", version: "2.24-11+deb9u4" },
-        "openssl/libssl1.1": {
-          name: "openssl/libssl1.1",
-          version: "1.1.0l-1~deb9u1",
-        },
-      },
-    },
-    "base-files": { name: "base-files", version: "9.9+deb9u12" },
-    netbase: { name: "netbase", version: "5.4" },
-    tzdata: { name: "tzdata", version: "2019c-0+deb9u1" },
-  };
+  const expectedDependencies = [
+    { name: "glibc/libc6", version: "2.24-11+deb9u4" },
+    { name: "openssl/libssl1.1", version: "1.1.0l-1~deb9u1" },
+    { name: "openssl", version: "1.1.0l-1~deb9u1" },
+    { name: "base-files", version: "9.9+deb9u12" },
+    { name: "netbase", version: "5.4" },
+    { name: "tzdata", version: "2019c-0+deb9u1" },
+  ];
 
-  const depTree = pluginResult.scannedProjects[0].depTree as DepTree;
-  t.ok("dependencies" in depTree, "packages have dependencies");
-  t.deepEquals(
-    depTree.dependencies,
-    expectedDependencies,
+  const depGraphDepPkgs = depGraph.getDepPkgs();
+  t.ok(
+    expectedDependencies.every(
+      (expectedDep) =>
+        depGraphDepPkgs.find(
+          (depPkg) =>
+            depPkg.name === expectedDep.name &&
+            depPkg.version === expectedDep.version,
+        ) !== undefined,
+    ),
     "Distroless base image dependencies are correct",
   );
 
-  t.ok("targetOS" in depTree, "OS discovered");
   t.deepEquals(
-    depTree.targetOS,
-    { name: "debian", version: "9", prettyName: "Distroless" },
+    depGraph.pkgManager.repositories,
+    [{ alias: "debian:9" }],
     "recognised it's debian 9",
   );
   t.same(
-    depTree.version,
+    depGraph.rootPkg.version,
     "70b8c7f2d41a844d310c23e0695388c916a364ed",
     "Version matches",
   );
@@ -377,59 +319,41 @@ test("static analysis for distroless base-debian10", async (t) => {
   // 70b8c7f2d41a844d310c23e0695388c916a364ed was "latest" at the time of writing
   const imageNameAndTag =
     "gcr.io/distroless/base-debian10:70b8c7f2d41a844d310c23e0695388c916a364ed";
+  const pluginResult = await plugin.scan({ path: imageNameAndTag });
 
-  const dockerfile = undefined;
-  const pluginOptions = {
-    experimental: true,
-  };
+  const expectedDependencies = [
+    { name: "glibc/libc6", version: "2.28-10" },
+    { name: "openssl/libssl1.1", version: "1.1.1d-0+deb10u2" },
+    { name: "openssl", version: "1.1.1d-0+deb10u2" },
+    { name: "base-files", version: "10.3+deb10u3" },
+    { name: "netbase", version: "5.6" },
+    { name: "tzdata", version: "2019c-0+deb10u1" },
+  ];
 
-  const pluginResult = await plugin.inspect(
-    imageNameAndTag,
-    dockerfile,
-    pluginOptions,
-  );
+  const depGraph: DepGraph = pluginResult.scanResults[0].facts.find(
+    (fact) => fact.type === "depGraph",
+  )!.data;
 
-  const expectedDependencies = {
-    "glibc/libc6": { name: "glibc/libc6", version: "2.28-10" },
-    "openssl/libssl1.1": {
-      name: "openssl/libssl1.1",
-      version: "1.1.1d-0+deb10u2",
-      dependencies: {
-        "glibc/libc6": { name: "glibc/libc6", version: "2.28-10" },
-      },
-    },
-    openssl: {
-      name: "openssl",
-      version: "1.1.1d-0+deb10u2",
-      dependencies: {
-        "glibc/libc6": { name: "glibc/libc6", version: "2.28-10" },
-        "openssl/libssl1.1": {
-          name: "openssl/libssl1.1",
-          version: "1.1.1d-0+deb10u2",
-        },
-      },
-    },
-    "base-files": { name: "base-files", version: "10.3+deb10u3" },
-    netbase: { name: "netbase", version: "5.6" },
-    tzdata: { name: "tzdata", version: "2019c-0+deb10u1" },
-  };
-
-  const depTree = pluginResult.scannedProjects[0].depTree as DepTree;
-  t.ok("dependencies" in depTree, "packages have dependencies");
-  t.deepEquals(
-    depTree.dependencies,
-    expectedDependencies,
+  const depGraphDepPkgs = depGraph.getDepPkgs();
+  t.ok(
+    expectedDependencies.every(
+      (expectedDep) =>
+        depGraphDepPkgs.find(
+          (depPkg) =>
+            depPkg.name === expectedDep.name &&
+            depPkg.version === expectedDep.version,
+        ) !== undefined,
+    ),
     "Distroless base image dependencies are correct",
   );
 
-  t.ok("targetOS" in pluginResult.scannedProjects[0].depTree, "OS discovered");
   t.deepEquals(
-    depTree.targetOS,
-    { name: "debian", version: "10", prettyName: "Distroless" },
+    depGraph.pkgManager.repositories,
+    [{ alias: "debian:10" }],
     "recognised it's debian 10",
   );
   t.same(
-    depTree.version,
+    depGraph.rootPkg.version,
     "70b8c7f2d41a844d310c23e0695388c916a364ed",
     "Version matches",
   );
@@ -443,21 +367,12 @@ test("experimental static analysis for debian images", async (t) => {
   });
 
   const imageNameAndTag = "debian:10";
-  const dockerfile = undefined;
 
-  const pluginOptionsExperimental = {
-    experimental: true,
-  };
-  const pluginResultExperimental = await plugin.inspect(
-    imageNameAndTag,
-    dockerfile,
-    pluginOptionsExperimental,
-  );
+  const pluginResultExperimental = await plugin.scan({
+    path: imageNameAndTag,
+  });
 
-  t.true(
-    dockerSaveStub.calledOnce,
-    "non-static experimental flag saves the image",
-  );
+  t.true(dockerSaveStub.calledOnce, "tries to save the image");
 
   // static scan doesn't handle creating the image archive yet
   const archivePath = path.join(os.tmpdir(), "debian-10.tar");
@@ -467,40 +382,34 @@ test("experimental static analysis for debian images", async (t) => {
     "-o",
     archivePath,
   ]);
-  const pluginOptionsStatic = {
-    staticAnalysisOptions: {
-      imagePath: archivePath,
-      imageType: ImageType.DockerArchive,
-    },
-  };
-  const pluginResultStatic = await plugin.inspect(
-    imageNameAndTag,
-    dockerfile,
-    pluginOptionsStatic,
-  );
+  const imagePath = `docker-archive:${archivePath}`;
+  const pluginResultStatic = await plugin.scan({
+    path: imagePath,
+  });
 
-  t.equals(
-    JSON.stringify(
-      pluginResultExperimental.scannedProjects[0].depTree.dependencies,
-    ),
-    JSON.stringify(pluginResultStatic.scannedProjects[0].depTree.dependencies),
+  const experimentalDepGraph: DepGraph = pluginResultExperimental.scanResults[0].facts.find(
+    (fact) => fact.type === "depGraph",
+  )!.data;
+  const staticDepGraph: DepGraph = pluginResultStatic.scanResults[0].facts.find(
+    (fact) => fact.type === "depGraph",
+  )!.data;
+
+  t.deepEquals(
+    experimentalDepGraph.getDepPkgs().sort(),
+    staticDepGraph.getDepPkgs().sort(),
     "identical dependencies for regular Debian images between experimental and static scans",
   );
 
-  t.true(
-    dockerSaveStub.calledOnce,
-    "static experimental flag does not save the image",
-  );
+  t.true(dockerSaveStub.calledOnce, "does not try to call save again");
   t.same(
-    pluginResultStatic.scannedProjects[0].depTree.version,
-    "10",
+    staticDepGraph.pkgManager.repositories,
+    [{ alias: "debian:10" }],
     "Version matches",
   );
 });
 
-test("static and dynamic scanning results are aligned", async (t) => {
+test("manifest files are detected", async (t) => {
   const imageNameAndTag = "debian:10";
-  const dockerfile = undefined;
   const manifestGlobs = [
     "/etc/redhat-release*",
     "/etc/foo",
@@ -510,13 +419,6 @@ test("static and dynamic scanning results are aligned", async (t) => {
   ];
   const manifestExcludeGlobs = ["**/node_modules/**"];
 
-  await subProcess.execute("docker", ["image", "pull", imageNameAndTag]);
-  const pluginResultDynamic = await plugin.inspect(
-    imageNameAndTag,
-    dockerfile,
-    { manifestGlobs, manifestExcludeGlobs },
-  );
-
   // static scan doesn't handle creating the image archive yet
   const archivePath = path.join(os.tmpdir(), "debian-10.tar");
   await subProcess.execute("docker", [
@@ -525,175 +427,94 @@ test("static and dynamic scanning results are aligned", async (t) => {
     "-o",
     archivePath,
   ]);
-  const pluginOptionsStatic = {
-    staticAnalysisOptions: {
-      imagePath: archivePath,
-      imageType: ImageType.DockerArchive,
+  const imagePath = `docker-archive:${archivePath}`;
+  const pluginResultStatic = await plugin.scan({
+    path: imagePath,
+    globsToFind: {
+      include: manifestGlobs,
+      exclude: manifestExcludeGlobs,
     },
-    manifestGlobs,
-    manifestExcludeGlobs,
-  };
-  const pluginResultStatic = await plugin.inspect(
-    imageNameAndTag,
-    dockerfile,
-    pluginOptionsStatic,
-  );
+  });
 
-  const osDepsDynamic = pluginResultDynamic.scannedProjects.find(
-    (res) => res.packageManager === "deb",
-  );
-  const osDepsStatic = pluginResultStatic.scannedProjects.find(
-    (res) => res.packageManager === "deb",
-  );
+  const osDepsStatic = pluginResultStatic.scanResults[0];
   t.ok(osDepsStatic !== undefined);
 
-  t.same(
-    osDepsDynamic!.depTree.dependencies,
-    osDepsStatic!.depTree.dependencies,
-    "identical dependencies for regular Debian images between dynamic and static scans",
-  );
-
+  const manifestFiles = pluginResultStatic.manifestFiles;
+  t.ok(manifestFiles !== undefined, "found manifest files in static scan");
   t.equals(
-    pluginResultDynamic.plugin.dockerImageId,
-    `sha256:${pluginResultStatic.plugin.dockerImageId}`, // TODO: how to handle that?
-    "image IDs, which is actually the image digest, is kind of equal between scan types",
-  );
-  // TODO: imageLayers is completely different
-
-  const manifestFilesDynamic = pluginResultDynamic.scannedProjects.find(
-    (res) => {
-      if (!("scanType" in res)) {
-        return false;
-      }
-      const scannedProjectExtended = res as ScannedProjectExtended;
-      return scannedProjectExtended.scanType === ScanType.ManifestFiles;
-    },
-  ) as ScannedProjectManifestFiles;
-
-  const manifestFilesStatic = pluginResultStatic.scannedProjects.find((res) => {
-    if (!("scanType" in res)) {
-      return false;
-    }
-    const scannedProjectExtended = res as ScannedProjectExtended;
-    return scannedProjectExtended.scanType === ScanType.ManifestFiles;
-  }) as ScannedProjectManifestFiles;
-
-  t.ok(
-    manifestFilesStatic !== undefined,
-    "found manifest files in static scan",
-  );
-  t.ok(
-    manifestFilesDynamic !== undefined,
-    "found manifest files in dynamic scan",
-  );
-  t.equals(
-    manifestFilesStatic.data.length,
+    manifestFiles?.length,
     1,
     "static scan finds one manifest file because it doesn't follow on symlinks",
   );
-  t.equals(
-    manifestFilesDynamic.data.length,
-    2,
-    "dynamic scan finds two manifest files beause it follows on symlinks",
-  );
-  t.same(
-    manifestFilesDynamic.data[0].contents,
-    manifestFilesDynamic.data[1].contents,
-    "symbolic links generate the same content",
-  );
   t.true(
-    Buffer.isBuffer(manifestFilesStatic.data[0].contents),
+    Buffer.isBuffer(manifestFiles?.[0].contents),
     "static scanned manifest files are held in buffer",
   );
 });
 
 test("static scanning NGINX with dockerfile analysis matches expected values", async (t) => {
-  const thisIsJustAnImageIdentifierInStaticAnalysis = "nginx:latest";
   const dockerfilePath = path.join(
     __dirname,
     "../fixtures/dockerfiles/library/nginx/Dockerfile",
   );
-  const pluginOptionsWithDockerSave = {
-    staticAnalysisOptions: {
-      imagePath: getFixture("docker-save/nginx.tar"),
-      imageType: ImageType.DockerArchive,
-    },
-  };
+  const fixturePath = getFixture("docker-save/nginx.tar");
+  const imagePath = `docker-archive:${fixturePath}`;
 
-  const pluginResultStatic = await plugin.inspect(
-    thisIsJustAnImageIdentifierInStaticAnalysis,
-    dockerfilePath,
-    pluginOptionsWithDockerSave,
-  );
+  const pluginResultStatic = await plugin.scan({
+    path: imagePath,
+    file: dockerfilePath,
+  });
 
-  const results = pluginResultStatic.scannedProjects;
-  // implicitly identifying as osScanResult by existence of `docker` property
-  const osScanResult = results.find((res) => "docker" in res.depTree);
-  t.ok(osScanResult !== undefined, "found OS scan results");
-  if (osScanResult === undefined) {
-    throw new Error(
-      "stop the test from proceeding because type safety was broken",
-    );
-  }
-  const depTree = osScanResult.depTree as DepTree; // this is okay because we asserted `docker` is present
-  const dockerResult = depTree.docker;
-
+  const dockerfileAnalysis: DockerFileAnalysis = pluginResultStatic.scanResults[0].facts.find(
+    (fact) => fact.type === "dockerfileAnalysis",
+  )!.data;
   t.equals(
-    dockerResult.baseImage,
+    dockerfileAnalysis.baseImage,
     "debian:stretch-slim",
     "base image matches expected",
   );
 
   t.ok(
-    "apt-transport-https" in dockerResult.dockerfilePackages,
+    "apt-transport-https" in dockerfileAnalysis.dockerfilePackages,
     "found apt-transport-https in dockerfile packages",
   );
   t.ok(
-    "ca-certificates" in dockerResult.dockerfilePackages,
+    "ca-certificates" in dockerfileAnalysis.dockerfilePackages,
     "found ca-certificates in dockerfile packages",
   );
   t.ok(
-    "gettext-base" in dockerResult.dockerfilePackages,
+    "gettext-base" in dockerfileAnalysis.dockerfilePackages,
     "found gettext-base in dockerfile packages",
   );
   t.ok(
-    "gnupg1" in dockerResult.dockerfilePackages,
+    "gnupg1" in dockerfileAnalysis.dockerfilePackages,
     "found gnupg1 in dockerfile packages",
   );
 });
 
 test("static analysis for arm based image", async (t) => {
   const imageNameAndTag = "arm64v8/nginx:1.19.2-alpine";
-  const dockerfile = undefined;
-  const pluginOptions = {
-    experimental: true,
-  };
+  const pluginResult = await plugin.scan({
+    path: imageNameAndTag,
+  });
 
-  const pluginResult = await plugin.inspect(
-    imageNameAndTag,
-    dockerfile,
-    pluginOptions,
-  );
+  const depGraph: DepGraph = pluginResult.scanResults[0].facts.find(
+    (fact) => fact.type === "depGraph",
+  )!.data;
 
-  const depTree = pluginResult.scannedProjects[0].depTree as DepTree;
-
-  t.ok("dependencies" in depTree, "packages have dependencies");
+  t.ok(depGraph.getDepPkgs().length, "packages have dependencies");
   t.equal(
-    pluginResult.scannedProjects[0].meta.imageName,
+    pluginResult.scanResults[0].target.image,
     "docker-image|arm64v8/nginx",
-    "imageName exists in the scan result",
+    "image exists in the scan result target",
   );
   t.deepEqual(
-    depTree.targetOS,
-    {
-      name: "alpine",
-      version: "3.12.0",
-      prettyName: "Alpine Linux v3.12",
-    },
+    depGraph.pkgManager.repositories,
+    [{ alias: "alpine:3.12.0" }],
     "found os scan result",
   );
   t.equal(
-    pluginResult.scannedProjects[0].meta.platform,
+    pluginResult.scanResults[0].identity.args?.platform,
     "linux/arm64",
     "Platform is returned with the result same way",
   );
@@ -704,32 +525,32 @@ test("able to scan SUSE images", async (t) => {
   const imgTag = "15.1";
   const img = imgName + ":" + imgTag;
 
-  const pluginResultStatic = await plugin.inspect(img, undefined, {
-    experimental: true,
+  const pluginResult = await plugin.scan({
+    path: img,
   });
-  const pluginRes = pluginResultStatic.plugin;
-  const pkg = pluginResultStatic.scannedProjects[0];
 
-  t.equal(pluginRes.packageManager, "rpm", "returns rpm package manager");
+  const depGraph: DepGraph = pluginResult.scanResults[0].facts.find(
+    (fact) => fact.type === "depGraph",
+  )!.data;
 
-  t.match(
-    pkg.depTree,
-    {
-      name: "docker-image|" + imgName,
-      version: imgTag,
-      packageFormatVersion: "rpm:0.0.1",
-      targetOS: {
-        name: "sles",
-        version: "15.1",
-        prettyName: "SUSE Linux Enterprise Server 15 SP1",
-      },
-      docker: {},
-    },
-    "dependency tree contains expected data",
+  t.equal(
+    pluginResult.scanResults[0].identity.type,
+    "rpm",
+    "returns rpm package manager",
   );
 
-  const deps = pkg.depTree.dependencies;
-  t.equal(Object.keys(deps).length, 121, "expected number of direct deps");
+  t.same(
+    depGraph.rootPkg.name,
+    "docker-image|" + imgName,
+    "expected root package name",
+  );
+  t.same(
+    depGraph.pkgManager.repositories,
+    [{ alias: "sles:15.1" }],
+    "OS image detected",
+  );
+
+  t.equal(depGraph.getDepPkgs().length, 121, "expected number of direct deps");
 });
 
 test("able to scan opensuse/leap images", async (t) => {
@@ -737,30 +558,30 @@ test("able to scan opensuse/leap images", async (t) => {
   const imgTag = "15.1";
   const img = imgName + ":" + imgTag;
 
-  const pluginResultStatic = await plugin.inspect(img, undefined, {
-    experimental: true,
+  const pluginResult = await plugin.scan({
+    path: img,
   });
-  const pluginRes = pluginResultStatic.plugin;
-  const pkg = pluginResultStatic.scannedProjects[0];
 
-  t.equal(pluginRes.packageManager, "rpm", "returns rpm package manager");
+  const depGraph: DepGraph = pluginResult.scanResults[0].facts.find(
+    (fact) => fact.type === "depGraph",
+  )!.data;
 
-  t.match(
-    pkg.depTree,
-    {
-      name: "docker-image|" + imgName,
-      version: imgTag,
-      packageFormatVersion: "rpm:0.0.1",
-      targetOS: {
-        name: "opensuse-leap",
-        version: "15.1",
-        prettyName: "openSUSE Leap 15.1",
-      },
-      docker: {},
-    },
-    "dependency tree contains expected data",
+  t.equal(
+    pluginResult.scanResults[0].identity.type,
+    "rpm",
+    "returns rpm package manager",
   );
 
-  const deps = pkg.depTree.dependencies;
-  t.equal(Object.keys(deps).length, 124, "expected number of direct deps");
+  t.same(
+    depGraph.rootPkg.name,
+    "docker-image|" + imgName,
+    "expected root package name",
+  );
+  t.same(
+    depGraph.pkgManager.repositories,
+    [{ alias: "opensuse-leap:15.1" }],
+    "OS image detected",
+  );
+
+  t.equal(depGraph.getDepPkgs().length, 124, "expected number of direct deps");
 });
