@@ -236,13 +236,20 @@ async function extractImageDetails(targetImage: string): Promise<ImageDetails> {
   ) {
     hostname = "registry-1.docker.io";
     remainder = targetImage;
-    [imageName, tag] = remainder.split(":");
+    // First assume the remainder is image@sha
+    [imageName, tag] = remainder.split("@");
+    if (tag === undefined) {
+      [imageName, tag] = remainder.split(":");
+    }
     imageName =
       imageName.indexOf("/") === -1 ? "library/" + imageName : imageName;
   } else {
     hostname = targetImage.substring(0, i);
     remainder = targetImage.substring(i + 1);
-    [imageName, tag] = remainder.split(":");
+    [imageName, tag] = remainder.split("@");
+    if (tag === undefined) {
+      [imageName, tag] = remainder.split(":");
+    }
   }
 
   // Assume the latest tag if no tag was found.

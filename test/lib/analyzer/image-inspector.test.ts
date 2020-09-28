@@ -100,6 +100,22 @@ test("extract image details", async (t) => {
           tag: "alpine",
         },
       },
+      "gcr.io/distroless/base-debian10@sha256:8756a25c4c5e902c4fe20322cc69d510a0517b51eab630c614efbd612ed568bf": {
+        expected: {
+          hostname: "gcr.io",
+          imageName: "distroless/base-debian10",
+          tag:
+            "sha256:8756a25c4c5e902c4fe20322cc69d510a0517b51eab630c614efbd612ed568bf",
+        },
+      },
+      "localhost:1234/foo/bar@sha256:8756a25c4c5e902c4fe20322cc69d510a0517b51eab630c614efbd612ed568bf": {
+        expected: {
+          hostname: "localhost:1234",
+          imageName: "foo/bar",
+          tag:
+            "sha256:8756a25c4c5e902c4fe20322cc69d510a0517b51eab630c614efbd612ed568bf",
+        },
+      },
     },
   };
 
