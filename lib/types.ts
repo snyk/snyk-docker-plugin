@@ -166,6 +166,7 @@ interface BaseImageRemediation {
 
 export interface TestResult {
   org: string;
+  licensesPolicy: object | null;
   docker: {
     baseImage?: string;
     baseImageRemediation?: BaseImageRemediation;

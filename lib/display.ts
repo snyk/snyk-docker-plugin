@@ -1,6 +1,7 @@
-import { createFromJSON, DepGraph } from "@snyk/dep-graph";
 import chalk from "chalk";
+import * as os from "os";
 
+import { createFromJSON, DepGraph } from "@snyk/dep-graph";
 import {
   BaseImageRemediationAdvice,
   ContainerTarget,
@@ -10,7 +11,8 @@ import {
   TestResult,
 } from "./types";
 
-const BREAK_LINE = "\n";
+const BREAK_LINE = os.EOL;
+const SECTION_PADDING_TO_FORMAT_METADATA = 19;
 
 export async function display(
   scanResults: ScanResult[],
@@ -18,14 +20,7 @@ export async function display(
   errors: string[],
   options?: Options,
 ): Promise<string> {
-  const testingPath = options?.path;
-
   const result: string[] = [];
-  if (options && options.path) {
-    const prefix = chalk.bold.white("\nTesting " + testingPath + "...\n\n\n");
-    result.push(prefix);
-  }
-
   let index = 0;
   for (const testResult of testResults) {
     const formattedIssue: string[] = [];
@@ -155,14 +150,20 @@ function formatMetadataSection(
   const image = target.image.replace("docker-image|", "");
   result.push(formatMetadataLine("Project name:", projectName));
   result.push(formatMetadataLine("Docker image:", image));
+  if (testResult.docker && testResult.docker.baseImage) {
+    result.push(formatMetadataLine("Base image:", testResult.docker.baseImage));
+  }
+  if (testResult.licensesPolicy) {
+    result.push(formatMetadataLine("Licenses:", chalk.green("enabled")));
+  }
 
   return result.join(BREAK_LINE);
 }
 
 function formatMetadataLine(header: string, info: string = ""): string {
-  const padLength = 19;
-
-  return `${chalk.green(padding(header, padLength))} ${info}`;
+  return `${chalk.green(
+    padding(header, SECTION_PADDING_TO_FORMAT_METADATA),
+  )} ${info}`;
 }
 
 function formatSummary(testResult: TestResult): string {
@@ -254,7 +255,7 @@ function formatSuggestions(options): string {
       );
       dockerSuggestion.push(
         chalk.bold.white(
-          `Example: $ snyk test --docker ${options.path} --file=path/to/Dockerfile`,
+          `Example: $ snyk container test ${options.path} --file=path/to/Dockerfile`,
         ),
       );
       dockerSuggestion.push(BREAK_LINE);

@@ -21,17 +21,21 @@ function readFixture(fixture: string, filename: string): Promise<string> {
 
 test("display", async (c) => {
   c.test("shows text mode when there is no issues", async (t) => {
-    const expectedDisplay = await readFixture("display", "no-issues.txt");
+    const expectedDisplay = await readFixture(
+      "display/output",
+      "no-issues.txt",
+    );
     const debDepGraphData: DepGraphData = JSON.parse(
       await readFixture("display", "deb-dep-graph.json"),
     );
     const rpmImageScanResult: ScanResult = JSON.parse(
-      await readFixture("scan-results", "rpm.json"),
+      await readFixture("display/scan-results", "rpm.json"),
     );
     const scanResults: ScanResult[] = [rpmImageScanResult];
     const testResults: TestResult[] = [
       {
         org: "org-test",
+        licensesPolicy: null,
         docker: {},
         issues: [],
         issuesData: {},
@@ -40,31 +44,33 @@ test("display", async (c) => {
     ];
     const errors: string[] = [];
     const options: Options = {
+      path: "snyk/kubernetes-monitor",
       config: {},
     } as Options;
 
     const result = await display(scanResults, testResults, errors, options);
 
-    t.same(result, expectedDisplay, "the display is not as expected");
+    t.same(result, expectedDisplay, "the display is as expected");
   });
 
   c.test(
     "shows text mode when there is no issues and file option",
     async (t) => {
       const expectedDisplay = await readFixture(
-        "display",
+        "display/output",
         "no-issues-with-file-options.txt",
       );
       const debDepGraphData: DepGraphData = JSON.parse(
         await readFixture("display", "deb-dep-graph.json"),
       );
       const rpmImageScanResult: ScanResult = JSON.parse(
-        await readFixture("scan-results", "rpm.json"),
+        await readFixture("display/scan-results", "rpm.json"),
       );
       const scanResults: ScanResult[] = [rpmImageScanResult];
       const testResults: TestResult[] = [
         {
           org: "org-test",
+          licensesPolicy: null,
           docker: {},
           issues: [],
           issuesData: {},
@@ -79,109 +85,29 @@ test("display", async (c) => {
 
       const result = await display(scanResults, testResults, errors, options);
 
-      t.same(result, expectedDisplay, "the display is not as expected");
+      t.same(result, expectedDisplay, "the display is as expected");
     },
   );
 
   c.test(
     "shows text mode when there is three issues from different severities",
     async (t) => {
-      const expectedDisplay = await readFixture("display", "a-few-issues.txt");
+      const expectedDisplay = await readFixture(
+        "display/output",
+        "a-few-issues.txt",
+      );
       const debDepGraphData: DepGraphData = JSON.parse(
         await readFixture("display", "deb-dep-graph.json"),
       );
       const rpmImageScanResult: ScanResult = JSON.parse(
-        await readFixture("scan-results", "rpm.json"),
+        await readFixture("display/scan-results", "rpm.json"),
       );
+      const testResultWithIssues: TestResult = JSON.parse(
+        await readFixture("display/test-results", "with-few-issues.txt"),
+      );
+      testResultWithIssues.depGraphData = debDepGraphData;
       const scanResults: ScanResult[] = [rpmImageScanResult];
-      const testResults: TestResult[] = [
-        {
-          org: "org-test",
-          docker: {
-            baseImage: "ubuntu",
-            baseImageRemediation: {
-              code: "REMEDIATION_AVAILABLE",
-              advice: [
-                {
-                  message: "Recommendations for base image upgrade:\n",
-                  bold: true,
-                  color: "green",
-                },
-                {
-                  message:
-                    "Base Image    Vulnerabilities  Severity\nubuntu:14.04  34               6 high, 11 medium, 17 low\n",
-                },
-                {
-                  message:
-                    "Base Image              Vulnerabilities  Severity\nubuntu:devel            0                0 high, 0 medium, 0 low\nubuntu:cosmic           0                0 high, 0 medium, 0 low\nubuntu:18.10            0                0 high, 0 medium, 0 low\nubuntu:rolling          0                0 high, 0 medium, 0 low\nubuntu:19.04            0                0 high, 0 medium, 0 low\nubuntu:disco            0                0 high, 0 medium, 0 low\nubuntu:disco-20181112   0                0 high, 0 medium, 0 low\nubuntu:cosmic-20181114  0                0 high, 0 medium, 0 low",
-                },
-              ],
-            },
-          },
-          issues: [
-            {
-              pkgName: "bash",
-              pkgVersion: "5.0-6ubuntu1.1",
-              issueId: "SNYK-UBUNTU2004-BASH-581100",
-              fixInfo: {},
-            },
-            {
-              pkgName: "systemd/libsystemd0",
-              pkgVersion: "@245.4-4ubuntu3.2",
-              issueId: "SNYK-UBUNTU2004-SYSTEMD-582552",
-              fixInfo: {},
-            },
-            {
-              pkgName: "gnutls28/libgnutls30",
-              pkgVersion: "@3.6.13-2ubuntu1.2",
-              issueId: "SNYK-UBUNTU2004-GNUTLS28-609972",
-              fixInfo: {
-                nearestFixedInVersion: "3.6.13-2ubuntu1.3",
-              },
-            },
-          ],
-          issuesData: {
-            ["SNYK-UBUNTU2004-BASH-581100"]: {
-              id: "SNYK-UBUNTU2004-BASH-581100",
-              severity: "low",
-              from: [["bash@5.0-6ubuntu1.1"]],
-              title: "CVE-2019-18276",
-            },
-            ["SNYK-UBUNTU2004-SYSTEMD-582552"]: {
-              id: "SNYK-UBUNTU2004-SYSTEMD-582552",
-              severity: "medium",
-              from: [
-                ["systemd/libsystemd0@245.4-4ubuntu3.2"],
-                ["apt@2.0.2ubuntu0.1", "systemd/libsystemd0@245.4-4ubuntu3.2"],
-                [
-                  "procps/libprocps8@2:3.3.16-1ubuntu2",
-                  "systemd/libsystemd0@245.4-4ubuntu3.2",
-                ],
-                [
-                  "util-linux/bsdutils@1:2.34-0.1ubuntu9",
-                  "systemd/libsystemd0@245.4-4ubuntu3.2",
-                ],
-                ["util-linux/mount@2.34-0.1ubuntu9"],
-                ["systemd/libudev1@245.4-4ubuntu3.2"],
-              ],
-              title: "Information Exposure",
-            },
-            ["SNYK-UBUNTU2004-GNUTLS28-609972"]: {
-              id: "SNYK-UBUNTU2004-GNUTLS28-609972",
-              severity: "high",
-              from: [
-                ["gnutls28/libgnutls30@3.6.13-2ubuntu1.2"],
-                [
-                  "apt@2.0.2ubuntu0.1",
-                  "gnutls28/libgnutls30@3.6.13-2ubuntu1.2",
-                ],
-              ],
-              title: "Out-of-bounds Write",
-            },
-          },
-          depGraphData: debDepGraphData,
-        },
-      ];
+      const testResults: TestResult[] = [testResultWithIssues];
       const errors: string[] = [];
       const options: Options = {
         path: "ubuntu",
@@ -192,52 +118,30 @@ test("display", async (c) => {
 
       const result = await display(scanResults, testResults, errors, options);
 
-      t.same(result, expectedDisplay, "the display is not as expected");
+      t.same(result, expectedDisplay, "the display is as expected");
     },
   );
 
   c.test("shows text mode when there is base image remediation", async (t) => {
     const expectedDisplay = await readFixture(
-      "display",
+      "display/output",
       "only-base-image-remediations.txt",
     );
     const debDepGraphData: DepGraphData = JSON.parse(
       await readFixture("display", "deb-dep-graph.json"),
     );
     const rpmImageScanResult: ScanResult = JSON.parse(
-      await readFixture("scan-results", "rpm.json"),
+      await readFixture("display/scan-results", "rpm.json"),
     );
+    const testResultWithIssues: TestResult = JSON.parse(
+      await readFixture(
+        "display/test-results",
+        "only-base-image-remediation.txt",
+      ),
+    );
+    testResultWithIssues.depGraphData = debDepGraphData;
     const scanResults: ScanResult[] = [rpmImageScanResult];
-    const testResults: TestResult[] = [
-      {
-        org: "org-test",
-        docker: {
-          baseImage: "ubuntu",
-          baseImageRemediation: {
-            code: "REMEDIATION_AVAILABLE",
-            advice: [
-              {
-                message: "Recommendations for base image upgrade:\n",
-                bold: true,
-                color: "green",
-              },
-              {
-                message:
-                  "Base Image    Vulnerabilities  Severity\nubuntu:14.04  34               6 high, 11 medium, 17 low\n",
-              },
-              {
-                message:
-                  "Base Image              Vulnerabilities  Severity\nubuntu:devel            0                0 high, 0 medium, 0 low\nubuntu:cosmic           0                0 high, 0 medium, 0 low\nubuntu:18.10            0                0 high, 0 medium, 0 low\nubuntu:rolling          0                0 high, 0 medium, 0 low\nubuntu:19.04            0                0 high, 0 medium, 0 low\nubuntu:disco            0                0 high, 0 medium, 0 low\nubuntu:disco-20181112   0                0 high, 0 medium, 0 low\nubuntu:cosmic-20181114  0                0 high, 0 medium, 0 low",
-              },
-            ],
-          },
-        },
-        issues: [],
-        issuesData: {},
-        depGraphData: debDepGraphData,
-      },
-    ];
-
+    const testResults: TestResult[] = [testResultWithIssues];
     const errors: string[] = [];
     const options: Options = {
       path: "ubuntu",
@@ -249,6 +153,6 @@ test("display", async (c) => {
 
     const result = await display(scanResults, testResults, errors, options);
 
-    t.same(result, expectedDisplay, "the display is not as expected");
+    t.same(result, expectedDisplay, "the display is as expected");
   });
 });

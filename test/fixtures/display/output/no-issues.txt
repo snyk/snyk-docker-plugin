@@ -11,7 +11,7 @@
 
 
 [1m[37mPro tip: use `--file` option to get base image remediation advice.[39m[22m
-[1m[37mExample: $ snyk test --docker undefined --file=path/to/Dockerfile[39m[22m
+[1m[37mExample: $ snyk container test snyk/kubernetes-monitor --file=path/to/Dockerfile[39m[22m
 
 
 To remove this message in the future, please run `snyk config set disableSuggestions=true`

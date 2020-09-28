@@ -1,8 +1,3 @@
-[1m[37m[39m[22m
-[1m[37mTesting ubuntu...[39m[22m
-[1m[37m[39m[22m
-[1m[37m[39m[22m
-[1m[37m[39m[22m
 
 
 
@@ -10,6 +5,7 @@
 [32mPackage manager:   [39m rpm
 [32mProject name:      [39m docker-image|snyk/kubernetes-monitor
 [32mDocker image:      [39m snyk/kubernetes-monitor
+[32mBase image:        [39m ubuntu
 
 
 [32m✓ Tested 90 dependencies for known issues, no vulnerable paths found.[39m
