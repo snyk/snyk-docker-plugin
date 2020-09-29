@@ -50,7 +50,7 @@ async function localArchive(
     archivePath,
     dockerfileAnalysis,
     imageType,
-    options["app-vulns"],
+    isTrue(options["app-vulns"]),
   );
 }
 
@@ -83,7 +83,7 @@ export async function distroless(
       archiveResult.path,
       dockerfileAnalysis,
       ImageType.DockerArchive,
-      options["app-vulns"],
+      isTrue(options["app-vulns"]),
     );
   } finally {
     archiveResult.removeArchive();
@@ -120,4 +120,8 @@ export function fullImageSavePath(imageSavePath: string | undefined): string {
   }
 
   return path.join(imagePath, uuidv4());
+}
+
+function isTrue(value: boolean | string): boolean {
+  return String(value).toLowerCase() === "true";
 }

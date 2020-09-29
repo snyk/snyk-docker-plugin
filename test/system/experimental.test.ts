@@ -195,3 +195,155 @@ test("static scan for Identifier type image (nginx:1.19.0)", async (t) => {
     "Correct platform detected",
   );
 });
+
+test("scanning a container with 2 applications (--app-vulns)", async (t) => {
+  const imageNameAndTag = "snykgoof/os-app:node-snykin";
+  const dockerfile = undefined;
+
+  const pluginOptions = {
+    experimental: true,
+    docker: true,
+    "app-vulns": true,
+  };
+
+  const pluginResult = await plugin.inspect(
+    imageNameAndTag,
+    dockerfile,
+    pluginOptions,
+  );
+
+  t.ok(
+    "scannedProjects" in pluginResult &&
+      Array.isArray(pluginResult.scannedProjects),
+    "scannedProjects is in plugin response and has the correct type",
+  );
+  t.same(pluginResult.scannedProjects.length, 3, "contains 3 scan results");
+
+  const osScan = pluginResult.scannedProjects[0];
+  t.ok(osScan.meta, "os scan meta is not falsy");
+  t.same(
+    osScan.meta.platform,
+    "linux/amd64",
+    "os scan meta includes platform information",
+  );
+
+  const yarnScan = pluginResult.scannedProjects[1];
+  await t.test("first scanned project is scanned correctly", async (subt) => {
+    subt.same(
+      yarnScan.packageManager,
+      "yarn",
+      "yarn as package manager is scanned correctly",
+    );
+    subt.same(
+      yarnScan.targetFile,
+      "/app2/package.json",
+      "path to targetFile is correct",
+    );
+  });
+
+  const npmScan = pluginResult.scannedProjects[2];
+  await t.test("second scanned project is scanned correctly", async (subt) => {
+    subt.same(
+      npmScan.packageManager,
+      "npm",
+      "yarn as package manager is scanned correctly",
+    );
+    subt.same(
+      npmScan.targetFile,
+      "/app1/package.json",
+      "path to targetFile is correct",
+    );
+  });
+});
+
+test("scanning a container with 0 applications (--app-vulns=false)", async (t) => {
+  const imageNameAndTag = "snykgoof/os-app:node-snykin";
+  const dockerfile = undefined;
+
+  const pluginOptions = {
+    experimental: true,
+    docker: true,
+    "app-vulns": "false",
+  };
+
+  const pluginResult = await plugin.inspect(
+    imageNameAndTag,
+    dockerfile,
+    pluginOptions,
+  );
+
+  t.ok(
+    "scannedProjects" in pluginResult &&
+      Array.isArray(pluginResult.scannedProjects),
+    "scannedProjects is in plugin response and has the correct type",
+  );
+  t.same(pluginResult.scannedProjects.length, 1, "contains 1 scan results");
+
+  const osScan = pluginResult.scannedProjects[0];
+  t.ok(osScan.meta, "os scan meta is not falsy");
+  t.same(
+    osScan.meta.platform,
+    "linux/amd64",
+    "os scan meta includes platform information",
+  );
+});
+
+test("scanning a container with 2 applications (--app-vulns=true)", async (t) => {
+  const imageNameAndTag = "snykgoof/os-app:node-snykin";
+  const dockerfile = undefined;
+
+  const pluginOptions = {
+    experimental: true,
+    docker: true,
+    "app-vulns": "true",
+  };
+
+  const pluginResult = await plugin.inspect(
+    imageNameAndTag,
+    dockerfile,
+    pluginOptions,
+  );
+
+  t.ok(
+    "scannedProjects" in pluginResult &&
+      Array.isArray(pluginResult.scannedProjects),
+    "scannedProjects is in plugin response and has the correct type",
+  );
+  t.same(pluginResult.scannedProjects.length, 3, "contains 3 scan results");
+
+  const osScan = pluginResult.scannedProjects[0];
+  t.ok(osScan.meta, "os scan meta is not falsy");
+  t.same(
+    osScan.meta.platform,
+    "linux/amd64",
+    "os scan meta includes platform information",
+  );
+
+  const yarnScan = pluginResult.scannedProjects[1];
+  await t.test("first scanned project is scanned correctly", async (subt) => {
+    subt.same(
+      yarnScan.packageManager,
+      "yarn",
+      "yarn as package manager is scanned correctly",
+    );
+    subt.same(
+      yarnScan.targetFile,
+      "/app2/package.json",
+      "path to targetFile is correct",
+    );
+  });
+
+  const npmScan = pluginResult.scannedProjects[2];
+  await t.test("second scanned project is scanned correctly", async (subt) => {
+    subt.same(
+      npmScan.packageManager,
+      "npm",
+      "yarn as package manager is scanned correctly",
+    );
+    subt.same(
+      npmScan.targetFile,
+      "/app1/package.json",
+      "path to targetFile is correct",
+    );
+  });
+});
