@@ -29,6 +29,7 @@
 [32mDocker image:      [39m snyk/kubernetes-monitor
 [32mBase image:        [39m ubuntu
 [32mLicenses:          [39m [32menabled[39m
+[32mPlatform:          [39m linux/amd64
 
 
 Tested 90 dependencies for known issues, [1m[31mfound 3 issues.[39m[22m
