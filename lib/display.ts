@@ -156,6 +156,10 @@ function formatMetadataSection(
   if (testResult.licensesPolicy) {
     result.push(formatMetadataLine("Licenses:", chalk.green("enabled")));
   }
+  const platform = scanResult.identity.args?.platform;
+  if (platform) {
+    result.push(formatMetadataLine("Platform:", platform));
+  }
 
   return result.join(BREAK_LINE);
 }
