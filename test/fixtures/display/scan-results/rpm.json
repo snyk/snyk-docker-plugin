@@ -67,7 +67,8 @@
     }
   ],
   "identity": {
-    "type": "rpm"
+    "type": "rpm",
+    "args": { "platform": "linux/amd64" }
   },
   "target": {
     "image": "docker-image|snyk/kubernetes-monitor"

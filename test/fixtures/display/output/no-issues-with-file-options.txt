@@ -5,6 +5,7 @@
 [32mPackage manager:   [39m rpm
 [32mProject name:      [39m docker-image|snyk/kubernetes-monitor
 [32mDocker image:      [39m snyk/kubernetes-monitor
+[32mPlatform:          [39m linux/amd64
 
 
 [32m✓ Tested 90 dependencies for known issues, no vulnerable paths found.[39m
