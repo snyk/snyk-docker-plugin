@@ -27,7 +27,7 @@ async function detect(
   targetImage: string,
   options?: DockerOptions,
 ): Promise<DockerInspectOutput> {
-  const docker = new Docker(targetImage, options);
+  const docker = new Docker(options);
   return getInspectResult(docker, targetImage);
 }
 
@@ -162,7 +162,7 @@ async function getImageArchive(
   password?: string,
   platform?: string,
 ): Promise<ArchiveResult> {
-  const docker = new Docker(targetImage);
+  const docker = new Docker();
   mkdirp.sync(imageSavePath);
   const destination: DestinationDir = {
     name: imageSavePath,
@@ -236,13 +236,20 @@ async function extractImageDetails(targetImage: string): Promise<ImageDetails> {
   ) {
     hostname = "registry-1.docker.io";
     remainder = targetImage;
-    [imageName, tag] = remainder.split(":");
+    // First assume the remainder is image@sha
+    [imageName, tag] = remainder.split("@");
+    if (tag === undefined) {
+      [imageName, tag] = remainder.split(":");
+    }
     imageName =
       imageName.indexOf("/") === -1 ? "library/" + imageName : imageName;
   } else {
     hostname = targetImage.substring(0, i);
     remainder = targetImage.substring(i + 1);
-    [imageName, tag] = remainder.split(":");
+    [imageName, tag] = remainder.split("@");
+    if (tag === undefined) {
+      [imageName, tag] = remainder.split(":");
+    }
   }
 
   // Assume the latest tag if no tag was found.
@@ -272,7 +279,7 @@ function isLocalImageSameArchitecture(
 }
 
 async function pullIfNotLocal(targetImage: string, options?: DockerOptions) {
-  const docker = new Docker(targetImage);
+  const docker = new Docker();
   try {
     await docker.inspectImage(targetImage);
     return;

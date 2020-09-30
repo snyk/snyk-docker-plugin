@@ -1,0 +1,184 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`distroless tests should correctly analyze a distroless image by sha256 1`] = `
+Object {
+  "manifestFiles": undefined,
+  "scanResults": Array [
+    Object {
+      "facts": Array [
+        Object {
+          "data": Object {
+            "graph": Object {
+              "nodes": Array [
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "base-files@10.3+deb10u5",
+                    },
+                    Object {
+                      "nodeId": "glibc/libc6@2.28-10",
+                    },
+                    Object {
+                      "nodeId": "netbase@5.6",
+                    },
+                    Object {
+                      "nodeId": "openssl@1.1.1d-0+deb10u3",
+                    },
+                    Object {
+                      "nodeId": "openssl/libssl1.1@1.1.1d-0+deb10u3|2",
+                    },
+                    Object {
+                      "nodeId": "tzdata@2020a-0+deb10u1",
+                    },
+                  ],
+                  "nodeId": "root-node",
+                  "pkgId": "docker-image|gcr.io/distroless/base-debian10@",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "base-files@10.3+deb10u5",
+                  "pkgId": "base-files@10.3+deb10u5",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "glibc/libc6@2.28-10",
+                  "pkgId": "glibc/libc6@2.28-10",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "netbase@5.6",
+                  "pkgId": "netbase@5.6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "openssl/libssl1.1@1.1.1d-0+deb10u3|1",
+                  "pkgId": "openssl/libssl1.1@1.1.1d-0+deb10u3",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "glibc/libc6@2.28-10",
+                    },
+                  ],
+                  "nodeId": "openssl/libssl1.1@1.1.1d-0+deb10u3|2",
+                  "pkgId": "openssl/libssl1.1@1.1.1d-0+deb10u3",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "glibc/libc6@2.28-10",
+                    },
+                    Object {
+                      "nodeId": "openssl/libssl1.1@1.1.1d-0+deb10u3|1",
+                    },
+                  ],
+                  "nodeId": "openssl@1.1.1d-0+deb10u3",
+                  "pkgId": "openssl@1.1.1d-0+deb10u3",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "tzdata@2020a-0+deb10u1",
+                  "pkgId": "tzdata@2020a-0+deb10u1",
+                },
+              ],
+              "rootNodeId": "root-node",
+            },
+            "pkgManager": Object {
+              "name": "deb",
+              "repositories": Array [
+                Object {
+                  "alias": "debian:10",
+                },
+              ],
+            },
+            "pkgs": Array [
+              Object {
+                "id": "docker-image|gcr.io/distroless/base-debian10@",
+                "info": Object {
+                  "name": "docker-image|gcr.io/distroless/base-debian10",
+                  "version": undefined,
+                },
+              },
+              Object {
+                "id": "base-files@10.3+deb10u5",
+                "info": Object {
+                  "name": "base-files",
+                  "version": "10.3+deb10u5",
+                },
+              },
+              Object {
+                "id": "glibc/libc6@2.28-10",
+                "info": Object {
+                  "name": "glibc/libc6",
+                  "version": "2.28-10",
+                },
+              },
+              Object {
+                "id": "netbase@5.6",
+                "info": Object {
+                  "name": "netbase",
+                  "version": "5.6",
+                },
+              },
+              Object {
+                "id": "openssl/libssl1.1@1.1.1d-0+deb10u3",
+                "info": Object {
+                  "name": "openssl/libssl1.1",
+                  "version": "1.1.1d-0+deb10u3",
+                },
+              },
+              Object {
+                "id": "openssl@1.1.1d-0+deb10u3",
+                "info": Object {
+                  "name": "openssl",
+                  "version": "1.1.1d-0+deb10u3",
+                },
+              },
+              Object {
+                "id": "tzdata@2020a-0+deb10u1",
+                "info": Object {
+                  "name": "tzdata",
+                  "version": "2020a-0+deb10u1",
+                },
+              },
+            ],
+            "schemaVersion": "1.2.0",
+          },
+          "type": "depGraph",
+        },
+        Object {
+          "data": "c2987b6738086b576c4bdca35a4e9caa748367d33a2a7a066404822e3778facb",
+          "type": "imageId",
+        },
+        Object {
+          "data": Array [
+            "cd28a18f08941d5f62d26d4612c17ce135fcbb3c33d86060d72c65e6186b61ad/layer.tar",
+            "795faa8b6bf2e2d15702e670d4e456b1c3fa86a1fff2def41e1d3298a483f565/layer.tar",
+          ],
+          "type": "imageLayers",
+        },
+        Object {
+          "data": Array [
+            "sha256:79d541cda6cb9a0c0e4aaa62aaea1f85b6b56544b5ad25e1e3369525ec0bf670",
+            "sha256:236f427c513a1d6f359c493154ef41bb0d768e0d0396599e0625a5f6fee476d7",
+          ],
+          "type": "rootFs",
+        },
+        Object {
+          "data": "Distroless",
+          "type": "imageOsReleasePrettyName",
+        },
+      ],
+      "identity": Object {
+        "args": Object {
+          "platform": "linux/amd64",
+        },
+        "type": "deb",
+      },
+      "target": Object {
+        "image": "docker-image|gcr.io/distroless/base-debian10",
+      },
+    },
+  ],
+}
+`;

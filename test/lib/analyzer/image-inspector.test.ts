@@ -1,6 +1,3 @@
-// tslint:disable:max-line-length
-// tslint:disable:object-literal-key-quotes
-
 import * as fs from "fs";
 import * as path from "path";
 import * as sinon from "sinon";
@@ -103,6 +100,22 @@ test("extract image details", async (t) => {
           tag: "alpine",
         },
       },
+      "gcr.io/distroless/base-debian10@sha256:8756a25c4c5e902c4fe20322cc69d510a0517b51eab630c614efbd612ed568bf": {
+        expected: {
+          hostname: "gcr.io",
+          imageName: "distroless/base-debian10",
+          tag:
+            "sha256:8756a25c4c5e902c4fe20322cc69d510a0517b51eab630c614efbd612ed568bf",
+        },
+      },
+      "localhost:1234/foo/bar@sha256:8756a25c4c5e902c4fe20322cc69d510a0517b51eab630c614efbd612ed568bf": {
+        expected: {
+          hostname: "localhost:1234",
+          imageName: "foo/bar",
+          tag:
+            "sha256:8756a25c4c5e902c4fe20322cc69d510a0517b51eab630c614efbd612ed568bf",
+        },
+      },
     },
   };
 
@@ -122,7 +135,7 @@ test("extract image details", async (t) => {
 test("get image as an archive", async (t) => {
   const targetImage = "library/hello-world:latest";
 
-  t.test("from the local daemon if it exists", async (t) => {
+  await t.test("from the local daemon if it exists", async (t) => {
     const customPath = "./other_custom/image/save/path/local/daemon";
     const imageSavePath = path.join(customPath, uuidv4());
     const dockerPullSpy = sinon.spy(Docker.prototype, "pull");
@@ -165,7 +178,7 @@ test("get image as an archive", async (t) => {
     t.ok(fs.existsSync(customPath), "custom path should exist on disk");
   });
 
-  t.test("from remote registry with binary", async (t) => {
+  await t.test("from remote registry with binary", async (t) => {
     const customPath = tmp.dirSync().name;
     const imageSavePath = path.join(customPath, uuidv4());
     const dockerPullSpy = sinon.spy(Docker.prototype, "pull");
@@ -206,7 +219,7 @@ test("get image as an archive", async (t) => {
     t.ok(fs.existsSync(customPath), "custom path should exist on disk");
   });
 
-  t.test("from remote registry without binary", async (t) => {
+  await t.test("from remote registry without binary", async (t) => {
     const customPath = "./new_custom/image/save/path";
     const imageSavePath = path.join(customPath, uuidv4());
     const dockerPullSpy = sinon.spy(Docker.prototype, "pull");
@@ -249,7 +262,7 @@ test("get image as an archive", async (t) => {
     t.ok(fs.existsSync(customPath), "custom path should exist on disk");
   });
 
-  t.test("from remote registry with authentication", async (t) => {
+  await t.test("from remote registry with authentication", async (t) => {
     const customPath = "./my_custom/image/save/path/auth";
     const imageSavePath = path.join(customPath, uuidv4());
     const dockerPullSpy: sinon.SinonSpy = sinon.spy(Docker.prototype, "pull");

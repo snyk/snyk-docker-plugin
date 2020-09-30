@@ -7,33 +7,49 @@ import { getImageArchive } from "./analyzer/image-inspector";
 import { DockerFileAnalysis } from "./docker-file";
 import { getArchivePath, getImageType } from "./image-type";
 import * as staticModule from "./static";
-import { ImageType, PluginResponse } from "./types";
+import { ImageType, PluginOptions, PluginResponse } from "./types";
 
 export async function experimentalAnalysis(
   targetImage: string,
   dockerfileAnalysis: DockerFileAnalysis | undefined,
-  options: any,
+  options: Partial<PluginOptions>,
 ): Promise<PluginResponse> {
-  // assume Distroless scanning
   const imageType = getImageType(targetImage);
   switch (imageType) {
     case ImageType.DockerArchive:
     case ImageType.OciArchive:
-      return localArchive(targetImage, imageType, dockerfileAnalysis, options);
+      return localArchiveAnalysis(
+        targetImage,
+        imageType,
+        dockerfileAnalysis,
+        options,
+      );
     case ImageType.Identifier:
-      return distroless(targetImage, dockerfileAnalysis, options);
+      return imageIdentifierAnalysis(
+        targetImage,
+        imageType,
+        dockerfileAnalysis,
+        options,
+      );
 
     default:
       throw new Error("Unhandled image type for image " + targetImage);
   }
 }
 
-async function localArchive(
+async function localArchiveAnalysis(
   targetImage: string,
   imageType: ImageType,
   dockerfileAnalysis: DockerFileAnalysis | undefined,
-  options: any,
+  options: Partial<PluginOptions>,
 ): Promise<PluginResponse> {
+  const excludeBaseImageVulns = isTrue(options["exclude-base-image-vulns"]);
+  const appScan = isTrue(options["app-vulns"]);
+  const globToFind = {
+    include: options.globsToFind?.include || [],
+    exclude: options.globsToFind?.exclude || [],
+  };
+
   const archivePath = getArchivePath(targetImage);
   if (!fs.existsSync(archivePath)) {
     throw new Error(
@@ -43,74 +59,56 @@ async function localArchive(
   if (!fs.lstatSync(archivePath).isFile()) {
     throw new Error("The provided archive path is not a file");
   }
+
   // The target image becomes the base of the path, e.g. "archive.tar" for "/var/tmp/archive.tar"
   const imageIdentifier = path.basename(archivePath);
-  return await getStaticAnalysisResult(
+  return await staticModule.analyzeStatically(
     imageIdentifier,
-    archivePath,
     dockerfileAnalysis,
     imageType,
-    isTrue(options["app-vulns"]),
+    archivePath,
+    excludeBaseImageVulns,
+    globToFind,
+    appScan,
   );
 }
 
-// experimental flow expected to be merged with the static analysis when ready
-export async function distroless(
+export async function imageIdentifierAnalysis(
   targetImage: string,
+  imageType: ImageType,
   dockerfileAnalysis: DockerFileAnalysis | undefined,
-  options: any,
+  options: Partial<PluginOptions>,
 ): Promise<PluginResponse> {
-  if (staticModule.isRequestingStaticAnalysis(options)) {
-    options.staticAnalysisOptions.distroless = true;
-    return staticModule.analyzeStatically(
-      targetImage,
-      dockerfileAnalysis,
-      options,
-    );
-  }
+  const excludeBaseImageVulns = isTrue(options["exclude-base-image-vulns"]);
+  const appScan = isTrue(options["app-vulns"]);
+  const globToFind = {
+    include: options.globsToFind?.include || [],
+    exclude: options.globsToFind?.exclude || [],
+  };
 
-  const imageSavePath = fullImageSavePath(options?.imageSavePath);
+  const imageSavePath = fullImageSavePath(options.imageSavePath);
   const archiveResult = await getImageArchive(
     targetImage,
     imageSavePath,
-    options?.username,
-    options?.password,
-    options?.platform,
+    options.username,
+    options.password,
+    options.platform,
   );
+
+  const imagePath = archiveResult.path;
   try {
-    return await getStaticAnalysisResult(
+    return await staticModule.analyzeStatically(
       targetImage,
-      archiveResult.path,
       dockerfileAnalysis,
-      ImageType.DockerArchive,
-      isTrue(options["app-vulns"]),
+      imageType,
+      imagePath,
+      excludeBaseImageVulns,
+      globToFind,
+      appScan,
     );
   } finally {
     archiveResult.removeArchive();
   }
-}
-
-async function getStaticAnalysisResult(
-  targetImage: string,
-  archivePath: string,
-  dockerfileAnalysis: DockerFileAnalysis | undefined,
-  imageType: ImageType,
-  appScan: boolean,
-): Promise<PluginResponse> {
-  const scanningOptions = {
-    staticAnalysisOptions: {
-      imagePath: archivePath,
-      imageType,
-      distroless: true,
-      appScan,
-    },
-  };
-
-  return await staticModule.analyzeStatically(
-    targetImage,
-    dockerfileAnalysis,
-    scanningOptions,
-  );
 }
 
 export function fullImageSavePath(imageSavePath: string | undefined): string {
@@ -122,6 +120,6 @@ export function fullImageSavePath(imageSavePath: string | undefined): string {
   return path.join(imagePath, uuidv4());
 }
 
-function isTrue(value: boolean | string): boolean {
+function isTrue(value?: boolean | string): boolean {
   return String(value).toLowerCase() === "true";
 }

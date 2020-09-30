@@ -18,13 +18,13 @@ interface DockerFileAnalysis {
 }
 
 async function readDockerfileAndAnalyse(
-  targetFilePath?: string,
+  dockerfilePath?: string,
 ): Promise<DockerFileAnalysis | undefined> {
-  if (!targetFilePath) {
+  if (!dockerfilePath) {
     return undefined;
   }
 
-  const contents = await readFile(normalizePath(targetFilePath));
+  const contents = await readFile(normalizePath(dockerfilePath));
   return analyseDockerfile(contents);
 }
 

@@ -1,0 +1,141 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`busybox tests should correctly analyze a busybox image by sha256 1`] = `
+Object {
+  "manifestFiles": undefined,
+  "scanResults": Array [
+    Object {
+      "facts": Array [
+        Object {
+          "data": Object {
+            "graph": Object {
+              "nodes": Array [
+                Object {
+                  "deps": Array [],
+                  "nodeId": "root-node",
+                  "pkgId": "docker-image|busybox@",
+                },
+              ],
+              "rootNodeId": "root-node",
+            },
+            "pkgManager": Object {
+              "name": "linux",
+              "repositories": Array [
+                Object {
+                  "alias": "unknown:0.0",
+                },
+              ],
+            },
+            "pkgs": Array [
+              Object {
+                "id": "docker-image|busybox@",
+                "info": Object {
+                  "name": "docker-image|busybox",
+                  "version": undefined,
+                },
+              },
+            ],
+            "schemaVersion": "1.2.0",
+          },
+          "type": "depGraph",
+        },
+        Object {
+          "data": "9f00140cde00e263233ec6214cd1d8b8a0f9f92c1834d5dc842d2e184e807b29",
+          "type": "imageId",
+        },
+        Object {
+          "data": Array [
+            "d24325657bb21b922a4cd584d4d665c24617cb4137f0c41967e6db61ba878ef4/layer.tar",
+          ],
+          "type": "imageLayers",
+        },
+        Object {
+          "data": Array [
+            "sha256:e8e544649a797bb64853d4b70feaea366aedb53658277861b685dd0a3e76343a",
+          ],
+          "type": "rootFs",
+        },
+      ],
+      "identity": Object {
+        "args": Object {
+          "platform": "linux/amd64",
+        },
+        "type": "linux",
+      },
+      "target": Object {
+        "image": "docker-image|busybox",
+      },
+    },
+  ],
+}
+`;
+
+exports[`busybox tests should correctly analyze a busybox image by tag 1`] = `
+Object {
+  "manifestFiles": undefined,
+  "scanResults": Array [
+    Object {
+      "facts": Array [
+        Object {
+          "data": Object {
+            "graph": Object {
+              "nodes": Array [
+                Object {
+                  "deps": Array [],
+                  "nodeId": "root-node",
+                  "pkgId": "docker-image|busybox@1.32.0-glibc",
+                },
+              ],
+              "rootNodeId": "root-node",
+            },
+            "pkgManager": Object {
+              "name": "linux",
+              "repositories": Array [
+                Object {
+                  "alias": "unknown:0.0",
+                },
+              ],
+            },
+            "pkgs": Array [
+              Object {
+                "id": "docker-image|busybox@1.32.0-glibc",
+                "info": Object {
+                  "name": "docker-image|busybox",
+                  "version": "1.32.0-glibc",
+                },
+              },
+            ],
+            "schemaVersion": "1.2.0",
+          },
+          "type": "depGraph",
+        },
+        Object {
+          "data": "9f00140cde00e263233ec6214cd1d8b8a0f9f92c1834d5dc842d2e184e807b29",
+          "type": "imageId",
+        },
+        Object {
+          "data": Array [
+            "d24325657bb21b922a4cd584d4d665c24617cb4137f0c41967e6db61ba878ef4/layer.tar",
+          ],
+          "type": "imageLayers",
+        },
+        Object {
+          "data": Array [
+            "sha256:e8e544649a797bb64853d4b70feaea366aedb53658277861b685dd0a3e76343a",
+          ],
+          "type": "rootFs",
+        },
+      ],
+      "identity": Object {
+        "args": Object {
+          "platform": "linux/amd64",
+        },
+        "type": "linux",
+      },
+      "target": Object {
+        "image": "docker-image|busybox",
+      },
+    },
+  ],
+}
+`;

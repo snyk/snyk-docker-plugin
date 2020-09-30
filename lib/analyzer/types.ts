@@ -1,4 +1,5 @@
-import { ManifestFile, ScannedProjectCustom } from "../types";
+import { ManifestFile } from "../types";
+import { AppDepsScanResultWithoutTarget } from "./applications/types";
 
 export interface AnalyzedPackage {
   Name: string;
@@ -67,7 +68,7 @@ export interface StaticAnalysis {
   binaries: string[];
   imageLayers: string[];
   rootFsLayers?: string[];
-  applicationDependenciesScanResults: ScannedProjectCustom[];
+  applicationDependenciesScanResults: AppDepsScanResultWithoutTarget[];
   manifestFiles: ManifestFile[];
 }
 

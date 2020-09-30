@@ -1,0 +1,1636 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`rpm package manager tests should correctly analyze an rpm image 1`] = `
+Object {
+  "manifestFiles": undefined,
+  "scanResults": Array [
+    Object {
+      "facts": Array [
+        Object {
+          "data": Object {
+            "graph": Object {
+              "nodes": Array [
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "amazon-linux-extras@1.6.11-1.amzn2",
+                    },
+                    Object {
+                      "nodeId": "basesystem@10.0-7.amzn2.0.1",
+                    },
+                    Object {
+                      "nodeId": "bash@4.2.46-33.amzn2",
+                    },
+                    Object {
+                      "nodeId": "bzip2-libs@1.0.6-13.amzn2.0.2",
+                    },
+                    Object {
+                      "nodeId": "ca-certificates@2019.2.32-76.amzn2.0.2",
+                    },
+                    Object {
+                      "nodeId": "chkconfig@1.7.4-1.amzn2.0.2",
+                    },
+                    Object {
+                      "nodeId": "coreutils@8.22-24.amzn2",
+                    },
+                    Object {
+                      "nodeId": "cpio@2.11-27.amzn2",
+                    },
+                    Object {
+                      "nodeId": "curl@7.61.1-12.amzn2.0.2",
+                    },
+                    Object {
+                      "nodeId": "cyrus-sasl-lib@2.1.26-23.amzn2",
+                    },
+                    Object {
+                      "nodeId": "diffutils@3.3-5.amzn2",
+                    },
+                    Object {
+                      "nodeId": "elfutils-libelf@0.176-2.amzn2",
+                    },
+                    Object {
+                      "nodeId": "expat@2.1.0-10.amzn2.0.2",
+                    },
+                    Object {
+                      "nodeId": "file-libs@5.11-36.amzn2.0.1",
+                    },
+                    Object {
+                      "nodeId": "filesystem@3.2-25.amzn2.0.4",
+                    },
+                    Object {
+                      "nodeId": "findutils@1:4.5.11-6.amzn2",
+                    },
+                    Object {
+                      "nodeId": "gawk@4.0.2-4.amzn2.1.2",
+                    },
+                    Object {
+                      "nodeId": "gdbm@1:1.13-6.amzn2.0.2",
+                    },
+                    Object {
+                      "nodeId": "glib2@2.56.1-5.amzn2.0.1",
+                    },
+                    Object {
+                      "nodeId": "glibc@2.26-35.amzn2",
+                    },
+                    Object {
+                      "nodeId": "glibc-common@2.26-35.amzn2",
+                    },
+                    Object {
+                      "nodeId": "glibc-langpack-en@2.26-35.amzn2",
+                    },
+                    Object {
+                      "nodeId": "glibc-minimal-langpack@2.26-35.amzn2",
+                    },
+                    Object {
+                      "nodeId": "gmp@1:6.0.0-15.amzn2.0.2",
+                    },
+                    Object {
+                      "nodeId": "gnupg2@2.0.22-5.amzn2.0.4",
+                    },
+                    Object {
+                      "nodeId": "gpg-pubkey@c87f5b1a-593863f8",
+                    },
+                    Object {
+                      "nodeId": "gpgme@1.3.2-5.amzn2.0.2",
+                    },
+                    Object {
+                      "nodeId": "grep@2.20-3.amzn2.0.2",
+                    },
+                    Object {
+                      "nodeId": "info@5.1-5.amzn2",
+                    },
+                    Object {
+                      "nodeId": "keyutils-libs@1.5.8-3.amzn2.0.2",
+                    },
+                    Object {
+                      "nodeId": "krb5-libs@1.15.1-37.amzn2.2.2",
+                    },
+                    Object {
+                      "nodeId": "libacl@2.2.51-14.amzn2",
+                    },
+                    Object {
+                      "nodeId": "libassuan@2.1.0-3.amzn2.0.2",
+                    },
+                    Object {
+                      "nodeId": "libattr@2.4.46-12.amzn2.0.2",
+                    },
+                    Object {
+                      "nodeId": "libblkid@2.30.2-2.amzn2.0.4",
+                    },
+                    Object {
+                      "nodeId": "libcap@2.22-9.amzn2.0.2",
+                    },
+                    Object {
+                      "nodeId": "libcom_err@1.42.9-12.amzn2.0.2",
+                    },
+                    Object {
+                      "nodeId": "libcrypt@2.26-35.amzn2",
+                    },
+                    Object {
+                      "nodeId": "libcurl@7.61.1-12.amzn2.0.2",
+                    },
+                    Object {
+                      "nodeId": "libdb@5.3.21-24.amzn2.0.3",
+                    },
+                    Object {
+                      "nodeId": "libdb-utils@5.3.21-24.amzn2.0.3",
+                    },
+                    Object {
+                      "nodeId": "libffi@3.0.13-18.amzn2.0.2",
+                    },
+                    Object {
+                      "nodeId": "libgcc@7.3.1-9.amzn2",
+                    },
+                    Object {
+                      "nodeId": "libgcrypt@1.5.3-14.amzn2.0.2",
+                    },
+                    Object {
+                      "nodeId": "libgpg-error@1.12-3.amzn2.0.3",
+                    },
+                    Object {
+                      "nodeId": "libidn2@2.3.0-1.amzn2",
+                    },
+                    Object {
+                      "nodeId": "libmetalink@0.1.2-7.amzn2.0.2",
+                    },
+                    Object {
+                      "nodeId": "libmount@2.30.2-2.amzn2.0.4",
+                    },
+                    Object {
+                      "nodeId": "libnghttp2@1.41.0-1.amzn2",
+                    },
+                    Object {
+                      "nodeId": "libselinux@2.5-12.amzn2.0.2",
+                    },
+                    Object {
+                      "nodeId": "libsepol@2.5-8.1.amzn2.0.2",
+                    },
+                    Object {
+                      "nodeId": "libssh2@1.4.3-12.amzn2.2.2",
+                    },
+                    Object {
+                      "nodeId": "libstdc++@7.3.1-9.amzn2",
+                    },
+                    Object {
+                      "nodeId": "libtasn1@4.10-1.amzn2.0.2",
+                    },
+                    Object {
+                      "nodeId": "libunistring@0.9.3-9.amzn2.0.2",
+                    },
+                    Object {
+                      "nodeId": "libuuid@2.30.2-2.amzn2.0.4",
+                    },
+                    Object {
+                      "nodeId": "libverto@0.2.5-4.amzn2.0.2",
+                    },
+                    Object {
+                      "nodeId": "libxml2@2.9.1-6.amzn2.4.1",
+                    },
+                    Object {
+                      "nodeId": "lua@5.1.4-15.amzn2.0.2",
+                    },
+                    Object {
+                      "nodeId": "ncurses@6.0-8.20170212.amzn2.1.3",
+                    },
+                    Object {
+                      "nodeId": "ncurses-base@6.0-8.20170212.amzn2.1.3",
+                    },
+                    Object {
+                      "nodeId": "ncurses-libs@6.0-8.20170212.amzn2.1.3",
+                    },
+                    Object {
+                      "nodeId": "nspr@4.21.0-1.amzn2.0.2",
+                    },
+                    Object {
+                      "nodeId": "nss@3.44.0-7.amzn2",
+                    },
+                    Object {
+                      "nodeId": "nss-pem@1.0.3-5.amzn2",
+                    },
+                    Object {
+                      "nodeId": "nss-softokn@3.44.0-8.amzn2",
+                    },
+                    Object {
+                      "nodeId": "nss-softokn-freebl@3.44.0-8.amzn2",
+                    },
+                    Object {
+                      "nodeId": "nss-sysinit@3.44.0-7.amzn2",
+                    },
+                    Object {
+                      "nodeId": "nss-tools@3.44.0-7.amzn2",
+                    },
+                    Object {
+                      "nodeId": "nss-util@3.44.0-4.amzn2",
+                    },
+                    Object {
+                      "nodeId": "openldap@2.4.44-15.amzn2",
+                    },
+                    Object {
+                      "nodeId": "openssl-libs@1:1.0.2k-19.amzn2.0.3",
+                    },
+                    Object {
+                      "nodeId": "p11-kit@0.23.19-1.amzn2",
+                    },
+                    Object {
+                      "nodeId": "p11-kit-trust@0.23.19-1.amzn2",
+                    },
+                    Object {
+                      "nodeId": "pcre@8.32-17.amzn2.0.2",
+                    },
+                    Object {
+                      "nodeId": "pinentry@0.8.1-17.amzn2.0.2",
+                    },
+                    Object {
+                      "nodeId": "popt@1.13-16.amzn2.0.2",
+                    },
+                    Object {
+                      "nodeId": "pth@2.0.7-23.amzn2.0.2",
+                    },
+                    Object {
+                      "nodeId": "pygpgme@0.3-9.amzn2.0.2",
+                    },
+                    Object {
+                      "nodeId": "pyliblzma@0.5.3-11.amzn2.0.2",
+                    },
+                    Object {
+                      "nodeId": "python@2.7.18-1.amzn2",
+                    },
+                    Object {
+                      "nodeId": "python-iniparse@0.4-9.amzn2",
+                    },
+                    Object {
+                      "nodeId": "python-libs@2.7.18-1.amzn2",
+                    },
+                    Object {
+                      "nodeId": "python-pycurl@7.19.0-19.amzn2.0.2",
+                    },
+                    Object {
+                      "nodeId": "python-urlgrabber@3.10-9.amzn2.0.1",
+                    },
+                    Object {
+                      "nodeId": "python2-rpm@4.11.3-40.amzn2.0.4",
+                    },
+                    Object {
+                      "nodeId": "pyxattr@0.5.1-5.amzn2.0.2",
+                    },
+                    Object {
+                      "nodeId": "readline@6.2-10.amzn2.0.2",
+                    },
+                    Object {
+                      "nodeId": "rpm@4.11.3-40.amzn2.0.4",
+                    },
+                    Object {
+                      "nodeId": "rpm-build-libs@4.11.3-40.amzn2.0.4",
+                    },
+                    Object {
+                      "nodeId": "rpm-libs@4.11.3-40.amzn2.0.4",
+                    },
+                    Object {
+                      "nodeId": "sed@4.2.2-5.amzn2.0.2",
+                    },
+                    Object {
+                      "nodeId": "setup@2.8.71-10.amzn2.0.1",
+                    },
+                    Object {
+                      "nodeId": "shared-mime-info@1.8-4.amzn2",
+                    },
+                    Object {
+                      "nodeId": "sqlite@3.7.17-8.amzn2.1.1",
+                    },
+                    Object {
+                      "nodeId": "system-release@1:2-12.amzn2",
+                    },
+                    Object {
+                      "nodeId": "tzdata@2019c-1.amzn2",
+                    },
+                    Object {
+                      "nodeId": "vim-minimal@2:8.1.1602-1.amzn2",
+                    },
+                    Object {
+                      "nodeId": "xz-libs@5.2.2-1.amzn2.0.2",
+                    },
+                    Object {
+                      "nodeId": "yum@3.4.3-158.amzn2.0.4",
+                    },
+                    Object {
+                      "nodeId": "yum-metadata-parser@1.1.4-10.amzn2.0.2",
+                    },
+                    Object {
+                      "nodeId": "yum-plugin-ovl@1.1.31-46.amzn2.0.1",
+                    },
+                    Object {
+                      "nodeId": "yum-plugin-priorities@1.1.31-46.amzn2.0.1",
+                    },
+                    Object {
+                      "nodeId": "zlib@1.2.7-18.amzn2",
+                    },
+                  ],
+                  "nodeId": "root-node",
+                  "pkgId": "docker-image|amazonlinux@2.0.20200722.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "amazon-linux-extras@1.6.11-1.amzn2",
+                  "pkgId": "amazon-linux-extras@1.6.11-1.amzn2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "basesystem@10.0-7.amzn2.0.1",
+                  "pkgId": "basesystem@10.0-7.amzn2.0.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "bash@4.2.46-33.amzn2",
+                  "pkgId": "bash@4.2.46-33.amzn2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "bzip2-libs@1.0.6-13.amzn2.0.2",
+                  "pkgId": "bzip2-libs@1.0.6-13.amzn2.0.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "ca-certificates@2019.2.32-76.amzn2.0.2",
+                  "pkgId": "ca-certificates@2019.2.32-76.amzn2.0.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "chkconfig@1.7.4-1.amzn2.0.2",
+                  "pkgId": "chkconfig@1.7.4-1.amzn2.0.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "coreutils@8.22-24.amzn2",
+                  "pkgId": "coreutils@8.22-24.amzn2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "cpio@2.11-27.amzn2",
+                  "pkgId": "cpio@2.11-27.amzn2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "curl@7.61.1-12.amzn2.0.2",
+                  "pkgId": "curl@7.61.1-12.amzn2.0.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "cyrus-sasl-lib@2.1.26-23.amzn2",
+                  "pkgId": "cyrus-sasl-lib@2.1.26-23.amzn2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "diffutils@3.3-5.amzn2",
+                  "pkgId": "diffutils@3.3-5.amzn2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "elfutils-libelf@0.176-2.amzn2",
+                  "pkgId": "elfutils-libelf@0.176-2.amzn2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "expat@2.1.0-10.amzn2.0.2",
+                  "pkgId": "expat@2.1.0-10.amzn2.0.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "file-libs@5.11-36.amzn2.0.1",
+                  "pkgId": "file-libs@5.11-36.amzn2.0.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "filesystem@3.2-25.amzn2.0.4",
+                  "pkgId": "filesystem@3.2-25.amzn2.0.4",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "findutils@1:4.5.11-6.amzn2",
+                  "pkgId": "findutils@1:4.5.11-6.amzn2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gawk@4.0.2-4.amzn2.1.2",
+                  "pkgId": "gawk@4.0.2-4.amzn2.1.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gdbm@1:1.13-6.amzn2.0.2",
+                  "pkgId": "gdbm@1:1.13-6.amzn2.0.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "glib2@2.56.1-5.amzn2.0.1",
+                  "pkgId": "glib2@2.56.1-5.amzn2.0.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "glibc@2.26-35.amzn2",
+                  "pkgId": "glibc@2.26-35.amzn2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "glibc-common@2.26-35.amzn2",
+                  "pkgId": "glibc-common@2.26-35.amzn2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "glibc-langpack-en@2.26-35.amzn2",
+                  "pkgId": "glibc-langpack-en@2.26-35.amzn2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "glibc-minimal-langpack@2.26-35.amzn2",
+                  "pkgId": "glibc-minimal-langpack@2.26-35.amzn2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gmp@1:6.0.0-15.amzn2.0.2",
+                  "pkgId": "gmp@1:6.0.0-15.amzn2.0.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gnupg2@2.0.22-5.amzn2.0.4",
+                  "pkgId": "gnupg2@2.0.22-5.amzn2.0.4",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gpg-pubkey@c87f5b1a-593863f8",
+                  "pkgId": "gpg-pubkey@c87f5b1a-593863f8",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gpgme@1.3.2-5.amzn2.0.2",
+                  "pkgId": "gpgme@1.3.2-5.amzn2.0.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "grep@2.20-3.amzn2.0.2",
+                  "pkgId": "grep@2.20-3.amzn2.0.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "info@5.1-5.amzn2",
+                  "pkgId": "info@5.1-5.amzn2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "keyutils-libs@1.5.8-3.amzn2.0.2",
+                  "pkgId": "keyutils-libs@1.5.8-3.amzn2.0.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "krb5-libs@1.15.1-37.amzn2.2.2",
+                  "pkgId": "krb5-libs@1.15.1-37.amzn2.2.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libacl@2.2.51-14.amzn2",
+                  "pkgId": "libacl@2.2.51-14.amzn2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libassuan@2.1.0-3.amzn2.0.2",
+                  "pkgId": "libassuan@2.1.0-3.amzn2.0.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libattr@2.4.46-12.amzn2.0.2",
+                  "pkgId": "libattr@2.4.46-12.amzn2.0.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libblkid@2.30.2-2.amzn2.0.4",
+                  "pkgId": "libblkid@2.30.2-2.amzn2.0.4",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libcap@2.22-9.amzn2.0.2",
+                  "pkgId": "libcap@2.22-9.amzn2.0.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libcom_err@1.42.9-12.amzn2.0.2",
+                  "pkgId": "libcom_err@1.42.9-12.amzn2.0.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libcrypt@2.26-35.amzn2",
+                  "pkgId": "libcrypt@2.26-35.amzn2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libcurl@7.61.1-12.amzn2.0.2",
+                  "pkgId": "libcurl@7.61.1-12.amzn2.0.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libdb@5.3.21-24.amzn2.0.3",
+                  "pkgId": "libdb@5.3.21-24.amzn2.0.3",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libdb-utils@5.3.21-24.amzn2.0.3",
+                  "pkgId": "libdb-utils@5.3.21-24.amzn2.0.3",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libffi@3.0.13-18.amzn2.0.2",
+                  "pkgId": "libffi@3.0.13-18.amzn2.0.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libgcc@7.3.1-9.amzn2",
+                  "pkgId": "libgcc@7.3.1-9.amzn2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libgcrypt@1.5.3-14.amzn2.0.2",
+                  "pkgId": "libgcrypt@1.5.3-14.amzn2.0.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libgpg-error@1.12-3.amzn2.0.3",
+                  "pkgId": "libgpg-error@1.12-3.amzn2.0.3",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libidn2@2.3.0-1.amzn2",
+                  "pkgId": "libidn2@2.3.0-1.amzn2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libmetalink@0.1.2-7.amzn2.0.2",
+                  "pkgId": "libmetalink@0.1.2-7.amzn2.0.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libmount@2.30.2-2.amzn2.0.4",
+                  "pkgId": "libmount@2.30.2-2.amzn2.0.4",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libnghttp2@1.41.0-1.amzn2",
+                  "pkgId": "libnghttp2@1.41.0-1.amzn2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libselinux@2.5-12.amzn2.0.2",
+                  "pkgId": "libselinux@2.5-12.amzn2.0.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libsepol@2.5-8.1.amzn2.0.2",
+                  "pkgId": "libsepol@2.5-8.1.amzn2.0.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libssh2@1.4.3-12.amzn2.2.2",
+                  "pkgId": "libssh2@1.4.3-12.amzn2.2.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libstdc++@7.3.1-9.amzn2",
+                  "pkgId": "libstdc++@7.3.1-9.amzn2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libtasn1@4.10-1.amzn2.0.2",
+                  "pkgId": "libtasn1@4.10-1.amzn2.0.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libunistring@0.9.3-9.amzn2.0.2",
+                  "pkgId": "libunistring@0.9.3-9.amzn2.0.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libuuid@2.30.2-2.amzn2.0.4",
+                  "pkgId": "libuuid@2.30.2-2.amzn2.0.4",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libverto@0.2.5-4.amzn2.0.2",
+                  "pkgId": "libverto@0.2.5-4.amzn2.0.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libxml2@2.9.1-6.amzn2.4.1",
+                  "pkgId": "libxml2@2.9.1-6.amzn2.4.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "lua@5.1.4-15.amzn2.0.2",
+                  "pkgId": "lua@5.1.4-15.amzn2.0.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "ncurses@6.0-8.20170212.amzn2.1.3",
+                  "pkgId": "ncurses@6.0-8.20170212.amzn2.1.3",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "ncurses-base@6.0-8.20170212.amzn2.1.3",
+                  "pkgId": "ncurses-base@6.0-8.20170212.amzn2.1.3",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "ncurses-libs@6.0-8.20170212.amzn2.1.3",
+                  "pkgId": "ncurses-libs@6.0-8.20170212.amzn2.1.3",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "nspr@4.21.0-1.amzn2.0.2",
+                  "pkgId": "nspr@4.21.0-1.amzn2.0.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "nss@3.44.0-7.amzn2",
+                  "pkgId": "nss@3.44.0-7.amzn2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "nss-pem@1.0.3-5.amzn2",
+                  "pkgId": "nss-pem@1.0.3-5.amzn2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "nss-softokn@3.44.0-8.amzn2",
+                  "pkgId": "nss-softokn@3.44.0-8.amzn2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "nss-softokn-freebl@3.44.0-8.amzn2",
+                  "pkgId": "nss-softokn-freebl@3.44.0-8.amzn2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "nss-sysinit@3.44.0-7.amzn2",
+                  "pkgId": "nss-sysinit@3.44.0-7.amzn2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "nss-tools@3.44.0-7.amzn2",
+                  "pkgId": "nss-tools@3.44.0-7.amzn2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "nss-util@3.44.0-4.amzn2",
+                  "pkgId": "nss-util@3.44.0-4.amzn2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "openldap@2.4.44-15.amzn2",
+                  "pkgId": "openldap@2.4.44-15.amzn2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "openssl-libs@1:1.0.2k-19.amzn2.0.3",
+                  "pkgId": "openssl-libs@1:1.0.2k-19.amzn2.0.3",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "p11-kit@0.23.19-1.amzn2",
+                  "pkgId": "p11-kit@0.23.19-1.amzn2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "p11-kit-trust@0.23.19-1.amzn2",
+                  "pkgId": "p11-kit-trust@0.23.19-1.amzn2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pcre@8.32-17.amzn2.0.2",
+                  "pkgId": "pcre@8.32-17.amzn2.0.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pinentry@0.8.1-17.amzn2.0.2",
+                  "pkgId": "pinentry@0.8.1-17.amzn2.0.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "popt@1.13-16.amzn2.0.2",
+                  "pkgId": "popt@1.13-16.amzn2.0.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pth@2.0.7-23.amzn2.0.2",
+                  "pkgId": "pth@2.0.7-23.amzn2.0.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pygpgme@0.3-9.amzn2.0.2",
+                  "pkgId": "pygpgme@0.3-9.amzn2.0.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pyliblzma@0.5.3-11.amzn2.0.2",
+                  "pkgId": "pyliblzma@0.5.3-11.amzn2.0.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "python@2.7.18-1.amzn2",
+                  "pkgId": "python@2.7.18-1.amzn2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "python-iniparse@0.4-9.amzn2",
+                  "pkgId": "python-iniparse@0.4-9.amzn2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "python-libs@2.7.18-1.amzn2",
+                  "pkgId": "python-libs@2.7.18-1.amzn2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "python-pycurl@7.19.0-19.amzn2.0.2",
+                  "pkgId": "python-pycurl@7.19.0-19.amzn2.0.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "python-urlgrabber@3.10-9.amzn2.0.1",
+                  "pkgId": "python-urlgrabber@3.10-9.amzn2.0.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "python2-rpm@4.11.3-40.amzn2.0.4",
+                  "pkgId": "python2-rpm@4.11.3-40.amzn2.0.4",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pyxattr@0.5.1-5.amzn2.0.2",
+                  "pkgId": "pyxattr@0.5.1-5.amzn2.0.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "readline@6.2-10.amzn2.0.2",
+                  "pkgId": "readline@6.2-10.amzn2.0.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "rpm@4.11.3-40.amzn2.0.4",
+                  "pkgId": "rpm@4.11.3-40.amzn2.0.4",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "rpm-build-libs@4.11.3-40.amzn2.0.4",
+                  "pkgId": "rpm-build-libs@4.11.3-40.amzn2.0.4",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "rpm-libs@4.11.3-40.amzn2.0.4",
+                  "pkgId": "rpm-libs@4.11.3-40.amzn2.0.4",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "sed@4.2.2-5.amzn2.0.2",
+                  "pkgId": "sed@4.2.2-5.amzn2.0.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "setup@2.8.71-10.amzn2.0.1",
+                  "pkgId": "setup@2.8.71-10.amzn2.0.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "shared-mime-info@1.8-4.amzn2",
+                  "pkgId": "shared-mime-info@1.8-4.amzn2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "sqlite@3.7.17-8.amzn2.1.1",
+                  "pkgId": "sqlite@3.7.17-8.amzn2.1.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "system-release@1:2-12.amzn2",
+                  "pkgId": "system-release@1:2-12.amzn2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "tzdata@2019c-1.amzn2",
+                  "pkgId": "tzdata@2019c-1.amzn2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "vim-minimal@2:8.1.1602-1.amzn2",
+                  "pkgId": "vim-minimal@2:8.1.1602-1.amzn2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "xz-libs@5.2.2-1.amzn2.0.2",
+                  "pkgId": "xz-libs@5.2.2-1.amzn2.0.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "yum@3.4.3-158.amzn2.0.4",
+                  "pkgId": "yum@3.4.3-158.amzn2.0.4",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "yum-metadata-parser@1.1.4-10.amzn2.0.2",
+                  "pkgId": "yum-metadata-parser@1.1.4-10.amzn2.0.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "yum-plugin-ovl@1.1.31-46.amzn2.0.1",
+                  "pkgId": "yum-plugin-ovl@1.1.31-46.amzn2.0.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "yum-plugin-priorities@1.1.31-46.amzn2.0.1",
+                  "pkgId": "yum-plugin-priorities@1.1.31-46.amzn2.0.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "zlib@1.2.7-18.amzn2",
+                  "pkgId": "zlib@1.2.7-18.amzn2",
+                },
+              ],
+              "rootNodeId": "root-node",
+            },
+            "pkgManager": Object {
+              "name": "rpm",
+              "repositories": Array [
+                Object {
+                  "alias": "amzn:2",
+                },
+              ],
+            },
+            "pkgs": Array [
+              Object {
+                "id": "docker-image|amazonlinux@2.0.20200722.0",
+                "info": Object {
+                  "name": "docker-image|amazonlinux",
+                  "version": "2.0.20200722.0",
+                },
+              },
+              Object {
+                "id": "amazon-linux-extras@1.6.11-1.amzn2",
+                "info": Object {
+                  "name": "amazon-linux-extras",
+                  "version": "1.6.11-1.amzn2",
+                },
+              },
+              Object {
+                "id": "basesystem@10.0-7.amzn2.0.1",
+                "info": Object {
+                  "name": "basesystem",
+                  "version": "10.0-7.amzn2.0.1",
+                },
+              },
+              Object {
+                "id": "bash@4.2.46-33.amzn2",
+                "info": Object {
+                  "name": "bash",
+                  "version": "4.2.46-33.amzn2",
+                },
+              },
+              Object {
+                "id": "bzip2-libs@1.0.6-13.amzn2.0.2",
+                "info": Object {
+                  "name": "bzip2-libs",
+                  "version": "1.0.6-13.amzn2.0.2",
+                },
+              },
+              Object {
+                "id": "ca-certificates@2019.2.32-76.amzn2.0.2",
+                "info": Object {
+                  "name": "ca-certificates",
+                  "version": "2019.2.32-76.amzn2.0.2",
+                },
+              },
+              Object {
+                "id": "chkconfig@1.7.4-1.amzn2.0.2",
+                "info": Object {
+                  "name": "chkconfig",
+                  "version": "1.7.4-1.amzn2.0.2",
+                },
+              },
+              Object {
+                "id": "coreutils@8.22-24.amzn2",
+                "info": Object {
+                  "name": "coreutils",
+                  "version": "8.22-24.amzn2",
+                },
+              },
+              Object {
+                "id": "cpio@2.11-27.amzn2",
+                "info": Object {
+                  "name": "cpio",
+                  "version": "2.11-27.amzn2",
+                },
+              },
+              Object {
+                "id": "curl@7.61.1-12.amzn2.0.2",
+                "info": Object {
+                  "name": "curl",
+                  "version": "7.61.1-12.amzn2.0.2",
+                },
+              },
+              Object {
+                "id": "cyrus-sasl-lib@2.1.26-23.amzn2",
+                "info": Object {
+                  "name": "cyrus-sasl-lib",
+                  "version": "2.1.26-23.amzn2",
+                },
+              },
+              Object {
+                "id": "diffutils@3.3-5.amzn2",
+                "info": Object {
+                  "name": "diffutils",
+                  "version": "3.3-5.amzn2",
+                },
+              },
+              Object {
+                "id": "elfutils-libelf@0.176-2.amzn2",
+                "info": Object {
+                  "name": "elfutils-libelf",
+                  "version": "0.176-2.amzn2",
+                },
+              },
+              Object {
+                "id": "expat@2.1.0-10.amzn2.0.2",
+                "info": Object {
+                  "name": "expat",
+                  "version": "2.1.0-10.amzn2.0.2",
+                },
+              },
+              Object {
+                "id": "file-libs@5.11-36.amzn2.0.1",
+                "info": Object {
+                  "name": "file-libs",
+                  "version": "5.11-36.amzn2.0.1",
+                },
+              },
+              Object {
+                "id": "filesystem@3.2-25.amzn2.0.4",
+                "info": Object {
+                  "name": "filesystem",
+                  "version": "3.2-25.amzn2.0.4",
+                },
+              },
+              Object {
+                "id": "findutils@1:4.5.11-6.amzn2",
+                "info": Object {
+                  "name": "findutils",
+                  "version": "1:4.5.11-6.amzn2",
+                },
+              },
+              Object {
+                "id": "gawk@4.0.2-4.amzn2.1.2",
+                "info": Object {
+                  "name": "gawk",
+                  "version": "4.0.2-4.amzn2.1.2",
+                },
+              },
+              Object {
+                "id": "gdbm@1:1.13-6.amzn2.0.2",
+                "info": Object {
+                  "name": "gdbm",
+                  "version": "1:1.13-6.amzn2.0.2",
+                },
+              },
+              Object {
+                "id": "glib2@2.56.1-5.amzn2.0.1",
+                "info": Object {
+                  "name": "glib2",
+                  "version": "2.56.1-5.amzn2.0.1",
+                },
+              },
+              Object {
+                "id": "glibc@2.26-35.amzn2",
+                "info": Object {
+                  "name": "glibc",
+                  "version": "2.26-35.amzn2",
+                },
+              },
+              Object {
+                "id": "glibc-common@2.26-35.amzn2",
+                "info": Object {
+                  "name": "glibc-common",
+                  "version": "2.26-35.amzn2",
+                },
+              },
+              Object {
+                "id": "glibc-langpack-en@2.26-35.amzn2",
+                "info": Object {
+                  "name": "glibc-langpack-en",
+                  "version": "2.26-35.amzn2",
+                },
+              },
+              Object {
+                "id": "glibc-minimal-langpack@2.26-35.amzn2",
+                "info": Object {
+                  "name": "glibc-minimal-langpack",
+                  "version": "2.26-35.amzn2",
+                },
+              },
+              Object {
+                "id": "gmp@1:6.0.0-15.amzn2.0.2",
+                "info": Object {
+                  "name": "gmp",
+                  "version": "1:6.0.0-15.amzn2.0.2",
+                },
+              },
+              Object {
+                "id": "gnupg2@2.0.22-5.amzn2.0.4",
+                "info": Object {
+                  "name": "gnupg2",
+                  "version": "2.0.22-5.amzn2.0.4",
+                },
+              },
+              Object {
+                "id": "gpg-pubkey@c87f5b1a-593863f8",
+                "info": Object {
+                  "name": "gpg-pubkey",
+                  "version": "c87f5b1a-593863f8",
+                },
+              },
+              Object {
+                "id": "gpgme@1.3.2-5.amzn2.0.2",
+                "info": Object {
+                  "name": "gpgme",
+                  "version": "1.3.2-5.amzn2.0.2",
+                },
+              },
+              Object {
+                "id": "grep@2.20-3.amzn2.0.2",
+                "info": Object {
+                  "name": "grep",
+                  "version": "2.20-3.amzn2.0.2",
+                },
+              },
+              Object {
+                "id": "info@5.1-5.amzn2",
+                "info": Object {
+                  "name": "info",
+                  "version": "5.1-5.amzn2",
+                },
+              },
+              Object {
+                "id": "keyutils-libs@1.5.8-3.amzn2.0.2",
+                "info": Object {
+                  "name": "keyutils-libs",
+                  "version": "1.5.8-3.amzn2.0.2",
+                },
+              },
+              Object {
+                "id": "krb5-libs@1.15.1-37.amzn2.2.2",
+                "info": Object {
+                  "name": "krb5-libs",
+                  "version": "1.15.1-37.amzn2.2.2",
+                },
+              },
+              Object {
+                "id": "libacl@2.2.51-14.amzn2",
+                "info": Object {
+                  "name": "libacl",
+                  "version": "2.2.51-14.amzn2",
+                },
+              },
+              Object {
+                "id": "libassuan@2.1.0-3.amzn2.0.2",
+                "info": Object {
+                  "name": "libassuan",
+                  "version": "2.1.0-3.amzn2.0.2",
+                },
+              },
+              Object {
+                "id": "libattr@2.4.46-12.amzn2.0.2",
+                "info": Object {
+                  "name": "libattr",
+                  "version": "2.4.46-12.amzn2.0.2",
+                },
+              },
+              Object {
+                "id": "libblkid@2.30.2-2.amzn2.0.4",
+                "info": Object {
+                  "name": "libblkid",
+                  "version": "2.30.2-2.amzn2.0.4",
+                },
+              },
+              Object {
+                "id": "libcap@2.22-9.amzn2.0.2",
+                "info": Object {
+                  "name": "libcap",
+                  "version": "2.22-9.amzn2.0.2",
+                },
+              },
+              Object {
+                "id": "libcom_err@1.42.9-12.amzn2.0.2",
+                "info": Object {
+                  "name": "libcom_err",
+                  "version": "1.42.9-12.amzn2.0.2",
+                },
+              },
+              Object {
+                "id": "libcrypt@2.26-35.amzn2",
+                "info": Object {
+                  "name": "libcrypt",
+                  "version": "2.26-35.amzn2",
+                },
+              },
+              Object {
+                "id": "libcurl@7.61.1-12.amzn2.0.2",
+                "info": Object {
+                  "name": "libcurl",
+                  "version": "7.61.1-12.amzn2.0.2",
+                },
+              },
+              Object {
+                "id": "libdb@5.3.21-24.amzn2.0.3",
+                "info": Object {
+                  "name": "libdb",
+                  "version": "5.3.21-24.amzn2.0.3",
+                },
+              },
+              Object {
+                "id": "libdb-utils@5.3.21-24.amzn2.0.3",
+                "info": Object {
+                  "name": "libdb-utils",
+                  "version": "5.3.21-24.amzn2.0.3",
+                },
+              },
+              Object {
+                "id": "libffi@3.0.13-18.amzn2.0.2",
+                "info": Object {
+                  "name": "libffi",
+                  "version": "3.0.13-18.amzn2.0.2",
+                },
+              },
+              Object {
+                "id": "libgcc@7.3.1-9.amzn2",
+                "info": Object {
+                  "name": "libgcc",
+                  "version": "7.3.1-9.amzn2",
+                },
+              },
+              Object {
+                "id": "libgcrypt@1.5.3-14.amzn2.0.2",
+                "info": Object {
+                  "name": "libgcrypt",
+                  "version": "1.5.3-14.amzn2.0.2",
+                },
+              },
+              Object {
+                "id": "libgpg-error@1.12-3.amzn2.0.3",
+                "info": Object {
+                  "name": "libgpg-error",
+                  "version": "1.12-3.amzn2.0.3",
+                },
+              },
+              Object {
+                "id": "libidn2@2.3.0-1.amzn2",
+                "info": Object {
+                  "name": "libidn2",
+                  "version": "2.3.0-1.amzn2",
+                },
+              },
+              Object {
+                "id": "libmetalink@0.1.2-7.amzn2.0.2",
+                "info": Object {
+                  "name": "libmetalink",
+                  "version": "0.1.2-7.amzn2.0.2",
+                },
+              },
+              Object {
+                "id": "libmount@2.30.2-2.amzn2.0.4",
+                "info": Object {
+                  "name": "libmount",
+                  "version": "2.30.2-2.amzn2.0.4",
+                },
+              },
+              Object {
+                "id": "libnghttp2@1.41.0-1.amzn2",
+                "info": Object {
+                  "name": "libnghttp2",
+                  "version": "1.41.0-1.amzn2",
+                },
+              },
+              Object {
+                "id": "libselinux@2.5-12.amzn2.0.2",
+                "info": Object {
+                  "name": "libselinux",
+                  "version": "2.5-12.amzn2.0.2",
+                },
+              },
+              Object {
+                "id": "libsepol@2.5-8.1.amzn2.0.2",
+                "info": Object {
+                  "name": "libsepol",
+                  "version": "2.5-8.1.amzn2.0.2",
+                },
+              },
+              Object {
+                "id": "libssh2@1.4.3-12.amzn2.2.2",
+                "info": Object {
+                  "name": "libssh2",
+                  "version": "1.4.3-12.amzn2.2.2",
+                },
+              },
+              Object {
+                "id": "libstdc++@7.3.1-9.amzn2",
+                "info": Object {
+                  "name": "libstdc++",
+                  "version": "7.3.1-9.amzn2",
+                },
+              },
+              Object {
+                "id": "libtasn1@4.10-1.amzn2.0.2",
+                "info": Object {
+                  "name": "libtasn1",
+                  "version": "4.10-1.amzn2.0.2",
+                },
+              },
+              Object {
+                "id": "libunistring@0.9.3-9.amzn2.0.2",
+                "info": Object {
+                  "name": "libunistring",
+                  "version": "0.9.3-9.amzn2.0.2",
+                },
+              },
+              Object {
+                "id": "libuuid@2.30.2-2.amzn2.0.4",
+                "info": Object {
+                  "name": "libuuid",
+                  "version": "2.30.2-2.amzn2.0.4",
+                },
+              },
+              Object {
+                "id": "libverto@0.2.5-4.amzn2.0.2",
+                "info": Object {
+                  "name": "libverto",
+                  "version": "0.2.5-4.amzn2.0.2",
+                },
+              },
+              Object {
+                "id": "libxml2@2.9.1-6.amzn2.4.1",
+                "info": Object {
+                  "name": "libxml2",
+                  "version": "2.9.1-6.amzn2.4.1",
+                },
+              },
+              Object {
+                "id": "lua@5.1.4-15.amzn2.0.2",
+                "info": Object {
+                  "name": "lua",
+                  "version": "5.1.4-15.amzn2.0.2",
+                },
+              },
+              Object {
+                "id": "ncurses@6.0-8.20170212.amzn2.1.3",
+                "info": Object {
+                  "name": "ncurses",
+                  "version": "6.0-8.20170212.amzn2.1.3",
+                },
+              },
+              Object {
+                "id": "ncurses-base@6.0-8.20170212.amzn2.1.3",
+                "info": Object {
+                  "name": "ncurses-base",
+                  "version": "6.0-8.20170212.amzn2.1.3",
+                },
+              },
+              Object {
+                "id": "ncurses-libs@6.0-8.20170212.amzn2.1.3",
+                "info": Object {
+                  "name": "ncurses-libs",
+                  "version": "6.0-8.20170212.amzn2.1.3",
+                },
+              },
+              Object {
+                "id": "nspr@4.21.0-1.amzn2.0.2",
+                "info": Object {
+                  "name": "nspr",
+                  "version": "4.21.0-1.amzn2.0.2",
+                },
+              },
+              Object {
+                "id": "nss@3.44.0-7.amzn2",
+                "info": Object {
+                  "name": "nss",
+                  "version": "3.44.0-7.amzn2",
+                },
+              },
+              Object {
+                "id": "nss-pem@1.0.3-5.amzn2",
+                "info": Object {
+                  "name": "nss-pem",
+                  "version": "1.0.3-5.amzn2",
+                },
+              },
+              Object {
+                "id": "nss-softokn@3.44.0-8.amzn2",
+                "info": Object {
+                  "name": "nss-softokn",
+                  "version": "3.44.0-8.amzn2",
+                },
+              },
+              Object {
+                "id": "nss-softokn-freebl@3.44.0-8.amzn2",
+                "info": Object {
+                  "name": "nss-softokn-freebl",
+                  "version": "3.44.0-8.amzn2",
+                },
+              },
+              Object {
+                "id": "nss-sysinit@3.44.0-7.amzn2",
+                "info": Object {
+                  "name": "nss-sysinit",
+                  "version": "3.44.0-7.amzn2",
+                },
+              },
+              Object {
+                "id": "nss-tools@3.44.0-7.amzn2",
+                "info": Object {
+                  "name": "nss-tools",
+                  "version": "3.44.0-7.amzn2",
+                },
+              },
+              Object {
+                "id": "nss-util@3.44.0-4.amzn2",
+                "info": Object {
+                  "name": "nss-util",
+                  "version": "3.44.0-4.amzn2",
+                },
+              },
+              Object {
+                "id": "openldap@2.4.44-15.amzn2",
+                "info": Object {
+                  "name": "openldap",
+                  "version": "2.4.44-15.amzn2",
+                },
+              },
+              Object {
+                "id": "openssl-libs@1:1.0.2k-19.amzn2.0.3",
+                "info": Object {
+                  "name": "openssl-libs",
+                  "version": "1:1.0.2k-19.amzn2.0.3",
+                },
+              },
+              Object {
+                "id": "p11-kit@0.23.19-1.amzn2",
+                "info": Object {
+                  "name": "p11-kit",
+                  "version": "0.23.19-1.amzn2",
+                },
+              },
+              Object {
+                "id": "p11-kit-trust@0.23.19-1.amzn2",
+                "info": Object {
+                  "name": "p11-kit-trust",
+                  "version": "0.23.19-1.amzn2",
+                },
+              },
+              Object {
+                "id": "pcre@8.32-17.amzn2.0.2",
+                "info": Object {
+                  "name": "pcre",
+                  "version": "8.32-17.amzn2.0.2",
+                },
+              },
+              Object {
+                "id": "pinentry@0.8.1-17.amzn2.0.2",
+                "info": Object {
+                  "name": "pinentry",
+                  "version": "0.8.1-17.amzn2.0.2",
+                },
+              },
+              Object {
+                "id": "popt@1.13-16.amzn2.0.2",
+                "info": Object {
+                  "name": "popt",
+                  "version": "1.13-16.amzn2.0.2",
+                },
+              },
+              Object {
+                "id": "pth@2.0.7-23.amzn2.0.2",
+                "info": Object {
+                  "name": "pth",
+                  "version": "2.0.7-23.amzn2.0.2",
+                },
+              },
+              Object {
+                "id": "pygpgme@0.3-9.amzn2.0.2",
+                "info": Object {
+                  "name": "pygpgme",
+                  "version": "0.3-9.amzn2.0.2",
+                },
+              },
+              Object {
+                "id": "pyliblzma@0.5.3-11.amzn2.0.2",
+                "info": Object {
+                  "name": "pyliblzma",
+                  "version": "0.5.3-11.amzn2.0.2",
+                },
+              },
+              Object {
+                "id": "python@2.7.18-1.amzn2",
+                "info": Object {
+                  "name": "python",
+                  "version": "2.7.18-1.amzn2",
+                },
+              },
+              Object {
+                "id": "python-iniparse@0.4-9.amzn2",
+                "info": Object {
+                  "name": "python-iniparse",
+                  "version": "0.4-9.amzn2",
+                },
+              },
+              Object {
+                "id": "python-libs@2.7.18-1.amzn2",
+                "info": Object {
+                  "name": "python-libs",
+                  "version": "2.7.18-1.amzn2",
+                },
+              },
+              Object {
+                "id": "python-pycurl@7.19.0-19.amzn2.0.2",
+                "info": Object {
+                  "name": "python-pycurl",
+                  "version": "7.19.0-19.amzn2.0.2",
+                },
+              },
+              Object {
+                "id": "python-urlgrabber@3.10-9.amzn2.0.1",
+                "info": Object {
+                  "name": "python-urlgrabber",
+                  "version": "3.10-9.amzn2.0.1",
+                },
+              },
+              Object {
+                "id": "python2-rpm@4.11.3-40.amzn2.0.4",
+                "info": Object {
+                  "name": "python2-rpm",
+                  "version": "4.11.3-40.amzn2.0.4",
+                },
+              },
+              Object {
+                "id": "pyxattr@0.5.1-5.amzn2.0.2",
+                "info": Object {
+                  "name": "pyxattr",
+                  "version": "0.5.1-5.amzn2.0.2",
+                },
+              },
+              Object {
+                "id": "readline@6.2-10.amzn2.0.2",
+                "info": Object {
+                  "name": "readline",
+                  "version": "6.2-10.amzn2.0.2",
+                },
+              },
+              Object {
+                "id": "rpm@4.11.3-40.amzn2.0.4",
+                "info": Object {
+                  "name": "rpm",
+                  "version": "4.11.3-40.amzn2.0.4",
+                },
+              },
+              Object {
+                "id": "rpm-build-libs@4.11.3-40.amzn2.0.4",
+                "info": Object {
+                  "name": "rpm-build-libs",
+                  "version": "4.11.3-40.amzn2.0.4",
+                },
+              },
+              Object {
+                "id": "rpm-libs@4.11.3-40.amzn2.0.4",
+                "info": Object {
+                  "name": "rpm-libs",
+                  "version": "4.11.3-40.amzn2.0.4",
+                },
+              },
+              Object {
+                "id": "sed@4.2.2-5.amzn2.0.2",
+                "info": Object {
+                  "name": "sed",
+                  "version": "4.2.2-5.amzn2.0.2",
+                },
+              },
+              Object {
+                "id": "setup@2.8.71-10.amzn2.0.1",
+                "info": Object {
+                  "name": "setup",
+                  "version": "2.8.71-10.amzn2.0.1",
+                },
+              },
+              Object {
+                "id": "shared-mime-info@1.8-4.amzn2",
+                "info": Object {
+                  "name": "shared-mime-info",
+                  "version": "1.8-4.amzn2",
+                },
+              },
+              Object {
+                "id": "sqlite@3.7.17-8.amzn2.1.1",
+                "info": Object {
+                  "name": "sqlite",
+                  "version": "3.7.17-8.amzn2.1.1",
+                },
+              },
+              Object {
+                "id": "system-release@1:2-12.amzn2",
+                "info": Object {
+                  "name": "system-release",
+                  "version": "1:2-12.amzn2",
+                },
+              },
+              Object {
+                "id": "tzdata@2019c-1.amzn2",
+                "info": Object {
+                  "name": "tzdata",
+                  "version": "2019c-1.amzn2",
+                },
+              },
+              Object {
+                "id": "vim-minimal@2:8.1.1602-1.amzn2",
+                "info": Object {
+                  "name": "vim-minimal",
+                  "version": "2:8.1.1602-1.amzn2",
+                },
+              },
+              Object {
+                "id": "xz-libs@5.2.2-1.amzn2.0.2",
+                "info": Object {
+                  "name": "xz-libs",
+                  "version": "5.2.2-1.amzn2.0.2",
+                },
+              },
+              Object {
+                "id": "yum@3.4.3-158.amzn2.0.4",
+                "info": Object {
+                  "name": "yum",
+                  "version": "3.4.3-158.amzn2.0.4",
+                },
+              },
+              Object {
+                "id": "yum-metadata-parser@1.1.4-10.amzn2.0.2",
+                "info": Object {
+                  "name": "yum-metadata-parser",
+                  "version": "1.1.4-10.amzn2.0.2",
+                },
+              },
+              Object {
+                "id": "yum-plugin-ovl@1.1.31-46.amzn2.0.1",
+                "info": Object {
+                  "name": "yum-plugin-ovl",
+                  "version": "1.1.31-46.amzn2.0.1",
+                },
+              },
+              Object {
+                "id": "yum-plugin-priorities@1.1.31-46.amzn2.0.1",
+                "info": Object {
+                  "name": "yum-plugin-priorities",
+                  "version": "1.1.31-46.amzn2.0.1",
+                },
+              },
+              Object {
+                "id": "zlib@1.2.7-18.amzn2",
+                "info": Object {
+                  "name": "zlib",
+                  "version": "1.2.7-18.amzn2",
+                },
+              },
+            ],
+            "schemaVersion": "1.2.0",
+          },
+          "type": "depGraph",
+        },
+        Object {
+          "data": "ba2cc467a2bce7ffc9e2d6e38a87f6ec89c1c93bc83ff575e8021bb592f9ad2e",
+          "type": "imageId",
+        },
+        Object {
+          "data": Array [
+            "0cc919d951d6f4655c06c786488a33da3f6dee832221053e197d4502866e17f6/layer.tar",
+          ],
+          "type": "imageLayers",
+        },
+        Object {
+          "data": Array [
+            "sha256:50c3cd23142638cd1a726e8d788baa9353907479df6e6501edcee6fa4f7820ba",
+          ],
+          "type": "rootFs",
+        },
+        Object {
+          "data": "Amazon Linux 2",
+          "type": "imageOsReleasePrettyName",
+        },
+      ],
+      "identity": Object {
+        "args": Object {
+          "platform": "linux/amd64",
+        },
+        "type": "rpm",
+      },
+      "target": Object {
+        "image": "docker-image|amazonlinux",
+      },
+    },
+  ],
+}
+`;
