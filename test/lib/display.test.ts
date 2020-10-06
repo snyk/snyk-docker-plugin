@@ -3,7 +3,7 @@ import { join } from "path";
 import { test } from "tap";
 
 import { DepGraphData } from "@snyk/dep-graph";
-import { display } from "../../lib/display";
+import { display } from "../../lib";
 import { Options, ScanResult, TestResult } from "../../lib/types";
 
 function readFixture(fixture: string, filename: string): Promise<string> {

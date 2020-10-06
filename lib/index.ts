@@ -1,3 +1,4 @@
+import { display } from "./display";
 import * as dockerFile from "./docker-file";
 import { experimentalAnalysis } from "./experimental";
 import {
@@ -11,6 +12,7 @@ import {
 
 export {
   scan,
+  display,
   dockerFile,
   ScanResult,
   PluginResponse,
