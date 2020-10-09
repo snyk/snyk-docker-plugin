@@ -6,12 +6,12 @@ describe("PPC64 platform tests", () => {
     await execute("docker", [
       "image",
       "rm",
-      "ppc64le/php:8.0-rc-fpm-alpine3.12",
+      "ppc64le/php:8.0.0rc1-fpm-alpine3.12",
     ]).catch();
   });
 
   it("should correctly scan a PPC image and return platform: ppc64le", async () => {
-    const image = "ppc64le/php:8.0-rc-fpm-alpine3.12";
+    const image = "ppc64le/php:8.0.0rc1-fpm-alpine3.12";
     const pluginResult = await scan({
       path: image,
     });
@@ -20,7 +20,7 @@ describe("PPC64 platform tests", () => {
   });
 
   it("should correctly scan a PPC image when the user provides --platform=ppc64le and return platform: ppc64le", async () => {
-    const image = "ppc64le/php:8.0-rc-fpm-alpine3.12";
+    const image = "ppc64le/php:8.0.0rc1-fpm-alpine3.12";
     const pluginResult = await scan({
       path: image,
       platform: "linux/ppc64le",
