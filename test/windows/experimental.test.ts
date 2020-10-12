@@ -110,6 +110,19 @@ test("oci-archive image type can be scanned", async (t) => {
 test("static scan for Identifier type image (nginx:1.19.0)", async (t) => {
   const imageNameAndTag = `nginx:1.19.0`;
 
+  await t.rejects(
+    async () =>
+      await plugin.scan({
+        path: imageNameAndTag,
+      }),
+    "The image does not exist for the current platform",
+    "Throws an expected error when windows image does not exist",
+  );
+});
+
+test("static scan for Identifier type image (python:3.10.0a1)", async (t) => {
+  const imageNameAndTag = `python:3.10.0a1`;
+
   const pluginResult = await plugin.scan({
     path: imageNameAndTag,
   });
@@ -117,36 +130,32 @@ test("static scan for Identifier type image (nginx:1.19.0)", async (t) => {
   const depGraph: DepGraph = pluginResult.scanResults[0].facts.find(
     (fact) => fact.type === "depGraph",
   )!.data;
-  t.same(depGraph.rootPkg.name, "docker-image|nginx", "Image name matches");
-  t.same(depGraph.rootPkg.version, "1.19.0", "Version must not be empty");
+  t.same(depGraph.rootPkg.name, "docker-image|python", "Image name matches");
+  t.same(depGraph.rootPkg.version, "3.10.0a1", "Version must not be empty");
   const imageId: string = pluginResult.scanResults[0].facts.find(
     (fact) => fact.type === "imageId",
   )!.data;
   t.same(
     imageId,
-    "2622e6cca7ebbb6e310743abce3fc47335393e79171b9d76ba9d4f446ce7b163",
+    "4a24fab4f4e729b7228f22756825f78ebae5d1cadbd88a3ab48f03cfdcb53a97",
     "The image ID matches",
   );
   t.same(
     pluginResult.scanResults[0].identity.type,
-    "deb",
+    "linux",
     "Correct package manager detected",
-  );
-  t.ok(
-    depGraph.getDepPkgs().find((dep) => dep.name === "nginx"),
-    "Contains some expected dependency",
   );
   const imageLayers: string[] = pluginResult.scanResults[0].facts.find(
     (fact) => fact.type === "imageLayers",
   )!.data;
-  t.same(imageLayers.length, 5, "Returns expected number of layers");
+  t.same(imageLayers.length, 11, "Returns expected number of layers");
   t.ok(
     imageLayers.every((layer) => layer.endsWith("layer.tar")),
     "Every found layer has the correct name",
   );
   t.same(
     pluginResult.scanResults[0].identity.args?.platform,
-    "linux/amd64",
+    "windows/amd64",
     "Correct platform detected",
   );
 });
