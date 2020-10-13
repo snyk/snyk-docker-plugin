@@ -70,6 +70,20 @@ async function pullWithDockerBinary(
     }
 
     if (
+      err.stderr &&
+      err.stderr.includes("operating system is not supported")
+    ) {
+      throw new Error(`Operating system is not supported`);
+    }
+
+    if (err.stderr && err.stderr.includes("no matching manifest for")) {
+      if (platform) {
+        throw new Error(`The image does not exist for ${platform}`);
+      }
+      throw new Error(`The image does not exist for the current platform`);
+    }
+
+    if (
       err.message &&
       err.message.includes(
         '"--platform" is only supported on a Docker daemon with experimental features enabled',
