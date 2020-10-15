@@ -3,21 +3,11 @@ import { execute } from "../../../lib/sub-process";
 
 describe("busybox tests", () => {
   afterAll(async () => {
-    await execute("docker", ["image", "rm", "busybox:1.32.0-glibc"]).catch();
     await execute("docker", [
       "image",
       "rm",
       "busybox@sha256:32dc7202280d641c9c0d94a13247195adc83dba83aca0eed383888c01311cfc2",
     ]).catch();
-  });
-
-  it("should correctly analyze a busybox image by tag", async () => {
-    const image = "busybox:1.32.0-glibc";
-    const pluginResult = await scan({
-      path: image,
-    });
-
-    expect(pluginResult).toMatchSnapshot();
   });
 
   it("should correctly analyze a busybox image by sha256", async () => {

@@ -120,8 +120,9 @@ test("static scan for Identifier type image (nginx:1.19.0)", async (t) => {
   );
 });
 
-test("static scan for Identifier type image (python:3.10.0a1)", async (t) => {
-  const imageNameAndTag = `python:3.10.0a1`;
+test("static scan for Identifier type image (python:3.10.0a1 by SHA256)", async (t) => {
+  const imageNameAndTag =
+    "python@sha256:9b8ab9ce86010bd51a4c8b60f88f518dbf8a146f84bf08cd08d6b89cc5aa10d3";
 
   const pluginResult = await plugin.scan({
     path: imageNameAndTag,
@@ -131,7 +132,11 @@ test("static scan for Identifier type image (python:3.10.0a1)", async (t) => {
     (fact) => fact.type === "depGraph",
   )!.data;
   t.same(depGraph.rootPkg.name, "docker-image|python", "Image name matches");
-  t.same(depGraph.rootPkg.version, "3.10.0a1", "Version must not be empty");
+  t.same(
+    depGraph.rootPkg.version,
+    "",
+    "Version is not provided when using SHA256 as tag",
+  );
   const imageId: string = pluginResult.scanResults[0].facts.find(
     (fact) => fact.type === "imageId",
   )!.data;
