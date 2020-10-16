@@ -1,19 +1,28 @@
 import * as fs from "fs";
 import * as path from "path";
-import * as tmp from "tmp";
-import { v4 as uuidv4 } from "uuid";
 
 import { getImageArchive } from "./analyzer/image-inspector";
-import { DockerFileAnalysis } from "./docker-file";
+import { DockerFileAnalysis, readDockerfileAndAnalyse } from "./docker-file";
+import { fullImageSavePath } from "./image-save-path";
 import { getArchivePath, getImageType } from "./image-type";
 import * as staticModule from "./static";
 import { ImageType, PluginOptions, PluginResponse } from "./types";
 
-export async function experimentalAnalysis(
-  targetImage: string,
-  dockerfileAnalysis: DockerFileAnalysis | undefined,
-  options: Partial<PluginOptions>,
+export async function scan(
+  options?: Partial<PluginOptions>,
 ): Promise<PluginResponse> {
+  if (!options) {
+    throw new Error("No plugin options provided");
+  }
+
+  const targetImage = options.path;
+  if (!targetImage) {
+    throw new Error("No image identifier or path provided");
+  }
+
+  const dockerfilePath = options.file;
+  const dockerfileAnalysis = await readDockerfileAndAnalyse(dockerfilePath);
+
   const imageType = getImageType(targetImage);
   switch (imageType) {
     case ImageType.DockerArchive:
@@ -73,7 +82,7 @@ async function localArchiveAnalysis(
   );
 }
 
-export async function imageIdentifierAnalysis(
+async function imageIdentifierAnalysis(
   targetImage: string,
   imageType: ImageType,
   dockerfileAnalysis: DockerFileAnalysis | undefined,
@@ -109,15 +118,6 @@ export async function imageIdentifierAnalysis(
   } finally {
     archiveResult.removeArchive();
   }
-}
-
-export function fullImageSavePath(imageSavePath: string | undefined): string {
-  let imagePath = tmp.dirSync().name;
-  if (imageSavePath) {
-    imagePath = path.normalize(imageSavePath);
-  }
-
-  return path.join(imagePath, uuidv4());
 }
 
 function isTrue(value?: boolean | string): boolean {

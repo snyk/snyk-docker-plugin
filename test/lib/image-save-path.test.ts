@@ -1,6 +1,6 @@
 import { test } from "tap";
 
-import { fullImageSavePath } from "../../lib/experimental";
+import { fullImageSavePath } from "../../lib/image-save-path";
 
 test("generate image save path", (c) => {
   c.test("when there is no custom image save path", (t) => {

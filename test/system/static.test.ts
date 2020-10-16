@@ -1,11 +1,9 @@
 import { DepGraph } from "@snyk/dep-graph";
 import * as os from "os";
 import * as path from "path";
-import sinon = require("sinon");
 import { test } from "tap";
 
 import * as plugin from "../../lib";
-import { Docker } from "../../lib/docker";
 import { DockerFileAnalysis } from "../../lib/docker-file";
 import * as subProcess from "../../lib/sub-process";
 
@@ -355,55 +353,6 @@ test("static analysis for distroless base-debian10", async (t) => {
   t.same(
     depGraph.rootPkg.version,
     "70b8c7f2d41a844d310c23e0695388c916a364ed",
-    "Version matches",
-  );
-});
-
-test("experimental static analysis for debian images", async (t) => {
-  const dockerSaveStub = sinon.stub(Docker.prototype, "save").callThrough();
-
-  t.teardown(() => {
-    dockerSaveStub.restore();
-  });
-
-  const imageNameAndTag = "debian:10";
-
-  const pluginResultExperimental = await plugin.scan({
-    path: imageNameAndTag,
-  });
-
-  t.true(dockerSaveStub.calledOnce, "tries to save the image");
-
-  // static scan doesn't handle creating the image archive yet
-  const archivePath = path.join(os.tmpdir(), "debian-10.tar");
-  await subProcess.execute("docker", [
-    "save",
-    imageNameAndTag,
-    "-o",
-    archivePath,
-  ]);
-  const imagePath = `docker-archive:${archivePath}`;
-  const pluginResultStatic = await plugin.scan({
-    path: imagePath,
-  });
-
-  const experimentalDepGraph: DepGraph = pluginResultExperimental.scanResults[0].facts.find(
-    (fact) => fact.type === "depGraph",
-  )!.data;
-  const staticDepGraph: DepGraph = pluginResultStatic.scanResults[0].facts.find(
-    (fact) => fact.type === "depGraph",
-  )!.data;
-
-  t.deepEquals(
-    experimentalDepGraph.getDepPkgs().sort(),
-    staticDepGraph.getDepPkgs().sort(),
-    "identical dependencies for regular Debian images between experimental and static scans",
-  );
-
-  t.true(dockerSaveStub.calledOnce, "does not try to call save again");
-  t.same(
-    staticDepGraph.pkgManager.repositories,
-    [{ alias: "debian:10" }],
     "Version matches",
   );
 });
