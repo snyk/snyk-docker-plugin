@@ -9,6 +9,7 @@ function getFixture(fixturePath): string {
 }
 
 test("docker-archive image type can be scanned", async (t) => {
+  t.plan(7);
   const fixturePath = getFixture("docker-archives/docker-save/nginx.tar");
   const imageNameAndTag = `docker-archive:${fixturePath}`;
 
@@ -60,6 +61,7 @@ test("docker-archive image type can be scanned", async (t) => {
 });
 
 test("oci-archive image type can be scanned", async (t) => {
+  t.plan(6);
   const fixturePath = getFixture("oci-archives/alpine-3.12.0.tar");
   const imageNameAndTag = `oci-archive:${fixturePath}`;
 
@@ -108,6 +110,7 @@ test("oci-archive image type can be scanned", async (t) => {
 });
 
 test("static scan for Identifier type image (nginx:1.19.0)", async (t) => {
+  t.plan(1);
   const imageNameAndTag = `nginx:1.19.0`;
 
   await t.rejects(
@@ -121,6 +124,7 @@ test("static scan for Identifier type image (nginx:1.19.0)", async (t) => {
 });
 
 test("static scan for Identifier type image (python:3.10.0a1 by SHA256)", async (t) => {
+  t.plan(7);
   const imageNameAndTag =
     "python@sha256:9b8ab9ce86010bd51a4c8b60f88f518dbf8a146f84bf08cd08d6b89cc5aa10d3";
 
