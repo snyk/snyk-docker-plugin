@@ -129,6 +129,7 @@ jobs:
           command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
       - run: npm install
       - run: npm run test-windows
+      - notify_slack_on_failure
   test_jest:
     <<: *defaults
     resource_class: medium
