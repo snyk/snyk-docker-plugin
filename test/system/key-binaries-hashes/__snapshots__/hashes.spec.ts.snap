@@ -2,7 +2,6 @@
 
 exports[`key binaries hashes scanning should correctly scan java key binaries hashes 1`] = `
 Object {
-  "manifestFiles": undefined,
   "scanResults": Array [
     Object {
       "facts": Array [
@@ -78,7 +77,6 @@ Object {
 
 exports[`key binaries hashes scanning should correctly scan node key binaries hashes 1`] = `
 Object {
-  "manifestFiles": undefined,
   "scanResults": Array [
     Object {
       "facts": Array [

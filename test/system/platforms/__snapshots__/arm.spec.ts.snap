@@ -2,7 +2,6 @@
 
 exports[`ARM platform tests should correctly scan an ARM image 1`] = `
 Object {
-  "manifestFiles": undefined,
   "scanResults": Array [
     Object {
       "facts": Array [

@@ -2,7 +2,6 @@
 
 exports[`distroless tests should correctly analyze a distroless image by sha256 1`] = `
 Object {
-  "manifestFiles": undefined,
   "scanResults": Array [
     Object {
       "facts": Array [

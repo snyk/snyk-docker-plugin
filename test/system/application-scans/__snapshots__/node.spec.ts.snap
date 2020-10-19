@@ -2,7 +2,6 @@
 
 exports[`node application scans should correctly return applications as multiple scan results 1`] = `
 Object {
-  "manifestFiles": undefined,
   "scanResults": Array [
     Object {
       "facts": Array [

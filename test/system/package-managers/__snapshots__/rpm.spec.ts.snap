@@ -2,7 +2,6 @@
 
 exports[`rpm package manager tests should correctly analyze an rpm image 1`] = `
 Object {
-  "manifestFiles": undefined,
   "scanResults": Array [
     Object {
       "facts": Array [

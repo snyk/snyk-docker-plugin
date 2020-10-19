@@ -2,7 +2,6 @@
 
 exports[`centos tests should correctly analyze a centos image by sha256 1`] = `
 Object {
-  "manifestFiles": undefined,
   "scanResults": Array [
     Object {
       "facts": Array [
@@ -2282,7 +2281,6 @@ Object {
 
 exports[`centos tests should correctly analyze a centos image by tag 1`] = `
 Object {
-  "manifestFiles": undefined,
   "scanResults": Array [
     Object {
       "facts": Array [

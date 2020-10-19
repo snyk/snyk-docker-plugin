@@ -16,6 +16,6 @@ describe("find globs tests", () => {
       },
     });
 
-    expect(pluginResult.manifestFiles).toMatchSnapshot();
+    expect(pluginResult).toMatchSnapshot();
   });
 });

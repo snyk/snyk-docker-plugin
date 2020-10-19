@@ -2,7 +2,6 @@
 
 exports[`compressed archive scanning should correctly scan a compressed archive 1`] = `
 Object {
-  "manifestFiles": undefined,
   "scanResults": Array [
     Object {
       "facts": Array [

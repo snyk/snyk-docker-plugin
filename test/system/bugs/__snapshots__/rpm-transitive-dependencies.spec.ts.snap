@@ -2,7 +2,6 @@
 
 exports[`BUG: Dockerfile analysis does not produce transitive dependencies for RPM projects should not produce transitive dependencies 1`] = `
 Object {
-  "manifestFiles": undefined,
   "scanResults": Array [
     Object {
       "facts": Array [

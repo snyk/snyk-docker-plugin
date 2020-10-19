@@ -23,7 +23,12 @@ export enum OsReleaseFilePath {
 export interface ManifestFile {
   name: string;
   path: string;
-  contents: Buffer;
+  /**
+   * Base64-encoded file contents.
+   * We use Base64 to avoid any assumptions about the original file encoding,
+   * which is difficult to infer and may be corrupted when the data is transferred over the network.
+   */
+  contents: string;
 }
 
 export type FactType =
@@ -33,20 +38,12 @@ export type FactType =
   | "dockerfileAnalysis"
   | "rootFs"
   | "imageId"
-  | "imageOsReleasePrettyName";
+  | "imageOsReleasePrettyName"
+  | "imageManifestFiles";
 
 export interface PluginResponse {
   /** The first result is guaranteed to be the OS dependencies scan result. */
   scanResults: ScanResult[];
-
-  /**
-   * WARNING: This field does not appear in other CLI plugins! NOT to be used by the CLI.
-   *
-   * Manifests file are a special case, used only for the APP+OS deps feature.
-   * They are collected if "globsToFind" are included in the options passed to the plugin.
-   * They are NOT be processed like a normal ScanResult+Fact and they flow through a separate code path.
-   */
-  manifestFiles?: ManifestFile[];
 }
 
 export interface ScanResult {

@@ -2,7 +2,6 @@
 
 exports[`redhat ubi8 tests should correctly analyze an ubi8 image by tag 1`] = `
 Object {
-  "manifestFiles": undefined,
   "scanResults": Array [
     Object {
       "facts": Array [

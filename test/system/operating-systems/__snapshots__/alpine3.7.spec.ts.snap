@@ -2,7 +2,6 @@
 
 exports[`alpine tests should correctly analyze an alpine image by sha256 1`] = `
 Object {
-  "manifestFiles": undefined,
   "scanResults": Array [
     Object {
       "facts": Array [
@@ -378,7 +377,6 @@ Object {
 
 exports[`alpine tests should correctly analyze an alpine image by tag 1`] = `
 Object {
-  "manifestFiles": undefined,
   "scanResults": Array [
     Object {
       "facts": Array [
