@@ -147,6 +147,17 @@ jobs:
           name: Run Jest tests
           command: npm run test-jest
       - notify_slack_on_failure
+  test_jest_windows:
+    <<: *windows_defaults
+    steps:
+      - checkout
+      - install_node_npm:
+          node_version: << parameters.node_version >>
+      - run:
+          name: Use snyk-main npmjs user
+          command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
+      - run: npm install
+      - run: npm run test-jest-windows
   build:
     <<: *defaults
     steps:
@@ -209,6 +220,10 @@ workflows:
           node_version: "8.17.0"
           requires:
             - Install
+      - test_jest_windows:
+          name: Test Jest Windows
+          context: nodejs-install
+          node_version: "10.19.0"
       - release:
           name: Release to GitHub
           context: nodejs-lib-release
