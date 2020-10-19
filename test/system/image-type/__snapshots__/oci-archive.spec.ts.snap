@@ -2,7 +2,6 @@
 
 exports[`oci archive scanning should correctly scan an oci archive 1`] = `
 Object {
-  "manifestFiles": undefined,
   "scanResults": Array [
     Object {
       "facts": Array [

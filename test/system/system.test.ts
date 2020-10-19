@@ -259,7 +259,9 @@ test("inspect redis:3.2.11-alpine", async (t) => {
 
   t.equal(depGraph.getDepPkgs().length, 13, "expected number of deps");
 
-  const manifestFiles: ManifestFile[] = pluginResponse.manifestFiles!;
+  const manifestFiles: ManifestFile[] = pluginResponse.scanResults[0].facts.find(
+    (fact) => fact.type === "imageManifestFiles",
+  )!.data;
   t.ok(Array.isArray(manifestFiles), "manifest files data is an array");
   t.equals(manifestFiles.length, 1, "two manifest files found");
 

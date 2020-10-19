@@ -73,6 +73,17 @@ function buildResponse(
     });
   }
 
+  const manifestFiles =
+    depsAnalysis.manifestFiles.length > 0
+      ? depsAnalysis.manifestFiles
+      : undefined;
+  if (manifestFiles) {
+    additionalOsDepsFacts.push({
+      type: "imageManifestFiles",
+      data: manifestFiles,
+    });
+  }
+
   const applicationDependenciesScanResults: types.ScanResult[] = (
     depsAnalysis.applicationDependenciesScanResults || []
   ).map((appDepsScanResult) => ({
@@ -107,14 +118,8 @@ function buildResponse(
     ...applicationDependenciesScanResults,
   ];
 
-  const manifestFiles =
-    depsAnalysis.manifestFiles.length > 0
-      ? depsAnalysis.manifestFiles
-      : undefined;
-
   return {
     scanResults,
-    manifestFiles,
   };
 }
 

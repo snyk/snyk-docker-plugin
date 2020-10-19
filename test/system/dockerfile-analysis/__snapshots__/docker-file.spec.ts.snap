@@ -2,7 +2,6 @@
 
 exports[`dockerfile analysis should correctly return a dockerfile analysis as part of image scanning 1`] = `
 Object {
-  "manifestFiles": undefined,
   "scanResults": Array [
     Object {
       "facts": Array [

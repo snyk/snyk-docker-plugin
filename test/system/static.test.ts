@@ -4,6 +4,7 @@ import { test } from "tap";
 
 import * as plugin from "../../lib";
 import { DockerFileAnalysis } from "../../lib/docker-file";
+import { ManifestFile } from "../../lib/types";
 
 const getFixture = (fixturePath) =>
   path.join(__dirname, "../fixtures/docker-archives", fixturePath);
@@ -377,16 +378,20 @@ test("manifest files are detected", async (t) => {
   const osDepsStatic = pluginResultStatic.scanResults[0];
   t.ok(osDepsStatic !== undefined);
 
-  const manifestFiles = pluginResultStatic.manifestFiles;
+  const manifestFiles: ManifestFile[] = osDepsStatic.facts.find(
+    (fact) => fact.type === "imageManifestFiles",
+  )!.data;
   t.ok(manifestFiles !== undefined, "found manifest files in static scan");
   t.equals(
-    manifestFiles?.length,
+    manifestFiles.length,
     1,
     "static scan finds one manifest file because it doesn't follow on symlinks",
   );
-  t.true(
-    Buffer.isBuffer(manifestFiles?.[0].contents),
-    "static scanned manifest files are held in buffer",
+  t.match(
+    manifestFiles[0].contents,
+    // match on some of the contents (the end of the file)
+    "kZWJpYW4ub3JnLyIK",
+    "static scanned manifest files are held in a base64-encoded string",
   );
 });
 

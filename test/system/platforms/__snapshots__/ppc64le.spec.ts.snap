@@ -2,7 +2,6 @@
 
 exports[`PPC64 platform tests should correctly scan a PPC image and return platform: ppc64le 1`] = `
 Object {
-  "manifestFiles": undefined,
   "scanResults": Array [
     Object {
       "facts": Array [
@@ -825,7 +824,6 @@ Object {
 
 exports[`PPC64 platform tests should correctly scan a PPC image when the user provides --platform=ppc64le and return platform: ppc64le 1`] = `
 Object {
-  "manifestFiles": undefined,
   "scanResults": Array [
     Object {
       "facts": Array [

@@ -2,7 +2,6 @@
 
 exports[`AMD platform tests should correctly scan an AMD image and return platform: amd64 1`] = `
 Object {
-  "manifestFiles": undefined,
   "scanResults": Array [
     Object {
       "facts": Array [
@@ -1828,7 +1827,6 @@ Object {
 
 exports[`AMD platform tests should correctly scan an AMD image when the user provides --platform=amd64 and return platform: amd64 1`] = `
 Object {
-  "manifestFiles": undefined,
   "scanResults": Array [
     Object {
       "facts": Array [

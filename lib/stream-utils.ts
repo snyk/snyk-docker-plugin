@@ -4,9 +4,14 @@ import { Readable } from "stream";
 const HASH_ALGORITHM = "sha256"; // TODO algorithm?
 const HASH_ENCODING = "hex";
 
+/**
+ * https://nodejs.org/api/buffer.html#buffer_buffers_and_character_encodings
+ */
+type SupportedEncodings = "utf8" | "base64";
+
 export async function streamToString(
   stream: Readable,
-  encoding: string = "utf8",
+  encoding: SupportedEncodings = "utf8",
 ): Promise<string> {
   const chunks: string[] = [];
   return new Promise((resolve, reject) => {

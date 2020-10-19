@@ -2,7 +2,6 @@
 
 exports[`docker archive scanning should correctly scan a docker archive 1`] = `
 Object {
-  "manifestFiles": undefined,
   "scanResults": Array [
     Object {
       "facts": Array [
