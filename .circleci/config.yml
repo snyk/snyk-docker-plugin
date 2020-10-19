@@ -117,7 +117,6 @@ jobs:
       - checkout
       - install_node_npm:
           node_version: << parameters.node_version >>
-      - run: docker --version
       - run:
           name: Use snyk-main npmjs user
           command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
