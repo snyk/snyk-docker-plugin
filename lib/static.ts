@@ -30,6 +30,7 @@ export async function analyzeStatically(
     staticAnalysis,
   );
 
+  /** @deprecated Should try to build a dependency graph instead. */
   const dependenciesTree = await buildTree(
     targetImage,
     parsedAnalysisResult.type,
