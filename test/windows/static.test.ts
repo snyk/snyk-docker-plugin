@@ -3,7 +3,7 @@ import * as path from "path";
 import { test } from "tap";
 
 import * as plugin from "../../lib";
-import { DockerFileAnalysis } from "../../lib/docker-file";
+import { DockerFileAnalysis } from "../../lib/dockerfile";
 
 const getFixture = (fixturePath) =>
   path.join(__dirname, "../fixtures/docker-archives", fixturePath);

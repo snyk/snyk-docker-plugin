@@ -1,5 +1,6 @@
 import { DepTree } from "../types";
 
+/** @deprecated Should implement a new function to build a dependency graph instead. */
 export function buildTree(
   targetImage: string,
   depType,

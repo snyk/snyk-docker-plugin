@@ -1,5 +1,5 @@
 import { display } from "./display";
-import * as dockerFile from "./docker-file";
+import * as dockerFile from "./dockerfile";
 import { scan } from "./scan";
 import {
   ContainerTarget,

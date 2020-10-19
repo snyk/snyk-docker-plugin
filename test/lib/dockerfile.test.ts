@@ -1,7 +1,7 @@
 import * as path from "path";
 import { test } from "tap";
 
-import * as dockerFile from "../../lib/docker-file";
+import * as dockerFile from "../../lib/dockerfile";
 
 const getDockerfileFixture = (folder: string) =>
   path.join(__dirname, "../fixtures/dockerfiles", folder, "Dockerfile");

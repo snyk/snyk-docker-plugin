@@ -2,20 +2,20 @@ import { DockerfileParser } from "dockerfile-ast";
 import * as fs from "fs";
 import { normalize as normalizePath } from "path";
 import {
-  DockerFileLayers,
-  DockerFilePackages,
   getDockerfileBaseImageName,
   getDockerfileLayers,
   getPackagesFromRunInstructions,
+  instructionDigest,
 } from "./instruction-parser";
+import { DockerFileAnalysis } from "./types";
 
-export { analyseDockerfile, readDockerfileAndAnalyse, DockerFileAnalysis };
-
-interface DockerFileAnalysis {
-  baseImage?: string;
-  dockerfilePackages: DockerFilePackages;
-  dockerfileLayers: DockerFileLayers;
-}
+export {
+  analyseDockerfile,
+  readDockerfileAndAnalyse,
+  instructionDigest,
+  getPackagesFromRunInstructions,
+  DockerFileAnalysis,
+};
 
 async function readDockerfileAndAnalyse(
   dockerfilePath?: string,

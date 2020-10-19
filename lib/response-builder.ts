@@ -3,8 +3,8 @@ import { StaticAnalysis } from "./analyzer/types";
 // Module that provides functions to collect and build response after all
 // analyses' are done.
 
-import { DockerFileAnalysis } from "./docker-file";
-import { DockerFilePackages, instructionDigest } from "./instruction-parser";
+import { instructionDigest } from "./dockerfile";
+import { DockerFileAnalysis, DockerFilePackages } from "./dockerfile/types";
 import * as types from "./types";
 
 export { buildResponse };

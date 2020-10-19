@@ -1,5 +1,5 @@
 import * as Debug from "debug";
-import { DockerFileAnalysis } from "../docker-file";
+import { DockerFileAnalysis } from "../dockerfile/types";
 import * as archiveExtractor from "../extractor";
 import {
   getApkDbFileContent,

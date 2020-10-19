@@ -1,25 +1,12 @@
 import { Dockerfile, Instruction } from "dockerfile-ast";
+import { DockerFileLayers, DockerFilePackages } from "./types";
 
 export {
   getDockerfileBaseImageName,
   getDockerfileLayers,
   getPackagesFromRunInstructions,
-  DockerFilePackages,
-  DockerFileLayers,
   instructionDigest,
 };
-
-interface DockerFilePackages {
-  [packageName: string]: {
-    instruction: string;
-  };
-}
-
-interface DockerFileLayers {
-  [id: string]: {
-    instruction: string;
-  };
-}
 
 // Naive regex; see tests for cases
 // tslint:disable-next-line:max-line-length
