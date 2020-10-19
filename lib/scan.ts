@@ -69,8 +69,11 @@ async function localArchiveAnalysis(
     throw new Error("The provided archive path is not a file");
   }
 
-  // The target image becomes the base of the path, e.g. "archive.tar" for "/var/tmp/archive.tar"
-  const imageIdentifier = path.basename(archivePath);
+  const imageIdentifier =
+    options.imageNameAndTag ||
+    // The target image becomes the base of the path, e.g. "archive.tar" for "/var/tmp/archive.tar"
+    path.basename(archivePath);
+
   return await staticModule.analyzeStatically(
     imageIdentifier,
     dockerfileAnalysis,

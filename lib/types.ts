@@ -102,6 +102,18 @@ export interface PluginOptions {
   file: string;
 
   /**
+   * Override the "name" and "version" fields of the OS dependencies result.
+   * WARNING! This is NOT used by the Snyk CLI!
+   *
+   * It is used by K8s-Monitor and DRA to preserve the image identifier when scanning archives.
+   * The archives do not contain any data about the image's name and tag (since they are only
+   * known by the container registry) and in some contexts we know this data and want to keep it.
+   *
+   * This flag will be processed only when scanning image archives. In other cases "path" is used.
+   */
+  imageNameAndTag: string;
+
+  /**
    * Provide patterns on which to match for detecting applications.
    * Used for the APP+OS deps feature, not by the CLI.
    */
