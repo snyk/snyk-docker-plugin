@@ -1,11 +1,9 @@
 import { DepGraph } from "@snyk/dep-graph";
-import * as os from "os";
 import * as path from "path";
 import { test } from "tap";
 
 import * as plugin from "../../lib";
 import { DockerFileAnalysis } from "../../lib/docker-file";
-import * as subProcess from "../../lib/sub-process";
 
 const getFixture = (fixturePath) =>
   path.join(__dirname, "../fixtures/docker-archives", fixturePath);
@@ -368,17 +366,8 @@ test("manifest files are detected", async (t) => {
   ];
   const manifestExcludeGlobs = ["**/node_modules/**"];
 
-  // static scan doesn't handle creating the image archive yet
-  const archivePath = path.join(os.tmpdir(), "debian-10.tar");
-  await subProcess.execute("docker", [
-    "save",
-    imageNameAndTag,
-    "-o",
-    archivePath,
-  ]);
-  const imagePath = `docker-archive:${archivePath}`;
   const pluginResultStatic = await plugin.scan({
-    path: imagePath,
+    path: imageNameAndTag,
     globsToFind: {
       include: manifestGlobs,
       exclude: manifestExcludeGlobs,
