@@ -1,6 +1,6 @@
 import { DockerfileParser } from "dockerfile-ast";
 import { test } from "tap";
-import { getPackagesFromRunInstructions } from "../../lib/instruction-parser";
+import { getPackagesFromRunInstructions } from "../../lib/dockerfile";
 
 const getDockerfile = (instructions: string[]) =>
   DockerfileParser.parse(["FROM test", ...instructions].join("\n"));

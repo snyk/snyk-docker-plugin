@@ -3,7 +3,7 @@ import * as path from "path";
 import { test } from "tap";
 
 import * as plugin from "../../lib";
-import { DockerFileAnalysis } from "../../lib/docker-file";
+import { DockerFileAnalysis } from "../../lib/dockerfile/types";
 
 function getFixture(fixturePath) {
   return path.join(__dirname, "../fixtures", fixturePath);

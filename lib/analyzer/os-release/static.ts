@@ -1,4 +1,4 @@
-import { DockerFileAnalysis } from "../../docker-file";
+import { DockerFileAnalysis } from "../../dockerfile/types";
 import { ExtractedLayers } from "../../extractor/types";
 import { getOsReleaseStatic as getOsRelease } from "../../inputs/os-release";
 import { OsReleaseFilePath } from "../../types";

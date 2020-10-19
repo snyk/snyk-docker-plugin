@@ -3,7 +3,7 @@ import * as path from "path";
 import { test } from "tap";
 
 import * as plugin from "../../lib";
-import { DockerFileAnalysis } from "../../lib/docker-file";
+import { DockerFileAnalysis } from "../../lib/dockerfile/types";
 import * as subProcess from "../../lib/sub-process";
 import { ManifestFile } from "../../lib/types";
 

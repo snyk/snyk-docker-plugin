@@ -2,7 +2,8 @@ import * as fs from "fs";
 import * as path from "path";
 
 import { getImageArchive } from "./analyzer/image-inspector";
-import { DockerFileAnalysis, readDockerfileAndAnalyse } from "./docker-file";
+import { readDockerfileAndAnalyse } from "./dockerfile";
+import { DockerFileAnalysis } from "./dockerfile/types";
 import { fullImageSavePath } from "./image-save-path";
 import { getArchivePath, getImageType } from "./image-type";
 import * as staticModule from "./static";

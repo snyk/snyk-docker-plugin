@@ -2,7 +2,7 @@ import { DepGraph, legacy } from "@snyk/dep-graph";
 import * as analyzer from "./analyzer";
 import { StaticAnalysis } from "./analyzer/types";
 import { buildTree } from "./dependency-tree";
-import { DockerFileAnalysis } from "./docker-file";
+import { DockerFileAnalysis } from "./dockerfile/types";
 import { parseAnalysisResults } from "./parser";
 import { buildResponse } from "./response-builder";
 import { DepTree, ImageType, PluginResponse } from "./types";

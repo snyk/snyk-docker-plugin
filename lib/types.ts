@@ -1,7 +1,6 @@
 import { DepGraphData } from "@snyk/dep-graph";
 
-import { DockerFileAnalysis } from "./docker-file";
-import { DockerFilePackages } from "./instruction-parser";
+import { DockerFileAnalysis, DockerFilePackages } from "./dockerfile/types";
 
 export enum ImageType {
   Identifier, // e.g. "nginx:latest"

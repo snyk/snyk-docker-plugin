@@ -9,7 +9,7 @@ describe("dockerfile analysis", () => {
       "oci-archives/alpine-3.12.0.tar",
     );
     const imageNameAndTag = `oci-archive:${fixturePath}`;
-    const dockerfilePath = pathJoin(__dirname, "docker-file.dockerfile");
+    const dockerfilePath = pathJoin(__dirname, "Dockerfile");
 
     const pluginResult = await scan({
       path: imageNameAndTag,
