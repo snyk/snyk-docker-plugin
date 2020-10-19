@@ -200,8 +200,6 @@ workflows:
           name: Test Windows
           context: nodejs-install
           node_version: "8.17.0"
-          requires:
-            - Install
       - test_jest_windows:
           name: Test Jest Windows
           context: nodejs-install
