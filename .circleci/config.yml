@@ -36,9 +36,7 @@ commands:
       - run:
           name: Use snyk-main npmjs user
           command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
-      - run:
-          name: Install dependencies
-          command: npm install
+      - run: npm install
       - save_cache:
           key: v2-npm-cache-{{ checksum "package.json" }}
           paths:
@@ -100,9 +98,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: ~/snyk-docker-plugin
-      - run:
-          name: Run tests
-          command: npm run lint
+      - run: npm run lint
       - notify_slack_on_failure
   test:
     <<: *defaults
@@ -113,9 +109,7 @@ jobs:
       - setup_remote_docker
       - attach_workspace:
           at: ~/snyk-docker-plugin
-      - run:
-          name: Run tests
-          command: npm test
+      - run: npm test
       - notify_slack_on_failure
   test_windows:
     <<: *windows_defaults
@@ -123,7 +117,6 @@ jobs:
       - checkout
       - install_node_npm:
           node_version: << parameters.node_version >>
-      - run: docker --version
       - run:
           name: Use snyk-main npmjs user
           command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
@@ -140,12 +133,8 @@ jobs:
       - run:
           name: Use snyk-main npmjs user
           command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
-      - run:
-          name: Install dependencies
-          command: npm install
-      - run:
-          name: Run Jest tests
-          command: npm run test-jest
+      - run: npm install
+      - run: npm run test-jest
       - notify_slack_on_failure
   test_jest_windows:
     <<: *windows_defaults
@@ -165,23 +154,15 @@ jobs:
       - run:
           name: Use snyk-main npmjs user
           command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
-      - run:
-          name: Install dependencies
-          command: npm install
-      - run:
-          name: Build
-          command: npm run build
+      - run: npm install
+      - run: npm run build
       - notify_slack_on_failure
   release:
     <<: *release_defaults
     steps:
       - checkout
-      - run:
-          name: Install dependencies
-          command: npm install
-      - run:
-          name: Build
-          command: npm run build
+      - run: npm install
+      - run: npm run build
       - run:
           name: Release on GitHub
           command: npx semantic-release
@@ -218,8 +199,6 @@ workflows:
           name: Test Windows
           context: nodejs-install
           node_version: "8.17.0"
-          requires:
-            - Install
       - test_jest_windows:
           name: Test Jest Windows
           context: nodejs-install
