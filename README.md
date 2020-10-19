@@ -11,16 +11,39 @@ Snyk helps you find, fix and monitor for known vulnerabilities in your dependenc
 
 This plugin provides dependency metadata for Docker images.
 
-## Running Tests
+## Supported functionality
 
-To run tests the following environment variables need to be set:
+Package managers:
 
-`DOCKER_HUB_PRIVATE_IMAGE`
-`DOCKER_HUB_USERNAME`
-`DOCKER_HUB_PASSWORD`
+- rpm, apk, deb
 
-`DOCKER_HUB_PRIVATE_IMAGE` should refer to an image that is hosted on Docker Hub but not available publicly. During CI test this is set to `snykgoof/dockergoof:alpine`.
+Operating systems:
 
-## Writing Tests
+- Debian, Red Hat, Alpine, Oracle, CentOS, SLES, OpenSUSE, Amazon Linux, vanilla Linux
+- Distroless and scratch images
 
-Refer to [test/README.md](test/README.md).
+Platforms:
+
+- Linux: ARM, AMD, PPC, MIPS, s390x
+
+Image protocols:
+
+- Docker archive, OCI archive
+- pulling images from a Docker socket
+- pulling from container registries (with support for username and password authentication)
+
+Applications:
+
+- Node (npm, yarn)
+- detecting package manager manifests (Python, Ruby)
+
+Others:
+
+- Dockerfile analysis
+- identifying Node and Java binaries installed outside the package mmanager
+- running on Windows (*not* the same as scanning Windows containers)
+- collecting the `rootFs` hashes for base image detection and recommendation
+
+## Tests
+
+Refer to [test/README.md](test/README.md) for running and writing tests.
