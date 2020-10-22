@@ -15,6 +15,16 @@ export async function nodeFilesToScannedProjects(
 ): Promise<AppDepsScanResultWithoutTarget[]> {
   const scanResults: AppDepsScanResultWithoutTarget[] = [];
 
+  /**
+   * TODO: Add support for Yarn workspaces!
+   * https://github.com/snyk/nodejs-lockfile-parser/blob/af8ba81930e950156b539281ecf41c1bc63dacf4/test/lib/yarn-workflows.test.ts#L7-L17
+   *
+   * When building the ScanResult ensure the workspace is stored in scanResult.identity.args:
+   * args: {
+   *   rootWorkspace: <path-of-workspace>,
+   * };
+   */
+
   const filePairs = findManifestLockPairsInSameDirectory(filePathToContent);
 
   const shouldIncludeDevDependencies = false;
@@ -42,6 +52,13 @@ export async function nodeFilesToScannedProjects(
         {
           type: "depGraph",
           data: depGraph,
+        },
+        {
+          type: "testedFiles",
+          data: [
+            path.basename(pathPair.manifest),
+            path.basename(pathPair.lock),
+          ],
         },
       ],
       identity: {

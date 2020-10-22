@@ -32,13 +32,18 @@ export interface ManifestFile {
 
 export type FactType =
   | "depGraph"
+  // Hashes of executables not installed by a package manager (e.g. if they were copied straight onto the image).
   | "keyBinariesHashes"
+  // Collects the file names of the individual .tar layers found in the scanned image.
   | "imageLayers"
   | "dockerfileAnalysis"
   | "rootFs"
   | "imageId"
   | "imageOsReleasePrettyName"
-  | "imageManifestFiles";
+  // Package manager manifests (e.g. requirements.txt, Gemfile.lock) collected as part of an application scan.
+  | "imageManifestFiles"
+  // Used for application dependencies scanning; shows which files were used in the analysis of the dependencies.
+  | "testedFiles";
 
 export interface PluginResponse {
   /** The first result is guaranteed to be the OS dependencies scan result. */
@@ -68,7 +73,10 @@ export interface ContainerTarget {
  * and can result in a completely different Project (for example, if "args.targetFramework" differs).
  */
 export interface Identity {
-  /** This used to be represented as "packageManager". It becomes the project.type. */
+  /**
+   * This used to be represented as "packageManager" but now can contain any sensible ecosystem type.
+   * Examples: dockerfile, cpp, terraform-module, deb, npm, and so on.
+   */
   type: string;
   targetFile?: string;
   args?: { [key: string]: string };
@@ -77,7 +85,7 @@ export interface Identity {
 /**
  * A collection of things that were found as part of a scan.
  * As the developer and owner, you are responsible for defining and maintaining your own Facts.
- * Examples of facts: a dependency graph, a list of file content hashes, Dockerfile analysis.
+ * Examples of facts: a dependency graph, a list of file content hashes, Dockerfile analysis. See FactType.
  */
 export interface Fact {
   type: FactType;
@@ -110,7 +118,7 @@ export interface PluginOptions {
   imageNameAndTag: string;
 
   /**
-   * Provide patterns on which to match for detecting applications.
+   * Provide patterns on which to match for detecting package manager manifest files.
    * Used for the APP+OS deps feature, not by the CLI.
    */
   globsToFind: {

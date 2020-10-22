@@ -3,7 +3,7 @@ import * as path from "path";
 import { Readable } from "stream";
 import { extract, Extract } from "tar-stream";
 import { applyCallbacks } from "./callbacks";
-import { ExtractAction, ExtractedLayers, FileNameAndContent } from "./types";
+import { ExtractAction, ExtractedLayers } from "./types";
 
 /**
  * Extract key files from the specified TAR stream.
@@ -22,15 +22,14 @@ export async function extractImageLayer(
     tarExtractor.on("entry", async (headers, stream, next) => {
       if (headers.type === "file") {
         const absoluteFileName = path.join(path.sep, headers.name);
-        // TODO wouldn't it be simpler to first check
-        // if the filename matches any patterns?
-        const processedResult = await extractFileAndProcess(
-          absoluteFileName,
-          stream,
-          extractActions,
+        const matchedActions = extractActions.filter((action) =>
+          action.filePathMatches(absoluteFileName),
         );
-        if (processedResult !== undefined) {
-          result[absoluteFileName] = processedResult;
+        if (matchedActions.length > 0) {
+          result[absoluteFileName] = await applyCallbacks(
+            matchedActions,
+            stream,
+          );
         }
       }
 
@@ -47,23 +46,4 @@ export async function extractImageLayer(
 
     layerTarStream.pipe(gunzip()).pipe(tarExtractor);
   });
-}
-
-/**
- * Note: consumes the stream.
- */
-async function extractFileAndProcess(
-  fileName: string,
-  fileStream: Readable,
-  extractActions: ExtractAction[],
-): Promise<FileNameAndContent | undefined> {
-  const matchedActions = extractActions.filter((action) =>
-    action.filePathMatches(fileName),
-  );
-
-  if (matchedActions.length > 0) {
-    return await applyCallbacks(matchedActions, fileStream);
-  }
-
-  return undefined;
 }
