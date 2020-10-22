@@ -43,6 +43,13 @@ export async function nodeFilesToScannedProjects(
           type: "depGraph",
           data: depGraph,
         },
+        {
+          type: "testedFiles",
+          data: [
+            path.basename(pathPair.manifest),
+            path.basename(pathPair.lock),
+          ],
+        },
       ],
       identity: {
         type: depGraph.pkgManager.name,

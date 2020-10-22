@@ -1702,6 +1702,13 @@ Object {
           },
           "type": "depGraph",
         },
+        Object {
+          "data": Array [
+            "package.json",
+            "package-lock.json",
+          ],
+          "type": "testedFiles",
+        },
       ],
       "identity": Object {
         "targetFile": "/srv/npm-app/package.json",
@@ -10920,6 +10927,13 @@ Object {
             "schemaVersion": "1.2.0",
           },
           "type": "depGraph",
+        },
+        Object {
+          "data": Array [
+            "package.json",
+            "yarn.lock",
+          ],
+          "type": "testedFiles",
         },
       ],
       "identity": Object {

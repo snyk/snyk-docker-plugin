@@ -41,7 +41,9 @@ export type FactType =
   | "imageId"
   | "imageOsReleasePrettyName"
   // Package manager manifests (e.g. requirements.txt, Gemfile.lock) collected as part of an application scan.
-  | "imageManifestFiles";
+  | "imageManifestFiles"
+  // Used for application dependencies scanning; shows which files were used in the analysis of the dependencies.
+  | "testedFiles";
 
 export interface PluginResponse {
   /** The first result is guaranteed to be the OS dependencies scan result. */
