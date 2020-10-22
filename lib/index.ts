@@ -5,6 +5,7 @@ import {
   ContainerTarget,
   Fact,
   Identity,
+  ManifestFile,
   PluginResponse,
   ScanResult,
 } from "./types";
@@ -18,4 +19,5 @@ export {
   ContainerTarget,
   Identity,
   Fact,
+  ManifestFile,
 };
