@@ -38,9 +38,6 @@ describe("compressed archive scanning", () => {
     expect(compressedPluginResult.scanResults.length).toEqual(
       pluginResult.scanResults.length,
     );
-    expect(compressedPluginResult.manifestFiles).toEqual(
-      pluginResult.manifestFiles,
-    );
 
     const compressedPluginResultDepGraph: DepGraph = compressedPluginResult.scanResults[0].facts.find(
       (fact) => fact.type === "depGraph",

@@ -41,25 +41,6 @@ test("inspect an image with an unsupported pkg manager", async (t) => {
   );
 });
 
-test("inspect a scratch image", async (t) => {
-  const imgName = "busybox";
-  const imgTag = "1.31.1";
-  const img = imgName + ":" + imgTag;
-
-  await dockerPull(t, img);
-  const pluginResult = await plugin.scan({ path: img });
-  const depGraph: DepGraph = pluginResult.scanResults[0].facts.find(
-    (fact) => fact.type === "depGraph",
-  )!.data;
-  t.same(depGraph.getDepPkgs(), [], "no dependencies should be found");
-  t.same(depGraph.pkgManager.repositories, [{ alias: "unknown:0.0" }]);
-  t.same(
-    pluginResult.scanResults[0].identity.type,
-    "linux",
-    "package manager linux",
-  );
-});
-
 test("inspect node:6.14.2 - provider and regular pkg as same dependency", async (t) => {
   const imgName = "node";
   const imgTag = "6.14.2";
@@ -419,59 +400,6 @@ test(
     t.same(depGraph.rootPkg.version, imgTag, "version matches");
   },
 );
-
-test("inspect centos", async (t) => {
-  const imgName = "centos";
-  const imgTag = "7.4.1708";
-  const img = imgName + ":" + imgTag;
-  const dockerFileLocation = getDockerfileFixturePath("centos");
-
-  await dockerPull(t, img);
-
-  const pluginResponse = await plugin.scan({
-    path: img,
-    file: dockerFileLocation,
-    globsToFind: {
-      include: ["/etc/redhat-release", "/etc/foo"],
-      exclude: [],
-    },
-  });
-  const depGraph: DepGraph = pluginResponse.scanResults[0].facts.find(
-    (fact) => fact.type === "depGraph",
-  )!.data;
-  const imageId: string = pluginResponse.scanResults[0].facts.find(
-    (fact) => fact.type === "imageId",
-  )!.data;
-  const dockerfileAnalysis: DockerFileAnalysis = pluginResponse.scanResults[0].facts.find(
-    (fact) => fact.type === "dockerfileAnalysis",
-  )!.data;
-
-  t.equal(
-    imageId,
-    "9f266d35e02cc56fe11a70ecdbe918ea091d828736521c91dda4cc0c287856a9",
-    "image id is correct",
-  );
-  t.equal(
-    pluginResponse.scanResults[0].identity.type,
-    "rpm",
-    "returns rpm package manager",
-  );
-
-  t.same(dockerfileAnalysis.baseImage, "scratch", "base image matches");
-  t.same(
-    pluginResponse.scanResults[0].target.image,
-    "docker-image|" + imgName,
-    "target image matches",
-  );
-  t.same(depGraph.rootPkg.version, imgTag, "version matches");
-  t.same(
-    depGraph.pkgManager.repositories,
-    [{ alias: "centos:7" }],
-    "OS matches",
-  );
-
-  t.equal(depGraph.getDepPkgs().length, 145, "expected number of deps");
-});
 
 function dockerPull(t, name) {
   t.comment("pulling " + name);
