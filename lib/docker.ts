@@ -124,7 +124,7 @@ class Docker {
       `Docker.save: targetImage: ${targetImage}, destination: ${destination}`,
     );
 
-    const modem: Modem = new Modem({ socketPath: this.socketPath });
+    const modem = new Modem();
 
     return new Promise((resolve, reject) => {
       modem.dial(request, (err, stream: Stream) => {
