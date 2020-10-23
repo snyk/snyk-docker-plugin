@@ -23,13 +23,15 @@ async function getInspectResult(
   return JSON.parse(info.stdout)[0];
 }
 
-function cleanupCallback(imagePath: string, imageName: string) {
+function cleanupCallback(imageFolderPath: string, imageName: string) {
   return () => {
-    const fullImagePath = path.join(imagePath, imageName);
+    const fullImagePath = path.join(imageFolderPath, imageName);
     if (fs.existsSync(fullImagePath)) {
       fs.unlinkSync(fullImagePath);
     }
-    fs.rmdirSync(imagePath);
+    fs.rmdir(imageFolderPath, (err) => {
+      debug(`Can't remove folder ${imageFolderPath}, got error ${err}`);
+    });
   };
 }
 

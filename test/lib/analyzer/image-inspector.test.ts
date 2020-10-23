@@ -141,10 +141,6 @@ test("get image as an archive", async (t) => {
       fs.existsSync(path.join(imageSavePath, "image.tar")),
       "image should not exists on disk",
     );
-    t.notOk(
-      fs.existsSync(imageSavePath),
-      "tmp folder should not exist on disk",
-    );
     t.ok(fs.existsSync(customPath), "custom path should exist on disk");
   });
 
@@ -181,10 +177,6 @@ test("get image as an archive", async (t) => {
     t.false(
       fs.existsSync(path.join(imageSavePath, "image.tar")),
       "image should not exists on disk",
-    );
-    t.notOk(
-      fs.existsSync(imageSavePath),
-      "tmp folder should not exist on disk",
     );
     t.ok(fs.existsSync(customPath), "custom path should exist on disk");
   });
@@ -224,10 +216,6 @@ test("get image as an archive", async (t) => {
     t.false(
       fs.existsSync(path.join(imageSavePath, "image.tar")),
       "image should not exists on disk",
-    );
-    t.notOk(
-      fs.existsSync(imageSavePath),
-      "tmp folder should not exist on disk",
     );
     t.ok(fs.existsSync(customPath), "custom path should exist on disk");
   });
