@@ -60,7 +60,8 @@ async function pullWithDockerBinary(
     await docker.save(targetImage, saveLocation);
     return (pullAndSaveSuccessful = true);
   } catch (err) {
-    debug(`couldn't pull ${targetImage} using docker binary: ${err}`);
+    debug(process.env.DOCKER_HOST);
+    debug(`couldn't pull ${targetImage} using docker binary: ${err.message}`);
 
     if (
       err.stderr &&
