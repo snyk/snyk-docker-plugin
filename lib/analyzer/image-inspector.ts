@@ -11,7 +11,7 @@ import {
   ImageDetails,
 } from "./types";
 
-export { detect, getImageArchive, extractImageDetails, pullIfNotLocal };
+export { getImageArchive, extractImageDetails, pullIfNotLocal };
 
 const debug = Debug("snyk");
 
@@ -21,14 +21,6 @@ async function getInspectResult(
 ): Promise<DockerInspectOutput> {
   const info = await docker.inspectImage(targetImage);
   return JSON.parse(info.stdout)[0];
-}
-
-async function detect(
-  targetImage: string,
-  options?: DockerOptions,
-): Promise<DockerInspectOutput> {
-  const docker = new Docker(options);
-  return getInspectResult(docker, targetImage);
 }
 
 function cleanupCallback(imagePath: string, imageName: string) {

@@ -6,7 +6,6 @@ import {
 import * as Debug from "debug";
 import * as Modem from "docker-modem";
 import { createWriteStream } from "fs";
-import { platform } from "os";
 import { Stream } from "stream";
 import * as subProcess from "./sub-process";
 
@@ -32,41 +31,6 @@ class Docker {
     } catch (e) {
       return false;
     }
-  }
-
-  private static createOptionsList(options: any) {
-    const opts: string[] = [];
-    if (!options) {
-      return opts;
-    }
-    if (options.host) {
-      opts.push(`--host=${options.host}`);
-    }
-    if (options.tlscert) {
-      opts.push(`--tlscert=${options.tlscert}`);
-    }
-    if (options.tlscacert) {
-      opts.push(`--tlscacert=${options.tlscacert}`);
-    }
-    if (options.tlskey) {
-      opts.push(`--tlskey=${options.tlskey}`);
-    }
-    if (options.tlsverify) {
-      opts.push(`--tlsverify=${options.tlsverify}`);
-    }
-    return opts;
-  }
-
-  private optionsList: string[];
-  private socketPath: string;
-
-  constructor(options?: DockerOptions) {
-    this.optionsList = Docker.createOptionsList(options);
-    this.socketPath =
-      options?.socketPath ||
-      (platform() === "win32"
-        ? "\\\\.\\pipe\\docker_engine"
-        : "/var/run/docker.sock");
   }
 
   public async pull(
@@ -153,10 +117,6 @@ class Docker {
   }
 
   public async inspectImage(targetImage: string) {
-    return subProcess.execute("docker", [
-      ...this.optionsList,
-      "inspect",
-      targetImage,
-    ]);
+    return subProcess.execute("docker", ["inspect", targetImage]);
   }
 }
