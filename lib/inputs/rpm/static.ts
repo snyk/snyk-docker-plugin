@@ -30,8 +30,11 @@ export async function getRpmDbFileContent(
     }
     return parserResponse.response;
   } catch (error) {
-    debug("An error occurred while analysing RPM packages");
-    debug(error);
+    debug(
+      `An error occurred while analysing RPM packages: ${JSON.stringify(
+        error,
+      )}`,
+    );
     return "";
   }
 }
