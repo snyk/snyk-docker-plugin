@@ -11,7 +11,7 @@ import {
   ImageDetails,
 } from "./types";
 
-export { detect, getImageArchive, extractImageDetails, pullIfNotLocal };
+export { getImageArchive, extractImageDetails, pullIfNotLocal };
 
 const debug = Debug("snyk");
 
@@ -21,14 +21,6 @@ async function getInspectResult(
 ): Promise<DockerInspectOutput> {
   const info = await docker.inspectImage(targetImage);
   return JSON.parse(info.stdout)[0];
-}
-
-async function detect(
-  targetImage: string,
-  options?: DockerOptions,
-): Promise<DockerInspectOutput> {
-  const docker = new Docker(options);
-  return getInspectResult(docker, targetImage);
 }
 
 function cleanupCallback(imagePath: string, imageName: string) {
@@ -60,7 +52,11 @@ async function pullWithDockerBinary(
     await docker.save(targetImage, saveLocation);
     return (pullAndSaveSuccessful = true);
   } catch (err) {
-    debug(`couldn't pull ${targetImage} using docker binary: ${err}`);
+    debug(
+      `couldn't pull ${targetImage} using docker binary: ${JSON.stringify(
+        err,
+      )}`,
+    );
 
     if (
       err.stderr &&
@@ -285,7 +281,7 @@ function isLocalImageSameArchitecture(
     // Note: this is using the same flag/input pattern as the new Docker buildx: eg. linux/arm64/v8
     platformArchitecture = platformOption.split("/")[1];
   } catch (error) {
-    debug(`Error parsing platform flag: '${error}'`);
+    debug(`Error parsing platform flag: '${JSON.stringify(error)}'`);
     return false;
   }
 
