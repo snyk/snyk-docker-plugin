@@ -18,4 +18,21 @@ describe("dockerfile analysis", () => {
 
     expect(pluginResult).toMatchSnapshot();
   });
+
+  it("should correctly return annotated packages saying which docker layer introduced a package", async () => {
+    const fixturePath = pathJoin(
+      __dirname,
+      "../../fixtures/docker-archives/docker-save/dockergoof.tar",
+    );
+    const imageNameAndTag = `docker-archive:${fixturePath}`;
+    const dockerfilePath = pathJoin(__dirname, "Dockerfile.dockergoof");
+
+    const pluginResult = await scan({
+      path: imageNameAndTag,
+      file: dockerfilePath,
+      imageNameAndTag: "snyk/runtime-fixtures:dockergoof",
+    });
+
+    expect(pluginResult).toMatchSnapshot();
+  });
 });
