@@ -1,6 +1,7 @@
 import * as Debug from "debug";
 import { DockerFileAnalysis } from "../dockerfile/types";
 import * as archiveExtractor from "../extractor";
+import { getFileContent } from "../inputs";
 import {
   getApkDbFileContent,
   getApkDbFileContentAction,
@@ -20,10 +21,8 @@ import {
   getDpkgPackageFileContentAction,
 } from "../inputs/distroless/static";
 import * as filePatternStatic from "../inputs/file-pattern/static";
-import {
-  getNodeAppFileContent,
-  getNodeAppFileContentAction,
-} from "../inputs/node/static";
+import { getJarFileContentAction } from "../inputs/java/static";
+import { getNodeAppFileContentAction } from "../inputs/node/static";
 import { getOsReleaseActions } from "../inputs/os-release/static";
 import {
   getRpmDbFileContent,
@@ -31,6 +30,7 @@ import {
 } from "../inputs/rpm/static";
 import { ImageType, ManifestFile } from "../types";
 import { nodeFilesToScannedProjects } from "./applications";
+import { jarFilesToScannedProjects } from "./applications/java";
 import { AppDepsScanResultWithoutTarget } from "./applications/types";
 import * as osReleaseDetector from "./os-release";
 import { analyze as apkAnalyze } from "./package-managers/apk";
@@ -73,7 +73,9 @@ export async function analyze(
   }
 
   if (appScan) {
-    staticAnalysisActions.push(getNodeAppFileContentAction);
+    staticAnalysisActions.push(
+      ...[getNodeAppFileContentAction, getJarFileContentAction],
+    );
   }
 
   const {
@@ -133,11 +135,20 @@ export async function analyze(
   const binaries = getBinariesHashes(extractedLayers);
 
   const applicationDependenciesScanResults: AppDepsScanResultWithoutTarget[] = [];
+
   if (appScan) {
     const nodeDependenciesScanResults = await nodeFilesToScannedProjects(
-      getNodeAppFileContent(extractedLayers),
+      getFileContent(extractedLayers, getNodeAppFileContentAction.actionName),
     );
-    applicationDependenciesScanResults.push(...nodeDependenciesScanResults);
+    const jarFingerprintScanResults = await jarFilesToScannedProjects(
+      getFileContent(extractedLayers, getJarFileContentAction.actionName),
+      targetImage,
+    );
+
+    applicationDependenciesScanResults.push(
+      ...nodeDependenciesScanResults,
+      ...jarFingerprintScanResults,
+    );
   }
 
   return {

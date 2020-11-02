@@ -1,0 +1,122 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`jar binaries scanning should return expected result 1`] = `
+Object {
+  "scanResults": Array [
+    Object {
+      "facts": Array [
+        Object {
+          "data": Object {
+            "graph": Object {
+              "nodes": Array [
+                Object {
+                  "deps": Array [],
+                  "nodeId": "root-node",
+                  "pkgId": "docker-image|java.tar@",
+                },
+              ],
+              "rootNodeId": "root-node",
+            },
+            "pkgManager": Object {
+              "name": "linux",
+              "repositories": Array [
+                Object {
+                  "alias": "unknown:0.0",
+                },
+              ],
+            },
+            "pkgs": Array [
+              Object {
+                "id": "docker-image|java.tar@",
+                "info": Object {
+                  "name": "docker-image|java.tar",
+                  "version": undefined,
+                },
+              },
+            ],
+            "schemaVersion": "1.2.0",
+          },
+          "type": "depGraph",
+        },
+        Object {
+          "data": "e997a24cd4633de60213a23debcfb37dcc9fa6578a112976fc80aaa094ea1f59",
+          "type": "imageId",
+        },
+        Object {
+          "data": Array [
+            "d446fd2d006bff0982827588b2b613f91a4e2a59d619da68fa7ce1c880b8d907/layer.tar",
+          ],
+          "type": "imageLayers",
+        },
+        Object {
+          "data": Array [
+            "sha256:05356880e40587a7dedbdcb39f8a9f99f2f48e094c7e1d2fae64f4774cc7a4aa",
+          ],
+          "type": "rootFs",
+        },
+      ],
+      "identity": Object {
+        "args": Object {
+          "platform": "linux/amd64",
+        },
+        "type": "linux",
+      },
+      "target": Object {
+        "image": "docker-image|java.tar",
+      },
+    },
+    Object {
+      "facts": Array [
+        Object {
+          "data": Object {
+            "fingerprints": Array [
+              Object {
+                "digest": "485de3a253e23f645037828c07f1d7f1af40763a",
+                "location": "/app/activation-1.1.1.jar",
+              },
+            ],
+            "origin": "java.tar",
+            "path": "/app",
+          },
+          "type": "jarFingerprints",
+        },
+      ],
+      "identity": Object {
+        "targetFile": "/app",
+        "type": "maven",
+      },
+      "target": Object {
+        "image": "docker-image|java.tar",
+      },
+    },
+    Object {
+      "facts": Array [
+        Object {
+          "data": Object {
+            "fingerprints": Array [
+              Object {
+                "digest": "2fa68c05f54f1bba9559dd571eb81959081f1895",
+                "location": "/libs/aopalliance-repackaged-2.5.0.jar",
+              },
+              Object {
+                "digest": "55762d3191a8d6610ef46d11e8cb70c7667342a3",
+                "location": "/libs/audience-annotations-0.5.0.jar",
+              },
+            ],
+            "origin": "java.tar",
+            "path": "/libs",
+          },
+          "type": "jarFingerprints",
+        },
+      ],
+      "identity": Object {
+        "targetFile": "/libs",
+        "type": "maven",
+      },
+      "target": Object {
+        "image": "docker-image|java.tar",
+      },
+    },
+  ],
+}
+`;

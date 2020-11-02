@@ -61,7 +61,7 @@ export async function streamToSha256(stream: Readable): Promise<string> {
   return streamToHash(stream, HashAlgorithm.Sha256);
 }
 
-export async function streamToHash1(stream: Readable): Promise<string> {
+export async function streamToSha1(stream: Readable): Promise<string> {
   return streamToHash(stream, HashAlgorithm.Sha1);
 }
 
