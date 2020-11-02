@@ -1,7 +1,7 @@
 import * as crypto from "crypto";
 import { Readable } from "stream";
+import { HashAlgorithm } from "./types";
 
-const HASH_ALGORITHM = "sha256"; // TODO algorithm?
 const HASH_ENCODING = "hex";
 
 /**
@@ -38,9 +38,12 @@ export async function streamToBuffer(stream: Readable): Promise<Buffer> {
   });
 }
 
-export async function streamToHash(stream: Readable): Promise<string> {
+async function streamToHash(
+  stream: Readable,
+  hashAlgorithm: string,
+): Promise<string> {
   return new Promise((resolve, reject) => {
-    const hash = crypto.createHash(HASH_ALGORITHM);
+    const hash = crypto.createHash(hashAlgorithm);
     hash.setEncoding(HASH_ENCODING);
 
     stream.on("end", () => {
@@ -52,6 +55,14 @@ export async function streamToHash(stream: Readable): Promise<string> {
 
     stream.pipe(hash);
   });
+}
+
+export async function streamToSha256(stream: Readable): Promise<string> {
+  return streamToHash(stream, HashAlgorithm.Sha256);
+}
+
+export async function streamToHash1(stream: Readable): Promise<string> {
+  return streamToHash(stream, HashAlgorithm.Sha1);
 }
 
 export async function streamToJson<T>(stream: Readable): Promise<T> {

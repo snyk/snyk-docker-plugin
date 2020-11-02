@@ -19,6 +19,11 @@ export enum OsReleaseFilePath {
   Centos = "/etc/centos-release",
 }
 
+export enum HashAlgorithm {
+  Sha256 = "sha256",
+  Sha1 = "sha1",
+}
+
 export interface ManifestFile {
   name: string;
   path: string;

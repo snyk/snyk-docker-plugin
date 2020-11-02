@@ -1,16 +1,16 @@
 import { ExtractAction, ExtractedLayers } from "../../../extractor/types";
-import { streamToHash } from "../../../stream-utils";
+import { streamToSha256 } from "../../../stream-utils";
 
 export const getOpenJDKBinariesFileContentAction: ExtractAction = {
   actionName: "java",
   filePathMatches: (filePath) => filePath.endsWith("java"),
-  callback: streamToHash,
+  callback: streamToSha256,
 };
 
 export const getNodeBinariesFileContentAction: ExtractAction = {
   actionName: "node",
   filePathMatches: (filePath) => filePath.endsWith("node"),
-  callback: streamToHash,
+  callback: streamToSha256,
 };
 
 const binariesExtractActions = [
