@@ -678,6 +678,11 @@ Object {
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIHl1bSBpbnN0YWxsIC15ICJub2RlanMtMTAuMTUuMy0xbm9kZXNvdXJjZSIgeWFybiBtYWtlIGdjYy1jKysgJiYgeXVtIGNsZWFuIGFsbA==",
+                    },
+                  },
                   "nodeId": "gcc-c++@4.8.5-39.el7",
                   "pkgId": "gcc-c++@4.8.5-39.el7",
                 },
@@ -983,6 +988,11 @@ Object {
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIHl1bSBpbnN0YWxsIC15ICJub2RlanMtMTAuMTUuMy0xbm9kZXNvdXJjZSIgeWFybiBtYWtlIGdjYy1jKysgJiYgeXVtIGNsZWFuIGFsbA==",
+                    },
+                  },
                   "nodeId": "make@1:3.82-24.el7",
                   "pkgId": "make@1:3.82-24.el7",
                 },
@@ -1278,6 +1288,11 @@ Object {
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIHl1bSBpbnN0YWxsIC15ICJub2RlanMtMTAuMTUuMy0xbm9kZXNvdXJjZSIgeWFybiBtYWtlIGdjYy1jKysgJiYgeXVtIGNsZWFuIGFsbA==",
+                    },
+                  },
                   "nodeId": "yarn@1.22.4-1",
                   "pkgId": "yarn@1.22.4-1",
                 },

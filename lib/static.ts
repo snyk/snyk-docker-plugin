@@ -1,4 +1,3 @@
-import { DepGraph, legacy } from "@snyk/dep-graph";
 import * as analyzer from "./analyzer";
 import { StaticAnalysis } from "./analyzer/types";
 import { buildTree } from "./dependency-tree";
@@ -38,20 +37,15 @@ export async function analyzeStatically(
     parsedAnalysisResult.targetOS,
   );
 
-  const depGraph = await legacy.depTreeToGraph(
-    dependenciesTree,
-    parsedAnalysisResult.type,
-  );
-
   const analysis: StaticAnalysis & {
-    depGraph: DepGraph;
     depTree: DepTree;
+    packageManager: string;
   } = {
     ...staticAnalysis,
-    depGraph,
     depTree: dependenciesTree,
     imageId: parsedAnalysisResult.imageId,
     imageLayers: parsedAnalysisResult.imageLayers,
+    packageManager: parsedAnalysisResult.type,
   };
 
   return buildResponse(analysis, dockerfileAnalysis, excludeBaseImageVulns);

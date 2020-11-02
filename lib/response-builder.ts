@@ -1,4 +1,4 @@
-import { DepGraph } from "@snyk/dep-graph";
+import { legacy } from "@snyk/dep-graph";
 import { StaticAnalysis } from "./analyzer/types";
 // Module that provides functions to collect and build response after all
 // analyses' are done.
@@ -9,12 +9,14 @@ import * as types from "./types";
 
 export { buildResponse };
 
-function buildResponse(
-  depsAnalysis: StaticAnalysis & { depGraph: DepGraph; depTree: types.DepTree },
+async function buildResponse(
+  depsAnalysis: StaticAnalysis & {
+    depTree: types.DepTree;
+    packageManager: string;
+  },
   dockerfileAnalysis: DockerFileAnalysis | undefined,
   excludeBaseImageVulns: boolean,
-): types.PluginResponse {
-  const depGraph = depsAnalysis.depGraph;
+): Promise<types.PluginResponse> {
   const deps = depsAnalysis.depTree.dependencies;
   const dockerfilePkgs = collectDockerfilePkgs(dockerfileAnalysis, deps);
   const finalDeps = excludeBaseImageDeps(
@@ -22,7 +24,14 @@ function buildResponse(
     dockerfilePkgs,
     excludeBaseImageVulns,
   );
+  /** WARNING! Mutates the depTree.dependencies! */
   annotateLayerIds(finalDeps, dockerfilePkgs);
+
+  /** This must be called after all final changes to the DependencyTree. */
+  const depGraph = await legacy.depTreeToGraph(
+    depsAnalysis.depTree,
+    depsAnalysis.packageManager,
+  );
 
   const additionalOsDepsFacts: types.Fact[] = [];
 
