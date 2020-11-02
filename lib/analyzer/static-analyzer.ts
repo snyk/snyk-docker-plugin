@@ -59,7 +59,6 @@ export async function analyze(
     ...getOsReleaseActions,
     getNodeBinariesFileContentAction,
     getOpenJDKBinariesFileContentAction,
-    getNodeAppFileContentAction,
     getDpkgPackageFileContentAction,
   ];
 
@@ -71,6 +70,10 @@ export async function analyze(
         globsToFind.exclude,
       ),
     );
+  }
+
+  if (appScan) {
+    staticAnalysisActions.push(getNodeAppFileContentAction);
   }
 
   const {
