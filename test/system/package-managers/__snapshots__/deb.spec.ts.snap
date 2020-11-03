@@ -226,7 +226,7 @@ Object {
                     },
                   ],
                   "nodeId": "root-node",
-                  "pkgId": "docker-image|debian@stable-20200908-slim",
+                  "pkgId": "docker-image|debian@",
                 },
                 Object {
                   "deps": Array [],
@@ -1144,10 +1144,10 @@ Object {
             },
             "pkgs": Array [
               Object {
-                "id": "docker-image|debian@stable-20200908-slim",
+                "id": "docker-image|debian@",
                 "info": Object {
                   "name": "docker-image|debian",
-                  "version": "stable-20200908-slim",
+                  "version": undefined,
                 },
               },
               Object {
