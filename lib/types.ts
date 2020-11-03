@@ -19,6 +19,11 @@ export enum OsReleaseFilePath {
   Centos = "/etc/centos-release",
 }
 
+export enum HashAlgorithm {
+  Sha256 = "sha256",
+  Sha1 = "sha1",
+}
+
 export interface ManifestFile {
   name: string;
   path: string;
@@ -43,7 +48,9 @@ export type FactType =
   // Package manager manifests (e.g. requirements.txt, Gemfile.lock) collected as part of an application scan.
   | "imageManifestFiles"
   // Used for application dependencies scanning; shows which files were used in the analysis of the dependencies.
-  | "testedFiles";
+  | "testedFiles"
+  // Hashes of extracted *.jar binaries, hashed with sha1 algorithm
+  | "jarFingerprints";
 
 export interface PluginResponse {
   /** The first result is guaranteed to be the OS dependencies scan result. */

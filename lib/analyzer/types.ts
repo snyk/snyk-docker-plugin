@@ -60,6 +60,11 @@ export interface DynamicAnalysis {
   imageLayers: string[];
 }
 
+export interface JarFingerprint {
+  location: string;
+  digest: string;
+}
+
 export interface StaticAnalysis {
   imageId: string;
   platform?: string;

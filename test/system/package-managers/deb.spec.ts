@@ -6,12 +6,13 @@ describe("deb package manager tests", () => {
     await execute("docker", [
       "image",
       "rm",
-      "debian:stable-20200908-slim",
+      "debian@sha256:89ff9e144a438f6bdf89fba6a1fdcb614b6d03bc14433bbb937088ca7c7a7b6d",
     ]).catch();
   });
 
   it("should correctly analyze a deb image", async () => {
-    const image = "debian:stable-20200908-slim";
+    const image =
+      "debian@sha256:89ff9e144a438f6bdf89fba6a1fdcb614b6d03bc14433bbb937088ca7c7a7b6d";
     const pluginResult = await scan({
       path: image,
     });
