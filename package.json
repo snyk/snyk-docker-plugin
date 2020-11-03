@@ -20,7 +20,7 @@
     "test-jest": "jest --bail --logHeapUsage",
     "test-windows": "npm run lint && tap test/windows/**/*.test.ts -R=spec --timeout=300",
     "test-jest-windows": "jest --bail --config test/windows/jest.config.js --logHeapUsage",
-    "unit-test": "tap test/system/**/*.test.ts test/lib -R=spec --timeout=300",
+    "unit-test": "tap test/lib/**/*.test.ts -R=spec --timeout=300",
     "prepare": "npm run build"
   },
   "engines": {
