@@ -21,6 +21,7 @@ import {
   getDpkgPackageFileContentAction,
 } from "../inputs/distroless/static";
 import * as filePatternStatic from "../inputs/file-pattern/static";
+import { extractGoModules, getGoFileContentAction } from "../inputs/go/static";
 import { getJarFileContentAction } from "../inputs/java/static";
 import { getNodeAppFileContentAction } from "../inputs/node/static";
 import { getOsReleaseActions } from "../inputs/os-release/static";
@@ -74,7 +75,11 @@ export async function analyze(
 
   if (appScan) {
     staticAnalysisActions.push(
-      ...[getNodeAppFileContentAction, getJarFileContentAction],
+      ...[
+        getNodeAppFileContentAction,
+        getJarFileContentAction,
+        getGoFileContentAction,
+      ],
     );
   }
 
@@ -144,6 +149,10 @@ export async function analyze(
       getFileContent(extractedLayers, getJarFileContentAction.actionName),
       targetImage,
     );
+
+    const goModules = await extractGoModules(extractedLayers);
+    // tslint:disable-next-line: no-console
+    console.log(goModules);
 
     applicationDependenciesScanResults.push(
       ...nodeDependenciesScanResults,

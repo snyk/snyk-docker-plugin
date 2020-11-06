@@ -34,6 +34,7 @@
     "debug": "^4.1.1",
     "docker-modem": "2.1.3",
     "dockerfile-ast": "0.0.30",
+    "elf-tools": "^1.1.2",
     "event-loop-spinner": "^2.0.0",
     "gunzip-maybe": "^1.4.2",
     "mkdirp": "^1.0.4",
