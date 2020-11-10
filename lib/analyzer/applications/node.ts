@@ -1,6 +1,7 @@
 import { legacy } from "@snyk/dep-graph";
 import * as path from "path";
 import * as lockFileParser from "snyk-nodejs-lockfile-parser";
+import { DepGraphFact, TestedFilesFact } from "../../facts";
 
 import { AppDepsScanResultWithoutTarget, FilePathToContent } from "./types";
 
@@ -47,20 +48,16 @@ export async function nodeFilesToScannedProjects(
       pathPair.lockType,
     );
 
+    const depGraphFact: DepGraphFact = {
+      type: "depGraph",
+      data: depGraph,
+    };
+    const testedFilesFact: TestedFilesFact = {
+      type: "testedFiles",
+      data: [path.basename(pathPair.manifest), path.basename(pathPair.lock)],
+    };
     scanResults.push({
-      facts: [
-        {
-          type: "depGraph",
-          data: depGraph,
-        },
-        {
-          type: "testedFiles",
-          data: [
-            path.basename(pathPair.manifest),
-            path.basename(pathPair.lock),
-          ],
-        },
-      ],
+      facts: [depGraphFact, testedFilesFact],
       identity: {
         type: depGraph.pkgManager.name,
         targetFile: pathPair.manifest,

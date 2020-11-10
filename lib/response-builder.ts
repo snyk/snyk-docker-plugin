@@ -1,5 +1,6 @@
 import { legacy } from "@snyk/dep-graph";
 import { StaticAnalysis } from "./analyzer/types";
+import * as facts from "./facts";
 // Module that provides functions to collect and build response after all
 // analyses' are done.
 
@@ -37,31 +38,35 @@ async function buildResponse(
 
   const hashes = depsAnalysis.binaries;
   if (hashes && hashes.length > 0) {
-    additionalOsDepsFacts.push({
+    const keyBinariesHashesFact: facts.KeyBinariesHashesFact = {
       type: "keyBinariesHashes",
       data: hashes,
-    });
+    };
+    additionalOsDepsFacts.push(keyBinariesHashesFact);
   }
 
-  if (dockerfileAnalysis) {
-    additionalOsDepsFacts.push({
+  if (dockerfileAnalysis !== undefined) {
+    const dockerfileAnalysisFact: facts.DockerfileAnalysisFact = {
       type: "dockerfileAnalysis",
       data: dockerfileAnalysis,
-    });
+    };
+    additionalOsDepsFacts.push(dockerfileAnalysisFact);
   }
 
   if (depsAnalysis.imageId) {
-    additionalOsDepsFacts.push({
+    const imageIdFact: facts.ImageIdFact = {
       type: "imageId",
       data: depsAnalysis.imageId,
-    });
+    };
+    additionalOsDepsFacts.push(imageIdFact);
   }
 
   if (depsAnalysis.imageLayers && depsAnalysis.imageLayers.length > 0) {
-    additionalOsDepsFacts.push({
+    const imageLayersFact: facts.ImageLayersFact = {
       type: "imageLayers",
       data: depsAnalysis.imageLayers,
-    });
+    };
+    additionalOsDepsFacts.push(imageLayersFact);
   }
 
   if (
@@ -69,17 +74,19 @@ async function buildResponse(
     Array.isArray(depsAnalysis.rootFsLayers) &&
     depsAnalysis.rootFsLayers.length > 0
   ) {
-    additionalOsDepsFacts.push({
+    const rootFsFact: facts.RootFsFact = {
       type: "rootFs",
       data: depsAnalysis.rootFsLayers,
-    });
+    };
+    additionalOsDepsFacts.push(rootFsFact);
   }
 
   if (depsAnalysis.depTree.targetOS.prettyName) {
-    additionalOsDepsFacts.push({
+    const imageOsReleasePrettyNameFact: facts.ImageOsReleasePrettyNameFact = {
       type: "imageOsReleasePrettyName",
       data: depsAnalysis.depTree.targetOS.prettyName,
-    });
+    };
+    additionalOsDepsFacts.push(imageOsReleasePrettyNameFact);
   }
 
   const manifestFiles =
@@ -87,10 +94,11 @@ async function buildResponse(
       ? depsAnalysis.manifestFiles
       : undefined;
   if (manifestFiles) {
-    additionalOsDepsFacts.push({
+    const imageManifestFilesFact: facts.ImageManifestFilesFact = {
       type: "imageManifestFiles",
       data: manifestFiles,
-    });
+    };
+    additionalOsDepsFacts.push(imageManifestFilesFact);
   }
 
   const applicationDependenciesScanResults: types.ScanResult[] = (
@@ -107,15 +115,13 @@ async function buildResponse(
       ? { platform: depsAnalysis.platform }
       : undefined;
 
+  const depGraphFact: facts.DepGraphFact = {
+    type: "depGraph",
+    data: depGraph,
+  };
   const scanResults: types.ScanResult[] = [
     {
-      facts: [
-        {
-          type: "depGraph",
-          data: depGraph,
-        },
-        ...additionalOsDepsFacts,
-      ],
+      facts: [depGraphFact, ...additionalOsDepsFacts],
       target: {
         image: depGraph.rootPkg.name,
       },

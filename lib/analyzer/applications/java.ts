@@ -1,4 +1,5 @@
 import * as path from "path";
+import { JarFingerprintsFact } from "../../facts";
 import { JarFingerprint } from "../types";
 import { AppDepsScanResultWithoutTarget, FilePathToContent } from "./types";
 
@@ -40,18 +41,16 @@ export async function jarFilesToScannedProjects(
     if (!mappedResult.hasOwnProperty(path)) {
       continue;
     }
-    const factData = {
-      fingerprints: mappedResult[path],
-      origin: targetImage,
-      path,
+    const jarFingerprintsFact: JarFingerprintsFact = {
+      type: "jarFingerprints",
+      data: {
+        fingerprints: mappedResult[path],
+        origin: targetImage,
+        path,
+      },
     };
     scanResults.push({
-      facts: [
-        {
-          type: "jarFingerprints",
-          data: factData,
-        },
-      ],
+      facts: [jarFingerprintsFact],
       identity: {
         type: "maven",
         targetFile: path,
