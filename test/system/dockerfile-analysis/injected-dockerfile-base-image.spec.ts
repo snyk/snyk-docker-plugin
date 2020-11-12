@@ -1,9 +1,9 @@
 import { join as pathJoin } from "path";
-
+import { DockerFileAnalysis } from "../../../lib/dockerfile";
 import { scan } from "../../../lib/index";
 
-describe("demonstrates a bug with detecting injected Dockerfile base image name and tag", () => {
-  it("returns null:null for base image analysis if the parameters are injected in the Dockerfile", async () => {
+describe("detecting injected Dockerfile base image name and tag", () => {
+  it("returns undefined for base image analysis if the parameters are injected in the Dockerfile", async () => {
     const imagePath = pathJoin(
       __dirname,
       "../../fixtures/docker-archives/docker-save/hello-world.tar",
@@ -19,11 +19,10 @@ describe("demonstrates a bug with detecting injected Dockerfile base image name 
       (fact) => fact.type === "dockerfileAnalysis",
     )?.data;
 
-    expect(dockerfileAnalysis).toMatchObject(
-      expect.objectContaining({
-        // This is the bug!
-        baseImage: "null:null",
-      }),
-    );
+    expect(dockerfileAnalysis).toMatchObject<DockerFileAnalysis>({
+      baseImage: undefined,
+      dockerfilePackages: expect.any(Object),
+      dockerfileLayers: expect.any(Object),
+    });
   });
 });
