@@ -4,11 +4,14 @@
 
 To run tests the following environment variables need to be set:
 
-- `DOCKER_HUB_PRIVATE_IMAGE`
-- `DOCKER_HUB_USERNAME`
-- `DOCKER_HUB_PASSWORD`
+- `DOCKER_HUB_PRIVATE_IMAGE` : `snykgoof/dockerhub-goof:alpine`
+- `DOCKER_HUB_USERNAME` : `snykgoof`
+- `DOCKER_HUB_PASSWORD` : <see 1password>
 
-`DOCKER_HUB_PRIVATE_IMAGE` should refer to an image that is hosted on Docker Hub but not available publicly. During CI test this is set to `snykgoof/dockergoof:alpine`.
+This is an image that is hosted on Docker Hub but not available publicly.
+
+If tests should fail because that config hasn't been done, some artifacts will be left over/my_custom/image/save/path
+/auth/{someGuid}. This needs to be manually deleted before subsequent runs to avoid more failures.
 
 Additionally, you should have Docker installed and the Docker daemon should be running. This is because some tests require pulling container images beforehand and also other tests check functionality like pulling directly from the Docker socket.
 
