@@ -14,6 +14,7 @@ export {
   readDockerfileAndAnalyse,
   instructionDigest,
   getPackagesFromRunInstructions,
+  getDockerfileBaseImageName,
   DockerFileAnalysis,
 };
 

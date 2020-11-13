@@ -85,7 +85,7 @@ function getInstructionExpandVariables(
     // The global search "g" flag is used to match and replace all occurrences
     str = str.replace(
       RegExp(`\\$\{${variable}\}|\\$${variable}`, "g"),
-      resolvedVariables[variable],
+      resolvedVariables[variable] || "",
     );
   }
   return str;
@@ -110,8 +110,13 @@ function getDockerfileBaseImageName(
         dockerfile,
         fromName,
       );
+      const hasUnresolvedVariables =
+        expandedName.split(":").some((name) => !name) ||
+        expandedName.split("@").some((name) => !name);
       // store the resolved stage name
-      stagesNames.last = stagesNames.aliases[expandedName] || expandedName;
+      if (!hasUnresolvedVariables) {
+        stagesNames.last = stagesNames.aliases[expandedName] || expandedName;
+      }
       if (args.length > 2 && args[1].getValue().toUpperCase() === "AS") {
         // the AS alias name
         const aliasName = args[2].getValue();
