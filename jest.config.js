@@ -1,7 +1,8 @@
 module.exports = {
   preset: "ts-jest",
   testEnvironment: "node",
-  testMatch: ["<rootDir>/test/{system,lib}/**/*.spec.ts"],
+  testMatch: ["<rootDir>/test/**/*.spec.ts"],
+  testPathIgnorePatterns: ["<rootDir>/test/windows/"],
   testTimeout: 600000, // 10 minutes
 
   // TODO: This is here until a bug in Jest (which in turn affects ts-jest) is resolved.
