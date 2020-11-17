@@ -3,6 +3,7 @@ import * as path from "path";
 import * as tmp from "tmp";
 import { v4 as uuidv4 } from "uuid";
 
+import { DockerPullResult } from "@snyk/snyk-docker-pull";
 import * as imageInspector from "../../../lib/analyzer/image-inspector";
 import { ArchiveResult } from "../../../lib/analyzer/types";
 import { Docker } from "../../../lib/docker";
@@ -211,25 +212,17 @@ describe("getImageArchive", () => {
   describe("from remote registry with authentication", () => {
     const customPath = "./my_custom/image/save/path/auth";
 
-    afterEach(() => {
-      rmdirRecursive(customPath.split(path.sep));
-    });
-
     it("should produce the expected state", async () => {
       const imageSavePath = path.join(customPath, uuidv4());
-      const dockerPullSpy = jest.spyOn(Docker.prototype, "pull");
+      const dockerPullSpy = jest
+          .spyOn(Docker.prototype, "pull")
+          .mockResolvedValue({} as DockerPullResult);
       jest.spyOn(subProcess, "execute").mockImplementation(() => {
         throw new Error();
       });
-      const targetImage = process.env.DOCKER_HUB_PRIVATE_IMAGE;
-      if (targetImage === undefined) {
-        throw new Error(
-          "DOCKER_HUB_PRIVATE_IMAGE environment variable is not defined",
-        );
-      }
 
-      const username = process.env.DOCKER_HUB_USERNAME;
-      const password = process.env.DOCKER_HUB_PASSWORD;
+      const username = 'someUsername';
+      const password = "somePassword";
 
       const archiveLocation = await imageInspector.getImageArchive(
         targetImage!,
@@ -238,28 +231,17 @@ describe("getImageArchive", () => {
         password,
       );
 
-      expect(dockerPullSpy).toHaveBeenCalled();
+      expect(dockerPullSpy).toHaveBeenCalledWith(
+          "registry-1.docker.io",
+          "library/hello-world",
+          "latest",
+          imageSavePath,
+          username,
+          password,
+      );
       expect(archiveLocation.path).toEqual(
         path.join(imageSavePath, "image.tar"),
       );
-
-      const imageExistsOnDisk: boolean = fs.existsSync(
-        path.join(imageSavePath, "image.tar"),
-      );
-      expect(imageExistsOnDisk).toBe(true);
-
-      archiveLocation.removeArchive();
-
-      const imageExistsOnDiskAfterDelete: boolean = fs.existsSync(
-        path.join(imageSavePath, "image.tar"),
-      );
-      expect(imageExistsOnDiskAfterDelete).toBe(false);
-
-      const tmpFolderExistsOnDisk: boolean = fs.existsSync(imageSavePath);
-      expect(tmpFolderExistsOnDisk).toBe(false);
-
-      const customPathExistsOnDisk: boolean = fs.existsSync(customPath);
-      expect(customPathExistsOnDisk).toBe(true);
     });
   });
 });
