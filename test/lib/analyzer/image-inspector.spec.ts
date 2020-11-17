@@ -215,13 +215,13 @@ describe("getImageArchive", () => {
     it("should produce the expected state", async () => {
       const imageSavePath = path.join(customPath, uuidv4());
       const dockerPullSpy = jest
-          .spyOn(Docker.prototype, "pull")
-          .mockResolvedValue({} as DockerPullResult);
+        .spyOn(Docker.prototype, "pull")
+        .mockResolvedValue({} as DockerPullResult);
       jest.spyOn(subProcess, "execute").mockImplementation(() => {
         throw new Error();
       });
 
-      const username = 'someUsername';
+      const username = "someUsername";
       const password = "somePassword";
 
       const archiveLocation = await imageInspector.getImageArchive(
@@ -232,12 +232,12 @@ describe("getImageArchive", () => {
       );
 
       expect(dockerPullSpy).toHaveBeenCalledWith(
-          "registry-1.docker.io",
-          "library/hello-world",
-          "latest",
-          imageSavePath,
-          username,
-          password,
+        "registry-1.docker.io",
+        "library/hello-world",
+        "latest",
+        imageSavePath,
+        username,
+        password,
       );
       expect(archiveLocation.path).toEqual(
         path.join(imageSavePath, "image.tar"),
