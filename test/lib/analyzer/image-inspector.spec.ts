@@ -216,7 +216,10 @@ describe("getImageArchive", () => {
       const imageSavePath = path.join(customPath, uuidv4());
       const dockerPullSpy = jest
         .spyOn(Docker.prototype, "pull")
-        .mockResolvedValue({} as DockerPullResult);
+        .mockImplementation((_1, _2, _3, imageSavePath) => {
+          fs.writeFileSync(path.join(imageSavePath, "image.tar"), {});
+          return Promise.resolve({} as DockerPullResult);
+        });
       jest.spyOn(subProcess, "execute").mockImplementation(() => {
         throw new Error();
       });
@@ -242,6 +245,22 @@ describe("getImageArchive", () => {
       expect(archiveLocation.path).toEqual(
         path.join(imageSavePath, "image.tar"),
       );
+
+      // Checking the image file exists is not done to test that the mockImplementation worked,
+      // but instead asserts the preconditions for removeArchive() to actually work - i.e.
+      // `expect(imageExistsOnDiskAfterDelete).toBe(false);` gives us no useful assurances
+      // if the image wasn't there to begin with
+      const imageExistsOnDisk: boolean = fs.existsSync(
+        path.join(imageSavePath, "image.tar"),
+      );
+      expect(imageExistsOnDisk).toBe(true);
+
+      archiveLocation.removeArchive();
+
+      const imageExistsOnDiskAfterDelete: boolean = fs.existsSync(
+        path.join(imageSavePath, "image.tar"),
+      );
+      expect(imageExistsOnDiskAfterDelete).toBe(false);
     });
   });
 });
