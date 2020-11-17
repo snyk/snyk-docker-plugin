@@ -21,6 +21,7 @@ import {
   getDpkgPackageFileContentAction,
 } from "../inputs/distroless/static";
 import * as filePatternStatic from "../inputs/file-pattern/static";
+import { getGoModulesContentAction } from "../inputs/go";
 import { getJarFileContentAction } from "../inputs/java/static";
 import { getNodeAppFileContentAction } from "../inputs/node/static";
 import { getOsReleaseActions } from "../inputs/os-release/static";
@@ -74,7 +75,11 @@ export async function analyze(
 
   if (appScan) {
     staticAnalysisActions.push(
-      ...[getNodeAppFileContentAction, getJarFileContentAction],
+      ...[
+        getNodeAppFileContentAction,
+        getJarFileContentAction,
+        getGoModulesContentAction,
+      ],
     );
   }
 

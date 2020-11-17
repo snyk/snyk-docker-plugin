@@ -39,11 +39,27 @@ export async function extractImageLayer(
 
     tarExtractor.on("finish", () => {
       // all layer level entries read
-      resolve(result);
+      resolve(removeEmptyActionResults(result));
     });
 
     tarExtractor.on("error", (error) => reject(error));
 
     layerTarStream.pipe(gunzip()).pipe(tarExtractor);
   });
+}
+
+function removeEmptyActionResults(result: ExtractedLayers): ExtractedLayers {
+  Object.keys(result).forEach((path) => {
+    Object.entries(result[path]).forEach(([action, value]) => {
+      if (!value) {
+        delete result[path][action];
+      }
+    });
+
+    if (Object.keys(result[path]).length === 0) {
+      delete result[path];
+    }
+  });
+
+  return result;
 }
