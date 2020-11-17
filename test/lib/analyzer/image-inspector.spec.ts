@@ -212,6 +212,10 @@ describe("getImageArchive", () => {
   describe("from remote registry with authentication", () => {
     const customPath = "./my_custom/image/save/path/auth";
 
+    afterEach(() => {
+      rmdirRecursive(customPath.split(path.sep));
+    });
+
     it("should produce the expected state", async () => {
       const imageSavePath = path.join(customPath, uuidv4());
       const dockerPullSpy = jest
