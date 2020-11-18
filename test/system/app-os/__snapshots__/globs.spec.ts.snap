@@ -189,7 +189,7 @@ Object {
                       "nodeId": "sysvinit/sysvinit-utils@2.93-8",
                     },
                     Object {
-                      "nodeId": "tzdata@2020a-0+deb10u1",
+                      "nodeId": "tzdata@2020d-0+deb10u1",
                     },
                     Object {
                       "nodeId": "util-linux@2.33.1-0.1|1",
@@ -220,7 +220,7 @@ Object {
                     },
                   ],
                   "nodeId": "root-node",
-                  "pkgId": "docker-image|debian@10",
+                  "pkgId": "docker-image|debian@",
                 },
                 Object {
                   "deps": Array [],
@@ -1101,8 +1101,8 @@ Object {
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "tzdata@2020a-0+deb10u1",
-                  "pkgId": "tzdata@2020a-0+deb10u1",
+                  "nodeId": "tzdata@2020d-0+deb10u1",
+                  "pkgId": "tzdata@2020d-0+deb10u1",
                 },
                 Object {
                   "deps": Array [
@@ -1206,10 +1206,10 @@ Object {
             },
             "pkgs": Array [
               Object {
-                "id": "docker-image|debian@10",
+                "id": "docker-image|debian@",
                 "info": Object {
                   "name": "docker-image|debian",
-                  "version": "10",
+                  "version": undefined,
                 },
               },
               Object {
@@ -1808,10 +1808,10 @@ Object {
                 },
               },
               Object {
-                "id": "tzdata@2020a-0+deb10u1",
+                "id": "tzdata@2020d-0+deb10u1",
                 "info": Object {
                   "name": "tzdata",
-                  "version": "2020a-0+deb10u1",
+                  "version": "2020d-0+deb10u1",
                 },
               },
               Object {
@@ -1862,18 +1862,18 @@ Object {
           "type": "depGraph",
         },
         Object {
-          "data": "1510e850178318cd2b654439b56266e7b6cbff36f95f343f662c708cd51d0610",
+          "data": "ef05c61d51129e3866d5b71b4f44864919dd2b9e5f2644f0a511703182acf8f9",
           "type": "imageId",
         },
         Object {
           "data": Array [
-            "c54cdd496b5433ab119608a8cf58fa602d3e43616edcc54a86d1808170b1b5cb/layer.tar",
+            "fca001ff58543123e054d6e14f4f8629fcae1dc7a39dc72702580cc6a68f51ab/layer.tar",
           ],
           "type": "imageLayers",
         },
         Object {
           "data": Array [
-            "sha256:9780f6d83e45878749497a6297ed9906c19ee0cc48cc88dc63827564bb8768fd",
+            "sha256:114ca5b7280f3b49e94a67659890aadde83d58a8bde0d9020b2bc8c902c3b9de",
           ],
           "type": "rootFs",
         },
