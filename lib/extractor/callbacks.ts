@@ -7,7 +7,6 @@ export async function applyCallbacks(
   fileContentStream: Readable,
 ): Promise<FileNameAndContent> {
   const result: FileNameAndContent = {};
-
   const actionsToAwait = matchedActions.map((action) => {
     // Using a pass through allows us to read the stream multiple times.
     const streamCopy = new PassThrough();
@@ -22,11 +21,17 @@ export async function applyCallbacks(
 
     return promise.then((content) => {
       // Assign the result once the Promise is complete.
-      result[action.actionName] = content;
+      if (content) {
+        result[action.actionName] = content;
+      }
     });
   });
 
   await Promise.all(actionsToAwait);
 
   return result;
+}
+
+export function isResultEmpty(result: FileNameAndContent): boolean {
+  return Object.keys(result).length === 0;
 }
