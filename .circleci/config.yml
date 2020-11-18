@@ -184,25 +184,29 @@ workflows:
       - build:
           name: Build
           requires:
-            - Install
+            - Lint
       - test:
           name: Test
           context: nodejs-install
           requires:
-            - Install
+            - Lint
       - test_jest:
           name: Test Jest
           context: nodejs-install
           requires:
-            - Install
+            - Lint
       - test_windows:
           name: Test Windows
           context: nodejs-install
           node_version: "8.17.0"
+          requires:
+            - Lint
       - test_jest_windows:
           name: Test Jest Windows
           context: nodejs-install
           node_version: "10.19.0"
+          requires:
+            - Lint
       - release:
           name: Release to GitHub
           context: nodejs-lib-release
