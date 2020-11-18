@@ -26,7 +26,11 @@ export async function extractImageLayer(
           action.filePathMatches(absoluteFileName),
         );
         if (matchedActions.length > 0) {
-          const callbackResult = await applyCallbacks(matchedActions, stream);
+          const callbackResult = await applyCallbacks(
+            matchedActions,
+            stream,
+            headers.size,
+          );
 
           if (!isResultEmpty(callbackResult)) {
             result[absoluteFileName] = callbackResult;

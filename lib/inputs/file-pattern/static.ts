@@ -34,7 +34,8 @@ export function generateExtractAction(
   return {
     actionName: "find-files-by-pattern",
     filePathMatches: generatePathMatcher(globsInclude, globsExclude),
-    callback: (dataStream) => streamToString(dataStream, "base64"),
+    callback: (dataStream, streamSize) =>
+      streamToString(dataStream, streamSize, "base64"),
   };
 }
 

@@ -1,6 +1,7 @@
 import * as Debug from "debug";
 import { DockerFileAnalysis } from "../dockerfile/types";
 import * as archiveExtractor from "../extractor";
+import { getGoModulesContentAction } from "../go-parser";
 import { getFileContent } from "../inputs";
 import {
   getApkDbFileContent,
@@ -74,7 +75,11 @@ export async function analyze(
 
   if (appScan) {
     staticAnalysisActions.push(
-      ...[getNodeAppFileContentAction, getJarFileContentAction],
+      ...[
+        getNodeAppFileContentAction,
+        getJarFileContentAction,
+        getGoModulesContentAction,
+      ],
     );
   }
 

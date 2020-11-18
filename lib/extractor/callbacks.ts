@@ -5,6 +5,7 @@ import { ExtractAction, FileNameAndContent } from "./types";
 export async function applyCallbacks(
   matchedActions: ExtractAction[],
   fileContentStream: Readable,
+  streamSize?: number,
 ): Promise<FileNameAndContent> {
   const result: FileNameAndContent = {};
   const actionsToAwait = matchedActions.map((action) => {
@@ -15,7 +16,7 @@ export async function applyCallbacks(
     // Queue the promise but don't await on it yet: we want consumers to start around the same time.
     const promise =
       action.callback !== undefined
-        ? action.callback(streamCopy)
+        ? action.callback(streamCopy, streamSize)
         : // If no callback was provided for this action then return as string by default.
           streamToString(streamCopy);
 

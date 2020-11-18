@@ -2,6 +2,7 @@ import { Readable } from "stream";
 
 export type ExtractCallback = (
   dataStream: Readable,
+  streamSize?: number,
 ) => Promise<string | Buffer>;
 
 export type FileNameAndContent = Record<string, string | Buffer>;
