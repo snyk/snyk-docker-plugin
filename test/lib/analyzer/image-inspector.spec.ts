@@ -3,6 +3,7 @@ import * as path from "path";
 import * as tmp from "tmp";
 import { v4 as uuidv4 } from "uuid";
 
+import { DockerPullResult } from "@snyk/snyk-docker-pull";
 import * as imageInspector from "../../../lib/analyzer/image-inspector";
 import { ArchiveResult } from "../../../lib/analyzer/types";
 import { Docker } from "../../../lib/docker";
@@ -217,19 +218,18 @@ describe("getImageArchive", () => {
 
     it("should produce the expected state", async () => {
       const imageSavePath = path.join(customPath, uuidv4());
-      const dockerPullSpy = jest.spyOn(Docker.prototype, "pull");
+      const dockerPullSpy = jest
+        .spyOn(Docker.prototype, "pull")
+        .mockImplementation((_1, _2, _3, imageSavePath) => {
+          fs.writeFileSync(path.join(imageSavePath, "image.tar"), {});
+          return Promise.resolve({} as DockerPullResult);
+        });
       jest.spyOn(subProcess, "execute").mockImplementation(() => {
         throw new Error();
       });
-      const targetImage = process.env.DOCKER_HUB_PRIVATE_IMAGE;
-      if (targetImage === undefined) {
-        throw new Error(
-          "DOCKER_HUB_PRIVATE_IMAGE environment variable is not defined",
-        );
-      }
 
-      const username = process.env.DOCKER_HUB_USERNAME;
-      const password = process.env.DOCKER_HUB_PASSWORD;
+      const username = "someUsername";
+      const password = "somePassword";
 
       const archiveLocation = await imageInspector.getImageArchive(
         targetImage!,
@@ -238,11 +238,22 @@ describe("getImageArchive", () => {
         password,
       );
 
-      expect(dockerPullSpy).toHaveBeenCalled();
+      expect(dockerPullSpy).toHaveBeenCalledWith(
+        "registry-1.docker.io",
+        "library/hello-world",
+        "latest",
+        imageSavePath,
+        username,
+        password,
+      );
       expect(archiveLocation.path).toEqual(
         path.join(imageSavePath, "image.tar"),
       );
 
+      // Checking the image file exists is not done to test that the mockImplementation worked,
+      // but instead asserts the preconditions for removeArchive() to actually work - i.e.
+      // `expect(imageExistsOnDiskAfterDelete).toBe(false);` gives us no useful assurances
+      // if the image wasn't there to begin with
       const imageExistsOnDisk: boolean = fs.existsSync(
         path.join(imageSavePath, "image.tar"),
       );
