@@ -265,6 +265,12 @@ describe("getImageArchive", () => {
         path.join(imageSavePath, "image.tar"),
       );
       expect(imageExistsOnDiskAfterDelete).toBe(false);
+
+      const tmpFolderExistsOnDisk: boolean = fs.existsSync(imageSavePath);
+      expect(tmpFolderExistsOnDisk).toBe(false);
+
+      const customPathExistsOnDisk: boolean = fs.existsSync(customPath);
+      expect(customPathExistsOnDisk).toBe(true);
     });
   });
 });
