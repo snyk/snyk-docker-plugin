@@ -9,12 +9,22 @@ import { getArchivePath, getImageType } from "./image-type";
 import * as staticModule from "./static";
 import { ImageType, PluginOptions, PluginResponse } from "./types";
 
+// Registry credentials may also be provided by env vars. When both are set, flags take precedence.
+export function mergeEnvVarsIntoCredentials(
+  options: Partial<PluginOptions>,
+): void {
+  options.username = options.username || process.env.SNYK_REGISTRY_USERNAME;
+  options.password = options.password || process.env.SNYK_REGISTRY_PASSWORD;
+}
+
 export async function scan(
   options?: Partial<PluginOptions>,
 ): Promise<PluginResponse> {
   if (!options) {
     throw new Error("No plugin options provided");
   }
+
+  mergeEnvVarsIntoCredentials(options);
 
   const targetImage = options.path;
   if (!targetImage) {
