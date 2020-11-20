@@ -90,7 +90,7 @@ class Docker {
 
     const modem = new Modem();
 
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       modem.dial(request, (err, stream: Stream) => {
         if (err) {
           return reject(err);
