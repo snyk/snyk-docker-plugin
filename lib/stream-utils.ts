@@ -11,6 +11,7 @@ type SupportedEncodings = "utf8" | "base64";
 
 export async function streamToString(
   stream: Readable,
+  streamSize?: number,
   encoding: SupportedEncodings = "utf8",
 ): Promise<string> {
   const chunks: string[] = [];

@@ -21,7 +21,7 @@ test("stream-utils.streamToString(base64)", async (t) => {
   const fixture = getFixture("small-sample-text.txt");
   const fileStream = createReadStream(fixture);
 
-  const fileContent = await streamToString(fileStream, "base64");
+  const fileContent = await streamToString(fileStream, undefined, "base64");
   const expectedContent = readFileSync(fixture, { encoding: "base64" });
 
   t.same(fileContent, expectedContent, "Returned the expected string");

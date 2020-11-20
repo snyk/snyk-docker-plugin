@@ -2,7 +2,7 @@ import * as gunzip from "gunzip-maybe";
 import * as path from "path";
 import { Readable } from "stream";
 import { extract, Extract } from "tar-stream";
-import { applyCallbacks } from "./callbacks";
+import { applyCallbacks, isResultEmpty } from "./callbacks";
 import { ExtractAction, ExtractedLayers } from "./types";
 
 /**
@@ -26,10 +26,15 @@ export async function extractImageLayer(
           action.filePathMatches(absoluteFileName),
         );
         if (matchedActions.length > 0) {
-          result[absoluteFileName] = await applyCallbacks(
+          const callbackResult = await applyCallbacks(
             matchedActions,
             stream,
+            headers.size,
           );
+
+          if (!isResultEmpty(callbackResult)) {
+            result[absoluteFileName] = callbackResult;
+          }
         }
       }
 
