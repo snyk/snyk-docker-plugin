@@ -42,13 +42,13 @@ async function streamToHash(
   stream: Readable,
   hashAlgorithm: string,
 ): Promise<string> {
-  return new Promise((resolve, reject) => {
+  return new Promise<string>((resolve, reject) => {
     const hash = crypto.createHash(hashAlgorithm);
     hash.setEncoding(HASH_ENCODING);
 
     stream.on("end", () => {
       hash.end();
-      resolve(hash.read());
+      resolve(hash.read().toString(HASH_ENCODING));
     });
 
     stream.on("error", (error) => reject(error));
