@@ -1,9 +1,5 @@
-import { join as pathJoin } from "path";
-import { scan } from "../../../lib/index";
-
-function getFixture(fixturePath: string): string {
-  return pathJoin(__dirname, "../../fixtures", fixturePath);
-}
+import { scan } from "../../../lib";
+import { getFixture } from "../../util";
 
 describe("node application scans", () => {
   it("should correctly return applications as multiple scan results", async () => {

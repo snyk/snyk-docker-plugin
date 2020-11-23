@@ -1,10 +1,6 @@
-import { join as pathJoin } from "path";
 import { scan } from "../../../lib";
 import { DockerFileAnalysis } from "../../../lib/dockerfile";
-
-function getFixture(fixturePath) {
-  return pathJoin(__dirname, "../../fixtures", fixturePath);
-}
+import { getFixture } from "../../util";
 
 /**
  * The following bug proves that RPM packages do not have transitive dependencies.

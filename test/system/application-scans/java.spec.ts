@@ -1,13 +1,9 @@
-import { join as pathJoin } from "path";
-import { scan } from "../../../lib/index";
-
-function getFixture(fixturePath: string): string {
-  return pathJoin(__dirname, "../../fixtures/docker-archives", fixturePath);
-}
+import { scan } from "../../../lib";
+import { getFixture } from "../../util";
 
 describe("jar binaries scanning", () => {
   it("should return expected result", async () => {
-    const fixturePath = getFixture("docker-save/java.tar");
+    const fixturePath = getFixture("docker-archives/docker-save/java.tar");
     const imageNameAndTag = `docker-archive:${fixturePath}`;
 
     const pluginResult = await scan({

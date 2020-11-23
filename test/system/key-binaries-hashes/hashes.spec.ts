@@ -1,13 +1,11 @@
-import { join as pathJoin } from "path";
-import { scan } from "../../../lib/index";
-
-function getFixture(fixturePath: string): string {
-  return pathJoin(__dirname, "../../fixtures/docker-archives", fixturePath);
-}
+import { scan } from "../../../lib";
+import { getFixture } from "../../util";
 
 describe("key binaries hashes scanning", () => {
   it("should correctly scan node key binaries hashes", async () => {
-    const fixturePath = getFixture("skopeo-copy/nodes-fake-multi.tar");
+    const fixturePath = getFixture(
+      "docker-archives/skopeo-copy/nodes-fake-multi.tar",
+    );
     const imageNameAndTag = `docker-archive:${fixturePath}`;
 
     const pluginResult = await scan({
@@ -18,7 +16,7 @@ describe("key binaries hashes scanning", () => {
   });
 
   it("should correctly scan java key binaries hashes", async () => {
-    const fixturePath = getFixture("docker-save/openjdk.tar");
+    const fixturePath = getFixture("docker-archives/docker-save/openjdk.tar");
     const imageNameAndTag = `docker-archive:${fixturePath}`;
 
     const pluginResult = await scan({
