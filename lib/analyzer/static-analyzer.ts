@@ -1,8 +1,11 @@
 import * as Debug from "debug";
-import { DockerFileAnalysis } from "../dockerfile/types";
+import { DockerFileAnalysis } from "../dockerfile";
 import * as archiveExtractor from "../extractor";
-import { getGoModulesContentAction } from "../go-parser";
-import { getFileContent } from "../inputs";
+import {
+  getGoModulesContentAction,
+  goModulesToScannedProjects,
+} from "../go-parser";
+import { getElfFileContent, getFileContent } from "../inputs";
 import {
   getApkDbFileContent,
   getApkDbFileContentAction,
@@ -149,10 +152,14 @@ export async function analyze(
       getFileContent(extractedLayers, getJarFileContentAction.actionName),
       targetImage,
     );
+    const goModulesScanResult = await goModulesToScannedProjects(
+      getElfFileContent(extractedLayers, getGoModulesContentAction.actionName),
+    );
 
     applicationDependenciesScanResults.push(
       ...nodeDependenciesScanResults,
       ...jarFingerprintScanResults,
+      ...goModulesScanResult,
     );
   }
 

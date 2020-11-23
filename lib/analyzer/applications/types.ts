@@ -1,3 +1,4 @@
+import { Elf } from "../../go-parser/types";
 import { ScanResult } from "../../types";
 
 export interface AppDepsScanResultWithoutTarget
@@ -5,4 +6,8 @@ export interface AppDepsScanResultWithoutTarget
 
 export interface FilePathToContent {
   [filePath: string]: string;
+}
+
+export interface FilePathToElfContent {
+  [filePath: string]: Elf;
 }
