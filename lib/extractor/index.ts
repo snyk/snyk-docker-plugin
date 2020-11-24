@@ -1,7 +1,12 @@
 import { ImageType } from "../types";
 import * as dockerExtractor from "./docker-archive";
 import * as ociExtractor from "./oci-archive";
-import { ExtractAction, ExtractedLayers, ExtractionResult } from "./types";
+import {
+  ExtractAction,
+  ExtractedLayers,
+  ExtractionResult,
+  FileContent,
+} from "./types";
 
 /**
  * Given a path on the file system to a image archive, open it up to inspect the layers
@@ -68,11 +73,11 @@ function layersWithLatestFileModifications(
   return extractedLayers;
 }
 
-function isBufferType(type: string | Buffer): type is Buffer {
+function isBufferType(type: FileContent): type is Buffer {
   return (type as Buffer).buffer !== undefined;
 }
 
-function isStringType(type: string | Buffer): type is string {
+function isStringType(type: FileContent): type is string {
   return (type as string).substring !== undefined;
 }
 
@@ -95,7 +100,7 @@ export function getContentAsString(
 function getContent(
   extractedLayers: ExtractedLayers,
   extractAction: ExtractAction,
-): string | Buffer | undefined {
+): FileContent | undefined {
   const fileNames = Object.keys(extractedLayers);
   const fileNamesProducedByTheExtractAction = fileNames.filter(
     (name) => extractAction.actionName in extractedLayers[name],

@@ -1,7 +1,16 @@
 import * as elf from "elfy";
+import { eventLoopSpinner } from "event-loop-spinner";
 import * as path from "path";
 import { Readable } from "stream";
+
+import {
+  AppDepsScanResultWithoutTarget,
+  FilePathToElfContent,
+} from "../analyzer/applications/types";
 import { ExtractAction } from "../extractor/types";
+import { DepGraphFact } from "../facts";
+import { parseGoBinary } from "./parser";
+import { Elf } from "./types";
 
 const ignoredPaths = [
   path.normalize("/boot"),
@@ -18,6 +27,8 @@ const ignoredPaths = [
   path.normalize("/tmp"),
   path.normalize("/var"),
 ];
+
+export const DEP_GRAPH_TYPE = "gomodules";
 
 function filePathMatches(filePath: string): boolean {
   const dirName = path.dirname(filePath);
@@ -42,7 +53,8 @@ async function findGoBinaries(
     const buildIdMagic = "Go";
     const elfHeaderMagic = "\x7FELF";
     const buildInfoMagic = "\xff Go buildinf:";
-    const elfBuildInfoSize = 64 * 1024; // ELF section headers and so ".go.buildinfo" & ".note.go.buildid" blobs are available in the first 64kb
+    // ELF section headers and so ".go.buildinfo" & ".note.go.buildid" blobs are available in the first 64kb
+    const elfBuildInfoSize = 64 * 1024;
 
     const buffer: Buffer = Buffer.alloc(streamSize ?? elfBuildInfoSize);
     let bytesWritten = 0;
@@ -63,7 +75,16 @@ async function findGoBinaries(
         (section) => section.name === ".note.go.buildid",
       );
 
+      const interp = binaryFile.body.sections.find(
+        (section) => section.name === ".interp",
+      );
+
       if (!goBuildInfo && !goBuildId) {
+        return resolve();
+      } else if (interp) {
+        // Compiled using cgo
+        // we wouldn't be able to extract modules
+        // TODO: cgo-compiled binaries are not supported in this iteration
         return resolve();
       } else if (goBuildInfo) {
         const info = goBuildInfo.data
@@ -112,4 +133,40 @@ async function findGoBinaries(
       }
     });
   });
+}
+
+/**
+ * Build depGraphs for each Go executable
+ * @param filePathToContent
+ */
+export async function goModulesToScannedProjects(
+  filePathToContent: FilePathToElfContent,
+): Promise<AppDepsScanResultWithoutTarget[]> {
+  const scanResults: AppDepsScanResultWithoutTarget[] = [];
+
+  for (const [filePath, goBinary] of Object.entries(filePathToContent)) {
+    if (eventLoopSpinner.isStarving()) {
+      await eventLoopSpinner.spin();
+    }
+
+    const depGraph = await parseGoBinary(goBinary as Elf);
+
+    if (!depGraph) {
+      continue;
+    }
+
+    const depGraphFact: DepGraphFact = {
+      type: "depGraph",
+      data: depGraph,
+    };
+    scanResults.push({
+      facts: [depGraphFact],
+      identity: {
+        type: DEP_GRAPH_TYPE,
+        targetFile: filePath,
+      },
+    });
+  }
+
+  return scanResults;
 }

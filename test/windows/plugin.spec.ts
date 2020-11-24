@@ -2,10 +2,7 @@ import { DepGraph } from "@snyk/dep-graph";
 import * as path from "path";
 
 import * as plugin from "../../lib";
-
-function getFixture(fixturePath): string {
-  return path.join(__dirname, "../fixtures", fixturePath);
-}
+import { getFixture } from "../util";
 
 describe("windows scanning", () => {
   it("can scan docker-archive image type", async () => {

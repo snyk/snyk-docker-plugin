@@ -1,10 +1,7 @@
 import { DepGraph } from "@snyk/dep-graph";
-import { join as pathJoin } from "path";
-import { scan } from "../../../lib/index";
 
-function getFixture(fixturePath: string): string {
-  return pathJoin(__dirname, "../../fixtures", fixturePath);
-}
+import { scan } from "../../../lib";
+import { getFixture } from "../../util";
 
 describe("compressed archive scanning", () => {
   it("should correctly scan a compressed archive", async () => {

@@ -1,11 +1,14 @@
 import { Readable } from "stream";
+import { Elf } from "../go-parser/types";
 
 export type ExtractCallback = (
   dataStream: Readable,
   streamSize?: number,
 ) => Promise<string | Buffer>;
 
-export type FileNameAndContent = Record<string, string | Buffer>;
+export type FileContent = string | Buffer | Elf;
+
+export type FileNameAndContent = Record<string, FileContent>;
 
 export interface ExtractionResult {
   imageId: string;
