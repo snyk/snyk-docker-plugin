@@ -26,10 +26,10 @@ export async function scan(
 
   mergeEnvVarsIntoCredentials(options);
 
-  const targetImage = options.path;
-  if (!targetImage) {
+  if (!options.path) {
     throw new Error("No image identifier or path provided");
   }
+  const targetImage = appendLatestTagIfMissing(options.path);
 
   const dockerfilePath = options.file;
   const dockerfileAnalysis = await readDockerfileAndAnalyse(dockerfilePath);
@@ -136,4 +136,14 @@ async function imageIdentifierAnalysis(
 
 function isTrue(value?: boolean | string): boolean {
   return String(value).toLowerCase() === "true";
+}
+
+export function appendLatestTagIfMissing(targetImage: string): string {
+  if (
+    getImageType(targetImage) === ImageType.Identifier &&
+    !targetImage.includes(":")
+  ) {
+    return `${targetImage}:latest`;
+  }
+  return targetImage;
 }

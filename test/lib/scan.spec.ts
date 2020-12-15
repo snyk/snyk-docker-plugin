@@ -1,4 +1,7 @@
-import { mergeEnvVarsIntoCredentials } from "../../lib/scan";
+import {
+  appendLatestTagIfMissing,
+  mergeEnvVarsIntoCredentials,
+} from "../../lib/scan";
 
 describe("mergeEnvVarsIntoCredentials", () => {
   const oldEnvVars = { ...process.env };
@@ -71,4 +74,36 @@ describe("mergeEnvVarsIntoCredentials", () => {
 
       expect(options.password).toEqual(expectedPassword);
     });
+});
+
+describe("appendLatestTagIfMissing", () => {
+  it("does not append latest to docker archive path", () => {
+    const dockerArchivePath = "docker-archive:some/path/image.tar";
+    expect(appendLatestTagIfMissing(dockerArchivePath)).toEqual(
+      dockerArchivePath,
+    );
+  });
+
+  it("does not append latest to docker archive path", () => {
+    const ociArchivePath = "oci-archive:some/path/image.tar";
+    expect(appendLatestTagIfMissing(ociArchivePath)).toEqual(ociArchivePath);
+  });
+
+  it("does not append latest if tag exists", () => {
+    const imageWithTag = "image:sometag";
+    expect(appendLatestTagIfMissing(imageWithTag)).toEqual(imageWithTag);
+  });
+
+  it("does not modify targetImage with sha", () => {
+    const imageWithSha =
+      "snyk container test nginx@sha256:56ea7092e72db3e9f84d58d583370d59b842de02ea9e1f836c3f3afc7ce408c1";
+    expect(appendLatestTagIfMissing(imageWithSha)).toEqual(imageWithSha);
+  });
+
+  it("appends latest if no tag exists", () => {
+    const imageWithoutTag = "image";
+    expect(appendLatestTagIfMissing(imageWithoutTag)).toEqual(
+      `${imageWithoutTag}:latest`,
+    );
+  });
 });
