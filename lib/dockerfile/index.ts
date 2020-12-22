@@ -3,8 +3,8 @@ import * as fs from "fs";
 import { normalize as normalizePath } from "path";
 import {
   getDockerfileBaseImageName,
-  getDockerfileLayers,
-  getPackagesFromRunInstructions,
+  getLayersFromPackages,
+  getPackagesFromDockerfile,
   instructionDigest,
 } from "./instruction-parser";
 import { DockerFileAnalysis } from "./types";
@@ -13,7 +13,7 @@ export {
   analyseDockerfile,
   readDockerfileAndAnalyse,
   instructionDigest,
-  getPackagesFromRunInstructions,
+  getPackagesFromDockerfile,
   getDockerfileBaseImageName,
   DockerFileAnalysis,
 };
@@ -34,8 +34,8 @@ async function analyseDockerfile(
 ): Promise<DockerFileAnalysis> {
   const dockerfile = DockerfileParser.parse(contents);
   const baseImage = getDockerfileBaseImageName(dockerfile);
-  const dockerfilePackages = getPackagesFromRunInstructions(dockerfile);
-  const dockerfileLayers = getDockerfileLayers(dockerfilePackages);
+  const dockerfilePackages = getPackagesFromDockerfile(dockerfile);
+  const dockerfileLayers = getLayersFromPackages(dockerfilePackages);
   return {
     baseImage,
     dockerfilePackages,

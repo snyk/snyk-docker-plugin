@@ -3,14 +3,30 @@ import { DockerFileLayers, DockerFilePackages } from "./types";
 
 export {
   getDockerfileBaseImageName,
-  getDockerfileLayers,
-  getPackagesFromRunInstructions,
+  getLayersFromPackages,
+  getPackagesFromDockerfile,
   instructionDigest,
 };
 
 // Naive regex; see tests for cases
 // tslint:disable-next-line:max-line-length
 const installRegex = /\s*(rpm\s+-i|rpm\s+--install|apk\s+((--update|-u|--no-cache)\s+)*add(\s+(--update|-u|--no-cache))*|apt-get\s+((--assume-yes|--yes|-y)\s+)*install(\s+(--assume-yes|--yes|-y))*|apt\s+((--assume-yes|--yes|-y)\s+)*install|yum\s+install|aptitude\s+install)\s+/;
+
+function getPackagesFromDockerfile(dockerfile: Dockerfile): DockerFilePackages {
+  const runInstructions = getRunInstructionsFromDockerfile(dockerfile);
+  return getPackagesFromRunInstructions(runInstructions);
+}
+
+function getRunInstructionsFromDockerfile(dockerfile: Dockerfile) {
+  return dockerfile
+    .getInstructions()
+    .filter(
+      (instruction) => instruction.getInstruction().toUpperCase() === "RUN",
+    )
+    .map((instruction) =>
+      getInstructionExpandVariables(instruction, dockerfile),
+    );
+}
 
 /*
  * This is fairly ugly because a single RUN could contain multiple install
@@ -20,18 +36,7 @@ const installRegex = /\s*(rpm\s+-i|rpm\s+--install|apk\s+((--update|-u|--no-cach
  * We also need to account for the multiple ways to split commands, and
  * arbitrary whitespace
  */
-function getPackagesFromRunInstructions(
-  dockerfile: Dockerfile,
-): DockerFilePackages {
-  const runInstructions = dockerfile
-    .getInstructions()
-    .filter(
-      (instruction) => instruction.getInstruction().toUpperCase() === "RUN",
-    )
-    .map((instruction) =>
-      getInstructionExpandVariables(instruction, dockerfile),
-    );
-
+function getPackagesFromRunInstructions(runInstructions: string[]) {
   return runInstructions.reduce((dockerfilePackages, instruction) => {
     const runDef = "RUN ";
     const commands = instruction.slice(runDef.length).split(/\s?(;|&&)\s?/);
@@ -134,7 +139,7 @@ function instructionDigest(instruction): string {
   return Buffer.from(instruction).toString("base64");
 }
 
-function getDockerfileLayers(
+function getLayersFromPackages(
   dockerfilePkgs: DockerFilePackages,
 ): DockerFileLayers {
   return Object.keys(dockerfilePkgs).reduce((res, pkg) => {
