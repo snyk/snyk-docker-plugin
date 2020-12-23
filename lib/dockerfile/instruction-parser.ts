@@ -6,11 +6,12 @@ export {
   getLayersFromPackages,
   getPackagesFromDockerfile,
   instructionDigest,
+  getPackagesFromRunInstructions,
 };
 
 // Naive regex; see tests for cases
 // tslint:disable-next-line:max-line-length
-const installRegex = /\s*(rpm\s+-i|rpm\s+--install|apk\s+((--update|-u|--no-cache)\s+)*add(\s+(--update|-u|--no-cache))*|apt-get\s+((--assume-yes|--yes|-y)\s+)*install(\s+(--assume-yes|--yes|-y))*|apt\s+((--assume-yes|--yes|-y)\s+)*install|yum\s+install|aptitude\s+install)\s+/;
+const installRegex = /(rpm\s+-i|rpm\s+--install|apk\s+((--update|-u|--no-cache)\s+)*add(\s+(--update|-u|--no-cache))*|apt-get\s+((--assume-yes|--yes|-y)\s+)*install(\s+(--assume-yes|--yes|-y))*|apt\s+((--assume-yes|--yes|-y)\s+)*install|yum\s+install|aptitude\s+install)\s+/;
 
 function getPackagesFromDockerfile(dockerfile: Dockerfile): DockerFilePackages {
   const runInstructions = getRunInstructionsFromDockerfile(dockerfile);
@@ -38,8 +39,8 @@ function getRunInstructionsFromDockerfile(dockerfile: Dockerfile) {
  */
 function getPackagesFromRunInstructions(runInstructions: string[]) {
   return runInstructions.reduce((dockerfilePackages, instruction) => {
-    const runDef = "RUN ";
-    const commands = instruction.slice(runDef.length).split(/\s?(;|&&)\s?/);
+    const cleanedInstruction = removeRunDefFromInstruction(instruction);
+    const commands = cleanedInstruction.split(/\s?(;|&&)\s?/);
     const installCommands = commands.filter((command) =>
       installRegex.test(command),
     );
@@ -54,7 +55,10 @@ function getPackagesFromRunInstructions(runInstructions: string[]) {
 
         packages.forEach((pkg) => {
           // Use package name without version as the key
-          const name = pkg.split("=")[0];
+          let name = pkg.split("=")[0];
+          if (name.startsWith("$")) {
+            name = name.slice(1);
+          }
           dockerfilePackages[name] = { instruction };
         });
       }
@@ -62,6 +66,17 @@ function getPackagesFromRunInstructions(runInstructions: string[]) {
 
     return dockerfilePackages;
   }, {});
+}
+
+function removeRunDefFromInstruction(instruction: string) {
+  let cleanedInstruction = instruction;
+  const runDefs = ["RUN ", "/bin/sh ", "RUN /bin/sh"];
+  for (const runDef of runDefs) {
+    if (cleanedInstruction.startsWith(runDef)) {
+      cleanedInstruction = cleanedInstruction.slice(runDef.length);
+    }
+  }
+  return cleanedInstruction;
 }
 
 /**
