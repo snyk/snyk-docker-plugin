@@ -2532,6 +2532,30 @@ Object {
           "data": "CentOS Linux 7 (Core)",
           "type": "imageOsReleasePrettyName",
         },
+        Object {
+          "data": Object {
+            "dockerfileLayers": Object {
+              "L2Jpbi9zaCAtYyB5dW0gaW5zdGFsbCAteSAibm9kZWpzLSR7Tk9ERV9WRVJ9IiB5YXJuIG1ha2UgZ2NjLWMrKyAgICYmIHl1bSBjbGVhbiBhbGw=": Object {
+                "instruction": "/bin/sh -c yum install -y \\"nodejs-\${NODE_VER}\\" yarn make gcc-c++   && yum clean all",
+              },
+            },
+            "dockerfilePackages": Object {
+              "\\"nodejs-\${NODE_VER}\\"": Object {
+                "instruction": "/bin/sh -c yum install -y \\"nodejs-\${NODE_VER}\\" yarn make gcc-c++   && yum clean all",
+              },
+              "gcc-c++": Object {
+                "instruction": "/bin/sh -c yum install -y \\"nodejs-\${NODE_VER}\\" yarn make gcc-c++   && yum clean all",
+              },
+              "make": Object {
+                "instruction": "/bin/sh -c yum install -y \\"nodejs-\${NODE_VER}\\" yarn make gcc-c++   && yum clean all",
+              },
+              "yarn": Object {
+                "instruction": "/bin/sh -c yum install -y \\"nodejs-\${NODE_VER}\\" yarn make gcc-c++   && yum clean all",
+              },
+            },
+          },
+          "type": "autoDetectedUserInstructions",
+        },
       ],
       "identity": Object {
         "args": Object {
