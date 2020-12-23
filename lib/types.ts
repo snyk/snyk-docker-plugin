@@ -50,7 +50,8 @@ export type FactType =
   // Used for application dependencies scanning; shows which files were used in the analysis of the dependencies.
   | "testedFiles"
   // Hashes of extracted *.jar binaries, hashed with sha1 algorithm
-  | "jarFingerprints";
+  | "jarFingerprints"
+  | "autoDetectedUserInstructions";
 
 export interface PluginResponse {
   /** The first result is guaranteed to be the OS dependencies scan result. */

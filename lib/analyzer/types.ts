@@ -1,3 +1,4 @@
+import { DockerFileAnalysis } from "../dockerfile";
 import { ManifestFile } from "../types";
 import { AppDepsScanResultWithoutTarget } from "./applications/types";
 
@@ -73,6 +74,7 @@ export interface StaticAnalysis {
   binaries: string[];
   imageLayers: string[];
   rootFsLayers?: string[];
+  autoDetectedUserInstructions?: DockerFileAnalysis;
   applicationDependenciesScanResults: AppDepsScanResultWithoutTarget[];
   manifestFiles: ManifestFile[];
 }

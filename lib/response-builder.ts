@@ -101,6 +101,23 @@ async function buildResponse(
     additionalOsDepsFacts.push(imageManifestFilesFact);
   }
 
+  const autoDetectedPackages =
+    depsAnalysis.autoDetectedUserInstructions?.dockerfilePackages;
+  const autoDetectedLayers =
+    depsAnalysis.autoDetectedUserInstructions?.dockerfileLayers;
+  if (
+    autoDetectedPackages &&
+    Object.keys(autoDetectedPackages).length > 0 &&
+    autoDetectedLayers &&
+    Object.keys(autoDetectedLayers).length > 0
+  ) {
+    const autoDetectedUserInstructionsFact: facts.AutoDetectedUserInstructionsFact = {
+      type: "autoDetectedUserInstructions",
+      data: depsAnalysis.autoDetectedUserInstructions!,
+    };
+    additionalOsDepsFacts.push(autoDetectedUserInstructionsFact);
+  }
+
   const applicationDependenciesScanResults: types.ScanResult[] = (
     depsAnalysis.applicationDependenciesScanResults || []
   ).map((appDepsScanResult) => ({
