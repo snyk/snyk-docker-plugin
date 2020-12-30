@@ -1,4 +1,5 @@
 import { Readable } from "stream";
+import { DockerFileAnalysis } from "../dockerfile";
 import { Elf } from "../go-parser/types";
 
 export type ExtractCallback = (
@@ -15,6 +16,7 @@ export interface ExtractionResult {
   manifestLayers: string[];
   extractedLayers: ExtractedLayers;
   rootFsLayers?: string[];
+  autoDetectedUserInstructions?: DockerFileAnalysis;
   platform?: string;
 }
 
@@ -68,4 +70,9 @@ export interface ExtractAction {
   // Applies the given callback once a file match is found given the pattern above.
   // The idea is that the file content can be transformed in any way.
   callback?: ExtractCallback;
+}
+
+export interface DetectedImageLayers {
+  packages;
+  layers;
 }

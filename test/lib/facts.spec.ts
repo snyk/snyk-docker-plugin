@@ -43,6 +43,10 @@ describe("Facts", () => {
       type: "testedFiles",
       data: [],
     };
+    const autoDetectedUserInstructionsFact: facts.AutoDetectedUserInstructionsFact = {
+      type: "autoDetectedUserInstructions",
+      data: {} as any,
+    };
 
     // This would catch compilation errors.
     const allFacts: Fact[] = [
@@ -56,6 +60,7 @@ describe("Facts", () => {
       keyBinariesHashesFact,
       rootFsFact,
       testedFilesFact,
+      autoDetectedUserInstructionsFact,
     ];
     expect(allFacts).toBeDefined();
 

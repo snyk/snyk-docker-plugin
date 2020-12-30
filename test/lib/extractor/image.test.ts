@@ -139,6 +139,17 @@ test("image extractor: ensure the results are the same for docker and for skopeo
     "Base image layers match",
   );
 
+  const foundPackages = Object.keys(
+    dockerResult.autoDetectedUserInstructions!.dockerfilePackages,
+  ).sort();
+  const expectedPackages = [
+    "ca-certificates",
+    "gettext-base",
+    "gnupg1",
+    "nginxPackages",
+  ].sort();
+  t.same(foundPackages, expectedPackages);
+
   t.equal(dockerResult.platform, skopeoResult.platform, "Platform matches");
 });
 

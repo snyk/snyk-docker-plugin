@@ -7799,6 +7799,21 @@ Object {
           "data": "Debian GNU/Linux 8 (jessie)",
           "type": "imageOsReleasePrettyName",
         },
+        Object {
+          "data": Object {
+            "dockerfileLayers": Object {
+              "L2Jpbi9zaCAtYyBhcHQtZ2V0IGluc3RhbGwgLXkgaW1hZ2VtYWdpY2s=": Object {
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+            },
+            "dockerfilePackages": Object {
+              "imagemagick": Object {
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+            },
+          },
+          "type": "autoDetectedUserInstructions",
+        },
       ],
       "identity": Object {
         "args": Object {

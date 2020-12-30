@@ -1,0 +1,46 @@
+{
+    "architecture": "amd64",
+    "config": {
+      "Env": [
+        "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+      ],
+      "Cmd": [
+        "bash"
+      ],
+      "Labels": {
+        "maintainer": "Jessie Frazelle <jess@linux.com>"
+      },
+      "OnBuild": null
+    },
+    "created": "2020-12-10T16:31:46.205412264Z",
+    "history": [
+      {
+        "created": "2020-11-17T20:20:43.05323718Z",
+        "created_by": "/bin/sh -c #(nop) ADD file:b076134a738b0988c5bef9dcc6ae88701beca9f80b7b1a167b27ed90ca43bebc in / "
+      },
+      {
+        "created": "2020-11-17T20:20:43.335044793Z",
+        "created_by": "/bin/sh -c #(nop)  CMD [\"bash\"]",
+        "empty_layer": true
+      },
+      {
+        "created": "2020-12-10T16:31:46.205412264Z",
+        "created_by": "LABEL maintainer=Jessie Frazelle <jess@linux.com>",
+        "comment": "buildkit.dockerfile.v0",
+        "empty_layer": true
+      },
+      {
+        "created": "2020-12-10T16:31:46.205412264Z",
+        "created_by": "RUN /bin/sh -c apt-get update && apt-get install -y \tgcc \tlibc6-dev \t--no-install-recommends \t&& rm -rf /var/lib/apt/lists/* # buildkit",
+        "comment": "buildkit.dockerfile.v0"
+      }
+    ],
+    "os": "linux",
+    "rootfs": {
+      "type": "layers",
+      "diff_ids": [
+        "sha256:cacece01316f76bde6b85a9696335bf6fd7b50ca63d8a2954c8c35041587dc8e",
+        "sha256:b1d4c734b70475e3e60e19ea2e8d255bf855f37d0cd9cc9ad893b4da1f231428"
+      ]
+    }
+  }

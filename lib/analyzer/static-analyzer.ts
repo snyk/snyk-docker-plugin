@@ -91,6 +91,7 @@ export async function analyze(
     manifestLayers,
     extractedLayers,
     rootFsLayers,
+    autoDetectedUserInstructions,
     platform,
   } = await archiveExtractor.extractImageContent(
     imageType,
@@ -173,6 +174,7 @@ export async function analyze(
     rootFsLayers,
     applicationDependenciesScanResults,
     manifestFiles,
+    autoDetectedUserInstructions,
   };
 }
 
