@@ -165,14 +165,14 @@ function collectDockerfilePkgs(
     return;
   }
 
-  return getDockerfileDependencies(dockerAnalysis.dockerfilePackages, deps);
+  return getUserInstructionDeps(dockerAnalysis.dockerfilePackages, deps);
 }
 
 // Iterate over the dependencies list; if one is introduced by the dockerfile,
 // flatten its dependencies and append them to the list of dockerfile
 // packages. This gives us a reference of all transitive deps installed via
 // the dockerfile, and the instruction that installed it.
-function getDockerfileDependencies(
+function getUserInstructionDeps(
   dockerfilePackages: DockerFilePackages,
   dependencies: {
     [depName: string]: types.DepTreeDep;
