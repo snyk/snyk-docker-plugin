@@ -111,9 +111,17 @@ async function buildResponse(
     autoDetectedLayers &&
     Object.keys(autoDetectedLayers).length > 0
   ) {
+    const autoDetectedPackagesWithChildren = getUserInstructionDeps(
+      autoDetectedPackages,
+      deps,
+    );
+
     const autoDetectedUserInstructionsFact: facts.AutoDetectedUserInstructionsFact = {
       type: "autoDetectedUserInstructions",
-      data: depsAnalysis.autoDetectedUserInstructions!,
+      data: {
+        dockerfileLayers: autoDetectedLayers,
+        dockerfilePackages: autoDetectedPackagesWithChildren!,
+      },
     };
     additionalOsDepsFacts.push(autoDetectedUserInstructionsFact);
   }
