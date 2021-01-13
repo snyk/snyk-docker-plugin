@@ -1,14 +1,37 @@
 import { legacy } from "@snyk/dep-graph";
 import * as path from "path";
 import * as lockFileParser from "snyk-nodejs-lockfile-parser";
-import { DepGraphFact, TestedFilesFact } from "../../facts";
+import { DepGraphFact, SecretsFact, TestedFilesFact } from "../../facts";
 
 import { AppDepsScanResultWithoutTarget, FilePathToContent } from "./types";
 
+export const SECRETE_TYPE = "secrets";
 interface ManifestLockPathPair {
   manifest: string;
   lock: string;
   lockType: lockFileParser.LockfileType;
+}
+
+export async function secretsModulesToScannedProjects(
+  filePathToContent: FilePathToContent,
+): Promise<AppDepsScanResultWithoutTarget[]> {
+  const scanResults: AppDepsScanResultWithoutTarget[] = [];
+
+  for (const [filePath] of Object.entries(filePathToContent)) {
+    const secretFact: SecretsFact = {
+      type: "secrets",
+      data: [filePath],
+    };
+    scanResults.push({
+      facts: [secretFact],
+      identity: {
+        type: SECRETE_TYPE,
+        targetFile: filePath,
+      },
+    });
+  }
+
+  return scanResults;
 }
 
 export async function nodeFilesToScannedProjects(

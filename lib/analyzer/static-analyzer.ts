@@ -32,8 +32,12 @@ import {
   getRpmDbFileContent,
   getRpmDbFileContentAction,
 } from "../inputs/rpm/static";
+import { getSecretsContentAction } from "../inputs/secrets/static";
 import { ImageType, ManifestFile } from "../types";
-import { nodeFilesToScannedProjects } from "./applications";
+import {
+  nodeFilesToScannedProjects,
+  secretsModulesToScannedProjects,
+} from "./applications";
 import { jarFilesToScannedProjects } from "./applications/java";
 import { AppDepsScanResultWithoutTarget } from "./applications/types";
 import * as osReleaseDetector from "./os-release";
@@ -82,6 +86,7 @@ export async function analyze(
         getNodeAppFileContentAction,
         getJarFileContentAction,
         getGoModulesContentAction,
+        getSecretsContentAction,
       ],
     );
   }
@@ -157,10 +162,15 @@ export async function analyze(
       getElfFileContent(extractedLayers, getGoModulesContentAction.actionName),
     );
 
+    const secretsModulesScanResult = await secretsModulesToScannedProjects(
+      getFileContent(extractedLayers, getSecretsContentAction.actionName),
+    );
+
     applicationDependenciesScanResults.push(
       ...nodeDependenciesScanResults,
       ...jarFingerprintScanResults,
       ...goModulesScanResult,
+      ...secretsModulesScanResult,
     );
   }
 

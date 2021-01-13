@@ -1,3 +1,6 @@
-import { nodeFilesToScannedProjects } from "./node";
+import {
+  nodeFilesToScannedProjects,
+  secretsModulesToScannedProjects,
+} from "./node";
 
-export { nodeFilesToScannedProjects };
+export { nodeFilesToScannedProjects, secretsModulesToScannedProjects };

@@ -28,6 +28,11 @@ export interface RootFsFact {
   data: string[];
 }
 
+export interface SecretsFact {
+  type: "secrets";
+  data: string[];
+}
+
 export interface AutoDetectedUserInstructionsFact {
   type: "autoDetectedUserInstructions";
   data: DockerFileAnalysis;

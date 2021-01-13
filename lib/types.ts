@@ -51,7 +51,8 @@ export type FactType =
   | "testedFiles"
   // Hashes of extracted *.jar binaries, hashed with sha1 algorithm
   | "jarFingerprints"
-  | "autoDetectedUserInstructions";
+  | "autoDetectedUserInstructions"
+  | "secrets";
 
 export interface PluginResponse {
   /** The first result is guaranteed to be the OS dependencies scan result. */
