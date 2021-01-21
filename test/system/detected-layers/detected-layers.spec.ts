@@ -9,12 +9,7 @@ import {
 } from "../../../lib/extractor/docker-archive/index";
 import { ExtractAction } from "../../../lib/extractor/types";
 import { AutoDetectedUserInstructions, ImageType } from "../../../lib/types";
-import { getFixture } from "../../util";
-
-const getObjFromFixture = (fixturePath) => {
-  const path = getFixture(fixturePath);
-  return JSON.parse(readFileSync(path, { encoding: "utf-8" }));
-};
+import { getFixture, getObjFromFixture } from "../../util";
 
 const expectedNginxPackages = [
   "gnupg1",
