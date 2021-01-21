@@ -9,6 +9,7 @@ yarn.lock
 test/fixtures/ls-output/xxx.txt
 .nyc_output/
 .vscode/
+tsconfig.local.json
 
 # Diagnostic reports (https://nodejs.org/api/report.html) 
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
