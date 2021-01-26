@@ -1,3 +1,4 @@
+import { readFileSync } from "fs";
 import { join } from "path";
 
 export function getFixture(fixturePath: string | string[]): string {
@@ -9,4 +10,9 @@ export function getFixture(fixturePath: string | string[]): string {
     }
   }
   return join(__dirname, "..", "fixtures", ...fixturePath);
+}
+
+export function getObjFromFixture(fixturePath) {
+  const path = getFixture(fixturePath);
+  return JSON.parse(readFileSync(path, { encoding: "utf-8" }));
 }
