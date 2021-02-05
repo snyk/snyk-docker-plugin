@@ -964,6 +964,12 @@ Object {
           "type": "imageLayers",
         },
         Object {
+          "data": Object {
+            "maintainer": "NGINX Docker Maintainers <docker-maint@nginx.com>",
+          },
+          "type": "imageLabels",
+        },
+        Object {
           "data": Array [
             "sha256:e2f13739ad415e6f8d9f73253910e4984563a1ec98bd0e0af715fc2c74dfe84b",
             "sha256:00e7d2cc2a5924431554f4bf5f0661d4c10e2b83b7cc7b3ae49273a219b16f45",

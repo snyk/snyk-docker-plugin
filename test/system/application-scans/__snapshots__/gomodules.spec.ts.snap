@@ -372,6 +372,12 @@ Object {
           "type": "imageLayers",
         },
         Object {
+          "data": Object {
+            "version": "none",
+          },
+          "type": "imageLabels",
+        },
+        Object {
           "data": Array [
             "sha256:50644c29ef5a27c9a40c393a73ece2479de78325cae7d762ef3cdc19bf42dd0a",
             "sha256:c1df98c53fe381ef0bd5d7712600a9c4e8e7ac6debbfb0cd3a4c50a4e2e6c5c0",

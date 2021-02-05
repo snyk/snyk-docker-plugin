@@ -18,6 +18,7 @@ export interface ExtractionResult {
   rootFsLayers?: string[];
   autoDetectedUserInstructions?: DockerFileAnalysis;
   platform?: string;
+  imageLabels: { [key: string]: string };
 }
 
 export interface ExtractedLayers {
@@ -42,6 +43,9 @@ export interface DockerArchiveImageConfig {
   architecture: string;
   os: string;
   rootfs: { diff_ids: string[] };
+  config: {
+    Labels: { [key: string]: string };
+  };
 }
 
 export interface OciArchiveLayer {

@@ -93,6 +93,7 @@ export async function analyze(
     rootFsLayers,
     autoDetectedUserInstructions,
     platform,
+    imageLabels,
   } = await archiveExtractor.extractImageContent(
     imageType,
     imagePath,
@@ -175,6 +176,7 @@ export async function analyze(
     applicationDependenciesScanResults,
     manifestFiles,
     autoDetectedUserInstructions,
+    imageLabels,
   };
 }
 

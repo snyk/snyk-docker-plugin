@@ -77,6 +77,7 @@ export interface StaticAnalysis {
   autoDetectedUserInstructions?: DockerFileAnalysis;
   applicationDependenciesScanResults: AppDepsScanResultWithoutTarget[];
   manifestFiles: ManifestFile[];
+  imageLabels?: { [key: string]: string };
 }
 
 export interface ArchiveResult {
