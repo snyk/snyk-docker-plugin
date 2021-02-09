@@ -1,9 +1,12 @@
+import * as Debug from "debug";
 import * as gunzip from "gunzip-maybe";
 import * as path from "path";
 import { Readable } from "stream";
 import { extract, Extract } from "tar-stream";
 import { applyCallbacks, isResultEmpty } from "./callbacks";
 import { ExtractAction, ExtractedLayers } from "./types";
+
+const debug = Debug("snyk");
 
 /**
  * Extract key files from the specified TAR stream.
@@ -26,14 +29,23 @@ export async function extractImageLayer(
           action.filePathMatches(absoluteFileName),
         );
         if (matchedActions.length > 0) {
-          const callbackResult = await applyCallbacks(
-            matchedActions,
-            stream,
-            headers.size,
-          );
+          try {
+            const callbackResult = await applyCallbacks(
+              matchedActions,
+              stream,
+              headers.size,
+            );
 
-          if (!isResultEmpty(callbackResult)) {
-            result[absoluteFileName] = callbackResult;
+            if (!isResultEmpty(callbackResult)) {
+              result[absoluteFileName] = callbackResult;
+            }
+          } catch (error) {
+            // An ExtractAction has thrown an uncaught exception, likely a bug in the code!
+            debug(
+              "Exception thrown while applying callbacks during image layer extraction",
+              JSON.stringify(error),
+            );
+            reject(error);
           }
         }
       }

@@ -60,58 +60,62 @@ async function findGoBinaries(
     let bytesWritten = 0;
 
     stream.on("end", () => {
-      // Discard
-      if (bytesWritten === 0) {
-        return resolve();
-      }
-
-      const binaryFile = elf.parse(buffer);
-
-      const goBuildInfo = binaryFile.body.sections.find(
-        (section) => section.name === ".go.buildinfo",
-      );
-      // Could be found in file headers
-      const goBuildId = binaryFile.body.sections.find(
-        (section) => section.name === ".note.go.buildid",
-      );
-
-      const interp = binaryFile.body.sections.find(
-        (section) => section.name === ".interp",
-      );
-
-      if (!goBuildInfo && !goBuildId) {
-        return resolve();
-      } else if (interp) {
-        // Compiled using cgo
-        // we wouldn't be able to extract modules
-        // TODO: cgo-compiled binaries are not supported in this iteration
-        return resolve();
-      } else if (goBuildInfo) {
-        const info = goBuildInfo.data
-          .slice(0, buildInfoMagic.length)
-          .toString(encoding);
-
-        if (info === buildInfoMagic) {
-          return resolve(binaryFile);
+      try {
+        // Discard
+        if (bytesWritten === 0) {
+          return resolve();
         }
 
-        return resolve();
-      } else if (goBuildId) {
-        const strings = goBuildId.data
-          .toString()
-          .split(/\0+/g)
-          .filter(Boolean);
-        const go = strings[strings.length - 2];
-        const buildIdParts = strings[strings.length - 1].split("/");
+        const binaryFile = elf.parse(buffer);
 
-        // Build ID's precise form is actionID/[.../]contentID.
-        // Usually the buildID is simply actionID/contentID, but with exceptions.
-        // https://github.com/golang/go/blob/master/src/cmd/go/internal/work/buildid.go#L23
-        if (go === buildIdMagic && buildIdParts.length >= 2) {
-          return resolve(binaryFile);
+        const goBuildInfo = binaryFile.body.sections.find(
+          (section) => section.name === ".go.buildinfo",
+        );
+        // Could be found in file headers
+        const goBuildId = binaryFile.body.sections.find(
+          (section) => section.name === ".note.go.buildid",
+        );
+
+        const interp = binaryFile.body.sections.find(
+          (section) => section.name === ".interp",
+        );
+
+        if (!goBuildInfo && !goBuildId) {
+          return resolve();
+        } else if (interp) {
+          // Compiled using cgo
+          // we wouldn't be able to extract modules
+          // TODO: cgo-compiled binaries are not supported in this iteration
+          return resolve();
+        } else if (goBuildInfo) {
+          const info = goBuildInfo.data
+            .slice(0, buildInfoMagic.length)
+            .toString(encoding);
+
+          if (info === buildInfoMagic) {
+            return resolve(binaryFile);
+          }
+
+          return resolve();
+        } else if (goBuildId) {
+          const strings = goBuildId.data
+            .toString()
+            .split(/\0+/g)
+            .filter(Boolean);
+          const go = strings[strings.length - 2];
+          const buildIdParts = strings[strings.length - 1].split("/");
+
+          // Build ID's precise form is actionID/[.../]contentID.
+          // Usually the buildID is simply actionID/contentID, but with exceptions.
+          // https://github.com/golang/go/blob/master/src/cmd/go/internal/work/buildid.go#L23
+          if (go === buildIdMagic && buildIdParts.length >= 2) {
+            return resolve(binaryFile);
+          }
+
+          return resolve();
         }
-
-        return resolve();
+      } catch (error) {
+        reject(error);
       }
     });
 
