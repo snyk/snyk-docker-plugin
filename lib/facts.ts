@@ -60,3 +60,10 @@ export interface JarFingerprintsFact {
     path: string;
   };
 }
+
+export interface ImageLabels {
+  type: "imageLabels";
+  data: {
+    [key: string]: string;
+  };
+}

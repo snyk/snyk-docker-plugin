@@ -391,6 +391,10 @@ Object {
           "type": "imageLayers",
         },
         Object {
+          "data": Object {},
+          "type": "imageLabels",
+        },
+        Object {
           "data": "Alpine Linux v3.12",
           "type": "imageOsReleasePrettyName",
         },

@@ -69,6 +69,14 @@ async function buildResponse(
     additionalOsDepsFacts.push(imageLayersFact);
   }
 
+  if (depsAnalysis.imageLabels) {
+    const imageLabels: facts.ImageLabels = {
+      type: "imageLabels",
+      data: depsAnalysis.imageLabels,
+    };
+    additionalOsDepsFacts.push(imageLabels);
+  }
+
   if (
     depsAnalysis.rootFsLayers &&
     Array.isArray(depsAnalysis.rootFsLayers) &&

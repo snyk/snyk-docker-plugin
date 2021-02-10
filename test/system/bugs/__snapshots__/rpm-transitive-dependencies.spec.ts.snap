@@ -2521,6 +2521,20 @@ Object {
           "type": "imageLayers",
         },
         Object {
+          "data": Object {
+            "org.label-schema.build-date": "20200504",
+            "org.label-schema.license": "GPLv2",
+            "org.label-schema.name": "CentOS Base Image",
+            "org.label-schema.schema-version": "1.0",
+            "org.label-schema.vendor": "CentOS",
+            "org.opencontainers.image.created": "2020-05-04 00:00:00+01:00",
+            "org.opencontainers.image.licenses": "GPL-2.0-only",
+            "org.opencontainers.image.title": "CentOS Base Image",
+            "org.opencontainers.image.vendor": "CentOS",
+          },
+          "type": "imageLabels",
+        },
+        Object {
           "data": Array [
             "sha256:edf3aa290fb3c255a84fe836109093fbfeef65c08544f655fad8d6afb53868ba",
             "sha256:14bfd933344aa23b1df9e553b6729cdb312cb9d33436cc6984c867db7018e695",

@@ -2255,6 +2255,20 @@ Object {
           "type": "imageLayers",
         },
         Object {
+          "data": Object {
+            "org.label-schema.build-date": "20200504",
+            "org.label-schema.license": "GPLv2",
+            "org.label-schema.name": "CentOS Base Image",
+            "org.label-schema.schema-version": "1.0",
+            "org.label-schema.vendor": "CentOS",
+            "org.opencontainers.image.created": "2020-05-04 00:00:00+01:00",
+            "org.opencontainers.image.licenses": "GPL-2.0-only",
+            "org.opencontainers.image.title": "CentOS Base Image",
+            "org.opencontainers.image.vendor": "CentOS",
+          },
+          "type": "imageLabels",
+        },
+        Object {
           "data": Array [
             "sha256:fb82b029bea0a2a3b6a62a9c1e47e57fae2a82f629b2d1a346da4fc8fb53a0b6",
           ],
@@ -4532,6 +4546,20 @@ Object {
             "15bad9f44dc39404a46e24c4feee6b2ae903e31ddccd9b14571a1a6afb4516c5/layer.tar",
           ],
           "type": "imageLayers",
+        },
+        Object {
+          "data": Object {
+            "org.label-schema.build-date": "20200504",
+            "org.label-schema.license": "GPLv2",
+            "org.label-schema.name": "CentOS Base Image",
+            "org.label-schema.schema-version": "1.0",
+            "org.label-schema.vendor": "CentOS",
+            "org.opencontainers.image.created": "2020-05-04 00:00:00+01:00",
+            "org.opencontainers.image.licenses": "GPL-2.0-only",
+            "org.opencontainers.image.title": "CentOS Base Image",
+            "org.opencontainers.image.vendor": "CentOS",
+          },
+          "type": "imageLabels",
         },
         Object {
           "data": Array [

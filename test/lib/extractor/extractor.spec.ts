@@ -4,13 +4,17 @@ import { ImageType } from "../../../lib/types";
 import { getFixture } from "../../util/index";
 
 describe("extractImageContent", () => {
-  it("extracts red hat repositories information from layers", async () => {
-    const extractedContent = await extractImageContent(
+  let extractedContent: ExtractionResult;
+
+  beforeAll(async () => {
+    extractedContent = await extractImageContent(
       ImageType.DockerArchive,
       getFixture("docker-archives/docker-save/nginx-with-buildinfo.tar"),
       [getRedHatReposContentAction],
     );
+  });
 
+  it("extracts red hat repositories information from layers", async () => {
     const numOfFoundFiles = Object.keys(extractedContent.extractedLayers)
       .length;
     expect(numOfFoundFiles).toBe(1);
@@ -32,6 +36,12 @@ describe("extractImageContent", () => {
         "rhel-7-server-rpms",
       ],
       image_contents: [],
+    });
+  });
+
+  it("extracts image labels", async () => {
+    expect(extractedContent.imageLabels).toMatchObject({
+      maintainer: "NGINX Docker Maintainers <docker-maint@nginx.com>",
     });
   });
 });
