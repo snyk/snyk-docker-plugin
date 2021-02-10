@@ -18,7 +18,7 @@ export interface ExtractionResult {
   rootFsLayers?: string[];
   autoDetectedUserInstructions?: DockerFileAnalysis;
   platform?: string;
-  imageLabels: { [key: string]: string };
+  imageLabels?: { [key: string]: string };
 }
 
 export interface ExtractedLayers {
