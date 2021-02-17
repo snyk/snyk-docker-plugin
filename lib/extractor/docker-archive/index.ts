@@ -41,7 +41,7 @@ export function getPlatformFromConfig(
 
 export function getDetectedLayersInfoFromConfig(imageConfig) {
   const runInstructions = getUserInstructionLayersFromConfig(imageConfig)
-    .filter((instruction) => !instruction.empty_layer)
+    .filter((instruction) => !instruction.empty_layer && instruction.created_by)
     .map((instruction) => instruction.created_by.replace("# buildkit", ""));
 
   const dockerfilePackages = getPackagesFromRunInstructions(runInstructions);
