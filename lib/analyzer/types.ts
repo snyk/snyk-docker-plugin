@@ -75,6 +75,7 @@ export interface StaticAnalysis {
   manifestFiles: ManifestFile[];
   imageLabels?: { [key: string]: string };
   imageCreationTime?: string;
+  packageManager?: string;
 }
 
 export interface ArchiveResult {

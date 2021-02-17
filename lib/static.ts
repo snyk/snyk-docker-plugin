@@ -1,11 +1,17 @@
+import { DepGraph } from "@snyk/dep-graph";
 import * as analyzer from "./analyzer";
-import { StaticAnalysis } from "./analyzer/types";
-import { buildTree } from "./dependency-tree";
+import {
+  AnalyzedPackage,
+  Binary,
+  OSRelease,
+  StaticAnalysis,
+} from "./analyzer/types";
+import { buildGraph } from "./dependency-graph";
 import { DockerFileAnalysis } from "./dockerfile/types";
 import { isTrue } from "./option-utils";
 import { parseAnalysisResults } from "./parser";
 import { buildResponse } from "./response-builder";
-import { DepTree, ImageType, PluginOptions, PluginResponse } from "./types";
+import { ImageType, PluginOptions, PluginResponse } from "./types";
 
 export async function analyzeStatically(
   targetImage: string,
@@ -24,28 +30,33 @@ export async function analyzeStatically(
     options,
   );
 
-  const parsedAnalysisResult = parseAnalysisResults(
-    targetImage,
-    staticAnalysis,
-  );
+  const parsedAnalysisResult: {
+    imageId: string;
+    platform: string | undefined;
+    targetOS: OSRelease;
+    type: any;
+    depInfosList: AnalyzedPackage[] | Binary[];
+    imageLayers: string[];
+  } = parseAnalysisResults(targetImage, staticAnalysis);
 
-  /** @deprecated Should try to build a dependency graph instead. */
-  const dependenciesTree = await buildTree(
+  const depGraph = await buildGraph(
     targetImage,
+    parsedAnalysisResult.targetOS,
     parsedAnalysisResult.type,
     parsedAnalysisResult.depInfosList,
-    parsedAnalysisResult.targetOS,
   );
 
   const analysis: StaticAnalysis & {
-    depTree: DepTree;
+    depGraph: DepGraph;
     packageManager: string;
+    targetOS: OSRelease;
   } = {
     ...staticAnalysis,
-    depTree: dependenciesTree,
+    depGraph,
     imageId: parsedAnalysisResult.imageId,
     imageLayers: parsedAnalysisResult.imageLayers,
     packageManager: parsedAnalysisResult.type,
+    targetOS: parsedAnalysisResult.targetOS,
   };
 
   const excludeBaseImageVulns = isTrue(options["exclude-base-image-vulns"]);

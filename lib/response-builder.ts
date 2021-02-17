@@ -1,5 +1,5 @@
-import { legacy } from "@snyk/dep-graph";
-import { StaticAnalysis } from "./analyzer/types";
+import { DepGraph } from "@snyk/dep-graph";
+import { OSRelease, StaticAnalysis } from "./analyzer/types";
 import * as facts from "./facts";
 // Module that provides functions to collect and build response after all
 // analyses' are done.
@@ -12,27 +12,27 @@ export { buildResponse };
 
 async function buildResponse(
   depsAnalysis: StaticAnalysis & {
-    depTree: types.DepTree;
+    depGraph: DepGraph;
     packageManager: string;
+    targetOS: OSRelease;
   },
   dockerfileAnalysis: DockerFileAnalysis | undefined,
   excludeBaseImageVulns: boolean,
 ): Promise<types.PluginResponse> {
-  const deps = depsAnalysis.depTree.dependencies;
+  const deps = depsAnalysis.depGraph
+    .getDepPkgs()
+    .reduce((a, v) => ({ ...a, [v.name]: v }), {});
+  // TODO check/modify deps type
   const dockerfilePkgs = collectDockerfilePkgs(dockerfileAnalysis, deps);
   const finalDeps = excludeBaseImageDeps(
     deps,
     dockerfilePkgs,
     excludeBaseImageVulns,
   );
+
+  // TODO add layer ids to the dep graph and remove below
   /** WARNING! Mutates the depTree.dependencies! */
   annotateLayerIds(finalDeps, dockerfilePkgs);
-
-  /** This must be called after all final changes to the DependencyTree. */
-  const depGraph = await legacy.depTreeToGraph(
-    depsAnalysis.depTree,
-    depsAnalysis.packageManager,
-  );
 
   const additionalFacts: types.Fact[] = [];
 
@@ -97,10 +97,10 @@ async function buildResponse(
     additionalFacts.push(rootFsFact);
   }
 
-  if (depsAnalysis.depTree.targetOS.prettyName) {
+  if (depsAnalysis.targetOS.prettyName) {
     const imageOsReleasePrettyNameFact: facts.ImageOsReleasePrettyNameFact = {
       type: "imageOsReleasePrettyName",
-      data: depsAnalysis.depTree.targetOS.prettyName,
+      data: depsAnalysis.targetOS.prettyName,
     };
     additionalFacts.push(imageOsReleasePrettyNameFact);
   }
@@ -156,7 +156,7 @@ async function buildResponse(
     return {
       ...appDepsScanResult,
       target: {
-        image: depGraph.rootPkg.name,
+        image: depsAnalysis.depGraph.rootPkg.name,
       },
     };
   });
@@ -168,16 +168,16 @@ async function buildResponse(
 
   const depGraphFact: facts.DepGraphFact = {
     type: "depGraph",
-    data: depGraph,
+    data: depsAnalysis.depGraph,
   };
   const scanResults: types.ScanResult[] = [
     {
       facts: [depGraphFact, ...additionalFacts],
       target: {
-        image: depGraph.rootPkg.name,
+        image: depsAnalysis.depGraph.rootPkg.name,
       },
       identity: {
-        type: depGraph.pkgManager.name,
+        type: depsAnalysis.depGraph.pkgManager.name,
         args,
       },
     },

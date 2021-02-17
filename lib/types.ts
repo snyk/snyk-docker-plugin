@@ -1,10 +1,6 @@
 import { DepGraphData } from "@snyk/dep-graph";
 
-import {
-  DockerFileAnalysis,
-  DockerFileLayers,
-  DockerFilePackages,
-} from "./dockerfile/types";
+import { DockerFileLayers, DockerFilePackages } from "./dockerfile/types";
 
 export enum ImageType {
   Identifier, // e.g. "nginx:latest"
@@ -198,29 +194,6 @@ export interface DepTreeDep {
   labels?: {
     [key: string]: string;
   };
-}
-
-/** @deprecated Prefer building Graphs instead of Trees. */
-export interface DepTree extends DepTreeDep {
-  type?: string;
-  packageFormatVersion: string;
-  targetOS: {
-    name: string;
-    prettyName: string;
-    version: string;
-  };
-
-  targetFile?: string;
-  policy?: string;
-  docker?: {
-    dockerfileAnalysis?: DockerFileAnalysis;
-    dockerfilePkgs?: DockerFilePackages;
-    dockerImageId?: string;
-    imageLayers?: string[];
-    rootFs?: string[];
-    imageName?: string;
-  };
-  files?: any;
 }
 
 export interface Issue {

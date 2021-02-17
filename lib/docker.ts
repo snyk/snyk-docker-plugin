@@ -67,7 +67,6 @@ class Docker {
         );
       }
     }
-
     return subProcess.execute("docker", ["pull", platformOption, targetImage]);
   }
 

@@ -124,7 +124,7 @@ test("static analysis works for scratch images", async (t) => {
     [{ alias: "unknown:0.0" }],
     "operating system for scratch image is unknown",
   );
-  t.same(depGraph.rootPkg.version, undefined, "Version is missing");
+  t.same(depGraph.rootPkg.version, "", "Version is missing");
   t.equals(
     pluginResultWithSkopeoCopy.scanResults[0].identity.args?.platform,
     "linux/amd64",

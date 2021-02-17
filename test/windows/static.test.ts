@@ -34,7 +34,7 @@ test("static analysis builds the expected response", async (t) => {
   const skopeoCopyDepGraph: DepGraph = pluginResultWithSkopeoCopy.scanResults[0].facts.find(
     (fact) => fact.type === "depGraph",
   )!.data;
-  t.same(skopeoCopyDepGraph.rootPkg.version, undefined, "Version is missing");
+  t.same(skopeoCopyDepGraph.rootPkg.version, "", "Version is missing");
 
   const skopeoCopyImageId: string = pluginResultWithSkopeoCopy.scanResults[0].facts.find(
     (fact) => fact.type === "imageId",
@@ -178,7 +178,7 @@ test("static analysis works for scratch images", async (t) => {
     [{ alias: "unknown:0.0" }],
     "operating system for scratch image is unknown",
   );
-  t.same(depGraph.rootPkg.version, undefined, "Version is not found");
+  t.same(depGraph.rootPkg.version, "", "Version is not found");
   t.equals(
     pluginResultWithSkopeoCopy.scanResults[0].identity.args?.platform,
     "linux/amd64",
