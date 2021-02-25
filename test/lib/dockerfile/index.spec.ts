@@ -1,6 +1,9 @@
 import { DockerfileParser } from "dockerfile-ast";
 import { EOL } from "os";
-import { getDockerfileBaseImageName } from "../../../lib/dockerfile";
+import {
+  getDockerfileBaseImageName,
+  updateDockerfileBaseImage,
+} from "../../../lib/dockerfile";
 
 describe("base image parsing", () => {
   it.each`
@@ -30,5 +33,20 @@ describe("base image parsing", () => {
     expect(
       getDockerfileBaseImageName(DockerfileParser.parse(dockerfile)),
     ).toBeDefined();
+  });
+});
+
+describe("base image updating", () => {
+  it.each`
+    content                                                                     | expected
+    ${"FROM image:tag1"}                                                        | ${"FROM image:tag0"}
+    ${"FROM image:tag1" + EOL + "FROM image:tag1"}                              | ${"FROM image:tag0" + EOL + "FROM image:tag0"}
+    ${"ARG IMAGE=image:tag1" + EOL + "FROM ${IMAGE}"}                           | ${"ARG IMAGE=image:tag0" + EOL + "FROM ${IMAGE}"}
+    ${"ARG IMAGE=image:tag1" + EOL + "FROM ${IMAGE}" + EOL + "FROM image"}      | ${"ARG IMAGE=image:tag1" + EOL + "FROM ${IMAGE}" + EOL + "FROM image:tag0"}
+    ${"ARG IMAGE=image:tag1" + EOL + "FROM image:tag2" + EOL + "FROM ${IMAGE}"} | ${"ARG IMAGE=image:tag0" + EOL + "FROM image:tag2" + EOL + "FROM ${IMAGE}"}
+    ${"ARG IMAGE=image:tag1" + EOL + "FROM image:tag1" + EOL + "FROM ${IMAGE}"} | ${"ARG IMAGE=image:tag0" + EOL + "FROM image:tag0" + EOL + "FROM ${IMAGE}"}
+  `("updates base image: $content", async ({ content, expected }) => {
+    const actual = await updateDockerfileBaseImage(content, "image:tag0");
+    expect(actual).toBe(expected);
   });
 });
