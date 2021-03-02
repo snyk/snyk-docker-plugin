@@ -7,6 +7,7 @@ import {
   getPackagesFromDockerfile,
   instructionDigest,
 } from "./instruction-parser";
+import { updateDockerfileBaseImageName } from "./instruction-updater";
 import { DockerFileAnalysis } from "./types";
 
 export {
@@ -15,6 +16,7 @@ export {
   instructionDigest,
   getPackagesFromDockerfile,
   getDockerfileBaseImageName,
+  updateDockerfileBaseImageName,
   DockerFileAnalysis,
 };
 
