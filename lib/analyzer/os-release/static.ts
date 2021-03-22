@@ -1,4 +1,5 @@
-import { debug } from "console";
+import * as Debug from "debug";
+
 import { DockerFileAnalysis } from "../../dockerfile/types";
 import { ExtractedLayers } from "../../extractor/types";
 import { getOsReleaseStatic as getOsRelease } from "../../inputs/os-release";
@@ -13,6 +14,8 @@ import {
   tryOSRelease,
   tryRedHatRelease,
 } from "./release-analyzer";
+
+const debug = Debug("snyk");
 
 type OsReleaseHandler = (text: string) => Promise<OSRelease | null>;
 
