@@ -1,3 +1,4 @@
+import { debug } from "console";
 import { DockerFileAnalysis } from "../../dockerfile/types";
 import { ExtractedLayers } from "../../extractor/types";
 import { getOsReleaseStatic as getOsRelease } from "../../inputs/os-release";
@@ -13,58 +14,57 @@ import {
   tryRedHatRelease,
 } from "./release-analyzer";
 
+type OsReleaseHandler = (text: string) => Promise<OSRelease | null>;
+
+const releaseDetectors: Record<OsReleaseFilePath, OsReleaseHandler> = {
+  [OsReleaseFilePath.Linux]: tryOSRelease,
+  // Fallback for the case where the same file exists in different location or is a symlink to the other location
+  [OsReleaseFilePath.LinuxFallback]: tryOSRelease,
+  // Generic fallback
+  [OsReleaseFilePath.Lsb]: tryLsbRelease,
+  // Fallbacks for specific older distributions
+  [OsReleaseFilePath.Debian]: tryDebianVersion,
+  [OsReleaseFilePath.Alpine]: tryAlpineRelease,
+  [OsReleaseFilePath.Oracle]: tryOracleRelease,
+  [OsReleaseFilePath.RedHat]: tryRedHatRelease,
+  [OsReleaseFilePath.Centos]: tryCentosRelease,
+};
+
 export async function detect(
   extractedLayers: ExtractedLayers,
   dockerfileAnalysis: DockerFileAnalysis | undefined,
 ): Promise<OSRelease> {
-  let osRelease = await tryOSRelease(
-    getOsRelease(extractedLayers, OsReleaseFilePath.Linux),
-  );
+  /**
+   * We want to detect whether the OS release file existed, but it just could not be parsed successfully.
+   * This is so that we can distinguish between images with multiple "os-release" files - some of them
+   * may fail to parse while others will succeed. This will depend purely on the order of our handlers.
+   * We want to run all handlers and only then decide if detection succeeded or not.
+   */
+  let hadOsReleaseFile = false;
 
-  // Fallback for the case where the same file exists in different location
-  // or is a symlink to the other location
-  if (!osRelease) {
-    osRelease = await tryOSRelease(
-      getOsRelease(extractedLayers, OsReleaseFilePath.LinuxFallback),
+  let osRelease: OSRelease | null = null;
+  for (const [type, handler] of Object.entries(releaseDetectors)) {
+    const osReleaseFile = getOsRelease(
+      extractedLayers,
+      type as OsReleaseFilePath,
     );
+    if (!osReleaseFile) {
+      continue;
+    }
+
+    hadOsReleaseFile = true;
+    try {
+      osRelease = await handler(osReleaseFile);
+    } catch (err) {
+      debug("Malformed OS release file", JSON.stringify(err));
+    }
+    if (osRelease) {
+      break;
+    }
   }
 
-  // Generic fallback
-  if (!osRelease) {
-    osRelease = await tryLsbRelease(
-      getOsRelease(extractedLayers, OsReleaseFilePath.Lsb),
-    );
-  }
-
-  // Fallbacks for specific older distributions
-  if (!osRelease) {
-    osRelease = await tryDebianVersion(
-      getOsRelease(extractedLayers, OsReleaseFilePath.Debian),
-    );
-  }
-
-  if (!osRelease) {
-    osRelease = await tryAlpineRelease(
-      getOsRelease(extractedLayers, OsReleaseFilePath.Alpine),
-    );
-  }
-
-  if (!osRelease) {
-    osRelease = await tryOracleRelease(
-      getOsRelease(extractedLayers, OsReleaseFilePath.Oracle),
-    );
-  }
-
-  if (!osRelease) {
-    osRelease = await tryRedHatRelease(
-      getOsRelease(extractedLayers, OsReleaseFilePath.RedHat),
-    );
-  }
-
-  if (!osRelease) {
-    osRelease = await tryCentosRelease(
-      getOsRelease(extractedLayers, OsReleaseFilePath.Centos),
-    );
+  if (!osRelease && hadOsReleaseFile) {
+    throw new Error("Failed to parse OS release file");
   }
 
   if (!osRelease) {
