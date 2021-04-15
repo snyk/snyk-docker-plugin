@@ -6,7 +6,7 @@ orbs:
 defaults: &defaults
   resource_class: small
   docker:
-    - image: circleci/node:8
+    - image: circleci/node:10
   working_directory: ~/snyk-docker-plugin
 
 windows_defaults: &windows_defaults
@@ -103,7 +103,7 @@ jobs:
   test:
     <<: *defaults
     docker:
-      - image: circleci/node:8
+      - image: circleci/node:10
     steps:
       - checkout
       - setup_remote_docker
@@ -198,7 +198,7 @@ workflows:
       - test_windows:
           name: Test Windows
           context: nodejs-install
-          node_version: "8.17.0"
+          node_version: "10.19.0"
       - test_jest_windows:
           name: Test Jest Windows
           context: nodejs-install
