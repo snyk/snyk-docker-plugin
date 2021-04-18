@@ -1600,7 +1600,7 @@ Object {
           "type": "depGraph",
         },
         Object {
-          "data": "ba2cc467a2bce7ffc9e2d6e38a87f6ec89c1c93bc83ff575e8021bb592f9ad2e",
+          "data": "sha256:ba2cc467a2bce7ffc9e2d6e38a87f6ec89c1c93bc83ff575e8021bb592f9ad2e",
           "type": "imageId",
         },
         Object {

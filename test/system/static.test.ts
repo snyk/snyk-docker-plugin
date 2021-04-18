@@ -110,7 +110,7 @@ test("static analysis works for scratch images", async (t) => {
 
   t.equals(
     imageId,
-    "6d5fcfe5ff170471fcc3c8b47631d6d71202a1fd44cf3c147e50c8de21cf0648",
+    "sha256:6d5fcfe5ff170471fcc3c8b47631d6d71202a1fd44cf3c147e50c8de21cf0648",
     "image ID identified correctly",
   );
   t.equals(

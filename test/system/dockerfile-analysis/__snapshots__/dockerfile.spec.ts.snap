@@ -7769,7 +7769,7 @@ Object {
           "type": "dockerfileAnalysis",
         },
         Object {
-          "data": "1c13388e727de4695a7507d4695d21be94009d9bcacf54c9cc0e370c86f6d8ef",
+          "data": "sha256:1c13388e727de4695a7507d4695d21be94009d9bcacf54c9cc0e370c86f6d8ef",
           "type": "imageId",
         },
         Object {

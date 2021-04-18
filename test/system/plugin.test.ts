@@ -38,7 +38,7 @@ test("static scan for Identifier type image (nginx:1.19.0)", async (t) => {
   )!.data;
   t.same(
     imageId,
-    "2622e6cca7ebbb6e310743abce3fc47335393e79171b9d76ba9d4f446ce7b163",
+    "sha256:2622e6cca7ebbb6e310743abce3fc47335393e79171b9d76ba9d4f446ce7b163",
     "The image ID matches",
   );
   t.same(

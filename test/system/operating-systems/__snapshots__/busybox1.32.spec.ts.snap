@@ -39,7 +39,7 @@ Object {
           "type": "depGraph",
         },
         Object {
-          "data": "9f00140cde00e263233ec6214cd1d8b8a0f9f92c1834d5dc842d2e184e807b29",
+          "data": "sha256:9f00140cde00e263233ec6214cd1d8b8a0f9f92c1834d5dc842d2e184e807b29",
           "type": "imageId",
         },
         Object {

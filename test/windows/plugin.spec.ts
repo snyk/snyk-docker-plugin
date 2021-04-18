@@ -23,7 +23,7 @@ describe("windows scanning", () => {
       (fact) => fact.type === "imageId",
     )!.data;
     expect(imageId).toEqual(
-      "5a3221f0137beb960c34b9cf4455424b6210160fd618c5e79401a07d6e5a2ced",
+      "sha256:5a3221f0137beb960c34b9cf4455424b6210160fd618c5e79401a07d6e5a2ced",
     );
     expect(pluginResult.scanResults[0].identity.type).toEqual("deb");
     expect(

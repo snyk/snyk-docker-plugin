@@ -45,7 +45,7 @@ Object {
           "type": "keyBinariesHashes",
         },
         Object {
-          "data": "e997a24cd4633de60213a23debcfb37dcc9fa6578a112976fc80aaa094ea1f59",
+          "data": "sha256:e997a24cd4633de60213a23debcfb37dcc9fa6578a112976fc80aaa094ea1f59",
           "type": "imageId",
         },
         Object {
@@ -1835,7 +1835,7 @@ Object {
           "type": "keyBinariesHashes",
         },
         Object {
-          "data": "c23a5744368857498ede92ce059cbf481800bb870931de9d11dfea764db02889",
+          "data": "sha256:c23a5744368857498ede92ce059cbf481800bb870931de9d11dfea764db02889",
           "type": "imageId",
         },
         Object {
