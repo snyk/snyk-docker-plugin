@@ -27,7 +27,7 @@
     "node": ">=8"
   },
   "dependencies": {
-    "@snyk/dep-graph": "^1.21.0",
+    "@snyk/dep-graph": "^1.28.0",
     "@snyk/rpm-parser": "^2.0.0",
     "@snyk/snyk-docker-pull": "3.2.3",
     "chalk": "^2.4.2",
