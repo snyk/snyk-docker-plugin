@@ -62,7 +62,7 @@ describe("system tests", () => {
     )!.data;
 
     expect(imageId).toEqual(
-      "00165cd5d0c00321af529a74915a9a7fe5cc9759ebca8e86ad38191933f551e8",
+      "sha256:00165cd5d0c00321af529a74915a9a7fe5cc9759ebca8e86ad38191933f551e8",
     );
     expect(pluginResponse.scanResults[0].identity.type).toEqual("deb");
     expect(pluginResponse.scanResults[0].identity.type).toEqual(
@@ -109,7 +109,7 @@ describe("system tests", () => {
     )!.data;
 
     expect(imageId).toEqual(
-      "7f70b30f2cc66b5e23308fb20c6e57dc1ea0c47950cca797831b705177c6b8ce",
+      "sha256:7f70b30f2cc66b5e23308fb20c6e57dc1ea0c47950cca797831b705177c6b8ce",
     );
     expect(pluginResponse.scanResults[0].identity.type).toEqual("deb");
 
@@ -163,7 +163,7 @@ describe("system tests", () => {
     )!.data;
 
     expect(imageId).toEqual(
-      "ca0b6709748d024a67c502558ea88dc8a1f8a858d380f5ddafa1504126a3b018",
+      "sha256:ca0b6709748d024a67c502558ea88dc8a1f8a858d380f5ddafa1504126a3b018",
     );
     expect(pluginResponse.scanResults[0].identity.type).toEqual("apk");
 
@@ -218,7 +218,7 @@ describe("system tests", () => {
       )!.data;
 
       expect(imageId).toEqual(
-        "ca0b6709748d024a67c502558ea88dc8a1f8a858d380f5ddafa1504126a3b018",
+        "sha256:ca0b6709748d024a67c502558ea88dc8a1f8a858d380f5ddafa1504126a3b018",
       );
       expect(pluginResponse.scanResults[0].identity.type).toEqual("apk");
 
@@ -255,7 +255,7 @@ describe("system tests", () => {
     )!.data;
 
     expect(imageId).toEqual(
-      "20bb25d32758db4f91b18a9581794cfaa6a8c5fbad80093e9a9e42211e131a48",
+      "sha256:20bb25d32758db4f91b18a9581794cfaa6a8c5fbad80093e9a9e42211e131a48",
     );
     expect(pluginResponse.scanResults[0].identity.type).toEqual("deb");
 
@@ -294,7 +294,7 @@ describe("system tests", () => {
       )!.data;
 
       expect(imageId).toEqual(
-        "ca0b6709748d024a67c502558ea88dc8a1f8a858d380f5ddafa1504126a3b018",
+        "sha256:ca0b6709748d024a67c502558ea88dc8a1f8a858d380f5ddafa1504126a3b018",
       );
       expect(pluginResponse.scanResults[0].identity.type).toEqual("apk");
 

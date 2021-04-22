@@ -2510,7 +2510,7 @@ Object {
           "type": "dockerfileAnalysis",
         },
         Object {
-          "data": "01bf7139aec575f3d93dd55f96e1bccdde090142c9501882c4bcc48685bb9f7b",
+          "data": "sha256:01bf7139aec575f3d93dd55f96e1bccdde090142c9501882c4bcc48685bb9f7b",
           "type": "imageId",
         },
         Object {

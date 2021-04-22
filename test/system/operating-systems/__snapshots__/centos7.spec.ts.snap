@@ -2245,7 +2245,7 @@ Object {
           "type": "depGraph",
         },
         Object {
-          "data": "afb6fca791e071c66276202f8efca5ce3d3dc4fb218bcddff1bc565d981ddd1e",
+          "data": "sha256:afb6fca791e071c66276202f8efca5ce3d3dc4fb218bcddff1bc565d981ddd1e",
           "type": "imageId",
         },
         Object {
@@ -4538,7 +4538,7 @@ Object {
           "type": "depGraph",
         },
         Object {
-          "data": "afb6fca791e071c66276202f8efca5ce3d3dc4fb218bcddff1bc565d981ddd1e",
+          "data": "sha256:afb6fca791e071c66276202f8efca5ce3d3dc4fb218bcddff1bc565d981ddd1e",
           "type": "imageId",
         },
         Object {

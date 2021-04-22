@@ -2770,7 +2770,7 @@ Object {
           "type": "depGraph",
         },
         Object {
-          "data": "c23ddcc8aacfa4742804c99faabc26042a1864254af7107dbb5126628a18f3d7",
+          "data": "sha256:c23ddcc8aacfa4742804c99faabc26042a1864254af7107dbb5126628a18f3d7",
           "type": "imageId",
         },
         Object {

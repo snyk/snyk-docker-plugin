@@ -39,7 +39,7 @@ Object {
           "type": "depGraph",
         },
         Object {
-          "data": "bf756fb1ae65adf866bd8c456593cd24beb6a0a061dedf42b26a993176745f6b",
+          "data": "sha256:bf756fb1ae65adf866bd8c456593cd24beb6a0a061dedf42b26a993176745f6b",
           "type": "imageId",
         },
         Object {
@@ -1721,7 +1721,7 @@ Object {
           "type": "depGraph",
         },
         Object {
-          "data": "7f335821efb5e5b95b36541004fa0287732a11f97a4a0ff807cc065746f82538",
+          "data": "sha256:7f335821efb5e5b95b36541004fa0287732a11f97a4a0ff807cc065746f82538",
           "type": "imageId",
         },
         Object {
