@@ -23,7 +23,7 @@ describe("gomodules binaries scanning", () => {
     expect(pluginResult).toMatchSnapshot();
   });
 
-  it("throws an error when a Go binary cannot be parsed", async () => {
+  it("return plugin result when Go binary cannot be parsed do not break layer iterator", async () => {
     const elfParseMock = jest.spyOn(elf, "parse").mockImplementation(() => {
       throw new Error("Cannot read property 'type' of undefined");
     });
@@ -31,13 +31,11 @@ describe("gomodules binaries scanning", () => {
     const fixturePath = getFixture("docker-archives/docker-save/yq.tar");
     const imageNameAndTag = `docker-archive:${fixturePath}`;
 
-    await expect(() =>
-      scan({
-        path: imageNameAndTag,
-        "app-vulns": true,
-      }),
-    ).rejects.toThrow("Error reading tar archive");
-
+    const pluginResult = scan({
+      path: imageNameAndTag,
+      "app-vulns": true,
+    });
+    expect(pluginResult).toMatchSnapshot();
     elfParseMock.mockRestore();
   });
 });

@@ -1,5 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`gomodules binaries scanning return plugin result when Go binary cannot be parsed do not break layer iterator 1`] = `Promise {}`;
+
 exports[`gomodules binaries scanning should return expected result 1`] = `
 Object {
   "scanResults": Array [
@@ -683,3 +685,5 @@ Object {
   ],
 }
 `;
+
+exports[`gomodules binaries scanning throws an error when a Go binary cannot be parsed 1`] = `Promise {}`;
