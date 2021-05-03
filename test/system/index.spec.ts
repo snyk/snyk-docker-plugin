@@ -23,9 +23,9 @@ describe("system tests", () => {
   });
 
   test("inspect an image with an unsupported pkg manager", async () => {
-    const imgName = "archlinux/base@sha256";
+    const imgName = "archlinux/archlinux@sha256";
     const imgTag =
-      "42b6236b8f1b85a3bea6c8055f7e290f503440f722c9b4f82cc04bdcf3bcfcef";
+      "695e7fa35b2ea1846732a6c9f8cebec6c941a54d4aafd15a451062ef8be81bfb";
     const img = imgName + ":" + imgTag;
 
     await subProcess.execute("docker", ["image", "pull", img]);
