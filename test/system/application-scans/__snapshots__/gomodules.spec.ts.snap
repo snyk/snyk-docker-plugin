@@ -685,5 +685,3 @@ Object {
   ],
 }
 `;
-
-exports[`gomodules binaries scanning throws an error when a Go binary cannot be parsed 1`] = `Promise {}`;
