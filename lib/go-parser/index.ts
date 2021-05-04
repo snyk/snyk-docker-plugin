@@ -115,7 +115,9 @@ async function findGoBinaries(
           return resolve();
         }
       } catch (error) {
-        reject(error);
+        // catching exception during elf file parse shouldn't fail the archive iteration
+        // it either we recognize file as binary or not
+        return resolve();
       }
     });
 
