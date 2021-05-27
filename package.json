@@ -39,7 +39,7 @@
     "gunzip-maybe": "^1.4.2",
     "mkdirp": "^1.0.4",
     "semver": "^7.3.4",
-    "snyk-nodejs-lockfile-parser": "1.34.0",
+    "snyk-nodejs-lockfile-parser": "1.35.1",
     "tar-stream": "^2.1.0",
     "tmp": "^0.2.1",
     "tslib": "^1",
