@@ -67,3 +67,8 @@ export interface ImageLabels {
     [key: string]: string;
   };
 }
+
+export interface ImageSizeBytesFact {
+  type: "imageSizeBytes";
+  data: number;
+}
