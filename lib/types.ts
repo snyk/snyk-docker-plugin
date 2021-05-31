@@ -52,7 +52,8 @@ export type FactType =
   // Hashes of extracted *.jar binaries, hashed with sha1 algorithm
   | "jarFingerprints"
   | "autoDetectedUserInstructions"
-  | "imageLabels";
+  | "imageLabels"
+  | "imageSizeBytes";
 
 export interface PluginResponse {
   /** The first result is guaranteed to be the OS dependencies scan result. */
