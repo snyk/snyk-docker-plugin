@@ -89,6 +89,11 @@ async function pullWithDockerBinary(
     ) {
       throw err;
     }
+
+    if (err.stderr && err.stderr.includes("invalid reference format")) {
+      throw new Error(`invalid image format`);
+    }
+
     return pullAndSaveSuccessful;
   }
 }
