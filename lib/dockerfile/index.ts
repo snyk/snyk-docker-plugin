@@ -8,7 +8,11 @@ import {
   instructionDigest,
 } from "./instruction-parser";
 import { updateDockerfileBaseImageName } from "./instruction-updater";
-import { DockerFileAnalysis } from "./types";
+import {
+  DockerFileAnalysis,
+  DockerFileAnalysisErrorCode,
+  DockerFileAnalysisError,
+} from "./types";
 
 export {
   analyseDockerfile,
@@ -38,10 +42,23 @@ async function analyseDockerfile(
   const baseImage = getDockerfileBaseImageName(dockerfile);
   const dockerfilePackages = getPackagesFromDockerfile(dockerfile);
   const dockerfileLayers = getLayersFromPackages(dockerfilePackages);
+
+  let error: DockerFileAnalysisError | undefined = undefined;
+  if (dockerfile.getFROMs().length === 0) {
+    error = {
+      code: DockerFileAnalysisErrorCode.BASE_IMAGE_NAME_NOT_FOUND,
+    };
+  } else if (!baseImage) {
+    error = {
+      code: DockerFileAnalysisErrorCode.BASE_IMAGE_NON_RESOLVABLE,
+    };
+  }
+
   return {
     baseImage,
     dockerfilePackages,
     dockerfileLayers,
+    error,
   };
 }
 

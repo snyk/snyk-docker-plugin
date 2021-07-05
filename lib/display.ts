@@ -10,6 +10,8 @@ import {
   ScanResult,
   TestResult,
 } from "./types";
+import { DockerfileAnalysisFact } from "./facts";
+import { DockerFileAnalysisErrorCode } from "./dockerfile/types";
 
 const BREAK_LINE = os.EOL;
 const SECTION_PADDING_TO_FORMAT_METADATA = 19;
@@ -48,6 +50,12 @@ export async function display(
     const suggestions = formatSuggestions(options);
     if (suggestions) {
       result.push(suggestions);
+      result.push(includeSectionSeparator());
+    }
+
+    const warning = formatWarnings(scanResult);
+    if (warning) {
+      result.push(warning);
       result.push(includeSectionSeparator());
     }
 
@@ -240,6 +248,43 @@ function formatString({ color, bold }: BaseImageRemediationAdvice) {
     formatter = formatter.bold;
   }
   return formatter;
+}
+
+function formatWarnings(scanResult: ScanResult): string {
+  const warnings: string[] = [];
+
+  const dockerfileAnalysis = scanResult.facts.find(
+    (fact) => fact.type === "dockerfileAnalysis",
+  ) as DockerfileAnalysisFact | undefined;
+
+  if (dockerfileAnalysis?.data?.error) {
+    warnings.push(
+      chalk.yellow(
+        "Warning: Unable to analyse Dockerfile provided through `--file`.",
+      ),
+    );
+
+    switch (dockerfileAnalysis.data.error.code) {
+      case DockerFileAnalysisErrorCode.BASE_IMAGE_NAME_NOT_FOUND:
+        warnings.push(
+          chalk.yellow(
+            "         Dockerfile must begin with a FROM instruction. This may be after parser directives, comments, and globally scoped ARGs.",
+          ),
+        );
+        break;
+      case DockerFileAnalysisErrorCode.BASE_IMAGE_NON_RESOLVABLE:
+        warnings.push(
+          chalk.yellow(
+            "         Dockerfile must have default values for all ARG instructions.",
+          ),
+        );
+        break;
+      default:
+        break;
+    }
+  }
+
+  return warnings.join(BREAK_LINE);
 }
 
 function formatSuggestions(options): string {
