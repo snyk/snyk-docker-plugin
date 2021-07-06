@@ -4,6 +4,7 @@ import * as tmp from "tmp";
 import { v4 as uuidv4 } from "uuid";
 
 import { DockerPullResult } from "@snyk/snyk-docker-pull";
+import * as plugin from "../../../lib";
 import * as imageInspector from "../../../lib/analyzer/image-inspector";
 import { ArchiveResult } from "../../../lib/analyzer/types";
 import { Docker } from "../../../lib/docker";
@@ -85,6 +86,17 @@ describe("extractImageDetails", () => {
     expect(imageName).toEqual(expected.imageName);
     expect(tag).toEqual(expected.tag);
   });
+  it("should throw an error if the image name has an invalid format", async () => {
+     const imageNameAndTag = "/test:unknown";
+
+     await expect(() =>
+       plugin.scan({
+         path: imageNameAndTag,
+       }),
+     ).rejects.toEqual(
+       new Error("invalid image format"),
+     );
+   });
 });
 
 describe("getImageArchive", () => {
