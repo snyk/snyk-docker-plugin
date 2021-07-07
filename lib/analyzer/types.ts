@@ -1,5 +1,4 @@
-import { DockerFileAnalysis } from "../dockerfile";
-import { ManifestFile } from "../types";
+import { AutoDetectedUserInstructions, ManifestFile } from "../types";
 import { AppDepsScanResultWithoutTarget } from "./applications/types";
 
 export interface AnalyzedPackage {
@@ -74,7 +73,7 @@ export interface StaticAnalysis {
   binaries: string[];
   imageLayers: string[];
   rootFsLayers?: string[];
-  autoDetectedUserInstructions?: DockerFileAnalysis;
+  autoDetectedUserInstructions?: AutoDetectedUserInstructions;
   applicationDependenciesScanResults: AppDepsScanResultWithoutTarget[];
   manifestFiles: ManifestFile[];
   imageLabels?: { [key: string]: string };

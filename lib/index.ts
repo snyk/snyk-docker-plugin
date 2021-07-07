@@ -10,6 +10,7 @@ import { UpdateDockerfileBaseImageNameErrorCode } from "./dockerfile/types";
 import * as facts from "./facts";
 import { scan } from "./scan";
 import {
+  AutoDetectedUserInstructions,
   ContainerTarget,
   Fact,
   FactType,
@@ -32,6 +33,7 @@ export {
   FactType,
   ManifestFile,
   analyseDockerfile,
+  AutoDetectedUserInstructions,
   DockerFileAnalysis,
   updateDockerfileBaseImageName,
   UpdateDockerfileBaseImageNameErrorCode,
