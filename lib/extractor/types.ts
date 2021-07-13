@@ -1,6 +1,6 @@
 import { Readable } from "stream";
-import { DockerFileAnalysis } from "../dockerfile";
 import { Elf } from "../go-parser/types";
+import { AutoDetectedUserInstructions } from "../types";
 
 export type ExtractCallback = (
   dataStream: Readable,
@@ -16,7 +16,7 @@ export interface ExtractionResult {
   manifestLayers: string[];
   extractedLayers: ExtractedLayers;
   rootFsLayers?: string[];
-  autoDetectedUserInstructions?: DockerFileAnalysis;
+  autoDetectedUserInstructions?: AutoDetectedUserInstructions;
   platform?: string;
   imageLabels?: { [key: string]: string };
 }

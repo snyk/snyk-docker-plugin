@@ -1,6 +1,10 @@
 import { DepGraphData } from "@snyk/dep-graph";
 
-import { DockerFileAnalysis, DockerFilePackages } from "./dockerfile/types";
+import {
+  DockerFileAnalysis,
+  DockerFileLayers,
+  DockerFilePackages,
+} from "./dockerfile/types";
 
 export enum ImageType {
   Identifier, // e.g. "nginx:latest"
@@ -71,6 +75,11 @@ export interface ScanResult {
   identity: Identity;
   /** Facts are the collection of things you found. */
   facts: Fact[];
+}
+
+export interface AutoDetectedUserInstructions {
+  dockerfilePackages: DockerFilePackages;
+  dockerfileLayers: DockerFileLayers;
 }
 
 export interface ContainerTarget {

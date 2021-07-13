@@ -3,7 +3,7 @@ import {
   getLayersFromPackages,
   getPackagesFromRunInstructions,
 } from "../../dockerfile/instruction-parser";
-import { HashAlgorithm } from "../../types";
+import { AutoDetectedUserInstructions, HashAlgorithm } from "../../types";
 
 import { DockerArchiveImageConfig, DockerArchiveManifest } from "../types";
 export { extractArchive } from "./layer";
@@ -45,7 +45,9 @@ export function getPlatformFromConfig(
     : undefined;
 }
 
-export function getDetectedLayersInfoFromConfig(imageConfig) {
+export function getDetectedLayersInfoFromConfig(
+  imageConfig,
+): AutoDetectedUserInstructions {
   const runInstructions = getUserInstructionLayersFromConfig(imageConfig)
     .filter((instruction) => !instruction.empty_layer && instruction.created_by)
     .map((instruction) => instruction.created_by.replace("# buildkit", ""));
