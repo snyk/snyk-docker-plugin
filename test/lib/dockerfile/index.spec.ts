@@ -5,7 +5,7 @@ import {
   updateDockerfileBaseImageName,
 } from "../../../lib/dockerfile";
 import {
-  GetDockerfileBaseImageNameResultErrorCode,
+  DockerFileAnalysisErrorCode,
   UpdateDockerfileBaseImageNameErrorCode,
 } from "../../../lib/dockerfile/types";
 
@@ -23,8 +23,7 @@ describe("base image parsing", () => {
     expect(result.baseImage).toBeUndefined();
     expect(result).toEqual({
       error: {
-        code:
-          GetDockerfileBaseImageNameResultErrorCode.BASE_IMAGE_NAME_NOT_FOUND,
+        code: DockerFileAnalysisErrorCode.BASE_IMAGE_NAME_NOT_FOUND,
       },
     });
   });
@@ -46,8 +45,7 @@ describe("base image parsing", () => {
     expect(result.baseImage).toBeUndefined();
     expect(result).toEqual({
       error: {
-        code:
-          GetDockerfileBaseImageNameResultErrorCode.BASE_IMAGE_NON_RESOLVABLE,
+        code: DockerFileAnalysisErrorCode.BASE_IMAGE_NON_RESOLVABLE,
       },
     });
   });

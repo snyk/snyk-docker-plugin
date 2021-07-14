@@ -2,6 +2,14 @@ export interface DockerFileAnalysis {
   baseImage?: string;
   dockerfilePackages: DockerFilePackages;
   dockerfileLayers: DockerFileLayers;
+  error?: {
+    code: DockerFileAnalysisErrorCode;
+  };
+}
+
+export enum DockerFileAnalysisErrorCode {
+  BASE_IMAGE_NAME_NOT_FOUND = "BASE_IMAGE_NAME_NOT_FOUND",
+  BASE_IMAGE_NON_RESOLVABLE = "BASE_IMAGE_NON_RESOLVABLE",
 }
 
 export interface DockerFilePackages {
@@ -22,12 +30,7 @@ export interface GetDockerfileBaseImageNameResult {
 }
 
 export interface GetDockerfileBaseImageNameResultError {
-  code: GetDockerfileBaseImageNameResultErrorCode;
-}
-
-export enum GetDockerfileBaseImageNameResultErrorCode {
-  BASE_IMAGE_NAME_NOT_FOUND = "BASE_IMAGE_NAME_NOT_FOUND",
-  BASE_IMAGE_NON_RESOLVABLE = "BASE_IMAGE_NON_RESOLVABLE",
+  code: DockerFileAnalysisErrorCode;
 }
 
 export interface UpdateDockerfileBaseImageNameResult {

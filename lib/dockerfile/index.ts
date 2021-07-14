@@ -42,6 +42,7 @@ async function analyseDockerfile(
     baseImage: baseImageResult.baseImage,
     dockerfilePackages,
     dockerfileLayers,
+    error: baseImageResult.error,
   };
 }
 

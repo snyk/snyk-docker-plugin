@@ -1,9 +1,9 @@
 import { Dockerfile, Instruction } from "dockerfile-ast";
 import {
+  DockerFileAnalysisErrorCode,
   DockerFileLayers,
   DockerFilePackages,
   GetDockerfileBaseImageNameResult,
-  GetDockerfileBaseImageNameResultErrorCode,
 } from "./types";
 
 export {
@@ -162,15 +162,14 @@ function getDockerfileBaseImageName(
   if (!froms.length) {
     return {
       error: {
-        code:
-          GetDockerfileBaseImageNameResultErrorCode.BASE_IMAGE_NAME_NOT_FOUND,
+        code: DockerFileAnalysisErrorCode.BASE_IMAGE_NAME_NOT_FOUND,
       },
     };
   }
 
   return {
     error: {
-      code: GetDockerfileBaseImageNameResultErrorCode.BASE_IMAGE_NON_RESOLVABLE,
+      code: DockerFileAnalysisErrorCode.BASE_IMAGE_NON_RESOLVABLE,
     },
   };
 }

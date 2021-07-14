@@ -6,7 +6,10 @@ import {
   DockerFileAnalysis,
   updateDockerfileBaseImageName,
 } from "./dockerfile";
-import { UpdateDockerfileBaseImageNameErrorCode } from "./dockerfile/types";
+import {
+  DockerFileAnalysisErrorCode,
+  UpdateDockerfileBaseImageNameErrorCode,
+} from "./dockerfile/types";
 import * as facts from "./facts";
 import { scan } from "./scan";
 import {
@@ -35,6 +38,7 @@ export {
   analyseDockerfile,
   AutoDetectedUserInstructions,
   DockerFileAnalysis,
+  DockerFileAnalysisErrorCode,
   updateDockerfileBaseImageName,
   UpdateDockerfileBaseImageNameErrorCode,
   Binary,
