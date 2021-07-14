@@ -3,6 +3,7 @@ import {
   DockerFileLayers,
   DockerFilePackages,
   GetDockerfileBaseImageNameResult,
+  GetDockerfileBaseImageNameResultErrorCode,
 } from "./types";
 
 export {
@@ -152,8 +153,25 @@ function getDockerfileBaseImageName(
     { last: undefined, aliases: {} },
   );
 
+  if (stagesNames.last) {
+    return {
+      baseImage: stagesNames.last,
+    };
+  }
+
+  if (!froms.length) {
+    return {
+      error: {
+        code:
+          GetDockerfileBaseImageNameResultErrorCode.BASE_IMAGE_NAME_NOT_FOUND,
+      },
+    };
+  }
+
   return {
-    baseImage: stagesNames.last,
+    error: {
+      code: GetDockerfileBaseImageNameResultErrorCode.BASE_IMAGE_NON_RESOLVABLE,
+    },
   };
 }
 

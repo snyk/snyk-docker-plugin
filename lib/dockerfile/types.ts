@@ -18,6 +18,16 @@ export interface DockerFileLayers {
 
 export interface GetDockerfileBaseImageNameResult {
   baseImage?: string;
+  error?: GetDockerfileBaseImageNameResultError;
+}
+
+export interface GetDockerfileBaseImageNameResultError {
+  code: GetDockerfileBaseImageNameResultErrorCode;
+}
+
+export enum GetDockerfileBaseImageNameResultErrorCode {
+  BASE_IMAGE_NAME_NOT_FOUND = "BASE_IMAGE_NAME_NOT_FOUND",
+  BASE_IMAGE_NON_RESOLVABLE = "BASE_IMAGE_NON_RESOLVABLE",
 }
 
 export interface UpdateDockerfileBaseImageNameResult {

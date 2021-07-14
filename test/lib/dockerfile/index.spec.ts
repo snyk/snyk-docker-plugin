@@ -4,9 +4,31 @@ import {
   getDockerfileBaseImageName,
   updateDockerfileBaseImageName,
 } from "../../../lib/dockerfile";
-import { UpdateDockerfileBaseImageNameErrorCode } from "../../../lib/dockerfile/types";
+import {
+  GetDockerfileBaseImageNameResultErrorCode,
+  UpdateDockerfileBaseImageNameErrorCode,
+} from "../../../lib/dockerfile/types";
 
 describe("base image parsing", () => {
+  it.each`
+    dockerfile
+    ${""}
+    ${"ARG A"}
+    ${"# FROM image:tag"}
+  `("does not detect missing base image: $dockerfile", ({ dockerfile }) => {
+    const result = getDockerfileBaseImageName(
+      DockerfileParser.parse(dockerfile),
+    );
+
+    expect(result.baseImage).toBeUndefined();
+    expect(result).toEqual({
+      error: {
+        code:
+          GetDockerfileBaseImageNameResultErrorCode.BASE_IMAGE_NAME_NOT_FOUND,
+      },
+    });
+  });
+
   it.each`
     dockerfile
     ${"FROM ${A}:${B}"}
@@ -20,7 +42,14 @@ describe("base image parsing", () => {
     const result = getDockerfileBaseImageName(
       DockerfileParser.parse(dockerfile),
     );
+
     expect(result.baseImage).toBeUndefined();
+    expect(result).toEqual({
+      error: {
+        code:
+          GetDockerfileBaseImageNameResultErrorCode.BASE_IMAGE_NON_RESOLVABLE,
+      },
+    });
   });
 
   it.each`
@@ -36,6 +65,7 @@ describe("base image parsing", () => {
       DockerfileParser.parse(dockerfile),
     );
     expect(result.baseImage).toBeDefined();
+    expect(result.error).toBeUndefined();
   });
 });
 
