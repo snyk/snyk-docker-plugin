@@ -1,5 +1,9 @@
 import { Dockerfile, Instruction } from "dockerfile-ast";
-import { DockerFileLayers, DockerFilePackages } from "./types";
+import {
+  DockerFileLayers,
+  DockerFilePackages,
+  GetDockerfileBaseImageNameResult,
+} from "./types";
 
 export {
   getDockerfileBaseImageName,
@@ -117,7 +121,7 @@ function getInstructionExpandVariables(
  */
 function getDockerfileBaseImageName(
   dockerfile: Dockerfile,
-): string | undefined {
+): GetDockerfileBaseImageNameResult {
   const froms = dockerfile.getFROMs();
   // collect stages names
   const stagesNames = froms.reduce(
@@ -147,7 +151,10 @@ function getDockerfileBaseImageName(
     },
     { last: undefined, aliases: {} },
   );
-  return stagesNames.last;
+
+  return {
+    baseImage: stagesNames.last,
+  };
 }
 
 function instructionDigest(instruction): string {

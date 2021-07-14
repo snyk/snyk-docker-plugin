@@ -19,7 +19,7 @@ function updateDockerfileBaseImageName(
 ): UpdateDockerfileBaseImageNameResult {
   const dockerfile = DockerfileParser.parse(contents);
 
-  const currentBaseImageName = getDockerfileBaseImageName(dockerfile);
+  const currentBaseImageName = getDockerfileBaseImageName(dockerfile).baseImage;
 
   if (currentBaseImageName === undefined) {
     return {

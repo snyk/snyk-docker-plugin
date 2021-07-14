@@ -17,9 +17,10 @@ describe("base image parsing", () => {
     ${"ARG B" + EOL + "FROM alpine:${B}"}
     ${"ARG A" + EOL + "ARG B" + EOL + "FROM ${A}:${B} AS image"}
   `("does not detect injected base image: $dockerfile", ({ dockerfile }) => {
-    expect(
-      getDockerfileBaseImageName(DockerfileParser.parse(dockerfile)),
-    ).toBeUndefined();
+    const result = getDockerfileBaseImageName(
+      DockerfileParser.parse(dockerfile),
+    );
+    expect(result.baseImage).toBeUndefined();
   });
 
   it.each`
@@ -31,9 +32,10 @@ describe("base image parsing", () => {
     ${"FROM image@sha256:abcd"}
     ${"FROM image@sha256:abcd AS foo"}
   `("detects base image: $dockerfile", ({ dockerfile }) => {
-    expect(
-      getDockerfileBaseImageName(DockerfileParser.parse(dockerfile)),
-    ).toBeDefined();
+    const result = getDockerfileBaseImageName(
+      DockerfileParser.parse(dockerfile),
+    );
+    expect(result.baseImage).toBeDefined();
   });
 });
 

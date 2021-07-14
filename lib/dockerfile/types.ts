@@ -16,6 +16,10 @@ export interface DockerFileLayers {
   };
 }
 
+export interface GetDockerfileBaseImageNameResult {
+  baseImage?: string;
+}
+
 export interface UpdateDockerfileBaseImageNameResult {
   contents: string;
   error?: UpdateDockerfileBaseImageNameError;
