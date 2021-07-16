@@ -19,9 +19,9 @@ function updateDockerfileBaseImageName(
 ): UpdateDockerfileBaseImageNameResult {
   const dockerfile = DockerfileParser.parse(contents);
 
-  const currentBaseImageName = getDockerfileBaseImageName(dockerfile);
+  const result = getDockerfileBaseImageName(dockerfile);
 
-  if (currentBaseImageName === undefined) {
+  if (result.error) {
     return {
       contents,
       error: {
@@ -29,6 +29,8 @@ function updateDockerfileBaseImageName(
       },
     };
   }
+
+  const currentBaseImageName = result.baseImage;
 
   const fromRanges = dockerfile
     .getFROMs()

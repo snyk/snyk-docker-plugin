@@ -2506,6 +2506,7 @@ Object {
                 "instruction": "RUN yum install -y \\"nodejs-10.15.3-1nodesource\\" yarn make gcc-c++ && yum clean all",
               },
             },
+            "error": undefined,
           },
           "type": "dockerfileAnalysis",
         },

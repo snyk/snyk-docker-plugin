@@ -4,9 +4,30 @@ import {
   getDockerfileBaseImageName,
   updateDockerfileBaseImageName,
 } from "../../../lib/dockerfile";
-import { UpdateDockerfileBaseImageNameErrorCode } from "../../../lib/dockerfile/types";
+import {
+  DockerFileAnalysisErrorCode,
+  UpdateDockerfileBaseImageNameErrorCode,
+} from "../../../lib/dockerfile/types";
 
 describe("base image parsing", () => {
+  it.each`
+    dockerfile
+    ${""}
+    ${"ARG A"}
+    ${"# FROM image:tag"}
+  `("does not detect missing base image: $dockerfile", ({ dockerfile }) => {
+    const result = getDockerfileBaseImageName(
+      DockerfileParser.parse(dockerfile),
+    );
+
+    expect(result.baseImage).toBeUndefined();
+    expect(result).toEqual({
+      error: {
+        code: DockerFileAnalysisErrorCode.BASE_IMAGE_NAME_NOT_FOUND,
+      },
+    });
+  });
+
   it.each`
     dockerfile
     ${"FROM ${A}:${B}"}
@@ -17,9 +38,16 @@ describe("base image parsing", () => {
     ${"ARG B" + EOL + "FROM alpine:${B}"}
     ${"ARG A" + EOL + "ARG B" + EOL + "FROM ${A}:${B} AS image"}
   `("does not detect injected base image: $dockerfile", ({ dockerfile }) => {
-    expect(
-      getDockerfileBaseImageName(DockerfileParser.parse(dockerfile)),
-    ).toBeUndefined();
+    const result = getDockerfileBaseImageName(
+      DockerfileParser.parse(dockerfile),
+    );
+
+    expect(result.baseImage).toBeUndefined();
+    expect(result).toEqual({
+      error: {
+        code: DockerFileAnalysisErrorCode.BASE_IMAGE_NON_RESOLVABLE,
+      },
+    });
   });
 
   it.each`
@@ -31,9 +59,11 @@ describe("base image parsing", () => {
     ${"FROM image@sha256:abcd"}
     ${"FROM image@sha256:abcd AS foo"}
   `("detects base image: $dockerfile", ({ dockerfile }) => {
-    expect(
-      getDockerfileBaseImageName(DockerfileParser.parse(dockerfile)),
-    ).toBeDefined();
+    const result = getDockerfileBaseImageName(
+      DockerfileParser.parse(dockerfile),
+    );
+    expect(result.baseImage).toBeDefined();
+    expect(result.error).toBeUndefined();
   });
 });
 

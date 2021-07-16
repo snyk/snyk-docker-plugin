@@ -35,13 +35,14 @@ async function analyseDockerfile(
   contents: string,
 ): Promise<DockerFileAnalysis> {
   const dockerfile = DockerfileParser.parse(contents);
-  const baseImage = getDockerfileBaseImageName(dockerfile);
+  const baseImageResult = getDockerfileBaseImageName(dockerfile);
   const dockerfilePackages = getPackagesFromDockerfile(dockerfile);
   const dockerfileLayers = getLayersFromPackages(dockerfilePackages);
   return {
-    baseImage,
+    baseImage: baseImageResult.baseImage,
     dockerfilePackages,
     dockerfileLayers,
+    error: baseImageResult.error,
   };
 }
 

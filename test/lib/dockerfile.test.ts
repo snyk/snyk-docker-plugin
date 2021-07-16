@@ -31,6 +31,7 @@ test("Analyses dockerfiles", async (t) => {
         baseImage: "ubuntu:bionic",
         dockerfilePackages: {},
         dockerfileLayers: {},
+        error: undefined,
       },
     },
     {
@@ -48,6 +49,7 @@ test("Analyses dockerfiles", async (t) => {
             instruction: "RUN apk --no-cache add ca-certificates",
           },
         },
+        error: undefined,
       },
     },
     {
@@ -65,6 +67,7 @@ test("Analyses dockerfiles", async (t) => {
             instruction: "RUN apk --no-cache add ca-certificates",
           },
         },
+        error: undefined,
       },
     },
     {
@@ -74,6 +77,7 @@ test("Analyses dockerfiles", async (t) => {
         baseImage: "node:6-slim",
         dockerfilePackages: {},
         dockerfileLayers: {},
+        error: undefined,
       },
     },
     {
@@ -83,6 +87,7 @@ test("Analyses dockerfiles", async (t) => {
         baseImage: "scratch",
         dockerfilePackages: {},
         dockerfileLayers: {},
+        error: undefined,
       },
     },
     {
@@ -92,6 +97,9 @@ test("Analyses dockerfiles", async (t) => {
         baseImage: null,
         dockerfilePackages: {},
         dockerfileLayers: {},
+        error: {
+          code: "BASE_IMAGE_NAME_NOT_FOUND",
+        },
       },
     },
     {
@@ -101,6 +109,9 @@ test("Analyses dockerfiles", async (t) => {
         baseImage: null,
         dockerfilePackages: {},
         dockerfileLayers: {},
+        error: {
+          code: "BASE_IMAGE_NAME_NOT_FOUND",
+        },
       },
     },
     {
@@ -110,6 +121,7 @@ test("Analyses dockerfiles", async (t) => {
         baseImage: "node:dubnium",
         dockerfilePackages: {},
         dockerfileLayers: {},
+        error: undefined,
       },
     },
     {
@@ -119,6 +131,7 @@ test("Analyses dockerfiles", async (t) => {
         baseImage: "node:dubnium",
         dockerfilePackages: {},
         dockerfileLayers: {},
+        error: undefined,
       },
     },
     {
@@ -128,6 +141,7 @@ test("Analyses dockerfiles", async (t) => {
         baseImage: "test:test-1",
         dockerfilePackages: {},
         dockerfileLayers: {},
+        error: undefined,
       },
     },
     {
@@ -151,6 +165,7 @@ test("Analyses dockerfiles", async (t) => {
               "RUN apk update && apk upgrade && apk add --update --no-cache nodejs bash",
           },
         },
+        error: undefined,
       },
     },
     {
@@ -168,6 +183,7 @@ test("Analyses dockerfiles", async (t) => {
             instruction: "RUN apt-get install curl",
           },
         },
+        error: undefined,
       },
     },
     {
@@ -185,6 +201,7 @@ test("Analyses dockerfiles", async (t) => {
             instruction: "RUN apk --no-cache add ca-certificates",
           },
         },
+        error: undefined,
       },
     },
   ];

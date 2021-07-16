@@ -1,5 +1,10 @@
 import { Dockerfile, Instruction } from "dockerfile-ast";
-import { DockerFileLayers, DockerFilePackages } from "./types";
+import {
+  DockerFileAnalysisErrorCode,
+  DockerFileLayers,
+  DockerFilePackages,
+  GetDockerfileBaseImageNameResult,
+} from "./types";
 
 export {
   getDockerfileBaseImageName,
@@ -117,7 +122,7 @@ function getInstructionExpandVariables(
  */
 function getDockerfileBaseImageName(
   dockerfile: Dockerfile,
-): string | undefined {
+): GetDockerfileBaseImageNameResult {
   const froms = dockerfile.getFROMs();
   // collect stages names
   const stagesNames = froms.reduce(
@@ -147,7 +152,26 @@ function getDockerfileBaseImageName(
     },
     { last: undefined, aliases: {} },
   );
-  return stagesNames.last;
+
+  if (stagesNames.last) {
+    return {
+      baseImage: stagesNames.last,
+    };
+  }
+
+  if (!froms.length) {
+    return {
+      error: {
+        code: DockerFileAnalysisErrorCode.BASE_IMAGE_NAME_NOT_FOUND,
+      },
+    };
+  }
+
+  return {
+    error: {
+      code: DockerFileAnalysisErrorCode.BASE_IMAGE_NON_RESOLVABLE,
+    },
+  };
 }
 
 function instructionDigest(instruction): string {
