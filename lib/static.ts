@@ -1,5 +1,12 @@
+import { DepGraph } from "@snyk/dep-graph";
 import * as analyzer from "./analyzer";
-import { StaticAnalysis } from "./analyzer/types";
+import {
+  AnalyzedPackage,
+  Binary,
+  OSRelease,
+  StaticAnalysis,
+} from "./analyzer/types";
+import { buildGraph, pruneDepGraphIfTooManyPaths } from "./dependency-graph";
 import { buildTree } from "./dependency-tree";
 import { DockerFileAnalysis } from "./dockerfile/types";
 import { parseAnalysisResults } from "./parser";
@@ -24,10 +31,14 @@ export async function analyzeStatically(
     appScan,
   );
 
-  const parsedAnalysisResult = parseAnalysisResults(
-    targetImage,
-    staticAnalysis,
-  );
+  const parsedAnalysisResult: {
+    imageId: string;
+    platform: string | undefined;
+    targetOS: OSRelease;
+    type: any;
+    depInfosList: AnalyzedPackage[] | Binary[];
+    imageLayers: string[];
+  } = parseAnalysisResults(targetImage, staticAnalysis);
 
   /** @deprecated Should try to build a dependency graph instead. */
   const dependenciesTree = await buildTree(
@@ -37,12 +48,30 @@ export async function analyzeStatically(
     parsedAnalysisResult.targetOS,
   );
 
+  const depGraph = await buildGraph(
+    targetImage,
+    parsedAnalysisResult.targetOS,
+    parsedAnalysisResult.type,
+    parsedAnalysisResult.depInfosList,
+  );
+
+  const prunedGraph = await pruneDepGraphIfTooManyPaths(
+    depGraph,
+    parsedAnalysisResult.type,
+  );
+  // const depGraphData = prunedGraph?.toJSON() ?? depGraph.toJSON();
+  // const json = JSON.stringify(depGraphData);
+  // console.log(json);
+  // console.log("***************");
+
   const analysis: StaticAnalysis & {
     depTree: DepTree;
+    depGraph: DepGraph;
     packageManager: string;
   } = {
     ...staticAnalysis,
     depTree: dependenciesTree,
+    depGraph: prunedGraph ?? depGraph,
     imageId: parsedAnalysisResult.imageId,
     imageLayers: parsedAnalysisResult.imageLayers,
     packageManager: parsedAnalysisResult.type,

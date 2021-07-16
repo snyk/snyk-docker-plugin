@@ -16,7 +16,7 @@ function parseOutput(output: string) {
   for (const line of output.split("\n")) {
     parseLine(line, pkgs);
   }
-  return pkgs;
+  return pkgs.filter((pkg) => pkg.Name.includes("node"));
 }
 
 function parseLine(text: string, pkgs: AnalyzedPackage[]) {

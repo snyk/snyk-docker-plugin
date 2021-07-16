@@ -1,4 +1,4 @@
-import { legacy } from "@snyk/dep-graph";
+import { DepGraph } from "@snyk/dep-graph";
 import { StaticAnalysis } from "./analyzer/types";
 import * as facts from "./facts";
 // Module that provides functions to collect and build response after all
@@ -7,12 +7,14 @@ import * as facts from "./facts";
 import { instructionDigest } from "./dockerfile";
 import { DockerFileAnalysis, DockerFilePackages } from "./dockerfile/types";
 import * as types from "./types";
+import { DepTree } from "./types";
 
 export { buildResponse };
 
 async function buildResponse(
   depsAnalysis: StaticAnalysis & {
-    depTree: types.DepTree;
+    depTree: DepTree;
+    depGraph: DepGraph;
     packageManager: string;
   },
   dockerfileAnalysis: DockerFileAnalysis | undefined,
@@ -29,10 +31,13 @@ async function buildResponse(
   annotateLayerIds(finalDeps, dockerfilePkgs);
 
   /** This must be called after all final changes to the DependencyTree. */
-  const depGraph = await legacy.depTreeToGraph(
-    depsAnalysis.depTree,
-    depsAnalysis.packageManager,
-  );
+  // const depGraphFromTree = await legacy.depTreeToGraph(
+  //   depsAnalysis.depTree,
+  //   depsAnalysis.packageManager,
+  // );
+  // const depGraphData = depGraphFromTree?.toJSON();
+  // const json = JSON.stringify(depGraphData);
+  // console.log(json);
 
   const additionalOsDepsFacts: types.Fact[] = [];
 
@@ -139,7 +144,7 @@ async function buildResponse(
   ).map((appDepsScanResult) => ({
     ...appDepsScanResult,
     target: {
-      image: depGraph.rootPkg.name,
+      image: depsAnalysis.depGraph.rootPkg.name,
     },
   }));
 
@@ -150,16 +155,16 @@ async function buildResponse(
 
   const depGraphFact: facts.DepGraphFact = {
     type: "depGraph",
-    data: depGraph,
+    data: depsAnalysis.depGraph,
   };
   const scanResults: types.ScanResult[] = [
     {
       facts: [depGraphFact, ...additionalOsDepsFacts],
       target: {
-        image: depGraph.rootPkg.name,
+        image: depsAnalysis.depGraph.rootPkg.name,
       },
       identity: {
-        type: depGraph.pkgManager.name,
+        type: depsAnalysis.depGraph.pkgManager.name,
         args,
       },
     },

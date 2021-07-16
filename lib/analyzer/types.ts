@@ -77,6 +77,7 @@ export interface StaticAnalysis {
   applicationDependenciesScanResults: AppDepsScanResultWithoutTarget[];
   manifestFiles: ManifestFile[];
   imageLabels?: { [key: string]: string };
+  packageManager?: string;
 }
 
 export interface ArchiveResult {

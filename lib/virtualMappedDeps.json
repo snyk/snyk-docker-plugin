@@ -1,0 +1,168 @@
+{
+  "so:libc.musl-x86_64.so.1": {
+    "Name": "musl",
+    "Version": "1.1.18-r3",
+    "Source": "musl",
+    "Provides": ["so:libc.musl-x86_64.so.1"],
+    "Deps": {},
+    "_visited": true
+  },
+  "/bin/sh": {
+    "Name": "busybox",
+    "Version": "1.27.2-r11",
+    "Source": "busybox",
+    "Provides": ["/bin/sh", "cmd:busybox", "cmd:sh"],
+    "Deps": { "so:libc.musl-x86_64.so.1": true },
+    "_visited": true
+  },
+  "cmd:busybox": {
+    "Name": "busybox",
+    "Version": "1.27.2-r11",
+    "Source": "busybox",
+    "Provides": ["/bin/sh", "cmd:busybox", "cmd:sh"],
+    "Deps": { "so:libc.musl-x86_64.so.1": true },
+    "_visited": true
+  },
+  "cmd:sh": {
+    "Name": "busybox",
+    "Version": "1.27.2-r11",
+    "Source": "busybox",
+    "Provides": ["/bin/sh", "cmd:busybox", "cmd:sh"],
+    "Deps": { "so:libc.musl-x86_64.so.1": true },
+    "_visited": true
+  },
+  "cmd:mkmntdirs": {
+    "Name": "alpine-baselayout",
+    "Version": "3.0.5-r2",
+    "Source": "alpine-baselayout",
+    "Provides": ["cmd:mkmntdirs"],
+    "Deps": { "/bin/sh": true, "so:libc.musl-x86_64.so.1": true },
+    "_visited": true
+  },
+  "so:libcrypto.so.42": {
+    "Name": "libressl2.6-libcrypto",
+    "Version": "2.6.5-r0",
+    "Source": "libressl",
+    "Provides": ["so:libcrypto.so.42"],
+    "Deps": { "so:libc.musl-x86_64.so.1": true, "openssl": true },
+    "_visited": true
+  },
+  "so:libssl.so.44": {
+    "Name": "libressl2.6-libssl",
+    "Version": "2.6.5-r0",
+    "Source": "libressl",
+    "Provides": ["so:libssl.so.44"],
+    "Deps": {
+      "so:libc.musl-x86_64.so.1": true,
+      "so:libcrypto.so.42": true,
+      "openssl": true
+    },
+    "_visited": true
+  },
+  "so:libtls.so.16": {
+    "Name": "libressl2.6-libtls",
+    "Version": "2.6.5-r0",
+    "Source": "libressl",
+    "Provides": ["so:libtls.so.16"],
+    "Deps": {
+      "so:libc.musl-x86_64.so.1": true,
+      "so:libcrypto.so.42": true,
+      "so:libssl.so.44": true,
+      "openssl": true
+    },
+    "_visited": true
+  },
+  "cmd:ssl_client": {
+    "Name": "ssl_client",
+    "Version": "1.27.2-r11",
+    "Source": "busybox",
+    "Provides": ["cmd:ssl_client"],
+    "Deps": { "so:libc.musl-x86_64.so.1": true, "so:libtls.so.16": true },
+    "_visited": true
+  },
+  "so:libz.so.1": {
+    "Name": "zlib",
+    "Version": "1.2.11-r1",
+    "Source": "zlib",
+    "Provides": ["so:libz.so.1"],
+    "Deps": { "so:libc.musl-x86_64.so.1": true },
+    "_visited": true
+  },
+  "cmd:apk": {
+    "Name": "apk-tools",
+    "Version": "2.10.1-r0",
+    "Source": "apk-tools",
+    "Provides": ["cmd:apk"],
+    "Deps": {
+      "so:libc.musl-x86_64.so.1": true,
+      "so:libcrypto.so.42": true,
+      "so:libssl.so.44": true,
+      "so:libz.so.1": true
+    },
+    "_visited": true
+  },
+  "cmd:scanelf": {
+    "Name": "scanelf",
+    "Version": "1.2.2-r1",
+    "Source": "pax-utils",
+    "Provides": ["cmd:scanelf"],
+    "Deps": { "so:libc.musl-x86_64.so.1": true, "pax-utils": true },
+    "_visited": true
+  },
+  "cmd:getconf": {
+    "Name": "musl-utils",
+    "Version": "1.1.18-r3",
+    "Source": "musl",
+    "Provides": ["cmd:getconf", "cmd:getent", "cmd:iconv", "cmd:ldconfig"],
+    "Deps": {
+      "scanelf": true,
+      "musl": true,
+      "so:libc.musl-x86_64.so.1": true,
+      "libiconv": true,
+      "uclibc-utils": true
+    },
+    "_visited": true
+  },
+  "cmd:getent": {
+    "Name": "musl-utils",
+    "Version": "1.1.18-r3",
+    "Source": "musl",
+    "Provides": ["cmd:getconf", "cmd:getent", "cmd:iconv", "cmd:ldconfig"],
+    "Deps": {
+      "scanelf": true,
+      "musl": true,
+      "so:libc.musl-x86_64.so.1": true,
+      "libiconv": true,
+      "uclibc-utils": true
+    },
+    "_visited": true
+  },
+  "cmd:iconv": {
+    "Name": "musl-utils",
+    "Version": "1.1.18-r3",
+    "Source": "musl",
+    "Provides": ["cmd:getconf", "cmd:getent", "cmd:iconv", "cmd:ldconfig"],
+    "Deps": {
+      "scanelf": true,
+      "musl": true,
+      "so:libc.musl-x86_64.so.1": true,
+      "libiconv": true,
+      "uclibc-utils": true
+    },
+    "_visited": true
+  },
+  "cmd:ldconfig": {
+    "Name": "musl-utils",
+    "Version": "1.1.18-r3",
+    "Source": "musl",
+    "Provides": ["cmd:getconf", "cmd:getent", "cmd:iconv", "cmd:ldconfig"],
+    "Deps": {
+      "scanelf": true,
+      "musl": true,
+      "so:libc.musl-x86_64.so.1": true,
+      "libiconv": true,
+      "uclibc-utils": true
+    },
+    "_visited": true
+  }
+}

@@ -1,0 +1,184 @@
+{
+  "schemaVersion": "1.2.0",
+  "pkgManager": {
+    "name": "apk",
+    "repositories": [{ "alias": "alpine:3.7.3" }]
+  },
+  "pkgs": [
+    {
+      "id": "docker-image|agatakrajewskasnyk/small-alpine@latest",
+      "info": {
+        "name": "docker-image|agatakrajewskasnyk/small-alpine",
+        "version": "latest"
+      }
+    },
+    {
+      "id": "musl/musl@1.1.18-r3",
+      "info": { "name": "musl/musl", "version": "1.1.18-r3" }
+    },
+    {
+      "id": "busybox/busybox@1.27.2-r11",
+      "info": { "name": "busybox/busybox", "version": "1.27.2-r11" }
+    },
+    {
+      "id": "alpine-baselayout/alpine-baselayout@3.0.5-r2",
+      "info": {
+        "name": "alpine-baselayout/alpine-baselayout",
+        "version": "3.0.5-r2"
+      }
+    },
+    {
+      "id": "alpine-keys/alpine-keys@2.1-r1",
+      "info": { "name": "alpine-keys/alpine-keys", "version": "2.1-r1" }
+    },
+    {
+      "id": "libressl/libressl2.6-libcrypto@2.6.5-r0",
+      "info": {
+        "name": "libressl/libressl2.6-libcrypto",
+        "version": "2.6.5-r0"
+      }
+    },
+    {
+      "id": "libressl/libressl2.6-libssl@2.6.5-r0",
+      "info": { "name": "libressl/libressl2.6-libssl", "version": "2.6.5-r0" }
+    },
+    {
+      "id": "libressl/libressl2.6-libtls@2.6.5-r0",
+      "info": { "name": "libressl/libressl2.6-libtls", "version": "2.6.5-r0" }
+    },
+    {
+      "id": "busybox/ssl_client@1.27.2-r11",
+      "info": { "name": "busybox/ssl_client", "version": "1.27.2-r11" }
+    },
+    {
+      "id": "zlib/zlib@1.2.11-r1",
+      "info": { "name": "zlib/zlib", "version": "1.2.11-r1" }
+    },
+    {
+      "id": "apk-tools/apk-tools@2.10.1-r0",
+      "info": { "name": "apk-tools/apk-tools", "version": "2.10.1-r0" }
+    },
+    {
+      "id": "pax-utils/scanelf@1.2.2-r1",
+      "info": { "name": "pax-utils/scanelf", "version": "1.2.2-r1" }
+    },
+    {
+      "id": "musl/musl-utils@1.1.18-r3",
+      "info": { "name": "musl/musl-utils", "version": "1.1.18-r3" }
+    },
+    {
+      "id": "libc-dev/libc-utils@0.7.1-r0",
+      "info": { "name": "libc-dev/libc-utils", "version": "0.7.1-r0" }
+    }
+  ],
+  "graph": {
+    "rootNodeId": "root-node",
+    "nodes": [
+      {
+        "nodeId": "root-node",
+        "pkgId": "docker-image|agatakrajewskasnyk/small-alpine@latest",
+        "deps": [
+          { "nodeId": "musl/musl@1.1.18-r3" },
+          { "nodeId": "busybox/busybox@1.27.2-r11" },
+          { "nodeId": "alpine-baselayout/alpine-baselayout@3.0.5-r2" },
+          { "nodeId": "alpine-keys/alpine-keys@2.1-r1" },
+          { "nodeId": "libressl/libressl2.6-libcrypto@2.6.5-r0" },
+          { "nodeId": "libressl/libressl2.6-libssl@2.6.5-r0" },
+          { "nodeId": "libressl/libressl2.6-libtls@2.6.5-r0" },
+          { "nodeId": "busybox/ssl_client@1.27.2-r11" },
+          { "nodeId": "zlib/zlib@1.2.11-r1" },
+          { "nodeId": "apk-tools/apk-tools@2.10.1-r0" },
+          { "nodeId": "pax-utils/scanelf@1.2.2-r1" },
+          { "nodeId": "musl/musl-utils@1.1.18-r3" },
+          { "nodeId": "libc-dev/libc-utils@0.7.1-r0" }
+        ]
+      },
+      {
+        "nodeId": "musl/musl@1.1.18-r3",
+        "pkgId": "musl/musl@1.1.18-r3",
+        "deps": []
+      },
+      {
+        "nodeId": "busybox/busybox@1.27.2-r11",
+        "pkgId": "busybox/busybox@1.27.2-r11",
+        "deps": [{ "nodeId": "musl/musl@1.1.18-r3" }]
+      },
+      {
+        "nodeId": "alpine-baselayout/alpine-baselayout@3.0.5-r2",
+        "pkgId": "alpine-baselayout/alpine-baselayout@3.0.5-r2",
+        "deps": [
+          { "nodeId": "busybox/busybox@1.27.2-r11" },
+          { "nodeId": "musl/musl@1.1.18-r3" }
+        ]
+      },
+      {
+        "nodeId": "alpine-keys/alpine-keys@2.1-r1",
+        "pkgId": "alpine-keys/alpine-keys@2.1-r1",
+        "deps": []
+      },
+      {
+        "nodeId": "libressl/libressl2.6-libcrypto@2.6.5-r0",
+        "pkgId": "libressl/libressl2.6-libcrypto@2.6.5-r0",
+        "deps": [{ "nodeId": "musl/musl@1.1.18-r3" }]
+      },
+      {
+        "nodeId": "libressl/libressl2.6-libssl@2.6.5-r0",
+        "pkgId": "libressl/libressl2.6-libssl@2.6.5-r0",
+        "deps": [
+          { "nodeId": "musl/musl@1.1.18-r3" },
+          { "nodeId": "libressl/libressl2.6-libcrypto@2.6.5-r0" }
+        ]
+      },
+      {
+        "nodeId": "libressl/libressl2.6-libtls@2.6.5-r0",
+        "pkgId": "libressl/libressl2.6-libtls@2.6.5-r0",
+        "deps": [
+          { "nodeId": "musl/musl@1.1.18-r3" },
+          { "nodeId": "libressl/libressl2.6-libcrypto@2.6.5-r0" },
+          { "nodeId": "libressl/libressl2.6-libssl@2.6.5-r0" }
+        ]
+      },
+      {
+        "nodeId": "busybox/ssl_client@1.27.2-r11",
+        "pkgId": "busybox/ssl_client@1.27.2-r11",
+        "deps": [
+          { "nodeId": "musl/musl@1.1.18-r3" },
+          { "nodeId": "libressl/libressl2.6-libtls@2.6.5-r0" }
+        ]
+      },
+      {
+        "nodeId": "zlib/zlib@1.2.11-r1",
+        "pkgId": "zlib/zlib@1.2.11-r1",
+        "deps": [{ "nodeId": "musl/musl@1.1.18-r3" }]
+      },
+      {
+        "nodeId": "apk-tools/apk-tools@2.10.1-r0",
+        "pkgId": "apk-tools/apk-tools@2.10.1-r0",
+        "deps": [
+          { "nodeId": "musl/musl@1.1.18-r3" },
+          { "nodeId": "libressl/libressl2.6-libcrypto@2.6.5-r0" },
+          { "nodeId": "libressl/libressl2.6-libssl@2.6.5-r0" },
+          { "nodeId": "zlib/zlib@1.2.11-r1" }
+        ]
+      },
+      {
+        "nodeId": "pax-utils/scanelf@1.2.2-r1",
+        "pkgId": "pax-utils/scanelf@1.2.2-r1",
+        "deps": [{ "nodeId": "musl/musl@1.1.18-r3" }]
+      },
+      {
+        "nodeId": "musl/musl-utils@1.1.18-r3",
+        "pkgId": "musl/musl-utils@1.1.18-r3",
+        "deps": [
+          { "nodeId": "pax-utils/scanelf@1.2.2-r1" },
+          { "nodeId": "musl/musl@1.1.18-r3" }
+        ]
+      },
+      {
+        "nodeId": "libc-dev/libc-utils@0.7.1-r0",
+        "pkgId": "libc-dev/libc-utils@0.7.1-r0",
+        "deps": [{ "nodeId": "musl/musl-utils@1.1.18-r3" }]
+      }
+    ]
+  }
+}
