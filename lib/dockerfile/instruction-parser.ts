@@ -97,22 +97,29 @@ function getInstructionExpandVariables(
   text?: string,
 ): string {
   let str = text || instruction.toString();
-  const variables = instruction.getVariables();
-  const resolvedVariables = variables.reduce((resolvedVars, variable) => {
+  const resolvedVariables = {};
+
+  for (const variable of instruction.getVariables()) {
     const line = variable.getRange().start.line;
     const name = variable.getName();
-    resolvedVars[name] = dockerfile.resolveVariable(name, line);
-    return resolvedVars;
-  }, {});
+    resolvedVariables[name] = dockerfile.resolveVariable(name, line);
+  }
+
   for (const variable of Object.keys(resolvedVariables)) {
+    if (!resolvedVariables[variable]) {
+      str = "";
+      break;
+    }
+
     // The $ is a special regexp character that should be escaped with a backslash
     // Support both notations either with $variable_name or ${variable_name}
     // The global search "g" flag is used to match and replace all occurrences
     str = str.replace(
       RegExp(`\\$\{${variable}\}|\\$${variable}`, "g"),
-      resolvedVariables[variable] || "",
+      resolvedVariables[variable],
     );
   }
+
   return str;
 }
 
