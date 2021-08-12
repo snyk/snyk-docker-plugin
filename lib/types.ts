@@ -28,6 +28,11 @@ export enum HashAlgorithm {
   Sha1 = "sha1",
 }
 
+export enum UnresolvedDockerfileVariableHandling {
+  Abort = "Abort",
+  Continue = "Continue",
+}
+
 export interface ManifestFile {
   name: string;
   path: string;

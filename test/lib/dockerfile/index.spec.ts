@@ -33,6 +33,8 @@ describe("base image parsing", () => {
     ${"FROM ${A}:${B}"}
     ${"FROM ${A}@${B}"}
     ${"FROM image@${B}"}
+    ${"FROM ${DOCKER_BASE_REGISTRY}/image"}
+    ${"FROM ${DOCKER_BASE_REGISTRY}/image:tag"}
     ${"ARG A" + EOL + "ARG B" + EOL + "FROM ${A}:${B}"}
     ${"ARG A" + EOL + "FROM ${A}:tag"}
     ${"ARG B" + EOL + "FROM alpine:${B}"}
@@ -141,7 +143,7 @@ describe("base image updating", () => {
     it.each`
       scenario                                          | content
       ${"${REPO}:${TAG}"}                               | ${"ARG REPO=repo" + EOL + "ARG TAG=tag" + EOL + "FROM ${REPO}:${TAG}"}
-      ${"${REPO}:${MAJOR}.${MINOR}.${PATCH}-${FLAVOR}"} | ${"ARG REPO=repo" + EOL + "ARG MAJOR=1" + EOL + "ARG MINOR=0" + EOL + "ARG PATCH=0" + EOL + "ARG FLAVOR=slim" + EOL + "FROM ${REPO}:${MAJOR}.${MINOR}.${PATCH}-${SLIM}"}
+      ${"${REPO}:${MAJOR}.${MINOR}.${PATCH}-${FLAVOR}"} | ${"ARG REPO=repo" + EOL + "ARG MAJOR=1" + EOL + "ARG MINOR=0" + EOL + "ARG PATCH=0" + EOL + "ARG FLAVOR=slim" + EOL + "FROM ${REPO}:${MAJOR}.${MINOR}.${PATCH}-${FLAVOR}"}
     `("does not update: $scenario", ({ content }) => {
       const result = updateDockerfileBaseImageName(content, "image:tag0");
       expect(result.error.code).toBe(
