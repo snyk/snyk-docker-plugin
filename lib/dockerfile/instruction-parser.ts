@@ -117,6 +117,46 @@ function getInstructionExpandVariables(
 }
 
 /**
+ * Return the specified text with variables expanded
+ * @param instruction the instruction associated with this string
+ * @param dockerfile Dockerfile to use for expanding the variables
+ * @param text a string with variables to expand, if not specified
+ *  the instruction text is used
+ */
+// @ts-ignore
+function getInstructionExpandVariablesNew(
+  instruction: Instruction,
+  dockerfile: Dockerfile,
+  text?: string,
+): string {
+  let str = text || instruction.toString();
+  const resolvedVariables = {};
+
+  for (const variable of instruction.getVariables()) {
+    const line = variable.getRange().start.line;
+    const name = variable.getName();
+    resolvedVariables[name] = dockerfile.resolveVariable(name, line);
+  }
+
+  for (const variable of Object.keys(resolvedVariables)) {
+    if (!resolvedVariables[variable]) {
+      str = "";
+      break;
+    }
+
+    // The $ is a special regexp character that should be escaped with a backslash
+    // Support both notations either with $variable_name or ${variable_name}
+    // The global search "g" flag is used to match and replace all occurrences
+    str = str.replace(
+      RegExp(`\\$\{${variable}\}|\\$${variable}`, "g"),
+      resolvedVariables[variable],
+    );
+  }
+
+  return str;
+}
+
+/**
  * Return the image name of the last from stage, after resolving all aliases
  * @param dockerfile Dockerfile to use for retrieving the last stage image name
  */
@@ -130,7 +170,7 @@ function getDockerfileBaseImageName(
       const fromName = fromInstruction.getImage() as string;
       const args = fromInstruction.getArguments();
       // the FROM expanded base name
-      const expandedName = getInstructionExpandVariables(
+      const expandedName = getInstructionExpandVariablesNew(
         fromInstruction,
         dockerfile,
         fromName,
