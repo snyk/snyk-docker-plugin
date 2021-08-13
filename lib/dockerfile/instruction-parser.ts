@@ -1,4 +1,5 @@
 import { Dockerfile, Instruction } from "dockerfile-ast";
+import { UnresolvedDockerfileVariableHandling } from "../types";
 import {
   DockerFileAnalysisErrorCode,
   DockerFileLayers,
@@ -30,7 +31,11 @@ function getRunInstructionsFromDockerfile(dockerfile: Dockerfile) {
       (instruction) => instruction.getInstruction().toUpperCase() === "RUN",
     )
     .map((instruction) =>
-      getInstructionExpandVariables(instruction, dockerfile),
+      getInstructionExpandVariables(
+        instruction,
+        dockerfile,
+        UnresolvedDockerfileVariableHandling.Continue,
+      ),
     );
 }
 
@@ -88,23 +93,34 @@ function removeRunDefFromInstruction(instruction: string) {
  * Return the specified text with variables expanded
  * @param instruction the instruction associated with this string
  * @param dockerfile Dockerfile to use for expanding the variables
+ * @param unresolvedVariableHandling Strategy for reacting to unresolved vars
  * @param text a string with variables to expand, if not specified
  *  the instruction text is used
  */
 function getInstructionExpandVariables(
   instruction: Instruction,
   dockerfile: Dockerfile,
+  unresolvedVariableHandling: UnresolvedDockerfileVariableHandling,
   text?: string,
 ): string {
   let str = text || instruction.toString();
-  const variables = instruction.getVariables();
-  const resolvedVariables = variables.reduce((resolvedVars, variable) => {
+  const resolvedVariables = {};
+
+  for (const variable of instruction.getVariables()) {
     const line = variable.getRange().start.line;
     const name = variable.getName();
-    resolvedVars[name] = dockerfile.resolveVariable(name, line);
-    return resolvedVars;
-  }, {});
+    resolvedVariables[name] = dockerfile.resolveVariable(name, line);
+  }
   for (const variable of Object.keys(resolvedVariables)) {
+    if (
+      unresolvedVariableHandling ===
+        UnresolvedDockerfileVariableHandling.Abort &&
+      !resolvedVariables[variable]
+    ) {
+      str = "";
+      break;
+    }
+
     // The $ is a special regexp character that should be escaped with a backslash
     // Support both notations either with $variable_name or ${variable_name}
     // The global search "g" flag is used to match and replace all occurrences
@@ -113,6 +129,7 @@ function getInstructionExpandVariables(
       resolvedVariables[variable] || "",
     );
   }
+
   return str;
 }
 
@@ -133,6 +150,7 @@ function getDockerfileBaseImageName(
       const expandedName = getInstructionExpandVariables(
         fromInstruction,
         dockerfile,
+        UnresolvedDockerfileVariableHandling.Abort,
         fromName,
       );
       const hasUnresolvedVariables =
