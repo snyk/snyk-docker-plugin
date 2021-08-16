@@ -1,4 +1,5 @@
 import {
+  FilePathToBuffer,
   FilePathToContent,
   FilePathToElfContent,
 } from "../analyzer/applications/types";
@@ -47,6 +48,27 @@ export function getElfFileContent(
         throw new Error("elf file expected to contain programs and sections");
       }
 
+      foundAppFiles[filePath] = extractedLayers[filePath][actionName];
+    }
+  }
+
+  return foundAppFiles;
+}
+
+export function getBufferContent(
+  extractedLayers: ExtractedLayers,
+  searchedAction: string,
+): FilePathToBuffer {
+  const foundAppFiles = {};
+
+  for (const filePath of Object.keys(extractedLayers)) {
+    for (const actionName of Object.keys(extractedLayers[filePath])) {
+      if (actionName !== searchedAction) {
+        continue;
+      }
+      if (!Buffer.isBuffer(extractedLayers[filePath][actionName])) {
+        throw new Error("expected Buffer");
+      }
       foundAppFiles[filePath] = extractedLayers[filePath][actionName];
     }
   }

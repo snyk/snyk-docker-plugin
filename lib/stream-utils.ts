@@ -70,3 +70,11 @@ export async function streamToJson<T>(stream: Readable): Promise<T> {
   const file = await streamToString(stream);
   return JSON.parse(file);
 }
+
+export function bufferToSha1(buffer: Buffer): string {
+  const hash = crypto.createHash(HashAlgorithm.Sha1);
+  hash.setEncoding(HASH_ENCODING);
+  hash.update(buffer);
+  hash.end();
+  return hash.read().toString(HASH_ENCODING);
+}

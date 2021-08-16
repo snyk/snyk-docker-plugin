@@ -1,14 +1,15 @@
 import * as path from "path";
 import { JarFingerprintsFact } from "../../facts";
-import { JarFingerprint } from "../types";
-import { AppDepsScanResultWithoutTarget, FilePathToContent } from "./types";
+import { bufferToSha1 } from "../../stream-utils";
+import { JarBuffer } from "./types";
+import { AppDepsScanResultWithoutTarget, FilePathToBuffer } from "./types";
 
 function groupJarFingerprintsByPath(input: {
-  [fileName: string]: string;
+  [fileName: string]: Buffer;
 }): {
-  [path: string]: JarFingerprint[];
+  [path: string]: JarBuffer[];
 } {
-  const jarFingerprints: JarFingerprint[] = Object.entries(input).map(
+  const jarFingerprints: JarBuffer[] = Object.entries(input).map(
     ([filePath, digest]) => {
       return {
         location: filePath,
@@ -31,7 +32,7 @@ function groupJarFingerprintsByPath(input: {
 }
 
 export async function jarFilesToScannedProjects(
-  filePathToContent: FilePathToContent,
+  filePathToContent: FilePathToBuffer,
   targetImage: string,
 ): Promise<AppDepsScanResultWithoutTarget[]> {
   const mappedResult = groupJarFingerprintsByPath(filePathToContent);
@@ -44,7 +45,12 @@ export async function jarFilesToScannedProjects(
     const jarFingerprintsFact: JarFingerprintsFact = {
       type: "jarFingerprints",
       data: {
-        fingerprints: mappedResult[path],
+        fingerprints: mappedResult[path].map((element) => {
+          return {
+            ...element,
+            digest: bufferToSha1(element.digest),
+          };
+        }),
         origin: targetImage,
         path,
       },
