@@ -6,13 +6,10 @@ import {
 import { ExtractedLayers, FileContent } from "../extractor/types";
 import { Elf } from "../go-parser/types";
 
-function isStringType(type: FileContent) {
-  return typeof type === "string";
-}
-
-export function getFileContent(
+export function getContent(
   extractedLayers: ExtractedLayers,
   searchedAction: string,
+  contentTypeValidation: (type: FileContent) => boolean,
 ): FilePathToContent {
   const foundAppFiles = {};
 
@@ -21,11 +18,29 @@ export function getFileContent(
       if (actionName !== searchedAction) {
         continue;
       }
-      if (!isStringType(extractedLayers[filePath][actionName])) {
-        throw new Error("expected string");
+      if (!contentTypeValidation(extractedLayers[filePath][actionName])) {
+        throw new Error("unexpected content type");
       }
       foundAppFiles[filePath] = extractedLayers[filePath][actionName];
     }
+  }
+
+  return foundAppFiles;
+}
+
+function isStringType(type: FileContent) {
+  return typeof type === "string";
+}
+
+export function getFileContent(
+  extractedLayers: ExtractedLayers,
+  searchedAction: string,
+): FilePathToContent {
+  let foundAppFiles;
+  try {
+    foundAppFiles = getContent(extractedLayers, searchedAction, isStringType);
+  } catch {
+    throw new Error("expected string");
   }
 
   return foundAppFiles;
@@ -40,20 +55,11 @@ export function getElfFileContent(
   extractedLayers: ExtractedLayers,
   searchedAction: string,
 ): FilePathToElfContent {
-  const foundAppFiles = {};
-
-  for (const filePath of Object.keys(extractedLayers)) {
-    for (const actionName of Object.keys(extractedLayers[filePath])) {
-      if (actionName !== searchedAction) {
-        continue;
-      }
-
-      if (!isElfType(extractedLayers[filePath][actionName])) {
-        throw new Error("elf file expected to contain programs and sections");
-      }
-
-      foundAppFiles[filePath] = extractedLayers[filePath][actionName];
-    }
+  let foundAppFiles;
+  try {
+    foundAppFiles = getContent(extractedLayers, searchedAction, isElfType);
+  } catch {
+    throw new Error("elf file expected to contain programs and sections");
   }
 
   return foundAppFiles;
@@ -67,18 +73,11 @@ export function getBufferContent(
   extractedLayers: ExtractedLayers,
   searchedAction: string,
 ): FilePathToBuffer {
-  const foundAppFiles = {};
-
-  for (const filePath of Object.keys(extractedLayers)) {
-    for (const actionName of Object.keys(extractedLayers[filePath])) {
-      if (actionName !== searchedAction) {
-        continue;
-      }
-      if (!isTypeBuffer(extractedLayers[filePath][actionName])) {
-        throw new Error("expected Buffer");
-      }
-      foundAppFiles[filePath] = extractedLayers[filePath][actionName];
-    }
+  let foundAppFiles;
+  try {
+    foundAppFiles = getContent(extractedLayers, searchedAction, isTypeBuffer);
+  } catch {
+    throw new Error("expected Buffer");
   }
 
   return foundAppFiles;
