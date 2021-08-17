@@ -1,6 +1,6 @@
 import * as path from "path";
+import { bufferToSha1 } from "../../buffer-utils";
 import { JarFingerprintsFact } from "../../facts";
-import { bufferToSha1 } from "../../stream-utils";
 import { JarBuffer } from "./types";
 import { AppDepsScanResultWithoutTarget, FilePathToBuffer } from "./types";
 
