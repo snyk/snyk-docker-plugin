@@ -6,6 +6,10 @@ import {
 import { ExtractedLayers, FileContent } from "../extractor/types";
 import { Elf } from "../go-parser/types";
 
+function isStringType(type: FileContent) {
+  return typeof type === "string";
+}
+
 export function getFileContent(
   extractedLayers: ExtractedLayers,
   searchedAction: string,
@@ -17,7 +21,7 @@ export function getFileContent(
       if (actionName !== searchedAction) {
         continue;
       }
-      if (!(typeof extractedLayers[filePath][actionName] === "string")) {
+      if (!isStringType(extractedLayers[filePath][actionName])) {
         throw new Error("expected string");
       }
       foundAppFiles[filePath] = extractedLayers[filePath][actionName];
@@ -55,6 +59,10 @@ export function getElfFileContent(
   return foundAppFiles;
 }
 
+function isTypeBuffer(type: FileContent) {
+  return Buffer.isBuffer(type);
+}
+
 export function getBufferContent(
   extractedLayers: ExtractedLayers,
   searchedAction: string,
@@ -66,7 +74,7 @@ export function getBufferContent(
       if (actionName !== searchedAction) {
         continue;
       }
-      if (!Buffer.isBuffer(extractedLayers[filePath][actionName])) {
+      if (!isTypeBuffer(extractedLayers[filePath][actionName])) {
         throw new Error("expected Buffer");
       }
       foundAppFiles[filePath] = extractedLayers[filePath][actionName];
