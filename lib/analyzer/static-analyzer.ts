@@ -5,7 +5,7 @@ import {
   getGoModulesContentAction,
   goModulesToScannedProjects,
 } from "../go-parser";
-import { getElfFileContent, getFileContent } from "../inputs";
+import { getBufferContent, getElfFileContent, getFileContent } from "../inputs";
 import {
   getApkDbFileContent,
   getApkDbFileContentAction,
@@ -151,7 +151,7 @@ export async function analyze(
       getFileContent(extractedLayers, getNodeAppFileContentAction.actionName),
     );
     const jarFingerprintScanResults = await jarFilesToScannedProjects(
-      getFileContent(extractedLayers, getJarFileContentAction.actionName),
+      getBufferContent(extractedLayers, getJarFileContentAction.actionName),
       targetImage,
     );
     const goModulesScanResult = await goModulesToScannedProjects(
