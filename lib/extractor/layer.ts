@@ -3,6 +3,8 @@ import * as gunzip from "gunzip-maybe";
 import * as path from "path";
 import { Readable } from "stream";
 import { extract, Extract } from "tar-stream";
+import * as unzipper from "unzipper";
+import { getJarFileContentAction } from "../inputs/java/static";
 import { applyCallbacks, isResultEmpty } from "./callbacks";
 import { ExtractAction, ExtractedLayers } from "./types";
 
@@ -30,6 +32,10 @@ export async function extractImageLayer(
         );
         if (matchedActions.length > 0) {
           try {
+            if (absoluteFileName.endsWith("service.jar")) {
+              await extractNestedJar(stream, result);
+            }
+
             const callbackResult = await applyCallbacks(
               matchedActions,
               stream,
@@ -59,8 +65,60 @@ export async function extractImageLayer(
       resolve(result);
     });
 
-    tarExtractor.on("error", (error) => reject(error));
+    tarExtractor.on("error", (error) => {
+      console.log(
+        "🚀 ~ file: layer.ts ~ line 74 ~ tarExtractor.on ~ error",
+        error,
+      );
+
+      reject(error);
+    });
 
     layerTarStream.pipe(gunzip()).pipe(tarExtractor);
+  });
+}
+
+async function extractNestedJar(jarStream: Readable, result) {
+  return new Promise((resolve, reject) => {
+    const allPaths: string[] = [];
+    // const parsed = jarStream.pipe(unzip.Parse());
+    // jarStream.pipe(unzip.Parse()).on("entry", async (entry) => {
+    jarStream
+      .pipe(unzipper.Parse())
+      .on("entry", async (entry) => {
+        allPaths.push(entry.path);
+        if (entry.type === "File" && entry.path.endsWith(".jar")) {
+          const callbackResult = await applyCallbacks(
+            [getJarFileContentAction],
+            jarStream,
+          );
+
+          if (!isResultEmpty(callbackResult)) {
+            result[entry.path] = callbackResult;
+          }
+        }
+        // else {
+        //   // entry.autodrain();
+        // }
+
+        // entry.resume(); // auto drain the stream
+        // next(); // ready for next entry
+        console.log(
+          "🚀 ~ file: layer.ts ~ line 123 ~ .on ~ allPaths",
+          allPaths,
+        );
+      })
+
+      .on("finish", () => {
+        resolve(result);
+      })
+
+      .on("error", (error) => {
+        console.log(
+          "🚀 ~ file: layer.ts ~ line 122 ~ returnnewPromise ~ error",
+          error,
+        );
+        reject(error);
+      });
   });
 }
