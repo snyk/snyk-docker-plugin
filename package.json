@@ -30,6 +30,7 @@
     "@snyk/dep-graph": "^1.28.0",
     "@snyk/rpm-parser": "^2.0.0",
     "@snyk/snyk-docker-pull": "^3.6.3",
+    "adm-zip": "^0.5.5",
     "chalk": "^2.4.2",
     "debug": "^4.1.1",
     "docker-modem": "2.1.3",

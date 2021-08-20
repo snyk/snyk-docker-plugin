@@ -163,6 +163,16 @@ export interface PluginOptions {
 
   /** Whether to enable application dependencies scanning. The default is "false" */
   "app-vulns": boolean | string;
+
+  /**
+   * Whether to unpack jars and look for jars within them.
+   * If jar contains other jars (AKA fat-jar or shaded-jar), we send back only the children jars, and don't look for vulns in the parent.
+   * Currently only one level deep.
+   * Must always come with app-vulns
+   * The default is "false"
+   */
+  "shaded-jars": boolean | string;
+
   /** The default is "false". */
   "exclude-base-image-vulns": boolean | string;
 }

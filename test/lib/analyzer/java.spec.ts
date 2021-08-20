@@ -21,6 +21,7 @@ describe("jarFilesToScannedProjects function", () => {
     const result = await jarFilesToScannedProjects(
       filePathToContent,
       "image-name",
+      false,
     );
 
     // Assert
