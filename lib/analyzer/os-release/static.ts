@@ -7,12 +7,14 @@ import { OsReleaseFilePath } from "../../types";
 import { OSRelease } from "../types";
 import {
   tryAlpineRelease,
+  tryAlmaLinuxRelease,
   tryCentosRelease,
   tryDebianVersion,
   tryLsbRelease,
   tryOracleRelease,
   tryOSRelease,
   tryRedHatRelease,
+  tryRockyRelease,
 } from "./release-analyzer";
 
 const debug = Debug("snyk");
@@ -31,6 +33,8 @@ const releaseDetectors: Record<OsReleaseFilePath, OsReleaseHandler> = {
   [OsReleaseFilePath.Oracle]: tryOracleRelease,
   [OsReleaseFilePath.RedHat]: tryRedHatRelease,
   [OsReleaseFilePath.Centos]: tryCentosRelease,
+  [OsReleaseFilePath.AlmaLinux]: tryAlmaLinuxRelease,
+  [OsReleaseFilePath.Rocky]: tryRockyRelease,
 };
 
 export async function detect(

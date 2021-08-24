@@ -113,3 +113,35 @@ export async function tryOracleRelease(
 
   return { name, version, prettyName: "" };
 }
+
+export async function tryAlmaLinuxRelease(
+  text: string,
+): Promise<OSRelease | null> {
+  if (!text) {
+    return null;
+  }
+  const idRes = text.match(/^(\S+)/m);
+  const versionRes = text.match(/(\d+)\./m);
+  if (!idRes || !versionRes) {
+    throw new Error("Failed to parse /etc/almalinux-release");
+  }
+  const name = idRes[1].replace(/"/g, "").toLowerCase();
+  const version = versionRes[1].replace(/"/g, "");
+  return { name, version, prettyName: "" };
+}
+
+export async function tryRockyRelease(
+  text: string,
+): Promise<OSRelease | null> {
+  if (!text) {
+    return null;
+  }
+  const idRes = text.match(/^(\S+)/m);
+  const versionRes = text.match(/(\d+)\./m);
+  if (!idRes || !versionRes) {
+    throw new Error("Failed to parse /etc/rocky-release");
+  }
+  const name = idRes[1].replace(/"/g, "").toLowerCase();
+  const version = versionRes[1].replace(/"/g, "");
+  return { name, version, prettyName: "" };
+}

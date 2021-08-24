@@ -60,6 +60,20 @@ const getOracleReleaseAction: ExtractAction = {
   callback: streamToString,
 };
 
+const getAlmaLinuxReleaseAction: ExtractAction = {
+  actionName: "almalinux-release",
+  filePathMatches: (filePath) =>
+    filePath === normalizePath(OsReleaseFilePath.AlmaLinux),
+  callback: streamToString,
+};
+
+const getRockyReleaseAction: ExtractAction = {
+  actionName: "rocky-release",
+  filePathMatches: (filePath) =>
+    filePath === normalizePath(OsReleaseFilePath.Rocky),
+  callback: streamToString,
+};
+
 const osReleaseActionMap = {
   [OsReleaseFilePath.Linux]: getOsReleaseAction,
   [OsReleaseFilePath.LinuxFallback]: getFallbackOsReleaseAction,
@@ -69,6 +83,8 @@ const osReleaseActionMap = {
   [OsReleaseFilePath.RedHat]: getRedHatReleaseAction,
   [OsReleaseFilePath.Centos]: getCentosReleaseAction,
   [OsReleaseFilePath.Oracle]: getOracleReleaseAction,
+  [OsReleaseFilePath.AlmaLinux]: getAlmaLinuxReleaseAction,
+  [OsReleaseFilePath.Rocky]: getRockyReleaseAction,
 };
 
 export const getOsReleaseActions: ExtractAction[] = [
@@ -80,6 +96,8 @@ export const getOsReleaseActions: ExtractAction[] = [
   getRedHatReleaseAction,
   getCentosReleaseAction,
   getOracleReleaseAction,
+  getAlmaLinuxReleaseAction,
+  getRockyReleaseAction,
 ];
 
 export function getOsRelease(

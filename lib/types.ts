@@ -21,6 +21,8 @@ export enum OsReleaseFilePath {
   RedHat = "/etc/redhat-release",
   Oracle = "/etc/oracle-release",
   Centos = "/etc/centos-release",
+  AlmaLinux = "/etc/almalinux-release",
+  Rocky = "/etc/rocky-release",
 }
 
 export enum HashAlgorithm {

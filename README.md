@@ -20,7 +20,7 @@ Package managers:
 
 Operating systems:
 
-- Debian, Red Hat, Alpine, Oracle, CentOS, SLES, OpenSUSE, Amazon Linux, vanilla Linux
+- Debian, Red Hat, Alpine, Oracle, CentOS, SLES, OpenSUSE, Amazon Linux, AlmaLinux, Rocky Linux, vanilla Linux
 - Distroless and scratch images
 
 Platforms:
