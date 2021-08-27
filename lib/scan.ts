@@ -6,6 +6,7 @@ import { readDockerfileAndAnalyse } from "./dockerfile";
 import { DockerFileAnalysis } from "./dockerfile/types";
 import { fullImageSavePath } from "./image-save-path";
 import { getArchivePath, getImageType } from "./image-type";
+import { isTrue } from "./option-utils";
 import * as staticModule from "./static";
 import { ImageType, PluginOptions, PluginResponse } from "./types";
 
@@ -29,6 +30,11 @@ export async function scan(
   if (!options.path) {
     throw new Error("No image identifier or path provided");
   }
+
+  if (isTrue(options["shaded-jars"] && !isTrue(options["app-vulns"]))) {
+    throw new Error("To use shaded-jars, you must also use app-vulns");
+  }
+
   const targetImage = appendLatestTagIfMissing(options.path);
 
   const dockerfilePath = options.file;
@@ -63,8 +69,6 @@ async function localArchiveAnalysis(
   dockerfileAnalysis: DockerFileAnalysis | undefined,
   options: Partial<PluginOptions>,
 ): Promise<PluginResponse> {
-  const excludeBaseImageVulns = isTrue(options["exclude-base-image-vulns"]);
-  const appScan = isTrue(options["app-vulns"]);
   const globToFind = {
     include: options.globsToFind?.include || [],
     exclude: options.globsToFind?.exclude || [],
@@ -90,9 +94,8 @@ async function localArchiveAnalysis(
     dockerfileAnalysis,
     imageType,
     archivePath,
-    excludeBaseImageVulns,
     globToFind,
-    appScan,
+    options,
   );
 }
 
@@ -102,8 +105,6 @@ async function imageIdentifierAnalysis(
   dockerfileAnalysis: DockerFileAnalysis | undefined,
   options: Partial<PluginOptions>,
 ): Promise<PluginResponse> {
-  const excludeBaseImageVulns = isTrue(options["exclude-base-image-vulns"]);
-  const appScan = isTrue(options["app-vulns"]);
   const globToFind = {
     include: options.globsToFind?.include || [],
     exclude: options.globsToFind?.exclude || [],
@@ -125,17 +126,12 @@ async function imageIdentifierAnalysis(
       dockerfileAnalysis,
       imageType,
       imagePath,
-      excludeBaseImageVulns,
       globToFind,
-      appScan,
+      options,
     );
   } finally {
     archiveResult.removeArchive();
   }
-}
-
-function isTrue(value?: boolean | string): boolean {
-  return String(value).toLowerCase() === "true";
 }
 
 export function appendLatestTagIfMissing(targetImage: string): string {

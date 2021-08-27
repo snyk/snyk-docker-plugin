@@ -32,7 +32,8 @@ import {
   getRpmDbFileContent,
   getRpmDbFileContentAction,
 } from "../inputs/rpm/static";
-import { ImageType, ManifestFile } from "../types";
+import { isTrue } from "../option-utils";
+import { ImageType, ManifestFile, PluginOptions } from "../types";
 import { nodeFilesToScannedProjects } from "./applications";
 import { jarFilesToScannedProjects } from "./applications/java";
 import { AppDepsScanResultWithoutTarget } from "./applications/types";
@@ -53,7 +54,7 @@ export async function analyze(
   imageType: ImageType,
   imagePath: string,
   globsToFind: { include: string[]; exclude: string[] },
-  appScan: boolean,
+  options: Partial<PluginOptions>,
 ): Promise<StaticAnalysis> {
   const staticAnalysisActions = [
     getApkDbFileContentAction,
@@ -75,6 +76,8 @@ export async function analyze(
       ),
     );
   }
+
+  const appScan = isTrue(options["app-vulns"]);
 
   if (appScan) {
     staticAnalysisActions.push(
@@ -150,9 +153,11 @@ export async function analyze(
     const nodeDependenciesScanResults = await nodeFilesToScannedProjects(
       getFileContent(extractedLayers, getNodeAppFileContentAction.actionName),
     );
+    const shadedJars = isTrue(options["shaded-jars"]);
     const jarFingerprintScanResults = await jarFilesToScannedProjects(
       getBufferContent(extractedLayers, getJarFileContentAction.actionName),
       targetImage,
+      shadedJars,
     );
     const goModulesScanResult = await goModulesToScannedProjects(
       getElfFileContent(extractedLayers, getGoModulesContentAction.actionName),
