@@ -288,5 +288,5 @@ test("able to scan opensuse/leap images", async (t) => {
     "OS image detected",
   );
 
-  t.equal(depGraph.getDepPkgs().length, 125, "expected number of direct deps");
+  t.equal(depGraph.getDepPkgs().length, 124, "expected number of direct deps");
 });
