@@ -3,6 +3,7 @@
 // tslint:disable:no-console
 
 import { scan } from "../lib/scan";
+import { performance } from "perf_hooks";
 
 process.on("uncaughtException", (err) => {
   console.log("UNCAUGHT EXCEPTION! %s", err);
@@ -18,7 +19,7 @@ async function main() {
     const imageToScan = process.argv[2];
     const numberOfRuns = Number(process.argv[3]) || DEFAULT_NUMBER_OF_RUNS;
     console.log(`scanning ${imageToScan}`);
-    const startTime = Date.now();
+    const startTime = performance.now();
 
     for (let i = 0; i < numberOfRuns; i++) {
       console.log(`scan # ${i}`);
@@ -29,7 +30,7 @@ async function main() {
     }
 
     console.log(
-      `average time per complete scan: ${(Date.now() - startTime) /
+      `average time per complete scan: ${(performance.now() - startTime) /
         numberOfRuns}`,
     );
   } catch (error) {

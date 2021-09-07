@@ -84,10 +84,55 @@ function checkIfFatJarsAndUnpack(jarBuffers: JarBuffer[]): JarFingerprint[] {
   const fingerprints: JarFingerprint[] = [];
 
   for (const jarBuffer of jarBuffers) {
-    const nestedJars: JarBuffer[] = [];
     const buffer = jarBuffer.digest;
     const zip = new admzip(buffer);
+
     const zipEntries = zip.getEntries();
+
+    const nestedJars: JarBuffer[] = [];
+
+    // const promisesToAwait = zipEntries.map((entry) => {
+    //   const promise = new Promise((resolve, reject) => {
+    //     try {
+    //       resolve(entry);
+    //     } catch (error) {
+    //       console.log(error);
+    //       reject(error);
+    //     }
+    //   })
+    //     .then((entry: any) => {
+    //       // Assign the result once the Promise is complete.
+    //       try {
+    //         if (entry.entryName.endsWith(".jar")) {
+    //           const newEntry = {
+    //             location: entry.entryName,
+    //             digest: entry.getData(),
+    //           };
+    //           // const jarBuffer = newEntry as JarBuffer;
+    //           nestedJars.push(newEntry);
+    //           // console.log(jarBuffer.location, nestedJars.length);
+    //         }
+    //       } catch (error) {
+    //         console.log(error);
+    //         throw error;
+    //       }
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //       return null; // can be filtered out in Promise.all results
+    //       // or rethrow an error
+    //     });
+
+    //   return promise;
+    // });
+
+    // await Promise.all(promisesToAwait)
+    //   // .then((result) => {
+    //   //   console.log(result);
+    //   // })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
 
     for (const zipEntry of zipEntries) {
       if (zipEntry.entryName.endsWith(".jar")) {

@@ -43,3 +43,21 @@ export {
   UpdateDockerfileBaseImageNameErrorCode,
   Binary,
 };
+
+setImmediate(async () => {
+  try {
+    const result = await scan({
+      path:
+        "docker-archive:/Users/agatakrajewska/Source/archives/ast-dummy.tar",
+      "app-vulns": true,
+    });
+    // tslint:disable-next-line: no-console
+    const depGraph = result.scanResults[0].facts.find(
+      (fact) => fact.type == "depGraph",
+    )?.data;
+    console.log(depGraph);
+  } catch (error) {
+    // tslint:disable-next-line: no-console
+    console.log(error);
+  }
+});

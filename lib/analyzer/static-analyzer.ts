@@ -45,6 +45,7 @@ import {
 } from "./package-managers/apt";
 import { analyze as rpmAnalyze } from "./package-managers/rpm";
 import { ImageAnalysis, OSRelease, StaticAnalysis } from "./types";
+import { performance } from "perf_hooks";
 
 const debug = Debug("snyk");
 
@@ -154,11 +155,18 @@ export async function analyze(
       getFileContent(extractedLayers, getNodeAppFileContentAction.actionName),
     );
     const shadedJars = isTrue(options["shaded-jars"]);
+    const startEntries = performance.now();
+
     const jarFingerprintScanResults = await jarFilesToScannedProjects(
       getBufferContent(extractedLayers, getJarFileContentAction.actionName),
       targetImage,
       shadedJars,
     );
+    console.log(
+      "jarFingerprintScanResults()",
+      performance.now() - startEntries,
+    );
+
     const goModulesScanResult = await goModulesToScannedProjects(
       getElfFileContent(extractedLayers, getGoModulesContentAction.actionName),
     );
