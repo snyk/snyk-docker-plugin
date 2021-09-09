@@ -165,13 +165,16 @@ export interface PluginOptions {
   "app-vulns": boolean | string;
 
   /**
-   * Whether to unpack jars and look for jars within them.
+   * How many levels are nested jars we should unpack
    * If jar contains other jars (AKA fat-jar or shaded-jar), we send back only the children jars, and don't look for vulns in the parent.
-   * Currently only one level deep.
+   *
+   * if 0 is provided, it's as if the flag was not provided.
+   * if n > 0 is provided, we try to unpack n levels of jars.
+   * The default (if flag is provided, but without a number) is 1 level
+   *
    * Must always come with app-vulns
-   * The default is "false"
    */
-  "shaded-jars": boolean | string;
+  "shaded-jars-depth": boolean | string;
 
   /** The default is "false". */
   "exclude-base-image-vulns": boolean | string;

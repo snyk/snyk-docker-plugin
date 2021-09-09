@@ -36,7 +36,7 @@ function groupJarFingerprintsByPath(input: {
 export async function jarFilesToScannedProjects(
   filePathToContent: FilePathToBuffer,
   targetImage: string,
-  shadedJars: boolean,
+  desiredLevelsOfUnpacking: number,
 ): Promise<AppDepsScanResultWithoutTarget[]> {
   const mappedResult = groupJarFingerprintsByPath(filePathToContent);
   const scanResults: AppDepsScanResultWithoutTarget[] = [];
@@ -46,15 +46,15 @@ export async function jarFilesToScannedProjects(
       continue;
     }
 
-    let getJarFingerprints = getJarSha;
-    if (shadedJars) {
-      getJarFingerprints = checkIfFatJarsAndUnpack;
-    }
+    const fingerprints = getFingerprints(
+      desiredLevelsOfUnpacking,
+      mappedResult[path],
+    );
 
     const jarFingerprintsFact: JarFingerprintsFact = {
       type: "jarFingerprints",
       data: {
-        fingerprints: getJarFingerprints(mappedResult[path]),
+        fingerprints,
         origin: targetImage,
         path,
       },
@@ -71,7 +71,18 @@ export async function jarFilesToScannedProjects(
   return scanResults;
 }
 
-function getJarSha(jarBuffers: JarBuffer[]): JarFingerprint[] {
+function getFingerprints(
+  desiredLevelsOfUnpacking: number,
+  jarBuffers: JarBuffer[],
+): JarFingerprint[] {
+  if (desiredLevelsOfUnpacking === 0) {
+    return getJarShas(jarBuffers);
+  }
+
+  return unpackFatJars(jarBuffers, desiredLevelsOfUnpacking);
+}
+
+function getJarShas(jarBuffers: JarBuffer[]): JarFingerprint[] {
   return jarBuffers.map((element) => {
     return {
       ...element,
@@ -80,39 +91,79 @@ function getJarSha(jarBuffers: JarBuffer[]): JarFingerprint[] {
   });
 }
 
-function checkIfFatJarsAndUnpack(jarBuffers: JarBuffer[]): JarFingerprint[] {
-  const fingerprints: JarFingerprint[] = [];
+function unpackJarsTraverse({
+  jarBuffer,
+  jarPath,
+  desiredLevelsOfUnpacking,
+  unpackedLevels,
+  jarBuffers,
+}: {
+  jarBuffer: Buffer;
+  jarPath: string;
+  desiredLevelsOfUnpacking: number;
+  unpackedLevels: number;
+  jarBuffers: JarBuffer[];
+}): JarBuffer[] {
+  let isFatJar: boolean = false;
 
-  for (const jarBuffer of jarBuffers) {
-    const nestedJars: JarBuffer[] = [];
-    const buffer = jarBuffer.digest;
-    const zip = new admzip(buffer);
+  if (unpackedLevels >= desiredLevelsOfUnpacking) {
+    jarBuffers.push({
+      location: jarPath,
+      digest: jarBuffer,
+    });
+  } else {
+    const zip = new admzip(jarBuffer);
     const zipEntries = zip.getEntries();
+
+    // technically the level should be increased only if a JAR is found, but increasing here to make
+    // sure it states the level, and not counting all the jars found, regardless of level.
+    unpackedLevels = unpackedLevels + 1;
 
     for (const zipEntry of zipEntries) {
       if (zipEntry.entryName.endsWith(".jar")) {
-        nestedJars.push({
-          location: zipEntry.entryName,
-          digest: zipEntry.getData(),
+        isFatJar = true;
+        const entryData = zipEntry.getData();
+        const entryName = zipEntry.entryName;
+        jarPath = `${jarPath}/${entryName}`;
+
+        unpackJarsTraverse({
+          jarBuffer: entryData,
+          jarPath,
+          desiredLevelsOfUnpacking,
+          unpackedLevels,
+          jarBuffers,
         });
       }
     }
 
-    if (nestedJars.length > 0) {
-      fingerprints.push(
-        ...nestedJars.map((element) => {
-          return {
-            ...element,
-            digest: bufferToSha1(element.digest),
-          };
-        }),
-      );
-    } else {
-      fingerprints.push({
-        location: jarBuffer.location,
-        digest: bufferToSha1(jarBuffer.digest),
+    if (!isFatJar) {
+      jarBuffers.push({
+        location: jarPath,
+        digest: jarBuffer,
       });
     }
+  }
+
+  return jarBuffers;
+}
+
+function unpackFatJars(
+  jarBuffers: JarBuffer[],
+  desiredLevelsOfUnpacking: number,
+): JarFingerprint[] {
+  const fingerprints: JarFingerprint[] = [];
+
+  for (const jarBuffer of jarBuffers) {
+    const unpackedLevels: number = 0;
+    const jars: JarBuffer[] = unpackJarsTraverse({
+      jarBuffer: jarBuffer.digest,
+      jarPath: jarBuffer.location,
+      desiredLevelsOfUnpacking,
+      unpackedLevels,
+      jarBuffers: [],
+    });
+
+    fingerprints.push(...getJarShas(jars));
   }
 
   return fingerprints;

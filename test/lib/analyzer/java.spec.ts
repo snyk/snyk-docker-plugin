@@ -21,7 +21,7 @@ describe("jarFilesToScannedProjects function", () => {
     const result = await jarFilesToScannedProjects(
       filePathToContent,
       "image-name",
-      false,
+      0, // we don't want to unpack any fat jars
     );
 
     // Assert
