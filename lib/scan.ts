@@ -6,7 +6,7 @@ import { readDockerfileAndAnalyse } from "./dockerfile";
 import { DockerFileAnalysis } from "./dockerfile/types";
 import { fullImageSavePath } from "./image-save-path";
 import { getArchivePath, getImageType } from "./image-type";
-import { isTrue } from "./option-utils";
+import { isNumber, isTrue } from "./option-utils";
 import * as staticModule from "./static";
 import { ImageType, PluginOptions, PluginResponse } from "./types";
 
@@ -31,8 +31,20 @@ export async function scan(
     throw new Error("No image identifier or path provided");
   }
 
-  if (isTrue(options["shaded-jars"] && !isTrue(options["app-vulns"]))) {
-    throw new Error("To use shaded-jars, you must also use app-vulns");
+  const shadedJarsDepth = options["shaded-jars-depth"];
+  if (
+    (isTrue(shadedJarsDepth) || isNumber(shadedJarsDepth)) &&
+    !isTrue(options["app-vulns"])
+  ) {
+    throw new Error("To use shaded-jars-depth, you must also use app-vulns");
+  }
+
+  if (
+    !isNumber(shadedJarsDepth) &&
+    !isTrue(shadedJarsDepth) &&
+    typeof shadedJarsDepth !== "undefined"
+  ) {
+    throw new Error("shaded-jars-depth accepts only numbers");
   }
 
   const targetImage = appendLatestTagIfMissing(options.path);
