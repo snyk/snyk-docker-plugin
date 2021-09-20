@@ -2,7 +2,11 @@ import * as admzip from "adm-zip";
 import * as path from "path";
 import { bufferToSha1 } from "../../buffer-utils";
 import { JarFingerprintsFact } from "../../facts";
-import { JarFingerprint } from "../types";
+import {
+  JarAnalysisResult,
+  JarFingerprint,
+  UnpackedJarsResult,
+} from "../types";
 import { JarBuffer } from "./types";
 import { AppDepsScanResultWithoutTarget, FilePathToBuffer } from "./types";
 
@@ -46,7 +50,7 @@ export async function jarFilesToScannedProjects(
       continue;
     }
 
-    const fingerprints = getFingerprints(
+    const { fingerprints, unpackedLevels } = getFingerprints(
       desiredLevelsOfUnpacking,
       mappedResult[path],
     );
@@ -57,6 +61,7 @@ export async function jarFilesToScannedProjects(
         fingerprints,
         origin: targetImage,
         path,
+        shadedJarsUnpackedLevel: unpackedLevels,
       },
     };
     scanResults.push({
@@ -74,9 +79,9 @@ export async function jarFilesToScannedProjects(
 function getFingerprints(
   desiredLevelsOfUnpacking: number,
   jarBuffers: JarBuffer[],
-): JarFingerprint[] {
+): JarAnalysisResult {
   if (desiredLevelsOfUnpacking === 0) {
-    return getJarShas(jarBuffers);
+    return { fingerprints: getJarShas(jarBuffers), unpackedLevels: 0 };
   }
 
   return unpackFatJars(jarBuffers, desiredLevelsOfUnpacking);
@@ -96,14 +101,16 @@ function unpackJarsTraverse({
   jarPath,
   desiredLevelsOfUnpacking,
   unpackedLevels,
+  allUnpackedLevels,
   jarBuffers,
 }: {
   jarBuffer: Buffer;
   jarPath: string;
   desiredLevelsOfUnpacking: number;
   unpackedLevels: number;
+  allUnpackedLevels: number[];
   jarBuffers: JarBuffer[];
-}): JarBuffer[] {
+}): UnpackedJarsResult {
   let isFatJar: boolean = false;
 
   if (unpackedLevels >= desiredLevelsOfUnpacking) {
@@ -111,6 +118,7 @@ function unpackJarsTraverse({
       location: jarPath,
       digest: jarBuffer,
     });
+    allUnpackedLevels.push(unpackedLevels);
   } else {
     const zip = new admzip(jarBuffer);
     const zipEntries = zip.getEntries();
@@ -131,6 +139,7 @@ function unpackJarsTraverse({
           jarPath,
           desiredLevelsOfUnpacking,
           unpackedLevels,
+          allUnpackedLevels,
           jarBuffers,
         });
       }
@@ -141,30 +150,33 @@ function unpackJarsTraverse({
         location: jarPath,
         digest: jarBuffer,
       });
+      allUnpackedLevels.push(unpackedLevels);
     }
   }
 
-  return jarBuffers;
+  return { jarBuffers, allUnpackedLevels };
 }
 
 function unpackFatJars(
   jarBuffers: JarBuffer[],
   desiredLevelsOfUnpacking: number,
-): JarFingerprint[] {
+): JarAnalysisResult {
   const fingerprints: JarFingerprint[] = [];
+  const allUnpackedLevels: number[] = [];
 
   for (const jarBuffer of jarBuffers) {
-    const unpackedLevels: number = 0;
-    const jars: JarBuffer[] = unpackJarsTraverse({
+    const unpackedJarsResult: UnpackedJarsResult = unpackJarsTraverse({
       jarBuffer: jarBuffer.digest,
       jarPath: jarBuffer.location,
       desiredLevelsOfUnpacking,
-      unpackedLevels,
+      unpackedLevels: 0,
+      allUnpackedLevels,
       jarBuffers: [],
     });
 
-    fingerprints.push(...getJarShas(jars));
+    fingerprints.push(...getJarShas(unpackedJarsResult.jarBuffers));
+    allUnpackedLevels.push(...unpackedJarsResult.allUnpackedLevels);
   }
 
-  return fingerprints;
+  return { fingerprints, unpackedLevels: Math.max(...allUnpackedLevels) };
 }

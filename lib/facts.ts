@@ -58,6 +58,7 @@ export interface JarFingerprintsFact {
     fingerprints: JarFingerprint[];
     origin: string;
     path: string;
+    shadedJarsUnpackedLevel: number;
   };
 }
 

@@ -1,5 +1,8 @@
 import { AutoDetectedUserInstructions, ManifestFile } from "../types";
-import { AppDepsScanResultWithoutTarget } from "./applications/types";
+import {
+  AppDepsScanResultWithoutTarget,
+  JarBuffer,
+} from "./applications/types";
 
 export interface AnalyzedPackage {
   Name: string;
@@ -63,6 +66,16 @@ export interface DynamicAnalysis {
 export interface JarFingerprint {
   location: string;
   digest: string;
+}
+
+export interface JarAnalysisResult {
+  fingerprints: JarFingerprint[];
+  unpackedLevels: number;
+}
+
+export interface UnpackedJarsResult {
+  jarBuffers: JarBuffer[];
+  allUnpackedLevels: number[];
 }
 
 export interface StaticAnalysis {
