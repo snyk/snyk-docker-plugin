@@ -15,9 +15,8 @@ function rmdirRecursive(customPath: string[]): void {
     return;
   }
 
-  fs.rmdirSync(path.join(...customPath));
-  const next = customPath.slice(0, customPath.length - 1);
-  rmdirRecursive(next);
+  const joinedPath = path.join(...customPath);
+  fs.rmSync(joinedPath, { recursive: true, force: true });
 }
 
 // prettier-ignore
@@ -233,7 +232,7 @@ describe("getImageArchive", () => {
       const dockerPullSpy = jest
         .spyOn(Docker.prototype, "pull")
         .mockImplementation((_1, _2, _3, imageSavePath) => {
-          fs.writeFileSync(path.join(imageSavePath, "image.tar"), {});
+          fs.writeFileSync(path.join(imageSavePath, "image.tar"), "");
           return Promise.resolve({} as DockerPullResult);
         });
       jest.spyOn(subProcess, "execute").mockImplementation(() => {
