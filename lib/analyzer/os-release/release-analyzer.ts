@@ -76,7 +76,10 @@ export async function tryRedHatRelease(
   if (!idRes || !versionRes) {
     throw new Error("Failed to parse /etc/redhat-release");
   }
-  const name = idRes[1].replace(/"/g, "").toLowerCase();
+  const name =
+    text.indexOf("Red Hat") !== -1
+      ? "rhel"
+      : idRes[1].replace(/"/g, "").toLowerCase();
   const version = versionRes[1].replace(/"/g, "");
   return { name, version, prettyName: "" };
 }
