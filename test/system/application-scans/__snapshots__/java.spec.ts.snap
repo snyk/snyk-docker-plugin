@@ -80,6 +80,10 @@ Object {
           },
           "type": "jarFingerprints",
         },
+        Object {
+          "data": "sha256:e997a24cd4633de60213a23debcfb37dcc9fa6578a112976fc80aaa094ea1f59",
+          "type": "imageId",
+        },
       ],
       "identity": Object {
         "targetFile": "/app",
@@ -107,6 +111,10 @@ Object {
             "path": "/libs",
           },
           "type": "jarFingerprints",
+        },
+        Object {
+          "data": "sha256:e997a24cd4633de60213a23debcfb37dcc9fa6578a112976fc80aaa094ea1f59",
+          "type": "imageId",
         },
       ],
       "identity": Object {

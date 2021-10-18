@@ -673,6 +673,10 @@ Object {
           },
           "type": "depGraph",
         },
+        Object {
+          "data": "sha256:0809facff9bd760673e046192ad24a2ee08d451f6dbb6c22552293dc4b15e734",
+          "type": "imageId",
+        },
       ],
       "identity": Object {
         "targetFile": "/usr/bin/yq",
