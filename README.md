@@ -42,7 +42,7 @@ Applications:
 Others:
 
 - Dockerfile analysis
-- identifying Node and Java binaries installed outside the package mmanager
+- identifying Node and Java binaries installed outside the package manager
 - running on Windows (_not_ the same as scanning Windows containers)
 - collecting the `rootFs` hashes for base image detection and recommendation
 
