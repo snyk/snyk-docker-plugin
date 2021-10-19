@@ -1709,6 +1709,10 @@ Object {
           ],
           "type": "testedFiles",
         },
+        Object {
+          "data": "sha256:7f335821efb5e5b95b36541004fa0287732a11f97a4a0ff807cc065746f82538",
+          "type": "imageId",
+        },
       ],
       "identity": Object {
         "targetFile": "/srv/npm-app/package.json",
@@ -10934,6 +10938,10 @@ Object {
             "yarn.lock",
           ],
           "type": "testedFiles",
+        },
+        Object {
+          "data": "sha256:7f335821efb5e5b95b36541004fa0287732a11f97a4a0ff807cc065746f82538",
+          "type": "imageId",
         },
       ],
       "identity": Object {

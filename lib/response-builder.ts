@@ -136,12 +136,22 @@ async function buildResponse(
 
   const applicationDependenciesScanResults: types.ScanResult[] = (
     depsAnalysis.applicationDependenciesScanResults || []
-  ).map((appDepsScanResult) => ({
-    ...appDepsScanResult,
-    target: {
-      image: depGraph.rootPkg.name,
-    },
-  }));
+  ).map((appDepsScanResult) => {
+    if (depsAnalysis.imageId) {
+      const imageIdFact: facts.ImageIdFact = {
+        type: "imageId",
+        data: depsAnalysis.imageId,
+      };
+      appDepsScanResult.facts.push(imageIdFact);
+    }
+
+    return {
+      ...appDepsScanResult,
+      target: {
+        image: depGraph.rootPkg.name,
+      },
+    };
+  });
 
   const args =
     depsAnalysis.platform !== undefined
