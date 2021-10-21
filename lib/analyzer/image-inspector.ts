@@ -25,8 +25,14 @@ async function getInspectResult(
 
 function cleanupCallback(imageFolderPath: string, imageName: string) {
   return () => {
+    const fullImagePath = path.join(imageFolderPath, imageName);
     try {
-      fs.rmSync(imageFolderPath, { recursive: true, force: true });
+      if (fs.existsSync(fullImagePath)) {
+        fs.unlinkSync(fullImagePath);
+      }
+      if (fs.existsSync(imageFolderPath)) {
+        fs.rmdirSync(imageFolderPath);
+      }
     } catch (err) {
       debug(`Can't remove folder ${imageFolderPath}, error: ${err}`);
     }
