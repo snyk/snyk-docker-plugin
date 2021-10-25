@@ -30,7 +30,9 @@ function cleanupCallback(imageFolderPath: string, imageName: string) {
       fs.unlinkSync(fullImagePath);
     }
     fs.rmdir(imageFolderPath, (err) => {
-      debug(`Can't remove folder ${imageFolderPath}, got error ${err}`);
+      if (err !== null) {
+        debug(`Can't remove folder ${imageFolderPath}, got error ${err}`);
+      }
     });
   };
 }
