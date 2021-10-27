@@ -3,9 +3,11 @@ import * as tmp from "tmp";
 import { v4 as uuidv4 } from "uuid";
 
 export function fullImageSavePath(imageSavePath: string | undefined): string {
-  let imagePath = tmp.dirSync().name;
+  let imagePath: string;
   if (imageSavePath) {
     imagePath = path.normalize(imageSavePath);
+  } else {
+    imagePath = tmp.dirSync().name;
   }
 
   return path.join(imagePath, uuidv4());
