@@ -60,6 +60,16 @@ describe("getPackagesFromRunInstructions", () => {
         );
       },
     );
+    test("given an image built with --build-arg flags, expect ARG values to be stripped from RUN instruction", () => {
+      const instruction: string =
+        "RUN |2 TEST_STRING_1=Test string one TEST_STRING_2=Test\nstring two /bin/sh -c apt install -y curl";
+      const results = getPackagesFromRunInstructions([instruction]) as {
+        [key: string]: Record<string, string>;
+      };
+      expect(results.curl.installCommand).toBeDockerPackageInstallCommand(
+        "curl",
+      );
+    });
   });
 });
 
