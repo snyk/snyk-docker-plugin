@@ -49,7 +49,7 @@ function getRunInstructionsFromDockerfile(dockerfile: Dockerfile) {
  */
 function getPackagesFromRunInstructions(runInstructions: string[]) {
   return runInstructions.reduce((dockerfilePackages, instruction) => {
-    const cleanedInstruction = removeRunDefFromInstruction(instruction);
+    const cleanedInstruction = cleanInstruction(instruction);
     const commands = cleanedInstruction.split(/\s?(;|&&)\s?/);
     const installCommands = commands.filter((command) =>
       installRegex.test(command),
@@ -69,7 +69,15 @@ function getPackagesFromRunInstructions(runInstructions: string[]) {
           if (name.startsWith("$")) {
             name = name.slice(1);
           }
-          dockerfilePackages[name] = { instruction };
+          const installCommand =
+            installCommands
+              .find((cmd) => cmd.indexOf(name) !== -1)
+              ?.replace(/\s+/g, " ")
+              .trim() || "Unknown";
+          dockerfilePackages[name] = {
+            instruction,
+            installCommand,
+          };
         });
       }
     }
@@ -78,12 +86,24 @@ function getPackagesFromRunInstructions(runInstructions: string[]) {
   }, {});
 }
 
-function removeRunDefFromInstruction(instruction: string) {
+/**
+ * Return the instruction text without any of the image prefixes
+ * @param instruction the full RUN instruction extracted from image
+ */
+function cleanInstruction(instruction: string): string {
   let cleanedInstruction = instruction;
-  const runDefs = ["RUN ", "/bin/sh ", "RUN /bin/sh"];
+  const runDefs = ["RUN ", "/bin/sh ", "-c "];
+  const argsPrefixRegex = /^\|\d .*?=/;
+
   for (const runDef of runDefs) {
     if (cleanedInstruction.startsWith(runDef)) {
       cleanedInstruction = cleanedInstruction.slice(runDef.length);
+      if (runDef === runDefs[0] && argsPrefixRegex.test(cleanedInstruction)) {
+        const match = installRegex.exec(cleanedInstruction);
+        if (match) {
+          cleanedInstruction = cleanedInstruction.slice(match.index);
+        }
+      }
     }
   }
   return cleanedInstruction;

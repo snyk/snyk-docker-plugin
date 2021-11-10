@@ -2494,15 +2494,19 @@ Object {
             },
             "dockerfilePackages": Object {
               "\\"nodejs-10.15.3-1nodesource\\"": Object {
+                "installCommand": "yum install -y \\"nodejs-10.15.3-1nodesource\\" yarn make gcc-c++",
                 "instruction": "RUN yum install -y \\"nodejs-10.15.3-1nodesource\\" yarn make gcc-c++ && yum clean all",
               },
               "gcc-c++": Object {
+                "installCommand": "yum install -y \\"nodejs-10.15.3-1nodesource\\" yarn make gcc-c++",
                 "instruction": "RUN yum install -y \\"nodejs-10.15.3-1nodesource\\" yarn make gcc-c++ && yum clean all",
               },
               "make": Object {
+                "installCommand": "yum install -y \\"nodejs-10.15.3-1nodesource\\" yarn make gcc-c++",
                 "instruction": "RUN yum install -y \\"nodejs-10.15.3-1nodesource\\" yarn make gcc-c++ && yum clean all",
               },
               "yarn": Object {
+                "installCommand": "yum install -y \\"nodejs-10.15.3-1nodesource\\" yarn make gcc-c++",
                 "instruction": "RUN yum install -y \\"nodejs-10.15.3-1nodesource\\" yarn make gcc-c++ && yum clean all",
               },
             },
@@ -2556,15 +2560,19 @@ Object {
             },
             "dockerfilePackages": Object {
               "\\"nodejs-\${NODE_VER}\\"": Object {
+                "installCommand": "yum install -y \\"nodejs-\${NODE_VER}\\" yarn make gcc-c++",
                 "instruction": "/bin/sh -c yum install -y \\"nodejs-\${NODE_VER}\\" yarn make gcc-c++   && yum clean all",
               },
               "gcc-c++": Object {
+                "installCommand": "yum install -y \\"nodejs-\${NODE_VER}\\" yarn make gcc-c++",
                 "instruction": "/bin/sh -c yum install -y \\"nodejs-\${NODE_VER}\\" yarn make gcc-c++   && yum clean all",
               },
               "make": Object {
+                "installCommand": "yum install -y \\"nodejs-\${NODE_VER}\\" yarn make gcc-c++",
                 "instruction": "/bin/sh -c yum install -y \\"nodejs-\${NODE_VER}\\" yarn make gcc-c++   && yum clean all",
               },
               "yarn": Object {
+                "installCommand": "yum install -y \\"nodejs-\${NODE_VER}\\" yarn make gcc-c++",
                 "instruction": "/bin/sh -c yum install -y \\"nodejs-\${NODE_VER}\\" yarn make gcc-c++   && yum clean all",
               },
             },

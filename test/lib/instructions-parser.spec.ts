@@ -1,6 +1,15 @@
-import { getPackagesFromRunInstructions } from "../../lib/dockerfile/instruction-parser";
+import { DockerfileParser } from "dockerfile-ast";
+import { readFileSync } from "fs";
+import { resolve } from "path";
+import {
+  getPackagesFromDockerfile,
+  getPackagesFromRunInstructions,
+} from "../../lib/dockerfile/instruction-parser";
 
-describe("instruction parser", () => {
+describe("getPackagesFromRunInstructions", () => {
+  const formatInstructions = (instructions: string[]): string[] =>
+    instructions.map((instruction) => `RUN /bin/sh -c ${instruction}`);
+
   const cases = [
     [["apt install curl"], ["curl"]],
     [["apt-get install curl"], ["curl"]],
@@ -22,17 +31,61 @@ describe("instruction parser", () => {
       ["curl", "vim", "wget"],
     ],
     [["apt install 389-admin"], ["389-admin"]],
+    [["apt install apache2=2.3.35-4ubuntu1"], ["apache2"]],
   ];
-  test.each(cases)(
-    "given instructions %p, expect packages %p",
-    (instructions: string[], expectedResult: string[]) => {
-      const instructionFromConfigPrefix = "/bin/sh -c";
-      const result = getPackagesFromRunInstructions(
-        instructions.map(
-          (instruction) => `${instructionFromConfigPrefix} ${instruction}`,
+
+  describe("Verify package detection", () => {
+    test.each(cases)(
+      "given instructions %p, expect packages %p to be detected",
+      (instructions: string[], expectedResult: string[]) => {
+        const result = getPackagesFromRunInstructions(
+          formatInstructions(instructions),
+        );
+        expect(Object.keys(result).sort()).toEqual(expectedResult.sort());
+      },
+    );
+  });
+
+  describe("Verify package install command", () => {
+    test.each(cases)(
+      "given instructions %p, expect packages %p to reference install command",
+      (instructions: string[]) => {
+        const results = getPackagesFromRunInstructions(
+          formatInstructions(instructions),
+        );
+        Object.keys(results).forEach((pkgName) =>
+          expect(
+            results[pkgName].installCommand,
+          ).toBeDockerPackageInstallCommand(pkgName),
+        );
+      },
+    );
+  });
+});
+
+describe("getPackagesFromDockerFile", () => {
+  const dockerfileFixtures = [
+    ["library/nginx"],
+    ["with-args-package"],
+    ["with-multiple-run-instructions"],
+  ];
+
+  test.each(dockerfileFixtures)(
+    "given dockerFile fixture %p, expect all returned packages to reference install command",
+    (fixture: string) => {
+      const filePath = resolve(
+        "test/fixtures/dockerfiles",
+        fixture,
+        "Dockerfile",
+      );
+      const content = readFileSync(filePath, "utf-8").toString();
+      const dockerFile = DockerfileParser.parse(content);
+      const results = getPackagesFromDockerfile(dockerFile);
+      Object.keys(results).forEach((pkgName) =>
+        expect(results[pkgName].installCommand).toBeDockerPackageInstallCommand(
+          pkgName,
         ),
       );
-      expect(Object.keys(result).sort()).toEqual(expectedResult.sort());
     },
   );
 });

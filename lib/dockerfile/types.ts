@@ -15,6 +15,7 @@ export enum DockerFileAnalysisErrorCode {
 export interface DockerFilePackages {
   [packageName: string]: {
     instruction: string;
+    installCommand: string;
   };
 }
 
