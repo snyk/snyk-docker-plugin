@@ -368,12 +368,15 @@ Object {
             },
             "dockerfilePackages": Object {
               "fixture": Object {
+                "installCommand": "apk add libssl nonexistent fixture",
                 "instruction": "RUN apk add libssl nonexistent fixture",
               },
               "libssl": Object {
+                "installCommand": "apk add libssl nonexistent fixture",
                 "instruction": "RUN apk add libssl nonexistent fixture",
               },
               "nonexistent": Object {
+                "installCommand": "apk add libssl nonexistent fixture",
                 "instruction": "RUN apk add libssl nonexistent fixture",
               },
             },
@@ -7592,177 +7595,235 @@ Object {
             },
             "dockerfilePackages": Object {
               "bzip2": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "cairo": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "djvulibre": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "expat": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "fftw3": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "fontconfig": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "freetype": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "gcc-4.9": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "gdk-pixbuf": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "glib2.0": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "gobject-introspection": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "graphite2": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "graphviz": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "harfbuzz": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "hicolor-icon-theme": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "ilmbase": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "imagemagick": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "jasper": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "jbigkit": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "jquery": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "lcms2": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "libcroco": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "libelf": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "libexif": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "libgd2": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "libice": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "libjpeg-turbo": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "liblqr": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "libpng": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "libpthread-stubs": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "librsvg": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "libsm": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "libtool": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "libvpx": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "libwmf": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "libx11": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "libxcb": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "libxext": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "libxml2": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "libxpm": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "libxrender": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "libxt": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "lsb": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "lzo2": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "openexr": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "pango1.0": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "pcre3": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "pixman": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "pkg-config": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "shared-mime-info": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "tiff": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "x11proto-input": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "x11proto-kb": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "x11proto-render": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "x11proto-xext": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "xorg": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "xtrans": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
               "xz-utils": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
             },
@@ -7810,177 +7871,235 @@ Object {
             },
             "dockerfilePackages": Object {
               "bzip2": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "cairo": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "djvulibre": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "expat": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "fftw3": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "fontconfig": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "freetype": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "gcc-4.9": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "gdk-pixbuf": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "glib2.0": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "gobject-introspection": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "graphite2": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "graphviz": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "harfbuzz": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "hicolor-icon-theme": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "ilmbase": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "imagemagick": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "jasper": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "jbigkit": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "jquery": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "lcms2": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "libcroco": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "libelf": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "libexif": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "libgd2": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "libice": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "libjpeg-turbo": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "liblqr": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "libpng": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "libpthread-stubs": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "librsvg": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "libsm": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "libtool": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "libvpx": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "libwmf": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "libx11": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "libxcb": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "libxext": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "libxml2": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "libxpm": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "libxrender": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "libxt": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "lsb": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "lzo2": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "openexr": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "pango1.0": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "pcre3": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "pixman": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "pkg-config": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "shared-mime-info": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "tiff": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "x11proto-input": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "x11proto-kb": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "x11proto-render": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "x11proto-xext": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "xorg": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "xtrans": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
               "xz-utils": Object {
+                "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
             },
