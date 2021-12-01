@@ -55,6 +55,10 @@ Object {
           "type": "imageLayers",
         },
         Object {
+          "data": "2020-03-24T13:05:21.8612979Z",
+          "type": "imageCreationTime",
+        },
+        Object {
           "data": Array [
             "sha256:05356880e40587a7dedbdcb39f8a9f99f2f48e094c7e1d2fae64f4774cc7a4aa",
           ],
@@ -1844,6 +1848,10 @@ Object {
             "1ec0a1574e1b795732f45c4f2eb9e447d7052a176f4c97bb1c68d78b17a72b25.tar",
           ],
           "type": "imageLayers",
+        },
+        Object {
+          "data": "2020-02-24T11:06:57.2049514Z",
+          "type": "imageCreationTime",
         },
         Object {
           "data": Array [

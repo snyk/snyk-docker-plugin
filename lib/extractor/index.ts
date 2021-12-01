@@ -56,6 +56,7 @@ export async function extractImageContent(
           dockerArchive.imageConfig,
         ),
         imageLabels: dockerArchive.imageConfig.config.Labels,
+        imageCreationTime: dockerArchive.imageConfig.created,
       };
   }
 }

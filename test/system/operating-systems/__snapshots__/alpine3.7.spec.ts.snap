@@ -351,6 +351,10 @@ Object {
           "type": "imageLayers",
         },
         Object {
+          "data": "2019-03-07T22:19:53.447205048Z",
+          "type": "imageCreationTime",
+        },
+        Object {
           "data": Array [
             "sha256:3fc64803ca2de7279269048fe2b8b3c73d4536448c87c32375b2639ac168a48b",
           ],
@@ -724,6 +728,10 @@ Object {
             "9dc84fbaf586a6da942b080c52689ac0cd8266ae7971ffd8e62729542e21c52c/layer.tar",
           ],
           "type": "imageLayers",
+        },
+        Object {
+          "data": "2019-03-07T22:19:53.447205048Z",
+          "type": "imageCreationTime",
         },
         Object {
           "data": Array [

@@ -77,6 +77,14 @@ async function buildResponse(
     additionalOsDepsFacts.push(imageLabels);
   }
 
+  if (depsAnalysis.imageCreationTime) {
+    const imageCreationTimeFact: facts.ImageCreationTimeFact = {
+      type: "imageCreationTime",
+      data: depsAnalysis.imageCreationTime,
+    };
+    additionalOsDepsFacts.push(imageCreationTimeFact);
+  }
+
   if (
     depsAnalysis.rootFsLayers &&
     Array.isArray(depsAnalysis.rootFsLayers) &&

@@ -3008,6 +3008,10 @@ Object {
           "type": "imageLabels",
         },
         Object {
+          "data": "2021-03-13T00:03:32.777698465Z",
+          "type": "imageCreationTime",
+        },
+        Object {
           "data": Array [
             "sha256:af6bf1987c2eb07d73f33836b0d8fd825d7c785273526b077e46780e8b4b2ae9",
             "sha256:282064e8c74ac642a58047db969497eeae247fb78e8e9c7c7cd0452b3063a11b",

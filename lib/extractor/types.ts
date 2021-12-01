@@ -19,6 +19,7 @@ export interface ExtractionResult {
   autoDetectedUserInstructions?: AutoDetectedUserInstructions;
   platform?: string;
   imageLabels?: { [key: string]: string };
+  imageCreationTime?: string;
 }
 
 export interface ExtractedLayers {
@@ -46,6 +47,7 @@ export interface DockerArchiveImageConfig {
   config: {
     Labels: { [key: string]: string };
   };
+  created: string;
 }
 
 export interface OciArchiveLayer {

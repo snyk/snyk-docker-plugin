@@ -44,4 +44,8 @@ describe("extractImageContent", () => {
       maintainer: "NGINX Docker Maintainers <docker-maint@nginx.com>",
     });
   });
+
+  it("extracts image creation time", async () => {
+    expect(typeof extractedContent.imageCreationTime).toEqual("string");
+  });
 });

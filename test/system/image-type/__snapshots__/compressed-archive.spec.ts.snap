@@ -1767,6 +1767,10 @@ Object {
           "type": "imageLabels",
         },
         Object {
+          "data": "2019-09-12T14:37:49.527989907Z",
+          "type": "imageCreationTime",
+        },
+        Object {
           "data": Array [
             "sha256:2db44bce66cde56fca25aeeb7d09dc924b748e3adfe58c9cc3eb2bd2f68a1b68",
             "sha256:16d1b1dd2a23a7a79426299fde8be361194007dfebb3438f96735755283becf8",
