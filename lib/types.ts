@@ -62,7 +62,8 @@ export type FactType =
   | "jarFingerprints"
   | "autoDetectedUserInstructions"
   | "imageLabels"
-  | "imageSizeBytes";
+  | "imageSizeBytes"
+  | "imageCreationTime";
 
 export interface PluginResponse {
   /** The first result is guaranteed to be the OS dependencies scan result. */

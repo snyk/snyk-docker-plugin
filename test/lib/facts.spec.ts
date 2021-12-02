@@ -47,6 +47,10 @@ describe("Facts", () => {
       type: "autoDetectedUserInstructions",
       data: {} as any,
     };
+    const imageCreationTimeFact: facts.ImageCreationTimeFact = {
+      type: "imageCreationTime",
+      data: "",
+    };
 
     // This would catch compilation errors.
     const allFacts: Fact[] = [
@@ -61,6 +65,7 @@ describe("Facts", () => {
       rootFsFact,
       testedFilesFact,
       autoDetectedUserInstructionsFact,
+      imageCreationTimeFact,
     ];
     expect(allFacts).toBeDefined();
 

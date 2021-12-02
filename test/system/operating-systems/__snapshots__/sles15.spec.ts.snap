@@ -1886,6 +1886,10 @@ Object {
           "type": "imageLabels",
         },
         Object {
+          "data": "2020-09-22T16:49:18Z",
+          "type": "imageCreationTime",
+        },
+        Object {
           "data": Array [
             "sha256:0f350a1ede685e83e2220dd2ad17b7b1247cfa80eb6a9f0bbfed83d1e544ed45",
           ],

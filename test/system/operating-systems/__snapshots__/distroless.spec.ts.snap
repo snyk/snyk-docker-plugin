@@ -157,6 +157,10 @@ Object {
           "type": "imageLayers",
         },
         Object {
+          "data": "1970-01-01T00:00:00Z",
+          "type": "imageCreationTime",
+        },
+        Object {
           "data": Array [
             "sha256:79d541cda6cb9a0c0e4aaa62aaea1f85b6b56544b5ad25e1e3369525ec0bf670",
             "sha256:236f427c513a1d6f359c493154ef41bb0d768e0d0396599e0625a5f6fee476d7",

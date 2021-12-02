@@ -1652,6 +1652,10 @@ Object {
           "type": "imageLayers",
         },
         Object {
+          "data": "2020-09-10T00:30:05.463804767Z",
+          "type": "imageCreationTime",
+        },
+        Object {
           "data": Array [
             "sha256:b323b70996e4f6d603c331669ac44cf6234a2e22002d3686e9c88398c6911c25",
           ],

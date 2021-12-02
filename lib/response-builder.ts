@@ -34,7 +34,7 @@ async function buildResponse(
     depsAnalysis.packageManager,
   );
 
-  const additionalOsDepsFacts: types.Fact[] = [];
+  const additionalFacts: types.Fact[] = [];
 
   const hashes = depsAnalysis.binaries;
   if (hashes && hashes.length > 0) {
@@ -42,7 +42,7 @@ async function buildResponse(
       type: "keyBinariesHashes",
       data: hashes,
     };
-    additionalOsDepsFacts.push(keyBinariesHashesFact);
+    additionalFacts.push(keyBinariesHashesFact);
   }
 
   if (dockerfileAnalysis !== undefined) {
@@ -50,7 +50,7 @@ async function buildResponse(
       type: "dockerfileAnalysis",
       data: dockerfileAnalysis,
     };
-    additionalOsDepsFacts.push(dockerfileAnalysisFact);
+    additionalFacts.push(dockerfileAnalysisFact);
   }
 
   if (depsAnalysis.imageId) {
@@ -58,7 +58,7 @@ async function buildResponse(
       type: "imageId",
       data: depsAnalysis.imageId,
     };
-    additionalOsDepsFacts.push(imageIdFact);
+    additionalFacts.push(imageIdFact);
   }
 
   if (depsAnalysis.imageLayers && depsAnalysis.imageLayers.length > 0) {
@@ -66,7 +66,7 @@ async function buildResponse(
       type: "imageLayers",
       data: depsAnalysis.imageLayers,
     };
-    additionalOsDepsFacts.push(imageLayersFact);
+    additionalFacts.push(imageLayersFact);
   }
 
   if (depsAnalysis.imageLabels) {
@@ -74,7 +74,15 @@ async function buildResponse(
       type: "imageLabels",
       data: depsAnalysis.imageLabels,
     };
-    additionalOsDepsFacts.push(imageLabels);
+    additionalFacts.push(imageLabels);
+  }
+
+  if (depsAnalysis.imageCreationTime) {
+    const imageCreationTimeFact: facts.ImageCreationTimeFact = {
+      type: "imageCreationTime",
+      data: depsAnalysis.imageCreationTime,
+    };
+    additionalFacts.push(imageCreationTimeFact);
   }
 
   if (
@@ -86,7 +94,7 @@ async function buildResponse(
       type: "rootFs",
       data: depsAnalysis.rootFsLayers,
     };
-    additionalOsDepsFacts.push(rootFsFact);
+    additionalFacts.push(rootFsFact);
   }
 
   if (depsAnalysis.depTree.targetOS.prettyName) {
@@ -94,7 +102,7 @@ async function buildResponse(
       type: "imageOsReleasePrettyName",
       data: depsAnalysis.depTree.targetOS.prettyName,
     };
-    additionalOsDepsFacts.push(imageOsReleasePrettyNameFact);
+    additionalFacts.push(imageOsReleasePrettyNameFact);
   }
 
   const manifestFiles =
@@ -106,7 +114,7 @@ async function buildResponse(
       type: "imageManifestFiles",
       data: manifestFiles,
     };
-    additionalOsDepsFacts.push(imageManifestFilesFact);
+    additionalFacts.push(imageManifestFilesFact);
   }
 
   const autoDetectedPackages =
@@ -131,7 +139,7 @@ async function buildResponse(
         dockerfilePackages: autoDetectedPackagesWithChildren!,
       },
     };
-    additionalOsDepsFacts.push(autoDetectedUserInstructionsFact);
+    additionalFacts.push(autoDetectedUserInstructionsFact);
   }
 
   const applicationDependenciesScanResults: types.ScanResult[] = (
@@ -164,7 +172,7 @@ async function buildResponse(
   };
   const scanResults: types.ScanResult[] = [
     {
-      facts: [depGraphFact, ...additionalOsDepsFacts],
+      facts: [depGraphFact, ...additionalFacts],
       target: {
         image: depGraph.rootPkg.name,
       },

@@ -72,3 +72,8 @@ export interface ImageSizeBytesFact {
   type: "imageSizeBytes";
   data: number;
 }
+
+export interface ImageCreationTimeFact {
+  type: "imageCreationTime";
+  data: string;
+}
