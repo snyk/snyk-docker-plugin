@@ -1,4 +1,4 @@
-import { PassThrough, Readable } from "stream";
+import { /* PassThrough, */ Readable } from "stream";
 import { streamToString } from "../stream-utils";
 import { ExtractAction, FileNameAndContent } from "./types";
 
@@ -10,15 +10,15 @@ export async function applyCallbacks(
   const result: FileNameAndContent = {};
   const actionsToAwait = matchedActions.map((action) => {
     // Using a pass through allows us to read the stream multiple times.
-    const streamCopy = new PassThrough();
-    fileContentStream.pipe(streamCopy);
+    // const streamCopy = new PassThrough();
+    // fileContentStream.pipe(streamCopy);
 
     // Queue the promise but don't await on it yet: we want consumers to start around the same time.
     const promise =
       action.callback !== undefined
-        ? action.callback(streamCopy, streamSize)
+        ? action.callback(fileContentStream, streamSize)
         : // If no callback was provided for this action then return as string by default.
-          streamToString(streamCopy);
+          streamToString(fileContentStream);
 
     return promise.then((content) => {
       // Assign the result once the Promise is complete.

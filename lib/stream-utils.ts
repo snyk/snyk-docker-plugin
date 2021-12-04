@@ -43,19 +43,22 @@ async function streamToHash(
   stream: Readable,
   hashAlgorithm: string,
 ): Promise<string> {
-  return new Promise<string>((resolve, reject) => {
-    const hash = crypto.createHash(hashAlgorithm);
-    hash.setEncoding(HASH_ENCODING);
+  const hash = crypto.createHash(hashAlgorithm);
+  // hash.setEncoding(HASH_ENCODING);
+  const streamContent = await streamToBuffer(stream);
+  hash.update(streamContent);
+  return hash.digest(HASH_ENCODING);
+  // return new Promise<string>((resolve, reject) => {
 
-    stream.on("end", () => {
-      hash.end();
-      resolve(hash.read().toString(HASH_ENCODING));
-    });
+  //   // stream.on("end", () => {
+  //   //   hash.end();
+  //   //   resolve(hash.read().toString(HASH_ENCODING));
+  //   // });
 
-    stream.on("error", (error) => reject(error));
+  //   // stream.on("error", (error) => reject(error));
 
-    stream.pipe(hash);
-  });
+  //   // stream.pipe(hash);
+  // });
 }
 
 export async function streamToSha256(stream: Readable): Promise<string> {
