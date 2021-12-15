@@ -184,12 +184,12 @@ function unpackFatJars(
   return fingerprints;
 }
 
-// interface ZipEntry {
-//   getData: () => Buffer;
-// }
+interface ZipEntry {
+  getData: () => Buffer;
+}
 
 function getDependenciesFromPomProperties(
-  zipEntry,
+  zipEntry: ZipEntry,
   dependencies: JarDep[],
   jarPath: string,
 ) {
