@@ -146,6 +146,35 @@ describe("jar binaries scanning", () => {
           ).rejects.toThrow();
         });
 
+      describe("with shaded-jars-depth=1", () => {
+        beforeAll(async () => {
+          // Arrange
+          // todo: ensure fixture has dependencies
+          fixturePath = getFixture("docker-archives/docker-save/pom-props.tar");
+          const imageNameAndTag = `docker-archive:${fixturePath}`;
+
+          // Act
+          pluginResult = await scan({
+            path: imageNameAndTag,
+            "app-vulns": true,
+            "shaded-jars-depth": "1",
+          });
+
+          fingerprints = pluginResult.scanResults[1].facts[0].data.fingerprints;
+        });
+
+        it("should return jar dependencies from pom.proprties files", async () => {
+          expect(fingerprints[0]).toHaveProperty("dependencies");
+          // expect(fingerprints[0].dependencies).toHaveLength(0);
+        });
+      });
+
+      describe("with missing CLI flags", () => {
+        fixturePath = getFixture(
+          "docker-archives/docker-save/java-uberjar.tar",
+        );
+        const imageNameAndTag = `docker-archive:${fixturePath}`;
+
         it("should throw error if shaded-jars-depth is not a number", async () => {
           // Act
           await expect(

@@ -188,7 +188,7 @@ interface ZipEntry {
   getData: () => Buffer;
 }
 
-function getDependenciesFromPomProperties(
+export function getDependenciesFromPomProperties(
   zipEntry: ZipEntry,
   dependencies: JarDep[],
   jarPath: string,
