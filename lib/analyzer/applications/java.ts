@@ -184,12 +184,12 @@ function unpackFatJars(
   return fingerprints;
 }
 
-interface ZipEntry {
-  getData: () => Buffer;
-}
+// interface ZipEntry {
+//   getData: () => Buffer;
+// }
 
 function getDependenciesFromPomProperties(
-  zipEntry: ZipEntry,
+  zipEntry,
   dependencies: JarDep[],
   jarPath: string,
 ) {
@@ -199,7 +199,7 @@ function getDependenciesFromPomProperties(
     .getData()
     .toString()
     .split(/\n/)
-    .filter((line) => /^[groupId|artifactId|version]=/.test(line)); // These are the only properties we are interested in
+    .filter((line) => /^(groupId|artifactId|version)=/.test(line)); // These are the only properties we are interested in
   const deps: PomProperties = fileContentLines.reduce((deps, line) => {
     const [key, value] = line.split("=");
     deps[key] = value.trim(); // Getting rid of EOL
