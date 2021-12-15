@@ -120,9 +120,7 @@ function unpackJarsTraverse({
   console.log("jarPath: ", jarPath);
   let isFatJar: boolean = false;
 
-  // console.log("🚀 ~ file: java.ts ~ line 127 ~ desiredLevelsOfUnpacking", desiredLevelsOfUnpacking)
   if (unpackedLevels >= desiredLevelsOfUnpacking) {
-    // here?
     jarBuffers.push({
       location: jarPath,
       digest: jarBuffer,
@@ -137,17 +135,23 @@ function unpackJarsTraverse({
     unpackedLevels = unpackedLevels + 1;
 
     for (const zipEntry of zipEntries) {
-      // console.log(zipEntry.entryName);
       if (zipEntry.entryName.endsWith("pom.properties")) {
         console.log(zipEntry.entryName);
-        dependencies.push(zipEntry.entryName as never);
+        const fileContentLines = zipEntry
+          .getData()
+          .toString()
+          .split(/\n/)
+          .filter((line) => /^[groupId|artifactId|version]/.test(line)); // we're only interested in these properties
+        const deps = fileContentLines.reduce((deps, line) => {
+          const [key, value] = line.split("=");
+          deps[key] = value.trim(); // getting rid of EOL
+          return deps;
+        }, {});
+
+        dependencies.push(deps);
       }
 
       if (zipEntry.entryName.endsWith(".jar")) {
-        console.log(
-          "🚀 ~ file: java.ts ~ line 145 ~ zipEntry.entryName",
-          zipEntry.entryName,
-        );
         isFatJar = true;
         const entryData = zipEntry.getData();
         const entryName = zipEntry.entryName;
@@ -165,8 +169,6 @@ function unpackJarsTraverse({
     }
 
     if (!isFatJar) {
-      // here??
-
       jarBuffers.push({
         location: jarPath,
         digest: jarBuffer,
