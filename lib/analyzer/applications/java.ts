@@ -85,22 +85,12 @@ function getFingerprints(
 
 function getJarShas(jarBuffers: JarBuffer[]): JarFingerprint[] {
   return jarBuffers.map((element) => {
-    // const jarDeps = getJarDeps(element);
-    // console.log("🚀 ~ file: java.ts ~ line 88 ~ returnjarBuffers.map ~ jarDeps", jarDeps)
-
     return {
       ...element,
-      digest: bufferToSha1(element.digest), // here we get {digest, location}? if so, need to add:
-      // dependencies: []
-      // {groupId: string; artifactId: string; version: string;}
-      //
+      digest: bufferToSha1(element.digest),
     };
   });
 }
-
-// function getJarDeps(jarBuffer) {
-//   return;
-// }
 
 function unpackJarsTraverse({
   jarBuffer,
@@ -117,7 +107,6 @@ function unpackJarsTraverse({
   jarBuffers: JarBuffer[];
   dependencies?: any;
 }): JarBuffer[] {
-  console.log("jarPath: ", jarPath);
   let isFatJar: boolean = false;
 
   if (unpackedLevels >= desiredLevelsOfUnpacking) {
@@ -136,7 +125,6 @@ function unpackJarsTraverse({
 
     for (const zipEntry of zipEntries) {
       if (zipEntry.entryName.endsWith("pom.properties")) {
-        console.log(zipEntry.entryName);
         const fileContentLines = zipEntry
           .getData()
           .toString()
@@ -148,7 +136,10 @@ function unpackJarsTraverse({
           return deps;
         }, {});
 
-        dependencies.push(deps);
+        // dependency shouldn't be a reference for the jar itself
+        if (!jarPath.endsWith(`${deps.artifactId}-${deps.version}.jar`)) {
+          dependencies.push(deps);
+        }
       }
 
       if (zipEntry.entryName.endsWith(".jar")) {
