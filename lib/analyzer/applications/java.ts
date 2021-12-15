@@ -3,7 +3,7 @@ import * as path from "path";
 import { bufferToSha1 } from "../../buffer-utils";
 import { JarFingerprintsFact } from "../../facts";
 import { JarFingerprint } from "../types";
-import { JarBuffer } from "./types";
+import { JarBuffer, JarDep } from "./types";
 import { AppDepsScanResultWithoutTarget, FilePathToBuffer } from "./types";
 // tslint:disable:no-console
 
@@ -17,6 +17,7 @@ function groupJarFingerprintsByPath(input: {
       return {
         location: filePath,
         digest,
+        dependencies: [],
       };
     },
   );
@@ -105,7 +106,7 @@ function unpackJarsTraverse({
   desiredLevelsOfUnpacking: number;
   unpackedLevels: number;
   jarBuffers: JarBuffer[];
-  dependencies?: any;
+  dependencies?: JarDep[];
 }): JarBuffer[] {
   let isFatJar: boolean = false;
 
@@ -129,7 +130,7 @@ function unpackJarsTraverse({
           .getData()
           .toString()
           .split(/\n/)
-          .filter((line) => /^[groupId|artifactId|version]/.test(line)); // we're only interested in these properties
+          .filter((line) => /^[groupId|artifactId|version]=/.test(line)); // we're only interested in these properties
         const deps = fileContentLines.reduce((deps, line) => {
           const [key, value] = line.split("=");
           deps[key] = value.trim(); // getting rid of EOL

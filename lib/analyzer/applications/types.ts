@@ -13,13 +13,13 @@ export interface FilePathToBuffer {
 export interface JarBuffer {
   location: string;
   digest: Buffer;
-  dependencies?: any;
+  dependencies: JarDep[];
 }
-// interface JarDep {
-//   groupId: string;
-//   artifactId: string;
-//   version: string;
-// }
+export interface JarDep {
+  parentName: string;
+  name: string;
+  version: string;
+}
 
 export interface FilePathToElfContent {
   [filePath: string]: Elf;
