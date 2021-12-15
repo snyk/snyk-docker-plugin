@@ -51,15 +51,6 @@ export interface IAptFiles {
   extFile: string;
 }
 
-export interface DynamicAnalysis {
-  imageId: string;
-  platform?: string;
-  osRelease: OSRelease;
-  results: ImageAnalysis[];
-  binaries: ImageAnalysis;
-  imageLayers: string[];
-}
-
 export interface JarFingerprint {
   location: string;
   digest: string;
