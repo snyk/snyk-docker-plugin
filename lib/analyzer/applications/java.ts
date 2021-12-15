@@ -138,7 +138,11 @@ function unpackJarsTraverse({
 
         // dependency shouldn't be a reference for the jar itself
         if (!jarPath.endsWith(`${deps.artifactId}-${deps.version}.jar`)) {
-          dependencies.push(deps);
+          dependencies.push({
+            name: deps.artifactId,
+            parentName: deps.groupId,
+            version: deps.version,
+          });
         }
       }
 
