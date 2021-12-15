@@ -3,7 +3,7 @@ import * as path from "path";
 import { bufferToSha1 } from "../../buffer-utils";
 import { JarFingerprintsFact } from "../../facts";
 import { JarFingerprint } from "../types";
-import { JarBuffer, JarDep } from "./types";
+import { JarBuffer, JarDep, PomProperties } from "./types";
 import { AppDepsScanResultWithoutTarget, FilePathToBuffer } from "./types";
 // tslint:disable:no-console
 
@@ -126,25 +126,11 @@ function unpackJarsTraverse({
 
     for (const zipEntry of zipEntries) {
       if (zipEntry.entryName.endsWith("pom.properties")) {
-        const fileContentLines = zipEntry
-          .getData()
-          .toString()
-          .split(/\n/)
-          .filter((line) => /^[groupId|artifactId|version]=/.test(line)); // we're only interested in these properties
-        const deps = fileContentLines.reduce((deps, line) => {
-          const [key, value] = line.split("=");
-          deps[key] = value.trim(); // getting rid of EOL
-          return deps;
-        }, {});
-
-        // dependency shouldn't be a reference for the jar itself
-        if (!jarPath.endsWith(`${deps.artifactId}-${deps.version}.jar`)) {
-          dependencies.push({
-            name: deps.artifactId,
-            parentName: deps.groupId,
-            version: deps.version,
-          });
-        }
+        dependencies = getDependenciesFromPomProperties(
+          zipEntry,
+          dependencies,
+          jarPath,
+        );
       }
 
       if (zipEntry.entryName.endsWith(".jar")) {
@@ -196,4 +182,38 @@ function unpackFatJars(
   }
 
   return fingerprints;
+}
+
+interface ZipEntry {
+  getData: () => Buffer;
+}
+
+function getDependenciesFromPomProperties(
+  zipEntry: ZipEntry,
+  dependencies: JarDep[],
+  jarPath: string,
+) {
+  const result: JarDep[] = [...dependencies];
+
+  const fileContentLines = zipEntry
+    .getData()
+    .toString()
+    .split(/\n/)
+    .filter((line) => /^[groupId|artifactId|version]=/.test(line)); // These are the only properties we are interested in
+  const deps: PomProperties = fileContentLines.reduce((deps, line) => {
+    const [key, value] = line.split("=");
+    deps[key] = value.trim(); // Getting rid of EOL
+    return deps;
+  }, {});
+
+  // Dependency shouldn't be a reference for the jar itself
+  if (!jarPath.endsWith(`${deps.artifactId}-${deps.version}.jar`)) {
+    result.push({
+      name: deps.artifactId,
+      parentName: deps.groupId,
+      version: deps.version,
+    });
+  }
+
+  return result;
 }

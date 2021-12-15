@@ -16,9 +16,15 @@ export interface JarBuffer {
   dependencies: JarDep[];
 }
 export interface JarDep {
-  parentName: string;
-  name: string;
-  version: string;
+  parentName?: string;
+  name?: string;
+  version?: string;
+}
+
+export interface PomProperties {
+  groupId?: string;
+  artifactId?: string;
+  version?: string;
 }
 
 export interface FilePathToElfContent {
