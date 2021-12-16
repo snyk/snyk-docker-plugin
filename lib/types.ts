@@ -166,15 +166,21 @@ export interface PluginOptions {
   "app-vulns": boolean | string;
 
   /**
-   * How many levels are nested jars we should unpack
-   * If jar contains other jars (AKA fat-jar or shaded-jar), we send back only the children jars, and don't look for vulns in the parent.
+   * How many levels of (nested) JARs we should unpack
+   * If a JAR contains other JARs (AKA JAR of JARs), we send back only the children JARs, and don't look for vulns in the parent.
    *
    * if 0 is provided, it's as if the flag was not provided.
-   * if n > 0 is provided, we try to unpack n levels of jars.
+   * if n > 0 is provided, we try to unpack n levels of JARs.
    * The default (if flag is provided, but without a number) is 1 level
    *
    * Must always come with app-vulns
+   *
+   * Alias: shaded-jars-depth
+   * TODO remove shaded-jars-depth
+   * A shaded JAR is when you unpack all JAR files, then repack them into a single JAR, while
+   * renaming (i.e., "shading") all packages of all dependencies.
    */
+  "nested-jars-depth": boolean | string;
   "shaded-jars-depth": boolean | string;
 
   /** The default is "false". */
