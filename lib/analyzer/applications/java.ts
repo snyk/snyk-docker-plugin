@@ -125,12 +125,14 @@ function unpackJarsTraverse({
     unpackedLevels = unpackedLevels + 1;
 
     for (const zipEntry of zipEntries) {
+      // pom.properties is file describing a dependency within a JAR
+      // using this file allows resolution of shaded jars
       if (zipEntry.entryName.endsWith("pom.properties")) {
-        dependencies = getDependenciesFromPomProperties(
-          zipEntry,
-          dependencies,
-          jarPath,
-        );
+        const entryData = zipEntry.getData().toString();
+        const dep = getDependencyFromPomProperties(entryData, jarPath);
+        if (dep) {
+          dependencies.push(dep);
+        }
       }
 
       if (zipEntry.entryName.endsWith(".jar")) {
@@ -184,36 +186,49 @@ function unpackFatJars(
   return fingerprints;
 }
 
-interface ZipEntry {
-  getData: () => Buffer;
-}
-
-export function getDependenciesFromPomProperties(
-  zipEntry: ZipEntry,
-  dependencies: JarDep[],
+/**
+ * Gets a formatted dependency object from the contents of
+ * a pom.properties file that describes a JAR dependency
+ * @param {string} fileContent
+ * @param {string} jarPath
+ */
+export function getDependencyFromPomProperties(
+  fileContent: string,
   jarPath: string,
-) {
-  const result: JarDep[] = [...dependencies];
+): JarDep | null {
+  const dep = parsePomProperties(fileContent);
 
-  const fileContentLines = zipEntry
-    .getData()
-    .toString()
-    .split(/\n/)
-    .filter((line) => /^(groupId|artifactId|version)=/.test(line)); // These are the only properties we are interested in
-  const deps: PomProperties = fileContentLines.reduce((deps, line) => {
-    const [key, value] = line.split("=");
-    deps[key] = value.trim(); // Getting rid of EOL
-    return deps;
-  }, {});
-
-  // Dependency shouldn't be a reference for the jar itself
-  if (!jarPath.endsWith(`${deps.artifactId}-${deps.version}.jar`)) {
-    result.push({
-      name: deps.artifactId,
-      parentName: deps.groupId,
-      version: deps.version,
-    });
+  // we need all of these props to allow us to inject the dependency
+  // into the depGraph
+  if (!dep.name || !dep.parentName || !dep.version) {
+    return null;
+  }
+  // Dependency shouldn't be a reference for the JAR itself
+  if (dep && !jarPath.endsWith(`${dep.name}-${dep.version}.jar`)) {
+    return dep;
   }
 
-  return result;
+  return null;
+}
+
+/**
+ * Parses the file content of a pom.properties file to extract
+ * the "fields" for a JAR dependency.
+ * @param {string} fileContent
+ */
+export function parsePomProperties(fileContent: string): JarDep {
+  const fileContentLines = fileContent
+    .split(/\n/)
+    .filter((line) => /^(groupId|artifactId|version)=/.test(line)); // These are the only properties we are interested in
+  const dep: PomProperties = fileContentLines.reduce((dep, line) => {
+    const [key, value] = line.split("=");
+    dep[key] = value.trim(); // Getting rid of EOL
+    return dep;
+  }, {});
+
+  return {
+    name: dep.artifactId,
+    parentName: dep.groupId,
+    version: dep.version,
+  };
 }

@@ -2,8 +2,9 @@ import { Buffer } from "buffer";
 import * as crypto from "crypto";
 import { __metadata } from "tslib";
 import {
-  getDependenciesFromPomProperties,
+  getDependencyFromPomProperties,
   jarFilesToScannedProjects,
+  parsePomProperties,
 } from "../../../lib/analyzer/applications/java";
 import { getTextFromFixture } from "../../util";
 
@@ -43,29 +44,14 @@ describe("jarFilesToScannedProjects function", () => {
   });
 });
 
-describe("getDependenciesFromPomProperties function", () => {
-  class MockZippedEntry {
-    private data: Buffer;
-    constructor(value: string) {
-      this.data = Buffer.from(value);
-    }
-    public getData() {
-      return this.data;
-    }
-  }
-
+describe("parsePomProperties function", () => {
   describe("with a valid pom.properties dependency file", () => {
     const fixture = getTextFromFixture("pom-properties/valid.pom.properties");
-    const mockedZippedEntry = new MockZippedEntry(fixture);
     const path = "/path/to/package-dependency-1.0.0.jar";
-    const deps = getDependenciesFromPomProperties(mockedZippedEntry, [], path);
-
-    it("parser ignores superfluous lines in pom.properties", () => {
-      expect(Object.keys(deps[0])).toHaveLength(3);
-    });
+    const parsed = parsePomProperties(fixture);
 
     it("parsed output includes all required properties", () => {
-      expect(deps[0]).toEqual(
+      expect(parsed).toEqual(
         expect.objectContaining({
           name: "org.test.dependency",
           parentName: "org.test",
@@ -74,14 +60,45 @@ describe("getDependenciesFromPomProperties function", () => {
       );
     });
 
-    it("parser ignores the dependency when it references the parent package", () => {
-      const path = "/path/to/org.test.dependency-1.0.0.jar";
-      const deps = getDependenciesFromPomProperties(
-        mockedZippedEntry,
-        [],
-        path,
-      );
-      expect(deps).toHaveLength(0);
+    it("ignores superfluous lines in pom.properties", () => {
+      expect(Object.keys(parsed)).toHaveLength(3);
     });
+  });
+
+  describe("with an invalid pom.properties dependency file", () => {
+    it("returns null", () => {
+      const fixture = getTextFromFixture(
+        "pom-properties/invalid.pom.properties",
+      );
+      const path = "/path/to/org.test.dependency-1.0.0.jar";
+      const dep = getDependencyFromPomProperties(fixture, path);
+      expect(dep).toBeNull();
+    });
+  });
+});
+
+describe("getDependencyFromPomProperties function", () => {
+  const fixture = getTextFromFixture("pom-properties/valid.pom.properties");
+  const path = "/path/to/package-dependency-1.0.0.jar";
+  const dep = parsePomProperties(fixture);
+
+  it("returns a dep as expected", () => {
+    const dep = getDependencyFromPomProperties(fixture, path);
+    expect(dep).not.toBeNull();
+  });
+
+  it("returns null when the dependency references the JAR", () => {
+    const path = "/path/to/org.test.dependency-1.0.0.jar";
+    const dep = getDependencyFromPomProperties(fixture, path);
+    expect(dep).toBeNull();
+  });
+
+  it("returns null when the pom.properties file has a required field missing", () => {
+    const fixture = getTextFromFixture(
+      "pom-properties/incomplete.pom.properties",
+    );
+    const path = "/path/to/org.test.dependency-1.0.0.jar";
+    const dep = getDependencyFromPomProperties(fixture, path);
+    expect(dep).toBeNull();
   });
 });
