@@ -1,9 +1,9 @@
 import * as admzip from "adm-zip";
 import * as path from "path";
 import { bufferToSha1 } from "../../buffer-utils";
-import { JarFingerprintsFact } from "../../facts";
+import { JarFingerprintsFact, JarStats } from "../../facts";
 import { JarFingerprint } from "../types";
-import { JarBuffer, JarDep, PomProperties } from "./types";
+import { JarBuffer, JarDep, JarTraverseResults, PomProperties } from "./types";
 import { AppDepsScanResultWithoutTarget, FilePathToBuffer } from "./types";
 // tslint:disable:no-console
 
@@ -48,10 +48,25 @@ export async function jarFilesToScannedProjects(
       continue;
     }
 
+    const unpackedLevels = 0;
+    const scannedFiles = 0;
+    const mappedResCurrent: JarBuffer[] = mappedResult[path];
+    const jarTraversePath: JarTraverseResults = {
+      unpackedLevels,
+      scannedFiles,
+      jarBuffer: mappedResCurrent,
+    };
+    const start = Date.now();
     const fingerprints = getFingerprints(
       desiredLevelsOfUnpacking,
-      mappedResult[path],
+      jarTraversePath,
     );
+
+    const stats: JarStats = {
+      duration: (Date.now() - start) / 1000, // time in seconds
+      unpackedLevels: jarTraversePath.unpackedLevels,
+      scannedFiles: jarTraversePath.scannedFiles,
+    }
 
     const jarFingerprintsFact: JarFingerprintsFact = {
       type: "jarFingerprints",
@@ -59,6 +74,7 @@ export async function jarFilesToScannedProjects(
         fingerprints,
         origin: targetImage,
         path,
+        stats,
       },
     };
     scanResults.push({
@@ -75,17 +91,17 @@ export async function jarFilesToScannedProjects(
 
 function getFingerprints(
   desiredLevelsOfUnpacking: number,
-  jarBuffers: JarBuffer[],
+  jarTraverseResults: JarTraverseResults,
 ): JarFingerprint[] {
   if (desiredLevelsOfUnpacking === 0) {
-    return getJarShas(jarBuffers);
+    return getJarShas(jarTraverseResults);
   }
 
-  return unpackFatJars(jarBuffers, desiredLevelsOfUnpacking);
+  return unpackFatJars(jarTraverseResults, desiredLevelsOfUnpacking);
 }
 
-function getJarShas(jarBuffers: JarBuffer[]): JarFingerprint[] {
-  return jarBuffers.map((element) => {
+function getJarShas(jarTraverseResults: JarTraverseResults): JarFingerprint[] {
+  return jarTraverseResults.jarBuffer.map((element) => {
     return {
       ...element,
       digest: bufferToSha1(element.digest),
@@ -97,21 +113,19 @@ function unpackJarsTraverse({
   jarBuffer,
   jarPath,
   desiredLevelsOfUnpacking,
-  unpackedLevels,
-  jarBuffers,
   dependencies = [],
+  jarTraverseResults,
 }: {
   jarBuffer: Buffer;
   jarPath: string;
   desiredLevelsOfUnpacking: number;
-  unpackedLevels: number;
-  jarBuffers: JarBuffer[];
   dependencies?: JarDep[];
-}): JarBuffer[] {
+  jarTraverseResults: JarTraverseResults;
+}): JarTraverseResults {
   let isFatJar: boolean = false;
 
-  if (unpackedLevels >= desiredLevelsOfUnpacking) {
-    jarBuffers.push({
+  if (jarTraverseResults.unpackedLevels >= desiredLevelsOfUnpacking) {
+    jarTraverseResults.jarBuffer.push({
       location: jarPath,
       digest: jarBuffer,
       dependencies,
@@ -122,7 +136,7 @@ function unpackJarsTraverse({
 
     // technically the level should be increased only if a JAR is found, but increasing here to make
     // sure it states the level, and not counting all the jars found, regardless of level.
-    unpackedLevels = unpackedLevels + 1;
+    jarTraverseResults.unpackedLevels = jarTraverseResults.unpackedLevels + 1;
 
     for (const zipEntry of zipEntries) {
       // pom.properties is file describing a dependency within a JAR
@@ -132,6 +146,7 @@ function unpackJarsTraverse({
         const dep = getDependencyFromPomProperties(entryData, jarPath);
         if (dep) {
           dependencies.push(dep);
+          jarTraverseResults.scannedFiles = jarTraverseResults.scannedFiles + 1;
         }
       }
 
@@ -141,19 +156,20 @@ function unpackJarsTraverse({
         const entryName = zipEntry.entryName;
         jarPath = `${jarPath}/${entryName}`;
 
+        jarTraverseResults.scannedFiles = jarTraverseResults.scannedFiles + 1;
+
         unpackJarsTraverse({
           jarBuffer: entryData,
           jarPath,
           desiredLevelsOfUnpacking,
-          unpackedLevels,
-          jarBuffers,
+          jarTraverseResults,
           dependencies,
         });
       }
     }
 
     if (!isFatJar) {
-      jarBuffers.push({
+      jarTraverseResults.jarBuffer.push({
         location: jarPath,
         digest: jarBuffer,
         dependencies,
@@ -161,23 +177,23 @@ function unpackJarsTraverse({
     }
   }
 
-  return jarBuffers;
+  return jarTraverseResults;
 }
 
+
+
 function unpackFatJars(
-  jarBuffers: JarBuffer[],
+  jarTraverseResults: JarTraverseResults,
   desiredLevelsOfUnpacking: number,
 ): JarFingerprint[] {
   const fingerprints: JarFingerprint[] = [];
 
-  for (const jarBuffer of jarBuffers) {
-    const unpackedLevels: number = 0;
-    const jars: JarBuffer[] = unpackJarsTraverse({
+  for (const jarBuffer of jarTraverseResults.jarBuffer) {
+    const jars: JarTraverseResults = unpackJarsTraverse({
       jarBuffer: jarBuffer.digest,
       jarPath: jarBuffer.location,
       desiredLevelsOfUnpacking,
-      unpackedLevels,
-      jarBuffers: [],
+      jarTraverseResults,
     });
 
     fingerprints.push(...getJarShas(jars));
@@ -219,7 +235,7 @@ export function getDependencyFromPomProperties(
 export function parsePomProperties(fileContent: string): JarDep {
   const fileContentLines = fileContent
     .split(/\n/)
-    .filter((line) => /^(groupId|artifactId|version)=/.test(line)); // These are the only properties we are interested in
+    .filter((line) => /^(groupId|artifactId|version)=/.test(line)); // These are the only properties that will be autogenerated. TODO
   const dep: PomProperties = fileContentLines.reduce((dep, line) => {
     const [key, value] = line.split("=");
     dep[key] = value.trim(); // Getting rid of EOL

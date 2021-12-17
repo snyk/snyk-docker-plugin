@@ -51,6 +51,11 @@ export interface TestedFilesFact {
   type: "testedFiles";
   data: string[];
 }
+export interface JarStats {
+  duration: number;
+  unpackedLevels: number;
+  scannedFiles: number;
+}
 
 export interface JarFingerprintsFact {
   type: "jarFingerprints";
@@ -58,6 +63,7 @@ export interface JarFingerprintsFact {
     fingerprints: JarFingerprint[];
     origin: string;
     path: string;
+    stats: JarStats;
   };
 }
 

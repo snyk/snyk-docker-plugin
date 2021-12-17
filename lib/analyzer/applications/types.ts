@@ -10,6 +10,12 @@ export interface FilePathToContent {
 export interface FilePathToBuffer {
   [filePath: string]: Buffer;
 }
+
+export interface JarTraverseResults {
+  unpackedLevels: number;
+  scannedFiles: number;
+  jarBuffer: JarBuffer[];
+}
 export interface JarBuffer {
   location: string;
   digest: Buffer;
