@@ -75,6 +75,7 @@ Object {
           "data": Object {
             "fingerprints": Array [
               Object {
+                "dependencies": Array [],
                 "digest": "485de3a253e23f645037828c07f1d7f1af40763a",
                 "location": "\\\\app\\\\activation-1.1.1.jar",
               },
@@ -103,10 +104,12 @@ Object {
           "data": Object {
             "fingerprints": Array [
               Object {
+                "dependencies": Array [],
                 "digest": "2fa68c05f54f1bba9559dd571eb81959081f1895",
                 "location": "\\\\libs\\\\aopalliance-repackaged-2.5.0.jar",
               },
               Object {
+                "dependencies": Array [],
                 "digest": "55762d3191a8d6610ef46d11e8cb70c7667342a3",
                 "location": "\\\\libs\\\\audience-annotations-0.5.0.jar",
               },
