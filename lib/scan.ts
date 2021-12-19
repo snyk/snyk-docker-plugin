@@ -43,11 +43,14 @@ export async function scan(
   }
 
   if (
-    !isNumber(nestedJarsDepth) &&
-    !isTrue(nestedJarsDepth) &&
-    typeof nestedJarsDepth !== "undefined"
+    (!isNumber(nestedJarsDepth) &&
+      !isTrue(nestedJarsDepth) &&
+      typeof nestedJarsDepth !== "undefined") ||
+    Number(nestedJarsDepth) < 1
   ) {
-    throw new Error("--nested-jars-depth accepts only numbers");
+    throw new Error(
+      "--nested-jars-depth accepts only numbers bigger or equal to 1",
+    );
   }
 
   const targetImage = appendLatestTagIfMissing(options.path);

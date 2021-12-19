@@ -169,7 +169,8 @@ export interface PluginOptions {
    * How many levels of (nested) JARs we should unpack
    * If a JAR contains other JARs (AKA JAR of JARs), we send back only the children JARs, and don't look for vulns in the parent.
    *
-   * if 0 is provided, it's as if the flag was not provided.
+   * If the flag was not provided but --app-vuls was, we unpack 1 level.
+   * 0 or less cannot be provided, as we always want to unpack at least 1 level of JARs.
    * if n > 0 is provided, we try to unpack n levels of JARs.
    * The default (if flag is provided, but without a number) is 1 level
    *
