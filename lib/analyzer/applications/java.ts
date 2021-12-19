@@ -3,7 +3,7 @@ import * as path from "path";
 import { bufferToSha1 } from "../../buffer-utils";
 import { JarFingerprintsFact } from "../../facts";
 import { JarFingerprint } from "../types";
-import { JarBuffer } from "./types";
+import { JarBuffer, JarDep, PomProperties } from "./types";
 import { AppDepsScanResultWithoutTarget, FilePathToBuffer } from "./types";
 
 function groupJarFingerprintsByPath(input: {
@@ -16,6 +16,7 @@ function groupJarFingerprintsByPath(input: {
       return {
         location: filePath,
         digest,
+        dependencies: [],
       };
     },
   );
@@ -97,12 +98,14 @@ function unpackJarsTraverse({
   desiredLevelsOfUnpacking,
   unpackedLevels,
   jarBuffers,
+  dependencies = [],
 }: {
   jarBuffer: Buffer;
   jarPath: string;
   desiredLevelsOfUnpacking: number;
   unpackedLevels: number;
   jarBuffers: JarBuffer[];
+  dependencies?: JarDep[];
 }): JarBuffer[] {
   let isFatJar: boolean = false;
 
@@ -110,6 +113,7 @@ function unpackJarsTraverse({
     jarBuffers.push({
       location: jarPath,
       digest: jarBuffer,
+      dependencies,
     });
   } else {
     const zip = new admzip(jarBuffer);
@@ -120,6 +124,16 @@ function unpackJarsTraverse({
     unpackedLevels = unpackedLevels + 1;
 
     for (const zipEntry of zipEntries) {
+      // pom.properties is file describing a dependency within a JAR
+      // using this file allows resolution of shaded jars
+      if (zipEntry.entryName.endsWith("pom.properties")) {
+        const entryData = zipEntry.getData().toString();
+        const dep = getDependencyFromPomProperties(entryData, jarPath);
+        if (dep) {
+          dependencies.push(dep);
+        }
+      }
+
       if (zipEntry.entryName.endsWith(".jar")) {
         isFatJar = true;
         const entryData = zipEntry.getData();
@@ -132,6 +146,7 @@ function unpackJarsTraverse({
           desiredLevelsOfUnpacking,
           unpackedLevels,
           jarBuffers,
+          dependencies,
         });
       }
     }
@@ -140,6 +155,7 @@ function unpackJarsTraverse({
       jarBuffers.push({
         location: jarPath,
         digest: jarBuffer,
+        dependencies,
       });
     }
   }
@@ -167,4 +183,51 @@ function unpackFatJars(
   }
 
   return fingerprints;
+}
+
+/**
+ * Gets a formatted dependency object from the contents of
+ * a pom.properties file that describes a JAR dependency
+ * @param {string} fileContent
+ * @param {string} jarPath
+ */
+export function getDependencyFromPomProperties(
+  fileContent: string,
+  jarPath: string,
+): JarDep | null {
+  const dep = parsePomProperties(fileContent);
+
+  // we need all of these props to allow us to inject the dependency
+  // into the depGraph
+  if (!dep.name || !dep.parentName || !dep.version) {
+    return null;
+  }
+  // Dependency shouldn't be a reference for the JAR itself
+  if (dep && !jarPath.endsWith(`${dep.name}-${dep.version}.jar`)) {
+    return dep;
+  }
+
+  return null;
+}
+
+/**
+ * Parses the file content of a pom.properties file to extract
+ * the "fields" for a JAR dependency.
+ * @param {string} fileContent
+ */
+export function parsePomProperties(fileContent: string): JarDep {
+  const fileContentLines = fileContent
+    .split(/\n/)
+    .filter((line) => /^(groupId|artifactId|version)=/.test(line)); // These are the only properties we are interested in
+  const dep: PomProperties = fileContentLines.reduce((dep, line) => {
+    const [key, value] = line.split("=");
+    dep[key] = value.trim(); // Getting rid of EOL
+    return dep;
+  }, {});
+
+  return {
+    name: dep.artifactId,
+    parentName: dep.groupId,
+    version: dep.version,
+  };
 }
