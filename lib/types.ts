@@ -63,7 +63,7 @@ export type FactType =
   | "autoDetectedUserInstructions"
   | "imageLabels"
   | "imageSizeBytes"
-  | "sysdigLoadedPackages"
+  | "loadedPackages"
   | "imageCreationTime";
 
 export interface PluginResponse {

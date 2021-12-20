@@ -47,8 +47,8 @@ describe("Facts", () => {
       type: "autoDetectedUserInstructions",
       data: {} as any,
     };
-    const sysdigLoadedPackagesFact: facts.SysdigLoadedPackagesFact = {
-      type: "sysdigLoadedPackages",
+    const loadedPackagesFact: facts.LoadedPackagesFact = {
+      type: "loadedPackages",
       data: {} as any,
     };
     const imageCreationTimeFact: facts.ImageCreationTimeFact = {
@@ -70,7 +70,7 @@ describe("Facts", () => {
       testedFilesFact,
       autoDetectedUserInstructionsFact,
       imageCreationTimeFact,
-      sysdigLoadedPackagesFact,
+      loadedPackagesFact,
     ];
     expect(allFacts).toBeDefined();
 

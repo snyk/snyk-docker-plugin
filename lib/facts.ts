@@ -78,7 +78,7 @@ export interface ImageCreationTimeFact {
   data: string;
 }
 
-export interface SysdigLoadedPackagesFact {
-  type: "sysdigLoadedPackages";
+export interface LoadedPackagesFact {
+  type: "loadedPackages";
   data: string;
 }
