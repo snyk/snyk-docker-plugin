@@ -171,7 +171,7 @@ export interface PluginOptions {
    * If a JAR contains other JARs (AKA JAR of JARs), we send back only the children JARs, and don't look for vulns in the parent.
    *
    * If the flag was not provided but --app-vuls was, we unpack 1 level.
-   * 0 or less cannot be provided, as we always want to unpack at least 1 level of JARs.
+   * If 0 is provided, we do not unpack any JARs
    * if n > 0 is provided, we try to unpack n levels of JARs.
    * The default (if flag is provided, but without a number) is 1 level
    *

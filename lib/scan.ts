@@ -46,10 +46,10 @@ export async function scan(
     (!isNumber(nestedJarsDepth) &&
       !isTrue(nestedJarsDepth) &&
       typeof nestedJarsDepth !== "undefined") ||
-    Number(nestedJarsDepth) < 1
+    Number(nestedJarsDepth) < 0
   ) {
     throw new Error(
-      "--nested-jars-depth accepts only numbers bigger or equal to 1",
+      "--nested-jars-depth accepts only numbers bigger than or equal to 0",
     );
   }
 
