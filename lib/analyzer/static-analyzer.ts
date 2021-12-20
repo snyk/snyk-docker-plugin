@@ -194,7 +194,7 @@ function getNestedJarsDesiredDepth(options: Partial<PluginOptions>) {
     options["nested-jars-depth"] || options["shaded-jars-depth"];
   let nestedJarsDepth = 1;
   const depthNumber = Number(nestedJarsOption);
-  if (!isNaN(depthNumber) && depthNumber > 1) {
+  if (!isNaN(depthNumber) && depthNumber >= 0) {
     nestedJarsDepth = depthNumber;
   }
   return nestedJarsDepth;

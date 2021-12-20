@@ -121,15 +121,20 @@ describe("jar binaries scanning", () => {
         );
         const imageNameAndTag = `docker-archive:${fixturePath}`;
 
-        it("should throw if shaded-jars-depth flag is set to 0", async () => {
-          // Act + Assert
-          await expect(
-            scan({
-              path: imageNameAndTag,
-              "app-vulns": true,
-              "shaded-jars-depth": "0",
-            }),
-          ).rejects.toThrow();
+        it("should not unpack jars if shaded-jars-depth flag is set to 0", async () => {
+          // Act
+          pluginResult = await scan({
+            path: imageNameAndTag,
+            "app-vulns": true,
+            "shaded-jars-depth": "0",
+          });
+
+          // Assert
+          fingerprints = pluginResult.scanResults[1].facts[0].data.fingerprints;
+          expect(fingerprints).toContainEqual(expect.objectContaining(fatJar));
+          expect(fingerprints).not.toContainEqual(
+            expect.objectContaining(nestedJar),
+          );
         });
 
         it("should throw if shaded-jars-depth flag is set to -1", async () => {
@@ -482,14 +487,19 @@ describe("jar binaries scanning", () => {
         const imageNameAndTag = `docker-archive:${fixturePath}`;
 
         it("should not unpack jars if nested-jars-depth flag is set to 0", async () => {
-          // Act + Assert
-          await expect(
-            scan({
-              path: imageNameAndTag,
-              "app-vulns": true,
-              "nested-jars-depth": "0",
-            }),
-          ).rejects.toThrow();
+          // Act
+          pluginResult = await scan({
+            path: imageNameAndTag,
+            "app-vulns": true,
+            "nested-jars-depth": "0",
+          });
+
+          // Assert
+          fingerprints = pluginResult.scanResults[1].facts[0].data.fingerprints;
+          expect(fingerprints).toContainEqual(expect.objectContaining(fatJar));
+          expect(fingerprints).not.toContainEqual(
+            expect.objectContaining(nestedJar),
+          );
         });
 
         it("should throw if nested-jars-depth flag is set to -1", async () => {
