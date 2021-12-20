@@ -75,13 +75,16 @@ describe("jar binaries scanning", () => {
       });
 
       describe("with default shaded-jars-depth", () => {
+        // Arrange
+        let imageNameAndTag;
         beforeAll(async () => {
-          // Arrange
           fixturePath = getFixture(
             "docker-archives/docker-save/java-uberjar.tar",
           );
-          const imageNameAndTag = `docker-archive:${fixturePath}`;
+          imageNameAndTag = `docker-archive:${fixturePath}`;
+        });
 
+        it("should return nested (second-level) jar in the result", async () => {
           // Act
           pluginResult = await scan({
             path: imageNameAndTag,
@@ -89,10 +92,23 @@ describe("jar binaries scanning", () => {
             "shaded-jars-depth": true,
           });
 
+          // Assert
           fingerprints = pluginResult.scanResults[1].facts[0].data.fingerprints;
+
+          expect(fingerprints).toContainEqual(
+            expect.objectContaining(nestedJar),
+          );
         });
 
-        it("should return nested (second-level) jar in the result", async () => {
+        it("should unpack 1 level of jars if shaded-jars-depth flag is missing", async () => {
+          // Act
+          pluginResult = await scan({
+            path: imageNameAndTag,
+            "app-vulns": true,
+          });
+
+          fingerprints = pluginResult.scanResults[1].facts[0].data.fingerprints;
+
           expect(fingerprints).toContainEqual(
             expect.objectContaining(nestedJar),
           );
@@ -105,35 +121,26 @@ describe("jar binaries scanning", () => {
         );
         const imageNameAndTag = `docker-archive:${fixturePath}`;
 
-        it("should not unpack jars if shaded-jars-depth flag is missing", async () => {
-          // Act
-          pluginResult = await scan({
-            path: imageNameAndTag,
-            "app-vulns": true,
-          });
-
-          // Assert
-          fingerprints = pluginResult.scanResults[1].facts[0].data.fingerprints;
-          expect(fingerprints).toContainEqual(expect.objectContaining(fatJar));
-          expect(fingerprints).not.toContainEqual(
-            expect.objectContaining(nestedJar),
-          );
+        it("should throw if shaded-jars-depth flag is set to 0", async () => {
+          // Act + Assert
+          await expect(
+            scan({
+              path: imageNameAndTag,
+              "app-vulns": true,
+              "shaded-jars-depth": "0",
+            }),
+          ).rejects.toThrow();
         });
 
-        it("should not unpack jars if shaded-jars-depth flag is set to 0", async () => {
-          // Act
-          pluginResult = await scan({
-            path: imageNameAndTag,
-            "app-vulns": true,
-            "shaded-jars-depth": "0",
-          });
-
-          // Assert
-          fingerprints = pluginResult.scanResults[1].facts[0].data.fingerprints;
-          expect(fingerprints).toContainEqual(expect.objectContaining(fatJar));
-          expect(fingerprints).not.toContainEqual(
-            expect.objectContaining(nestedJar),
-          );
+        it("should throw if shaded-jars-depth flag is set to -1", async () => {
+          // Act + Assert
+          await expect(
+            scan({
+              path: imageNameAndTag,
+              "app-vulns": true,
+              "shaded-jars-depth": "-1",
+            }),
+          ).rejects.toThrow();
         });
 
         it("should throw error if app-vulns flag is missing", async () => {
@@ -428,13 +435,16 @@ describe("jar binaries scanning", () => {
       });
 
       describe("with default nested-jars-depth", () => {
+        // Arrange
+        let imageNameAndTag;
         beforeAll(async () => {
-          // Arrange
           fixturePath = getFixture(
             "docker-archives/docker-save/java-uberjar.tar",
           );
-          const imageNameAndTag = `docker-archive:${fixturePath}`;
+          imageNameAndTag = `docker-archive:${fixturePath}`;
+        });
 
+        it("should return nested (second-level) jar in the result", async () => {
           // Act
           pluginResult = await scan({
             path: imageNameAndTag,
@@ -442,10 +452,23 @@ describe("jar binaries scanning", () => {
             "nested-jars-depth": true,
           });
 
+          // Assert
           fingerprints = pluginResult.scanResults[1].facts[0].data.fingerprints;
+
+          expect(fingerprints).toContainEqual(
+            expect.objectContaining(nestedJar),
+          );
         });
 
-        it("should return nested (second-level) jar in the result", async () => {
+        it("should unpack 1 level of jars if nested-jars-depth flag is missing", async () => {
+          // Act
+          pluginResult = await scan({
+            path: imageNameAndTag,
+            "app-vulns": true,
+          });
+
+          fingerprints = pluginResult.scanResults[1].facts[0].data.fingerprints;
+
           expect(fingerprints).toContainEqual(
             expect.objectContaining(nestedJar),
           );
@@ -458,35 +481,26 @@ describe("jar binaries scanning", () => {
         );
         const imageNameAndTag = `docker-archive:${fixturePath}`;
 
-        it("should not unpack jars if nested-jars-depth flag is missing", async () => {
-          // Act
-          pluginResult = await scan({
-            path: imageNameAndTag,
-            "app-vulns": true,
-          });
-
-          // Assert
-          fingerprints = pluginResult.scanResults[1].facts[0].data.fingerprints;
-          expect(fingerprints).toContainEqual(expect.objectContaining(fatJar));
-          expect(fingerprints).not.toContainEqual(
-            expect.objectContaining(nestedJar),
-          );
+        it("should not unpack jars if nested-jars-depth flag is set to 0", async () => {
+          // Act + Assert
+          await expect(
+            scan({
+              path: imageNameAndTag,
+              "app-vulns": true,
+              "nested-jars-depth": "0",
+            }),
+          ).rejects.toThrow();
         });
 
-        it("should not unpack jars if nested-jars-depth flag is set to 0", async () => {
-          // Act
-          pluginResult = await scan({
-            path: imageNameAndTag,
-            "app-vulns": true,
-            "nested-jars-depth": "0",
-          });
-
-          // Assert
-          fingerprints = pluginResult.scanResults[1].facts[0].data.fingerprints;
-          expect(fingerprints).toContainEqual(expect.objectContaining(fatJar));
-          expect(fingerprints).not.toContainEqual(
-            expect.objectContaining(nestedJar),
-          );
+        it("should throw if nested-jars-depth flag is set to -1", async () => {
+          // Act + Assert
+          await expect(
+            scan({
+              path: imageNameAndTag,
+              "app-vulns": true,
+              "nested-jars-depth": "-1",
+            }),
+          ).rejects.toThrow();
         });
 
         it("should throw error if app-vulns flag is missing", async () => {
