@@ -3,7 +3,7 @@ import * as path from "path";
 import { bufferToSha1 } from "../../buffer-utils";
 import { JarFingerprintsFact } from "../../facts";
 import { JarFingerprint } from "../types";
-import { JarBuffer, JarDep, PomProperties } from "./types";
+import { JarBuffer, JarCoords } from "./types";
 import { AppDepsScanResultWithoutTarget, FilePathToBuffer } from "./types";
 
 function groupJarFingerprintsByPath(input: {
@@ -16,6 +16,7 @@ function groupJarFingerprintsByPath(input: {
       return {
         location: filePath,
         digest,
+        coords: null,
         dependencies: [],
       };
     },
@@ -76,109 +77,145 @@ function getFingerprints(
   desiredLevelsOfUnpacking: number,
   jarBuffers: JarBuffer[],
 ): JarFingerprint[] {
-  if (desiredLevelsOfUnpacking === 0) {
-    return getJarShas(jarBuffers);
-  }
-
-  return unpackFatJars(jarBuffers, desiredLevelsOfUnpacking);
+  return unpackJars(jarBuffers, desiredLevelsOfUnpacking);
 }
 
-function getJarShas(jarBuffers: JarBuffer[]): JarFingerprint[] {
-  return jarBuffers.map((element) => {
-    return {
-      ...element,
-      digest: bufferToSha1(element.digest),
-    };
-  });
-}
-
+/**
+ * Recursively unpacks JARs and attempts to add coords to the
+ * package and it's dependencies.
+ *
+ * JARs will always be unpacked one level more than requested
+ * by the end-user in order to look for manifest files but will
+ * ignore any JARs found for a level deeper than the user request.
+ *
+ * NOTE: desiredLevelsOfUnpacking and requiredLevelsOfUnpacking
+ * are used to be explicit in nature and distinguish between the
+ * level of JAR detection requested by the user and the level of
+ * unpacking used in the implementation.
+ * @param { object } props
+ * @param { Buffer } props.jarBuffer
+ * @param { string } props.jarPath
+ * @param { number } props.desiredLevelsOfUnpacking
+ * @param { number } props.requiredLevelsOfUnpacking
+ * @param { number } props.unpackedLevels
+ * @param { JarBuffer[] } props.jarBuffers
+ * @param { JarCoords | null } props.coords
+ * @param { JarCoords[] } props.dependencies
+ */
 function unpackJarsTraverse({
   jarBuffer,
   jarPath,
   desiredLevelsOfUnpacking,
+  requiredLevelsOfUnpacking,
   unpackedLevels,
   jarBuffers,
+  coords = null,
   dependencies = [],
 }: {
   jarBuffer: Buffer;
   jarPath: string;
   desiredLevelsOfUnpacking: number;
+  requiredLevelsOfUnpacking: number;
   unpackedLevels: number;
   jarBuffers: JarBuffer[];
-  dependencies?: JarDep[];
+  coords: JarCoords | null;
+  dependencies?: JarCoords[];
 }): JarBuffer[] {
   let isFatJar: boolean = false;
   let zip;
   let zipEntries;
 
-  if (unpackedLevels >= desiredLevelsOfUnpacking) {
+  try {
+    zip = new admzip(jarBuffer);
+    zipEntries = zip.getEntries();
+  } catch (err) {
     jarBuffers.push({
       location: jarPath,
       digest: jarBuffer,
       dependencies,
+      coords: null,
     });
-  } else {
-    try {
-      zip = new admzip(jarBuffer);
-      zipEntries = zip.getEntries();
-    } catch (err) {
-      jarBuffers.push({
-        location: jarPath,
-        digest: jarBuffer,
-        dependencies,
-      });
 
-      return jarBuffers;
-    }
+    return jarBuffers;
+  }
 
-    // technically the level should be increased only if a JAR is found, but increasing here to make
-    // sure it states the level, and not counting all the jars found, regardless of level.
-    unpackedLevels = unpackedLevels + 1;
+  // technically the level should be increased only if a JAR is found, but increasing here to make
+  // sure it states the level, and not counting all the jars found, regardless of level.
+  unpackedLevels = unpackedLevels + 1;
 
-    for (const zipEntry of zipEntries) {
-      // pom.properties is file describing a dependency within a JAR
-      // using this file allows resolution of shaded jars
-      if (zipEntry.entryName.endsWith("pom.properties")) {
-        const entryData = zipEntry.getData().toString();
-        const dep = getDependencyFromPomProperties(entryData, jarPath);
-        if (dep) {
-          dependencies.push(dep);
+  for (const zipEntry of zipEntries) {
+    // pom.properties is file describing a package or package dependency
+    // using this file allows resolution of shaded jars
+    if (zipEntry.entryName.endsWith("pom.properties")) {
+      const entryData = zipEntry.getData().toString();
+      const entryCoords = getCoordsFromPomProperties(entryData);
+      if (entryCoords) {
+        if (
+          // sometimes the path does not have the version
+          jarPath.endsWith(
+            `${entryCoords.artifactId}-${entryCoords.version}.jar`,
+          ) ||
+          jarPath.endsWith(`${entryCoords.artifactId}.jar`)
+        ) {
+          coords = entryCoords;
+        } else {
+          dependencies.push(entryCoords);
         }
       }
-
-      if (zipEntry.entryName.endsWith(".jar")) {
-        isFatJar = true;
-        const entryData = zipEntry.getData();
-        const entryName = zipEntry.entryName;
-        jarPath = `${jarPath}/${entryName}`;
-
-        unpackJarsTraverse({
-          jarBuffer: entryData,
-          jarPath,
-          desiredLevelsOfUnpacking,
-          unpackedLevels,
-          jarBuffers,
-          dependencies,
-        });
-      }
     }
 
-    if (!isFatJar) {
-      jarBuffers.push({
-        location: jarPath,
-        digest: jarBuffer,
+    // We only want to include JARs found at this level if the user asked for
+    // unpacking using the --nested-jar-depth flag and we are in a level less
+    // than the required level
+    if (
+      desiredLevelsOfUnpacking > 0 &&
+      unpackedLevels < requiredLevelsOfUnpacking &&
+      zipEntry.entryName.endsWith(".jar")
+    ) {
+      isFatJar = true;
+      const entryData = zipEntry.getData();
+      const entryName = zipEntry.entryName;
+      jarPath = `${jarPath}/${entryName}`;
+
+      unpackJarsTraverse({
+        jarBuffer: entryData,
+        jarPath,
+        desiredLevelsOfUnpacking,
+        requiredLevelsOfUnpacking,
+        unpackedLevels,
+        jarBuffers,
+        coords,
         dependencies,
       });
     }
   }
 
+  if (!isFatJar) {
+    jarBuffers.push({
+      location: jarPath,
+      digest: jarBuffer,
+      coords,
+      dependencies,
+    });
+  }
+
   return jarBuffers;
 }
 
-function unpackFatJars(
+function unpackJars(
   jarBuffers: JarBuffer[],
   desiredLevelsOfUnpacking: number,
 ): JarFingerprint[] {
+  // We have to unpack jars to get the pom.properties manifest which
+  // we use to support shaded jars and get the package coords (if exists)
+  // to reduce the dependency on maven search and support private jars.
+  // This means that we must unpack 1 more level than customer requests
+  // via --nested-jar-depth option in CLI and the default value for
+  // K8S and DRA integrations
+  //
+  // desiredLevelsOfUnpacking  = user specified (--nested-jar-depth) or default
+  // requiredLevelsOfUnpacking = implementation control variable
+  const requiredLevelsOfUnpacking = desiredLevelsOfUnpacking + 1;
   const fingerprints: JarFingerprint[] = [];
 
   for (const jarBuffer of jarBuffers) {
@@ -187,59 +224,61 @@ function unpackFatJars(
       jarBuffer: jarBuffer.digest,
       jarPath: jarBuffer.location,
       desiredLevelsOfUnpacking,
+      requiredLevelsOfUnpacking,
       unpackedLevels,
+      coords: null,
       jarBuffers: [],
     });
 
-    fingerprints.push(...getJarShas(jars));
+    // if any of the coords are null for this JAR we didn't manage to get
+    // anything from the JAR's pom.properties manifest, so calculate the
+    // sha so maven-deps can fallback to searching maven central
+    jars.forEach((jar) => {
+      fingerprints.push({
+        location: jar.location,
+        digest: jar.coords ? null : bufferToSha1(jar.digest),
+        dependencies: jar.dependencies,
+        ...jar.coords,
+      });
+    });
   }
 
   return fingerprints;
 }
 
 /**
- * Gets a formatted dependency object from the contents of
- * a pom.properties file that describes a JAR dependency
+ * Gets coords from the contents of a pom.properties file
  * @param {string} fileContent
  * @param {string} jarPath
  */
-export function getDependencyFromPomProperties(
+export function getCoordsFromPomProperties(
   fileContent: string,
-  jarPath: string,
-): JarDep | null {
-  const dep = parsePomProperties(fileContent);
+): JarCoords | null {
+  const coords = parsePomProperties(fileContent);
 
-  // we need all of these props to allow us to inject the dependency
+  // we need all of these props to allow us to inject the package
   // into the depGraph
-  if (!dep.name || !dep.parentName || !dep.version) {
+  if (!coords.artifactId || !coords.groupId || !coords.version) {
     return null;
   }
-  // Dependency shouldn't be a reference for the JAR itself
-  if (dep && !jarPath.endsWith(`${dep.name}-${dep.version}.jar`)) {
-    return dep;
-  }
 
-  return null;
+  return coords;
 }
 
 /**
  * Parses the file content of a pom.properties file to extract
- * the "fields" for a JAR dependency.
+ * the coords for a package.
  * @param {string} fileContent
  */
-export function parsePomProperties(fileContent: string): JarDep {
+export function parsePomProperties(fileContent: string): JarCoords {
   const fileContentLines = fileContent
     .split(/\n/)
     .filter((line) => /^(groupId|artifactId|version)=/.test(line)); // These are the only properties we are interested in
-  const dep: PomProperties = fileContentLines.reduce((dep, line) => {
+  const coords: JarCoords = fileContentLines.reduce((coords, line) => {
     const [key, value] = line.split("=");
-    dep[key] = value.trim(); // Getting rid of EOL
-    return dep;
+    coords[key] = value.trim(); // Getting rid of EOL
+    return coords;
   }, {});
 
-  return {
-    name: dep.artifactId,
-    parentName: dep.groupId,
-    version: dep.version,
-  };
+  return coords;
 }
