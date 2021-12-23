@@ -108,6 +108,8 @@ function unpackJarsTraverse({
   dependencies?: JarDep[];
 }): JarBuffer[] {
   let isFatJar: boolean = false;
+  let zip;
+  let zipEntries;
 
   if (unpackedLevels >= desiredLevelsOfUnpacking) {
     jarBuffers.push({
@@ -116,8 +118,18 @@ function unpackJarsTraverse({
       dependencies,
     });
   } else {
-    const zip = new admzip(jarBuffer);
-    const zipEntries = zip.getEntries();
+    try {
+      zip = new admzip(jarBuffer);
+      zipEntries = zip.getEntries();
+    } catch (err) {
+      jarBuffers.push({
+        location: jarPath,
+        digest: jarBuffer,
+        dependencies,
+      });
+
+      return jarBuffers;
+    }
 
     // technically the level should be increased only if a JAR is found, but increasing here to make
     // sure it states the level, and not counting all the jars found, regardless of level.
