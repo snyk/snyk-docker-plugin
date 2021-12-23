@@ -22,15 +22,20 @@ describe("jar binaries scanning", () => {
     const fatJar = {
       location: "/uberjar.jar",
       digest: expect.any(String),
+      dependencies: expect.any(Array),
     };
     const nestedJar = {
       location: "/uberjar.jar/lib/guava-30.1-jre.jar",
-      digest: expect.any(String),
+      digest: null,
+      artifactId: "guava",
+      groupId: "com.google.guava",
+      version: "30.1-jre",
+      dependencies: expect.any(Array),
     };
 
     // TODO: deprecate --shaded-jars-depth and leave only --nested-jars-depth
     describe.each(["shaded-jars-depth", "nested-jars-depth"])(
-      "--%s-jars-depth",
+      "--%s",
       (flagName) => {
         describe(`with all needed CLI flags (app-vulns and ${flagName})`, () => {
           beforeAll(async () => {
@@ -51,29 +56,27 @@ describe("jar binaries scanning", () => {
               pluginResult.scanResults[1].facts[0].data.fingerprints;
           });
 
-          it("should return two results", async () => {
+          it("should return two results", () => {
             expect(fingerprints).toHaveLength(2);
           });
 
-          it("should return nested (second-level) jar in the result", async () => {
-            expect(fingerprints).toContainEqual(
-              expect.objectContaining(nestedJar),
-            );
+          it("should return nested (second-level) jar in the result", () => {
+            expect(fingerprints).toContainEqual(nestedJar);
           });
 
-          it("should not return a first-level jar that have nested jars in it (uber jar)", async () => {
-            expect(fingerprints).not.toContainEqual(
-              expect.objectContaining(fatJar),
-            );
+          it("should not return a first-level jar that have nested jars in it (uber jar)", () => {
+            expect(fingerprints).not.toContainEqual(fatJar);
           });
 
-          it("should return first-level jars that have no nested jars in it", async () => {
-            expect(fingerprints).toContainEqual(
-              expect.objectContaining({
-                location: "/j2objc-annotations-1.3.jar",
-                digest: expect.any(String),
-              }),
-            );
+          it("should return first-level jars that have no nested jars in it", () => {
+            expect(fingerprints).toContainEqual({
+              location: "/j2objc-annotations-1.3.jar",
+              digest: null,
+              dependencies: expect.any(Array),
+              artifactId: "j2objc-annotations",
+              groupId: "com.google.j2objc",
+              version: "1.3",
+            });
           });
         });
 
@@ -99,9 +102,7 @@ describe("jar binaries scanning", () => {
             fingerprints =
               pluginResult.scanResults[1].facts[0].data.fingerprints;
 
-            expect(fingerprints).toContainEqual(
-              expect.objectContaining(nestedJar),
-            );
+            expect(fingerprints).toContainEqual(nestedJar);
           });
 
           it(`should unpack 1 level of jars if ${flagName} flag is missing`, async () => {
@@ -114,9 +115,7 @@ describe("jar binaries scanning", () => {
             fingerprints =
               pluginResult.scanResults[1].facts[0].data.fingerprints;
 
-            expect(fingerprints).toContainEqual(
-              expect.objectContaining(nestedJar),
-            );
+            expect(fingerprints).toContainEqual(nestedJar);
           });
         });
 
@@ -137,12 +136,8 @@ describe("jar binaries scanning", () => {
             // Assert
             fingerprints =
               pluginResult.scanResults[1].facts[0].data.fingerprints;
-            expect(fingerprints).toContainEqual(
-              expect.objectContaining(fatJar),
-            );
-            expect(fingerprints).not.toContainEqual(
-              expect.objectContaining(nestedJar),
-            );
+            expect(fingerprints).toContainEqual(fatJar);
+            expect(fingerprints).not.toContainEqual(nestedJar);
           });
 
           it(`should throw if ${flagName} flag is set to -1`, async () => {
@@ -214,7 +209,11 @@ describe("jar binaries scanning", () => {
             const deepestLevelJarFingerprint = {
               location:
                 "/level-3-jar.jar/level-2-jar.jar/lib/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar",
-              digest: expect.any(String),
+              digest: null,
+              dependencies: expect.any(Array),
+              artifactId: "listenablefuture",
+              groupId: "com.google.guava",
+              version: "9999.0-empty-to-avoid-conflict-with-guava",
             };
 
             // Act
@@ -228,16 +227,18 @@ describe("jar binaries scanning", () => {
               pluginResult.scanResults[1].facts[0].data.fingerprints;
 
             expect(fingerprints).toHaveLength(1);
-            expect(fingerprints).toContainEqual(
-              expect.objectContaining(deepestLevelJarFingerprint),
-            );
+            expect(fingerprints).toContainEqual(deepestLevelJarFingerprint);
           });
 
           it(`should return full scan if ${flagName}=4, because there are only 3 levels of jars`, async () => {
             const deepestLevelJarFingerprint = {
               location:
                 "/level-3-jar.jar/level-2-jar.jar/lib/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar",
-              digest: expect.any(String),
+              digest: null,
+              dependencies: expect.any(Array),
+              artifactId: "listenablefuture",
+              groupId: "com.google.guava",
+              version: "9999.0-empty-to-avoid-conflict-with-guava",
             };
 
             // Act
@@ -251,9 +252,7 @@ describe("jar binaries scanning", () => {
               pluginResult.scanResults[1].facts[0].data.fingerprints;
 
             expect(fingerprints).toHaveLength(1);
-            expect(fingerprints).toContainEqual(
-              expect.objectContaining(deepestLevelJarFingerprint),
-            );
+            expect(fingerprints).toContainEqual(deepestLevelJarFingerprint);
           });
 
           it("should handle sibling uber jars", async () => {
@@ -265,15 +264,27 @@ describe("jar binaries scanning", () => {
             const threeLevelFingerprint = {
               location:
                 "/A-level-3-jar.jar/level-2-jar.jar/lib/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar",
-              digest: expect.any(String),
+              digest: null,
+              dependencies: expect.any(Array),
+              artifactId: "listenablefuture",
+              groupId: "com.google.guava",
+              version: "9999.0-empty-to-avoid-conflict-with-guava",
             };
             const twoLevelFingerprint = {
               location: "/B-uber-jar.jar/guava-30.1-jre.jar",
-              digest: expect.any(String),
+              digest: null,
+              dependencies: expect.any(Array),
+              artifactId: "guava",
+              groupId: "com.google.guava",
+              version: "30.1-jre",
             };
             const flatFingerprint = {
               location: "/C-j2objc-annotations-1.3.jar",
-              digest: expect.any(String),
+              digest: null,
+              dependencies: expect.any(Array),
+              artifactId: "j2objc-annotations",
+              groupId: "com.google.j2objc",
+              version: "1.3",
             };
 
             // Act
@@ -288,15 +299,9 @@ describe("jar binaries scanning", () => {
 
             // Assert
             expect(fingerprints).toHaveLength(3);
-            expect(fingerprints).toContainEqual(
-              expect.objectContaining(threeLevelFingerprint),
-            );
-            expect(fingerprints).toContainEqual(
-              expect.objectContaining(twoLevelFingerprint),
-            );
-            expect(fingerprints).toContainEqual(
-              expect.objectContaining(flatFingerprint),
-            );
+            expect(fingerprints).toContainEqual(threeLevelFingerprint);
+            expect(fingerprints).toContainEqual(twoLevelFingerprint);
+            expect(fingerprints).toContainEqual(flatFingerprint);
           });
 
           // TODO CAP-447
@@ -329,7 +334,7 @@ describe("jar binaries scanning", () => {
             console.log("🚀 ~ fingerprints", fingerprints);
           });
 
-          it("should return correct result for top level jar that container 2 uberjars within it", async () => {
+          it("should return correct result for top level jar that contains 2 uberjars within it", async () => {
             // Arrange
             fixturePath = getFixture(
               "docker-archives/docker-save/top-level.tar",
@@ -337,14 +342,22 @@ describe("jar binaries scanning", () => {
             imageNameAndTag = `docker-archive:${fixturePath}`;
 
             const firstSibling = {
-              digest: expect.any(String),
               location:
                 "/top-level.jar/A-level-3-jar.jar/level-2-jar.jar/lib/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar",
+              digest: null,
+              dependencies: expect.any(Array),
+              artifactId: "listenablefuture",
+              groupId: "com.google.guava",
+              version: "9999.0-empty-to-avoid-conflict-with-guava",
             };
             const secondSibling = {
-              digest: expect.any(String),
               location:
                 "/top-level.jar/A-level-3-jar.jar/B-uber-jar.jar/guava-30.1-jre.jar",
+              digest: null,
+              dependencies: expect.any(Array),
+              artifactId: "guava",
+              groupId: "com.google.guava",
+              version: "30.1-jre",
             };
 
             // Act
@@ -359,12 +372,8 @@ describe("jar binaries scanning", () => {
 
             // Assert
             expect(fingerprints).toHaveLength(2);
-            expect(fingerprints).toContainEqual(
-              expect.objectContaining(firstSibling),
-            );
-            expect(fingerprints).toContainEqual(
-              expect.objectContaining(secondSibling),
-            );
+            expect(fingerprints).toContainEqual(firstSibling);
+            expect(fingerprints).toContainEqual(secondSibling);
           });
         });
       },

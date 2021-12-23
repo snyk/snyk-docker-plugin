@@ -104,14 +104,20 @@ Object {
           "data": Object {
             "fingerprints": Array [
               Object {
+                "artifactId": "aopalliance-repackaged",
                 "dependencies": Array [],
-                "digest": "2fa68c05f54f1bba9559dd571eb81959081f1895",
+                "digest": null,
+                "groupId": "org.glassfish.hk2.external",
                 "location": "/libs/aopalliance-repackaged-2.5.0.jar",
+                "version": "2.5.0",
               },
               Object {
+                "artifactId": "audience-annotations",
                 "dependencies": Array [],
-                "digest": "55762d3191a8d6610ef46d11e8cb70c7667342a3",
+                "digest": null,
+                "groupId": "org.apache.yetus",
                 "location": "/libs/audience-annotations-0.5.0.jar",
+                "version": "0.5.0",
               },
             ],
             "origin": "java.tar",
