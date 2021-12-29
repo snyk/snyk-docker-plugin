@@ -6,7 +6,7 @@ orbs:
 defaults: &defaults
   resource_class: small
   docker:
-    - image: circleci/node:14
+    - image: cimg/node:14.18
   working_directory: ~/snyk-docker-plugin
 
 windows_defaults: &windows_defaults
@@ -102,8 +102,6 @@ jobs:
       - notify_slack_on_failure
   test:
     <<: *defaults
-    docker:
-      - image: circleci/node:14
     steps:
       - checkout
       - setup_remote_docker
@@ -125,8 +123,6 @@ jobs:
   test_jest:
     <<: *defaults
     resource_class: medium
-    docker:
-      - image: circleci/node:14
     steps:
       - checkout
       - setup_remote_docker
