@@ -395,12 +395,20 @@ Object {
           "type": "imageLayers",
         },
         Object {
+          "data": Array [
+            "sha256:50644c29ef5a27c9a40c393a73ece2479de78325cae7d762ef3cdc19bf42dd0a",
+          ],
+          "type": "rootFs",
+        },
+        Object {
           "data": "Alpine Linux v3.12",
           "type": "imageOsReleasePrettyName",
         },
       ],
       "identity": Object {
-        "args": undefined,
+        "args": Object {
+          "platform": "linux/amd64",
+        },
         "type": "apk",
       },
       "target": Object {

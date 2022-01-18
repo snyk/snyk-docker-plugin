@@ -31,6 +31,14 @@ export async function extractImageContent(
         imageId: ociExtractor.getImageIdFromManifest(ociArchive.manifest),
         manifestLayers: ociExtractor.getManifestLayers(ociArchive.manifest),
         extractedLayers: layersWithLatestFileModifications(ociArchive.layers),
+        rootFsLayers: dockerExtractor.getRootFsLayersFromConfig(
+          ociArchive.imageConfig,
+        ),
+        autoDetectedUserInstructions: dockerExtractor.getDetectedLayersInfoFromConfig(
+          ociArchive.imageConfig,
+        ),
+        platform: dockerExtractor.getPlatformFromConfig(ociArchive.imageConfig),
+        imageLabels: ociArchive.imageConfig.config.Labels,
       };
     default:
       const dockerArchive = await dockerExtractor.extractArchive(

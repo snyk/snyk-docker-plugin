@@ -7,11 +7,11 @@ import { extract, Extract } from "tar-stream";
 import { streamToJson } from "../../stream-utils";
 import { extractImageLayer } from "../layer";
 import {
-  DockerArchiveImageConfig,
   DockerArchiveManifest,
   ExtractAction,
   ExtractedLayers,
   ExtractedLayersAndManifest,
+  ImageConfig,
 } from "../types";
 
 const debug = Debug("snyk");
@@ -30,7 +30,7 @@ export async function extractArchive(
     const tarExtractor: Extract = extract();
     const layers: Record<string, ExtractedLayers> = {};
     let manifest: DockerArchiveManifest;
-    let imageConfig: DockerArchiveImageConfig;
+    let imageConfig: ImageConfig;
 
     tarExtractor.on("entry", async (header, stream, next) => {
       if (header.type === "file") {
@@ -51,7 +51,7 @@ export async function extractArchive(
           );
           manifest = manifestArray[0];
         } else if (isImageConfigFile(normalizedName)) {
-          imageConfig = await getManifestFile<DockerArchiveImageConfig>(stream);
+          imageConfig = await getManifestFile<ImageConfig>(stream);
         }
       }
 
@@ -84,7 +84,7 @@ export async function extractArchive(
 
 function getLayersContentAndArchiveManifest(
   manifest: DockerArchiveManifest,
-  imageConfig: DockerArchiveImageConfig,
+  imageConfig: ImageConfig,
   layers: Record<string, ExtractedLayers>,
 ): ExtractedLayersAndManifest {
   // skip (ignore) non-existent layers

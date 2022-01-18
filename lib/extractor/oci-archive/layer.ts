@@ -9,6 +9,7 @@ import { extractImageLayer } from "../layer";
 import {
   ExtractAction,
   ExtractedLayers,
+  ImageConfig,
   OciArchiveManifest,
   OciImageIndex,
   OciManifestInfo,
@@ -28,12 +29,14 @@ export async function extractArchive(
 ): Promise<{
   layers: ExtractedLayers[];
   manifest: OciArchiveManifest;
+  imageConfig: ImageConfig;
 }> {
   return new Promise((resolve, reject) => {
     const tarExtractor: Extract = extract();
 
     const layers: Record<string, ExtractedLayers> = {};
     const manifests: Record<string, OciArchiveManifest> = {};
+    let imageConfig: ImageConfig | undefined;
     let imageIndex: OciImageIndex | undefined;
 
     tarExtractor.on("entry", async (header, stream, next) => {
@@ -63,6 +66,8 @@ export async function extractArchive(
           const digest = `${hashName}:${hashValue}`;
           if (isArchiveManifest(manifest)) {
             manifests[digest] = manifest;
+          } else if (isImageConfigFile(manifest)) {
+            imageConfig = manifest;
           }
           if (layer !== undefined) {
             layers[digest] = layer as ExtractedLayers;
@@ -77,7 +82,12 @@ export async function extractArchive(
     tarExtractor.on("finish", () => {
       try {
         resolve(
-          getLayersContentAndArchiveManifest(imageIndex, manifests, layers),
+          getLayersContentAndArchiveManifest(
+            imageIndex,
+            manifests,
+            imageConfig,
+            layers,
+          ),
         );
       } catch (error) {
         debug(
@@ -102,8 +112,13 @@ export async function extractArchive(
 function getLayersContentAndArchiveManifest(
   imageIndex: OciImageIndex | undefined,
   manifestCollection: Record<string, OciArchiveManifest>,
+  imageConfig: ImageConfig | undefined,
   layers: Record<string, ExtractedLayers>,
-): { layers: ExtractedLayers[]; manifest: OciArchiveManifest } {
+): {
+  layers: ExtractedLayers[];
+  manifest: OciArchiveManifest;
+  imageConfig: ImageConfig;
+} {
   // filter empty layers
   // get the layers content without the name
   // reverse layers order from last to first
@@ -119,9 +134,14 @@ function getLayersContentAndArchiveManifest(
     throw new Error("We found no layers in the provided image");
   }
 
+  if (imageConfig === undefined) {
+    throw new Error("Could not find the image config in the provided image");
+  }
+
   return {
     layers: filteredLayers,
     manifest,
+    imageConfig,
   };
 }
 
@@ -152,6 +172,10 @@ function isArchiveManifest(manifest: any): manifest is OciArchiveManifest {
   return (
     manifest !== undefined && manifest.layers && manifest.layers.length >= 0
   );
+}
+
+function isImageConfigFile(json: any): json is ImageConfig {
+  return json !== undefined && json.architecture && json.rootfs;
 }
 
 function isImageIndexFile(name: string): boolean {

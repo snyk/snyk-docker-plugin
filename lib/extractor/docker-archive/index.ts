@@ -5,7 +5,7 @@ import {
 } from "../../dockerfile/instruction-parser";
 import { AutoDetectedUserInstructions, HashAlgorithm } from "../../types";
 
-import { DockerArchiveImageConfig, DockerArchiveManifest } from "../types";
+import { DockerArchiveManifest, ImageConfig } from "../types";
 export { extractArchive } from "./layer";
 
 export function getManifestLayers(manifest: DockerArchiveManifest) {
@@ -27,9 +27,7 @@ export function getImageIdFromManifest(
   }
 }
 
-export function getRootFsLayersFromConfig(
-  imageConfig: DockerArchiveImageConfig,
-): string[] {
+export function getRootFsLayersFromConfig(imageConfig: ImageConfig): string[] {
   try {
     return imageConfig.rootfs.diff_ids;
   } catch (err) {
@@ -38,7 +36,7 @@ export function getRootFsLayersFromConfig(
 }
 
 export function getPlatformFromConfig(
-  imageConfig: DockerArchiveImageConfig,
+  imageConfig: ImageConfig,
 ): string | undefined {
   return imageConfig.os && imageConfig.architecture
     ? `${imageConfig.os}/${imageConfig.architecture}`
