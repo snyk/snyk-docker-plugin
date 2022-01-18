@@ -28,7 +28,7 @@ export interface ExtractedLayers {
 export interface ExtractedLayersAndManifest {
   layers: ExtractedLayers[];
   manifest: DockerArchiveManifest;
-  imageConfig: DockerArchiveImageConfig;
+  imageConfig: ImageConfig;
 }
 
 export interface DockerArchiveManifest {
@@ -39,7 +39,7 @@ export interface DockerArchiveManifest {
   Layers: string[];
 }
 
-export interface DockerArchiveImageConfig {
+export interface ImageConfig {
   architecture: string;
   os: string;
   rootfs: { diff_ids: string[] };

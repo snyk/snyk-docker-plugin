@@ -7,9 +7,9 @@ import { extract, Extract } from "tar-stream";
 import { streamToJson } from "../../stream-utils";
 import { extractImageLayer } from "../layer";
 import {
-  DockerArchiveImageConfig,
   ExtractAction,
   ExtractedLayers,
+  ImageConfig,
   OciArchiveManifest,
   OciImageIndex,
   OciManifestInfo,
@@ -29,14 +29,14 @@ export async function extractArchive(
 ): Promise<{
   layers: ExtractedLayers[];
   manifest: OciArchiveManifest;
-  imageConfig: DockerArchiveImageConfig;
+  imageConfig: ImageConfig;
 }> {
   return new Promise((resolve, reject) => {
     const tarExtractor: Extract = extract();
 
     const layers: Record<string, ExtractedLayers> = {};
     const manifests: Record<string, OciArchiveManifest> = {};
-    let imageConfig: DockerArchiveImageConfig | undefined;
+    let imageConfig: ImageConfig | undefined;
     let imageIndex: OciImageIndex | undefined;
 
     tarExtractor.on("entry", async (header, stream, next) => {
@@ -112,12 +112,12 @@ export async function extractArchive(
 function getLayersContentAndArchiveManifest(
   imageIndex: OciImageIndex | undefined,
   manifestCollection: Record<string, OciArchiveManifest>,
-  imageConfig: DockerArchiveImageConfig | undefined,
+  imageConfig: ImageConfig | undefined,
   layers: Record<string, ExtractedLayers>,
 ): {
   layers: ExtractedLayers[];
   manifest: OciArchiveManifest;
-  imageConfig: DockerArchiveImageConfig;
+  imageConfig: ImageConfig;
 } {
   // filter empty layers
   // get the layers content without the name
@@ -174,7 +174,7 @@ function isArchiveManifest(manifest: any): manifest is OciArchiveManifest {
   );
 }
 
-function isImageConfigFile(json: any): json is DockerArchiveImageConfig {
+function isImageConfigFile(json: any): json is ImageConfig {
   return json !== undefined && json.architecture && json.rootfs;
 }
 
