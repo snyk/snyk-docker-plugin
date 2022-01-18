@@ -13,15 +13,14 @@ describe("oci archive scanning", () => {
     expect(pluginResult).toMatchSnapshot();
   });
 
-  it("does not scan a busybox oci archive", async () => {
+  it("should correctly scan a busybox oci archive", async () => {
     const fixturePath = getFixture("oci-archives/busybox-1.31.1.tar");
     const imageNameAndTag = `oci-archive:${fixturePath}`;
 
-    await expect(async () =>
-      scan({
-        path: imageNameAndTag,
-      }),
-    ).rejects.toThrow(new Error("Invalid OCI archive"));
+    const pluginResult = await scan({
+      path: imageNameAndTag,
+    });
+    expect(pluginResult).toMatchSnapshot();
   });
 });
 
