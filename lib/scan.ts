@@ -1,4 +1,5 @@
 import * as fs from "fs";
+import * as os from "os";
 import * as path from "path";
 
 import { getImageArchive } from "./analyzer/image-inspector";
@@ -87,7 +88,7 @@ export async function scan(
 
 async function machineAnalysis(options) {
   return await staticModule.analyzeStatically(
-    "",
+    os.hostname(),
     undefined,
     undefined,
     undefined,
