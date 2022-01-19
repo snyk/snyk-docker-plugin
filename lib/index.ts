@@ -43,4 +43,3 @@ export {
   UpdateDockerfileBaseImageNameErrorCode,
   Binary,
 };
-

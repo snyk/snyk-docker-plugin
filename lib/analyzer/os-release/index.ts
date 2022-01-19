@@ -1,3 +1,3 @@
-import { detect as detectStatically } from "./static";
+import { detect as detectStatically, detectMachine } from "./static";
 
-export { detectStatically };
+export { detectStatically, detectMachine };

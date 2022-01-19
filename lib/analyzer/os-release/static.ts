@@ -1,5 +1,5 @@
 import * as Debug from "debug";
-
+import * as fs from "fs";
 import { DockerFileAnalysis } from "../../dockerfile/types";
 import { ExtractedLayers } from "../../extractor/types";
 import { getOsReleaseStatic as getOsRelease } from "../../inputs/os-release";
@@ -32,6 +32,54 @@ const releaseDetectors: Record<OsReleaseFilePath, OsReleaseHandler> = {
   [OsReleaseFilePath.RedHat]: tryRedHatRelease,
   [OsReleaseFilePath.Centos]: tryCentosRelease,
 };
+
+export async function detectMachine() {
+  let hadOsReleaseFile = false;
+
+  let osRelease: OSRelease | null = null;
+  for (const [type, handler] of Object.entries(releaseDetectors)) {
+    let osReleaseFile = "";
+    try {
+      osReleaseFile = fs.readFileSync(type).toString();
+    } catch {
+      continue;
+    }
+
+    hadOsReleaseFile = true;
+    try {
+      osRelease = await handler(osReleaseFile);
+    } catch (err) {
+      debug("Malformed OS release file", JSON.stringify(err));
+    }
+    if (osRelease) {
+      break;
+    }
+  }
+
+  if (!osRelease && hadOsReleaseFile) {
+    throw new Error("Failed to parse OS release file");
+  }
+
+  if (!osRelease) {
+    osRelease = { name: "unknown", version: "0.0", prettyName: "" };
+  }
+
+  // Oracle Linux identifies itself as "ol"
+  if (osRelease.name.trim() === "ol") {
+    osRelease.name = "oracle";
+  }
+
+  // Support round version. ie change SLES 15 to SLES 15.0
+  if (
+    osRelease.name.trim() === "sles" &&
+    osRelease.version &&
+    !osRelease.version.includes(".")
+  ) {
+    osRelease.version += ".0";
+  }
+
+  return osRelease;
+}
 
 export async function detect(
   extractedLayers: ExtractedLayers,
