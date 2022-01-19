@@ -81,10 +81,15 @@ export async function analyze(
 
   let osRelease: OSRelease;
   try {
-    osRelease = await osReleaseDetector.detectStatically(
-      extractedLayers,
-      dockerfileAnalysis,
-    );
+    // osRelease = await osReleaseDetector.detectStatically(
+    //   extractedLayers,
+    //   dockerfileAnalysis,
+    // );
+
+
+    osRelease = {name: 'string',
+      version: 'string',
+      prettyName: 'string'};
   } catch (err) {
     debug(`Could not detect OS release: ${JSON.stringify(err)}`);
     throw new Error("Failed to detect OS release");
@@ -105,7 +110,7 @@ export async function analyze(
   const applicationDependenciesScanResults: AppDepsScanResultWithoutTarget[] = [];
 
   return {
-    imageId: 'my machine',
+    imageId: 'my/machine',
     osRelease,
     platform: 'optional. ',
     results,

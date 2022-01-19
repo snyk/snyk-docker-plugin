@@ -24,6 +24,8 @@ export async function analyzeStatically(
     options,
   );
 
+  targetImage = "";
+
   const parsedAnalysisResult = parseAnalysisResults(
     targetImage,
     staticAnalysis,

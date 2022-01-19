@@ -76,8 +76,8 @@ export async function scan(
         dockerfileAnalysis,
         options,
       );
-    case "machine": 
-    return machineAnalysis( );
+    case "machine":
+      return machineAnalysis();
 
     default:
       throw new Error("Unhandled image type for image " + targetImage);

@@ -4,7 +4,10 @@ export function parseAnalysisResults(targetImage, analysis: StaticAnalysis) {
   let analysisResult = analysis.results.filter((res) => {
     return res.Analysis && res.Analysis.length > 0;
   })[0];
-  console.log("🚀 ~ file: index.ts ~ line 7 ~ analysisResult ~ analysisResult", analysisResult)
+  console.log(
+    "🚀 ~ file: index.ts ~ line 7 ~ analysisResult ~ analysisResult",
+    analysisResult,
+  );
 
   if (!analysisResult) {
     // Special case when we have no package management

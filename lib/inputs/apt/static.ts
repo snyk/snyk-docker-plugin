@@ -13,20 +13,29 @@ export const getDpkgFileContentAction: ExtractAction = {
 };
 
 export function getDpkgFileContentActionMachine() {
+  let dpkgFileContent = "";
+  let extFileContent = "";
   try {
-    return fs.readFileSync("/var/lib/dpkg/status").toString();
-  } catch (e) { 
-    return "";
+    dpkgFileContent = fs.readFileSync("/var/lib/dpkg/status").toString();
+  } catch (e) {
+    // 
   }
+  try {
+    extFileContent = fs.readFileSync("/var/lib/apt/extended_states").toString();
+  } catch (e) {
+    // 
+  } 
 
-
-
+  return {
+    dpkgFile: dpkgFileContent,
+    extFile: extFileContent
+  };
 
   // actionName: "dpkg",
   // filePathMatches: (filePath) =>
   //   filePath === normalizePath("/var/lib/dpkg/status"),
   // callback: streamToString,
-};
+}
 
 export const getExtFileContentAction: ExtractAction = {
   actionName: "ext",
