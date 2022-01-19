@@ -21,44 +21,45 @@ export function mergeEnvVarsIntoCredentials(
 export async function scan(
   options?: Partial<PluginOptions>,
 ): Promise<PluginResponse> {
-  if (!options) {
-    throw new Error("No plugin options provided");
-  }
+  // if (!options) {
+  //   throw new Error("No plugin options provided");
+  // }
 
-  mergeEnvVarsIntoCredentials(options);
+  // mergeEnvVarsIntoCredentials(options);
 
-  if (!options.path) {
-    throw new Error("No image identifier or path provided");
-  }
+  // if (!options.path) {
+  //   throw new Error("No image identifier or path provided");
+  // }
 
-  const nestedJarsDepth =
-    options["nested-jars-depth"] || options["shaded-jars-depth"];
-  if (
-    (isTrue(nestedJarsDepth) || isNumber(nestedJarsDepth)) &&
-    !isTrue(options["app-vulns"])
-  ) {
-    throw new Error(
-      "To use --nested-jars-depth, you must also use --app-vulns",
-    );
-  }
+  // const nestedJarsDepth =
+  //   options["nested-jars-depth"] || options["shaded-jars-depth"];
+  // if (
+  //   (isTrue(nestedJarsDepth) || isNumber(nestedJarsDepth)) &&
+  //   !isTrue(options["app-vulns"])
+  // ) {
+  //   throw new Error(
+  //     "To use --nested-jars-depth, you must also use --app-vulns",
+  //   );
+  // }
 
-  if (
-    (!isNumber(nestedJarsDepth) &&
-      !isTrue(nestedJarsDepth) &&
-      typeof nestedJarsDepth !== "undefined") ||
-    Number(nestedJarsDepth) < 0
-  ) {
-    throw new Error(
-      "--nested-jars-depth accepts only numbers bigger than or equal to 0",
-    );
-  }
+  // if (
+  //   (!isNumber(nestedJarsDepth) &&
+  //     !isTrue(nestedJarsDepth) &&
+  //     typeof nestedJarsDepth !== "undefined") ||
+  //   Number(nestedJarsDepth) < 0
+  // ) {
+  //   throw new Error(
+  //     "--nested-jars-depth accepts only numbers bigger than or equal to 0",
+  //   );
+  // }
 
-  const targetImage = appendLatestTagIfMissing(options.path);
+  // const targetImage = appendLatestTagIfMissing(options.path);
+  const targetImage = "";
 
   const dockerfilePath = options.file;
   const dockerfileAnalysis = await readDockerfileAndAnalyse(dockerfilePath);
 
-  const imageType = getImageType(targetImage);
+  const imageType = "machine";
   switch (imageType) {
     case ImageType.DockerArchive:
     case ImageType.OciArchive:
@@ -75,10 +76,16 @@ export async function scan(
         dockerfileAnalysis,
         options,
       );
+    case "machine": 
+    return machineAnalysis( );
 
     default:
       throw new Error("Unhandled image type for image " + targetImage);
   }
+}
+
+async function machineAnalysis() {
+  return await staticModule.analyzeStatically();
 }
 
 async function localArchiveAnalysis(

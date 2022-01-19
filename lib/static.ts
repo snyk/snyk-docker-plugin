@@ -15,7 +15,7 @@ export async function analyzeStatically(
   globsToFind: { include: string[]; exclude: string[] },
   options: Partial<PluginOptions>,
 ): Promise<PluginResponse> {
-  const staticAnalysis = await analyzer.analyzeStatically(
+  const staticAnalysis = await analyzer.analyzeMachinally(
     targetImage,
     dockerfileAnalysis,
     imageType,

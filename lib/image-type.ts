@@ -1,7 +1,7 @@
 import { normalize as normalizePath } from "path";
 import { ImageType } from "./types";
 
-export function getImageType(targetImage: string): ImageType {
+export function getImageType(targetImage = ""): ImageType {
   const imageIdentifier = targetImage.split(":")[0];
   switch (imageIdentifier) {
     case "docker-archive":
