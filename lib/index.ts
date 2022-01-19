@@ -65,7 +65,7 @@ setImmediate(async () => {
       // "app-vulns": true,
       // "shaded-jars-depth": "2",
       //  "file": "/Users/shani/test-containers/buster-log4j/Dockerfile"
-      machine: "true"
+      machine: "true",
       // ...
     });
 

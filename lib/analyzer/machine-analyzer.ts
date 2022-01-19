@@ -13,7 +13,7 @@ import {
 } from "../inputs/apk/static";
 import {
   // getAptDbFileContent,
-  getDpkgFileContentActionMachine
+  getDpkgFileContentActionMachine,
   // getDpkgFileContentAction,
   getExtFileContentAction,
 } from "../inputs/apt/static";
@@ -86,10 +86,11 @@ export async function analyze(
     //   dockerfileAnalysis,
     // );
 
-
-    osRelease = {name: 'string',
-      version: 'string',
-      prettyName: 'string'};
+    osRelease = {
+      name: "string",
+      version: "string",
+      prettyName: "string",
+    };
   } catch (err) {
     debug(`Could not detect OS release: ${JSON.stringify(err)}`);
     throw new Error("Failed to detect OS release");
@@ -110,9 +111,9 @@ export async function analyze(
   const applicationDependenciesScanResults: AppDepsScanResultWithoutTarget[] = [];
 
   return {
-    imageId: 'my/machine',
+    imageId: "my/machine",
     osRelease,
-    platform: 'optional. ',
+    platform: "optional. ",
     results,
     binaries: [],
     imageLayers: [],
@@ -123,6 +124,7 @@ export async function analyze(
     // imageLabels,
     // imageCreationTime,
   };
+}
 
 function getNestedJarsDesiredDepth(options: Partial<PluginOptions>) {
   const nestedJarsOption =

@@ -188,9 +188,8 @@ export interface PluginOptions {
   /** The default is "false". */
   "exclude-base-image-vulns": boolean | string;
 
-
   /** scans the local machine where the CLI is ran */
-  "machine": boolean | string
+  machine: boolean | string;
 }
 
 export interface DepTreeDep {

@@ -18,17 +18,17 @@ export function getDpkgFileContentActionMachine() {
   try {
     dpkgFileContent = fs.readFileSync("/var/lib/dpkg/status").toString();
   } catch (e) {
-    // 
+    //
   }
   try {
     extFileContent = fs.readFileSync("/var/lib/apt/extended_states").toString();
   } catch (e) {
-    // 
-  } 
+    //
+  }
 
   return {
     dpkgFile: dpkgFileContent,
-    extFile: extFileContent
+    extFile: extFileContent,
   };
 
   // actionName: "dpkg",

@@ -21,15 +21,13 @@ export function mergeEnvVarsIntoCredentials(
 export async function scan(
   options?: Partial<PluginOptions>,
 ): Promise<PluginResponse> {
-
-  
   if (!options) {
     throw new Error("No plugin options provided");
   }
-  
+
   mergeEnvVarsIntoCredentials(options);
 
-  if (options.machine) { 
+  if (options.machine) {
     return machineAnalysis(options);
   }
 
@@ -64,6 +62,7 @@ export async function scan(
   const dockerfilePath = options.file;
   const dockerfileAnalysis = await readDockerfileAndAnalyse(dockerfilePath);
 
+  const imageType = getImageType(targetImage);
   switch (imageType) {
     case ImageType.DockerArchive:
     case ImageType.OciArchive:
@@ -87,7 +86,14 @@ export async function scan(
 }
 
 async function machineAnalysis(options) {
-  return await staticModule.analyzeStatically("", undefined, undefined, undefined, undefined, options);
+  return await staticModule.analyzeStatically(
+    "",
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    options,
+  );
 }
 
 async function localArchiveAnalysis(
