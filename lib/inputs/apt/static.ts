@@ -1,3 +1,4 @@
+import * as fs from "fs";
 import { normalize as normalizePath } from "path";
 import { IAptFiles } from "../../analyzer/types";
 import { getContentAsString } from "../../extractor";
@@ -9,6 +10,22 @@ export const getDpkgFileContentAction: ExtractAction = {
   filePathMatches: (filePath) =>
     filePath === normalizePath("/var/lib/dpkg/status"),
   callback: streamToString,
+};
+
+export function getDpkgFileContentActionMachine() {
+  try {
+    return fs.readFileSync("/var/lib/dpkg/status").toString();
+  } catch (e) { 
+    return "";
+  }
+
+
+
+
+  // actionName: "dpkg",
+  // filePathMatches: (filePath) =>
+  //   filePath === normalizePath("/var/lib/dpkg/status"),
+  // callback: streamToString,
 };
 
 export const getExtFileContentAction: ExtractAction = {

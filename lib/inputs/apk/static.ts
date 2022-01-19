@@ -14,3 +14,8 @@ export function getApkDbFileContent(extractedLayers: ExtractedLayers): string {
   const apkDb = getContentAsString(extractedLayers, getApkDbFileContentAction);
   return apkDb || "";
 }
+
+// export function getApkDbFileContentFromMachine(): string {
+//   const apkDb = getContentAsString(extractedLayers, getApkDbFileContentAction);
+//   return apkDb || "";
+// }

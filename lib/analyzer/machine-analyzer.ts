@@ -7,12 +7,14 @@ import {
 } from "../go-parser";
 import { getBufferContent, getElfFileContent, getFileContent } from "../inputs";
 import {
-  getApkDbFileContent,
+  // getApkDbFileContent,
+  // getApkDbFileContentFromMachine
   getApkDbFileContentAction,
 } from "../inputs/apk/static";
 import {
-  getAptDbFileContent,
-  getDpkgFileContentAction,
+  // getAptDbFileContent,
+  getDpkgFileContentActionMachine
+  // getDpkgFileContentAction,
   getExtFileContentAction,
 } from "../inputs/apt/static";
 import {
@@ -57,43 +59,25 @@ export async function analyze(
   options: Partial<PluginOptions>,
 ): Promise<StaticAnalysis> {
   const staticAnalysisActions = [
-    getApkDbFileContentAction,
-    getDpkgFileContentAction,
-    getExtFileContentAction,
-    getRpmDbFileContentAction,
-    ...getOsReleaseActions,
-    getNodeBinariesFileContentAction,
-    getOpenJDKBinariesFileContentAction,
-    getDpkgPackageFileContentAction,
+    // getApkDbFileContentAction,
+    getDpkgFileContentActionMachine,
+    // getExtFileContentAction,
+    // getRpmDbFileContentAction,
+    // ...getOsReleaseActions,
+    // getNodeBinariesFileContentAction,
+    // getOpenJDKBinariesFileContentAction,
+    // getDpkgPackageFileContentAction,
   ];
 
-  // const checkForGlobs = shouldCheckForGlobs(globsToFind);
-  // if (checkForGlobs) {
-  //   staticAnalysisActions.push(
-  //     filePatternStatic.generateExtractAction(
-  //       globsToFind.include,
-  //       globsToFind.exclude,
-  //     ),
-  //   );
-  // }
-
   const [
-    apkDbFileContent,
+    // apkDbFileContent,
     aptDbFileContent,
-    rpmDbFileContent,
+    // rpmDbFileContent,
   ] = await Promise.all([
-    getApkDbFileContent(),
-    getAptDbFileContent(),
-    getRpmDbFileContent(),
+    // getApkDbFileContentFromMachine(),
+    getDpkgFileContentActionMachine(),
+    // getRpmDbFileContent(),
   ]);
-
-  const distrolessAptFiles = getAptFiles(extractedLayers);
-
-  const manifestFiles: ManifestFile[] = [];
-  if (checkForGlobs) {
-    const matchingFiles = filePatternStatic.getMatchingFiles(extractedLayers);
-    manifestFiles.push(...matchingFiles);
-  }
 
   let osRelease: OSRelease;
   try {
@@ -109,58 +93,31 @@ export async function analyze(
   let results: ImageAnalysis[];
   try {
     results = await Promise.all([
-      apkAnalyze(targetImage, apkDbFileContent),
+      // apkAnalyze(targetImage, apkDbFileContent),
       aptAnalyze(targetImage, aptDbFileContent),
-      rpmAnalyze(targetImage, rpmDbFileContent),
-      aptDistrolessAnalyze(targetImage, distrolessAptFiles),
+      // rpmAnalyze(targetImage, rpmDbFileContent),
     ]);
   } catch (err) {
     debug(`Could not detect installed OS packages: ${JSON.stringify(err)}`);
     throw new Error("Failed to detect installed OS packages");
   }
 
-  const binaries = getBinariesHashes(extractedLayers);
-
   const applicationDependenciesScanResults: AppDepsScanResultWithoutTarget[] = [];
 
-  if (appScan) {
-    const nodeDependenciesScanResults = await nodeFilesToScannedProjects(
-      getFileContent(extractedLayers, getNodeAppFileContentAction.actionName),
-    );
-
-    const desiredLevelsOfUnpacking = getNestedJarsDesiredDepth(options);
-
-    const jarFingerprintScanResults = await jarFilesToScannedProjects(
-      getBufferContent(extractedLayers, getJarFileContentAction.actionName),
-      targetImage,
-      desiredLevelsOfUnpacking,
-    );
-    const goModulesScanResult = await goModulesToScannedProjects(
-      getElfFileContent(extractedLayers, getGoModulesContentAction.actionName),
-    );
-
-    applicationDependenciesScanResults.push(
-      ...nodeDependenciesScanResults,
-      ...jarFingerprintScanResults,
-      ...goModulesScanResult,
-    );
-  }
-
   return {
-    imageId,
+    imageId: 'my machine',
     osRelease,
-    platform,
+    platform: 'optional. ',
     results,
-    binaries,
-    imageLayers: manifestLayers,
-    rootFsLayers,
+    binaries: [],
+    imageLayers: [],
+    // rootFsLayers: [],
     applicationDependenciesScanResults,
-    manifestFiles,
-    autoDetectedUserInstructions,
-    imageLabels,
-    imageCreationTime,
+    manifestFiles: [],
+    // autoDetectedUserInstructions,
+    // imageLabels,
+    // imageCreationTime,
   };
-}
 
 function getNestedJarsDesiredDepth(options: Partial<PluginOptions>) {
   const nestedJarsOption =
