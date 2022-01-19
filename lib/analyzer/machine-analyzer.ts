@@ -1,4 +1,5 @@
 import * as Debug from "debug";
+import * as os from "os";
 import { DockerFileAnalysis } from "../dockerfile";
 import * as archiveExtractor from "../extractor";
 import {
@@ -113,7 +114,7 @@ export async function analyze(
   return {
     imageId: "my/machine",
     osRelease,
-    platform: "optional. ",
+    platform: os.arch(),
     results,
     binaries: [],
     imageLayers: [],
