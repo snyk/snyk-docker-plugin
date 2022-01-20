@@ -1,10 +1,9 @@
 import * as Debug from "debug";
 import { createReadStream } from "fs";
-import * as gunzip from "gunzip-maybe";
 import { basename, normalize as normalizePath } from "path";
 import { Readable } from "stream";
 import { extract, Extract } from "tar-stream";
-import { streamToJson } from "../../stream-utils";
+import { pipeDecompressedStream, streamToJson } from "../../stream-utils";
 import { extractImageLayer } from "../layer";
 import {
   DockerArchiveManifest,
@@ -76,9 +75,8 @@ export async function extractArchive(
 
     tarExtractor.on("error", (error) => reject(error));
 
-    createReadStream(dockerArchiveFilesystemPath)
-      .pipe(gunzip())
-      .pipe(tarExtractor);
+    const dockerArchiveStream = createReadStream(dockerArchiveFilesystemPath);
+    pipeDecompressedStream(dockerArchiveStream, tarExtractor);
   });
 }
 

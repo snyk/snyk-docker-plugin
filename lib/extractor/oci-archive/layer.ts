@@ -1,10 +1,9 @@
 import * as Debug from "debug";
 import { createReadStream } from "fs";
-import * as gunzip from "gunzip-maybe";
 import { normalize as normalizePath, sep as pathSeparator } from "path";
 import { PassThrough } from "stream";
 import { extract, Extract } from "tar-stream";
-import { streamToJson } from "../../stream-utils";
+import { pipeDecompressedStream, streamToJson } from "../../stream-utils";
 import { extractImageLayer } from "../layer";
 import {
   ExtractAction,
@@ -103,9 +102,8 @@ export async function extractArchive(
       reject(error);
     });
 
-    createReadStream(ociArchiveFilesystemPath)
-      .pipe(gunzip())
-      .pipe(tarExtractor);
+    const ociArchiveStream = createReadStream(ociArchiveFilesystemPath);
+    pipeDecompressedStream(ociArchiveStream, tarExtractor);
   });
 }
 

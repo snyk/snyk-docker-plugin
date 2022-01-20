@@ -1,8 +1,8 @@
 import * as Debug from "debug";
-import * as gunzip from "gunzip-maybe";
 import * as path from "path";
 import { Readable } from "stream";
 import { extract, Extract } from "tar-stream";
+import { pipeDecompressedStream } from "../stream-utils";
 import { applyCallbacks, isResultEmpty } from "./callbacks";
 import { ExtractAction, ExtractedLayers } from "./types";
 
@@ -61,6 +61,6 @@ export async function extractImageLayer(
 
     tarExtractor.on("error", (error) => reject(error));
 
-    layerTarStream.pipe(gunzip()).pipe(tarExtractor);
+    pipeDecompressedStream(layerTarStream, tarExtractor);
   });
 }
