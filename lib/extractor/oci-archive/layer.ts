@@ -126,7 +126,7 @@ function getLayersContentAndArchiveManifest(
   // get manifest file first
   const manifest = getManifest(imageIndex, manifestCollection);
   const filteredLayers = manifest.layers
-    .filter((layer) => Object.keys(layers[layer.digest]).length !== 0)
+    .filter((layer) => layers[layer.digest])
     .map((layer) => layers[layer.digest])
     .reverse();
 
