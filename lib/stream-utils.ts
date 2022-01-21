@@ -71,13 +71,21 @@ export async function streamToSha1(stream: Readable): Promise<string> {
  * Reads up to 2 megabytes from the stream and tries to JSON.parse the result.
  * Will reject if an error occurs from within the stream or when parsing cannot be done.
  */
-export async function streamToJson<T>(stream: Readable): Promise<T> {
+export async function streamToJson<T>(
+  stream: Readable,
+  streamSize?: number,
+): Promise<T> {
   return new Promise<T>((resolve, reject) => {
-    const chunks: string[] = [];
+    if (streamSize !== undefined && streamSize > 2 * MEGABYTE) {
+      stream.resume();
+      reject(new Error("The stream is too large to parse as JSON"));
+    }
+
+    const chunks: Buffer[] = [];
     let bytes = 0;
     stream.on("end", () => {
       try {
-        resolve(JSON.parse(chunks.join("")));
+        resolve(JSON.parse(Buffer.concat(chunks).toString("utf8")));
       } catch (error) {
         reject(error);
       }
@@ -86,7 +94,7 @@ export async function streamToJson<T>(stream: Readable): Promise<T> {
     stream.on("data", (chunk) => {
       bytes += chunk.length;
       if (bytes <= 2 * MEGABYTE) {
-        chunks.push(chunk.toString("utf8"));
+        chunks.push(chunk);
       } else {
         reject(new Error("The stream is too large to parse as JSON"));
       }
