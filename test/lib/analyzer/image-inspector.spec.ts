@@ -75,12 +75,12 @@ describe("extractImageDetails", () => {
       imageName: "foo/bar",
       tag: "sha256:8756a25c4c5e902c4fe20322cc69d510a0517b51eab630c614efbd612ed568bf",
     }}
-  `("extract details for $image", async ({ image, expected }) => {
+  `("extract details for $image", ({ image, expected }) => {
     const {
       hostname,
       imageName,
       tag,
-    } = await imageInspector.extractImageDetails(image);
+    } = imageInspector.extractImageDetails(image);
     expect(hostname).toEqual(expected.hostname);
     expect(imageName).toEqual(expected.imageName);
     expect(tag).toEqual(expected.tag);
