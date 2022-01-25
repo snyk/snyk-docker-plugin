@@ -107,7 +107,7 @@ async function pullFromContainerRegistry(
   username: string | undefined,
   password: string | undefined,
 ): Promise<void> {
-  const { hostname, imageName, tag } = await extractImageDetails(targetImage);
+  const { hostname, imageName, tag } = extractImageDetails(targetImage);
   debug(
     `Attempting to pull: registry: ${hostname}, image: ${imageName}, tag: ${tag}`,
   );
@@ -237,7 +237,7 @@ async function getImageArchive(
   };
 }
 
-async function extractImageDetails(targetImage: string): Promise<ImageDetails> {
+function extractImageDetails(targetImage: string): ImageDetails {
   let remainder: string;
   let hostname: string;
   let imageName: string;
