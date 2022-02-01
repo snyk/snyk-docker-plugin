@@ -12,10 +12,10 @@ function groupJarFingerprintsByPath(input: {
   [path: string]: JarBuffer[];
 } {
   const jarFingerprints: JarBuffer[] = Object.entries(input).map(
-    ([filePath, digest]) => {
+    ([filePath, contents]) => {
       return {
         location: filePath,
-        digest,
+        contents,
         coords: null,
         dependencies: [],
       };
@@ -103,7 +103,7 @@ function getFingerprints(
  * @param { JarCoords[] } props.dependencies
  */
 function unpackJarsTraverse({
-  jarBuffer,
+  jarContents,
   jarPath,
   desiredLevelsOfUnpacking,
   requiredLevelsOfUnpacking,
@@ -112,7 +112,7 @@ function unpackJarsTraverse({
   coords = null,
   dependencies = [],
 }: {
-  jarBuffer: Buffer;
+  jarContents: Buffer;
   jarPath: string;
   desiredLevelsOfUnpacking: number;
   requiredLevelsOfUnpacking: number;
@@ -126,12 +126,12 @@ function unpackJarsTraverse({
   let zipEntries: admzip.IZipEntry[];
 
   try {
-    zip = new admzip(jarBuffer);
+    zip = new admzip(jarContents);
     zipEntries = zip.getEntries();
   } catch (err) {
     jarBuffers.push({
       location: jarPath,
-      digest: jarBuffer,
+      contents: jarContents,
       dependencies,
       coords: null,
     });
@@ -178,14 +178,13 @@ function unpackJarsTraverse({
       jarPath = `${jarPath}/${entryName}`;
 
       unpackJarsTraverse({
-        jarBuffer: entryData,
+        jarContents: entryData,
         jarPath,
         desiredLevelsOfUnpacking,
         requiredLevelsOfUnpacking,
         unpackedLevels,
         jarBuffers,
         coords,
-        dependencies,
       });
     }
   }
@@ -193,7 +192,7 @@ function unpackJarsTraverse({
   if (!isFatJar) {
     jarBuffers.push({
       location: jarPath,
-      digest: jarBuffer,
+      contents: jarContents,
       coords,
       dependencies,
     });
@@ -221,7 +220,7 @@ function unpackJars(
   for (const jarBuffer of jarBuffers) {
     const unpackedLevels: number = 0;
     const jars: JarBuffer[] = unpackJarsTraverse({
-      jarBuffer: jarBuffer.digest,
+      jarContents: jarBuffer.contents,
       jarPath: jarBuffer.location,
       desiredLevelsOfUnpacking,
       requiredLevelsOfUnpacking,
@@ -236,7 +235,7 @@ function unpackJars(
     jars.forEach((jar) => {
       fingerprints.push({
         location: jar.location,
-        digest: jar.coords ? null : bufferToSha1(jar.digest),
+        digest: jar.coords ? null : bufferToSha1(jar.contents),
         dependencies: jar.dependencies,
         ...jar.coords,
       });

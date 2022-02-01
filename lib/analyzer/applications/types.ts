@@ -12,7 +12,8 @@ export interface FilePathToBuffer {
 }
 export interface JarBuffer {
   location: string;
-  digest: Buffer;
+  /** The actual JAR data. */
+  contents: Buffer;
   coords: JarCoords | null;
   dependencies: JarCoords[];
 }
