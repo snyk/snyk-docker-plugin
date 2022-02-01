@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`BUG: jar fingerprinting duplicates dependencies should demonstrate how dependencies are duplicated 1`] = `
+exports[`jar fingerprint scanning should correctly detect dependencies 1`] = `
 Object {
   "scanResults": Array [
     Object {
