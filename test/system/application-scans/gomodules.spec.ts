@@ -31,7 +31,7 @@ describe("gomodules binaries scanning", () => {
     const fixturePath = getFixture("docker-archives/docker-save/yq.tar");
     const imageNameAndTag = `docker-archive:${fixturePath}`;
 
-    const pluginResult = scan({
+    const pluginResult = await scan({
       path: imageNameAndTag,
       "app-vulns": true,
     });
