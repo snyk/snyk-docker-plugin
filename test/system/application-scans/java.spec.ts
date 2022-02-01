@@ -56,16 +56,22 @@ describe("jar binaries scanning", () => {
               pluginResult.scanResults[1].facts[0].data.fingerprints;
           });
 
-          it("should return two results", () => {
-            expect(fingerprints).toHaveLength(2);
+          it("should return the Uber JAR and two nested JARs in the results", () => {
+            expect(fingerprints).toHaveLength(3);
           });
 
           it("should return nested (second-level) jar in the result", () => {
             expect(fingerprints).toContainEqual(nestedJar);
           });
 
-          it("should not return a first-level jar that have nested jars in it (uber jar)", () => {
-            expect(fingerprints).not.toContainEqual(fatJar);
+          it("should return a first-level jar that have nested jars in it (uber jar)", () => {
+            expect(fingerprints).toContainEqual(fatJar);
+          });
+
+          it("should be a unique set of fingerprints", () => {
+            const isUniqueList = (arr: any[]): boolean =>
+              arr.length === new Set(arr).size;
+            expect(isUniqueList(fingerprints)).toBeTruthy();
           });
 
           it("should return first-level jars that have no nested jars in it", () => {
@@ -199,7 +205,7 @@ describe("jar binaries scanning", () => {
             fingerprints =
               pluginResult.scanResults[1].facts[0].data.fingerprints;
 
-            expect(fingerprints).toHaveLength(1);
+            expect(fingerprints).toHaveLength(2);
             expect(fingerprints).toContainEqual(
               expect.objectContaining(level2JarFingerprint),
             );
@@ -226,11 +232,11 @@ describe("jar binaries scanning", () => {
             fingerprints =
               pluginResult.scanResults[1].facts[0].data.fingerprints;
 
-            expect(fingerprints).toHaveLength(1);
+            expect(fingerprints).toHaveLength(3);
             expect(fingerprints).toContainEqual(deepestLevelJarFingerprint);
           });
 
-          it(`should return full scan if ${flagName}=4, because there are only 3 levels of jars`, async () => {
+          it(`should return full scan if ${flagName}=4, because specifiying more levels than exist should not break things`, async () => {
             const deepestLevelJarFingerprint = {
               location:
                 "/level-3-jar.jar/level-2-jar.jar/lib/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar",
@@ -251,7 +257,7 @@ describe("jar binaries scanning", () => {
             fingerprints =
               pluginResult.scanResults[1].facts[0].data.fingerprints;
 
-            expect(fingerprints).toHaveLength(1);
+            expect(fingerprints).toHaveLength(3);
             expect(fingerprints).toContainEqual(deepestLevelJarFingerprint);
           });
 
@@ -298,7 +304,7 @@ describe("jar binaries scanning", () => {
               pluginResult.scanResults[1].facts[0].data.fingerprints;
 
             // Assert
-            expect(fingerprints).toHaveLength(3);
+            expect(fingerprints).toHaveLength(6);
             expect(fingerprints).toContainEqual(threeLevelFingerprint);
             expect(fingerprints).toContainEqual(twoLevelFingerprint);
             expect(fingerprints).toContainEqual(flatFingerprint);
@@ -351,8 +357,7 @@ describe("jar binaries scanning", () => {
               version: "9999.0-empty-to-avoid-conflict-with-guava",
             };
             const secondSibling = {
-              location:
-                "/top-level.jar/A-level-3-jar.jar/B-uber-jar.jar/guava-30.1-jre.jar",
+              location: "/top-level.jar/B-uber-jar.jar/guava-30.1-jre.jar",
               digest: null,
               dependencies: expect.any(Array),
               artifactId: "guava",
@@ -371,7 +376,7 @@ describe("jar binaries scanning", () => {
               pluginResult.scanResults[1].facts[0].data.fingerprints;
 
             // Assert
-            expect(fingerprints).toHaveLength(2);
+            expect(fingerprints).toHaveLength(6);
             expect(fingerprints).toContainEqual(firstSibling);
             expect(fingerprints).toContainEqual(secondSibling);
           });

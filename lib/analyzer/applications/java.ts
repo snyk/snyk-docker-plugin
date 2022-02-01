@@ -3,7 +3,7 @@ import * as path from "path";
 import { bufferToSha1 } from "../../buffer-utils";
 import { JarFingerprintsFact } from "../../facts";
 import { JarFingerprint } from "../types";
-import { JarBuffer, JarCoords } from "./types";
+import { JarBuffer, JarCoords, JarInfo } from "./types";
 import { AppDepsScanResultWithoutTarget, FilePathToBuffer } from "./types";
 
 function groupJarFingerprintsByPath(input: {
@@ -12,12 +12,13 @@ function groupJarFingerprintsByPath(input: {
   [path: string]: JarBuffer[];
 } {
   const jarFingerprints: JarBuffer[] = Object.entries(input).map(
-    ([filePath, digest]) => {
+    ([filePath, buffer]) => {
       return {
         location: filePath,
-        digest,
+        buffer,
         coords: null,
         dependencies: [],
+        nestedJars: [],
       };
     },
   );
@@ -77,11 +78,14 @@ function getFingerprints(
   desiredLevelsOfUnpacking: number,
   jarBuffers: JarBuffer[],
 ): JarFingerprint[] {
-  return unpackJars(jarBuffers, desiredLevelsOfUnpacking);
+  const fingerprints = new Set([
+    ...unpackJars(jarBuffers, desiredLevelsOfUnpacking),
+  ]);
+  return Array.from(fingerprints);
 }
 
 /**
- * Recursively unpacks JARs and attempts to add coords to the
+ * Unpacks a JAR and attempts to add coords to the
  * package and it's dependencies.
  *
  * JARs will always be unpacked one level more than requested
@@ -98,30 +102,24 @@ function getFingerprints(
  * @param { number } props.desiredLevelsOfUnpacking
  * @param { number } props.requiredLevelsOfUnpacking
  * @param { number } props.unpackedLevels
- * @param { JarBuffer[] } props.jarBuffers
- * @param { JarCoords | null } props.coords
- * @param { JarCoords[] } props.dependencies
  */
-function unpackJarsTraverse({
+function unpackJar({
   jarBuffer,
   jarPath,
   desiredLevelsOfUnpacking,
   requiredLevelsOfUnpacking,
   unpackedLevels,
-  jarBuffers,
-  coords = null,
-  dependencies = [],
 }: {
   jarBuffer: Buffer;
   jarPath: string;
   desiredLevelsOfUnpacking: number;
   requiredLevelsOfUnpacking: number;
   unpackedLevels: number;
-  jarBuffers: JarBuffer[];
-  coords: JarCoords | null;
-  dependencies?: JarCoords[];
-}): JarBuffer[] {
-  let isFatJar: boolean = false;
+}): JarInfo {
+  const dependencies: JarCoords[] = [];
+  const nestedJars: JarBuffer[] = [];
+  let coords: JarCoords | null = null;
+
   let zip: admzip;
   let zipEntries: admzip.IZipEntry[];
 
@@ -129,19 +127,14 @@ function unpackJarsTraverse({
     zip = new admzip(jarBuffer);
     zipEntries = zip.getEntries();
   } catch (err) {
-    jarBuffers.push({
+    return {
       location: jarPath,
-      digest: jarBuffer,
-      dependencies,
+      buffer: jarBuffer,
       coords: null,
-    });
-
-    return jarBuffers;
+      dependencies,
+      nestedJars,
+    };
   }
-
-  // technically the level should be increased only if a JAR is found, but increasing here to make
-  // sure it states the level, and not counting all the jars found, regardless of level.
-  unpackedLevels = unpackedLevels + 1;
 
   for (const zipEntry of zipEntries) {
     // pom.properties is file describing a package or package dependency
@@ -152,10 +145,10 @@ function unpackJarsTraverse({
       if (entryCoords) {
         if (
           // sometimes the path does not have the version
-          jarPath.endsWith(
-            `${entryCoords.artifactId}-${entryCoords.version}.jar`,
-          ) ||
-          jarPath.endsWith(`${entryCoords.artifactId}.jar`)
+          jarPath.indexOf(
+            `${entryCoords.artifactId}-${entryCoords.version}`,
+          ) !== -1 ||
+          jarPath.indexOf(`${entryCoords.artifactId}`) !== -1
         ) {
           coords = entryCoords;
         } else {
@@ -172,39 +165,39 @@ function unpackJarsTraverse({
       unpackedLevels < requiredLevelsOfUnpacking &&
       zipEntry.entryName.endsWith(".jar")
     ) {
-      isFatJar = true;
       const entryData = zipEntry.getData();
       const entryName = zipEntry.entryName;
-      jarPath = `${jarPath}/${entryName}`;
 
-      unpackJarsTraverse({
-        jarBuffer: entryData,
-        jarPath,
-        desiredLevelsOfUnpacking,
-        requiredLevelsOfUnpacking,
-        unpackedLevels,
-        jarBuffers,
-        coords,
-        dependencies,
+      nestedJars.push({
+        buffer: entryData as Buffer,
+        location: `${jarPath}/${entryName}`,
       });
     }
   }
 
-  if (!isFatJar) {
-    jarBuffers.push({
-      location: jarPath,
-      digest: jarBuffer,
-      coords,
-      dependencies,
-    });
-  }
-
-  return jarBuffers;
+  return {
+    location: jarPath,
+    buffer: jarBuffer,
+    coords,
+    dependencies,
+    nestedJars,
+  };
 }
 
+/**
+ * Manages the unpacking an array of JarBuffer objects and returns the resulting
+ * fingerprints. Recursion to required depth is handled here when the returned
+ * info from each JAR that is unpacked has nestedJars.
+ *
+ * @param {JarBuffer[]} jarBuffers
+ * @param {number} desiredLevelsOfUnpacking
+ * @param {number} unpackedLevels
+ * @returns JarFingerprint[]
+ */
 function unpackJars(
   jarBuffers: JarBuffer[],
   desiredLevelsOfUnpacking: number,
+  unpackedLevels: number = 0,
 ): JarFingerprint[] {
   // We have to unpack jars to get the pom.properties manifest which
   // we use to support shaded jars and get the package coords (if exists)
@@ -218,29 +211,41 @@ function unpackJars(
   const requiredLevelsOfUnpacking = desiredLevelsOfUnpacking + 1;
   const fingerprints: JarFingerprint[] = [];
 
+  // jarBuffers is the array of JARS found in the image layers;
+  // this represents the 1st "level" which we will unpack by
+  // default to analyse. Any JARs found when analysing are nested
+  // and we will keep going until we have no more nested JARs or
+  // the desired level of unpacking is met
   for (const jarBuffer of jarBuffers) {
-    const unpackedLevels: number = 0;
-    const jars: JarBuffer[] = unpackJarsTraverse({
-      jarBuffer: jarBuffer.digest,
+    const jarInfo = unpackJar({
+      jarBuffer: jarBuffer.buffer,
       jarPath: jarBuffer.location,
+      unpackedLevels: unpackedLevels + 1,
       desiredLevelsOfUnpacking,
       requiredLevelsOfUnpacking,
-      unpackedLevels,
-      coords: null,
-      jarBuffers: [],
     });
 
     // if any of the coords are null for this JAR we didn't manage to get
     // anything from the JAR's pom.properties manifest, so calculate the
     // sha so maven-deps can fallback to searching maven central
-    jars.forEach((jar) => {
-      fingerprints.push({
-        location: jar.location,
-        digest: jar.coords ? null : bufferToSha1(jar.digest),
-        dependencies: jar.dependencies,
-        ...jar.coords,
-      });
+    fingerprints.push({
+      location: jarInfo.location,
+      digest: jarInfo.coords ? null : bufferToSha1(jarInfo.buffer),
+      dependencies: jarInfo.dependencies,
+      ...jarInfo.coords,
     });
+
+    if (jarInfo.nestedJars.length > 0) {
+      // this is an uber/fat JAR so we need to unpack the nested JARs to
+      // analyse them for coords and further nested JARs (depth flag allowing)
+      fingerprints.push(
+        ...unpackJars(
+          jarInfo.nestedJars,
+          desiredLevelsOfUnpacking,
+          unpackedLevels + 1,
+        ),
+      );
+    }
   }
 
   return fingerprints;
