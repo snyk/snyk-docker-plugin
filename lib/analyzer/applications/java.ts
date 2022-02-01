@@ -122,8 +122,8 @@ function unpackJarsTraverse({
   dependencies?: JarCoords[];
 }): JarBuffer[] {
   let isFatJar: boolean = false;
-  let zip;
-  let zipEntries;
+  let zip: admzip;
+  let zipEntries: admzip.IZipEntry[];
 
   try {
     zip = new admzip(jarBuffer);
