@@ -155,7 +155,7 @@ export async function analyze(
       getFileContent(extractedLayers, getNodeAppFileContentAction.actionName),
     );
 
-    const desiredLevelsOfUnpacking = getShadedJarsDesiredDepth(options);
+    const desiredLevelsOfUnpacking = getNestedJarsDesiredDepth(options);
 
     const jarFingerprintScanResults = await jarFilesToScannedProjects(
       getBufferContent(extractedLayers, getJarFileContentAction.actionName),
@@ -189,15 +189,15 @@ export async function analyze(
   };
 }
 
-function getShadedJarsDesiredDepth(options: Partial<PluginOptions>) {
-  let shadedJarsDepth = 0;
-  const depthNumber = Number(options["shaded-jars-depth"]);
-  if (isNaN(depthNumber)) {
-    shadedJarsDepth = isTrue(options["shaded-jars-depth"]) ? 1 : 0;
-  } else {
-    shadedJarsDepth = depthNumber;
+function getNestedJarsDesiredDepth(options: Partial<PluginOptions>) {
+  const nestedJarsOption =
+    options["nested-jars-depth"] || options["shaded-jars-depth"];
+  let nestedJarsDepth = 1;
+  const depthNumber = Number(nestedJarsOption);
+  if (!isNaN(depthNumber) && depthNumber >= 0) {
+    nestedJarsDepth = depthNumber;
   }
-  return shadedJarsDepth;
+  return nestedJarsDepth;
 }
 
 function shouldCheckForGlobs(globsToFind: {

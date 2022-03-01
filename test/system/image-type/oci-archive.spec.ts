@@ -12,6 +12,16 @@ describe("oci archive scanning", () => {
 
     expect(pluginResult).toMatchSnapshot();
   });
+
+  it("should correctly scan a busybox oci archive", async () => {
+    const fixturePath = getFixture("oci-archives/busybox-1.31.1.tar");
+    const imageNameAndTag = `oci-archive:${fixturePath}`;
+
+    const pluginResult = await scan({
+      path: imageNameAndTag,
+    });
+    expect(pluginResult).toMatchSnapshot();
+  });
 });
 
 describe("handles bad input being provided", () => {

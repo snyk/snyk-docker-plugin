@@ -31,20 +31,26 @@ export async function scan(
     throw new Error("No image identifier or path provided");
   }
 
-  const shadedJarsDepth = options["shaded-jars-depth"];
+  const nestedJarsDepth =
+    options["nested-jars-depth"] || options["shaded-jars-depth"];
   if (
-    (isTrue(shadedJarsDepth) || isNumber(shadedJarsDepth)) &&
+    (isTrue(nestedJarsDepth) || isNumber(nestedJarsDepth)) &&
     !isTrue(options["app-vulns"])
   ) {
-    throw new Error("To use shaded-jars-depth, you must also use app-vulns");
+    throw new Error(
+      "To use --nested-jars-depth, you must also use --app-vulns",
+    );
   }
 
   if (
-    !isNumber(shadedJarsDepth) &&
-    !isTrue(shadedJarsDepth) &&
-    typeof shadedJarsDepth !== "undefined"
+    (!isNumber(nestedJarsDepth) &&
+      !isTrue(nestedJarsDepth) &&
+      typeof nestedJarsDepth !== "undefined") ||
+    Number(nestedJarsDepth) < 0
   ) {
-    throw new Error("shaded-jars-depth accepts only numbers");
+    throw new Error(
+      "--nested-jars-depth accepts only numbers bigger than or equal to 0",
+    );
   }
 
   const targetImage = appendLatestTagIfMissing(options.path);

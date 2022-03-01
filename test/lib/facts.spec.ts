@@ -47,6 +47,10 @@ describe("Facts", () => {
       type: "autoDetectedUserInstructions",
       data: {} as any,
     };
+    const loadedPackagesFact: facts.LoadedPackagesFact = {
+      type: "loadedPackages",
+      data: {} as any,
+    };
     const imageCreationTimeFact: facts.ImageCreationTimeFact = {
       type: "imageCreationTime",
       data: "",
@@ -66,6 +70,7 @@ describe("Facts", () => {
       testedFilesFact,
       autoDetectedUserInstructionsFact,
       imageCreationTimeFact,
+      loadedPackagesFact,
     ];
     expect(allFacts).toBeDefined();
 

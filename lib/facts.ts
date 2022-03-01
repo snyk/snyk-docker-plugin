@@ -77,3 +77,8 @@ export interface ImageCreationTimeFact {
   type: "imageCreationTime";
   data: string;
 }
+
+export interface LoadedPackagesFact {
+  type: "loadedPackages";
+  data: string;
+}

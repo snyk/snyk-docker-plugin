@@ -10,11 +10,21 @@ export interface FilePathToContent {
 export interface FilePathToBuffer {
   [filePath: string]: Buffer;
 }
+
+export interface JarInfo extends JarBuffer {
+  coords: JarCoords | null;
+  dependencies: JarCoords[];
+  nestedJars: JarBuffer[];
+}
 export interface JarBuffer {
   location: string;
-  digest: Buffer;
+  buffer: Buffer;
 }
-
+export interface JarCoords {
+  artifactId?: string;
+  groupId?: string;
+  version?: string;
+}
 export interface FilePathToElfContent {
   [filePath: string]: Elf;
 }

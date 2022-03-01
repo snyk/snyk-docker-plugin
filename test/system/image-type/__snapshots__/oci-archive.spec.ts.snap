@@ -1,5 +1,74 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`oci archive scanning should correctly scan a busybox oci archive 1`] = `
+Object {
+  "scanResults": Array [
+    Object {
+      "facts": Array [
+        Object {
+          "data": Object {
+            "graph": Object {
+              "nodes": Array [
+                Object {
+                  "deps": Array [],
+                  "nodeId": "root-node",
+                  "pkgId": "docker-image|busybox-1.31.1.tar@",
+                },
+              ],
+              "rootNodeId": "root-node",
+            },
+            "pkgManager": Object {
+              "name": "linux",
+              "repositories": Array [
+                Object {
+                  "alias": "unknown:0.0",
+                },
+              ],
+            },
+            "pkgs": Array [
+              Object {
+                "id": "docker-image|busybox-1.31.1.tar@",
+                "info": Object {
+                  "name": "docker-image|busybox-1.31.1.tar",
+                  "version": undefined,
+                },
+              },
+            ],
+            "schemaVersion": "1.2.0",
+          },
+          "type": "depGraph",
+        },
+        Object {
+          "data": "sha256:2f2d4db2ef818c1c897eb71421e8a250daf19e21a4ec4c00a549b16ed0c2b46b",
+          "type": "imageId",
+        },
+        Object {
+          "data": Array [
+            "sha256:76df9210b28cbd4bc127844914d0a23937ed213048dc6289b2a2d4f7d675c75e",
+          ],
+          "type": "imageLayers",
+        },
+        Object {
+          "data": Array [
+            "sha256:1be74353c3d0fd55fb5638a52953e6f1bc441e5b1710921db9ec2aa202725569",
+          ],
+          "type": "rootFs",
+        },
+      ],
+      "identity": Object {
+        "args": Object {
+          "platform": "linux/amd64",
+        },
+        "type": "linux",
+      },
+      "target": Object {
+        "image": "docker-image|busybox-1.31.1.tar",
+      },
+    },
+  ],
+}
+`;
+
 exports[`oci archive scanning should correctly scan an oci archive 1`] = `
 Object {
   "scanResults": Array [
@@ -369,12 +438,20 @@ Object {
           "type": "imageLayers",
         },
         Object {
+          "data": Array [
+            "sha256:50644c29ef5a27c9a40c393a73ece2479de78325cae7d762ef3cdc19bf42dd0a",
+          ],
+          "type": "rootFs",
+        },
+        Object {
           "data": "Alpine Linux v3.12",
           "type": "imageOsReleasePrettyName",
         },
       ],
       "identity": Object {
-        "args": undefined,
+        "args": Object {
+          "platform": "linux/amd64",
+        },
         "type": "apk",
       },
       "target": Object {

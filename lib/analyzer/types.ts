@@ -1,5 +1,8 @@
 import { AutoDetectedUserInstructions, ManifestFile } from "../types";
-import { AppDepsScanResultWithoutTarget } from "./applications/types";
+import {
+  AppDepsScanResultWithoutTarget,
+  JarCoords,
+} from "./applications/types";
 
 export interface AnalyzedPackage {
   Name: string;
@@ -53,9 +56,12 @@ export interface IAptFiles {
 
 export interface JarFingerprint {
   location: string;
-  digest: string;
+  digest: string | null;
+  parentName?: string;
+  name?: string;
+  version?: string;
+  dependencies: JarCoords[];
 }
-
 export interface StaticAnalysis {
   imageId: string;
   platform?: string;
