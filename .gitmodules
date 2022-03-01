@@ -1,0 +1,3 @@
+[submodule "global-configs"]
+	path = global-configs
+	url = git@github.com:snyk/global-configs.git
