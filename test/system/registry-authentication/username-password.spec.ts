@@ -1,4 +1,3 @@
-import { EOL } from "os";
 import { scan } from "../../../lib/index";
 
 describe("username and password authentication", () => {
@@ -45,8 +44,6 @@ describe("handles bad input being provided", () => {
         username: "foo",
         password: "bar",
       }),
-    ).rejects.toEqual(
-      Error(`{"details":"incorrect username or password"}${EOL}`),
-    );
+    ).rejects.toEqual(Error(`{"details":"incorrect username or password"}`));
   });
 });
