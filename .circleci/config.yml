@@ -6,7 +6,7 @@ orbs:
 defaults: &defaults
   resource_class: small
   docker:
-    - image: cimg/node:14.18
+    - image: cimg/node:12.22
   working_directory: ~/snyk-docker-plugin
 
 windows_defaults: &windows_defaults
@@ -21,7 +21,7 @@ windows_defaults: &windows_defaults
 release_defaults: &release_defaults
   resource_class: small
   docker:
-    - image: node:14
+    - image: node:12
   working_directory: ~/snyk-docker-plugin
 
 commands:
