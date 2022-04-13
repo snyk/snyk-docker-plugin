@@ -49,8 +49,8 @@ commands:
     steps:
       - checkout
       - run:
-          name: Checkout master
-          command: git checkout origin/master
+          name: Checkout main
+          command: git checkout origin/main
       - run:
           name: Merge test branch
           command: |
@@ -64,7 +64,7 @@ commands:
       - run:
           name: Notify Slack on failure
           command: |
-            if [[ "$CIRCLE_BRANCH" == "master" ]]; then
+            if [[ "$CIRCLE_BRANCH" == "main" ]]; then
               ./.circleci/slack-notify-failure.sh "${CIRCLE_JOB}"
             fi
           when: on_fail
@@ -205,7 +205,7 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - main
           requires:
             - Lint
             - Build
