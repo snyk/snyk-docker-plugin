@@ -180,25 +180,24 @@ workflows:
       - build:
           name: Build
           requires:
-            - Install
+            - Lint
       - test:
           name: Test
           context: nodejs-install
           requires:
-            - Install
-      - test_jest:
-          name: Test Jest
-          context: nodejs-install
-          requires:
-            - Install
+            - Build
       - test_windows:
           name: Test Windows
           context: nodejs-install
           node_version: "10.19.0"
+          requires:
+            - Build
       - test_jest_windows:
           name: Test Jest Windows
           context: nodejs-install
           node_version: "10.19.0"
+          requires:
+            - Build
       - release:
           name: Release to GitHub
           context: nodejs-lib-release
@@ -211,3 +210,4 @@ workflows:
             - Build
             - Test
             - Test Windows
+            - Test Jest Windows
