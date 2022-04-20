@@ -1,13 +1,21 @@
 import { DepGraphBuilder } from "@snyk/dep-graph/dist/core/builder";
-import { DepGraph, PkgInfo, PkgManager } from "@snyk/dep-graph/dist/core/types";
+import {
+  DepGraph,
+  NodeInfo,
+  PkgInfo,
+  PkgManager,
+} from "@snyk/dep-graph/dist/core/types";
 import { EventLoopSpinner } from "event-loop-spinner/dist/event-loop-spinner";
-import { AnalyzedPackage, Binary, OSRelease } from "../analyzer/types";
+import { AnalyzedPackage, OSRelease } from "../analyzer/types";
+import { instructionDigest } from "../dockerfile";
+import { DockerFilePackages } from "../dockerfile/types";
 
 export async function buildGraph(
   targetImage: string,
   targetOS: OSRelease,
   packageManagerName: any,
-  analyzedPackages: AnalyzedPackage[] | Binary[],
+  depInfosList: AnalyzedPackage[],
+  dockerfilePackages?: DockerFilePackages,
 ): Promise<DepGraph> {
   const { imageName, imageVersion } = getImageNameAndVersion(targetImage);
 
@@ -25,7 +33,6 @@ export async function buildGraph(
     version: imageVersion,
   };
   const depGraphBuilder = new DepGraphBuilder(packageManager, root);
-  const depInfosList = analyzedPackages as AnalyzedPackage[];
 
   const depsMap: { [key: string]: AnalyzedPackage } = depInfosList.reduce(
     (acc, depInfo) => {
@@ -65,6 +72,7 @@ export async function buildGraph(
       virtualDepsMap,
       ancestors,
       nodesAddedToGraph,
+      dockerfilePackages,
     );
   }
 
@@ -87,6 +95,7 @@ export async function buildGraph(
       virtualDepsMap,
       ancestors,
       nodesAddedToGraph,
+      dockerfilePackages,
     );
   }
 
@@ -102,6 +111,7 @@ async function buildGraphRecursive(
   virtualDepsMap: { [key: string]: AnalyzedPackage },
   ancestors: Set<string>,
   nodesAddedToGraph: Set<string>,
+  dockerfilePackagesMap?: DockerFilePackages,
 ): Promise<void> {
   const depInfo = depsMap[depName] || virtualDepsMap[depName];
   if (!depInfo) {
@@ -119,9 +129,21 @@ async function buildGraphRecursive(
     return;
   }
 
+  let nodeInfo: NodeInfo | undefined = undefined;
+  const dockerfilePackage =
+    dockerfilePackagesMap && dockerfilePackagesMap[depName];
+  if (dockerfilePackage) {
+    nodeInfo = {
+      labels: {
+        dockerLayerId: instructionDigest(dockerfilePackage.instruction),
+      },
+    };
+  }
+
   depGraphBuilder.addPkgNode(
     { name: fullName, version: depInfo.Version },
     nodeId,
+    nodeInfo,
   );
   nodesAddedToGraph.add(nodeId);
   depGraphBuilder.connectDep(parentNodeId, nodeId);
@@ -139,6 +161,7 @@ async function buildGraphRecursive(
       virtualDepsMap,
       newAncestors,
       nodesAddedToGraph,
+      dockerfilePackagesMap,
     );
   }
 

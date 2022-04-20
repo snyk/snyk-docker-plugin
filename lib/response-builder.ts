@@ -1,39 +1,23 @@
 import { DepGraph } from "@snyk/dep-graph";
-import { OSRelease, StaticAnalysis } from "./analyzer/types";
+import { AnalyzedPackage, OSRelease, StaticAnalysis } from "./analyzer/types";
 import * as facts from "./facts";
 // Module that provides functions to collect and build response after all
 // analyses' are done.
-
-import { instructionDigest } from "./dockerfile";
-import { DockerFileAnalysis, DockerFilePackages } from "./dockerfile/types";
+import { DockerFileAnalysis } from "./dockerfile/types";
 import * as types from "./types";
+import { getUserInstructionDeps } from "./static";
 
 export { buildResponse };
 
 async function buildResponse(
   depsAnalysis: StaticAnalysis & {
     depGraph: DepGraph;
+    depInfosList: AnalyzedPackage[];
     packageManager: string;
     targetOS: OSRelease;
   },
   dockerfileAnalysis: DockerFileAnalysis | undefined,
-  excludeBaseImageVulns: boolean,
 ): Promise<types.PluginResponse> {
-  const deps = depsAnalysis.depGraph
-    .getDepPkgs()
-    .reduce((a, v) => ({ ...a, [v.name]: v }), {});
-  // TODO check/modify deps type
-  const dockerfilePkgs = collectDockerfilePkgs(dockerfileAnalysis, deps);
-  const finalDeps = excludeBaseImageDeps(
-    deps,
-    dockerfilePkgs,
-    excludeBaseImageVulns,
-  );
-
-  // TODO add layer ids to the dep graph and remove below
-  /** WARNING! Mutates the depTree.dependencies! */
-  annotateLayerIds(finalDeps, dockerfilePkgs);
-
   const additionalFacts: types.Fact[] = [];
 
   const hashes = depsAnalysis.binaries;
@@ -129,7 +113,7 @@ async function buildResponse(
   ) {
     const autoDetectedPackagesWithChildren = getUserInstructionDeps(
       autoDetectedPackages,
-      deps,
+      depsAnalysis.depInfosList,
     );
 
     const autoDetectedUserInstructionsFact: facts.AutoDetectedUserInstructionsFact = {
@@ -187,105 +171,4 @@ async function buildResponse(
   return {
     scanResults,
   };
-}
-
-function collectDockerfilePkgs(
-  dockerAnalysis: DockerFileAnalysis | undefined,
-  deps: {
-    [depName: string]: types.DepTreeDep;
-  },
-) {
-  if (!dockerAnalysis) {
-    return;
-  }
-
-  return getUserInstructionDeps(dockerAnalysis.dockerfilePackages, deps);
-}
-
-// Iterate over the dependencies list; if one is introduced by the dockerfile,
-// flatten its dependencies and append them to the list of dockerfile
-// packages. This gives us a reference of all transitive deps installed via
-// the dockerfile, and the instruction that installed it.
-function getUserInstructionDeps(
-  dockerfilePackages: DockerFilePackages,
-  dependencies: {
-    [depName: string]: types.DepTreeDep;
-  },
-): DockerFilePackages {
-  for (const dependencyName in dependencies) {
-    if (dependencies.hasOwnProperty(dependencyName)) {
-      const sourceOrName = dependencyName.split("/")[0];
-      const dockerfilePackage = dockerfilePackages[sourceOrName];
-
-      if (dockerfilePackage) {
-        for (const dep of collectDeps(dependencies[dependencyName])) {
-          dockerfilePackages[dep.split("/")[0]] = { ...dockerfilePackage };
-        }
-      }
-    }
-  }
-
-  return dockerfilePackages;
-}
-
-function collectDeps(pkg) {
-  // ES5 doesn't have Object.values, so replace with Object.keys() and map()
-  return pkg.dependencies
-    ? Object.keys(pkg.dependencies)
-        .map((name) => pkg.dependencies[name])
-        .reduce((allDeps, pkg) => {
-          return [...allDeps, ...collectDeps(pkg)];
-        }, Object.keys(pkg.dependencies))
-    : [];
-}
-
-// Skip processing if option disabled or dockerfilePkgs is undefined. We
-// can't exclude anything in that case, because we can't tell which deps are
-// from dockerfile and which from base image.
-function excludeBaseImageDeps(
-  deps: {
-    [depName: string]: types.DepTreeDep;
-  },
-  dockerfilePkgs: DockerFilePackages | undefined,
-  excludeBaseImageVulns: boolean,
-) {
-  if (!excludeBaseImageVulns || !dockerfilePkgs) {
-    return deps;
-  }
-
-  return extractDockerfileDeps(deps, dockerfilePkgs);
-}
-
-function extractDockerfileDeps(
-  allDeps: {
-    [depName: string]: types.DepTreeDep;
-  },
-  dockerfilePkgs: DockerFilePackages,
-) {
-  return Object.keys(allDeps)
-    .filter((depName) => dockerfilePkgs[depName])
-    .reduce((extractedDeps, depName) => {
-      extractedDeps[depName] = allDeps[depName];
-      return extractedDeps;
-    }, {});
-}
-
-function annotateLayerIds(deps, dockerfilePkgs) {
-  if (!dockerfilePkgs) {
-    return;
-  }
-
-  for (const dep of Object.keys(deps)) {
-    const pkg = deps[dep];
-    const dockerfilePkg = dockerfilePkgs[dep];
-    if (dockerfilePkg) {
-      pkg.labels = {
-        ...(pkg.labels || {}),
-        dockerLayerId: instructionDigest(dockerfilePkg.instruction),
-      };
-    }
-    if (pkg.dependencies) {
-      annotateLayerIds(pkg.dependencies, dockerfilePkgs);
-    }
-  }
 }

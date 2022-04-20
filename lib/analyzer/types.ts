@@ -10,7 +10,7 @@ export interface AnalyzedPackage {
   Source?: string;
   Provides: string[];
   Deps: {
-    [name: string]: any;
+    [name: string]: boolean;
   };
   AutoInstalled?: boolean;
 }
