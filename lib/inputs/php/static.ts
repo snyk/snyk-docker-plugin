@@ -7,9 +7,7 @@ const phpAppFiles = ["composer.json", "composer.lock"];
 
 function filePathMatches(filePath: string): boolean {
   const fileName = basename(filePath);
-  return (
-    phpAppFiles.includes(fileName)
-  );
+  return phpAppFiles.includes(fileName);
 }
 
 export const getPhpAppFileContentAction: ExtractAction = {

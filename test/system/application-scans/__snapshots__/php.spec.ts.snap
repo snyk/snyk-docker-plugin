@@ -1,0 +1,663 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`php application scans should correctly return applications as multiple scan results 1`] = `
+Object {
+  "scanResults": Array [
+    Object {
+      "facts": Array [
+        Object {
+          "data": Object {
+            "graph": Object {
+              "nodes": Array [
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "alpine-baselayout/alpine-baselayout@3.0.4-r0",
+                    },
+                    Object {
+                      "nodeId": "alpine-keys/alpine-keys@2.1-r1",
+                    },
+                    Object {
+                      "nodeId": "apk-tools/apk-tools@2.7.6-r0",
+                    },
+                    Object {
+                      "nodeId": "busybox/busybox@1.26.2-r11|2",
+                    },
+                    Object {
+                      "nodeId": "busybox/ssl_client@1.26.2-r11",
+                    },
+                    Object {
+                      "nodeId": "libc-dev/libc-utils@0.7.1-r0",
+                    },
+                    Object {
+                      "nodeId": "libressl/libressl2.5-libcrypto@2.5.5-r2|2",
+                    },
+                    Object {
+                      "nodeId": "libressl/libressl2.5-libssl@2.5.5-r2|2",
+                    },
+                    Object {
+                      "nodeId": "libressl/libressl2.5-libtls@2.5.5-r2|2",
+                    },
+                    Object {
+                      "nodeId": "musl/musl@1.1.16-r15",
+                    },
+                    Object {
+                      "nodeId": "musl/musl-utils@1.1.16-r15|2",
+                    },
+                    Object {
+                      "nodeId": "pax-utils/scanelf@1.2.2-r0|2",
+                    },
+                    Object {
+                      "nodeId": "zlib/zlib@1.2.11-r0|2",
+                    },
+                  ],
+                  "nodeId": "root-node",
+                  "pkgId": "docker-image|php.tar@",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "busybox/busybox@1.26.2-r11|1",
+                  "pkgId": "busybox/busybox@1.26.2-r11",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "musl/musl@1.1.16-r15",
+                    },
+                  ],
+                  "nodeId": "busybox/busybox@1.26.2-r11|2",
+                  "pkgId": "busybox/busybox@1.26.2-r11",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "musl/musl@1.1.16-r15",
+                  "pkgId": "musl/musl@1.1.16-r15",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "busybox/busybox@1.26.2-r11|1",
+                    },
+                    Object {
+                      "nodeId": "musl/musl@1.1.16-r15",
+                    },
+                  ],
+                  "nodeId": "alpine-baselayout/alpine-baselayout@3.0.4-r0",
+                  "pkgId": "alpine-baselayout/alpine-baselayout@3.0.4-r0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "alpine-keys/alpine-keys@2.1-r1",
+                  "pkgId": "alpine-keys/alpine-keys@2.1-r1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libressl/libressl2.5-libcrypto@2.5.5-r2|1",
+                  "pkgId": "libressl/libressl2.5-libcrypto@2.5.5-r2",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "musl/musl@1.1.16-r15",
+                    },
+                  ],
+                  "nodeId": "libressl/libressl2.5-libcrypto@2.5.5-r2|2",
+                  "pkgId": "libressl/libressl2.5-libcrypto@2.5.5-r2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libressl/libressl2.5-libssl@2.5.5-r2|1",
+                  "pkgId": "libressl/libressl2.5-libssl@2.5.5-r2",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "libressl/libressl2.5-libcrypto@2.5.5-r2|1",
+                    },
+                    Object {
+                      "nodeId": "musl/musl@1.1.16-r15",
+                    },
+                  ],
+                  "nodeId": "libressl/libressl2.5-libssl@2.5.5-r2|2",
+                  "pkgId": "libressl/libressl2.5-libssl@2.5.5-r2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "zlib/zlib@1.2.11-r0|1",
+                  "pkgId": "zlib/zlib@1.2.11-r0",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "musl/musl@1.1.16-r15",
+                    },
+                  ],
+                  "nodeId": "zlib/zlib@1.2.11-r0|2",
+                  "pkgId": "zlib/zlib@1.2.11-r0",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "libressl/libressl2.5-libcrypto@2.5.5-r2|1",
+                    },
+                    Object {
+                      "nodeId": "libressl/libressl2.5-libssl@2.5.5-r2|1",
+                    },
+                    Object {
+                      "nodeId": "musl/musl@1.1.16-r15",
+                    },
+                    Object {
+                      "nodeId": "zlib/zlib@1.2.11-r0|1",
+                    },
+                  ],
+                  "nodeId": "apk-tools/apk-tools@2.7.6-r0",
+                  "pkgId": "apk-tools/apk-tools@2.7.6-r0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libressl/libressl2.5-libtls@2.5.5-r2|1",
+                  "pkgId": "libressl/libressl2.5-libtls@2.5.5-r2",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "libressl/libressl2.5-libcrypto@2.5.5-r2|1",
+                    },
+                    Object {
+                      "nodeId": "libressl/libressl2.5-libssl@2.5.5-r2|1",
+                    },
+                    Object {
+                      "nodeId": "musl/musl@1.1.16-r15",
+                    },
+                  ],
+                  "nodeId": "libressl/libressl2.5-libtls@2.5.5-r2|2",
+                  "pkgId": "libressl/libressl2.5-libtls@2.5.5-r2",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "libressl/libressl2.5-libtls@2.5.5-r2|1",
+                    },
+                    Object {
+                      "nodeId": "musl/musl@1.1.16-r15",
+                    },
+                  ],
+                  "nodeId": "busybox/ssl_client@1.26.2-r11",
+                  "pkgId": "busybox/ssl_client@1.26.2-r11",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "musl/musl-utils@1.1.16-r15|1",
+                  "pkgId": "musl/musl-utils@1.1.16-r15",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "musl/musl@1.1.16-r15",
+                    },
+                    Object {
+                      "nodeId": "pax-utils/scanelf@1.2.2-r0|1",
+                    },
+                  ],
+                  "nodeId": "musl/musl-utils@1.1.16-r15|2",
+                  "pkgId": "musl/musl-utils@1.1.16-r15",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "musl/musl-utils@1.1.16-r15|1",
+                    },
+                  ],
+                  "nodeId": "libc-dev/libc-utils@0.7.1-r0",
+                  "pkgId": "libc-dev/libc-utils@0.7.1-r0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pax-utils/scanelf@1.2.2-r0|1",
+                  "pkgId": "pax-utils/scanelf@1.2.2-r0",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "musl/musl@1.1.16-r15",
+                    },
+                  ],
+                  "nodeId": "pax-utils/scanelf@1.2.2-r0|2",
+                  "pkgId": "pax-utils/scanelf@1.2.2-r0",
+                },
+              ],
+              "rootNodeId": "root-node",
+            },
+            "pkgManager": Object {
+              "name": "apk",
+              "repositories": Array [
+                Object {
+                  "alias": "alpine:3.6.5",
+                },
+              ],
+            },
+            "pkgs": Array [
+              Object {
+                "id": "docker-image|php.tar@",
+                "info": Object {
+                  "name": "docker-image|php.tar",
+                  "version": undefined,
+                },
+              },
+              Object {
+                "id": "busybox/busybox@1.26.2-r11",
+                "info": Object {
+                  "name": "busybox/busybox",
+                  "version": "1.26.2-r11",
+                },
+              },
+              Object {
+                "id": "musl/musl@1.1.16-r15",
+                "info": Object {
+                  "name": "musl/musl",
+                  "version": "1.1.16-r15",
+                },
+              },
+              Object {
+                "id": "alpine-baselayout/alpine-baselayout@3.0.4-r0",
+                "info": Object {
+                  "name": "alpine-baselayout/alpine-baselayout",
+                  "version": "3.0.4-r0",
+                },
+              },
+              Object {
+                "id": "alpine-keys/alpine-keys@2.1-r1",
+                "info": Object {
+                  "name": "alpine-keys/alpine-keys",
+                  "version": "2.1-r1",
+                },
+              },
+              Object {
+                "id": "libressl/libressl2.5-libcrypto@2.5.5-r2",
+                "info": Object {
+                  "name": "libressl/libressl2.5-libcrypto",
+                  "version": "2.5.5-r2",
+                },
+              },
+              Object {
+                "id": "libressl/libressl2.5-libssl@2.5.5-r2",
+                "info": Object {
+                  "name": "libressl/libressl2.5-libssl",
+                  "version": "2.5.5-r2",
+                },
+              },
+              Object {
+                "id": "zlib/zlib@1.2.11-r0",
+                "info": Object {
+                  "name": "zlib/zlib",
+                  "version": "1.2.11-r0",
+                },
+              },
+              Object {
+                "id": "apk-tools/apk-tools@2.7.6-r0",
+                "info": Object {
+                  "name": "apk-tools/apk-tools",
+                  "version": "2.7.6-r0",
+                },
+              },
+              Object {
+                "id": "libressl/libressl2.5-libtls@2.5.5-r2",
+                "info": Object {
+                  "name": "libressl/libressl2.5-libtls",
+                  "version": "2.5.5-r2",
+                },
+              },
+              Object {
+                "id": "busybox/ssl_client@1.26.2-r11",
+                "info": Object {
+                  "name": "busybox/ssl_client",
+                  "version": "1.26.2-r11",
+                },
+              },
+              Object {
+                "id": "musl/musl-utils@1.1.16-r15",
+                "info": Object {
+                  "name": "musl/musl-utils",
+                  "version": "1.1.16-r15",
+                },
+              },
+              Object {
+                "id": "libc-dev/libc-utils@0.7.1-r0",
+                "info": Object {
+                  "name": "libc-dev/libc-utils",
+                  "version": "0.7.1-r0",
+                },
+              },
+              Object {
+                "id": "pax-utils/scanelf@1.2.2-r0",
+                "info": Object {
+                  "name": "pax-utils/scanelf",
+                  "version": "1.2.2-r0",
+                },
+              },
+            ],
+            "schemaVersion": "1.2.0",
+          },
+          "type": "depGraph",
+        },
+        Object {
+          "data": "sha256:a4837fa95bd797412aca5c73854c8f196e584a33cbc53df0f6f9e88a37cd41a3",
+          "type": "imageId",
+        },
+        Object {
+          "data": Array [
+            "8965d0b1e10d1036675c35bd8ea3aa0a23ebb9819a9aa956a1e2d69a298ec735/layer.tar",
+            "c2b5c1329c3644fa5c86e1469eb935305b63c81db9a93783a3ec069f1c1380b0/layer.tar",
+          ],
+          "type": "imageLayers",
+        },
+        Object {
+          "data": "2020-03-30T10:09:06.723677058Z",
+          "type": "imageCreationTime",
+        },
+        Object {
+          "data": Array [
+            "sha256:721384ec99e56bc06202a738722bcb4b8254b9bbd71c43ab7ad0d9e773ced7ac",
+            "sha256:df4d57529acd660388c427793ac57fe4b3d0528c722c2d1cdfd38e1b86e01ebb",
+          ],
+          "type": "rootFs",
+        },
+        Object {
+          "data": "Alpine Linux v3.6",
+          "type": "imageOsReleasePrettyName",
+        },
+      ],
+      "identity": Object {
+        "args": Object {
+          "platform": "linux/amd64",
+        },
+        "type": "apk",
+      },
+      "target": Object {
+        "image": "docker-image|php.tar",
+      },
+    },
+    Object {
+      "facts": Array [
+        Object {
+          "data": Object {
+            "graph": Object {
+              "nodes": Array [
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "latte/latte@2.8.x-dev",
+                    },
+                    Object {
+                      "nodeId": "php@>5.1",
+                    },
+                    Object {
+                      "nodeId": "tracy/tracy@2.7-dev",
+                    },
+                    Object {
+                      "nodeId": "twig/twig@1.x-dev",
+                    },
+                  ],
+                  "nodeId": "root-node",
+                  "pkgId": "simple@0.0.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "scope": "prod",
+                    },
+                  },
+                  "nodeId": "ext-json@*",
+                  "pkgId": "ext-json@*",
+                },
+                Object {
+                  "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "scope": "prod",
+                    },
+                  },
+                  "nodeId": "ext-tokenizer@*",
+                  "pkgId": "ext-tokenizer@*",
+                },
+                Object {
+                  "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "scope": "prod",
+                    },
+                  },
+                  "nodeId": "php@>=7.1",
+                  "pkgId": "php@>=7.1",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "ext-json@*",
+                    },
+                    Object {
+                      "nodeId": "ext-tokenizer@*",
+                    },
+                    Object {
+                      "nodeId": "php@>=7.1",
+                    },
+                  ],
+                  "info": Object {
+                    "labels": Object {
+                      "scope": "prod",
+                    },
+                  },
+                  "nodeId": "latte/latte@2.8.x-dev",
+                  "pkgId": "latte/latte@2.8.x-dev",
+                },
+                Object {
+                  "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "scope": "prod",
+                    },
+                  },
+                  "nodeId": "php@>5.1",
+                  "pkgId": "php@>5.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "scope": "prod",
+                    },
+                  },
+                  "nodeId": "ext-session@*",
+                  "pkgId": "ext-session@*",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "ext-json@*",
+                    },
+                    Object {
+                      "nodeId": "ext-session@*",
+                    },
+                    Object {
+                      "nodeId": "php@>=7.1",
+                    },
+                  ],
+                  "info": Object {
+                    "labels": Object {
+                      "scope": "prod",
+                    },
+                  },
+                  "nodeId": "tracy/tracy@2.7-dev",
+                  "pkgId": "tracy/tracy@2.7-dev",
+                },
+                Object {
+                  "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "scope": "prod",
+                    },
+                  },
+                  "nodeId": "php@>=5.5.0",
+                  "pkgId": "php@>=5.5.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "scope": "prod",
+                    },
+                  },
+                  "nodeId": "php@>=5.3.3",
+                  "pkgId": "php@>=5.3.3",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "php@>=5.3.3",
+                    },
+                  ],
+                  "info": Object {
+                    "labels": Object {
+                      "scope": "prod",
+                    },
+                  },
+                  "nodeId": "symfony/polyfill-ctype@1.15-dev",
+                  "pkgId": "symfony/polyfill-ctype@1.15-dev",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "php@>=5.5.0",
+                    },
+                    Object {
+                      "nodeId": "symfony/polyfill-ctype@1.15-dev",
+                    },
+                  ],
+                  "info": Object {
+                    "labels": Object {
+                      "scope": "prod",
+                    },
+                  },
+                  "nodeId": "twig/twig@1.x-dev",
+                  "pkgId": "twig/twig@1.x-dev",
+                },
+              ],
+              "rootNodeId": "root-node",
+            },
+            "pkgManager": Object {
+              "name": "composer",
+            },
+            "pkgs": Array [
+              Object {
+                "id": "simple@0.0.0",
+                "info": Object {
+                  "name": "simple",
+                  "version": "0.0.0",
+                },
+              },
+              Object {
+                "id": "ext-json@*",
+                "info": Object {
+                  "name": "ext-json",
+                  "version": "*",
+                },
+              },
+              Object {
+                "id": "ext-tokenizer@*",
+                "info": Object {
+                  "name": "ext-tokenizer",
+                  "version": "*",
+                },
+              },
+              Object {
+                "id": "php@>=7.1",
+                "info": Object {
+                  "name": "php",
+                  "version": ">=7.1",
+                },
+              },
+              Object {
+                "id": "latte/latte@2.8.x-dev",
+                "info": Object {
+                  "name": "latte/latte",
+                  "version": "2.8.x-dev",
+                },
+              },
+              Object {
+                "id": "php@>5.1",
+                "info": Object {
+                  "name": "php",
+                  "version": ">5.1",
+                },
+              },
+              Object {
+                "id": "ext-session@*",
+                "info": Object {
+                  "name": "ext-session",
+                  "version": "*",
+                },
+              },
+              Object {
+                "id": "tracy/tracy@2.7-dev",
+                "info": Object {
+                  "name": "tracy/tracy",
+                  "version": "2.7-dev",
+                },
+              },
+              Object {
+                "id": "php@>=5.5.0",
+                "info": Object {
+                  "name": "php",
+                  "version": ">=5.5.0",
+                },
+              },
+              Object {
+                "id": "php@>=5.3.3",
+                "info": Object {
+                  "name": "php",
+                  "version": ">=5.3.3",
+                },
+              },
+              Object {
+                "id": "symfony/polyfill-ctype@1.15-dev",
+                "info": Object {
+                  "name": "symfony/polyfill-ctype",
+                  "version": "1.15-dev",
+                },
+              },
+              Object {
+                "id": "twig/twig@1.x-dev",
+                "info": Object {
+                  "name": "twig/twig",
+                  "version": "1.x-dev",
+                },
+              },
+            ],
+            "schemaVersion": "1.2.0",
+          },
+          "type": "depGraph",
+        },
+        Object {
+          "data": Array [
+            "composer.json",
+            "composer.lock",
+          ],
+          "type": "testedFiles",
+        },
+        Object {
+          "data": "sha256:a4837fa95bd797412aca5c73854c8f196e584a33cbc53df0f6f9e88a37cd41a3",
+          "type": "imageId",
+        },
+      ],
+      "identity": Object {
+        "targetFile": "/app/composer.json",
+        "type": "composer",
+      },
+      "target": Object {
+        "image": "docker-image|php.tar",
+      },
+    },
+  ],
+}
+`;

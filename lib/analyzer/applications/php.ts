@@ -1,10 +1,10 @@
+import * as lockFileParser from "@snyk/composer-lockfile-parser";
 import { legacy } from "@snyk/dep-graph";
 import * as path from "path";
-import * as lockFileParser from "@snyk/composer-lockfile-parser";
 import { DepGraphFact, TestedFilesFact } from "../../facts";
 
-import { AppDepsScanResultWithoutTarget, FilePathToContent } from "./types";
 import { DepTreeDep } from "../../types";
+import { AppDepsScanResultWithoutTarget, FilePathToContent } from "./types";
 
 interface ManifestLockPathPair {
   manifest: string;
