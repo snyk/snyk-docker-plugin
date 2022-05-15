@@ -1,3 +1,4 @@
 import { nodeFilesToScannedProjects } from "./node";
+import { phpFilesToScannedProjects } from "./php";
 
-export { nodeFilesToScannedProjects };
+export { nodeFilesToScannedProjects, phpFilesToScannedProjects };

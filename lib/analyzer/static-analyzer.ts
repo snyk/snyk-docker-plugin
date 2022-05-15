@@ -28,13 +28,17 @@ import * as filePatternStatic from "../inputs/file-pattern/static";
 import { getJarFileContentAction } from "../inputs/java/static";
 import { getNodeAppFileContentAction } from "../inputs/node/static";
 import { getOsReleaseActions } from "../inputs/os-release/static";
+import { getPhpAppFileContentAction } from "../inputs/php/static";
 import {
   getRpmDbFileContent,
   getRpmDbFileContentAction,
 } from "../inputs/rpm/static";
 import { isTrue } from "../option-utils";
 import { ImageType, ManifestFile, PluginOptions } from "../types";
-import { nodeFilesToScannedProjects } from "./applications";
+import {
+  nodeFilesToScannedProjects,
+  phpFilesToScannedProjects,
+} from "./applications";
 import { jarFilesToScannedProjects } from "./applications/java";
 import { AppDepsScanResultWithoutTarget } from "./applications/types";
 import * as osReleaseDetector from "./os-release";
@@ -83,6 +87,7 @@ export async function analyze(
     staticAnalysisActions.push(
       ...[
         getNodeAppFileContentAction,
+        getPhpAppFileContentAction,
         getJarFileContentAction,
         getGoModulesContentAction,
       ],
@@ -154,6 +159,9 @@ export async function analyze(
     const nodeDependenciesScanResults = await nodeFilesToScannedProjects(
       getFileContent(extractedLayers, getNodeAppFileContentAction.actionName),
     );
+    const phpDependenciesScanResults = await phpFilesToScannedProjects(
+      getFileContent(extractedLayers, getPhpAppFileContentAction.actionName),
+    );
 
     const desiredLevelsOfUnpacking = getNestedJarsDesiredDepth(options);
 
@@ -168,6 +176,7 @@ export async function analyze(
 
     applicationDependenciesScanResults.push(
       ...nodeDependenciesScanResults,
+      ...phpDependenciesScanResults,
       ...jarFingerprintScanResults,
       ...goModulesScanResult,
     );

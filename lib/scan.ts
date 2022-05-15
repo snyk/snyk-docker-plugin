@@ -53,6 +53,13 @@ export async function scan(
     );
   }
 
+  // TODO temporary solution to avoid double results for PHP if exists in `globsToFind`
+  if (options.globsToFind) {
+    options.globsToFind.include = options.globsToFind.include.filter(
+      (glob) => !glob.includes("composer"),
+    );
+  }
+
   const targetImage = appendLatestTagIfMissing(options.path);
 
   const dockerfilePath = options.file;

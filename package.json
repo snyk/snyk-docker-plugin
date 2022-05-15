@@ -27,6 +27,7 @@
     "node": ">=14"
   },
   "dependencies": {
+    "@snyk/composer-lockfile-parser": "^1.4.1",
     "@snyk/dep-graph": "^1.28.0",
     "@snyk/rpm-parser": "^2.0.0",
     "@snyk/snyk-docker-pull": "^3.7.2",
