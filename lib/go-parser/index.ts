@@ -63,7 +63,7 @@ async function findGoBinaries(
       try {
         // Discard
         if (bytesWritten === 0) {
-          return resolve();
+          return resolve(undefined);
         }
 
         const binaryFile = elf.parse(buffer);
@@ -81,12 +81,12 @@ async function findGoBinaries(
         );
 
         if (!goBuildInfo && !goBuildId) {
-          return resolve();
+          return resolve(undefined);
         } else if (interp) {
           // Compiled using cgo
           // we wouldn't be able to extract modules
           // TODO: cgo-compiled binaries are not supported in this iteration
-          return resolve();
+          return resolve(undefined);
         } else if (goBuildInfo) {
           const info = goBuildInfo.data
             .slice(0, buildInfoMagic.length)
@@ -96,7 +96,7 @@ async function findGoBinaries(
             return resolve(binaryFile);
           }
 
-          return resolve();
+          return resolve(undefined);
         } else if (goBuildId) {
           const strings = goBuildId.data
             .toString()
@@ -112,12 +112,12 @@ async function findGoBinaries(
             return resolve(binaryFile);
           }
 
-          return resolve();
+          return resolve(undefined);
         }
       } catch (error) {
         // catching exception during elf file parse shouldn't fail the archive iteration
         // it either we recognize file as binary or not
-        return resolve();
+        return resolve(undefined);
       }
     });
 
