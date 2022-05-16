@@ -651,7 +651,7 @@ Object {
         },
       ],
       "identity": Object {
-        "targetFile": "/app/composer.json",
+        "targetFile": "/app/composer.lock",
         "type": "composer",
       },
       "target": Object {
@@ -1313,7 +1313,7 @@ Object {
         },
       ],
       "identity": Object {
-        "targetFile": "/app/composer.json",
+        "targetFile": "/app/composer.lock",
         "type": "composer",
       },
       "target": Object {
