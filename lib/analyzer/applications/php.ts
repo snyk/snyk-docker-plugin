@@ -47,7 +47,7 @@ export async function phpFilesToScannedProjects(
       facts: [depGraphFact, testedFilesFact],
       identity: {
         type: depGraph.pkgManager.name,
-        targetFile: pathPair.manifest,
+        targetFile: pathPair.lock,
       },
     });
   }
