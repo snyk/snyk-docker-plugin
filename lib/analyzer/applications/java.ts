@@ -6,12 +6,12 @@ import { JarFingerprint } from "../types";
 import { JarBuffer, JarCoords, JarInfo } from "./types";
 import { AppDepsScanResultWithoutTarget, FilePathToBuffer } from "./types";
 
-function groupJarFingerprintsByPath(input: {
+function groupJarFingerprintsByPath(input: {//todo document the function
   [fileName: string]: Buffer;
 }): {
   [path: string]: JarBuffer[];
 } {
-  const jarFingerprints: JarBuffer[] = Object.entries(input).map(
+  const jarFingerprints: JarBuffer[] = Object.entries(input).map( //todo refactor to one pass over the input
     ([filePath, buffer]) => {
       return {
         location: filePath,
@@ -23,7 +23,7 @@ function groupJarFingerprintsByPath(input: {
     },
   );
 
-  const resultAggregatedByPath = jarFingerprints.reduce(
+  const resultAggregatedByPath = jarFingerprints.reduce(//todo avoid reduce for readability
     (jarsAggregatedByPath, jarFingerprint) => {
       const location = path.dirname(jarFingerprint.location);
       jarsAggregatedByPath[location] = jarsAggregatedByPath[location] || [];
@@ -36,7 +36,7 @@ function groupJarFingerprintsByPath(input: {
   return resultAggregatedByPath;
 }
 
-export async function jarFilesToScannedProjects(
+export async function jarFilesToScannedProjects( //todo naming (why projects?)
   filePathToContent: FilePathToBuffer,
   targetImage: string,
   desiredLevelsOfUnpacking: number,
@@ -45,7 +45,7 @@ export async function jarFilesToScannedProjects(
   const scanResults: AppDepsScanResultWithoutTarget[] = [];
 
   for (const path in mappedResult) {
-    if (!mappedResult.hasOwnProperty(path)) {
+    if (!mappedResult.hasOwnProperty(path)) {//todo is there a case that this condition will be true?
       continue;
     }
 
@@ -222,7 +222,7 @@ function unpackJars(
       jarPath: jarBuffer.location,
       unpackedLevels: unpackedLevels + 1,
       desiredLevelsOfUnpacking,
-      requiredLevelsOfUnpacking,
+      requiredLevelsOfUnpacking,//todo do we need both levels of unpacking?
     });
 
     // we only care about JAR fingerprints. Other Java archive files are not
@@ -240,7 +240,7 @@ function unpackJars(
       });
     }
 
-    if (jarInfo.nestedJars.length > 0) {
+    if (jarInfo.nestedJars.length > 0) {//todo measure performance of this recursion
       // this is an uber/fat JAR so we need to unpack the nested JARs to
       // analyse them for coords and further nested JARs (depth flag allowing)
       fingerprints.push(
@@ -284,7 +284,7 @@ export function parsePomProperties(fileContent: string): JarCoords {
   const fileContentLines = fileContent
     .split(/\n/)
     .filter((line) => /^(groupId|artifactId|version)=/.test(line)); // These are the only properties we are interested in
-  const coords: JarCoords = fileContentLines.reduce((coords, line) => {
+  const coords: JarCoords = fileContentLines.reduce((coords, line) => {//todo avoid unnecessary reduce
     const [key, value] = line.split("=");
     coords[key] = value.trim(); // Getting rid of EOL
     return coords;
