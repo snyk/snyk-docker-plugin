@@ -3,40 +3,34 @@ import * as path from "path";
 import { bufferToSha1 } from "../../buffer-utils";
 import { JarFingerprintsFact } from "../../facts";
 import { JarFingerprint } from "../types";
-import { JarBuffer, JarCoords, JarInfo } from "./types";
+import { AggregatedJars, JarBuffer, JarCoords, JarInfo } from "./types";
 import { AppDepsScanResultWithoutTarget, FilePathToBuffer } from "./types";
 
-function groupJarFingerprintsByPath(input: {
+/**
+ * @param {{[fileName: string]: Buffer}} fileNameToBuffer fileName
+ * @returns {AggregatedJars}
+ */
+function groupJarFingerprintsByPath(fileNameToBuffer: {
   [fileName: string]: Buffer;
-}): {
-  [path: string]: JarBuffer[];
-} {
-  const jarFingerprints: JarBuffer[] = Object.entries(input).map(
-    ([filePath, buffer]) => {
-      return {
-        location: filePath,
-        buffer,
-        coords: null,
-        dependencies: [],
-        nestedJars: [],
-      };
-    },
-  );
-
-  const resultAggregatedByPath = jarFingerprints.reduce(
-    (jarsAggregatedByPath, jarFingerprint) => {
-      const location = path.dirname(jarFingerprint.location);
-      jarsAggregatedByPath[location] = jarsAggregatedByPath[location] || [];
-      jarsAggregatedByPath[location].push(jarFingerprint);
-      return jarsAggregatedByPath;
-    },
-    {},
-  );
+}): AggregatedJars {
+  const resultAggregatedByPath: AggregatedJars = {};
+  Object.keys(fileNameToBuffer).forEach((filePath) => {
+    const location = path.dirname(filePath);
+    const jarFingerprint: JarInfo = {
+      location: filePath,
+      buffer: fileNameToBuffer[filePath],
+      coords: null,
+      dependencies: [],
+      nestedJars: [],
+    };
+    resultAggregatedByPath[location] = resultAggregatedByPath[location] || [];
+    resultAggregatedByPath[location].push(jarFingerprint);
+  });
 
   return resultAggregatedByPath;
 }
 
-export async function jarFilesToScannedProjects(
+export async function jarFilesToScannedResults(
   filePathToContent: FilePathToBuffer,
   targetImage: string,
   desiredLevelsOfUnpacking: number,
@@ -242,7 +236,7 @@ function unpackJars(
 
     if (jarInfo.nestedJars.length > 0) {
       // this is an uber/fat JAR so we need to unpack the nested JARs to
-      // analyse them for coords and further nested JARs (depth flag allowing)
+      // analyze them for coords and further nested JARs (depth flag allowing)
       fingerprints.push(
         ...unpackJars(
           jarInfo.nestedJars,
@@ -284,11 +278,11 @@ export function parsePomProperties(fileContent: string): JarCoords {
   const fileContentLines = fileContent
     .split(/\n/)
     .filter((line) => /^(groupId|artifactId|version)=/.test(line)); // These are the only properties we are interested in
-  const coords: JarCoords = fileContentLines.reduce((coords, line) => {
+
+  const coords: JarCoords = {};
+  fileContentLines.forEach((line) => {
     const [key, value] = line.split("=");
     coords[key] = value.trim(); // Getting rid of EOL
-    return coords;
-  }, {});
-
+  });
   return coords;
 }

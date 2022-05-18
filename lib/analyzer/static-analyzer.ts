@@ -41,7 +41,7 @@ import {
   nodeFilesToScannedProjects,
   phpFilesToScannedProjects,
 } from "./applications";
-import { jarFilesToScannedProjects } from "./applications/java";
+import { jarFilesToScannedResults } from "./applications/java";
 import { AppDepsScanResultWithoutTarget } from "./applications/types";
 import * as osReleaseDetector from "./os-release";
 import { analyze as apkAnalyze } from "./package-managers/apk";
@@ -174,7 +174,7 @@ export async function analyze(
 
     const desiredLevelsOfUnpacking = getNestedJarsDesiredDepth(options);
 
-    const jarFingerprintScanResults = await jarFilesToScannedProjects(
+    const jarFingerprintScanResults = await jarFilesToScannedResults(
       getBufferContent(extractedLayers, getJarFileContentAction.actionName),
       targetImage,
       desiredLevelsOfUnpacking,

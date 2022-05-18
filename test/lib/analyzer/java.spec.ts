@@ -3,12 +3,12 @@ import { readFileSync } from "fs";
 import { __metadata } from "tslib";
 import {
   getCoordsFromPomProperties,
-  jarFilesToScannedProjects,
+  jarFilesToScannedResults,
   parsePomProperties,
 } from "../../../lib/analyzer/applications/java";
 import { getTextFromFixture } from "../../util";
 
-describe("jarFilesToScannedProjects function", () => {
+describe("jarFilesToScannedResults function", () => {
   it("should return expected scannedProject[] result", async () => {
     // Arrange
     const buffered = readFileSync("test/fixtures/maven/fixture-1.0.0.jar");
@@ -17,7 +17,7 @@ describe("jarFilesToScannedProjects function", () => {
     };
 
     // Act
-    const result = await jarFilesToScannedProjects(
+    const result = await jarFilesToScannedResults(
       filePathToContent,
       "image-name",
       0, // we don't want to include any nested JARs
@@ -49,7 +49,7 @@ describe("jarFilesToScannedProjects function", () => {
     };
 
     // Act
-    const result = await jarFilesToScannedProjects(
+    const result = await jarFilesToScannedResults(
       filePathToContent,
       "image-name",
       0, // we always unpack so will still "trip" admzip
