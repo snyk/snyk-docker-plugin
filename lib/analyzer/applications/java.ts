@@ -225,15 +225,20 @@ function unpackJars(
       requiredLevelsOfUnpacking,
     });
 
-    // if any of the coords are null for this JAR we didn't manage to get
-    // anything from the JAR's pom.properties manifest, so calculate the
-    // sha so maven-deps can fallback to searching maven central
-    fingerprints.push({
-      location: jarInfo.location,
-      digest: jarInfo.coords ? null : bufferToSha1(jarInfo.buffer),
-      dependencies: jarInfo.dependencies,
-      ...jarInfo.coords,
-    });
+    // we only care about JAR fingerprints. Other Java archive files are not
+    // interesting enough on their own but are merely containers for JARs,
+    // so no point in fingerprinting them
+    if (jarBuffer.location.endsWith(".jar")) {
+      // if any of the coords are null for this JAR we didn't manage to get
+      // anything from the JAR's pom.properties manifest, so calculate the
+      // sha so maven-deps can fallback to searching maven central
+      fingerprints.push({
+        location: jarInfo.location,
+        digest: jarInfo.coords ? null : bufferToSha1(jarInfo.buffer),
+        dependencies: jarInfo.dependencies,
+        ...jarInfo.coords,
+      });
+    }
 
     if (jarInfo.nestedJars.length > 0) {
       // this is an uber/fat JAR so we need to unpack the nested JARs to

@@ -236,7 +236,7 @@ describe("jar binaries scanning", () => {
             expect(fingerprints).toContainEqual(deepestLevelJarFingerprint);
           });
 
-          it(`should return full scan if ${flagName}=4, because specifiying more levels than exist should not break things`, async () => {
+          it(`should return full scan if ${flagName}=4, because specifying more levels than exist should not break things`, async () => {
             const deepestLevelJarFingerprint = {
               location:
                 "/level-3-jar.jar/level-2-jar.jar/lib/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar",
@@ -259,6 +259,89 @@ describe("jar binaries scanning", () => {
 
             expect(fingerprints).toHaveLength(3);
             expect(fingerprints).toContainEqual(deepestLevelJarFingerprint);
+          });
+
+          describe("WAR files", () => {
+            let imageNameAndTag;
+            beforeAll(async () => {
+              // Arrange
+              fixturePath = getFixture(
+                "docker-archives/docker-save/war-with-3-level-jar.tar",
+              );
+              imageNameAndTag = `docker-archive:${fixturePath}`;
+            });
+            it(`should return partial scan if ${flagName}=2`, async () => {
+              const level2JarFingerprint = {
+                location:
+                  "/workspace/app/mywar.war/WEB-INF/lib/level-3-jar.jar/level-2-jar.jar",
+                digest: expect.any(String),
+              };
+
+              // Act
+              pluginResult = await scan({
+                path: imageNameAndTag,
+                "app-vulns": true,
+                [flagName]: "2",
+              });
+
+              fingerprints =
+                pluginResult.scanResults[1].facts[0].data.fingerprints;
+
+              expect(fingerprints).toHaveLength(5);
+              expect(fingerprints).toContainEqual(
+                expect.objectContaining(level2JarFingerprint),
+              );
+            });
+
+            it(`should return full scan if ${flagName}=3, because unpacking 3 levels will reveal the third`, async () => {
+              const deepestLevelJarFingerprint = {
+                location:
+                  "/workspace/app/mywar.war/WEB-INF/lib/level-3-jar.jar/level-2-jar.jar/lib/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar",
+                digest: null,
+                dependencies: expect.any(Array),
+                artifactId: "listenablefuture",
+                groupId: "com.google.guava",
+                version: "9999.0-empty-to-avoid-conflict-with-guava",
+              };
+
+              // Act
+              pluginResult = await scan({
+                path: imageNameAndTag,
+                "app-vulns": true,
+                [flagName]: "3",
+              });
+
+              fingerprints =
+                pluginResult.scanResults[1].facts[0].data.fingerprints;
+
+              expect(fingerprints).toHaveLength(6);
+              expect(fingerprints).toContainEqual(deepestLevelJarFingerprint);
+            });
+
+            it(`should return full scan if ${flagName}=4, because specifying more levels than exist should not break things`, async () => {
+              const deepestLevelJarFingerprint = {
+                location:
+                  "/workspace/app/mywar.war/WEB-INF/lib/level-3-jar.jar/level-2-jar.jar/lib/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar",
+                digest: null,
+                dependencies: expect.any(Array),
+                artifactId: "listenablefuture",
+                groupId: "com.google.guava",
+                version: "9999.0-empty-to-avoid-conflict-with-guava",
+              };
+
+              // Act
+              pluginResult = await scan({
+                path: imageNameAndTag,
+                "app-vulns": true,
+                [flagName]: "4",
+              });
+
+              fingerprints =
+                pluginResult.scanResults[1].facts[0].data.fingerprints;
+
+              expect(fingerprints).toHaveLength(6);
+              expect(fingerprints).toContainEqual(deepestLevelJarFingerprint);
+            });
           });
 
           it("should handle sibling uber jars", async () => {
