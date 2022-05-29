@@ -16,7 +16,7 @@ function rmdirRecursive(customPath: string[]): void {
   }
 
   const joinedPath = path.join(...customPath);
-  fs.rmSync(joinedPath, { recursive: true, force: true });
+  fs.rmdirSync(joinedPath, { recursive: true });
 }
 
 // prettier-ignore
