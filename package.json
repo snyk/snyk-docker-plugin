@@ -24,7 +24,7 @@
     "prepare": "npm run build"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=12"
   },
   "dependencies": {
     "@snyk/composer-lockfile-parser": "^1.4.1",
