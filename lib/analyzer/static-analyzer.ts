@@ -32,6 +32,8 @@ import { getPhpAppFileContentAction } from "../inputs/php/static";
 import {
   getRpmDbFileContent,
   getRpmDbFileContentAction,
+  getRpmSqliteDbFileContent,
+  getRpmSqliteDbFileContentAction,
 } from "../inputs/rpm/static";
 import { isTrue } from "../option-utils";
 import { ImageType, ManifestFile, PluginOptions } from "../types";
@@ -47,7 +49,10 @@ import {
   analyze as aptAnalyze,
   analyzeDistroless as aptDistrolessAnalyze,
 } from "./package-managers/apt";
-import { analyze as rpmAnalyze } from "./package-managers/rpm";
+import {
+  analyze as rpmAnalyze,
+  mapRpmSqlitePackages,
+} from "./package-managers/rpm";
 import { ImageAnalysis, OSRelease, StaticAnalysis } from "./types";
 
 const debug = Debug("snyk");
@@ -65,6 +70,7 @@ export async function analyze(
     getDpkgFileContentAction,
     getExtFileContentAction,
     getRpmDbFileContentAction,
+    getRpmSqliteDbFileContentAction,
     ...getOsReleaseActions,
     getNodeBinariesFileContentAction,
     getOpenJDKBinariesFileContentAction,
@@ -113,10 +119,12 @@ export async function analyze(
     apkDbFileContent,
     aptDbFileContent,
     rpmDbFileContent,
+    rpmSqliteDbFileContent,
   ] = await Promise.all([
     getApkDbFileContent(extractedLayers),
     getAptDbFileContent(extractedLayers),
     getRpmDbFileContent(extractedLayers),
+    getRpmSqliteDbFileContent(extractedLayers),
   ]);
 
   const distrolessAptFiles = getAptFiles(extractedLayers);
@@ -144,6 +152,7 @@ export async function analyze(
       apkAnalyze(targetImage, apkDbFileContent),
       aptAnalyze(targetImage, aptDbFileContent),
       rpmAnalyze(targetImage, rpmDbFileContent),
+      mapRpmSqlitePackages(targetImage, rpmSqliteDbFileContent),
       aptDistrolessAnalyze(targetImage, distrolessAptFiles),
     ]);
   } catch (err) {
