@@ -153,6 +153,15 @@ jobs:
       - run: npm install
       - run: npm run build
       - notify_slack_on_failure
+  build_cli:
+    <<: *defaults
+    resource_class: medium
+    steps:
+      - checkout_and_merge
+      - run:
+          name: Build Snyk CLI with latest changes
+          command: ./.circleci/build-cli.sh
+      - notify_slack_on_failure
   release:
     <<: *release_defaults
     steps:
@@ -189,13 +198,18 @@ workflows:
       - test_windows:
           name: Test Windows
           context: nodejs-install
-          node_version: "10.19.0"
+          node_version: "12"
           requires:
             - Build
       - test_jest_windows:
           name: Test Jest Windows
           context: nodejs-install
-          node_version: "10.19.0"
+          node_version: "12"
+          requires:
+            - Build
+      - build_cli:
+          name: Build CLI with changes
+          context: nodejs-install
           requires:
             - Build
       - release:
