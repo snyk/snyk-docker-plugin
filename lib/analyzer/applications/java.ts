@@ -10,15 +10,15 @@ import { AppDepsScanResultWithoutTarget, FilePathToBuffer } from "./types";
  * @param {{[fileName: string]: Buffer}} input fileName
  * @returns {AggregatedJars}
  */
-function groupJarFingerprintsByPath(input: {
+function groupJarFingerprintsByPath(fileNameToBuffer: {
   [fileName: string]: Buffer;
 }): AggregatedJars {
   const resultAggregatedByPath: AggregatedJars = {};
-  Object.keys(input).forEach((filePath) => {
+  Object.keys(fileNameToBuffer).forEach((filePath) => {
     const location = path.dirname(filePath);
     const jarFingerprint: JarInfo = {
       location: filePath,
-      buffer: input[filePath],
+      buffer: fileNameToBuffer[filePath],
       coords: null,
       dependencies: [],
       nestedJars: [],
@@ -40,7 +40,6 @@ export async function jarFilesToScannedResults(
 
   for (const path in mappedResult) {
     if (!mappedResult.hasOwnProperty(path)) {
-      // todo is there a case that this condition will be true?
       continue;
     }
 
@@ -217,7 +216,7 @@ function unpackJars(
       jarPath: jarBuffer.location,
       unpackedLevels: unpackedLevels + 1,
       desiredLevelsOfUnpacking,
-      requiredLevelsOfUnpacking, // todo do we need both levels of unpacking?
+      requiredLevelsOfUnpacking,
     });
 
     // we only care about JAR fingerprints. Other Java archive files are not
@@ -236,7 +235,6 @@ function unpackJars(
     }
 
     if (jarInfo.nestedJars.length > 0) {
-      // todo measure performance of this recursion
       // this is an uber/fat JAR so we need to unpack the nested JARs to
       // analyse them for coords and further nested JARs (depth flag allowing)
       fingerprints.push(
