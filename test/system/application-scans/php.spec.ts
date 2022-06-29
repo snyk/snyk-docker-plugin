@@ -41,34 +41,34 @@ describe("php application scans", () => {
     expect(factTypes).not.toContain("imageManifestFiles");
   });
 
-  it("should handle --app-vulns with string and boolean value", async () => {
+  it("should handle --exclude-app-vulns with string and boolean value", async () => {
     const fixturePath = getFixture("docker-archives/docker-save/php.tar");
     const imageNameAndTag = `docker-archive:${fixturePath}`;
 
-    const pluginResultAppVulnsFalseString = await scan({
+    const pluginResultExcludeAppVulnsFalseString = await scan({
       path: imageNameAndTag,
-      "app-vulns": "false",
+      "exclude-app-vulns": "false",
     });
 
-    const pluginResultAppVulnsTrueString = await scan({
+    const pluginResultExcludeAppVulnsTrueString = await scan({
       path: imageNameAndTag,
-      "app-vulns": "true",
+      "exclude-app-vulns": "true",
     });
 
-    const pluginResultAppVulnsFalseBoolean = await scan({
+    const pluginResultExcludeAppVulnsFalseBoolean = await scan({
       path: imageNameAndTag,
-      "app-vulns": false,
+      "exclude-app-vulns": false,
     });
 
-    const pluginResultAppVulnsTrueBoolean = await scan({
+    const pluginResultExcludeAppVulnsTrueBoolean = await scan({
       path: imageNameAndTag,
-      "app-vulns": true,
+      "exclude-app-vulns": true,
     });
 
-    expect(pluginResultAppVulnsFalseString.scanResults).toHaveLength(1);
-    expect(pluginResultAppVulnsFalseBoolean.scanResults).toHaveLength(1);
+    expect(pluginResultExcludeAppVulnsFalseString.scanResults).toHaveLength(2);
+    expect(pluginResultExcludeAppVulnsFalseBoolean.scanResults).toHaveLength(2);
 
-    expect(pluginResultAppVulnsTrueString.scanResults).toHaveLength(2);
-    expect(pluginResultAppVulnsTrueBoolean.scanResults).toHaveLength(2);
+    expect(pluginResultExcludeAppVulnsTrueString.scanResults).toHaveLength(1);
+    expect(pluginResultExcludeAppVulnsTrueBoolean.scanResults).toHaveLength(1);
   });
 });

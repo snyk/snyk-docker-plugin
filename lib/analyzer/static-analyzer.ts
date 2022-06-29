@@ -87,7 +87,7 @@ export async function analyze(
     );
   }
 
-  const appScan = isTrue(options["app-vulns"]);
+  const appScan = !isTrue(options["exclude-app-vulns"]);
 
   if (appScan) {
     staticAnalysisActions.push(
