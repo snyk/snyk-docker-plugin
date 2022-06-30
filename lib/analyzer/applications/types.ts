@@ -28,3 +28,6 @@ export interface JarCoords {
 export interface FilePathToElfContent {
   [filePath: string]: Elf;
 }
+export interface AggregatedJars {
+  [path: string]: JarBuffer[];
+}
