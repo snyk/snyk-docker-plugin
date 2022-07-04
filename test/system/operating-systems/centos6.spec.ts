@@ -16,6 +16,17 @@ describe("CentOS 7 tests", () => {
 
     const pluginResponse = await scan({
       path: imagePath,
+      "exclude-app-vulns": true,
+    });
+    expect(pluginResponse).toMatchSnapshot();
+  });
+
+  it("can scan a centos6-based image with app vulns", async () => {
+    const imagePath =
+      "dokken/centos-6@sha256:494b9b280814f1e661597b48e229156e4dccb60dce198d9210f7572ff22626d2";
+
+    const pluginResponse = await scan({
+      path: imagePath,
     });
     expect(pluginResponse).toMatchSnapshot();
   });

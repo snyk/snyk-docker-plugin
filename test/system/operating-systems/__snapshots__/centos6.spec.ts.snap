@@ -3035,3 +3035,3068 @@ Object {
   ],
 }
 `;
+
+exports[`CentOS 7 tests can scan a centos6-based image with app vulns 1`] = `
+Object {
+  "scanResults": Array [
+    Object {
+      "facts": Array [
+        Object {
+          "data": Object {
+            "graph": Object {
+              "nodes": Array [
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "MAKEDEV@3.24-6.el6",
+                    },
+                    Object {
+                      "nodeId": "at@3.1.10-49.el6",
+                    },
+                    Object {
+                      "nodeId": "audit-libs@2.4.5-6.el6",
+                    },
+                    Object {
+                      "nodeId": "basesystem@10.0-4.el6",
+                    },
+                    Object {
+                      "nodeId": "bash@4.1.2-48.el6",
+                    },
+                    Object {
+                      "nodeId": "bc@1.06.95-1.el6",
+                    },
+                    Object {
+                      "nodeId": "bind-libs@32:9.8.2-0.68.rc1.el6_10.1",
+                    },
+                    Object {
+                      "nodeId": "bind-utils@32:9.8.2-0.68.rc1.el6_10.1",
+                    },
+                    Object {
+                      "nodeId": "binutils@2.20.51.0.2-5.48.el6",
+                    },
+                    Object {
+                      "nodeId": "bzip2@1.0.5-7.el6_0",
+                    },
+                    Object {
+                      "nodeId": "bzip2-libs@1.0.5-7.el6_0",
+                    },
+                    Object {
+                      "nodeId": "ca-certificates@2020.2.41-65.1.el6_10",
+                    },
+                    Object {
+                      "nodeId": "centos-release@6-10.el6.centos.12.3",
+                    },
+                    Object {
+                      "nodeId": "checkpolicy@2.0.22-1.el6",
+                    },
+                    Object {
+                      "nodeId": "chkconfig@1.3.49.5-1.el6",
+                    },
+                    Object {
+                      "nodeId": "coreutils@8.4-47.el6",
+                    },
+                    Object {
+                      "nodeId": "coreutils-libs@8.4-47.el6",
+                    },
+                    Object {
+                      "nodeId": "cpio@2.10-13.el6",
+                    },
+                    Object {
+                      "nodeId": "cracklib@2.8.16-4.el6",
+                    },
+                    Object {
+                      "nodeId": "cracklib-dicts@2.8.16-4.el6",
+                    },
+                    Object {
+                      "nodeId": "cronie@1.4.4-16.el6_8.2",
+                    },
+                    Object {
+                      "nodeId": "cronie-anacron@1.4.4-16.el6_8.2",
+                    },
+                    Object {
+                      "nodeId": "crontabs@1.10-33.el6",
+                    },
+                    Object {
+                      "nodeId": "curl@7.19.7-54.el6_10",
+                    },
+                    Object {
+                      "nodeId": "cvs@1.11.23-16.el6",
+                    },
+                    Object {
+                      "nodeId": "cyrus-sasl@2.1.23-15.el6_6.2",
+                    },
+                    Object {
+                      "nodeId": "cyrus-sasl-lib@2.1.23-15.el6_6.2",
+                    },
+                    Object {
+                      "nodeId": "dash@0.5.5.1-4.el6",
+                    },
+                    Object {
+                      "nodeId": "db4@4.7.25-22.el6",
+                    },
+                    Object {
+                      "nodeId": "db4-cxx@4.7.25-22.el6",
+                    },
+                    Object {
+                      "nodeId": "db4-devel@4.7.25-22.el6",
+                    },
+                    Object {
+                      "nodeId": "db4-utils@4.7.25-22.el6",
+                    },
+                    Object {
+                      "nodeId": "dbus-glib@0.86-6.el6",
+                    },
+                    Object {
+                      "nodeId": "dbus-libs@1:1.2.24-9.el6",
+                    },
+                    Object {
+                      "nodeId": "diffutils@2.8.1-28.el6",
+                    },
+                    Object {
+                      "nodeId": "dmidecode@1:2.12-7.el6",
+                    },
+                    Object {
+                      "nodeId": "ed@1.1-3.3.el6",
+                    },
+                    Object {
+                      "nodeId": "elfutils-libelf@0.164-2.el6",
+                    },
+                    Object {
+                      "nodeId": "ethtool@2:3.5-6.el6",
+                    },
+                    Object {
+                      "nodeId": "expat@2.0.1-13.el6_8",
+                    },
+                    Object {
+                      "nodeId": "file@5.04-30.el6",
+                    },
+                    Object {
+                      "nodeId": "file-libs@5.04-30.el6",
+                    },
+                    Object {
+                      "nodeId": "filesystem@2.4.30-3.el6",
+                    },
+                    Object {
+                      "nodeId": "findutils@1:4.4.2-9.el6",
+                    },
+                    Object {
+                      "nodeId": "gamin@0.1.10-9.el6",
+                    },
+                    Object {
+                      "nodeId": "gawk@3.1.7-10.el6_7.3",
+                    },
+                    Object {
+                      "nodeId": "gdbm@1.8.0-39.el6",
+                    },
+                    Object {
+                      "nodeId": "gdbm-devel@1.8.0-39.el6",
+                    },
+                    Object {
+                      "nodeId": "gettext@0.17-18.el6",
+                    },
+                    Object {
+                      "nodeId": "glib2@2.28.8-10.el6",
+                    },
+                    Object {
+                      "nodeId": "glibc@2.12-1.212.el6_10.3",
+                    },
+                    Object {
+                      "nodeId": "glibc-common@2.12-1.212.el6_10.3",
+                    },
+                    Object {
+                      "nodeId": "glibc-devel@2.12-1.212.el6_10.3",
+                    },
+                    Object {
+                      "nodeId": "glibc-headers@2.12-1.212.el6_10.3",
+                    },
+                    Object {
+                      "nodeId": "gmp@4.3.1-13.el6",
+                    },
+                    Object {
+                      "nodeId": "gnupg2@2.0.14-9.el6_10",
+                    },
+                    Object {
+                      "nodeId": "gpg-pubkey@c105b9de-4e0fd3a3",
+                    },
+                    Object {
+                      "nodeId": "gpgme@1.1.8-3.el6",
+                    },
+                    Object {
+                      "nodeId": "grep@2.20-6.el6",
+                    },
+                    Object {
+                      "nodeId": "groff@1.18.1.4-21.el6",
+                    },
+                    Object {
+                      "nodeId": "gzip@1.3.12-24.el6",
+                    },
+                    Object {
+                      "nodeId": "hwdata@0.233-20.1.el6",
+                    },
+                    Object {
+                      "nodeId": "info@4.13a-8.el6",
+                    },
+                    Object {
+                      "nodeId": "initscripts@9.03.61-1.el6.centos",
+                    },
+                    Object {
+                      "nodeId": "iproute@2.6.32-57.el6",
+                    },
+                    Object {
+                      "nodeId": "iptables@1.4.7-19.el6",
+                    },
+                    Object {
+                      "nodeId": "iputils@20071127-24.el6",
+                    },
+                    Object {
+                      "nodeId": "kernel-headers@2.6.32-754.35.1.el6",
+                    },
+                    Object {
+                      "nodeId": "keyutils-libs@1.4-5.el6",
+                    },
+                    Object {
+                      "nodeId": "krb5-libs@1.10.3-65.el6",
+                    },
+                    Object {
+                      "nodeId": "less@436-13.el6",
+                    },
+                    Object {
+                      "nodeId": "libacl@2.2.49-7.el6_9.1",
+                    },
+                    Object {
+                      "nodeId": "libattr@2.4.44-7.el6",
+                    },
+                    Object {
+                      "nodeId": "libblkid@2.17.2-12.28.el6_9.2",
+                    },
+                    Object {
+                      "nodeId": "libcap@2.16-5.5.el6",
+                    },
+                    Object {
+                      "nodeId": "libcom_err@1.41.12-24.el6",
+                    },
+                    Object {
+                      "nodeId": "libcurl@7.19.7-54.el6_10",
+                    },
+                    Object {
+                      "nodeId": "libdrm@2.4.65-2.el6",
+                    },
+                    Object {
+                      "nodeId": "libffi@3.0.5-3.2.el6",
+                    },
+                    Object {
+                      "nodeId": "libgcc@4.4.7-23.el6",
+                    },
+                    Object {
+                      "nodeId": "libgcrypt@1.4.5-12.el6_8",
+                    },
+                    Object {
+                      "nodeId": "libgomp@4.4.7-23.el6",
+                    },
+                    Object {
+                      "nodeId": "libgpg-error@1.7-4.el6",
+                    },
+                    Object {
+                      "nodeId": "libidn@1.18-2.el6",
+                    },
+                    Object {
+                      "nodeId": "libnih@1.0.1-8.el6",
+                    },
+                    Object {
+                      "nodeId": "libpcap@14:1.4.0-4.20130826git2dbcaa1.el6",
+                    },
+                    Object {
+                      "nodeId": "libpciaccess@0.13.4-1.el6",
+                    },
+                    Object {
+                      "nodeId": "libselinux@2.0.94-7.el6",
+                    },
+                    Object {
+                      "nodeId": "libselinux-utils@2.0.94-7.el6",
+                    },
+                    Object {
+                      "nodeId": "libsemanage@2.0.43-5.1.el6",
+                    },
+                    Object {
+                      "nodeId": "libsepol@2.0.41-4.el6",
+                    },
+                    Object {
+                      "nodeId": "libssh2@1.4.2-2.el6_7.1",
+                    },
+                    Object {
+                      "nodeId": "libstdc++@4.4.7-23.el6",
+                    },
+                    Object {
+                      "nodeId": "libtasn1@2.3-6.el6_5",
+                    },
+                    Object {
+                      "nodeId": "libusb@0.1.12-23.el6",
+                    },
+                    Object {
+                      "nodeId": "libuser@0.56.13-8.el6_7",
+                    },
+                    Object {
+                      "nodeId": "libutempter@1.1.5-4.1.el6",
+                    },
+                    Object {
+                      "nodeId": "libuuid@2.17.2-12.28.el6_9.2",
+                    },
+                    Object {
+                      "nodeId": "libxml2@2.7.6-21.el6_8.1",
+                    },
+                    Object {
+                      "nodeId": "logrotate@3.7.8-28.el6",
+                    },
+                    Object {
+                      "nodeId": "lsof@4.82-5.el6",
+                    },
+                    Object {
+                      "nodeId": "lua@5.1.4-4.1.el6",
+                    },
+                    Object {
+                      "nodeId": "m4@1.4.13-5.el6",
+                    },
+                    Object {
+                      "nodeId": "mailx@12.4-10.el6_10",
+                    },
+                    Object {
+                      "nodeId": "make@1:3.81-23.el6",
+                    },
+                    Object {
+                      "nodeId": "man@1.6f-39.el6",
+                    },
+                    Object {
+                      "nodeId": "mingetty@1.08-5.el6",
+                    },
+                    Object {
+                      "nodeId": "module-init-tools@3.9-26.el6",
+                    },
+                    Object {
+                      "nodeId": "mysql-libs@5.1.73-8.el6_8",
+                    },
+                    Object {
+                      "nodeId": "nc@1.84-24.el6",
+                    },
+                    Object {
+                      "nodeId": "ncurses@5.7-4.20090207.el6",
+                    },
+                    Object {
+                      "nodeId": "ncurses-base@5.7-4.20090207.el6",
+                    },
+                    Object {
+                      "nodeId": "ncurses-libs@5.7-4.20090207.el6",
+                    },
+                    Object {
+                      "nodeId": "net-tools@1.60-114.el6",
+                    },
+                    Object {
+                      "nodeId": "nmap@2:5.51-6.el6",
+                    },
+                    Object {
+                      "nodeId": "nspr@4.19.0-1.el6",
+                    },
+                    Object {
+                      "nodeId": "nss@3.36.0-8.el6",
+                    },
+                    Object {
+                      "nodeId": "nss-softokn@3.14.3-23.3.el6_8",
+                    },
+                    Object {
+                      "nodeId": "nss-softokn-freebl@3.14.3-23.3.el6_8",
+                    },
+                    Object {
+                      "nodeId": "nss-sysinit@3.36.0-8.el6",
+                    },
+                    Object {
+                      "nodeId": "nss-tools@3.36.0-8.el6",
+                    },
+                    Object {
+                      "nodeId": "nss-util@3.36.0-1.el6",
+                    },
+                    Object {
+                      "nodeId": "openldap@2.4.40-16.el6",
+                    },
+                    Object {
+                      "nodeId": "openssl@1.0.1e-58.el6_10",
+                    },
+                    Object {
+                      "nodeId": "p11-kit@0.18.5-2.el6_5.2",
+                    },
+                    Object {
+                      "nodeId": "p11-kit-trust@0.18.5-2.el6_5.2",
+                    },
+                    Object {
+                      "nodeId": "pam@1.1.1-24.el6",
+                    },
+                    Object {
+                      "nodeId": "passwd@0.77-7.el6",
+                    },
+                    Object {
+                      "nodeId": "patch@2.6-8.el6_9",
+                    },
+                    Object {
+                      "nodeId": "pax@3.4-10.1.el6",
+                    },
+                    Object {
+                      "nodeId": "pcre@7.8-7.el6",
+                    },
+                    Object {
+                      "nodeId": "perl@4:5.10.1-144.el6",
+                    },
+                    Object {
+                      "nodeId": "perl-CGI@3.51-144.el6",
+                    },
+                    Object {
+                      "nodeId": "perl-ExtUtils-MakeMaker@6.55-144.el6",
+                    },
+                    Object {
+                      "nodeId": "perl-ExtUtils-ParseXS@1:2.2003.0-144.el6",
+                    },
+                    Object {
+                      "nodeId": "perl-Module-Pluggable@1:3.90-144.el6",
+                    },
+                    Object {
+                      "nodeId": "perl-Pod-Escapes@1:1.04-144.el6",
+                    },
+                    Object {
+                      "nodeId": "perl-Pod-Simple@1:3.13-144.el6",
+                    },
+                    Object {
+                      "nodeId": "perl-Test-Harness@3.17-144.el6",
+                    },
+                    Object {
+                      "nodeId": "perl-Test-Simple@0.92-144.el6",
+                    },
+                    Object {
+                      "nodeId": "perl-devel@4:5.10.1-144.el6",
+                    },
+                    Object {
+                      "nodeId": "perl-libs@4:5.10.1-144.el6",
+                    },
+                    Object {
+                      "nodeId": "perl-version@3:0.77-144.el6",
+                    },
+                    Object {
+                      "nodeId": "pinentry@0.7.6-8.el6",
+                    },
+                    Object {
+                      "nodeId": "pkgconfig@1:0.23-9.1.el6",
+                    },
+                    Object {
+                      "nodeId": "plymouth@0.8.3-29.el6.centos",
+                    },
+                    Object {
+                      "nodeId": "plymouth-core-libs@0.8.3-29.el6.centos",
+                    },
+                    Object {
+                      "nodeId": "plymouth-scripts@0.8.3-29.el6.centos",
+                    },
+                    Object {
+                      "nodeId": "policycoreutils@2.0.83-30.1.el6_8",
+                    },
+                    Object {
+                      "nodeId": "popt@1.13-7.el6",
+                    },
+                    Object {
+                      "nodeId": "postfix@2:2.6.6-8.el6",
+                    },
+                    Object {
+                      "nodeId": "procps@3.2.8-45.el6_9.3",
+                    },
+                    Object {
+                      "nodeId": "psmisc@22.6-24.el6",
+                    },
+                    Object {
+                      "nodeId": "pth@2.0.7-9.3.el6",
+                    },
+                    Object {
+                      "nodeId": "pygpgme@0.1-18.20090824bzr68.el6",
+                    },
+                    Object {
+                      "nodeId": "python@2.6.6-66.el6_8",
+                    },
+                    Object {
+                      "nodeId": "python-iniparse@0.3.1-2.1.el6",
+                    },
+                    Object {
+                      "nodeId": "python-libs@2.6.6-66.el6_8",
+                    },
+                    Object {
+                      "nodeId": "python-pycurl@7.19.0-9.el6",
+                    },
+                    Object {
+                      "nodeId": "python-urlgrabber@3.9.1-11.el6",
+                    },
+                    Object {
+                      "nodeId": "readline@6.0-4.el6",
+                    },
+                    Object {
+                      "nodeId": "redhat-logos@60.0.14-12.el6.centos",
+                    },
+                    Object {
+                      "nodeId": "redhat-lsb-core@4.0-7.el6.centos",
+                    },
+                    Object {
+                      "nodeId": "rootfiles@8.1-6.1.el6",
+                    },
+                    Object {
+                      "nodeId": "rpm@4.8.0-59.el6",
+                    },
+                    Object {
+                      "nodeId": "rpm-libs@4.8.0-59.el6",
+                    },
+                    Object {
+                      "nodeId": "rpm-python@4.8.0-59.el6",
+                    },
+                    Object {
+                      "nodeId": "rsyslog@5.8.10-12.el6",
+                    },
+                    Object {
+                      "nodeId": "sed@4.2.1-10.el6",
+                    },
+                    Object {
+                      "nodeId": "setup@2.8.14-23.el6",
+                    },
+                    Object {
+                      "nodeId": "shadow-utils@2:4.1.5.1-5.el6",
+                    },
+                    Object {
+                      "nodeId": "shared-mime-info@0.70-6.el6",
+                    },
+                    Object {
+                      "nodeId": "sqlite@3.6.20-1.el6_7.2",
+                    },
+                    Object {
+                      "nodeId": "strace@4.8-11.el6",
+                    },
+                    Object {
+                      "nodeId": "sudo@1.8.6p3-29.el6_10.3",
+                    },
+                    Object {
+                      "nodeId": "sysvinit-tools@2.87-6.dsf.el6",
+                    },
+                    Object {
+                      "nodeId": "tar@2:1.23-15.el6_8",
+                    },
+                    Object {
+                      "nodeId": "tcpdump@14:4.0.0-11.20090921gitdf3cb4.2.el6",
+                    },
+                    Object {
+                      "nodeId": "telnet@1:0.17-49.el6_10",
+                    },
+                    Object {
+                      "nodeId": "time@1.7-38.el6",
+                    },
+                    Object {
+                      "nodeId": "tzdata@2018e-3.el6",
+                    },
+                    Object {
+                      "nodeId": "udev@147-2.74.el6_10",
+                    },
+                    Object {
+                      "nodeId": "upstart@0.6.5-17.el6",
+                    },
+                    Object {
+                      "nodeId": "ustr@1.0.4-9.1.el6",
+                    },
+                    Object {
+                      "nodeId": "util-linux-ng@2.17.2-12.28.el6_9.2",
+                    },
+                    Object {
+                      "nodeId": "vim-minimal@2:7.4.629-5.el6_10.2",
+                    },
+                    Object {
+                      "nodeId": "wget@1.12-10.el6",
+                    },
+                    Object {
+                      "nodeId": "which@2.19-6.el6",
+                    },
+                    Object {
+                      "nodeId": "xz@4.999.9-0.5.beta.20091007git.el6",
+                    },
+                    Object {
+                      "nodeId": "xz-libs@4.999.9-0.5.beta.20091007git.el6",
+                    },
+                    Object {
+                      "nodeId": "xz-lzma-compat@4.999.9-0.5.beta.20091007git.el6",
+                    },
+                    Object {
+                      "nodeId": "yum@3.2.29-81.el6.centos",
+                    },
+                    Object {
+                      "nodeId": "yum-metadata-parser@1.1.2-16.el6",
+                    },
+                    Object {
+                      "nodeId": "yum-plugin-fastestmirror@1.1.30-42.el6_10",
+                    },
+                    Object {
+                      "nodeId": "yum-plugin-ovl@1.1.30-42.el6_10",
+                    },
+                    Object {
+                      "nodeId": "zlib@1.2.3-29.el6",
+                    },
+                  ],
+                  "nodeId": "root-node",
+                  "pkgId": "docker-image|dokken/centos-6@",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "MAKEDEV@3.24-6.el6",
+                  "pkgId": "MAKEDEV@3.24-6.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "at@3.1.10-49.el6",
+                  "pkgId": "at@3.1.10-49.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "audit-libs@2.4.5-6.el6",
+                  "pkgId": "audit-libs@2.4.5-6.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "basesystem@10.0-4.el6",
+                  "pkgId": "basesystem@10.0-4.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "bash@4.1.2-48.el6",
+                  "pkgId": "bash@4.1.2-48.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "bc@1.06.95-1.el6",
+                  "pkgId": "bc@1.06.95-1.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "bind-libs@32:9.8.2-0.68.rc1.el6_10.1",
+                  "pkgId": "bind-libs@32:9.8.2-0.68.rc1.el6_10.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "bind-utils@32:9.8.2-0.68.rc1.el6_10.1",
+                  "pkgId": "bind-utils@32:9.8.2-0.68.rc1.el6_10.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "binutils@2.20.51.0.2-5.48.el6",
+                  "pkgId": "binutils@2.20.51.0.2-5.48.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "bzip2@1.0.5-7.el6_0",
+                  "pkgId": "bzip2@1.0.5-7.el6_0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "bzip2-libs@1.0.5-7.el6_0",
+                  "pkgId": "bzip2-libs@1.0.5-7.el6_0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "ca-certificates@2020.2.41-65.1.el6_10",
+                  "pkgId": "ca-certificates@2020.2.41-65.1.el6_10",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "centos-release@6-10.el6.centos.12.3",
+                  "pkgId": "centos-release@6-10.el6.centos.12.3",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "checkpolicy@2.0.22-1.el6",
+                  "pkgId": "checkpolicy@2.0.22-1.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "chkconfig@1.3.49.5-1.el6",
+                  "pkgId": "chkconfig@1.3.49.5-1.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "coreutils@8.4-47.el6",
+                  "pkgId": "coreutils@8.4-47.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "coreutils-libs@8.4-47.el6",
+                  "pkgId": "coreutils-libs@8.4-47.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "cpio@2.10-13.el6",
+                  "pkgId": "cpio@2.10-13.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "cracklib@2.8.16-4.el6",
+                  "pkgId": "cracklib@2.8.16-4.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "cracklib-dicts@2.8.16-4.el6",
+                  "pkgId": "cracklib-dicts@2.8.16-4.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "cronie@1.4.4-16.el6_8.2",
+                  "pkgId": "cronie@1.4.4-16.el6_8.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "cronie-anacron@1.4.4-16.el6_8.2",
+                  "pkgId": "cronie-anacron@1.4.4-16.el6_8.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "crontabs@1.10-33.el6",
+                  "pkgId": "crontabs@1.10-33.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "curl@7.19.7-54.el6_10",
+                  "pkgId": "curl@7.19.7-54.el6_10",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "cvs@1.11.23-16.el6",
+                  "pkgId": "cvs@1.11.23-16.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "cyrus-sasl@2.1.23-15.el6_6.2",
+                  "pkgId": "cyrus-sasl@2.1.23-15.el6_6.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "cyrus-sasl-lib@2.1.23-15.el6_6.2",
+                  "pkgId": "cyrus-sasl-lib@2.1.23-15.el6_6.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "dash@0.5.5.1-4.el6",
+                  "pkgId": "dash@0.5.5.1-4.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "db4@4.7.25-22.el6",
+                  "pkgId": "db4@4.7.25-22.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "db4-cxx@4.7.25-22.el6",
+                  "pkgId": "db4-cxx@4.7.25-22.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "db4-devel@4.7.25-22.el6",
+                  "pkgId": "db4-devel@4.7.25-22.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "db4-utils@4.7.25-22.el6",
+                  "pkgId": "db4-utils@4.7.25-22.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "dbus-glib@0.86-6.el6",
+                  "pkgId": "dbus-glib@0.86-6.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "dbus-libs@1:1.2.24-9.el6",
+                  "pkgId": "dbus-libs@1:1.2.24-9.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "diffutils@2.8.1-28.el6",
+                  "pkgId": "diffutils@2.8.1-28.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "dmidecode@1:2.12-7.el6",
+                  "pkgId": "dmidecode@1:2.12-7.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "ed@1.1-3.3.el6",
+                  "pkgId": "ed@1.1-3.3.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "elfutils-libelf@0.164-2.el6",
+                  "pkgId": "elfutils-libelf@0.164-2.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "ethtool@2:3.5-6.el6",
+                  "pkgId": "ethtool@2:3.5-6.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "expat@2.0.1-13.el6_8",
+                  "pkgId": "expat@2.0.1-13.el6_8",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "file@5.04-30.el6",
+                  "pkgId": "file@5.04-30.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "file-libs@5.04-30.el6",
+                  "pkgId": "file-libs@5.04-30.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "filesystem@2.4.30-3.el6",
+                  "pkgId": "filesystem@2.4.30-3.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "findutils@1:4.4.2-9.el6",
+                  "pkgId": "findutils@1:4.4.2-9.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gamin@0.1.10-9.el6",
+                  "pkgId": "gamin@0.1.10-9.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gawk@3.1.7-10.el6_7.3",
+                  "pkgId": "gawk@3.1.7-10.el6_7.3",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gdbm@1.8.0-39.el6",
+                  "pkgId": "gdbm@1.8.0-39.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gdbm-devel@1.8.0-39.el6",
+                  "pkgId": "gdbm-devel@1.8.0-39.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gettext@0.17-18.el6",
+                  "pkgId": "gettext@0.17-18.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "glib2@2.28.8-10.el6",
+                  "pkgId": "glib2@2.28.8-10.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "glibc@2.12-1.212.el6_10.3",
+                  "pkgId": "glibc@2.12-1.212.el6_10.3",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "glibc-common@2.12-1.212.el6_10.3",
+                  "pkgId": "glibc-common@2.12-1.212.el6_10.3",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "glibc-devel@2.12-1.212.el6_10.3",
+                  "pkgId": "glibc-devel@2.12-1.212.el6_10.3",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "glibc-headers@2.12-1.212.el6_10.3",
+                  "pkgId": "glibc-headers@2.12-1.212.el6_10.3",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gmp@4.3.1-13.el6",
+                  "pkgId": "gmp@4.3.1-13.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gnupg2@2.0.14-9.el6_10",
+                  "pkgId": "gnupg2@2.0.14-9.el6_10",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gpg-pubkey@c105b9de-4e0fd3a3",
+                  "pkgId": "gpg-pubkey@c105b9de-4e0fd3a3",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gpgme@1.1.8-3.el6",
+                  "pkgId": "gpgme@1.1.8-3.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "grep@2.20-6.el6",
+                  "pkgId": "grep@2.20-6.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "groff@1.18.1.4-21.el6",
+                  "pkgId": "groff@1.18.1.4-21.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gzip@1.3.12-24.el6",
+                  "pkgId": "gzip@1.3.12-24.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "hwdata@0.233-20.1.el6",
+                  "pkgId": "hwdata@0.233-20.1.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "info@4.13a-8.el6",
+                  "pkgId": "info@4.13a-8.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "initscripts@9.03.61-1.el6.centos",
+                  "pkgId": "initscripts@9.03.61-1.el6.centos",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "iproute@2.6.32-57.el6",
+                  "pkgId": "iproute@2.6.32-57.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "iptables@1.4.7-19.el6",
+                  "pkgId": "iptables@1.4.7-19.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "iputils@20071127-24.el6",
+                  "pkgId": "iputils@20071127-24.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "kernel-headers@2.6.32-754.35.1.el6",
+                  "pkgId": "kernel-headers@2.6.32-754.35.1.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "keyutils-libs@1.4-5.el6",
+                  "pkgId": "keyutils-libs@1.4-5.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "krb5-libs@1.10.3-65.el6",
+                  "pkgId": "krb5-libs@1.10.3-65.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "less@436-13.el6",
+                  "pkgId": "less@436-13.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libacl@2.2.49-7.el6_9.1",
+                  "pkgId": "libacl@2.2.49-7.el6_9.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libattr@2.4.44-7.el6",
+                  "pkgId": "libattr@2.4.44-7.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libblkid@2.17.2-12.28.el6_9.2",
+                  "pkgId": "libblkid@2.17.2-12.28.el6_9.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libcap@2.16-5.5.el6",
+                  "pkgId": "libcap@2.16-5.5.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libcom_err@1.41.12-24.el6",
+                  "pkgId": "libcom_err@1.41.12-24.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libcurl@7.19.7-54.el6_10",
+                  "pkgId": "libcurl@7.19.7-54.el6_10",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libdrm@2.4.65-2.el6",
+                  "pkgId": "libdrm@2.4.65-2.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libffi@3.0.5-3.2.el6",
+                  "pkgId": "libffi@3.0.5-3.2.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libgcc@4.4.7-23.el6",
+                  "pkgId": "libgcc@4.4.7-23.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libgcrypt@1.4.5-12.el6_8",
+                  "pkgId": "libgcrypt@1.4.5-12.el6_8",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libgomp@4.4.7-23.el6",
+                  "pkgId": "libgomp@4.4.7-23.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libgpg-error@1.7-4.el6",
+                  "pkgId": "libgpg-error@1.7-4.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libidn@1.18-2.el6",
+                  "pkgId": "libidn@1.18-2.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libnih@1.0.1-8.el6",
+                  "pkgId": "libnih@1.0.1-8.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libpcap@14:1.4.0-4.20130826git2dbcaa1.el6",
+                  "pkgId": "libpcap@14:1.4.0-4.20130826git2dbcaa1.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libpciaccess@0.13.4-1.el6",
+                  "pkgId": "libpciaccess@0.13.4-1.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libselinux@2.0.94-7.el6",
+                  "pkgId": "libselinux@2.0.94-7.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libselinux-utils@2.0.94-7.el6",
+                  "pkgId": "libselinux-utils@2.0.94-7.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libsemanage@2.0.43-5.1.el6",
+                  "pkgId": "libsemanage@2.0.43-5.1.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libsepol@2.0.41-4.el6",
+                  "pkgId": "libsepol@2.0.41-4.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libssh2@1.4.2-2.el6_7.1",
+                  "pkgId": "libssh2@1.4.2-2.el6_7.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libstdc++@4.4.7-23.el6",
+                  "pkgId": "libstdc++@4.4.7-23.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libtasn1@2.3-6.el6_5",
+                  "pkgId": "libtasn1@2.3-6.el6_5",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libusb@0.1.12-23.el6",
+                  "pkgId": "libusb@0.1.12-23.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libuser@0.56.13-8.el6_7",
+                  "pkgId": "libuser@0.56.13-8.el6_7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libutempter@1.1.5-4.1.el6",
+                  "pkgId": "libutempter@1.1.5-4.1.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libuuid@2.17.2-12.28.el6_9.2",
+                  "pkgId": "libuuid@2.17.2-12.28.el6_9.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libxml2@2.7.6-21.el6_8.1",
+                  "pkgId": "libxml2@2.7.6-21.el6_8.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "logrotate@3.7.8-28.el6",
+                  "pkgId": "logrotate@3.7.8-28.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "lsof@4.82-5.el6",
+                  "pkgId": "lsof@4.82-5.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "lua@5.1.4-4.1.el6",
+                  "pkgId": "lua@5.1.4-4.1.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "m4@1.4.13-5.el6",
+                  "pkgId": "m4@1.4.13-5.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "mailx@12.4-10.el6_10",
+                  "pkgId": "mailx@12.4-10.el6_10",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "make@1:3.81-23.el6",
+                  "pkgId": "make@1:3.81-23.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "man@1.6f-39.el6",
+                  "pkgId": "man@1.6f-39.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "mingetty@1.08-5.el6",
+                  "pkgId": "mingetty@1.08-5.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "module-init-tools@3.9-26.el6",
+                  "pkgId": "module-init-tools@3.9-26.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "mysql-libs@5.1.73-8.el6_8",
+                  "pkgId": "mysql-libs@5.1.73-8.el6_8",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "nc@1.84-24.el6",
+                  "pkgId": "nc@1.84-24.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "ncurses@5.7-4.20090207.el6",
+                  "pkgId": "ncurses@5.7-4.20090207.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "ncurses-base@5.7-4.20090207.el6",
+                  "pkgId": "ncurses-base@5.7-4.20090207.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "ncurses-libs@5.7-4.20090207.el6",
+                  "pkgId": "ncurses-libs@5.7-4.20090207.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "net-tools@1.60-114.el6",
+                  "pkgId": "net-tools@1.60-114.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "nmap@2:5.51-6.el6",
+                  "pkgId": "nmap@2:5.51-6.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "nspr@4.19.0-1.el6",
+                  "pkgId": "nspr@4.19.0-1.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "nss@3.36.0-8.el6",
+                  "pkgId": "nss@3.36.0-8.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "nss-softokn@3.14.3-23.3.el6_8",
+                  "pkgId": "nss-softokn@3.14.3-23.3.el6_8",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "nss-softokn-freebl@3.14.3-23.3.el6_8",
+                  "pkgId": "nss-softokn-freebl@3.14.3-23.3.el6_8",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "nss-sysinit@3.36.0-8.el6",
+                  "pkgId": "nss-sysinit@3.36.0-8.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "nss-tools@3.36.0-8.el6",
+                  "pkgId": "nss-tools@3.36.0-8.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "nss-util@3.36.0-1.el6",
+                  "pkgId": "nss-util@3.36.0-1.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "openldap@2.4.40-16.el6",
+                  "pkgId": "openldap@2.4.40-16.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "openssl@1.0.1e-58.el6_10",
+                  "pkgId": "openssl@1.0.1e-58.el6_10",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "p11-kit@0.18.5-2.el6_5.2",
+                  "pkgId": "p11-kit@0.18.5-2.el6_5.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "p11-kit-trust@0.18.5-2.el6_5.2",
+                  "pkgId": "p11-kit-trust@0.18.5-2.el6_5.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pam@1.1.1-24.el6",
+                  "pkgId": "pam@1.1.1-24.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "passwd@0.77-7.el6",
+                  "pkgId": "passwd@0.77-7.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "patch@2.6-8.el6_9",
+                  "pkgId": "patch@2.6-8.el6_9",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pax@3.4-10.1.el6",
+                  "pkgId": "pax@3.4-10.1.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pcre@7.8-7.el6",
+                  "pkgId": "pcre@7.8-7.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "perl@4:5.10.1-144.el6",
+                  "pkgId": "perl@4:5.10.1-144.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "perl-CGI@3.51-144.el6",
+                  "pkgId": "perl-CGI@3.51-144.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "perl-ExtUtils-MakeMaker@6.55-144.el6",
+                  "pkgId": "perl-ExtUtils-MakeMaker@6.55-144.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "perl-ExtUtils-ParseXS@1:2.2003.0-144.el6",
+                  "pkgId": "perl-ExtUtils-ParseXS@1:2.2003.0-144.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "perl-Module-Pluggable@1:3.90-144.el6",
+                  "pkgId": "perl-Module-Pluggable@1:3.90-144.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "perl-Pod-Escapes@1:1.04-144.el6",
+                  "pkgId": "perl-Pod-Escapes@1:1.04-144.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "perl-Pod-Simple@1:3.13-144.el6",
+                  "pkgId": "perl-Pod-Simple@1:3.13-144.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "perl-Test-Harness@3.17-144.el6",
+                  "pkgId": "perl-Test-Harness@3.17-144.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "perl-Test-Simple@0.92-144.el6",
+                  "pkgId": "perl-Test-Simple@0.92-144.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "perl-devel@4:5.10.1-144.el6",
+                  "pkgId": "perl-devel@4:5.10.1-144.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "perl-libs@4:5.10.1-144.el6",
+                  "pkgId": "perl-libs@4:5.10.1-144.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "perl-version@3:0.77-144.el6",
+                  "pkgId": "perl-version@3:0.77-144.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pinentry@0.7.6-8.el6",
+                  "pkgId": "pinentry@0.7.6-8.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pkgconfig@1:0.23-9.1.el6",
+                  "pkgId": "pkgconfig@1:0.23-9.1.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "plymouth@0.8.3-29.el6.centos",
+                  "pkgId": "plymouth@0.8.3-29.el6.centos",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "plymouth-core-libs@0.8.3-29.el6.centos",
+                  "pkgId": "plymouth-core-libs@0.8.3-29.el6.centos",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "plymouth-scripts@0.8.3-29.el6.centos",
+                  "pkgId": "plymouth-scripts@0.8.3-29.el6.centos",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "policycoreutils@2.0.83-30.1.el6_8",
+                  "pkgId": "policycoreutils@2.0.83-30.1.el6_8",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "popt@1.13-7.el6",
+                  "pkgId": "popt@1.13-7.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "postfix@2:2.6.6-8.el6",
+                  "pkgId": "postfix@2:2.6.6-8.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "procps@3.2.8-45.el6_9.3",
+                  "pkgId": "procps@3.2.8-45.el6_9.3",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "psmisc@22.6-24.el6",
+                  "pkgId": "psmisc@22.6-24.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pth@2.0.7-9.3.el6",
+                  "pkgId": "pth@2.0.7-9.3.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pygpgme@0.1-18.20090824bzr68.el6",
+                  "pkgId": "pygpgme@0.1-18.20090824bzr68.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "python@2.6.6-66.el6_8",
+                  "pkgId": "python@2.6.6-66.el6_8",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "python-iniparse@0.3.1-2.1.el6",
+                  "pkgId": "python-iniparse@0.3.1-2.1.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "python-libs@2.6.6-66.el6_8",
+                  "pkgId": "python-libs@2.6.6-66.el6_8",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "python-pycurl@7.19.0-9.el6",
+                  "pkgId": "python-pycurl@7.19.0-9.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "python-urlgrabber@3.9.1-11.el6",
+                  "pkgId": "python-urlgrabber@3.9.1-11.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "readline@6.0-4.el6",
+                  "pkgId": "readline@6.0-4.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "redhat-logos@60.0.14-12.el6.centos",
+                  "pkgId": "redhat-logos@60.0.14-12.el6.centos",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "redhat-lsb-core@4.0-7.el6.centos",
+                  "pkgId": "redhat-lsb-core@4.0-7.el6.centos",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "rootfiles@8.1-6.1.el6",
+                  "pkgId": "rootfiles@8.1-6.1.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "rpm@4.8.0-59.el6",
+                  "pkgId": "rpm@4.8.0-59.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "rpm-libs@4.8.0-59.el6",
+                  "pkgId": "rpm-libs@4.8.0-59.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "rpm-python@4.8.0-59.el6",
+                  "pkgId": "rpm-python@4.8.0-59.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "rsyslog@5.8.10-12.el6",
+                  "pkgId": "rsyslog@5.8.10-12.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "sed@4.2.1-10.el6",
+                  "pkgId": "sed@4.2.1-10.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "setup@2.8.14-23.el6",
+                  "pkgId": "setup@2.8.14-23.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "shadow-utils@2:4.1.5.1-5.el6",
+                  "pkgId": "shadow-utils@2:4.1.5.1-5.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "shared-mime-info@0.70-6.el6",
+                  "pkgId": "shared-mime-info@0.70-6.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "sqlite@3.6.20-1.el6_7.2",
+                  "pkgId": "sqlite@3.6.20-1.el6_7.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "strace@4.8-11.el6",
+                  "pkgId": "strace@4.8-11.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "sudo@1.8.6p3-29.el6_10.3",
+                  "pkgId": "sudo@1.8.6p3-29.el6_10.3",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "sysvinit-tools@2.87-6.dsf.el6",
+                  "pkgId": "sysvinit-tools@2.87-6.dsf.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "tar@2:1.23-15.el6_8",
+                  "pkgId": "tar@2:1.23-15.el6_8",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "tcpdump@14:4.0.0-11.20090921gitdf3cb4.2.el6",
+                  "pkgId": "tcpdump@14:4.0.0-11.20090921gitdf3cb4.2.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "telnet@1:0.17-49.el6_10",
+                  "pkgId": "telnet@1:0.17-49.el6_10",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "time@1.7-38.el6",
+                  "pkgId": "time@1.7-38.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "tzdata@2018e-3.el6",
+                  "pkgId": "tzdata@2018e-3.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "udev@147-2.74.el6_10",
+                  "pkgId": "udev@147-2.74.el6_10",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "upstart@0.6.5-17.el6",
+                  "pkgId": "upstart@0.6.5-17.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "ustr@1.0.4-9.1.el6",
+                  "pkgId": "ustr@1.0.4-9.1.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "util-linux-ng@2.17.2-12.28.el6_9.2",
+                  "pkgId": "util-linux-ng@2.17.2-12.28.el6_9.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "vim-minimal@2:7.4.629-5.el6_10.2",
+                  "pkgId": "vim-minimal@2:7.4.629-5.el6_10.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "wget@1.12-10.el6",
+                  "pkgId": "wget@1.12-10.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "which@2.19-6.el6",
+                  "pkgId": "which@2.19-6.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "xz@4.999.9-0.5.beta.20091007git.el6",
+                  "pkgId": "xz@4.999.9-0.5.beta.20091007git.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "xz-libs@4.999.9-0.5.beta.20091007git.el6",
+                  "pkgId": "xz-libs@4.999.9-0.5.beta.20091007git.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "xz-lzma-compat@4.999.9-0.5.beta.20091007git.el6",
+                  "pkgId": "xz-lzma-compat@4.999.9-0.5.beta.20091007git.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "yum@3.2.29-81.el6.centos",
+                  "pkgId": "yum@3.2.29-81.el6.centos",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "yum-metadata-parser@1.1.2-16.el6",
+                  "pkgId": "yum-metadata-parser@1.1.2-16.el6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "yum-plugin-fastestmirror@1.1.30-42.el6_10",
+                  "pkgId": "yum-plugin-fastestmirror@1.1.30-42.el6_10",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "yum-plugin-ovl@1.1.30-42.el6_10",
+                  "pkgId": "yum-plugin-ovl@1.1.30-42.el6_10",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "zlib@1.2.3-29.el6",
+                  "pkgId": "zlib@1.2.3-29.el6",
+                },
+              ],
+              "rootNodeId": "root-node",
+            },
+            "pkgManager": Object {
+              "name": "rpm",
+              "repositories": Array [
+                Object {
+                  "alias": "centos:6",
+                },
+              ],
+            },
+            "pkgs": Array [
+              Object {
+                "id": "docker-image|dokken/centos-6@",
+                "info": Object {
+                  "name": "docker-image|dokken/centos-6",
+                  "version": undefined,
+                },
+              },
+              Object {
+                "id": "MAKEDEV@3.24-6.el6",
+                "info": Object {
+                  "name": "MAKEDEV",
+                  "version": "3.24-6.el6",
+                },
+              },
+              Object {
+                "id": "at@3.1.10-49.el6",
+                "info": Object {
+                  "name": "at",
+                  "version": "3.1.10-49.el6",
+                },
+              },
+              Object {
+                "id": "audit-libs@2.4.5-6.el6",
+                "info": Object {
+                  "name": "audit-libs",
+                  "version": "2.4.5-6.el6",
+                },
+              },
+              Object {
+                "id": "basesystem@10.0-4.el6",
+                "info": Object {
+                  "name": "basesystem",
+                  "version": "10.0-4.el6",
+                },
+              },
+              Object {
+                "id": "bash@4.1.2-48.el6",
+                "info": Object {
+                  "name": "bash",
+                  "version": "4.1.2-48.el6",
+                },
+              },
+              Object {
+                "id": "bc@1.06.95-1.el6",
+                "info": Object {
+                  "name": "bc",
+                  "version": "1.06.95-1.el6",
+                },
+              },
+              Object {
+                "id": "bind-libs@32:9.8.2-0.68.rc1.el6_10.1",
+                "info": Object {
+                  "name": "bind-libs",
+                  "version": "32:9.8.2-0.68.rc1.el6_10.1",
+                },
+              },
+              Object {
+                "id": "bind-utils@32:9.8.2-0.68.rc1.el6_10.1",
+                "info": Object {
+                  "name": "bind-utils",
+                  "version": "32:9.8.2-0.68.rc1.el6_10.1",
+                },
+              },
+              Object {
+                "id": "binutils@2.20.51.0.2-5.48.el6",
+                "info": Object {
+                  "name": "binutils",
+                  "version": "2.20.51.0.2-5.48.el6",
+                },
+              },
+              Object {
+                "id": "bzip2@1.0.5-7.el6_0",
+                "info": Object {
+                  "name": "bzip2",
+                  "version": "1.0.5-7.el6_0",
+                },
+              },
+              Object {
+                "id": "bzip2-libs@1.0.5-7.el6_0",
+                "info": Object {
+                  "name": "bzip2-libs",
+                  "version": "1.0.5-7.el6_0",
+                },
+              },
+              Object {
+                "id": "ca-certificates@2020.2.41-65.1.el6_10",
+                "info": Object {
+                  "name": "ca-certificates",
+                  "version": "2020.2.41-65.1.el6_10",
+                },
+              },
+              Object {
+                "id": "centos-release@6-10.el6.centos.12.3",
+                "info": Object {
+                  "name": "centos-release",
+                  "version": "6-10.el6.centos.12.3",
+                },
+              },
+              Object {
+                "id": "checkpolicy@2.0.22-1.el6",
+                "info": Object {
+                  "name": "checkpolicy",
+                  "version": "2.0.22-1.el6",
+                },
+              },
+              Object {
+                "id": "chkconfig@1.3.49.5-1.el6",
+                "info": Object {
+                  "name": "chkconfig",
+                  "version": "1.3.49.5-1.el6",
+                },
+              },
+              Object {
+                "id": "coreutils@8.4-47.el6",
+                "info": Object {
+                  "name": "coreutils",
+                  "version": "8.4-47.el6",
+                },
+              },
+              Object {
+                "id": "coreutils-libs@8.4-47.el6",
+                "info": Object {
+                  "name": "coreutils-libs",
+                  "version": "8.4-47.el6",
+                },
+              },
+              Object {
+                "id": "cpio@2.10-13.el6",
+                "info": Object {
+                  "name": "cpio",
+                  "version": "2.10-13.el6",
+                },
+              },
+              Object {
+                "id": "cracklib@2.8.16-4.el6",
+                "info": Object {
+                  "name": "cracklib",
+                  "version": "2.8.16-4.el6",
+                },
+              },
+              Object {
+                "id": "cracklib-dicts@2.8.16-4.el6",
+                "info": Object {
+                  "name": "cracklib-dicts",
+                  "version": "2.8.16-4.el6",
+                },
+              },
+              Object {
+                "id": "cronie@1.4.4-16.el6_8.2",
+                "info": Object {
+                  "name": "cronie",
+                  "version": "1.4.4-16.el6_8.2",
+                },
+              },
+              Object {
+                "id": "cronie-anacron@1.4.4-16.el6_8.2",
+                "info": Object {
+                  "name": "cronie-anacron",
+                  "version": "1.4.4-16.el6_8.2",
+                },
+              },
+              Object {
+                "id": "crontabs@1.10-33.el6",
+                "info": Object {
+                  "name": "crontabs",
+                  "version": "1.10-33.el6",
+                },
+              },
+              Object {
+                "id": "curl@7.19.7-54.el6_10",
+                "info": Object {
+                  "name": "curl",
+                  "version": "7.19.7-54.el6_10",
+                },
+              },
+              Object {
+                "id": "cvs@1.11.23-16.el6",
+                "info": Object {
+                  "name": "cvs",
+                  "version": "1.11.23-16.el6",
+                },
+              },
+              Object {
+                "id": "cyrus-sasl@2.1.23-15.el6_6.2",
+                "info": Object {
+                  "name": "cyrus-sasl",
+                  "version": "2.1.23-15.el6_6.2",
+                },
+              },
+              Object {
+                "id": "cyrus-sasl-lib@2.1.23-15.el6_6.2",
+                "info": Object {
+                  "name": "cyrus-sasl-lib",
+                  "version": "2.1.23-15.el6_6.2",
+                },
+              },
+              Object {
+                "id": "dash@0.5.5.1-4.el6",
+                "info": Object {
+                  "name": "dash",
+                  "version": "0.5.5.1-4.el6",
+                },
+              },
+              Object {
+                "id": "db4@4.7.25-22.el6",
+                "info": Object {
+                  "name": "db4",
+                  "version": "4.7.25-22.el6",
+                },
+              },
+              Object {
+                "id": "db4-cxx@4.7.25-22.el6",
+                "info": Object {
+                  "name": "db4-cxx",
+                  "version": "4.7.25-22.el6",
+                },
+              },
+              Object {
+                "id": "db4-devel@4.7.25-22.el6",
+                "info": Object {
+                  "name": "db4-devel",
+                  "version": "4.7.25-22.el6",
+                },
+              },
+              Object {
+                "id": "db4-utils@4.7.25-22.el6",
+                "info": Object {
+                  "name": "db4-utils",
+                  "version": "4.7.25-22.el6",
+                },
+              },
+              Object {
+                "id": "dbus-glib@0.86-6.el6",
+                "info": Object {
+                  "name": "dbus-glib",
+                  "version": "0.86-6.el6",
+                },
+              },
+              Object {
+                "id": "dbus-libs@1:1.2.24-9.el6",
+                "info": Object {
+                  "name": "dbus-libs",
+                  "version": "1:1.2.24-9.el6",
+                },
+              },
+              Object {
+                "id": "diffutils@2.8.1-28.el6",
+                "info": Object {
+                  "name": "diffutils",
+                  "version": "2.8.1-28.el6",
+                },
+              },
+              Object {
+                "id": "dmidecode@1:2.12-7.el6",
+                "info": Object {
+                  "name": "dmidecode",
+                  "version": "1:2.12-7.el6",
+                },
+              },
+              Object {
+                "id": "ed@1.1-3.3.el6",
+                "info": Object {
+                  "name": "ed",
+                  "version": "1.1-3.3.el6",
+                },
+              },
+              Object {
+                "id": "elfutils-libelf@0.164-2.el6",
+                "info": Object {
+                  "name": "elfutils-libelf",
+                  "version": "0.164-2.el6",
+                },
+              },
+              Object {
+                "id": "ethtool@2:3.5-6.el6",
+                "info": Object {
+                  "name": "ethtool",
+                  "version": "2:3.5-6.el6",
+                },
+              },
+              Object {
+                "id": "expat@2.0.1-13.el6_8",
+                "info": Object {
+                  "name": "expat",
+                  "version": "2.0.1-13.el6_8",
+                },
+              },
+              Object {
+                "id": "file@5.04-30.el6",
+                "info": Object {
+                  "name": "file",
+                  "version": "5.04-30.el6",
+                },
+              },
+              Object {
+                "id": "file-libs@5.04-30.el6",
+                "info": Object {
+                  "name": "file-libs",
+                  "version": "5.04-30.el6",
+                },
+              },
+              Object {
+                "id": "filesystem@2.4.30-3.el6",
+                "info": Object {
+                  "name": "filesystem",
+                  "version": "2.4.30-3.el6",
+                },
+              },
+              Object {
+                "id": "findutils@1:4.4.2-9.el6",
+                "info": Object {
+                  "name": "findutils",
+                  "version": "1:4.4.2-9.el6",
+                },
+              },
+              Object {
+                "id": "gamin@0.1.10-9.el6",
+                "info": Object {
+                  "name": "gamin",
+                  "version": "0.1.10-9.el6",
+                },
+              },
+              Object {
+                "id": "gawk@3.1.7-10.el6_7.3",
+                "info": Object {
+                  "name": "gawk",
+                  "version": "3.1.7-10.el6_7.3",
+                },
+              },
+              Object {
+                "id": "gdbm@1.8.0-39.el6",
+                "info": Object {
+                  "name": "gdbm",
+                  "version": "1.8.0-39.el6",
+                },
+              },
+              Object {
+                "id": "gdbm-devel@1.8.0-39.el6",
+                "info": Object {
+                  "name": "gdbm-devel",
+                  "version": "1.8.0-39.el6",
+                },
+              },
+              Object {
+                "id": "gettext@0.17-18.el6",
+                "info": Object {
+                  "name": "gettext",
+                  "version": "0.17-18.el6",
+                },
+              },
+              Object {
+                "id": "glib2@2.28.8-10.el6",
+                "info": Object {
+                  "name": "glib2",
+                  "version": "2.28.8-10.el6",
+                },
+              },
+              Object {
+                "id": "glibc@2.12-1.212.el6_10.3",
+                "info": Object {
+                  "name": "glibc",
+                  "version": "2.12-1.212.el6_10.3",
+                },
+              },
+              Object {
+                "id": "glibc-common@2.12-1.212.el6_10.3",
+                "info": Object {
+                  "name": "glibc-common",
+                  "version": "2.12-1.212.el6_10.3",
+                },
+              },
+              Object {
+                "id": "glibc-devel@2.12-1.212.el6_10.3",
+                "info": Object {
+                  "name": "glibc-devel",
+                  "version": "2.12-1.212.el6_10.3",
+                },
+              },
+              Object {
+                "id": "glibc-headers@2.12-1.212.el6_10.3",
+                "info": Object {
+                  "name": "glibc-headers",
+                  "version": "2.12-1.212.el6_10.3",
+                },
+              },
+              Object {
+                "id": "gmp@4.3.1-13.el6",
+                "info": Object {
+                  "name": "gmp",
+                  "version": "4.3.1-13.el6",
+                },
+              },
+              Object {
+                "id": "gnupg2@2.0.14-9.el6_10",
+                "info": Object {
+                  "name": "gnupg2",
+                  "version": "2.0.14-9.el6_10",
+                },
+              },
+              Object {
+                "id": "gpg-pubkey@c105b9de-4e0fd3a3",
+                "info": Object {
+                  "name": "gpg-pubkey",
+                  "version": "c105b9de-4e0fd3a3",
+                },
+              },
+              Object {
+                "id": "gpgme@1.1.8-3.el6",
+                "info": Object {
+                  "name": "gpgme",
+                  "version": "1.1.8-3.el6",
+                },
+              },
+              Object {
+                "id": "grep@2.20-6.el6",
+                "info": Object {
+                  "name": "grep",
+                  "version": "2.20-6.el6",
+                },
+              },
+              Object {
+                "id": "groff@1.18.1.4-21.el6",
+                "info": Object {
+                  "name": "groff",
+                  "version": "1.18.1.4-21.el6",
+                },
+              },
+              Object {
+                "id": "gzip@1.3.12-24.el6",
+                "info": Object {
+                  "name": "gzip",
+                  "version": "1.3.12-24.el6",
+                },
+              },
+              Object {
+                "id": "hwdata@0.233-20.1.el6",
+                "info": Object {
+                  "name": "hwdata",
+                  "version": "0.233-20.1.el6",
+                },
+              },
+              Object {
+                "id": "info@4.13a-8.el6",
+                "info": Object {
+                  "name": "info",
+                  "version": "4.13a-8.el6",
+                },
+              },
+              Object {
+                "id": "initscripts@9.03.61-1.el6.centos",
+                "info": Object {
+                  "name": "initscripts",
+                  "version": "9.03.61-1.el6.centos",
+                },
+              },
+              Object {
+                "id": "iproute@2.6.32-57.el6",
+                "info": Object {
+                  "name": "iproute",
+                  "version": "2.6.32-57.el6",
+                },
+              },
+              Object {
+                "id": "iptables@1.4.7-19.el6",
+                "info": Object {
+                  "name": "iptables",
+                  "version": "1.4.7-19.el6",
+                },
+              },
+              Object {
+                "id": "iputils@20071127-24.el6",
+                "info": Object {
+                  "name": "iputils",
+                  "version": "20071127-24.el6",
+                },
+              },
+              Object {
+                "id": "kernel-headers@2.6.32-754.35.1.el6",
+                "info": Object {
+                  "name": "kernel-headers",
+                  "version": "2.6.32-754.35.1.el6",
+                },
+              },
+              Object {
+                "id": "keyutils-libs@1.4-5.el6",
+                "info": Object {
+                  "name": "keyutils-libs",
+                  "version": "1.4-5.el6",
+                },
+              },
+              Object {
+                "id": "krb5-libs@1.10.3-65.el6",
+                "info": Object {
+                  "name": "krb5-libs",
+                  "version": "1.10.3-65.el6",
+                },
+              },
+              Object {
+                "id": "less@436-13.el6",
+                "info": Object {
+                  "name": "less",
+                  "version": "436-13.el6",
+                },
+              },
+              Object {
+                "id": "libacl@2.2.49-7.el6_9.1",
+                "info": Object {
+                  "name": "libacl",
+                  "version": "2.2.49-7.el6_9.1",
+                },
+              },
+              Object {
+                "id": "libattr@2.4.44-7.el6",
+                "info": Object {
+                  "name": "libattr",
+                  "version": "2.4.44-7.el6",
+                },
+              },
+              Object {
+                "id": "libblkid@2.17.2-12.28.el6_9.2",
+                "info": Object {
+                  "name": "libblkid",
+                  "version": "2.17.2-12.28.el6_9.2",
+                },
+              },
+              Object {
+                "id": "libcap@2.16-5.5.el6",
+                "info": Object {
+                  "name": "libcap",
+                  "version": "2.16-5.5.el6",
+                },
+              },
+              Object {
+                "id": "libcom_err@1.41.12-24.el6",
+                "info": Object {
+                  "name": "libcom_err",
+                  "version": "1.41.12-24.el6",
+                },
+              },
+              Object {
+                "id": "libcurl@7.19.7-54.el6_10",
+                "info": Object {
+                  "name": "libcurl",
+                  "version": "7.19.7-54.el6_10",
+                },
+              },
+              Object {
+                "id": "libdrm@2.4.65-2.el6",
+                "info": Object {
+                  "name": "libdrm",
+                  "version": "2.4.65-2.el6",
+                },
+              },
+              Object {
+                "id": "libffi@3.0.5-3.2.el6",
+                "info": Object {
+                  "name": "libffi",
+                  "version": "3.0.5-3.2.el6",
+                },
+              },
+              Object {
+                "id": "libgcc@4.4.7-23.el6",
+                "info": Object {
+                  "name": "libgcc",
+                  "version": "4.4.7-23.el6",
+                },
+              },
+              Object {
+                "id": "libgcrypt@1.4.5-12.el6_8",
+                "info": Object {
+                  "name": "libgcrypt",
+                  "version": "1.4.5-12.el6_8",
+                },
+              },
+              Object {
+                "id": "libgomp@4.4.7-23.el6",
+                "info": Object {
+                  "name": "libgomp",
+                  "version": "4.4.7-23.el6",
+                },
+              },
+              Object {
+                "id": "libgpg-error@1.7-4.el6",
+                "info": Object {
+                  "name": "libgpg-error",
+                  "version": "1.7-4.el6",
+                },
+              },
+              Object {
+                "id": "libidn@1.18-2.el6",
+                "info": Object {
+                  "name": "libidn",
+                  "version": "1.18-2.el6",
+                },
+              },
+              Object {
+                "id": "libnih@1.0.1-8.el6",
+                "info": Object {
+                  "name": "libnih",
+                  "version": "1.0.1-8.el6",
+                },
+              },
+              Object {
+                "id": "libpcap@14:1.4.0-4.20130826git2dbcaa1.el6",
+                "info": Object {
+                  "name": "libpcap",
+                  "version": "14:1.4.0-4.20130826git2dbcaa1.el6",
+                },
+              },
+              Object {
+                "id": "libpciaccess@0.13.4-1.el6",
+                "info": Object {
+                  "name": "libpciaccess",
+                  "version": "0.13.4-1.el6",
+                },
+              },
+              Object {
+                "id": "libselinux@2.0.94-7.el6",
+                "info": Object {
+                  "name": "libselinux",
+                  "version": "2.0.94-7.el6",
+                },
+              },
+              Object {
+                "id": "libselinux-utils@2.0.94-7.el6",
+                "info": Object {
+                  "name": "libselinux-utils",
+                  "version": "2.0.94-7.el6",
+                },
+              },
+              Object {
+                "id": "libsemanage@2.0.43-5.1.el6",
+                "info": Object {
+                  "name": "libsemanage",
+                  "version": "2.0.43-5.1.el6",
+                },
+              },
+              Object {
+                "id": "libsepol@2.0.41-4.el6",
+                "info": Object {
+                  "name": "libsepol",
+                  "version": "2.0.41-4.el6",
+                },
+              },
+              Object {
+                "id": "libssh2@1.4.2-2.el6_7.1",
+                "info": Object {
+                  "name": "libssh2",
+                  "version": "1.4.2-2.el6_7.1",
+                },
+              },
+              Object {
+                "id": "libstdc++@4.4.7-23.el6",
+                "info": Object {
+                  "name": "libstdc++",
+                  "version": "4.4.7-23.el6",
+                },
+              },
+              Object {
+                "id": "libtasn1@2.3-6.el6_5",
+                "info": Object {
+                  "name": "libtasn1",
+                  "version": "2.3-6.el6_5",
+                },
+              },
+              Object {
+                "id": "libusb@0.1.12-23.el6",
+                "info": Object {
+                  "name": "libusb",
+                  "version": "0.1.12-23.el6",
+                },
+              },
+              Object {
+                "id": "libuser@0.56.13-8.el6_7",
+                "info": Object {
+                  "name": "libuser",
+                  "version": "0.56.13-8.el6_7",
+                },
+              },
+              Object {
+                "id": "libutempter@1.1.5-4.1.el6",
+                "info": Object {
+                  "name": "libutempter",
+                  "version": "1.1.5-4.1.el6",
+                },
+              },
+              Object {
+                "id": "libuuid@2.17.2-12.28.el6_9.2",
+                "info": Object {
+                  "name": "libuuid",
+                  "version": "2.17.2-12.28.el6_9.2",
+                },
+              },
+              Object {
+                "id": "libxml2@2.7.6-21.el6_8.1",
+                "info": Object {
+                  "name": "libxml2",
+                  "version": "2.7.6-21.el6_8.1",
+                },
+              },
+              Object {
+                "id": "logrotate@3.7.8-28.el6",
+                "info": Object {
+                  "name": "logrotate",
+                  "version": "3.7.8-28.el6",
+                },
+              },
+              Object {
+                "id": "lsof@4.82-5.el6",
+                "info": Object {
+                  "name": "lsof",
+                  "version": "4.82-5.el6",
+                },
+              },
+              Object {
+                "id": "lua@5.1.4-4.1.el6",
+                "info": Object {
+                  "name": "lua",
+                  "version": "5.1.4-4.1.el6",
+                },
+              },
+              Object {
+                "id": "m4@1.4.13-5.el6",
+                "info": Object {
+                  "name": "m4",
+                  "version": "1.4.13-5.el6",
+                },
+              },
+              Object {
+                "id": "mailx@12.4-10.el6_10",
+                "info": Object {
+                  "name": "mailx",
+                  "version": "12.4-10.el6_10",
+                },
+              },
+              Object {
+                "id": "make@1:3.81-23.el6",
+                "info": Object {
+                  "name": "make",
+                  "version": "1:3.81-23.el6",
+                },
+              },
+              Object {
+                "id": "man@1.6f-39.el6",
+                "info": Object {
+                  "name": "man",
+                  "version": "1.6f-39.el6",
+                },
+              },
+              Object {
+                "id": "mingetty@1.08-5.el6",
+                "info": Object {
+                  "name": "mingetty",
+                  "version": "1.08-5.el6",
+                },
+              },
+              Object {
+                "id": "module-init-tools@3.9-26.el6",
+                "info": Object {
+                  "name": "module-init-tools",
+                  "version": "3.9-26.el6",
+                },
+              },
+              Object {
+                "id": "mysql-libs@5.1.73-8.el6_8",
+                "info": Object {
+                  "name": "mysql-libs",
+                  "version": "5.1.73-8.el6_8",
+                },
+              },
+              Object {
+                "id": "nc@1.84-24.el6",
+                "info": Object {
+                  "name": "nc",
+                  "version": "1.84-24.el6",
+                },
+              },
+              Object {
+                "id": "ncurses@5.7-4.20090207.el6",
+                "info": Object {
+                  "name": "ncurses",
+                  "version": "5.7-4.20090207.el6",
+                },
+              },
+              Object {
+                "id": "ncurses-base@5.7-4.20090207.el6",
+                "info": Object {
+                  "name": "ncurses-base",
+                  "version": "5.7-4.20090207.el6",
+                },
+              },
+              Object {
+                "id": "ncurses-libs@5.7-4.20090207.el6",
+                "info": Object {
+                  "name": "ncurses-libs",
+                  "version": "5.7-4.20090207.el6",
+                },
+              },
+              Object {
+                "id": "net-tools@1.60-114.el6",
+                "info": Object {
+                  "name": "net-tools",
+                  "version": "1.60-114.el6",
+                },
+              },
+              Object {
+                "id": "nmap@2:5.51-6.el6",
+                "info": Object {
+                  "name": "nmap",
+                  "version": "2:5.51-6.el6",
+                },
+              },
+              Object {
+                "id": "nspr@4.19.0-1.el6",
+                "info": Object {
+                  "name": "nspr",
+                  "version": "4.19.0-1.el6",
+                },
+              },
+              Object {
+                "id": "nss@3.36.0-8.el6",
+                "info": Object {
+                  "name": "nss",
+                  "version": "3.36.0-8.el6",
+                },
+              },
+              Object {
+                "id": "nss-softokn@3.14.3-23.3.el6_8",
+                "info": Object {
+                  "name": "nss-softokn",
+                  "version": "3.14.3-23.3.el6_8",
+                },
+              },
+              Object {
+                "id": "nss-softokn-freebl@3.14.3-23.3.el6_8",
+                "info": Object {
+                  "name": "nss-softokn-freebl",
+                  "version": "3.14.3-23.3.el6_8",
+                },
+              },
+              Object {
+                "id": "nss-sysinit@3.36.0-8.el6",
+                "info": Object {
+                  "name": "nss-sysinit",
+                  "version": "3.36.0-8.el6",
+                },
+              },
+              Object {
+                "id": "nss-tools@3.36.0-8.el6",
+                "info": Object {
+                  "name": "nss-tools",
+                  "version": "3.36.0-8.el6",
+                },
+              },
+              Object {
+                "id": "nss-util@3.36.0-1.el6",
+                "info": Object {
+                  "name": "nss-util",
+                  "version": "3.36.0-1.el6",
+                },
+              },
+              Object {
+                "id": "openldap@2.4.40-16.el6",
+                "info": Object {
+                  "name": "openldap",
+                  "version": "2.4.40-16.el6",
+                },
+              },
+              Object {
+                "id": "openssl@1.0.1e-58.el6_10",
+                "info": Object {
+                  "name": "openssl",
+                  "version": "1.0.1e-58.el6_10",
+                },
+              },
+              Object {
+                "id": "p11-kit@0.18.5-2.el6_5.2",
+                "info": Object {
+                  "name": "p11-kit",
+                  "version": "0.18.5-2.el6_5.2",
+                },
+              },
+              Object {
+                "id": "p11-kit-trust@0.18.5-2.el6_5.2",
+                "info": Object {
+                  "name": "p11-kit-trust",
+                  "version": "0.18.5-2.el6_5.2",
+                },
+              },
+              Object {
+                "id": "pam@1.1.1-24.el6",
+                "info": Object {
+                  "name": "pam",
+                  "version": "1.1.1-24.el6",
+                },
+              },
+              Object {
+                "id": "passwd@0.77-7.el6",
+                "info": Object {
+                  "name": "passwd",
+                  "version": "0.77-7.el6",
+                },
+              },
+              Object {
+                "id": "patch@2.6-8.el6_9",
+                "info": Object {
+                  "name": "patch",
+                  "version": "2.6-8.el6_9",
+                },
+              },
+              Object {
+                "id": "pax@3.4-10.1.el6",
+                "info": Object {
+                  "name": "pax",
+                  "version": "3.4-10.1.el6",
+                },
+              },
+              Object {
+                "id": "pcre@7.8-7.el6",
+                "info": Object {
+                  "name": "pcre",
+                  "version": "7.8-7.el6",
+                },
+              },
+              Object {
+                "id": "perl@4:5.10.1-144.el6",
+                "info": Object {
+                  "name": "perl",
+                  "version": "4:5.10.1-144.el6",
+                },
+              },
+              Object {
+                "id": "perl-CGI@3.51-144.el6",
+                "info": Object {
+                  "name": "perl-CGI",
+                  "version": "3.51-144.el6",
+                },
+              },
+              Object {
+                "id": "perl-ExtUtils-MakeMaker@6.55-144.el6",
+                "info": Object {
+                  "name": "perl-ExtUtils-MakeMaker",
+                  "version": "6.55-144.el6",
+                },
+              },
+              Object {
+                "id": "perl-ExtUtils-ParseXS@1:2.2003.0-144.el6",
+                "info": Object {
+                  "name": "perl-ExtUtils-ParseXS",
+                  "version": "1:2.2003.0-144.el6",
+                },
+              },
+              Object {
+                "id": "perl-Module-Pluggable@1:3.90-144.el6",
+                "info": Object {
+                  "name": "perl-Module-Pluggable",
+                  "version": "1:3.90-144.el6",
+                },
+              },
+              Object {
+                "id": "perl-Pod-Escapes@1:1.04-144.el6",
+                "info": Object {
+                  "name": "perl-Pod-Escapes",
+                  "version": "1:1.04-144.el6",
+                },
+              },
+              Object {
+                "id": "perl-Pod-Simple@1:3.13-144.el6",
+                "info": Object {
+                  "name": "perl-Pod-Simple",
+                  "version": "1:3.13-144.el6",
+                },
+              },
+              Object {
+                "id": "perl-Test-Harness@3.17-144.el6",
+                "info": Object {
+                  "name": "perl-Test-Harness",
+                  "version": "3.17-144.el6",
+                },
+              },
+              Object {
+                "id": "perl-Test-Simple@0.92-144.el6",
+                "info": Object {
+                  "name": "perl-Test-Simple",
+                  "version": "0.92-144.el6",
+                },
+              },
+              Object {
+                "id": "perl-devel@4:5.10.1-144.el6",
+                "info": Object {
+                  "name": "perl-devel",
+                  "version": "4:5.10.1-144.el6",
+                },
+              },
+              Object {
+                "id": "perl-libs@4:5.10.1-144.el6",
+                "info": Object {
+                  "name": "perl-libs",
+                  "version": "4:5.10.1-144.el6",
+                },
+              },
+              Object {
+                "id": "perl-version@3:0.77-144.el6",
+                "info": Object {
+                  "name": "perl-version",
+                  "version": "3:0.77-144.el6",
+                },
+              },
+              Object {
+                "id": "pinentry@0.7.6-8.el6",
+                "info": Object {
+                  "name": "pinentry",
+                  "version": "0.7.6-8.el6",
+                },
+              },
+              Object {
+                "id": "pkgconfig@1:0.23-9.1.el6",
+                "info": Object {
+                  "name": "pkgconfig",
+                  "version": "1:0.23-9.1.el6",
+                },
+              },
+              Object {
+                "id": "plymouth@0.8.3-29.el6.centos",
+                "info": Object {
+                  "name": "plymouth",
+                  "version": "0.8.3-29.el6.centos",
+                },
+              },
+              Object {
+                "id": "plymouth-core-libs@0.8.3-29.el6.centos",
+                "info": Object {
+                  "name": "plymouth-core-libs",
+                  "version": "0.8.3-29.el6.centos",
+                },
+              },
+              Object {
+                "id": "plymouth-scripts@0.8.3-29.el6.centos",
+                "info": Object {
+                  "name": "plymouth-scripts",
+                  "version": "0.8.3-29.el6.centos",
+                },
+              },
+              Object {
+                "id": "policycoreutils@2.0.83-30.1.el6_8",
+                "info": Object {
+                  "name": "policycoreutils",
+                  "version": "2.0.83-30.1.el6_8",
+                },
+              },
+              Object {
+                "id": "popt@1.13-7.el6",
+                "info": Object {
+                  "name": "popt",
+                  "version": "1.13-7.el6",
+                },
+              },
+              Object {
+                "id": "postfix@2:2.6.6-8.el6",
+                "info": Object {
+                  "name": "postfix",
+                  "version": "2:2.6.6-8.el6",
+                },
+              },
+              Object {
+                "id": "procps@3.2.8-45.el6_9.3",
+                "info": Object {
+                  "name": "procps",
+                  "version": "3.2.8-45.el6_9.3",
+                },
+              },
+              Object {
+                "id": "psmisc@22.6-24.el6",
+                "info": Object {
+                  "name": "psmisc",
+                  "version": "22.6-24.el6",
+                },
+              },
+              Object {
+                "id": "pth@2.0.7-9.3.el6",
+                "info": Object {
+                  "name": "pth",
+                  "version": "2.0.7-9.3.el6",
+                },
+              },
+              Object {
+                "id": "pygpgme@0.1-18.20090824bzr68.el6",
+                "info": Object {
+                  "name": "pygpgme",
+                  "version": "0.1-18.20090824bzr68.el6",
+                },
+              },
+              Object {
+                "id": "python@2.6.6-66.el6_8",
+                "info": Object {
+                  "name": "python",
+                  "version": "2.6.6-66.el6_8",
+                },
+              },
+              Object {
+                "id": "python-iniparse@0.3.1-2.1.el6",
+                "info": Object {
+                  "name": "python-iniparse",
+                  "version": "0.3.1-2.1.el6",
+                },
+              },
+              Object {
+                "id": "python-libs@2.6.6-66.el6_8",
+                "info": Object {
+                  "name": "python-libs",
+                  "version": "2.6.6-66.el6_8",
+                },
+              },
+              Object {
+                "id": "python-pycurl@7.19.0-9.el6",
+                "info": Object {
+                  "name": "python-pycurl",
+                  "version": "7.19.0-9.el6",
+                },
+              },
+              Object {
+                "id": "python-urlgrabber@3.9.1-11.el6",
+                "info": Object {
+                  "name": "python-urlgrabber",
+                  "version": "3.9.1-11.el6",
+                },
+              },
+              Object {
+                "id": "readline@6.0-4.el6",
+                "info": Object {
+                  "name": "readline",
+                  "version": "6.0-4.el6",
+                },
+              },
+              Object {
+                "id": "redhat-logos@60.0.14-12.el6.centos",
+                "info": Object {
+                  "name": "redhat-logos",
+                  "version": "60.0.14-12.el6.centos",
+                },
+              },
+              Object {
+                "id": "redhat-lsb-core@4.0-7.el6.centos",
+                "info": Object {
+                  "name": "redhat-lsb-core",
+                  "version": "4.0-7.el6.centos",
+                },
+              },
+              Object {
+                "id": "rootfiles@8.1-6.1.el6",
+                "info": Object {
+                  "name": "rootfiles",
+                  "version": "8.1-6.1.el6",
+                },
+              },
+              Object {
+                "id": "rpm@4.8.0-59.el6",
+                "info": Object {
+                  "name": "rpm",
+                  "version": "4.8.0-59.el6",
+                },
+              },
+              Object {
+                "id": "rpm-libs@4.8.0-59.el6",
+                "info": Object {
+                  "name": "rpm-libs",
+                  "version": "4.8.0-59.el6",
+                },
+              },
+              Object {
+                "id": "rpm-python@4.8.0-59.el6",
+                "info": Object {
+                  "name": "rpm-python",
+                  "version": "4.8.0-59.el6",
+                },
+              },
+              Object {
+                "id": "rsyslog@5.8.10-12.el6",
+                "info": Object {
+                  "name": "rsyslog",
+                  "version": "5.8.10-12.el6",
+                },
+              },
+              Object {
+                "id": "sed@4.2.1-10.el6",
+                "info": Object {
+                  "name": "sed",
+                  "version": "4.2.1-10.el6",
+                },
+              },
+              Object {
+                "id": "setup@2.8.14-23.el6",
+                "info": Object {
+                  "name": "setup",
+                  "version": "2.8.14-23.el6",
+                },
+              },
+              Object {
+                "id": "shadow-utils@2:4.1.5.1-5.el6",
+                "info": Object {
+                  "name": "shadow-utils",
+                  "version": "2:4.1.5.1-5.el6",
+                },
+              },
+              Object {
+                "id": "shared-mime-info@0.70-6.el6",
+                "info": Object {
+                  "name": "shared-mime-info",
+                  "version": "0.70-6.el6",
+                },
+              },
+              Object {
+                "id": "sqlite@3.6.20-1.el6_7.2",
+                "info": Object {
+                  "name": "sqlite",
+                  "version": "3.6.20-1.el6_7.2",
+                },
+              },
+              Object {
+                "id": "strace@4.8-11.el6",
+                "info": Object {
+                  "name": "strace",
+                  "version": "4.8-11.el6",
+                },
+              },
+              Object {
+                "id": "sudo@1.8.6p3-29.el6_10.3",
+                "info": Object {
+                  "name": "sudo",
+                  "version": "1.8.6p3-29.el6_10.3",
+                },
+              },
+              Object {
+                "id": "sysvinit-tools@2.87-6.dsf.el6",
+                "info": Object {
+                  "name": "sysvinit-tools",
+                  "version": "2.87-6.dsf.el6",
+                },
+              },
+              Object {
+                "id": "tar@2:1.23-15.el6_8",
+                "info": Object {
+                  "name": "tar",
+                  "version": "2:1.23-15.el6_8",
+                },
+              },
+              Object {
+                "id": "tcpdump@14:4.0.0-11.20090921gitdf3cb4.2.el6",
+                "info": Object {
+                  "name": "tcpdump",
+                  "version": "14:4.0.0-11.20090921gitdf3cb4.2.el6",
+                },
+              },
+              Object {
+                "id": "telnet@1:0.17-49.el6_10",
+                "info": Object {
+                  "name": "telnet",
+                  "version": "1:0.17-49.el6_10",
+                },
+              },
+              Object {
+                "id": "time@1.7-38.el6",
+                "info": Object {
+                  "name": "time",
+                  "version": "1.7-38.el6",
+                },
+              },
+              Object {
+                "id": "tzdata@2018e-3.el6",
+                "info": Object {
+                  "name": "tzdata",
+                  "version": "2018e-3.el6",
+                },
+              },
+              Object {
+                "id": "udev@147-2.74.el6_10",
+                "info": Object {
+                  "name": "udev",
+                  "version": "147-2.74.el6_10",
+                },
+              },
+              Object {
+                "id": "upstart@0.6.5-17.el6",
+                "info": Object {
+                  "name": "upstart",
+                  "version": "0.6.5-17.el6",
+                },
+              },
+              Object {
+                "id": "ustr@1.0.4-9.1.el6",
+                "info": Object {
+                  "name": "ustr",
+                  "version": "1.0.4-9.1.el6",
+                },
+              },
+              Object {
+                "id": "util-linux-ng@2.17.2-12.28.el6_9.2",
+                "info": Object {
+                  "name": "util-linux-ng",
+                  "version": "2.17.2-12.28.el6_9.2",
+                },
+              },
+              Object {
+                "id": "vim-minimal@2:7.4.629-5.el6_10.2",
+                "info": Object {
+                  "name": "vim-minimal",
+                  "version": "2:7.4.629-5.el6_10.2",
+                },
+              },
+              Object {
+                "id": "wget@1.12-10.el6",
+                "info": Object {
+                  "name": "wget",
+                  "version": "1.12-10.el6",
+                },
+              },
+              Object {
+                "id": "which@2.19-6.el6",
+                "info": Object {
+                  "name": "which",
+                  "version": "2.19-6.el6",
+                },
+              },
+              Object {
+                "id": "xz@4.999.9-0.5.beta.20091007git.el6",
+                "info": Object {
+                  "name": "xz",
+                  "version": "4.999.9-0.5.beta.20091007git.el6",
+                },
+              },
+              Object {
+                "id": "xz-libs@4.999.9-0.5.beta.20091007git.el6",
+                "info": Object {
+                  "name": "xz-libs",
+                  "version": "4.999.9-0.5.beta.20091007git.el6",
+                },
+              },
+              Object {
+                "id": "xz-lzma-compat@4.999.9-0.5.beta.20091007git.el6",
+                "info": Object {
+                  "name": "xz-lzma-compat",
+                  "version": "4.999.9-0.5.beta.20091007git.el6",
+                },
+              },
+              Object {
+                "id": "yum@3.2.29-81.el6.centos",
+                "info": Object {
+                  "name": "yum",
+                  "version": "3.2.29-81.el6.centos",
+                },
+              },
+              Object {
+                "id": "yum-metadata-parser@1.1.2-16.el6",
+                "info": Object {
+                  "name": "yum-metadata-parser",
+                  "version": "1.1.2-16.el6",
+                },
+              },
+              Object {
+                "id": "yum-plugin-fastestmirror@1.1.30-42.el6_10",
+                "info": Object {
+                  "name": "yum-plugin-fastestmirror",
+                  "version": "1.1.30-42.el6_10",
+                },
+              },
+              Object {
+                "id": "yum-plugin-ovl@1.1.30-42.el6_10",
+                "info": Object {
+                  "name": "yum-plugin-ovl",
+                  "version": "1.1.30-42.el6_10",
+                },
+              },
+              Object {
+                "id": "zlib@1.2.3-29.el6",
+                "info": Object {
+                  "name": "zlib",
+                  "version": "1.2.3-29.el6",
+                },
+              },
+            ],
+            "schemaVersion": "1.2.0",
+          },
+          "type": "depGraph",
+        },
+        Object {
+          "data": "sha256:37eec09741b0048d83af1a40ac621bb5f591f28e8f322317ffe22a41dc7ffadd",
+          "type": "imageId",
+        },
+        Object {
+          "data": Array [
+            "e3d6e0a09adc552a4285778455f896da9d58fb8ce2d039c71242f7714f82b1bb/layer.tar",
+            "ccb2cf349299df18df3a19de063d771f45272473d5b95096a2a52b43f3e1fe92/layer.tar",
+            "f585de9f64390357561a1aa0429ec8574b881d9491fc4c679afa11a5a8e96345/layer.tar",
+            "7b230090ec7cd46b2314325b92e9ff14910994a497d59e607334441b1d72dccb/layer.tar",
+            "29328c690ed7d63a6b5423629b91d01ee9f28106208f98feaf8d93dda329e804/layer.tar",
+          ],
+          "type": "imageLayers",
+        },
+        Object {
+          "data": Object {
+            "maintainer": "sean@sean.io",
+            "org.label-schema.build-date": "2021-03-13T00:01:13Z",
+            "org.label-schema.description": "A Docker container for testing centos-6",
+            "org.label-schema.license": "GPLv2",
+            "org.label-schema.name": "test-kitechen/dokken-images",
+            "org.label-schema.schema-version": "1.0",
+            "org.label-schema.vcs-ref": "d546b246",
+            "org.label-schema.vcs-url": "https://github.com/test-kitechen/dokken-images",
+            "org.label-schema.vendor": "test-kitchen",
+          },
+          "type": "imageLabels",
+        },
+        Object {
+          "data": "2021-03-13T00:03:32.777698465Z",
+          "type": "imageCreationTime",
+        },
+        Object {
+          "data": Array [
+            "sha256:af6bf1987c2eb07d73f33836b0d8fd825d7c785273526b077e46780e8b4b2ae9",
+            "sha256:282064e8c74ac642a58047db969497eeae247fb78e8e9c7c7cd0452b3063a11b",
+            "sha256:91d67088c5c5c582ba1740d680281e579a6b79a11a722a1099cedbd6eacc90b4",
+            "sha256:33080feb7575643f4ba24fe41c38d4bed2c9507fb54eb80f49a65ed068cc37be",
+            "sha256:2b7c38b09edb3ce271c3f5d11560644cb8d153917529c1d28a2818fc8cc0d7aa",
+          ],
+          "type": "rootFs",
+        },
+      ],
+      "identity": Object {
+        "args": Object {
+          "platform": "linux/amd64",
+        },
+        "type": "rpm",
+      },
+      "target": Object {
+        "image": "docker-image|dokken/centos-6",
+      },
+    },
+    Object {
+      "facts": Array [
+        Object {
+          "data": Object {
+            "fingerprints": Array [
+              Object {
+                "dependencies": Array [],
+                "digest": "dd62cae9d95c824f90a442822cb0e205d82fda92",
+                "location": "/usr/share/gettext/libintl.jar",
+              },
+            ],
+            "origin": "dokken/centos-6@sha256:494b9b280814f1e661597b48e229156e4dccb60dce198d9210f7572ff22626d2",
+            "path": "/usr/share/gettext",
+          },
+          "type": "jarFingerprints",
+        },
+        Object {
+          "data": "sha256:37eec09741b0048d83af1a40ac621bb5f591f28e8f322317ffe22a41dc7ffadd",
+          "type": "imageId",
+        },
+      ],
+      "identity": Object {
+        "targetFile": "/usr/share/gettext",
+        "type": "maven",
+      },
+      "target": Object {
+        "image": "docker-image|dokken/centos-6",
+      },
+    },
+  ],
+}
+`;

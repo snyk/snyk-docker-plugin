@@ -157,11 +157,12 @@ describe("jar binaries scanning", () => {
             ).rejects.toThrow();
           });
 
-          it("should throw error if app-vulns flag is missing", async () => {
+          it("should throw error if exclude-app-vulns flag is true", async () => {
             // Act
             await expect(
               scan({
                 path: imageNameAndTag,
+                "exclude-app-vulns": true,
                 [flagName]: "1",
               }),
             ).rejects.toThrow();

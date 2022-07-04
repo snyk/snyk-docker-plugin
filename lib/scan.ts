@@ -35,10 +35,10 @@ export async function scan(
     options["nested-jars-depth"] || options["shaded-jars-depth"];
   if (
     (isTrue(nestedJarsDepth) || isNumber(nestedJarsDepth)) &&
-    !isTrue(options["app-vulns"])
+    isTrue(options["exclude-app-vulns"])
   ) {
     throw new Error(
-      "To use --nested-jars-depth, you must also use --app-vulns",
+      "To use --nested-jars-depth, you must not use --exclude-app-vulns",
     );
   }
 

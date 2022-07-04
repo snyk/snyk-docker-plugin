@@ -163,8 +163,15 @@ export interface PluginOptions {
    */
   platform: string;
 
-  /** Whether to enable application dependencies scanning. The default is "false" */
+  /**
+   * Whether to enable application dependencies scanning.
+   * It's here so that things don't completely break if used, but it should not be used
+   * (and is ignored) starting with release version 5.0.0
+   */
   "app-vulns": boolean | string;
+
+  /** Whether to disable application dependencies scanning. The default is "false" */
+  "exclude-app-vulns": boolean | string;
 
   /**
    * How many levels of (nested) JARs we should unpack
@@ -175,7 +182,7 @@ export interface PluginOptions {
    * if n > 0 is provided, we try to unpack n levels of JARs.
    * The default (if flag is provided, but without a number) is 1 level
    *
-   * Must always come with app-vulns
+   * Cannot come with exclude-app-vulns
    *
    * Alias: shaded-jars-depth
    * TODO remove shaded-jars-depth
