@@ -48,7 +48,8 @@
     "tar-stream": "^2.1.0",
     "tmp": "^0.2.1",
     "tslib": "^1",
-    "uuid": "^8.2.0"
+    "uuid": "^8.2.0",
+    "varint": "^6.0.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.0.2",
