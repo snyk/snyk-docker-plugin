@@ -1,6 +1,6 @@
 import * as elf from "elfy";
 
-import { PluginResponse, scan } from "../../../lib";
+import { scan } from "../../../lib";
 import { getFixture } from "../../util";
 
 describe("gomodules binaries scanning", () => {
@@ -37,5 +37,46 @@ describe("gomodules binaries scanning", () => {
     });
     expect(pluginResult).toMatchSnapshot();
     elfParseMock.mockRestore();
+  });
+});
+
+describe("parse go modules from various versions of compiled binaries", () => {
+  it("go 1.17", async () => {
+    const fixturePath = getFixture(
+      "docker-archives/docker-save/testgo-1.17.tar",
+    );
+    const imageNameAndTag = `docker-archive:${fixturePath}`;
+
+    const pluginResult = await scan({
+      path: imageNameAndTag,
+    });
+
+    expect(pluginResult).toMatchSnapshot();
+  });
+
+  it("go 1.18", async () => {
+    const fixturePath = getFixture(
+      "docker-archives/docker-save/testgo-1.18.3.tar",
+    );
+    const imageNameAndTag = `docker-archive:${fixturePath}`;
+
+    const pluginResult = await scan({
+      path: imageNameAndTag,
+    });
+
+    expect(pluginResult).toMatchSnapshot();
+  });
+
+  it("go 1.19", async () => {
+    const fixturePath = getFixture(
+      "docker-archives/docker-save/testgo-1.19rc1.tar",
+    );
+    const imageNameAndTag = `docker-archive:${fixturePath}`;
+
+    const pluginResult = await scan({
+      path: imageNameAndTag,
+    });
+
+    expect(pluginResult).toMatchSnapshot();
   });
 });

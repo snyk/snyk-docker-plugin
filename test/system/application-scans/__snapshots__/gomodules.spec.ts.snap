@@ -1100,3 +1100,891 @@ Object {
   ],
 }
 `;
+
+exports[`parse go modules from various versions of compiled binaries go 1.17 1`] = `
+Object {
+  "scanResults": Array [
+    Object {
+      "facts": Array [
+        Object {
+          "data": Object {
+            "graph": Object {
+              "nodes": Array [
+                Object {
+                  "deps": Array [],
+                  "nodeId": "root-node",
+                  "pkgId": "docker-image|testgo-1.17.tar@",
+                },
+              ],
+              "rootNodeId": "root-node",
+            },
+            "pkgManager": Object {
+              "name": "linux",
+              "repositories": Array [
+                Object {
+                  "alias": "unknown:0.0",
+                },
+              ],
+            },
+            "pkgs": Array [
+              Object {
+                "id": "docker-image|testgo-1.17.tar@",
+                "info": Object {
+                  "name": "docker-image|testgo-1.17.tar",
+                  "version": undefined,
+                },
+              },
+            ],
+            "schemaVersion": "1.2.0",
+          },
+          "type": "depGraph",
+        },
+        Object {
+          "data": "sha256:b5a5cea3c00c659a3bd14bf786644ec0deed22bc30e99260177aca1dc8600449",
+          "type": "imageId",
+        },
+        Object {
+          "data": Array [
+            "7791495be56d53f1d598007e4149b78dcde36768f487040dc6738f6cfab1385f/layer.tar",
+          ],
+          "type": "imageLayers",
+        },
+        Object {
+          "data": "2022-07-10T08:39:42.311434047Z",
+          "type": "imageCreationTime",
+        },
+        Object {
+          "data": Array [
+            "sha256:b3b29ea441a79462c8d942f597c0ef38960379046651c03659ea28d3729fa5ad",
+          ],
+          "type": "rootFs",
+        },
+      ],
+      "identity": Object {
+        "args": Object {
+          "platform": "linux/amd64",
+        },
+        "type": "linux",
+      },
+      "target": Object {
+        "image": "docker-image|testgo-1.17.tar",
+      },
+    },
+    Object {
+      "facts": Array [
+        Object {
+          "data": Object {
+            "graph": Object {
+              "nodes": Array [
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "github.com/ghodss/yaml@1.0.0",
+                    },
+                    Object {
+                      "nodeId": "github.com/go-redis/redis/v9@#beta.1",
+                    },
+                    Object {
+                      "nodeId": "github.com/gorilla/mux@1.8.0",
+                    },
+                    Object {
+                      "nodeId": "gopkg.in/yaml.v2@2.4.0",
+                    },
+                    Object {
+                      "nodeId": "github.com/go-redis/redis/v9/internal@#beta.1",
+                    },
+                    Object {
+                      "nodeId": "github.com/go-redis/redis/v9/internal/hashtag@#beta.1",
+                    },
+                    Object {
+                      "nodeId": "github.com/go-redis/redis/v9/internal/pool@#beta.1",
+                    },
+                    Object {
+                      "nodeId": "github.com/go-redis/redis/v9/internal/proto@#beta.1",
+                    },
+                    Object {
+                      "nodeId": "github.com/go-redis/redis/v9/internal/rand@#beta.1",
+                    },
+                    Object {
+                      "nodeId": "github.com/go-redis/redis/v9/internal/hscan@#beta.1",
+                    },
+                    Object {
+                      "nodeId": "github.com/go-redis/redis/v9/internal/util@#beta.1",
+                    },
+                    Object {
+                      "nodeId": "github.com/cespare/xxhash/v2@2.1.2",
+                    },
+                  ],
+                  "nodeId": "root-node",
+                  "pkgId": "testgo@",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/ghodss/yaml@1.0.0",
+                  "pkgId": "github.com/ghodss/yaml@1.0.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/go-redis/redis/v9@#beta.1",
+                  "pkgId": "github.com/go-redis/redis/v9@#beta.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/gorilla/mux@1.8.0",
+                  "pkgId": "github.com/gorilla/mux@1.8.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gopkg.in/yaml.v2@2.4.0",
+                  "pkgId": "gopkg.in/yaml.v2@2.4.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/go-redis/redis/v9/internal@#beta.1",
+                  "pkgId": "github.com/go-redis/redis/v9/internal@#beta.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/go-redis/redis/v9/internal/hashtag@#beta.1",
+                  "pkgId": "github.com/go-redis/redis/v9/internal/hashtag@#beta.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/go-redis/redis/v9/internal/pool@#beta.1",
+                  "pkgId": "github.com/go-redis/redis/v9/internal/pool@#beta.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/go-redis/redis/v9/internal/proto@#beta.1",
+                  "pkgId": "github.com/go-redis/redis/v9/internal/proto@#beta.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/go-redis/redis/v9/internal/rand@#beta.1",
+                  "pkgId": "github.com/go-redis/redis/v9/internal/rand@#beta.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/go-redis/redis/v9/internal/hscan@#beta.1",
+                  "pkgId": "github.com/go-redis/redis/v9/internal/hscan@#beta.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/go-redis/redis/v9/internal/util@#beta.1",
+                  "pkgId": "github.com/go-redis/redis/v9/internal/util@#beta.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/cespare/xxhash/v2@2.1.2",
+                  "pkgId": "github.com/cespare/xxhash/v2@2.1.2",
+                },
+              ],
+              "rootNodeId": "root-node",
+            },
+            "pkgManager": Object {
+              "name": "gomodules",
+            },
+            "pkgs": Array [
+              Object {
+                "id": "testgo@",
+                "info": Object {
+                  "name": "testgo",
+                },
+              },
+              Object {
+                "id": "github.com/ghodss/yaml@1.0.0",
+                "info": Object {
+                  "name": "github.com/ghodss/yaml",
+                  "version": "1.0.0",
+                },
+              },
+              Object {
+                "id": "github.com/go-redis/redis/v9@#beta.1",
+                "info": Object {
+                  "name": "github.com/go-redis/redis/v9",
+                  "version": "#beta.1",
+                },
+              },
+              Object {
+                "id": "github.com/gorilla/mux@1.8.0",
+                "info": Object {
+                  "name": "github.com/gorilla/mux",
+                  "version": "1.8.0",
+                },
+              },
+              Object {
+                "id": "gopkg.in/yaml.v2@2.4.0",
+                "info": Object {
+                  "name": "gopkg.in/yaml.v2",
+                  "version": "2.4.0",
+                },
+              },
+              Object {
+                "id": "github.com/go-redis/redis/v9/internal@#beta.1",
+                "info": Object {
+                  "name": "github.com/go-redis/redis/v9/internal",
+                  "version": "#beta.1",
+                },
+              },
+              Object {
+                "id": "github.com/go-redis/redis/v9/internal/hashtag@#beta.1",
+                "info": Object {
+                  "name": "github.com/go-redis/redis/v9/internal/hashtag",
+                  "version": "#beta.1",
+                },
+              },
+              Object {
+                "id": "github.com/go-redis/redis/v9/internal/pool@#beta.1",
+                "info": Object {
+                  "name": "github.com/go-redis/redis/v9/internal/pool",
+                  "version": "#beta.1",
+                },
+              },
+              Object {
+                "id": "github.com/go-redis/redis/v9/internal/proto@#beta.1",
+                "info": Object {
+                  "name": "github.com/go-redis/redis/v9/internal/proto",
+                  "version": "#beta.1",
+                },
+              },
+              Object {
+                "id": "github.com/go-redis/redis/v9/internal/rand@#beta.1",
+                "info": Object {
+                  "name": "github.com/go-redis/redis/v9/internal/rand",
+                  "version": "#beta.1",
+                },
+              },
+              Object {
+                "id": "github.com/go-redis/redis/v9/internal/hscan@#beta.1",
+                "info": Object {
+                  "name": "github.com/go-redis/redis/v9/internal/hscan",
+                  "version": "#beta.1",
+                },
+              },
+              Object {
+                "id": "github.com/go-redis/redis/v9/internal/util@#beta.1",
+                "info": Object {
+                  "name": "github.com/go-redis/redis/v9/internal/util",
+                  "version": "#beta.1",
+                },
+              },
+              Object {
+                "id": "github.com/cespare/xxhash/v2@2.1.2",
+                "info": Object {
+                  "name": "github.com/cespare/xxhash/v2",
+                  "version": "2.1.2",
+                },
+              },
+            ],
+            "schemaVersion": "1.2.0",
+          },
+          "type": "depGraph",
+        },
+        Object {
+          "data": "sha256:b5a5cea3c00c659a3bd14bf786644ec0deed22bc30e99260177aca1dc8600449",
+          "type": "imageId",
+        },
+      ],
+      "identity": Object {
+        "targetFile": "/testgo",
+        "type": "gomodules",
+      },
+      "target": Object {
+        "image": "docker-image|testgo-1.17.tar",
+      },
+    },
+  ],
+}
+`;
+
+exports[`parse go modules from various versions of compiled binaries go 1.18 1`] = `
+Object {
+  "scanResults": Array [
+    Object {
+      "facts": Array [
+        Object {
+          "data": Object {
+            "graph": Object {
+              "nodes": Array [
+                Object {
+                  "deps": Array [],
+                  "nodeId": "root-node",
+                  "pkgId": "docker-image|testgo-1.18.3.tar@",
+                },
+              ],
+              "rootNodeId": "root-node",
+            },
+            "pkgManager": Object {
+              "name": "linux",
+              "repositories": Array [
+                Object {
+                  "alias": "unknown:0.0",
+                },
+              ],
+            },
+            "pkgs": Array [
+              Object {
+                "id": "docker-image|testgo-1.18.3.tar@",
+                "info": Object {
+                  "name": "docker-image|testgo-1.18.3.tar",
+                  "version": undefined,
+                },
+              },
+            ],
+            "schemaVersion": "1.2.0",
+          },
+          "type": "depGraph",
+        },
+        Object {
+          "data": "sha256:b7f8424ea2e9e94dd34b972998957f3210b9caeb968cb53088dfadb775feefe1",
+          "type": "imageId",
+        },
+        Object {
+          "data": Array [
+            "003416e9133260ad2c4883f982bb2bdccbcc56b1134f34f3c5bbeaa042db2a7a/layer.tar",
+          ],
+          "type": "imageLayers",
+        },
+        Object {
+          "data": "2022-07-10T08:41:36.652919824Z",
+          "type": "imageCreationTime",
+        },
+        Object {
+          "data": Array [
+            "sha256:b3b45e39a2de618d672de8395f83e78ef2cdf15c0a5d08e631bc46d4d5bff3dc",
+          ],
+          "type": "rootFs",
+        },
+      ],
+      "identity": Object {
+        "args": Object {
+          "platform": "linux/amd64",
+        },
+        "type": "linux",
+      },
+      "target": Object {
+        "image": "docker-image|testgo-1.18.3.tar",
+      },
+    },
+    Object {
+      "facts": Array [
+        Object {
+          "data": Object {
+            "graph": Object {
+              "nodes": Array [
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "github.com/ghodss/yaml@1.0.0",
+                    },
+                    Object {
+                      "nodeId": "github.com/go-redis/redis/v9@#beta.1",
+                    },
+                    Object {
+                      "nodeId": "github.com/gorilla/mux@1.8.0",
+                    },
+                    Object {
+                      "nodeId": "gopkg.in/yaml.v2@2.4.0",
+                    },
+                    Object {
+                      "nodeId": "github.com/go-redis/redis/v9/internal@#beta.1",
+                    },
+                    Object {
+                      "nodeId": "github.com/go-redis/redis/v9/internal/hashtag@#beta.1",
+                    },
+                    Object {
+                      "nodeId": "github.com/go-redis/redis/v9/internal/pool@#beta.1",
+                    },
+                    Object {
+                      "nodeId": "github.com/go-redis/redis/v9/internal/proto@#beta.1",
+                    },
+                    Object {
+                      "nodeId": "github.com/go-redis/redis/v9/internal/rand@#beta.1",
+                    },
+                    Object {
+                      "nodeId": "github.com/go-redis/redis/v9/internal/hscan@#beta.1",
+                    },
+                    Object {
+                      "nodeId": "github.com/go-redis/redis/v9/internal/util@#beta.1",
+                    },
+                    Object {
+                      "nodeId": "github.com/cespare/xxhash/v2@2.1.2",
+                    },
+                  ],
+                  "nodeId": "root-node",
+                  "pkgId": "testgo@",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/ghodss/yaml@1.0.0",
+                  "pkgId": "github.com/ghodss/yaml@1.0.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/go-redis/redis/v9@#beta.1",
+                  "pkgId": "github.com/go-redis/redis/v9@#beta.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/gorilla/mux@1.8.0",
+                  "pkgId": "github.com/gorilla/mux@1.8.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gopkg.in/yaml.v2@2.4.0",
+                  "pkgId": "gopkg.in/yaml.v2@2.4.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/go-redis/redis/v9/internal@#beta.1",
+                  "pkgId": "github.com/go-redis/redis/v9/internal@#beta.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/go-redis/redis/v9/internal/hashtag@#beta.1",
+                  "pkgId": "github.com/go-redis/redis/v9/internal/hashtag@#beta.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/go-redis/redis/v9/internal/pool@#beta.1",
+                  "pkgId": "github.com/go-redis/redis/v9/internal/pool@#beta.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/go-redis/redis/v9/internal/proto@#beta.1",
+                  "pkgId": "github.com/go-redis/redis/v9/internal/proto@#beta.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/go-redis/redis/v9/internal/rand@#beta.1",
+                  "pkgId": "github.com/go-redis/redis/v9/internal/rand@#beta.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/go-redis/redis/v9/internal/hscan@#beta.1",
+                  "pkgId": "github.com/go-redis/redis/v9/internal/hscan@#beta.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/go-redis/redis/v9/internal/util@#beta.1",
+                  "pkgId": "github.com/go-redis/redis/v9/internal/util@#beta.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/cespare/xxhash/v2@2.1.2",
+                  "pkgId": "github.com/cespare/xxhash/v2@2.1.2",
+                },
+              ],
+              "rootNodeId": "root-node",
+            },
+            "pkgManager": Object {
+              "name": "gomodules",
+            },
+            "pkgs": Array [
+              Object {
+                "id": "testgo@",
+                "info": Object {
+                  "name": "testgo",
+                },
+              },
+              Object {
+                "id": "github.com/ghodss/yaml@1.0.0",
+                "info": Object {
+                  "name": "github.com/ghodss/yaml",
+                  "version": "1.0.0",
+                },
+              },
+              Object {
+                "id": "github.com/go-redis/redis/v9@#beta.1",
+                "info": Object {
+                  "name": "github.com/go-redis/redis/v9",
+                  "version": "#beta.1",
+                },
+              },
+              Object {
+                "id": "github.com/gorilla/mux@1.8.0",
+                "info": Object {
+                  "name": "github.com/gorilla/mux",
+                  "version": "1.8.0",
+                },
+              },
+              Object {
+                "id": "gopkg.in/yaml.v2@2.4.0",
+                "info": Object {
+                  "name": "gopkg.in/yaml.v2",
+                  "version": "2.4.0",
+                },
+              },
+              Object {
+                "id": "github.com/go-redis/redis/v9/internal@#beta.1",
+                "info": Object {
+                  "name": "github.com/go-redis/redis/v9/internal",
+                  "version": "#beta.1",
+                },
+              },
+              Object {
+                "id": "github.com/go-redis/redis/v9/internal/hashtag@#beta.1",
+                "info": Object {
+                  "name": "github.com/go-redis/redis/v9/internal/hashtag",
+                  "version": "#beta.1",
+                },
+              },
+              Object {
+                "id": "github.com/go-redis/redis/v9/internal/pool@#beta.1",
+                "info": Object {
+                  "name": "github.com/go-redis/redis/v9/internal/pool",
+                  "version": "#beta.1",
+                },
+              },
+              Object {
+                "id": "github.com/go-redis/redis/v9/internal/proto@#beta.1",
+                "info": Object {
+                  "name": "github.com/go-redis/redis/v9/internal/proto",
+                  "version": "#beta.1",
+                },
+              },
+              Object {
+                "id": "github.com/go-redis/redis/v9/internal/rand@#beta.1",
+                "info": Object {
+                  "name": "github.com/go-redis/redis/v9/internal/rand",
+                  "version": "#beta.1",
+                },
+              },
+              Object {
+                "id": "github.com/go-redis/redis/v9/internal/hscan@#beta.1",
+                "info": Object {
+                  "name": "github.com/go-redis/redis/v9/internal/hscan",
+                  "version": "#beta.1",
+                },
+              },
+              Object {
+                "id": "github.com/go-redis/redis/v9/internal/util@#beta.1",
+                "info": Object {
+                  "name": "github.com/go-redis/redis/v9/internal/util",
+                  "version": "#beta.1",
+                },
+              },
+              Object {
+                "id": "github.com/cespare/xxhash/v2@2.1.2",
+                "info": Object {
+                  "name": "github.com/cespare/xxhash/v2",
+                  "version": "2.1.2",
+                },
+              },
+            ],
+            "schemaVersion": "1.2.0",
+          },
+          "type": "depGraph",
+        },
+        Object {
+          "data": "sha256:b7f8424ea2e9e94dd34b972998957f3210b9caeb968cb53088dfadb775feefe1",
+          "type": "imageId",
+        },
+      ],
+      "identity": Object {
+        "targetFile": "/testgo",
+        "type": "gomodules",
+      },
+      "target": Object {
+        "image": "docker-image|testgo-1.18.3.tar",
+      },
+    },
+  ],
+}
+`;
+
+exports[`parse go modules from various versions of compiled binaries go 1.19 1`] = `
+Object {
+  "scanResults": Array [
+    Object {
+      "facts": Array [
+        Object {
+          "data": Object {
+            "graph": Object {
+              "nodes": Array [
+                Object {
+                  "deps": Array [],
+                  "nodeId": "root-node",
+                  "pkgId": "docker-image|testgo-1.19rc1.tar@",
+                },
+              ],
+              "rootNodeId": "root-node",
+            },
+            "pkgManager": Object {
+              "name": "linux",
+              "repositories": Array [
+                Object {
+                  "alias": "unknown:0.0",
+                },
+              ],
+            },
+            "pkgs": Array [
+              Object {
+                "id": "docker-image|testgo-1.19rc1.tar@",
+                "info": Object {
+                  "name": "docker-image|testgo-1.19rc1.tar",
+                  "version": undefined,
+                },
+              },
+            ],
+            "schemaVersion": "1.2.0",
+          },
+          "type": "depGraph",
+        },
+        Object {
+          "data": "sha256:f12d5cc86a0c5c078e16dca419459a91cc555e8cd9ef5750a6b809f2db19a47f",
+          "type": "imageId",
+        },
+        Object {
+          "data": Array [
+            "494db89a6ccd788c2ac1fa68ba421496b221b06242a26b4bb14d88a15fb9ec50/layer.tar",
+          ],
+          "type": "imageLayers",
+        },
+        Object {
+          "data": "2022-07-10T08:49:54.881276343Z",
+          "type": "imageCreationTime",
+        },
+        Object {
+          "data": Array [
+            "sha256:f3b3cf4596949f12573f1fe82d20c44d88cff630caef72661b5da451157082be",
+          ],
+          "type": "rootFs",
+        },
+      ],
+      "identity": Object {
+        "args": Object {
+          "platform": "linux/amd64",
+        },
+        "type": "linux",
+      },
+      "target": Object {
+        "image": "docker-image|testgo-1.19rc1.tar",
+      },
+    },
+    Object {
+      "facts": Array [
+        Object {
+          "data": Object {
+            "graph": Object {
+              "nodes": Array [
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "github.com/ghodss/yaml@1.0.0",
+                    },
+                    Object {
+                      "nodeId": "github.com/go-redis/redis/v9@#beta.1",
+                    },
+                    Object {
+                      "nodeId": "github.com/gorilla/mux@1.8.0",
+                    },
+                    Object {
+                      "nodeId": "gopkg.in/yaml.v2@2.4.0",
+                    },
+                    Object {
+                      "nodeId": "github.com/go-redis/redis/v9/internal@#beta.1",
+                    },
+                    Object {
+                      "nodeId": "github.com/go-redis/redis/v9/internal/hashtag@#beta.1",
+                    },
+                    Object {
+                      "nodeId": "github.com/go-redis/redis/v9/internal/pool@#beta.1",
+                    },
+                    Object {
+                      "nodeId": "github.com/go-redis/redis/v9/internal/proto@#beta.1",
+                    },
+                    Object {
+                      "nodeId": "github.com/go-redis/redis/v9/internal/rand@#beta.1",
+                    },
+                    Object {
+                      "nodeId": "github.com/go-redis/redis/v9/internal/hscan@#beta.1",
+                    },
+                    Object {
+                      "nodeId": "github.com/go-redis/redis/v9/internal/util@#beta.1",
+                    },
+                    Object {
+                      "nodeId": "github.com/cespare/xxhash/v2@2.1.2",
+                    },
+                  ],
+                  "nodeId": "root-node",
+                  "pkgId": "testgo@",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/ghodss/yaml@1.0.0",
+                  "pkgId": "github.com/ghodss/yaml@1.0.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/go-redis/redis/v9@#beta.1",
+                  "pkgId": "github.com/go-redis/redis/v9@#beta.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/gorilla/mux@1.8.0",
+                  "pkgId": "github.com/gorilla/mux@1.8.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gopkg.in/yaml.v2@2.4.0",
+                  "pkgId": "gopkg.in/yaml.v2@2.4.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/go-redis/redis/v9/internal@#beta.1",
+                  "pkgId": "github.com/go-redis/redis/v9/internal@#beta.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/go-redis/redis/v9/internal/hashtag@#beta.1",
+                  "pkgId": "github.com/go-redis/redis/v9/internal/hashtag@#beta.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/go-redis/redis/v9/internal/pool@#beta.1",
+                  "pkgId": "github.com/go-redis/redis/v9/internal/pool@#beta.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/go-redis/redis/v9/internal/proto@#beta.1",
+                  "pkgId": "github.com/go-redis/redis/v9/internal/proto@#beta.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/go-redis/redis/v9/internal/rand@#beta.1",
+                  "pkgId": "github.com/go-redis/redis/v9/internal/rand@#beta.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/go-redis/redis/v9/internal/hscan@#beta.1",
+                  "pkgId": "github.com/go-redis/redis/v9/internal/hscan@#beta.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/go-redis/redis/v9/internal/util@#beta.1",
+                  "pkgId": "github.com/go-redis/redis/v9/internal/util@#beta.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/cespare/xxhash/v2@2.1.2",
+                  "pkgId": "github.com/cespare/xxhash/v2@2.1.2",
+                },
+              ],
+              "rootNodeId": "root-node",
+            },
+            "pkgManager": Object {
+              "name": "gomodules",
+            },
+            "pkgs": Array [
+              Object {
+                "id": "testgo@",
+                "info": Object {
+                  "name": "testgo",
+                },
+              },
+              Object {
+                "id": "github.com/ghodss/yaml@1.0.0",
+                "info": Object {
+                  "name": "github.com/ghodss/yaml",
+                  "version": "1.0.0",
+                },
+              },
+              Object {
+                "id": "github.com/go-redis/redis/v9@#beta.1",
+                "info": Object {
+                  "name": "github.com/go-redis/redis/v9",
+                  "version": "#beta.1",
+                },
+              },
+              Object {
+                "id": "github.com/gorilla/mux@1.8.0",
+                "info": Object {
+                  "name": "github.com/gorilla/mux",
+                  "version": "1.8.0",
+                },
+              },
+              Object {
+                "id": "gopkg.in/yaml.v2@2.4.0",
+                "info": Object {
+                  "name": "gopkg.in/yaml.v2",
+                  "version": "2.4.0",
+                },
+              },
+              Object {
+                "id": "github.com/go-redis/redis/v9/internal@#beta.1",
+                "info": Object {
+                  "name": "github.com/go-redis/redis/v9/internal",
+                  "version": "#beta.1",
+                },
+              },
+              Object {
+                "id": "github.com/go-redis/redis/v9/internal/hashtag@#beta.1",
+                "info": Object {
+                  "name": "github.com/go-redis/redis/v9/internal/hashtag",
+                  "version": "#beta.1",
+                },
+              },
+              Object {
+                "id": "github.com/go-redis/redis/v9/internal/pool@#beta.1",
+                "info": Object {
+                  "name": "github.com/go-redis/redis/v9/internal/pool",
+                  "version": "#beta.1",
+                },
+              },
+              Object {
+                "id": "github.com/go-redis/redis/v9/internal/proto@#beta.1",
+                "info": Object {
+                  "name": "github.com/go-redis/redis/v9/internal/proto",
+                  "version": "#beta.1",
+                },
+              },
+              Object {
+                "id": "github.com/go-redis/redis/v9/internal/rand@#beta.1",
+                "info": Object {
+                  "name": "github.com/go-redis/redis/v9/internal/rand",
+                  "version": "#beta.1",
+                },
+              },
+              Object {
+                "id": "github.com/go-redis/redis/v9/internal/hscan@#beta.1",
+                "info": Object {
+                  "name": "github.com/go-redis/redis/v9/internal/hscan",
+                  "version": "#beta.1",
+                },
+              },
+              Object {
+                "id": "github.com/go-redis/redis/v9/internal/util@#beta.1",
+                "info": Object {
+                  "name": "github.com/go-redis/redis/v9/internal/util",
+                  "version": "#beta.1",
+                },
+              },
+              Object {
+                "id": "github.com/cespare/xxhash/v2@2.1.2",
+                "info": Object {
+                  "name": "github.com/cespare/xxhash/v2",
+                  "version": "2.1.2",
+                },
+              },
+            ],
+            "schemaVersion": "1.2.0",
+          },
+          "type": "depGraph",
+        },
+        Object {
+          "data": "sha256:f12d5cc86a0c5c078e16dca419459a91cc555e8cd9ef5750a6b809f2db19a47f",
+          "type": "imageId",
+        },
+      ],
+      "identity": Object {
+        "targetFile": "/testgo",
+        "type": "gomodules",
+      },
+      "target": Object {
+        "image": "docker-image|testgo-1.19rc1.tar",
+      },
+    },
+  ],
+}
+`;
