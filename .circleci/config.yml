@@ -162,6 +162,19 @@ jobs:
           name: Build Snyk CLI with latest changes
           command: ./.circleci/build-cli.sh
       - notify_slack_on_failure
+  build_and_test_latest_go_binary:
+    <<: *defaults
+    resource_class: medium
+    steps:
+      - setup_remote_docker
+      - checkout_and_merge
+      - run:
+          name: Build a Go binary with latest Go version
+          command: ./.circleci/build-go-binary-latest.sh
+      - run:
+          name: Run Go binaries unit test
+          command: npx jest test/unit/go-version-parser.spec.ts
+      - notify_slack_on_failure
   release:
     <<: *release_defaults
     steps:
@@ -177,6 +190,10 @@ jobs:
 workflows:
   version: 2
   test_and_release:
+    when:
+      # do not run on a pipeline schedule
+      not:
+        equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
     jobs:
       - install:
           name: Install
@@ -225,3 +242,17 @@ workflows:
             - Test
             - Test Windows
             - Test Jest Windows
+  go_regression_test:
+    when:
+      and:
+        - equal: [ scheduled_pipeline, << pipeline.trigger_source >> ]
+        - equal: [ "Build and test Go binaries", << pipeline.schedule.name >> ]
+    jobs:
+      - install:
+          name: Install
+          context: nodejs-install
+      - build_and_test_latest_go_binary:
+          name: Build Go binary
+          context: nodejs-install
+          requires:
+            - Install

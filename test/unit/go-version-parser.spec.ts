@@ -15,7 +15,9 @@ describe("go binary version parser", () => {
       const binary = elf.parse(fileContent) as any;
       if (isElfType(binary)) {
         const res = extractModulesFromBinary(binary as Elf);
-        expect(res.goVersion).toEqual(file);
+        if (file !== "latest") {
+          expect(res.goVersion).toEqual(file);
+        }
         expect(res.modules).toMatchObject({
           "github.com/gorilla/mux": "1.8.0",
           "github.com/ghodss/yaml": "1.0.0",
