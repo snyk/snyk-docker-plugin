@@ -169,6 +169,14 @@ function unpackJar({
     }
   }
 
+  if (!coords && (dependencies.length > 0 || nestedJars.length > 0)) {
+    coords = {
+      artifactId: jarPath,
+      version: "unknown",
+      groupId: "com.snyk.dummy",
+    }
+  }
+
   return {
     location: jarPath,
     buffer: jarBuffer,
