@@ -15,6 +15,7 @@ describe("centos tests", () => {
     const image = "centos:7.8.2003";
     const pluginResult = await scan({
       path: image,
+      platform: "linux/amd64",
     });
 
     expect(pluginResult).toMatchSnapshot();
@@ -25,6 +26,7 @@ describe("centos tests", () => {
       "centos@sha256:50b9a3bc27378889210f88d6d0695938e45a912aa99b3fdacfb9a0fef511f15a";
     const pluginResult = await scan({
       path: image,
+      platform: "linux/amd64",
     });
 
     expect(pluginResult).toMatchSnapshot();

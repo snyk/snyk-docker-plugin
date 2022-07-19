@@ -14,6 +14,7 @@ describe("suse linux enterprise server tests", () => {
     const image = "registry.suse.com/suse/sle15:15.2.8.2.751";
     const pluginResult = await scan({
       path: image,
+      platform: "linux/amd64",
     });
 
     expect(pluginResult).toMatchSnapshot();

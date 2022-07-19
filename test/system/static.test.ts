@@ -260,8 +260,10 @@ test("static scanning NGINX with dockerfile analysis matches expected values", a
 
 test("able to scan opensuse/leap images", async (t) => {
   const imgName = "opensuse/leap";
-  const imgTag = "15.1";
-  const img = imgName + ":" + imgTag;
+  // digest corresponds to tag 15.1, but makes the image platform-independent.
+  const imgDigest =
+    "@sha256:2288f0d5caec6a4b7f6b76d7a1ef6cf738f94c8f10941ea1840a365a61ed6219";
+  const img = imgName + imgDigest;
 
   const pluginResult = await plugin.scan({
     path: img,

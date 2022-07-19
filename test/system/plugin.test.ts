@@ -21,7 +21,7 @@ test("docker-archive image type throws on bad files", async (t) => {
   );
 });
 
-test("static scan for Identifier type image (nginx:1.19.0)", async (t) => {
+test("image pulled by tag has version set", async (t) => {
   const imageNameAndTag = `nginx:1.19.0`;
 
   const pluginResult = await plugin.scan({
@@ -33,6 +33,22 @@ test("static scan for Identifier type image (nginx:1.19.0)", async (t) => {
   )!.data;
   t.same(depGraph.rootPkg.name, "docker-image|nginx", "Image name matches");
   t.same(depGraph.rootPkg.version, "1.19.0", "Version must not be empty");
+});
+
+test("static scan for Identifier type image (nginx:1.19.0)", async (t) => {
+  // This digest resolves to the `1.19.0` tag. We're using the digest to guarantee we always get the correct
+  // image, no matter on which platform this test is run on.
+  const imageNameAndDigest = `nginx@sha256:0efad4d09a419dc6d574c3c3baacb804a530acd61d5eba72cb1f14e1f5ac0c8f`;
+
+  const pluginResult = await plugin.scan({
+    path: imageNameAndDigest,
+  });
+
+  const depGraph: DepGraph = pluginResult.scanResults[0].facts.find(
+    (fact) => fact.type === "depGraph",
+  )!.data;
+  t.same(depGraph.rootPkg.name, "docker-image|nginx", "Image name matches");
+  t.same(depGraph.rootPkg.version, undefined, "Image has no version set"); // because we pull by digest.
   const imageId: string = pluginResult.scanResults[0].facts.find(
     (fact) => fact.type === "imageId",
   )!.data;

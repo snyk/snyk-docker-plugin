@@ -10,6 +10,7 @@ describe("apk package manager tests", () => {
     const image = "alpine:3.12.0";
     const pluginResult = await scan({
       path: image,
+      platform: "linux/amd64",
     });
 
     expect(pluginResult).toMatchSnapshot();
