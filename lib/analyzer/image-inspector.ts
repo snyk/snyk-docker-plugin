@@ -83,17 +83,22 @@ async function pullWithDockerBinary(
       throw new Error(`The image does not exist for the current platform`);
     }
 
-    if (
-      err.message &&
-      err.message.includes(
-        '"--platform" is only supported on a Docker daemon with experimental features enabled',
-      )
-    ) {
-      throw err;
-    }
-
     if (err.stderr && err.stderr.includes("invalid reference format")) {
       throw new Error(`invalid image format`);
+    }
+
+    if (err.stderr.includes("unknown flag: --platform")) {
+      throw new Error(
+        '"--platform" is only supported on a Docker daemon with version later than 17.09',
+      );
+    }
+
+    if (
+      err.stderr &&
+      err.stderr ===
+        '"--platform" is only supported on a Docker daemon with experimental features enabled'
+    ) {
+      throw new Error(err.stderr);
     }
 
     return pullAndSaveSuccessful;
