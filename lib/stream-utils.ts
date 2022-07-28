@@ -15,14 +15,14 @@ export async function streamToString(
   streamSize?: number,
   encoding: SupportedEncodings = "utf8",
 ): Promise<string> {
-  const chunks: string[] = [];
+  const chunks: Buffer[] = [];
   return new Promise((resolve, reject) => {
     stream.on("end", () => {
-      resolve(chunks.join(""));
+      resolve(Buffer.concat(chunks).toString(encoding));
     });
     stream.on("error", (error) => reject(error));
     stream.on("data", (chunk) => {
-      chunks.push(chunk.toString(encoding));
+      chunks.push(chunk);
     });
   });
 }
