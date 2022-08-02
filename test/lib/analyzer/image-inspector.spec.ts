@@ -153,14 +153,14 @@ describe("getImageArchive", () => {
     it("should produce the expected state", async () => {
       const customPath = tmp.dirSync().name;
       const imageSavePath = path.join(customPath, uuidv4());
-      const dockerPullSpy = jest.spyOn(Docker.prototype, "pull");
+      const registryPullSpy = jest.spyOn(Docker.prototype, "pull");
 
       const archiveLocation: ArchiveResult = await imageInspector.getImageArchive(
         targetImage,
         imageSavePath,
       );
 
-      expect(dockerPullSpy).not.toHaveBeenCalled();
+      expect(registryPullSpy).not.toHaveBeenCalled();
       expect(archiveLocation.path).toEqual(
         path.join(imageSavePath, "image.tar"),
       );
@@ -179,6 +179,82 @@ describe("getImageArchive", () => {
 
       const customPathExistsOnDisk: boolean = fs.existsSync(customPath);
       expect(customPathExistsOnDisk).toBe(true);
+    });
+  });
+
+  describe("from remote registry with no platform feature binary", () => {
+    const customPath = "./new_custom/image/save/path";
+
+    afterEach(() => {
+      rmdirRecursive(customPath.split(path.sep));
+    });
+
+    it("should produce the expected state", async () => {
+      const imageSavePath = path.join(customPath, uuidv4());
+      // we simulate the Docker CLI being so old that the `--platform` flag is not supported at all.
+      const dockerPullCliSpy = jest
+        .spyOn(Docker.prototype, "pullCli")
+        .mockImplementation(() => {
+          return new Promise<subProcess.CmdOutput>((_, reject) => {
+            reject({
+              stdout: "",
+              stderr: "unknown flag: --platform\nSee 'docker pull --help'.",
+            });
+          });
+        });
+
+      await expect(
+        imageInspector.getImageArchive(targetImage, imageSavePath),
+      ).rejects.toEqual(
+        new Error(
+          '"--platform" is only supported on a Docker daemon with version later than 17.09',
+        ),
+      );
+
+      expect(dockerPullCliSpy).toHaveBeenCalled();
+
+      const imageExistsOnDisk: boolean = fs.existsSync(
+        path.join(imageSavePath, "image.tar"),
+      );
+      expect(imageExistsOnDisk).toBe(false);
+    });
+  });
+
+  describe("from remote registry with experimental platform feature binary", () => {
+    const customPath = "./new_custom/image/save/path";
+
+    afterEach(() => {
+      rmdirRecursive(customPath.split(path.sep));
+    });
+
+    it("should produce the expected state", async () => {
+      const imageSavePath = path.join(customPath, uuidv4());
+      const dockerPullCliSpy = jest
+        .spyOn(Docker.prototype, "pullCli")
+        .mockImplementation(() => {
+          return new Promise<subProcess.CmdOutput>((_, reject) => {
+            reject({
+              stdout: "",
+              stderr:
+                '"--platform" is only supported on a Docker daemon with experimental features enabled',
+            });
+          });
+        });
+
+      await expect(
+        imageInspector.getImageArchive(targetImage, imageSavePath),
+      ).rejects.toEqual(
+        new Error(
+          '"--platform" is only supported on a Docker daemon with experimental features enabled',
+        ),
+      );
+
+      expect(dockerPullCliSpy).toHaveBeenCalled();
+
+      const imageExistsOnDisk: boolean = fs.existsSync(
+        path.join(imageSavePath, "image.tar"),
+      );
+      expect(imageExistsOnDisk).toBe(false);
     });
   });
 
