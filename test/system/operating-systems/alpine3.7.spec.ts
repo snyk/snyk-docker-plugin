@@ -15,6 +15,7 @@ describe("alpine tests", () => {
     const image = "alpine:3.7.3";
     const pluginResult = await scan({
       path: image,
+      platform: "linux/amd64",
     });
 
     expect(pluginResult).toMatchSnapshot();
@@ -25,6 +26,7 @@ describe("alpine tests", () => {
       "alpine@sha256:92251458088c638061cda8fd8b403b76d661a4dc6b7ee71b6affcf1872557b2b";
     const pluginResult = await scan({
       path: image,
+      platform: "linux/amd64",
     });
 
     expect(pluginResult).toMatchSnapshot();

@@ -14,6 +14,7 @@ describe("redhat ubi8 tests", () => {
     const image = "registry.access.redhat.com/ubi8/ubi:8.2-347";
     const pluginResult = await scan({
       path: image,
+      platform: "linux/amd64",
     });
 
     expect(pluginResult).toMatchSnapshot();

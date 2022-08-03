@@ -15,6 +15,7 @@ describe("rpm package manager tests", () => {
     const image = "amazonlinux:2.0.20200722.0";
     const pluginResult = await scan({
       path: image,
+      platform: "linux/amd64",
     });
 
     expect(pluginResult).toMatchSnapshot();
@@ -24,6 +25,7 @@ describe("rpm package manager tests", () => {
     const image = "amazonlinux:2022.0.20220504.1";
     const pluginResult = await scan({
       path: image,
+      platform: "linux/amd64",
     });
 
     expect(pluginResult).toMatchSnapshot();

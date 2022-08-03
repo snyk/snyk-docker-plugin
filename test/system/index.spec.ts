@@ -28,7 +28,13 @@ describe("system tests", () => {
       "695e7fa35b2ea1846732a6c9f8cebec6c941a54d4aafd15a451062ef8be81bfb";
     const img = imgName + ":" + imgTag;
 
-    await subProcess.execute("docker", ["image", "pull", img]);
+    await subProcess.execute("docker", [
+      "image",
+      "pull",
+      img,
+      "--platform",
+      "linux/amd64",
+    ]);
 
     const pluginResult = await plugin.scan({ path: img });
     const depGraph: DepGraph = pluginResult.scanResults[0].facts.find(
@@ -47,7 +53,13 @@ describe("system tests", () => {
     const img = imgName + ":" + imgTag;
     const dockerFileLocation = getDockerfileFixturePath("node");
 
-    await subProcess.execute("docker", ["image", "pull", img]);
+    await subProcess.execute("docker", [
+      "image",
+      "pull",
+      img,
+      "--platform",
+      "linux/amd64",
+    ]);
 
     const pluginResponse = await plugin.scan({
       path: img,
@@ -91,7 +103,13 @@ describe("system tests", () => {
     const img = imgName + ":" + imgTag;
     const dockerFileLocation = getDockerfileFixturePath("nginx");
 
-    await subProcess.execute("docker", ["image", "pull", img]);
+    await subProcess.execute("docker", [
+      "image",
+      "pull",
+      img,
+      "--platform",
+      "linux/amd64",
+    ]);
 
     const pluginResponse = await plugin.scan({
       path: img,
@@ -137,7 +155,13 @@ describe("system tests", () => {
     const img = imgName + ":" + imgTag;
     const dockerFileLocation = getDockerfileFixturePath("redis");
 
-    await subProcess.execute("docker", ["image", "pull", img]);
+    await subProcess.execute("docker", [
+      "image",
+      "pull",
+      img,
+      "--platform",
+      "linux/amd64",
+    ]);
 
     const pluginResponse = await plugin.scan({
       path: img,
@@ -200,7 +224,13 @@ describe("system tests", () => {
       const hostAndImgName = "localhost:5000/" + imgName;
       const hostAndImg = hostAndImgName + ":" + imgTag;
 
-      await subProcess.execute("docker", ["image", "pull", img]);
+      await subProcess.execute("docker", [
+        "image",
+        "pull",
+        img,
+        "--platform",
+        "linux/amd64",
+      ]);
       await subProcess.execute("docker", ["tag", img, hostAndImg]);
 
       const pluginResponse = await plugin.scan({
@@ -239,7 +269,7 @@ describe("system tests", () => {
   test("inspect image with sha@256 " + "ubuntu@sha256", async () => {
     const imgName = "ubuntu";
     const imgSha =
-      "@sha256:945039273a7b927869a07b375dc3148de16865de44dec8398672977e050a072e";
+      "@sha256:eb5d7eda6804359e4fc5223a31a2d9caa4c8ea590b14060d81c8bc05b22ca04e";
     const img = imgName + imgSha;
 
     await subProcess.execute("docker", ["image", "pull", img]);
@@ -279,7 +309,13 @@ describe("system tests", () => {
       const hostAndImgName = "localhost:5000/foo/" + imgName;
       const hostAndImg = hostAndImgName + ":" + imgTag;
 
-      await subProcess.execute("docker", ["image", "pull", img]);
+      await subProcess.execute("docker", [
+        "image",
+        "pull",
+        img,
+        "--platform",
+        "linux/amd64",
+      ]);
       await subProcess.execute("docker", ["tag", img, hostAndImg]);
 
       const pluginResponse = await plugin.scan({
