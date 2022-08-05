@@ -10,6 +10,7 @@ import {
 import { ExtractAction } from "../extractor/types";
 import { DepGraphFact } from "../facts";
 import { parseGoBinary } from "./parser";
+import { LineTable } from "./pclntab";
 import { Elf } from "./types";
 
 const ignoredPaths = [
@@ -175,4 +176,13 @@ export async function goModulesToScannedProjects(
   }
 
   return scanResults;
+}
+
+/**
+ * Reads the given PCLN ELF section from a Go binary and returns
+ * a list of files that have been used to compile that binary.
+ * @param pcln: a buffer containing the ".gopclntab" ELF section
+ */
+export function readFilesFromPCLNTable(pcln: Buffer): string[] {
+  return new LineTable(pcln).go12MapFiles();
 }
