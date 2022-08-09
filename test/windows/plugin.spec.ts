@@ -96,6 +96,7 @@ describe("windows scanning", () => {
 
     const pluginResult = await plugin.scan({
       path: imageNameAndTag,
+      "exclude-app-vulns": true,
     });
 
     const depGraph: DepGraph = pluginResult.scanResults[0].facts.find(
@@ -114,5 +115,5 @@ describe("windows scanning", () => {
     expect(pluginResult.scanResults[0].identity.args?.platform).toEqual(
       "windows/amd64",
     );
-  });
+  }, 600000);
 });

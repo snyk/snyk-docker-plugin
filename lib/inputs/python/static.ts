@@ -3,15 +3,31 @@ import { basename } from "path";
 import { ExtractAction } from "../../extractor/types";
 import { streamToString } from "../../stream-utils";
 
-const pythonAppFiles = ["pyproject.toml", "poetry.lock"];
+const poetryManifestFiles = ["pyproject.toml", "poetry.lock"];
+const pipManifestFiles = ["requirements.txt"];
+const pythonMetadataFilesRegex = /\/usr\/local\/lib\/python.*?\/site-packages\/.*?\.dist-info\/METADATA/;
 
-function filePathMatches(filePath: string): boolean {
+function poetryFilePathMatches(filePath: string): boolean {
   const fileName = basename(filePath);
-  return pythonAppFiles.includes(fileName);
+  return poetryManifestFiles.includes(fileName);
 }
 
-export const getPythonAppFileContentAction: ExtractAction = {
-  actionName: "python-app-files",
-  filePathMatches,
+export const getPoetryAppFileContentAction: ExtractAction = {
+  actionName: "poetry-app-files",
+  filePathMatches: poetryFilePathMatches,
+  callback: streamToString,
+};
+
+function pipFilePathMatches(filePath: string): boolean {
+  const fileName = basename(filePath);
+  return (
+    pipManifestFiles.includes(fileName) ||
+    pythonMetadataFilesRegex.test(filePath)
+  );
+}
+
+export const getPipAppFileContentAction: ExtractAction = {
+  actionName: "pip-app-files",
+  filePathMatches: pipFilePathMatches,
   callback: streamToString,
 };

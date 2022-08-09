@@ -1,9 +1,13 @@
 import { nodeFilesToScannedProjects } from "./node";
 import { phpFilesToScannedProjects } from "./php";
-import { poetryFilesToScannedProjects } from "./python";
+import {
+  pipFilesToScannedProjects,
+  poetryFilesToScannedProjects,
+} from "./python";
 
 export {
   nodeFilesToScannedProjects,
   phpFilesToScannedProjects,
   poetryFilesToScannedProjects,
+  pipFilesToScannedProjects,
 };
