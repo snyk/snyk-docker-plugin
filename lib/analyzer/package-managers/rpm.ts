@@ -1,3 +1,4 @@
+import { formatRpmPackageVersion } from "@snyk/rpm-parser";
 import { PackageInfo } from "@snyk/rpm-parser/lib/rpm/types";
 import { AnalysisType, AnalyzedPackage, ImageAnalysis } from "../types";
 
@@ -45,7 +46,7 @@ export function mapRpmSqlitePackages(
     analysis = rpmPackages.map((pkg) => {
       return {
         Name: pkg.name,
-        Version: pkg.version,
+        Version: formatRpmPackageVersion(pkg),
         Source: undefined,
         Provides: [],
         Deps: {},

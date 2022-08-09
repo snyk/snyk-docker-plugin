@@ -1650,382 +1650,382 @@ Object {
                 Object {
                   "deps": Array [
                     Object {
-                      "nodeId": "alternatives@1.15",
+                      "nodeId": "alternatives@1.15-2.amzn2022",
                     },
                     Object {
-                      "nodeId": "audit-libs@3.0.6",
+                      "nodeId": "audit-libs@3.0.6-1.amzn2022",
                     },
                     Object {
-                      "nodeId": "basesystem@11",
+                      "nodeId": "basesystem@11-11.amzn2022",
                     },
                     Object {
-                      "nodeId": "bash@5.1.8",
+                      "nodeId": "bash@5.1.8-2.amzn2022",
                     },
                     Object {
-                      "nodeId": "bzip2-libs@1.0.8",
+                      "nodeId": "bzip2-libs@1.0.8-6.amzn2022",
                     },
                     Object {
-                      "nodeId": "ca-certificates@2021.2.50",
+                      "nodeId": "ca-certificates@2021.2.50-1.0.amzn2022.0.2",
                     },
                     Object {
-                      "nodeId": "coreutils@8.32",
+                      "nodeId": "coreutils@8.32-30.amzn2022.0.1",
                     },
                     Object {
-                      "nodeId": "coreutils-common@8.32",
+                      "nodeId": "coreutils-common@8.32-30.amzn2022.0.1",
                     },
                     Object {
-                      "nodeId": "crypto-policies@20210213",
+                      "nodeId": "crypto-policies@20210213-1.git5c710c0.amzn2022",
                     },
                     Object {
-                      "nodeId": "curl@7.79.1",
+                      "nodeId": "curl@7.79.1-2.amzn2022",
                     },
                     Object {
-                      "nodeId": "cyrus-sasl-lib@2.1.27",
+                      "nodeId": "cyrus-sasl-lib@2.1.27-9.amzn2022",
                     },
                     Object {
-                      "nodeId": "dnf@4.9.0",
+                      "nodeId": "dnf@4.9.0-1.amzn2022",
                     },
                     Object {
-                      "nodeId": "dnf-data@4.9.0",
+                      "nodeId": "dnf-data@4.9.0-1.amzn2022",
                     },
                     Object {
-                      "nodeId": "elfutils-default-yama-scope@0.185",
+                      "nodeId": "elfutils-default-yama-scope@0.185-2.amzn2022.0.1",
                     },
                     Object {
-                      "nodeId": "elfutils-libelf@0.185",
+                      "nodeId": "elfutils-libelf@0.185-2.amzn2022.0.1",
                     },
                     Object {
-                      "nodeId": "elfutils-libs@0.185",
+                      "nodeId": "elfutils-libs@0.185-2.amzn2022.0.1",
                     },
                     Object {
-                      "nodeId": "expat@2.4.7",
+                      "nodeId": "expat@2.4.7-1.amzn2022",
                     },
                     Object {
-                      "nodeId": "file-libs@5.39",
+                      "nodeId": "file-libs@5.39-7.amzn2022",
                     },
                     Object {
-                      "nodeId": "filesystem@3.14",
+                      "nodeId": "filesystem@3.14-5.amzn2022",
                     },
                     Object {
-                      "nodeId": "gawk@5.1.0",
+                      "nodeId": "gawk@5.1.0-3.amzn2022",
                     },
                     Object {
-                      "nodeId": "gdbm-libs@1.19",
+                      "nodeId": "gdbm-libs@1:1.19-2.amzn2022",
                     },
                     Object {
-                      "nodeId": "glib2@2.68.4",
+                      "nodeId": "glib2@2.68.4-1.amzn2022",
                     },
                     Object {
-                      "nodeId": "glibc@2.34",
+                      "nodeId": "glibc@2.34-8.amzn2022",
                     },
                     Object {
-                      "nodeId": "glibc-common@2.34",
+                      "nodeId": "glibc-common@2.34-8.amzn2022",
                     },
                     Object {
-                      "nodeId": "glibc-minimal-langpack@2.34",
+                      "nodeId": "glibc-minimal-langpack@2.34-8.amzn2022",
                     },
                     Object {
-                      "nodeId": "gmp@6.2.0",
+                      "nodeId": "gmp@1:6.2.0-6.amzn2022",
                     },
                     Object {
-                      "nodeId": "gnupg2@2.2.27",
+                      "nodeId": "gnupg2@2.2.27-4.amzn2022",
                     },
                     Object {
-                      "nodeId": "gnutls@3.7.2",
+                      "nodeId": "gnutls@3.7.2-2.amzn2022.0.1",
                     },
                     Object {
-                      "nodeId": "gpgme@1.15.1",
+                      "nodeId": "gpgme@1.15.1-6.amzn2022",
                     },
                     Object {
-                      "nodeId": "grep@3.6",
+                      "nodeId": "grep@3.6-4.amzn2022",
                     },
                     Object {
-                      "nodeId": "ima-evm-utils@1.3.2",
+                      "nodeId": "ima-evm-utils@1.3.2-2.amzn2022.0.1",
                     },
                     Object {
-                      "nodeId": "json-c@0.14",
+                      "nodeId": "json-c@0.14-8.amzn2022",
                     },
                     Object {
-                      "nodeId": "keyutils-libs@1.6.1",
+                      "nodeId": "keyutils-libs@1.6.1-2.amzn2022",
                     },
                     Object {
-                      "nodeId": "krb5-libs@1.19.2",
+                      "nodeId": "krb5-libs@1.19.2-5.amzn2022",
                     },
                     Object {
-                      "nodeId": "libacl@2.3.1",
+                      "nodeId": "libacl@2.3.1-2.amzn2022",
                     },
                     Object {
-                      "nodeId": "libarchive@3.5.3",
+                      "nodeId": "libarchive@3.5.3-1.amzn2022",
                     },
                     Object {
-                      "nodeId": "libassuan@2.5.5",
+                      "nodeId": "libassuan@2.5.5-1.amzn2022",
                     },
                     Object {
-                      "nodeId": "libattr@2.5.1",
+                      "nodeId": "libattr@2.5.1-3.amzn2022",
                     },
                     Object {
-                      "nodeId": "libblkid@2.36.2",
+                      "nodeId": "libblkid@2.36.2-1.amzn2022",
                     },
                     Object {
-                      "nodeId": "libbrotli@1.0.9",
+                      "nodeId": "libbrotli@1.0.9-4.amzn2022",
                     },
                     Object {
-                      "nodeId": "libcap@2.48",
+                      "nodeId": "libcap@2.48-2.amzn2022",
                     },
                     Object {
-                      "nodeId": "libcap-ng@0.8.2",
+                      "nodeId": "libcap-ng@0.8.2-4.amzn2022",
                     },
                     Object {
-                      "nodeId": "libcom_err@1.45.6",
+                      "nodeId": "libcom_err@1.45.6-5.amzn2022",
                     },
                     Object {
-                      "nodeId": "libcomps@0.1.18",
+                      "nodeId": "libcomps@0.1.18-1.amzn2022",
                     },
                     Object {
-                      "nodeId": "libcurl@7.79.1",
+                      "nodeId": "libcurl@7.79.1-2.amzn2022",
                     },
                     Object {
-                      "nodeId": "libdb@5.3.28",
+                      "nodeId": "libdb@5.3.28-49.amzn2022",
                     },
                     Object {
-                      "nodeId": "libdnf@0.64.0",
+                      "nodeId": "libdnf@0.64.0-1.amzn2022.0.1",
                     },
                     Object {
-                      "nodeId": "libffi@3.1",
+                      "nodeId": "libffi@3.1-28.amzn2022",
                     },
                     Object {
-                      "nodeId": "libgcc@11.2.1",
+                      "nodeId": "libgcc@11.2.1-10.amzn2022.0.1",
                     },
                     Object {
-                      "nodeId": "libgcrypt@1.9.3",
+                      "nodeId": "libgcrypt@1.9.3-3.amzn2022.0.1",
                     },
                     Object {
-                      "nodeId": "libgomp@11.2.1",
+                      "nodeId": "libgomp@11.2.1-10.amzn2022.0.1",
                     },
                     Object {
-                      "nodeId": "libgpg-error@1.42",
+                      "nodeId": "libgpg-error@1.42-1.amzn2022",
                     },
                     Object {
-                      "nodeId": "libidn2@2.3.2",
+                      "nodeId": "libidn2@2.3.2-1.amzn2022",
                     },
                     Object {
-                      "nodeId": "libksba@1.6.0",
+                      "nodeId": "libksba@1.6.0-1.amzn2022",
                     },
                     Object {
-                      "nodeId": "libmodulemd@2.13.0",
+                      "nodeId": "libmodulemd@2.13.0-2.amzn2022",
                     },
                     Object {
-                      "nodeId": "libmount@2.36.2",
+                      "nodeId": "libmount@2.36.2-1.amzn2022",
                     },
                     Object {
-                      "nodeId": "libnghttp2@1.45.1",
+                      "nodeId": "libnghttp2@1.45.1-1.amzn2022.0.1",
                     },
                     Object {
-                      "nodeId": "libnsl2@1.3.0",
+                      "nodeId": "libnsl2@1.3.0-2.amzn2022",
                     },
                     Object {
-                      "nodeId": "libpsl@0.21.1",
+                      "nodeId": "libpsl@0.21.1-3.amzn2022",
                     },
                     Object {
-                      "nodeId": "librepo@1.14.2",
+                      "nodeId": "librepo@1.14.2-1.amzn2022.0.1",
                     },
                     Object {
-                      "nodeId": "libreport-filesystem@2.15.2",
+                      "nodeId": "libreport-filesystem@2.15.2-2.amzn2022",
                     },
                     Object {
-                      "nodeId": "libselinux@3.2",
+                      "nodeId": "libselinux@3.2-1.amzn2022",
                     },
                     Object {
-                      "nodeId": "libsemanage@3.2",
+                      "nodeId": "libsemanage@3.2-1.amzn2022",
                     },
                     Object {
-                      "nodeId": "libsepol@3.3",
+                      "nodeId": "libsepol@3.3-2.amzn2022",
                     },
                     Object {
-                      "nodeId": "libsigsegv@2.13",
+                      "nodeId": "libsigsegv@2.13-2.amzn2022",
                     },
                     Object {
-                      "nodeId": "libsmartcols@2.36.2",
+                      "nodeId": "libsmartcols@2.36.2-1.amzn2022",
                     },
                     Object {
-                      "nodeId": "libsolv@0.7.17",
+                      "nodeId": "libsolv@0.7.17-3.amzn2022",
                     },
                     Object {
-                      "nodeId": "libssh@0.9.6",
+                      "nodeId": "libssh@0.9.6-1.amzn2022.0.1",
                     },
                     Object {
-                      "nodeId": "libssh-config@0.9.6",
+                      "nodeId": "libssh-config@0.9.6-1.amzn2022.0.1",
                     },
                     Object {
-                      "nodeId": "libstdc++@11.2.1",
+                      "nodeId": "libstdc++@11.2.1-10.amzn2022.0.1",
                     },
                     Object {
-                      "nodeId": "libtasn1@4.16.0",
+                      "nodeId": "libtasn1@4.16.0-4.amzn2022",
                     },
                     Object {
-                      "nodeId": "libtirpc@1.3.2",
+                      "nodeId": "libtirpc@1.3.2-0.rc1.amzn2022",
                     },
                     Object {
-                      "nodeId": "libunistring@0.9.10",
+                      "nodeId": "libunistring@0.9.10-10.amzn2022",
                     },
                     Object {
-                      "nodeId": "libusbx@1.0.24",
+                      "nodeId": "libusbx@1.0.24-2.amzn2022",
                     },
                     Object {
-                      "nodeId": "libuuid@2.36.2",
+                      "nodeId": "libuuid@2.36.2-1.amzn2022",
                     },
                     Object {
-                      "nodeId": "libverto@0.3.2",
+                      "nodeId": "libverto@0.3.2-1.amzn2022",
                     },
                     Object {
-                      "nodeId": "libxcrypt@4.4.26",
+                      "nodeId": "libxcrypt@4.4.26-4.amzn2022",
                     },
                     Object {
-                      "nodeId": "libxml2@2.9.12",
+                      "nodeId": "libxml2@2.9.12-4.amzn2022",
                     },
                     Object {
-                      "nodeId": "libyaml@0.2.5",
+                      "nodeId": "libyaml@0.2.5-5.amzn2022",
                     },
                     Object {
-                      "nodeId": "libzstd@1.5.2",
+                      "nodeId": "libzstd@1.5.2-1.amzn2022",
                     },
                     Object {
-                      "nodeId": "lua-libs@5.4.4",
+                      "nodeId": "lua-libs@5.4.4-1.amzn2022",
                     },
                     Object {
-                      "nodeId": "lz4-libs@1.9.3",
+                      "nodeId": "lz4-libs@1.9.3-2.amzn2022",
                     },
                     Object {
-                      "nodeId": "mpfr@4.1.0",
+                      "nodeId": "mpfr@4.1.0-7.amzn2022",
                     },
                     Object {
-                      "nodeId": "ncurses-base@6.2",
+                      "nodeId": "ncurses-base@6.2-4.20200222.amzn2022",
                     },
                     Object {
-                      "nodeId": "ncurses-libs@6.2",
+                      "nodeId": "ncurses-libs@6.2-4.20200222.amzn2022",
                     },
                     Object {
-                      "nodeId": "nettle@3.7.3",
+                      "nodeId": "nettle@3.7.3-1.amzn2022",
                     },
                     Object {
-                      "nodeId": "npth@1.6",
+                      "nodeId": "npth@1.6-6.amzn2022",
                     },
                     Object {
-                      "nodeId": "openldap@2.4.57",
+                      "nodeId": "openldap@2.4.57-6.amzn2022.0.1",
                     },
                     Object {
-                      "nodeId": "openssl-libs@3.0.0",
+                      "nodeId": "openssl-libs@1:3.0.0-1.amzn2022.0.1",
                     },
                     Object {
-                      "nodeId": "openssl1.1@1.1.1l",
+                      "nodeId": "openssl1.1@1:1.1.1l-2.amzn2022.0.1",
                     },
                     Object {
-                      "nodeId": "p11-kit@0.23.22",
+                      "nodeId": "p11-kit@0.23.22-3.amzn2022",
                     },
                     Object {
-                      "nodeId": "p11-kit-trust@0.23.22",
+                      "nodeId": "p11-kit-trust@0.23.22-3.amzn2022",
                     },
                     Object {
-                      "nodeId": "pcre@8.44",
+                      "nodeId": "pcre@8.44-3.amzn2022.1",
                     },
                     Object {
-                      "nodeId": "pcre2@10.36",
+                      "nodeId": "pcre2@10.36-4.amzn2022",
                     },
                     Object {
-                      "nodeId": "pcre2-syntax@10.36",
+                      "nodeId": "pcre2-syntax@10.36-4.amzn2022",
                     },
                     Object {
-                      "nodeId": "popt@1.18",
+                      "nodeId": "popt@1.18-6.amzn2022",
                     },
                     Object {
-                      "nodeId": "publicsuffix-list-dafsa@20190417",
+                      "nodeId": "publicsuffix-list-dafsa@20190417-5.amzn2022",
                     },
                     Object {
-                      "nodeId": "python-pip-wheel@21.0.1",
+                      "nodeId": "python-pip-wheel@21.0.1-4.amzn2022",
                     },
                     Object {
-                      "nodeId": "python-setuptools-wheel@53.0.0",
+                      "nodeId": "python-setuptools-wheel@53.0.0-2.amzn2022",
                     },
                     Object {
-                      "nodeId": "python3@3.9.8",
+                      "nodeId": "python3@3.9.8-1.amzn2022.0.1",
                     },
                     Object {
-                      "nodeId": "python3-dnf@4.9.0",
+                      "nodeId": "python3-dnf@4.9.0-1.amzn2022",
                     },
                     Object {
-                      "nodeId": "python3-gpg@1.15.1",
+                      "nodeId": "python3-gpg@1.15.1-6.amzn2022",
                     },
                     Object {
-                      "nodeId": "python3-hawkey@0.64.0",
+                      "nodeId": "python3-hawkey@0.64.0-1.amzn2022.0.1",
                     },
                     Object {
-                      "nodeId": "python3-libcomps@0.1.18",
+                      "nodeId": "python3-libcomps@0.1.18-1.amzn2022",
                     },
                     Object {
-                      "nodeId": "python3-libdnf@0.64.0",
+                      "nodeId": "python3-libdnf@0.64.0-1.amzn2022.0.1",
                     },
                     Object {
-                      "nodeId": "python3-libs@3.9.8",
+                      "nodeId": "python3-libs@3.9.8-1.amzn2022.0.1",
                     },
                     Object {
-                      "nodeId": "python3-rpm@4.16.1.3",
+                      "nodeId": "python3-rpm@4.16.1.3-1.amzn2022.0.1",
                     },
                     Object {
-                      "nodeId": "readline@8.1",
+                      "nodeId": "readline@8.1-2.amzn2022",
                     },
                     Object {
-                      "nodeId": "rpm@4.16.1.3",
+                      "nodeId": "rpm@4.16.1.3-1.amzn2022.0.1",
                     },
                     Object {
-                      "nodeId": "rpm-build-libs@4.16.1.3",
+                      "nodeId": "rpm-build-libs@4.16.1.3-1.amzn2022.0.1",
                     },
                     Object {
-                      "nodeId": "rpm-libs@4.16.1.3",
+                      "nodeId": "rpm-libs@4.16.1.3-1.amzn2022.0.1",
                     },
                     Object {
-                      "nodeId": "rpm-sign-libs@4.16.1.3",
+                      "nodeId": "rpm-sign-libs@4.16.1.3-1.amzn2022.0.1",
                     },
                     Object {
-                      "nodeId": "sed@4.8",
+                      "nodeId": "sed@4.8-7.amzn2022",
                     },
                     Object {
-                      "nodeId": "setup@2.13.7",
+                      "nodeId": "setup@2.13.7-3.amzn2022",
                     },
                     Object {
-                      "nodeId": "shadow-utils@4.8.1",
+                      "nodeId": "shadow-utils@2:4.8.1-9.amzn2022",
                     },
                     Object {
-                      "nodeId": "sqlite-libs@3.34.1",
+                      "nodeId": "sqlite-libs@3.34.1-2.amzn2022",
                     },
                     Object {
-                      "nodeId": "system-release@2022.0.20220504",
+                      "nodeId": "system-release@2022.0.20220504-0.amzn2022",
                     },
                     Object {
-                      "nodeId": "systemd-libs@248.10",
+                      "nodeId": "systemd-libs@248.10-1.amzn2022.0.1",
                     },
                     Object {
-                      "nodeId": "tpm2-tss@3.1.0",
+                      "nodeId": "tpm2-tss@3.1.0-1.amzn2022.0.1",
                     },
                     Object {
-                      "nodeId": "tzdata@2022a",
+                      "nodeId": "tzdata@2022a-1.amzn2022",
                     },
                     Object {
-                      "nodeId": "vim-data@8.2.4314",
+                      "nodeId": "vim-data@2:8.2.4314-1.amzn2022",
                     },
                     Object {
-                      "nodeId": "vim-minimal@8.2.4314",
+                      "nodeId": "vim-minimal@2:8.2.4314-1.amzn2022",
                     },
                     Object {
-                      "nodeId": "xz-libs@5.2.5",
+                      "nodeId": "xz-libs@5.2.5-9.amzn2022",
                     },
                     Object {
-                      "nodeId": "yum@4.9.0",
+                      "nodeId": "yum@4.9.0-1.amzn2022",
                     },
                     Object {
-                      "nodeId": "zchunk-libs@1.1.15",
+                      "nodeId": "zchunk-libs@1.1.15-1.amzn2022.0.1",
                     },
                     Object {
-                      "nodeId": "zlib@1.2.11",
+                      "nodeId": "zlib@1.2.11-27.amzn2022",
                     },
                   ],
                   "nodeId": "root-node",
@@ -2033,633 +2033,633 @@ Object {
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "alternatives@1.15",
-                  "pkgId": "alternatives@1.15",
+                  "nodeId": "alternatives@1.15-2.amzn2022",
+                  "pkgId": "alternatives@1.15-2.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "audit-libs@3.0.6",
-                  "pkgId": "audit-libs@3.0.6",
+                  "nodeId": "audit-libs@3.0.6-1.amzn2022",
+                  "pkgId": "audit-libs@3.0.6-1.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "basesystem@11",
-                  "pkgId": "basesystem@11",
+                  "nodeId": "basesystem@11-11.amzn2022",
+                  "pkgId": "basesystem@11-11.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "bash@5.1.8",
-                  "pkgId": "bash@5.1.8",
+                  "nodeId": "bash@5.1.8-2.amzn2022",
+                  "pkgId": "bash@5.1.8-2.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "bzip2-libs@1.0.8",
-                  "pkgId": "bzip2-libs@1.0.8",
+                  "nodeId": "bzip2-libs@1.0.8-6.amzn2022",
+                  "pkgId": "bzip2-libs@1.0.8-6.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "ca-certificates@2021.2.50",
-                  "pkgId": "ca-certificates@2021.2.50",
+                  "nodeId": "ca-certificates@2021.2.50-1.0.amzn2022.0.2",
+                  "pkgId": "ca-certificates@2021.2.50-1.0.amzn2022.0.2",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "coreutils@8.32",
-                  "pkgId": "coreutils@8.32",
+                  "nodeId": "coreutils@8.32-30.amzn2022.0.1",
+                  "pkgId": "coreutils@8.32-30.amzn2022.0.1",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "coreutils-common@8.32",
-                  "pkgId": "coreutils-common@8.32",
+                  "nodeId": "coreutils-common@8.32-30.amzn2022.0.1",
+                  "pkgId": "coreutils-common@8.32-30.amzn2022.0.1",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "crypto-policies@20210213",
-                  "pkgId": "crypto-policies@20210213",
+                  "nodeId": "crypto-policies@20210213-1.git5c710c0.amzn2022",
+                  "pkgId": "crypto-policies@20210213-1.git5c710c0.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "curl@7.79.1",
-                  "pkgId": "curl@7.79.1",
+                  "nodeId": "curl@7.79.1-2.amzn2022",
+                  "pkgId": "curl@7.79.1-2.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "cyrus-sasl-lib@2.1.27",
-                  "pkgId": "cyrus-sasl-lib@2.1.27",
+                  "nodeId": "cyrus-sasl-lib@2.1.27-9.amzn2022",
+                  "pkgId": "cyrus-sasl-lib@2.1.27-9.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "dnf@4.9.0",
-                  "pkgId": "dnf@4.9.0",
+                  "nodeId": "dnf@4.9.0-1.amzn2022",
+                  "pkgId": "dnf@4.9.0-1.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "dnf-data@4.9.0",
-                  "pkgId": "dnf-data@4.9.0",
+                  "nodeId": "dnf-data@4.9.0-1.amzn2022",
+                  "pkgId": "dnf-data@4.9.0-1.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "elfutils-default-yama-scope@0.185",
-                  "pkgId": "elfutils-default-yama-scope@0.185",
+                  "nodeId": "elfutils-default-yama-scope@0.185-2.amzn2022.0.1",
+                  "pkgId": "elfutils-default-yama-scope@0.185-2.amzn2022.0.1",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "elfutils-libelf@0.185",
-                  "pkgId": "elfutils-libelf@0.185",
+                  "nodeId": "elfutils-libelf@0.185-2.amzn2022.0.1",
+                  "pkgId": "elfutils-libelf@0.185-2.amzn2022.0.1",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "elfutils-libs@0.185",
-                  "pkgId": "elfutils-libs@0.185",
+                  "nodeId": "elfutils-libs@0.185-2.amzn2022.0.1",
+                  "pkgId": "elfutils-libs@0.185-2.amzn2022.0.1",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "expat@2.4.7",
-                  "pkgId": "expat@2.4.7",
+                  "nodeId": "expat@2.4.7-1.amzn2022",
+                  "pkgId": "expat@2.4.7-1.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "file-libs@5.39",
-                  "pkgId": "file-libs@5.39",
+                  "nodeId": "file-libs@5.39-7.amzn2022",
+                  "pkgId": "file-libs@5.39-7.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "filesystem@3.14",
-                  "pkgId": "filesystem@3.14",
+                  "nodeId": "filesystem@3.14-5.amzn2022",
+                  "pkgId": "filesystem@3.14-5.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "gawk@5.1.0",
-                  "pkgId": "gawk@5.1.0",
+                  "nodeId": "gawk@5.1.0-3.amzn2022",
+                  "pkgId": "gawk@5.1.0-3.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "gdbm-libs@1.19",
-                  "pkgId": "gdbm-libs@1.19",
+                  "nodeId": "gdbm-libs@1:1.19-2.amzn2022",
+                  "pkgId": "gdbm-libs@1:1.19-2.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "glib2@2.68.4",
-                  "pkgId": "glib2@2.68.4",
+                  "nodeId": "glib2@2.68.4-1.amzn2022",
+                  "pkgId": "glib2@2.68.4-1.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "glibc@2.34",
-                  "pkgId": "glibc@2.34",
+                  "nodeId": "glibc@2.34-8.amzn2022",
+                  "pkgId": "glibc@2.34-8.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "glibc-common@2.34",
-                  "pkgId": "glibc-common@2.34",
+                  "nodeId": "glibc-common@2.34-8.amzn2022",
+                  "pkgId": "glibc-common@2.34-8.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "glibc-minimal-langpack@2.34",
-                  "pkgId": "glibc-minimal-langpack@2.34",
+                  "nodeId": "glibc-minimal-langpack@2.34-8.amzn2022",
+                  "pkgId": "glibc-minimal-langpack@2.34-8.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "gmp@6.2.0",
-                  "pkgId": "gmp@6.2.0",
+                  "nodeId": "gmp@1:6.2.0-6.amzn2022",
+                  "pkgId": "gmp@1:6.2.0-6.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "gnupg2@2.2.27",
-                  "pkgId": "gnupg2@2.2.27",
+                  "nodeId": "gnupg2@2.2.27-4.amzn2022",
+                  "pkgId": "gnupg2@2.2.27-4.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "gnutls@3.7.2",
-                  "pkgId": "gnutls@3.7.2",
+                  "nodeId": "gnutls@3.7.2-2.amzn2022.0.1",
+                  "pkgId": "gnutls@3.7.2-2.amzn2022.0.1",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "gpgme@1.15.1",
-                  "pkgId": "gpgme@1.15.1",
+                  "nodeId": "gpgme@1.15.1-6.amzn2022",
+                  "pkgId": "gpgme@1.15.1-6.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "grep@3.6",
-                  "pkgId": "grep@3.6",
+                  "nodeId": "grep@3.6-4.amzn2022",
+                  "pkgId": "grep@3.6-4.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "ima-evm-utils@1.3.2",
-                  "pkgId": "ima-evm-utils@1.3.2",
+                  "nodeId": "ima-evm-utils@1.3.2-2.amzn2022.0.1",
+                  "pkgId": "ima-evm-utils@1.3.2-2.amzn2022.0.1",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "json-c@0.14",
-                  "pkgId": "json-c@0.14",
+                  "nodeId": "json-c@0.14-8.amzn2022",
+                  "pkgId": "json-c@0.14-8.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "keyutils-libs@1.6.1",
-                  "pkgId": "keyutils-libs@1.6.1",
+                  "nodeId": "keyutils-libs@1.6.1-2.amzn2022",
+                  "pkgId": "keyutils-libs@1.6.1-2.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "krb5-libs@1.19.2",
-                  "pkgId": "krb5-libs@1.19.2",
+                  "nodeId": "krb5-libs@1.19.2-5.amzn2022",
+                  "pkgId": "krb5-libs@1.19.2-5.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libacl@2.3.1",
-                  "pkgId": "libacl@2.3.1",
+                  "nodeId": "libacl@2.3.1-2.amzn2022",
+                  "pkgId": "libacl@2.3.1-2.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libarchive@3.5.3",
-                  "pkgId": "libarchive@3.5.3",
+                  "nodeId": "libarchive@3.5.3-1.amzn2022",
+                  "pkgId": "libarchive@3.5.3-1.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libassuan@2.5.5",
-                  "pkgId": "libassuan@2.5.5",
+                  "nodeId": "libassuan@2.5.5-1.amzn2022",
+                  "pkgId": "libassuan@2.5.5-1.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libattr@2.5.1",
-                  "pkgId": "libattr@2.5.1",
+                  "nodeId": "libattr@2.5.1-3.amzn2022",
+                  "pkgId": "libattr@2.5.1-3.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libblkid@2.36.2",
-                  "pkgId": "libblkid@2.36.2",
+                  "nodeId": "libblkid@2.36.2-1.amzn2022",
+                  "pkgId": "libblkid@2.36.2-1.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libbrotli@1.0.9",
-                  "pkgId": "libbrotli@1.0.9",
+                  "nodeId": "libbrotli@1.0.9-4.amzn2022",
+                  "pkgId": "libbrotli@1.0.9-4.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libcap@2.48",
-                  "pkgId": "libcap@2.48",
+                  "nodeId": "libcap@2.48-2.amzn2022",
+                  "pkgId": "libcap@2.48-2.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libcap-ng@0.8.2",
-                  "pkgId": "libcap-ng@0.8.2",
+                  "nodeId": "libcap-ng@0.8.2-4.amzn2022",
+                  "pkgId": "libcap-ng@0.8.2-4.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libcom_err@1.45.6",
-                  "pkgId": "libcom_err@1.45.6",
+                  "nodeId": "libcom_err@1.45.6-5.amzn2022",
+                  "pkgId": "libcom_err@1.45.6-5.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libcomps@0.1.18",
-                  "pkgId": "libcomps@0.1.18",
+                  "nodeId": "libcomps@0.1.18-1.amzn2022",
+                  "pkgId": "libcomps@0.1.18-1.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libcurl@7.79.1",
-                  "pkgId": "libcurl@7.79.1",
+                  "nodeId": "libcurl@7.79.1-2.amzn2022",
+                  "pkgId": "libcurl@7.79.1-2.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libdb@5.3.28",
-                  "pkgId": "libdb@5.3.28",
+                  "nodeId": "libdb@5.3.28-49.amzn2022",
+                  "pkgId": "libdb@5.3.28-49.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libdnf@0.64.0",
-                  "pkgId": "libdnf@0.64.0",
+                  "nodeId": "libdnf@0.64.0-1.amzn2022.0.1",
+                  "pkgId": "libdnf@0.64.0-1.amzn2022.0.1",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libffi@3.1",
-                  "pkgId": "libffi@3.1",
+                  "nodeId": "libffi@3.1-28.amzn2022",
+                  "pkgId": "libffi@3.1-28.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libgcc@11.2.1",
-                  "pkgId": "libgcc@11.2.1",
+                  "nodeId": "libgcc@11.2.1-10.amzn2022.0.1",
+                  "pkgId": "libgcc@11.2.1-10.amzn2022.0.1",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libgcrypt@1.9.3",
-                  "pkgId": "libgcrypt@1.9.3",
+                  "nodeId": "libgcrypt@1.9.3-3.amzn2022.0.1",
+                  "pkgId": "libgcrypt@1.9.3-3.amzn2022.0.1",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libgomp@11.2.1",
-                  "pkgId": "libgomp@11.2.1",
+                  "nodeId": "libgomp@11.2.1-10.amzn2022.0.1",
+                  "pkgId": "libgomp@11.2.1-10.amzn2022.0.1",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libgpg-error@1.42",
-                  "pkgId": "libgpg-error@1.42",
+                  "nodeId": "libgpg-error@1.42-1.amzn2022",
+                  "pkgId": "libgpg-error@1.42-1.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libidn2@2.3.2",
-                  "pkgId": "libidn2@2.3.2",
+                  "nodeId": "libidn2@2.3.2-1.amzn2022",
+                  "pkgId": "libidn2@2.3.2-1.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libksba@1.6.0",
-                  "pkgId": "libksba@1.6.0",
+                  "nodeId": "libksba@1.6.0-1.amzn2022",
+                  "pkgId": "libksba@1.6.0-1.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libmodulemd@2.13.0",
-                  "pkgId": "libmodulemd@2.13.0",
+                  "nodeId": "libmodulemd@2.13.0-2.amzn2022",
+                  "pkgId": "libmodulemd@2.13.0-2.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libmount@2.36.2",
-                  "pkgId": "libmount@2.36.2",
+                  "nodeId": "libmount@2.36.2-1.amzn2022",
+                  "pkgId": "libmount@2.36.2-1.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libnghttp2@1.45.1",
-                  "pkgId": "libnghttp2@1.45.1",
+                  "nodeId": "libnghttp2@1.45.1-1.amzn2022.0.1",
+                  "pkgId": "libnghttp2@1.45.1-1.amzn2022.0.1",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libnsl2@1.3.0",
-                  "pkgId": "libnsl2@1.3.0",
+                  "nodeId": "libnsl2@1.3.0-2.amzn2022",
+                  "pkgId": "libnsl2@1.3.0-2.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libpsl@0.21.1",
-                  "pkgId": "libpsl@0.21.1",
+                  "nodeId": "libpsl@0.21.1-3.amzn2022",
+                  "pkgId": "libpsl@0.21.1-3.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "librepo@1.14.2",
-                  "pkgId": "librepo@1.14.2",
+                  "nodeId": "librepo@1.14.2-1.amzn2022.0.1",
+                  "pkgId": "librepo@1.14.2-1.amzn2022.0.1",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libreport-filesystem@2.15.2",
-                  "pkgId": "libreport-filesystem@2.15.2",
+                  "nodeId": "libreport-filesystem@2.15.2-2.amzn2022",
+                  "pkgId": "libreport-filesystem@2.15.2-2.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libselinux@3.2",
-                  "pkgId": "libselinux@3.2",
+                  "nodeId": "libselinux@3.2-1.amzn2022",
+                  "pkgId": "libselinux@3.2-1.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libsemanage@3.2",
-                  "pkgId": "libsemanage@3.2",
+                  "nodeId": "libsemanage@3.2-1.amzn2022",
+                  "pkgId": "libsemanage@3.2-1.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libsepol@3.3",
-                  "pkgId": "libsepol@3.3",
+                  "nodeId": "libsepol@3.3-2.amzn2022",
+                  "pkgId": "libsepol@3.3-2.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libsigsegv@2.13",
-                  "pkgId": "libsigsegv@2.13",
+                  "nodeId": "libsigsegv@2.13-2.amzn2022",
+                  "pkgId": "libsigsegv@2.13-2.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libsmartcols@2.36.2",
-                  "pkgId": "libsmartcols@2.36.2",
+                  "nodeId": "libsmartcols@2.36.2-1.amzn2022",
+                  "pkgId": "libsmartcols@2.36.2-1.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libsolv@0.7.17",
-                  "pkgId": "libsolv@0.7.17",
+                  "nodeId": "libsolv@0.7.17-3.amzn2022",
+                  "pkgId": "libsolv@0.7.17-3.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libssh@0.9.6",
-                  "pkgId": "libssh@0.9.6",
+                  "nodeId": "libssh@0.9.6-1.amzn2022.0.1",
+                  "pkgId": "libssh@0.9.6-1.amzn2022.0.1",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libssh-config@0.9.6",
-                  "pkgId": "libssh-config@0.9.6",
+                  "nodeId": "libssh-config@0.9.6-1.amzn2022.0.1",
+                  "pkgId": "libssh-config@0.9.6-1.amzn2022.0.1",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libstdc++@11.2.1",
-                  "pkgId": "libstdc++@11.2.1",
+                  "nodeId": "libstdc++@11.2.1-10.amzn2022.0.1",
+                  "pkgId": "libstdc++@11.2.1-10.amzn2022.0.1",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libtasn1@4.16.0",
-                  "pkgId": "libtasn1@4.16.0",
+                  "nodeId": "libtasn1@4.16.0-4.amzn2022",
+                  "pkgId": "libtasn1@4.16.0-4.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libtirpc@1.3.2",
-                  "pkgId": "libtirpc@1.3.2",
+                  "nodeId": "libtirpc@1.3.2-0.rc1.amzn2022",
+                  "pkgId": "libtirpc@1.3.2-0.rc1.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libunistring@0.9.10",
-                  "pkgId": "libunistring@0.9.10",
+                  "nodeId": "libunistring@0.9.10-10.amzn2022",
+                  "pkgId": "libunistring@0.9.10-10.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libusbx@1.0.24",
-                  "pkgId": "libusbx@1.0.24",
+                  "nodeId": "libusbx@1.0.24-2.amzn2022",
+                  "pkgId": "libusbx@1.0.24-2.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libuuid@2.36.2",
-                  "pkgId": "libuuid@2.36.2",
+                  "nodeId": "libuuid@2.36.2-1.amzn2022",
+                  "pkgId": "libuuid@2.36.2-1.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libverto@0.3.2",
-                  "pkgId": "libverto@0.3.2",
+                  "nodeId": "libverto@0.3.2-1.amzn2022",
+                  "pkgId": "libverto@0.3.2-1.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libxcrypt@4.4.26",
-                  "pkgId": "libxcrypt@4.4.26",
+                  "nodeId": "libxcrypt@4.4.26-4.amzn2022",
+                  "pkgId": "libxcrypt@4.4.26-4.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libxml2@2.9.12",
-                  "pkgId": "libxml2@2.9.12",
+                  "nodeId": "libxml2@2.9.12-4.amzn2022",
+                  "pkgId": "libxml2@2.9.12-4.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libyaml@0.2.5",
-                  "pkgId": "libyaml@0.2.5",
+                  "nodeId": "libyaml@0.2.5-5.amzn2022",
+                  "pkgId": "libyaml@0.2.5-5.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libzstd@1.5.2",
-                  "pkgId": "libzstd@1.5.2",
+                  "nodeId": "libzstd@1.5.2-1.amzn2022",
+                  "pkgId": "libzstd@1.5.2-1.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "lua-libs@5.4.4",
-                  "pkgId": "lua-libs@5.4.4",
+                  "nodeId": "lua-libs@5.4.4-1.amzn2022",
+                  "pkgId": "lua-libs@5.4.4-1.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "lz4-libs@1.9.3",
-                  "pkgId": "lz4-libs@1.9.3",
+                  "nodeId": "lz4-libs@1.9.3-2.amzn2022",
+                  "pkgId": "lz4-libs@1.9.3-2.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "mpfr@4.1.0",
-                  "pkgId": "mpfr@4.1.0",
+                  "nodeId": "mpfr@4.1.0-7.amzn2022",
+                  "pkgId": "mpfr@4.1.0-7.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "ncurses-base@6.2",
-                  "pkgId": "ncurses-base@6.2",
+                  "nodeId": "ncurses-base@6.2-4.20200222.amzn2022",
+                  "pkgId": "ncurses-base@6.2-4.20200222.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "ncurses-libs@6.2",
-                  "pkgId": "ncurses-libs@6.2",
+                  "nodeId": "ncurses-libs@6.2-4.20200222.amzn2022",
+                  "pkgId": "ncurses-libs@6.2-4.20200222.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "nettle@3.7.3",
-                  "pkgId": "nettle@3.7.3",
+                  "nodeId": "nettle@3.7.3-1.amzn2022",
+                  "pkgId": "nettle@3.7.3-1.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "npth@1.6",
-                  "pkgId": "npth@1.6",
+                  "nodeId": "npth@1.6-6.amzn2022",
+                  "pkgId": "npth@1.6-6.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "openldap@2.4.57",
-                  "pkgId": "openldap@2.4.57",
+                  "nodeId": "openldap@2.4.57-6.amzn2022.0.1",
+                  "pkgId": "openldap@2.4.57-6.amzn2022.0.1",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "openssl-libs@3.0.0",
-                  "pkgId": "openssl-libs@3.0.0",
+                  "nodeId": "openssl-libs@1:3.0.0-1.amzn2022.0.1",
+                  "pkgId": "openssl-libs@1:3.0.0-1.amzn2022.0.1",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "openssl1.1@1.1.1l",
-                  "pkgId": "openssl1.1@1.1.1l",
+                  "nodeId": "openssl1.1@1:1.1.1l-2.amzn2022.0.1",
+                  "pkgId": "openssl1.1@1:1.1.1l-2.amzn2022.0.1",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "p11-kit@0.23.22",
-                  "pkgId": "p11-kit@0.23.22",
+                  "nodeId": "p11-kit@0.23.22-3.amzn2022",
+                  "pkgId": "p11-kit@0.23.22-3.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "p11-kit-trust@0.23.22",
-                  "pkgId": "p11-kit-trust@0.23.22",
+                  "nodeId": "p11-kit-trust@0.23.22-3.amzn2022",
+                  "pkgId": "p11-kit-trust@0.23.22-3.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "pcre@8.44",
-                  "pkgId": "pcre@8.44",
+                  "nodeId": "pcre@8.44-3.amzn2022.1",
+                  "pkgId": "pcre@8.44-3.amzn2022.1",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "pcre2@10.36",
-                  "pkgId": "pcre2@10.36",
+                  "nodeId": "pcre2@10.36-4.amzn2022",
+                  "pkgId": "pcre2@10.36-4.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "pcre2-syntax@10.36",
-                  "pkgId": "pcre2-syntax@10.36",
+                  "nodeId": "pcre2-syntax@10.36-4.amzn2022",
+                  "pkgId": "pcre2-syntax@10.36-4.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "popt@1.18",
-                  "pkgId": "popt@1.18",
+                  "nodeId": "popt@1.18-6.amzn2022",
+                  "pkgId": "popt@1.18-6.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "publicsuffix-list-dafsa@20190417",
-                  "pkgId": "publicsuffix-list-dafsa@20190417",
+                  "nodeId": "publicsuffix-list-dafsa@20190417-5.amzn2022",
+                  "pkgId": "publicsuffix-list-dafsa@20190417-5.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "python-pip-wheel@21.0.1",
-                  "pkgId": "python-pip-wheel@21.0.1",
+                  "nodeId": "python-pip-wheel@21.0.1-4.amzn2022",
+                  "pkgId": "python-pip-wheel@21.0.1-4.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "python-setuptools-wheel@53.0.0",
-                  "pkgId": "python-setuptools-wheel@53.0.0",
+                  "nodeId": "python-setuptools-wheel@53.0.0-2.amzn2022",
+                  "pkgId": "python-setuptools-wheel@53.0.0-2.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "python3@3.9.8",
-                  "pkgId": "python3@3.9.8",
+                  "nodeId": "python3@3.9.8-1.amzn2022.0.1",
+                  "pkgId": "python3@3.9.8-1.amzn2022.0.1",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "python3-dnf@4.9.0",
-                  "pkgId": "python3-dnf@4.9.0",
+                  "nodeId": "python3-dnf@4.9.0-1.amzn2022",
+                  "pkgId": "python3-dnf@4.9.0-1.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "python3-gpg@1.15.1",
-                  "pkgId": "python3-gpg@1.15.1",
+                  "nodeId": "python3-gpg@1.15.1-6.amzn2022",
+                  "pkgId": "python3-gpg@1.15.1-6.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "python3-hawkey@0.64.0",
-                  "pkgId": "python3-hawkey@0.64.0",
+                  "nodeId": "python3-hawkey@0.64.0-1.amzn2022.0.1",
+                  "pkgId": "python3-hawkey@0.64.0-1.amzn2022.0.1",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "python3-libcomps@0.1.18",
-                  "pkgId": "python3-libcomps@0.1.18",
+                  "nodeId": "python3-libcomps@0.1.18-1.amzn2022",
+                  "pkgId": "python3-libcomps@0.1.18-1.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "python3-libdnf@0.64.0",
-                  "pkgId": "python3-libdnf@0.64.0",
+                  "nodeId": "python3-libdnf@0.64.0-1.amzn2022.0.1",
+                  "pkgId": "python3-libdnf@0.64.0-1.amzn2022.0.1",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "python3-libs@3.9.8",
-                  "pkgId": "python3-libs@3.9.8",
+                  "nodeId": "python3-libs@3.9.8-1.amzn2022.0.1",
+                  "pkgId": "python3-libs@3.9.8-1.amzn2022.0.1",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "python3-rpm@4.16.1.3",
-                  "pkgId": "python3-rpm@4.16.1.3",
+                  "nodeId": "python3-rpm@4.16.1.3-1.amzn2022.0.1",
+                  "pkgId": "python3-rpm@4.16.1.3-1.amzn2022.0.1",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "readline@8.1",
-                  "pkgId": "readline@8.1",
+                  "nodeId": "readline@8.1-2.amzn2022",
+                  "pkgId": "readline@8.1-2.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "rpm@4.16.1.3",
-                  "pkgId": "rpm@4.16.1.3",
+                  "nodeId": "rpm@4.16.1.3-1.amzn2022.0.1",
+                  "pkgId": "rpm@4.16.1.3-1.amzn2022.0.1",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "rpm-build-libs@4.16.1.3",
-                  "pkgId": "rpm-build-libs@4.16.1.3",
+                  "nodeId": "rpm-build-libs@4.16.1.3-1.amzn2022.0.1",
+                  "pkgId": "rpm-build-libs@4.16.1.3-1.amzn2022.0.1",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "rpm-libs@4.16.1.3",
-                  "pkgId": "rpm-libs@4.16.1.3",
+                  "nodeId": "rpm-libs@4.16.1.3-1.amzn2022.0.1",
+                  "pkgId": "rpm-libs@4.16.1.3-1.amzn2022.0.1",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "rpm-sign-libs@4.16.1.3",
-                  "pkgId": "rpm-sign-libs@4.16.1.3",
+                  "nodeId": "rpm-sign-libs@4.16.1.3-1.amzn2022.0.1",
+                  "pkgId": "rpm-sign-libs@4.16.1.3-1.amzn2022.0.1",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "sed@4.8",
-                  "pkgId": "sed@4.8",
+                  "nodeId": "sed@4.8-7.amzn2022",
+                  "pkgId": "sed@4.8-7.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "setup@2.13.7",
-                  "pkgId": "setup@2.13.7",
+                  "nodeId": "setup@2.13.7-3.amzn2022",
+                  "pkgId": "setup@2.13.7-3.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "shadow-utils@4.8.1",
-                  "pkgId": "shadow-utils@4.8.1",
+                  "nodeId": "shadow-utils@2:4.8.1-9.amzn2022",
+                  "pkgId": "shadow-utils@2:4.8.1-9.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "sqlite-libs@3.34.1",
-                  "pkgId": "sqlite-libs@3.34.1",
+                  "nodeId": "sqlite-libs@3.34.1-2.amzn2022",
+                  "pkgId": "sqlite-libs@3.34.1-2.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "system-release@2022.0.20220504",
-                  "pkgId": "system-release@2022.0.20220504",
+                  "nodeId": "system-release@2022.0.20220504-0.amzn2022",
+                  "pkgId": "system-release@2022.0.20220504-0.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "systemd-libs@248.10",
-                  "pkgId": "systemd-libs@248.10",
+                  "nodeId": "systemd-libs@248.10-1.amzn2022.0.1",
+                  "pkgId": "systemd-libs@248.10-1.amzn2022.0.1",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "tpm2-tss@3.1.0",
-                  "pkgId": "tpm2-tss@3.1.0",
+                  "nodeId": "tpm2-tss@3.1.0-1.amzn2022.0.1",
+                  "pkgId": "tpm2-tss@3.1.0-1.amzn2022.0.1",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "tzdata@2022a",
-                  "pkgId": "tzdata@2022a",
+                  "nodeId": "tzdata@2022a-1.amzn2022",
+                  "pkgId": "tzdata@2022a-1.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "vim-data@8.2.4314",
-                  "pkgId": "vim-data@8.2.4314",
+                  "nodeId": "vim-data@2:8.2.4314-1.amzn2022",
+                  "pkgId": "vim-data@2:8.2.4314-1.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "vim-minimal@8.2.4314",
-                  "pkgId": "vim-minimal@8.2.4314",
+                  "nodeId": "vim-minimal@2:8.2.4314-1.amzn2022",
+                  "pkgId": "vim-minimal@2:8.2.4314-1.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "xz-libs@5.2.5",
-                  "pkgId": "xz-libs@5.2.5",
+                  "nodeId": "xz-libs@5.2.5-9.amzn2022",
+                  "pkgId": "xz-libs@5.2.5-9.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "yum@4.9.0",
-                  "pkgId": "yum@4.9.0",
+                  "nodeId": "yum@4.9.0-1.amzn2022",
+                  "pkgId": "yum@4.9.0-1.amzn2022",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "zchunk-libs@1.1.15",
-                  "pkgId": "zchunk-libs@1.1.15",
+                  "nodeId": "zchunk-libs@1.1.15-1.amzn2022.0.1",
+                  "pkgId": "zchunk-libs@1.1.15-1.amzn2022.0.1",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "zlib@1.2.11",
-                  "pkgId": "zlib@1.2.11",
+                  "nodeId": "zlib@1.2.11-27.amzn2022",
+                  "pkgId": "zlib@1.2.11-27.amzn2022",
                 },
               ],
               "rootNodeId": "root-node",
@@ -2681,885 +2681,885 @@ Object {
                 },
               },
               Object {
-                "id": "alternatives@1.15",
+                "id": "alternatives@1.15-2.amzn2022",
                 "info": Object {
                   "name": "alternatives",
-                  "version": "1.15",
+                  "version": "1.15-2.amzn2022",
                 },
               },
               Object {
-                "id": "audit-libs@3.0.6",
+                "id": "audit-libs@3.0.6-1.amzn2022",
                 "info": Object {
                   "name": "audit-libs",
-                  "version": "3.0.6",
+                  "version": "3.0.6-1.amzn2022",
                 },
               },
               Object {
-                "id": "basesystem@11",
+                "id": "basesystem@11-11.amzn2022",
                 "info": Object {
                   "name": "basesystem",
-                  "version": "11",
+                  "version": "11-11.amzn2022",
                 },
               },
               Object {
-                "id": "bash@5.1.8",
+                "id": "bash@5.1.8-2.amzn2022",
                 "info": Object {
                   "name": "bash",
-                  "version": "5.1.8",
+                  "version": "5.1.8-2.amzn2022",
                 },
               },
               Object {
-                "id": "bzip2-libs@1.0.8",
+                "id": "bzip2-libs@1.0.8-6.amzn2022",
                 "info": Object {
                   "name": "bzip2-libs",
-                  "version": "1.0.8",
+                  "version": "1.0.8-6.amzn2022",
                 },
               },
               Object {
-                "id": "ca-certificates@2021.2.50",
+                "id": "ca-certificates@2021.2.50-1.0.amzn2022.0.2",
                 "info": Object {
                   "name": "ca-certificates",
-                  "version": "2021.2.50",
+                  "version": "2021.2.50-1.0.amzn2022.0.2",
                 },
               },
               Object {
-                "id": "coreutils@8.32",
+                "id": "coreutils@8.32-30.amzn2022.0.1",
                 "info": Object {
                   "name": "coreutils",
-                  "version": "8.32",
+                  "version": "8.32-30.amzn2022.0.1",
                 },
               },
               Object {
-                "id": "coreutils-common@8.32",
+                "id": "coreutils-common@8.32-30.amzn2022.0.1",
                 "info": Object {
                   "name": "coreutils-common",
-                  "version": "8.32",
+                  "version": "8.32-30.amzn2022.0.1",
                 },
               },
               Object {
-                "id": "crypto-policies@20210213",
+                "id": "crypto-policies@20210213-1.git5c710c0.amzn2022",
                 "info": Object {
                   "name": "crypto-policies",
-                  "version": "20210213",
+                  "version": "20210213-1.git5c710c0.amzn2022",
                 },
               },
               Object {
-                "id": "curl@7.79.1",
+                "id": "curl@7.79.1-2.amzn2022",
                 "info": Object {
                   "name": "curl",
-                  "version": "7.79.1",
+                  "version": "7.79.1-2.amzn2022",
                 },
               },
               Object {
-                "id": "cyrus-sasl-lib@2.1.27",
+                "id": "cyrus-sasl-lib@2.1.27-9.amzn2022",
                 "info": Object {
                   "name": "cyrus-sasl-lib",
-                  "version": "2.1.27",
+                  "version": "2.1.27-9.amzn2022",
                 },
               },
               Object {
-                "id": "dnf@4.9.0",
+                "id": "dnf@4.9.0-1.amzn2022",
                 "info": Object {
                   "name": "dnf",
-                  "version": "4.9.0",
+                  "version": "4.9.0-1.amzn2022",
                 },
               },
               Object {
-                "id": "dnf-data@4.9.0",
+                "id": "dnf-data@4.9.0-1.amzn2022",
                 "info": Object {
                   "name": "dnf-data",
-                  "version": "4.9.0",
+                  "version": "4.9.0-1.amzn2022",
                 },
               },
               Object {
-                "id": "elfutils-default-yama-scope@0.185",
+                "id": "elfutils-default-yama-scope@0.185-2.amzn2022.0.1",
                 "info": Object {
                   "name": "elfutils-default-yama-scope",
-                  "version": "0.185",
+                  "version": "0.185-2.amzn2022.0.1",
                 },
               },
               Object {
-                "id": "elfutils-libelf@0.185",
+                "id": "elfutils-libelf@0.185-2.amzn2022.0.1",
                 "info": Object {
                   "name": "elfutils-libelf",
-                  "version": "0.185",
+                  "version": "0.185-2.amzn2022.0.1",
                 },
               },
               Object {
-                "id": "elfutils-libs@0.185",
+                "id": "elfutils-libs@0.185-2.amzn2022.0.1",
                 "info": Object {
                   "name": "elfutils-libs",
-                  "version": "0.185",
+                  "version": "0.185-2.amzn2022.0.1",
                 },
               },
               Object {
-                "id": "expat@2.4.7",
+                "id": "expat@2.4.7-1.amzn2022",
                 "info": Object {
                   "name": "expat",
-                  "version": "2.4.7",
+                  "version": "2.4.7-1.amzn2022",
                 },
               },
               Object {
-                "id": "file-libs@5.39",
+                "id": "file-libs@5.39-7.amzn2022",
                 "info": Object {
                   "name": "file-libs",
-                  "version": "5.39",
+                  "version": "5.39-7.amzn2022",
                 },
               },
               Object {
-                "id": "filesystem@3.14",
+                "id": "filesystem@3.14-5.amzn2022",
                 "info": Object {
                   "name": "filesystem",
-                  "version": "3.14",
+                  "version": "3.14-5.amzn2022",
                 },
               },
               Object {
-                "id": "gawk@5.1.0",
+                "id": "gawk@5.1.0-3.amzn2022",
                 "info": Object {
                   "name": "gawk",
-                  "version": "5.1.0",
+                  "version": "5.1.0-3.amzn2022",
                 },
               },
               Object {
-                "id": "gdbm-libs@1.19",
+                "id": "gdbm-libs@1:1.19-2.amzn2022",
                 "info": Object {
                   "name": "gdbm-libs",
-                  "version": "1.19",
+                  "version": "1:1.19-2.amzn2022",
                 },
               },
               Object {
-                "id": "glib2@2.68.4",
+                "id": "glib2@2.68.4-1.amzn2022",
                 "info": Object {
                   "name": "glib2",
-                  "version": "2.68.4",
+                  "version": "2.68.4-1.amzn2022",
                 },
               },
               Object {
-                "id": "glibc@2.34",
+                "id": "glibc@2.34-8.amzn2022",
                 "info": Object {
                   "name": "glibc",
-                  "version": "2.34",
+                  "version": "2.34-8.amzn2022",
                 },
               },
               Object {
-                "id": "glibc-common@2.34",
+                "id": "glibc-common@2.34-8.amzn2022",
                 "info": Object {
                   "name": "glibc-common",
-                  "version": "2.34",
+                  "version": "2.34-8.amzn2022",
                 },
               },
               Object {
-                "id": "glibc-minimal-langpack@2.34",
+                "id": "glibc-minimal-langpack@2.34-8.amzn2022",
                 "info": Object {
                   "name": "glibc-minimal-langpack",
-                  "version": "2.34",
+                  "version": "2.34-8.amzn2022",
                 },
               },
               Object {
-                "id": "gmp@6.2.0",
+                "id": "gmp@1:6.2.0-6.amzn2022",
                 "info": Object {
                   "name": "gmp",
-                  "version": "6.2.0",
+                  "version": "1:6.2.0-6.amzn2022",
                 },
               },
               Object {
-                "id": "gnupg2@2.2.27",
+                "id": "gnupg2@2.2.27-4.amzn2022",
                 "info": Object {
                   "name": "gnupg2",
-                  "version": "2.2.27",
+                  "version": "2.2.27-4.amzn2022",
                 },
               },
               Object {
-                "id": "gnutls@3.7.2",
+                "id": "gnutls@3.7.2-2.amzn2022.0.1",
                 "info": Object {
                   "name": "gnutls",
-                  "version": "3.7.2",
+                  "version": "3.7.2-2.amzn2022.0.1",
                 },
               },
               Object {
-                "id": "gpgme@1.15.1",
+                "id": "gpgme@1.15.1-6.amzn2022",
                 "info": Object {
                   "name": "gpgme",
-                  "version": "1.15.1",
+                  "version": "1.15.1-6.amzn2022",
                 },
               },
               Object {
-                "id": "grep@3.6",
+                "id": "grep@3.6-4.amzn2022",
                 "info": Object {
                   "name": "grep",
-                  "version": "3.6",
+                  "version": "3.6-4.amzn2022",
                 },
               },
               Object {
-                "id": "ima-evm-utils@1.3.2",
+                "id": "ima-evm-utils@1.3.2-2.amzn2022.0.1",
                 "info": Object {
                   "name": "ima-evm-utils",
-                  "version": "1.3.2",
+                  "version": "1.3.2-2.amzn2022.0.1",
                 },
               },
               Object {
-                "id": "json-c@0.14",
+                "id": "json-c@0.14-8.amzn2022",
                 "info": Object {
                   "name": "json-c",
-                  "version": "0.14",
+                  "version": "0.14-8.amzn2022",
                 },
               },
               Object {
-                "id": "keyutils-libs@1.6.1",
+                "id": "keyutils-libs@1.6.1-2.amzn2022",
                 "info": Object {
                   "name": "keyutils-libs",
-                  "version": "1.6.1",
+                  "version": "1.6.1-2.amzn2022",
                 },
               },
               Object {
-                "id": "krb5-libs@1.19.2",
+                "id": "krb5-libs@1.19.2-5.amzn2022",
                 "info": Object {
                   "name": "krb5-libs",
-                  "version": "1.19.2",
+                  "version": "1.19.2-5.amzn2022",
                 },
               },
               Object {
-                "id": "libacl@2.3.1",
+                "id": "libacl@2.3.1-2.amzn2022",
                 "info": Object {
                   "name": "libacl",
-                  "version": "2.3.1",
+                  "version": "2.3.1-2.amzn2022",
                 },
               },
               Object {
-                "id": "libarchive@3.5.3",
+                "id": "libarchive@3.5.3-1.amzn2022",
                 "info": Object {
                   "name": "libarchive",
-                  "version": "3.5.3",
+                  "version": "3.5.3-1.amzn2022",
                 },
               },
               Object {
-                "id": "libassuan@2.5.5",
+                "id": "libassuan@2.5.5-1.amzn2022",
                 "info": Object {
                   "name": "libassuan",
-                  "version": "2.5.5",
+                  "version": "2.5.5-1.amzn2022",
                 },
               },
               Object {
-                "id": "libattr@2.5.1",
+                "id": "libattr@2.5.1-3.amzn2022",
                 "info": Object {
                   "name": "libattr",
-                  "version": "2.5.1",
+                  "version": "2.5.1-3.amzn2022",
                 },
               },
               Object {
-                "id": "libblkid@2.36.2",
+                "id": "libblkid@2.36.2-1.amzn2022",
                 "info": Object {
                   "name": "libblkid",
-                  "version": "2.36.2",
+                  "version": "2.36.2-1.amzn2022",
                 },
               },
               Object {
-                "id": "libbrotli@1.0.9",
+                "id": "libbrotli@1.0.9-4.amzn2022",
                 "info": Object {
                   "name": "libbrotli",
-                  "version": "1.0.9",
+                  "version": "1.0.9-4.amzn2022",
                 },
               },
               Object {
-                "id": "libcap@2.48",
+                "id": "libcap@2.48-2.amzn2022",
                 "info": Object {
                   "name": "libcap",
-                  "version": "2.48",
+                  "version": "2.48-2.amzn2022",
                 },
               },
               Object {
-                "id": "libcap-ng@0.8.2",
+                "id": "libcap-ng@0.8.2-4.amzn2022",
                 "info": Object {
                   "name": "libcap-ng",
-                  "version": "0.8.2",
+                  "version": "0.8.2-4.amzn2022",
                 },
               },
               Object {
-                "id": "libcom_err@1.45.6",
+                "id": "libcom_err@1.45.6-5.amzn2022",
                 "info": Object {
                   "name": "libcom_err",
-                  "version": "1.45.6",
+                  "version": "1.45.6-5.amzn2022",
                 },
               },
               Object {
-                "id": "libcomps@0.1.18",
+                "id": "libcomps@0.1.18-1.amzn2022",
                 "info": Object {
                   "name": "libcomps",
-                  "version": "0.1.18",
+                  "version": "0.1.18-1.amzn2022",
                 },
               },
               Object {
-                "id": "libcurl@7.79.1",
+                "id": "libcurl@7.79.1-2.amzn2022",
                 "info": Object {
                   "name": "libcurl",
-                  "version": "7.79.1",
+                  "version": "7.79.1-2.amzn2022",
                 },
               },
               Object {
-                "id": "libdb@5.3.28",
+                "id": "libdb@5.3.28-49.amzn2022",
                 "info": Object {
                   "name": "libdb",
-                  "version": "5.3.28",
+                  "version": "5.3.28-49.amzn2022",
                 },
               },
               Object {
-                "id": "libdnf@0.64.0",
+                "id": "libdnf@0.64.0-1.amzn2022.0.1",
                 "info": Object {
                   "name": "libdnf",
-                  "version": "0.64.0",
+                  "version": "0.64.0-1.amzn2022.0.1",
                 },
               },
               Object {
-                "id": "libffi@3.1",
+                "id": "libffi@3.1-28.amzn2022",
                 "info": Object {
                   "name": "libffi",
-                  "version": "3.1",
+                  "version": "3.1-28.amzn2022",
                 },
               },
               Object {
-                "id": "libgcc@11.2.1",
+                "id": "libgcc@11.2.1-10.amzn2022.0.1",
                 "info": Object {
                   "name": "libgcc",
-                  "version": "11.2.1",
+                  "version": "11.2.1-10.amzn2022.0.1",
                 },
               },
               Object {
-                "id": "libgcrypt@1.9.3",
+                "id": "libgcrypt@1.9.3-3.amzn2022.0.1",
                 "info": Object {
                   "name": "libgcrypt",
-                  "version": "1.9.3",
+                  "version": "1.9.3-3.amzn2022.0.1",
                 },
               },
               Object {
-                "id": "libgomp@11.2.1",
+                "id": "libgomp@11.2.1-10.amzn2022.0.1",
                 "info": Object {
                   "name": "libgomp",
-                  "version": "11.2.1",
+                  "version": "11.2.1-10.amzn2022.0.1",
                 },
               },
               Object {
-                "id": "libgpg-error@1.42",
+                "id": "libgpg-error@1.42-1.amzn2022",
                 "info": Object {
                   "name": "libgpg-error",
-                  "version": "1.42",
+                  "version": "1.42-1.amzn2022",
                 },
               },
               Object {
-                "id": "libidn2@2.3.2",
+                "id": "libidn2@2.3.2-1.amzn2022",
                 "info": Object {
                   "name": "libidn2",
-                  "version": "2.3.2",
+                  "version": "2.3.2-1.amzn2022",
                 },
               },
               Object {
-                "id": "libksba@1.6.0",
+                "id": "libksba@1.6.0-1.amzn2022",
                 "info": Object {
                   "name": "libksba",
-                  "version": "1.6.0",
+                  "version": "1.6.0-1.amzn2022",
                 },
               },
               Object {
-                "id": "libmodulemd@2.13.0",
+                "id": "libmodulemd@2.13.0-2.amzn2022",
                 "info": Object {
                   "name": "libmodulemd",
-                  "version": "2.13.0",
+                  "version": "2.13.0-2.amzn2022",
                 },
               },
               Object {
-                "id": "libmount@2.36.2",
+                "id": "libmount@2.36.2-1.amzn2022",
                 "info": Object {
                   "name": "libmount",
-                  "version": "2.36.2",
+                  "version": "2.36.2-1.amzn2022",
                 },
               },
               Object {
-                "id": "libnghttp2@1.45.1",
+                "id": "libnghttp2@1.45.1-1.amzn2022.0.1",
                 "info": Object {
                   "name": "libnghttp2",
-                  "version": "1.45.1",
+                  "version": "1.45.1-1.amzn2022.0.1",
                 },
               },
               Object {
-                "id": "libnsl2@1.3.0",
+                "id": "libnsl2@1.3.0-2.amzn2022",
                 "info": Object {
                   "name": "libnsl2",
-                  "version": "1.3.0",
+                  "version": "1.3.0-2.amzn2022",
                 },
               },
               Object {
-                "id": "libpsl@0.21.1",
+                "id": "libpsl@0.21.1-3.amzn2022",
                 "info": Object {
                   "name": "libpsl",
-                  "version": "0.21.1",
+                  "version": "0.21.1-3.amzn2022",
                 },
               },
               Object {
-                "id": "librepo@1.14.2",
+                "id": "librepo@1.14.2-1.amzn2022.0.1",
                 "info": Object {
                   "name": "librepo",
-                  "version": "1.14.2",
+                  "version": "1.14.2-1.amzn2022.0.1",
                 },
               },
               Object {
-                "id": "libreport-filesystem@2.15.2",
+                "id": "libreport-filesystem@2.15.2-2.amzn2022",
                 "info": Object {
                   "name": "libreport-filesystem",
-                  "version": "2.15.2",
+                  "version": "2.15.2-2.amzn2022",
                 },
               },
               Object {
-                "id": "libselinux@3.2",
+                "id": "libselinux@3.2-1.amzn2022",
                 "info": Object {
                   "name": "libselinux",
-                  "version": "3.2",
+                  "version": "3.2-1.amzn2022",
                 },
               },
               Object {
-                "id": "libsemanage@3.2",
+                "id": "libsemanage@3.2-1.amzn2022",
                 "info": Object {
                   "name": "libsemanage",
-                  "version": "3.2",
+                  "version": "3.2-1.amzn2022",
                 },
               },
               Object {
-                "id": "libsepol@3.3",
+                "id": "libsepol@3.3-2.amzn2022",
                 "info": Object {
                   "name": "libsepol",
-                  "version": "3.3",
+                  "version": "3.3-2.amzn2022",
                 },
               },
               Object {
-                "id": "libsigsegv@2.13",
+                "id": "libsigsegv@2.13-2.amzn2022",
                 "info": Object {
                   "name": "libsigsegv",
-                  "version": "2.13",
+                  "version": "2.13-2.amzn2022",
                 },
               },
               Object {
-                "id": "libsmartcols@2.36.2",
+                "id": "libsmartcols@2.36.2-1.amzn2022",
                 "info": Object {
                   "name": "libsmartcols",
-                  "version": "2.36.2",
+                  "version": "2.36.2-1.amzn2022",
                 },
               },
               Object {
-                "id": "libsolv@0.7.17",
+                "id": "libsolv@0.7.17-3.amzn2022",
                 "info": Object {
                   "name": "libsolv",
-                  "version": "0.7.17",
+                  "version": "0.7.17-3.amzn2022",
                 },
               },
               Object {
-                "id": "libssh@0.9.6",
+                "id": "libssh@0.9.6-1.amzn2022.0.1",
                 "info": Object {
                   "name": "libssh",
-                  "version": "0.9.6",
+                  "version": "0.9.6-1.amzn2022.0.1",
                 },
               },
               Object {
-                "id": "libssh-config@0.9.6",
+                "id": "libssh-config@0.9.6-1.amzn2022.0.1",
                 "info": Object {
                   "name": "libssh-config",
-                  "version": "0.9.6",
+                  "version": "0.9.6-1.amzn2022.0.1",
                 },
               },
               Object {
-                "id": "libstdc++@11.2.1",
+                "id": "libstdc++@11.2.1-10.amzn2022.0.1",
                 "info": Object {
                   "name": "libstdc++",
-                  "version": "11.2.1",
+                  "version": "11.2.1-10.amzn2022.0.1",
                 },
               },
               Object {
-                "id": "libtasn1@4.16.0",
+                "id": "libtasn1@4.16.0-4.amzn2022",
                 "info": Object {
                   "name": "libtasn1",
-                  "version": "4.16.0",
+                  "version": "4.16.0-4.amzn2022",
                 },
               },
               Object {
-                "id": "libtirpc@1.3.2",
+                "id": "libtirpc@1.3.2-0.rc1.amzn2022",
                 "info": Object {
                   "name": "libtirpc",
-                  "version": "1.3.2",
+                  "version": "1.3.2-0.rc1.amzn2022",
                 },
               },
               Object {
-                "id": "libunistring@0.9.10",
+                "id": "libunistring@0.9.10-10.amzn2022",
                 "info": Object {
                   "name": "libunistring",
-                  "version": "0.9.10",
+                  "version": "0.9.10-10.amzn2022",
                 },
               },
               Object {
-                "id": "libusbx@1.0.24",
+                "id": "libusbx@1.0.24-2.amzn2022",
                 "info": Object {
                   "name": "libusbx",
-                  "version": "1.0.24",
+                  "version": "1.0.24-2.amzn2022",
                 },
               },
               Object {
-                "id": "libuuid@2.36.2",
+                "id": "libuuid@2.36.2-1.amzn2022",
                 "info": Object {
                   "name": "libuuid",
-                  "version": "2.36.2",
+                  "version": "2.36.2-1.amzn2022",
                 },
               },
               Object {
-                "id": "libverto@0.3.2",
+                "id": "libverto@0.3.2-1.amzn2022",
                 "info": Object {
                   "name": "libverto",
-                  "version": "0.3.2",
+                  "version": "0.3.2-1.amzn2022",
                 },
               },
               Object {
-                "id": "libxcrypt@4.4.26",
+                "id": "libxcrypt@4.4.26-4.amzn2022",
                 "info": Object {
                   "name": "libxcrypt",
-                  "version": "4.4.26",
+                  "version": "4.4.26-4.amzn2022",
                 },
               },
               Object {
-                "id": "libxml2@2.9.12",
+                "id": "libxml2@2.9.12-4.amzn2022",
                 "info": Object {
                   "name": "libxml2",
-                  "version": "2.9.12",
+                  "version": "2.9.12-4.amzn2022",
                 },
               },
               Object {
-                "id": "libyaml@0.2.5",
+                "id": "libyaml@0.2.5-5.amzn2022",
                 "info": Object {
                   "name": "libyaml",
-                  "version": "0.2.5",
+                  "version": "0.2.5-5.amzn2022",
                 },
               },
               Object {
-                "id": "libzstd@1.5.2",
+                "id": "libzstd@1.5.2-1.amzn2022",
                 "info": Object {
                   "name": "libzstd",
-                  "version": "1.5.2",
+                  "version": "1.5.2-1.amzn2022",
                 },
               },
               Object {
-                "id": "lua-libs@5.4.4",
+                "id": "lua-libs@5.4.4-1.amzn2022",
                 "info": Object {
                   "name": "lua-libs",
-                  "version": "5.4.4",
+                  "version": "5.4.4-1.amzn2022",
                 },
               },
               Object {
-                "id": "lz4-libs@1.9.3",
+                "id": "lz4-libs@1.9.3-2.amzn2022",
                 "info": Object {
                   "name": "lz4-libs",
-                  "version": "1.9.3",
+                  "version": "1.9.3-2.amzn2022",
                 },
               },
               Object {
-                "id": "mpfr@4.1.0",
+                "id": "mpfr@4.1.0-7.amzn2022",
                 "info": Object {
                   "name": "mpfr",
-                  "version": "4.1.0",
+                  "version": "4.1.0-7.amzn2022",
                 },
               },
               Object {
-                "id": "ncurses-base@6.2",
+                "id": "ncurses-base@6.2-4.20200222.amzn2022",
                 "info": Object {
                   "name": "ncurses-base",
-                  "version": "6.2",
+                  "version": "6.2-4.20200222.amzn2022",
                 },
               },
               Object {
-                "id": "ncurses-libs@6.2",
+                "id": "ncurses-libs@6.2-4.20200222.amzn2022",
                 "info": Object {
                   "name": "ncurses-libs",
-                  "version": "6.2",
+                  "version": "6.2-4.20200222.amzn2022",
                 },
               },
               Object {
-                "id": "nettle@3.7.3",
+                "id": "nettle@3.7.3-1.amzn2022",
                 "info": Object {
                   "name": "nettle",
-                  "version": "3.7.3",
+                  "version": "3.7.3-1.amzn2022",
                 },
               },
               Object {
-                "id": "npth@1.6",
+                "id": "npth@1.6-6.amzn2022",
                 "info": Object {
                   "name": "npth",
-                  "version": "1.6",
+                  "version": "1.6-6.amzn2022",
                 },
               },
               Object {
-                "id": "openldap@2.4.57",
+                "id": "openldap@2.4.57-6.amzn2022.0.1",
                 "info": Object {
                   "name": "openldap",
-                  "version": "2.4.57",
+                  "version": "2.4.57-6.amzn2022.0.1",
                 },
               },
               Object {
-                "id": "openssl-libs@3.0.0",
+                "id": "openssl-libs@1:3.0.0-1.amzn2022.0.1",
                 "info": Object {
                   "name": "openssl-libs",
-                  "version": "3.0.0",
+                  "version": "1:3.0.0-1.amzn2022.0.1",
                 },
               },
               Object {
-                "id": "openssl1.1@1.1.1l",
+                "id": "openssl1.1@1:1.1.1l-2.amzn2022.0.1",
                 "info": Object {
                   "name": "openssl1.1",
-                  "version": "1.1.1l",
+                  "version": "1:1.1.1l-2.amzn2022.0.1",
                 },
               },
               Object {
-                "id": "p11-kit@0.23.22",
+                "id": "p11-kit@0.23.22-3.amzn2022",
                 "info": Object {
                   "name": "p11-kit",
-                  "version": "0.23.22",
+                  "version": "0.23.22-3.amzn2022",
                 },
               },
               Object {
-                "id": "p11-kit-trust@0.23.22",
+                "id": "p11-kit-trust@0.23.22-3.amzn2022",
                 "info": Object {
                   "name": "p11-kit-trust",
-                  "version": "0.23.22",
+                  "version": "0.23.22-3.amzn2022",
                 },
               },
               Object {
-                "id": "pcre@8.44",
+                "id": "pcre@8.44-3.amzn2022.1",
                 "info": Object {
                   "name": "pcre",
-                  "version": "8.44",
+                  "version": "8.44-3.amzn2022.1",
                 },
               },
               Object {
-                "id": "pcre2@10.36",
+                "id": "pcre2@10.36-4.amzn2022",
                 "info": Object {
                   "name": "pcre2",
-                  "version": "10.36",
+                  "version": "10.36-4.amzn2022",
                 },
               },
               Object {
-                "id": "pcre2-syntax@10.36",
+                "id": "pcre2-syntax@10.36-4.amzn2022",
                 "info": Object {
                   "name": "pcre2-syntax",
-                  "version": "10.36",
+                  "version": "10.36-4.amzn2022",
                 },
               },
               Object {
-                "id": "popt@1.18",
+                "id": "popt@1.18-6.amzn2022",
                 "info": Object {
                   "name": "popt",
-                  "version": "1.18",
+                  "version": "1.18-6.amzn2022",
                 },
               },
               Object {
-                "id": "publicsuffix-list-dafsa@20190417",
+                "id": "publicsuffix-list-dafsa@20190417-5.amzn2022",
                 "info": Object {
                   "name": "publicsuffix-list-dafsa",
-                  "version": "20190417",
+                  "version": "20190417-5.amzn2022",
                 },
               },
               Object {
-                "id": "python-pip-wheel@21.0.1",
+                "id": "python-pip-wheel@21.0.1-4.amzn2022",
                 "info": Object {
                   "name": "python-pip-wheel",
-                  "version": "21.0.1",
+                  "version": "21.0.1-4.amzn2022",
                 },
               },
               Object {
-                "id": "python-setuptools-wheel@53.0.0",
+                "id": "python-setuptools-wheel@53.0.0-2.amzn2022",
                 "info": Object {
                   "name": "python-setuptools-wheel",
-                  "version": "53.0.0",
+                  "version": "53.0.0-2.amzn2022",
                 },
               },
               Object {
-                "id": "python3@3.9.8",
+                "id": "python3@3.9.8-1.amzn2022.0.1",
                 "info": Object {
                   "name": "python3",
-                  "version": "3.9.8",
+                  "version": "3.9.8-1.amzn2022.0.1",
                 },
               },
               Object {
-                "id": "python3-dnf@4.9.0",
+                "id": "python3-dnf@4.9.0-1.amzn2022",
                 "info": Object {
                   "name": "python3-dnf",
-                  "version": "4.9.0",
+                  "version": "4.9.0-1.amzn2022",
                 },
               },
               Object {
-                "id": "python3-gpg@1.15.1",
+                "id": "python3-gpg@1.15.1-6.amzn2022",
                 "info": Object {
                   "name": "python3-gpg",
-                  "version": "1.15.1",
+                  "version": "1.15.1-6.amzn2022",
                 },
               },
               Object {
-                "id": "python3-hawkey@0.64.0",
+                "id": "python3-hawkey@0.64.0-1.amzn2022.0.1",
                 "info": Object {
                   "name": "python3-hawkey",
-                  "version": "0.64.0",
+                  "version": "0.64.0-1.amzn2022.0.1",
                 },
               },
               Object {
-                "id": "python3-libcomps@0.1.18",
+                "id": "python3-libcomps@0.1.18-1.amzn2022",
                 "info": Object {
                   "name": "python3-libcomps",
-                  "version": "0.1.18",
+                  "version": "0.1.18-1.amzn2022",
                 },
               },
               Object {
-                "id": "python3-libdnf@0.64.0",
+                "id": "python3-libdnf@0.64.0-1.amzn2022.0.1",
                 "info": Object {
                   "name": "python3-libdnf",
-                  "version": "0.64.0",
+                  "version": "0.64.0-1.amzn2022.0.1",
                 },
               },
               Object {
-                "id": "python3-libs@3.9.8",
+                "id": "python3-libs@3.9.8-1.amzn2022.0.1",
                 "info": Object {
                   "name": "python3-libs",
-                  "version": "3.9.8",
+                  "version": "3.9.8-1.amzn2022.0.1",
                 },
               },
               Object {
-                "id": "python3-rpm@4.16.1.3",
+                "id": "python3-rpm@4.16.1.3-1.amzn2022.0.1",
                 "info": Object {
                   "name": "python3-rpm",
-                  "version": "4.16.1.3",
+                  "version": "4.16.1.3-1.amzn2022.0.1",
                 },
               },
               Object {
-                "id": "readline@8.1",
+                "id": "readline@8.1-2.amzn2022",
                 "info": Object {
                   "name": "readline",
-                  "version": "8.1",
+                  "version": "8.1-2.amzn2022",
                 },
               },
               Object {
-                "id": "rpm@4.16.1.3",
+                "id": "rpm@4.16.1.3-1.amzn2022.0.1",
                 "info": Object {
                   "name": "rpm",
-                  "version": "4.16.1.3",
+                  "version": "4.16.1.3-1.amzn2022.0.1",
                 },
               },
               Object {
-                "id": "rpm-build-libs@4.16.1.3",
+                "id": "rpm-build-libs@4.16.1.3-1.amzn2022.0.1",
                 "info": Object {
                   "name": "rpm-build-libs",
-                  "version": "4.16.1.3",
+                  "version": "4.16.1.3-1.amzn2022.0.1",
                 },
               },
               Object {
-                "id": "rpm-libs@4.16.1.3",
+                "id": "rpm-libs@4.16.1.3-1.amzn2022.0.1",
                 "info": Object {
                   "name": "rpm-libs",
-                  "version": "4.16.1.3",
+                  "version": "4.16.1.3-1.amzn2022.0.1",
                 },
               },
               Object {
-                "id": "rpm-sign-libs@4.16.1.3",
+                "id": "rpm-sign-libs@4.16.1.3-1.amzn2022.0.1",
                 "info": Object {
                   "name": "rpm-sign-libs",
-                  "version": "4.16.1.3",
+                  "version": "4.16.1.3-1.amzn2022.0.1",
                 },
               },
               Object {
-                "id": "sed@4.8",
+                "id": "sed@4.8-7.amzn2022",
                 "info": Object {
                   "name": "sed",
-                  "version": "4.8",
+                  "version": "4.8-7.amzn2022",
                 },
               },
               Object {
-                "id": "setup@2.13.7",
+                "id": "setup@2.13.7-3.amzn2022",
                 "info": Object {
                   "name": "setup",
-                  "version": "2.13.7",
+                  "version": "2.13.7-3.amzn2022",
                 },
               },
               Object {
-                "id": "shadow-utils@4.8.1",
+                "id": "shadow-utils@2:4.8.1-9.amzn2022",
                 "info": Object {
                   "name": "shadow-utils",
-                  "version": "4.8.1",
+                  "version": "2:4.8.1-9.amzn2022",
                 },
               },
               Object {
-                "id": "sqlite-libs@3.34.1",
+                "id": "sqlite-libs@3.34.1-2.amzn2022",
                 "info": Object {
                   "name": "sqlite-libs",
-                  "version": "3.34.1",
+                  "version": "3.34.1-2.amzn2022",
                 },
               },
               Object {
-                "id": "system-release@2022.0.20220504",
+                "id": "system-release@2022.0.20220504-0.amzn2022",
                 "info": Object {
                   "name": "system-release",
-                  "version": "2022.0.20220504",
+                  "version": "2022.0.20220504-0.amzn2022",
                 },
               },
               Object {
-                "id": "systemd-libs@248.10",
+                "id": "systemd-libs@248.10-1.amzn2022.0.1",
                 "info": Object {
                   "name": "systemd-libs",
-                  "version": "248.10",
+                  "version": "248.10-1.amzn2022.0.1",
                 },
               },
               Object {
-                "id": "tpm2-tss@3.1.0",
+                "id": "tpm2-tss@3.1.0-1.amzn2022.0.1",
                 "info": Object {
                   "name": "tpm2-tss",
-                  "version": "3.1.0",
+                  "version": "3.1.0-1.amzn2022.0.1",
                 },
               },
               Object {
-                "id": "tzdata@2022a",
+                "id": "tzdata@2022a-1.amzn2022",
                 "info": Object {
                   "name": "tzdata",
-                  "version": "2022a",
+                  "version": "2022a-1.amzn2022",
                 },
               },
               Object {
-                "id": "vim-data@8.2.4314",
+                "id": "vim-data@2:8.2.4314-1.amzn2022",
                 "info": Object {
                   "name": "vim-data",
-                  "version": "8.2.4314",
+                  "version": "2:8.2.4314-1.amzn2022",
                 },
               },
               Object {
-                "id": "vim-minimal@8.2.4314",
+                "id": "vim-minimal@2:8.2.4314-1.amzn2022",
                 "info": Object {
                   "name": "vim-minimal",
-                  "version": "8.2.4314",
+                  "version": "2:8.2.4314-1.amzn2022",
                 },
               },
               Object {
-                "id": "xz-libs@5.2.5",
+                "id": "xz-libs@5.2.5-9.amzn2022",
                 "info": Object {
                   "name": "xz-libs",
-                  "version": "5.2.5",
+                  "version": "5.2.5-9.amzn2022",
                 },
               },
               Object {
-                "id": "yum@4.9.0",
+                "id": "yum@4.9.0-1.amzn2022",
                 "info": Object {
                   "name": "yum",
-                  "version": "4.9.0",
+                  "version": "4.9.0-1.amzn2022",
                 },
               },
               Object {
-                "id": "zchunk-libs@1.1.15",
+                "id": "zchunk-libs@1.1.15-1.amzn2022.0.1",
                 "info": Object {
                   "name": "zchunk-libs",
-                  "version": "1.1.15",
+                  "version": "1.1.15-1.amzn2022.0.1",
                 },
               },
               Object {
-                "id": "zlib@1.2.11",
+                "id": "zlib@1.2.11-27.amzn2022",
                 "info": Object {
                   "name": "zlib",
-                  "version": "1.2.11",
+                  "version": "1.2.11-27.amzn2022",
                 },
               },
             ],
