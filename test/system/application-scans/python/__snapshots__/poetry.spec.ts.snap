@@ -1,0 +1,320 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`poetry application scan should correctly return applications as multiple scan results 1`] = `
+Object {
+  "scanResults": Array [
+    Object {
+      "facts": Array [
+        Object {
+          "data": Object {
+            "graph": Object {
+              "nodes": Array [
+                Object {
+                  "deps": Array [],
+                  "nodeId": "root-node",
+                  "pkgId": "docker-image|poetry.tar@",
+                },
+              ],
+              "rootNodeId": "root-node",
+            },
+            "pkgManager": Object {
+              "name": "linux",
+              "repositories": Array [
+                Object {
+                  "alias": "unknown:0.0",
+                },
+              ],
+            },
+            "pkgs": Array [
+              Object {
+                "id": "docker-image|poetry.tar@",
+                "info": Object {
+                  "name": "docker-image|poetry.tar",
+                  "version": undefined,
+                },
+              },
+            ],
+            "schemaVersion": "1.2.0",
+          },
+          "type": "depGraph",
+        },
+        Object {
+          "data": "sha256:83878e4a19e2c44d6efc14d3aa75b0cda05a44927575480cf3cef8889efa26f9",
+          "type": "imageId",
+        },
+        Object {
+          "data": Array [
+            "a5ceb4cf1de62292b28ff91de7c88878fe655a60cfb0042d5b0a7db7cc998d97/layer.tar",
+          ],
+          "type": "imageLayers",
+        },
+        Object {
+          "data": "2022-08-04T13:17:10.411032291Z",
+          "type": "imageCreationTime",
+        },
+        Object {
+          "data": Array [
+            "sha256:1a94d0e60a13af7e273a428cb3f439f1f8872c806a70c41895bfd95de875c4c4",
+          ],
+          "type": "rootFs",
+        },
+      ],
+      "identity": Object {
+        "args": Object {
+          "platform": "linux/amd64",
+        },
+        "type": "linux",
+      },
+      "target": Object {
+        "image": "docker-image|poetry.tar",
+      },
+    },
+    Object {
+      "facts": Array [
+        Object {
+          "data": Object {
+            "graph": Object {
+              "nodes": Array [
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "six",
+                    },
+                    Object {
+                      "nodeId": "flask",
+                    },
+                    Object {
+                      "nodeId": "rpc.py",
+                    },
+                  ],
+                  "nodeId": "root-node",
+                  "pkgId": "myPkg@1.42.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "six",
+                  "pkgId": "six@1.16.0",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "click",
+                    },
+                    Object {
+                      "nodeId": "importlib-metadata",
+                    },
+                    Object {
+                      "nodeId": "itsdangerous",
+                    },
+                    Object {
+                      "nodeId": "jinja2",
+                    },
+                    Object {
+                      "nodeId": "werkzeug",
+                    },
+                  ],
+                  "nodeId": "flask",
+                  "pkgId": "flask@2.2.0",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "colorama",
+                    },
+                    Object {
+                      "nodeId": "importlib-metadata",
+                    },
+                  ],
+                  "nodeId": "click",
+                  "pkgId": "click@8.1.3",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "colorama",
+                  "pkgId": "colorama@0.4.5",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "typing-extensions",
+                    },
+                    Object {
+                      "nodeId": "zipp",
+                    },
+                  ],
+                  "nodeId": "importlib-metadata",
+                  "pkgId": "importlib-metadata@4.12.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "typing-extensions",
+                  "pkgId": "typing-extensions@3.10.0.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "zipp",
+                  "pkgId": "zipp@3.8.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "itsdangerous",
+                  "pkgId": "itsdangerous@2.1.2",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "markupsafe",
+                    },
+                  ],
+                  "nodeId": "jinja2",
+                  "pkgId": "jinja2@3.1.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "markupsafe",
+                  "pkgId": "markupsafe@2.1.1",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "markupsafe",
+                    },
+                  ],
+                  "nodeId": "werkzeug",
+                  "pkgId": "werkzeug@2.2.1",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "typing-extensions",
+                    },
+                  ],
+                  "nodeId": "rpc.py",
+                  "pkgId": "rpc.py@0.4.2",
+                },
+              ],
+              "rootNodeId": "root-node",
+            },
+            "pkgManager": Object {
+              "name": "poetry",
+            },
+            "pkgs": Array [
+              Object {
+                "id": "myPkg@1.42.2",
+                "info": Object {
+                  "name": "myPkg",
+                  "version": "1.42.2",
+                },
+              },
+              Object {
+                "id": "six@1.16.0",
+                "info": Object {
+                  "name": "six",
+                  "version": "1.16.0",
+                },
+              },
+              Object {
+                "id": "flask@2.2.0",
+                "info": Object {
+                  "name": "flask",
+                  "version": "2.2.0",
+                },
+              },
+              Object {
+                "id": "click@8.1.3",
+                "info": Object {
+                  "name": "click",
+                  "version": "8.1.3",
+                },
+              },
+              Object {
+                "id": "colorama@0.4.5",
+                "info": Object {
+                  "name": "colorama",
+                  "version": "0.4.5",
+                },
+              },
+              Object {
+                "id": "importlib-metadata@4.12.0",
+                "info": Object {
+                  "name": "importlib-metadata",
+                  "version": "4.12.0",
+                },
+              },
+              Object {
+                "id": "typing-extensions@3.10.0.2",
+                "info": Object {
+                  "name": "typing-extensions",
+                  "version": "3.10.0.2",
+                },
+              },
+              Object {
+                "id": "zipp@3.8.1",
+                "info": Object {
+                  "name": "zipp",
+                  "version": "3.8.1",
+                },
+              },
+              Object {
+                "id": "itsdangerous@2.1.2",
+                "info": Object {
+                  "name": "itsdangerous",
+                  "version": "2.1.2",
+                },
+              },
+              Object {
+                "id": "jinja2@3.1.2",
+                "info": Object {
+                  "name": "jinja2",
+                  "version": "3.1.2",
+                },
+              },
+              Object {
+                "id": "markupsafe@2.1.1",
+                "info": Object {
+                  "name": "markupsafe",
+                  "version": "2.1.1",
+                },
+              },
+              Object {
+                "id": "werkzeug@2.2.1",
+                "info": Object {
+                  "name": "werkzeug",
+                  "version": "2.2.1",
+                },
+              },
+              Object {
+                "id": "rpc.py@0.4.2",
+                "info": Object {
+                  "name": "rpc.py",
+                  "version": "0.4.2",
+                },
+              },
+            ],
+            "schemaVersion": "1.2.0",
+          },
+          "type": "depGraph",
+        },
+        Object {
+          "data": Array [
+            "pyproject.toml",
+            "poetry.lock",
+          ],
+          "type": "testedFiles",
+        },
+        Object {
+          "data": "sha256:83878e4a19e2c44d6efc14d3aa75b0cda05a44927575480cf3cef8889efa26f9",
+          "type": "imageId",
+        },
+      ],
+      "identity": Object {
+        "targetFile": "/app/pyproject.toml",
+        "type": "poetry",
+      },
+      "target": Object {
+        "image": "docker-image|poetry.tar",
+      },
+    },
+  ],
+}
+`;

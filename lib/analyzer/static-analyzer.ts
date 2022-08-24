@@ -30,6 +30,10 @@ import { getNodeAppFileContentAction } from "../inputs/node/static";
 import { getOsReleaseActions } from "../inputs/os-release/static";
 import { getPhpAppFileContentAction } from "../inputs/php/static";
 import {
+  getPipAppFileContentAction,
+  getPoetryAppFileContentAction,
+} from "../inputs/python/static";
+import {
   getRpmDbFileContent,
   getRpmDbFileContentAction,
   getRpmSqliteDbFileContent,
@@ -40,8 +44,10 @@ import { ImageType, ManifestFile, PluginOptions } from "../types";
 import {
   nodeFilesToScannedProjects,
   phpFilesToScannedProjects,
+  poetryFilesToScannedProjects,
 } from "./applications";
 import { jarFilesToScannedResults } from "./applications/java";
+import { pipFilesToScannedProjects } from "./applications/python";
 import { AppDepsScanResultWithoutTarget } from "./applications/types";
 import * as osReleaseDetector from "./os-release";
 import { analyze as apkAnalyze } from "./package-managers/apk";
@@ -94,6 +100,8 @@ export async function analyze(
       ...[
         getNodeAppFileContentAction,
         getPhpAppFileContentAction,
+        getPoetryAppFileContentAction,
+        getPipAppFileContentAction,
         getJarFileContentAction,
         getGoModulesContentAction,
       ],
@@ -171,6 +179,13 @@ export async function analyze(
     const phpDependenciesScanResults = await phpFilesToScannedProjects(
       getFileContent(extractedLayers, getPhpAppFileContentAction.actionName),
     );
+    const poetryDependenciesScanResults = await poetryFilesToScannedProjects(
+      getFileContent(extractedLayers, getPoetryAppFileContentAction.actionName),
+    );
+
+    const pipDependenciesScanResults = await pipFilesToScannedProjects(
+      getFileContent(extractedLayers, getPipAppFileContentAction.actionName),
+    );
 
     const desiredLevelsOfUnpacking = getNestedJarsDesiredDepth(options);
 
@@ -186,6 +201,8 @@ export async function analyze(
     applicationDependenciesScanResults.push(
       ...nodeDependenciesScanResults,
       ...phpDependenciesScanResults,
+      ...poetryDependenciesScanResults,
+      ...pipDependenciesScanResults,
       ...jarFingerprintScanResults,
       ...goModulesScanResult,
     );
