@@ -37,13 +37,14 @@ export async function extractArchive(
     const layers: Record<string, ExtractedLayers> = {};
     const manifests: Record<string, OciArchiveManifest> = {};
     let imageConfig: ImageConfig | undefined;
-    let imageIndex: OciImageIndex | undefined;
+    let mainIndexFile: OciImageIndex;
+    const indexFiles: Record<string, OciImageIndex> = {};
 
     tarExtractor.on("entry", async (header, stream, next) => {
       if (header.type === "file") {
         const normalizedHeaderName = normalizePath(header.name);
-        if (isImageIndexFile(normalizedHeaderName)) {
-          imageIndex = await streamToJson<OciImageIndex>(stream);
+        if (isMainIndexFile(normalizedHeaderName)) {
+          mainIndexFile = await streamToJson<OciImageIndex>(stream);
         } else {
           const jsonStream = new PassThrough();
           const layerStream = new PassThrough();
@@ -66,6 +67,8 @@ export async function extractArchive(
           const digest = `${hashName}:${hashValue}`;
           if (isArchiveManifest(manifest)) {
             manifests[digest] = manifest;
+          } else if (isImageIndexFile(manifest)) {
+            indexFiles[digest] = manifest as OciImageIndex;
           } else if (isImageConfigFile(manifest)) {
             imageConfig = manifest;
           }
@@ -83,8 +86,9 @@ export async function extractArchive(
       try {
         resolve(
           getLayersContentAndArchiveManifest(
-            imageIndex,
+            mainIndexFile,
             manifests,
+            indexFiles,
             imageConfig,
             layers,
           ),
@@ -112,6 +116,7 @@ export async function extractArchive(
 function getLayersContentAndArchiveManifest(
   imageIndex: OciImageIndex | undefined,
   manifestCollection: Record<string, OciArchiveManifest>,
+  indexFiles: Record<string, OciImageIndex>,
   imageConfig: ImageConfig | undefined,
   layers: Record<string, ExtractedLayers>,
 ): {
@@ -124,7 +129,7 @@ function getLayersContentAndArchiveManifest(
   // reverse layers order from last to first
 
   // get manifest file first
-  const manifest = getManifest(imageIndex, manifestCollection);
+  const manifest = getManifest(imageIndex, manifestCollection, indexFiles);
   const filteredLayers = manifest.layers
     .filter((layer) => layers[layer.digest])
     .map((layer) => layers[layer.digest])
@@ -148,14 +153,13 @@ function getLayersContentAndArchiveManifest(
 function getManifest(
   imageIndex: OciImageIndex | undefined,
   manifestCollection: Record<string, OciArchiveManifest>,
+  indexFiles: Record<string, OciImageIndex>,
 ): OciArchiveManifest {
   if (!imageIndex) {
     return manifestCollection[Object.keys(manifestCollection)[0]];
   }
-
-  const manifestInfo:
-    | OciManifestInfo
-    | undefined = imageIndex.manifests.find((item) =>
+  const allManifests = getAllManifestsIndexItems(imageIndex, indexFiles);
+  const manifestInfo: OciManifestInfo | undefined = allManifests.find((item) =>
     item.platform
       ? item.platform.architecture === "amd64" && item.platform.os === "linux"
       : item,
@@ -168,9 +172,29 @@ function getManifest(
   return manifestCollection[manifestInfo.digest];
 }
 
+function getAllManifestsIndexItems(
+  imageIndex: OciImageIndex,
+  indexFiles: Record<string, OciImageIndex>,
+): OciManifestInfo[] {
+  const allManifestsInfo: OciManifestInfo[] = [];
+  for (const manifest of imageIndex.manifests) {
+    if (manifest.mediaType === "application/vnd.oci.image.manifest.v1+json") {
+      // an archive manifest file
+      allManifestsInfo.push(manifest);
+    } else if (
+      manifest.mediaType === "application/vnd.oci.image.index.v1+json"
+    ) {
+      // nested index
+      const index = indexFiles[manifest.digest];
+      allManifestsInfo.push(...getAllManifestsIndexItems(index, indexFiles));
+    }
+  }
+  return allManifestsInfo;
+}
+
 function isArchiveManifest(manifest: any): manifest is OciArchiveManifest {
   return (
-    manifest !== undefined && manifest.layers && manifest.layers.length >= 0
+    manifest !== undefined && manifest.layers && Array.isArray(manifest.layers)
   );
 }
 
@@ -178,6 +202,13 @@ function isImageConfigFile(json: any): json is ImageConfig {
   return json !== undefined && json.architecture && json.rootfs;
 }
 
-function isImageIndexFile(name: string): boolean {
+function isImageIndexFile(json: any): boolean {
+  return (
+    json?.mediaType === "application/vnd.oci.image.index.v1+json" &&
+    Array.isArray(json?.manifests)
+  );
+}
+
+function isMainIndexFile(name: string): boolean {
   return name === "index.json";
 }
