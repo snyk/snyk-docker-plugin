@@ -24,6 +24,17 @@ describe("oci archive scanning", () => {
   });
 });
 
+it("should correctly scan an oci archive with nested index files", async () => {
+  const fixturePath = getFixture("oci-archives/oci-nested-index.tar");
+  const imageNameAndTag = `oci-archive:${fixturePath}`;
+
+  const pluginResult = await scan({
+    path: imageNameAndTag,
+  });
+
+  expect(pluginResult).toMatchSnapshot();
+});
+
 describe("handles bad input being provided", () => {
   it("should reject when provided with a non-existent oci-archive", async () => {
     await expect(() =>

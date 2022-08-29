@@ -62,6 +62,7 @@ export interface OciArchiveManifest {
 
 export interface OciManifestInfo {
   digest: string;
+  mediaType: string;
   platform?: { architecture: string; os: string };
 }
 
