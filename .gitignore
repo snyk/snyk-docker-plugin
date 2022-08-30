@@ -7,6 +7,7 @@ package-lock.json
 yarn.lock
 .DS_Store
 test/fixtures/ls-output/xxx.txt
+test/fixtures/go-binaries/latest_*
 .nyc_output/
 .vscode/
 tsconfig.local.json

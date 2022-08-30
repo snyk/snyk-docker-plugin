@@ -23,24 +23,3 @@ export interface ElfSection {
   size: number;
   data: Buffer;
 }
-
-export type ReadPtrFunc = (Buffer) => number;
-
-export interface PackageVersionTable {
-  [key: string]: string;
-}
-
-export type GoPackage = string;
-
-export interface GoVersionsResult {
-  mod: string;
-  version: string;
-}
-
-export interface GoModulesResult {
-  goVersion: string;
-  name: string;
-  modules: {
-    [key: string]: string;
-  };
-}
