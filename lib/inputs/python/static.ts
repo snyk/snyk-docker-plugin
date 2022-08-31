@@ -5,7 +5,8 @@ import { streamToString } from "../../stream-utils";
 
 const poetryManifestFiles = ["pyproject.toml", "poetry.lock"];
 const pipManifestFiles = ["requirements.txt"];
-const pythonMetadataFilesRegex = /\/lib\/python.*?\/site-packages\/.*?\.dist-info\/METADATA/;
+const pythonMetadataFilesRegex =
+  /\/lib\/python.*?\/site-packages\/.*?\.dist-info\/METADATA/;
 
 function poetryFilePathMatches(filePath: string): boolean {
   const fileName = basename(filePath);

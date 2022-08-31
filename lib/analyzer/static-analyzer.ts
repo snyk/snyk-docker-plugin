@@ -170,7 +170,8 @@ export async function analyze(
 
   const binaries = getBinariesHashes(extractedLayers);
 
-  const applicationDependenciesScanResults: AppDepsScanResultWithoutTarget[] = [];
+  const applicationDependenciesScanResults: AppDepsScanResultWithoutTarget[] =
+    [];
 
   if (appScan) {
     const nodeDependenciesScanResults = await nodeFilesToScannedProjects(

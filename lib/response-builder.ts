@@ -132,13 +132,14 @@ async function buildResponse(
       deps,
     );
 
-    const autoDetectedUserInstructionsFact: facts.AutoDetectedUserInstructionsFact = {
-      type: "autoDetectedUserInstructions",
-      data: {
-        dockerfileLayers: autoDetectedLayers,
-        dockerfilePackages: autoDetectedPackagesWithChildren!,
-      },
-    };
+    const autoDetectedUserInstructionsFact: facts.AutoDetectedUserInstructionsFact =
+      {
+        type: "autoDetectedUserInstructions",
+        data: {
+          dockerfileLayers: autoDetectedLayers,
+          dockerfilePackages: autoDetectedPackagesWithChildren!,
+        },
+      };
     additionalFacts.push(autoDetectedUserInstructionsFact);
   }
 

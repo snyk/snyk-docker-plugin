@@ -84,8 +84,7 @@ function updateDockerfileBaseImageName(
     return {
       contents,
       error: {
-        code:
-          UpdateDockerfileBaseImageNameErrorCode.DOCKERFILE_GENERATION_FAILED,
+        code: UpdateDockerfileBaseImageNameErrorCode.DOCKERFILE_GENERATION_FAILED,
       },
     };
   }

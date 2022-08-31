@@ -36,12 +36,14 @@ describe("compressed archive scanning", () => {
       pluginResult.scanResults.length,
     );
 
-    const compressedPluginResultDepGraph: DepGraph = compressedPluginResult.scanResults[0].facts.find(
-      (fact) => fact.type === "depGraph",
-    )!.data;
-    const pluginResultDepGraph: DepGraph = pluginResult.scanResults[0].facts.find(
-      (fact) => fact.type === "depGraph",
-    )!.data;
+    const compressedPluginResultDepGraph: DepGraph =
+      compressedPluginResult.scanResults[0].facts.find(
+        (fact) => fact.type === "depGraph",
+      )!.data;
+    const pluginResultDepGraph: DepGraph =
+      pluginResult.scanResults[0].facts.find(
+        (fact) => fact.type === "depGraph",
+      )!.data;
     expect(compressedPluginResultDepGraph.getDepPkgs().sort()).toEqual(
       pluginResultDepGraph.getDepPkgs().sort(),
     );

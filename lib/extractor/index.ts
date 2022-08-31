@@ -34,9 +34,10 @@ export async function extractImageContent(
         rootFsLayers: dockerExtractor.getRootFsLayersFromConfig(
           ociArchive.imageConfig,
         ),
-        autoDetectedUserInstructions: dockerExtractor.getDetectedLayersInfoFromConfig(
-          ociArchive.imageConfig,
-        ),
+        autoDetectedUserInstructions:
+          dockerExtractor.getDetectedLayersInfoFromConfig(
+            ociArchive.imageConfig,
+          ),
         platform: dockerExtractor.getPlatformFromConfig(ociArchive.imageConfig),
         imageLabels: ociArchive.imageConfig.config.Labels,
       };
@@ -57,9 +58,10 @@ export async function extractImageContent(
         rootFsLayers: dockerExtractor.getRootFsLayersFromConfig(
           dockerArchive.imageConfig,
         ),
-        autoDetectedUserInstructions: dockerExtractor.getDetectedLayersInfoFromConfig(
-          dockerArchive.imageConfig,
-        ),
+        autoDetectedUserInstructions:
+          dockerExtractor.getDetectedLayersInfoFromConfig(
+            dockerArchive.imageConfig,
+          ),
         platform: dockerExtractor.getPlatformFromConfig(
           dockerArchive.imageConfig,
         ),

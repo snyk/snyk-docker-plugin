@@ -108,9 +108,9 @@ function findManifestLockPairsInSameDirectory(
 }
 
 // assumption: we only care about manifest+lock files if they are in the same directory
-function groupFilesByDirectory(
-  filePathToContent: FilePathToContent,
-): { [directoryName: string]: string[] } {
+function groupFilesByDirectory(filePathToContent: FilePathToContent): {
+  [directoryName: string]: string[];
+} {
   const fileNamesGroupedByDirectory: { [directoryName: string]: string[] } = {};
   for (const filePath of Object.keys(filePathToContent)) {
     const directory = path.dirname(filePath);

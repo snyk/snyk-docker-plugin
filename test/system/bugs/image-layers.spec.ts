@@ -29,12 +29,14 @@ describe("demonstrates a potential bug with image layers", () => {
       path: image,
     });
 
-    const dockerImageLayers: string[] = dockerPluginResult.scanResults[0].facts.find(
-      (fact) => fact.type === "imageLayers",
-    )!.data;
-    const pullLibraryImageLayers: string[] = pullLibraryPluginResult.scanResults[0].facts.find(
-      (fact) => fact.type === "imageLayers",
-    )!.data;
+    const dockerImageLayers: string[] =
+      dockerPluginResult.scanResults[0].facts.find(
+        (fact) => fact.type === "imageLayers",
+      )!.data;
+    const pullLibraryImageLayers: string[] =
+      pullLibraryPluginResult.scanResults[0].facts.find(
+        (fact) => fact.type === "imageLayers",
+      )!.data;
     expect(dockerImageLayers).toBeDefined();
     expect(pullLibraryImageLayers).toBeDefined();
 
