@@ -20,9 +20,10 @@ describe("BUG: Dockerfile analysis does not produce transitive dependencies for 
 
     expect(pluginResult).toMatchSnapshot();
 
-    const dockerfileAnalysis: DockerFileAnalysis = pluginResult.scanResults[0].facts.find(
-      (fact) => fact.type === "dockerfileAnalysis",
-    )!.data;
+    const dockerfileAnalysis: DockerFileAnalysis =
+      pluginResult.scanResults[0].facts.find(
+        (fact) => fact.type === "dockerfileAnalysis",
+      )!.data;
     // "BUG: transitive dependency 'kernel-headers' not in 'dockerfilePackages'"
     expect(Object.keys(dockerfileAnalysis.dockerfilePackages)).not.toContain(
       "kernel-headers",

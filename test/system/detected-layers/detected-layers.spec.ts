@@ -39,9 +39,8 @@ describe("auto detected layers are identical to dockerfileAnlaysis layert", () =
 
       const config = JSON.parse(readFileSync(configPath, "utf8"));
 
-      const autoDetectedUserInstructions = getDetectedLayersInfoFromConfig(
-        config,
-      );
+      const autoDetectedUserInstructions =
+        getDetectedLayersInfoFromConfig(config);
 
       expect(Object.keys(dockerfileAnalysis.dockerfilePackages)).toEqual(
         Object.keys(autoDetectedUserInstructions.dockerfilePackages),
@@ -107,9 +106,10 @@ describe("scan results", () => {
       path: `docker-archive:${fixturePath}`,
     });
 
-    const autoDetectedUserInstructions: AutoDetectedUserInstructions = pluginResponse.scanResults[0].facts.find(
-      (fact) => fact.type === "autoDetectedUserInstructions",
-    )!.data;
+    const autoDetectedUserInstructions: AutoDetectedUserInstructions =
+      pluginResponse.scanResults[0].facts.find(
+        (fact) => fact.type === "autoDetectedUserInstructions",
+      )!.data;
 
     const packages = Object.keys(
       autoDetectedUserInstructions.dockerfilePackages,

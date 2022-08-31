@@ -31,14 +31,16 @@ test("static analysis builds the expected response", async (t) => {
     "Has the expected result properties",
   );
 
-  const skopeoCopyDepGraph: DepGraph = pluginResultWithSkopeoCopy.scanResults[0].facts.find(
-    (fact) => fact.type === "depGraph",
-  )!.data;
+  const skopeoCopyDepGraph: DepGraph =
+    pluginResultWithSkopeoCopy.scanResults[0].facts.find(
+      (fact) => fact.type === "depGraph",
+    )!.data;
   t.same(skopeoCopyDepGraph.rootPkg.version, undefined, "Version is missing");
 
-  const skopeoCopyImageId: string = pluginResultWithSkopeoCopy.scanResults[0].facts.find(
-    (fact) => fact.type === "imageId",
-  )!.data;
+  const skopeoCopyImageId: string =
+    pluginResultWithSkopeoCopy.scanResults[0].facts.find(
+      (fact) => fact.type === "imageId",
+    )!.data;
   t.same(
     skopeoCopyImageId,
     "sha256:ab56bba91343aafcdd94b7a44b42e12f32719b9a2b8579e93017c1280f48e8f3",
@@ -50,9 +52,10 @@ test("static analysis builds the expected response", async (t) => {
     "Correct package manager detected",
   );
 
-  const skopeoCopyImageLayers: string[] = pluginResultWithSkopeoCopy.scanResults[0].facts.find(
-    (fact) => fact.type === "imageLayers",
-  )!.data;
+  const skopeoCopyImageLayers: string[] =
+    pluginResultWithSkopeoCopy.scanResults[0].facts.find(
+      (fact) => fact.type === "imageLayers",
+    )!.data;
   t.deepEqual(
     skopeoCopyImageLayers,
     ["ce3539cc184915f96add8551b0e7a37d80c560fe3ffe40cfe4585ea3a8dc14e9.tar"],
@@ -64,9 +67,10 @@ test("static analysis builds the expected response", async (t) => {
   );
 
   // Test the docker-save result.
-  const dockerSaveImageLayers: string[] = pluginResultWithDockerSave.scanResults[0].facts.find(
-    (fact) => fact.type === "imageLayers",
-  )!.data;
+  const dockerSaveImageLayers: string[] =
+    pluginResultWithDockerSave.scanResults[0].facts.find(
+      (fact) => fact.type === "imageLayers",
+    )!.data;
   t.deepEqual(
     dockerSaveImageLayers,
     [
@@ -77,18 +81,20 @@ test("static analysis builds the expected response", async (t) => {
     "Layers are read correctly",
   );
 
-  const dockerSaveDepGraph: DepGraph = pluginResultWithDockerSave.scanResults[0].facts.find(
-    (fact) => fact.type === "depGraph",
-  )!.data;
+  const dockerSaveDepGraph: DepGraph =
+    pluginResultWithDockerSave.scanResults[0].facts.find(
+      (fact) => fact.type === "depGraph",
+    )!.data;
   t.deepEqual(
     skopeoCopyDepGraph.getDepPkgs(),
     dockerSaveDepGraph.getDepPkgs(),
     "The plugin scans both skopeo-copy and docker-save archives the same way",
   );
 
-  const compressedSkopeoCopyDepGraph: DepGraph = pluginResultWithCompressedSkopeoCopy.scanResults[0].facts.find(
-    (fact) => fact.type === "depGraph",
-  )!.data;
+  const compressedSkopeoCopyDepGraph: DepGraph =
+    pluginResultWithCompressedSkopeoCopy.scanResults[0].facts.find(
+      (fact) => fact.type === "depGraph",
+    )!.data;
   t.deepEqual(
     compressedSkopeoCopyDepGraph.getDepPkgs(),
     dockerSaveDepGraph.getDepPkgs(),
@@ -107,9 +113,10 @@ test("static analysis provides hashes for key binaries", async (t) => {
     path: `docker-archive:${getFixture("skopeo-copy/nodes-fake-multi.tar")}`,
   });
 
-  const keyBinariesHashes: string[] = pluginResultWithSkopeoCopy.scanResults[0].facts.find(
-    (fact) => fact.type === "keyBinariesHashes",
-  )!.data;
+  const keyBinariesHashes: string[] =
+    pluginResultWithSkopeoCopy.scanResults[0].facts.find(
+      (fact) => fact.type === "keyBinariesHashes",
+    )!.data;
   t.equals(keyBinariesHashes.length, 4, "found four key binaries");
   const expectedHashes = [
     "f20f16782d8c442142560d1dad09561161fb495179751db200d9db6caf6ad832",
@@ -148,9 +155,10 @@ test("static analysis works for scratch images", async (t) => {
     path: `docker-archive:${getFixture("skopeo-copy/busybox.tar")}`,
   });
 
-  const depGraph: DepGraph = pluginResultWithSkopeoCopy.scanResults[0].facts.find(
-    (fact) => fact.type === "depGraph",
-  )!.data;
+  const depGraph: DepGraph =
+    pluginResultWithSkopeoCopy.scanResults[0].facts.find(
+      (fact) => fact.type === "depGraph",
+    )!.data;
   const imageId: string = pluginResultWithSkopeoCopy.scanResults[0].facts.find(
     (fact) => fact.type === "imageId",
   )!.data;
@@ -159,9 +167,10 @@ test("static analysis works for scratch images", async (t) => {
     "sha256:6d5fcfe5ff170471fcc3c8b47631d6d71202a1fd44cf3c147e50c8de21cf0648",
     "image ID identified correctly",
   );
-  const imageLayers: string = pluginResultWithSkopeoCopy.scanResults[0].facts.find(
-    (fact) => fact.type === "imageLayers",
-  )!.data;
+  const imageLayers: string =
+    pluginResultWithSkopeoCopy.scanResults[0].facts.find(
+      (fact) => fact.type === "imageLayers",
+    )!.data;
   t.deepEquals(
     imageLayers,
     ["195be5f8be1df6709dafbba7ce48f2eee785ab7775b88e0c115d8205407265c5.tar"],
@@ -196,9 +205,10 @@ test("static scanning NGINX with dockerfile analysis matches expected values", a
     file: dockerfilePath,
   });
 
-  const dockerfileAnalysis: DockerFileAnalysis = pluginResultStatic.scanResults[0].facts.find(
-    (fact) => fact.type === "dockerfileAnalysis",
-  )!.data;
+  const dockerfileAnalysis: DockerFileAnalysis =
+    pluginResultStatic.scanResults[0].facts.find(
+      (fact) => fact.type === "dockerfileAnalysis",
+    )!.data;
 
   t.equals(
     dockerfileAnalysis.baseImage,

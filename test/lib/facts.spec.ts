@@ -43,10 +43,11 @@ describe("Facts", () => {
       type: "testedFiles",
       data: [],
     };
-    const autoDetectedUserInstructionsFact: facts.AutoDetectedUserInstructionsFact = {
-      type: "autoDetectedUserInstructions",
-      data: {} as any,
-    };
+    const autoDetectedUserInstructionsFact: facts.AutoDetectedUserInstructionsFact =
+      {
+        type: "autoDetectedUserInstructions",
+        data: {} as any,
+      };
     const loadedPackagesFact: facts.LoadedPackagesFact = {
       type: "loadedPackages",
       data: {} as any,

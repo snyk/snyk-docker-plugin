@@ -4,7 +4,8 @@ import { PythonPackage, PythonRequirement } from "./types";
 const PACKAGE_NAME = "Name: ";
 const PACKAGE_VERSION = "Version: ";
 const PACKAGE_DEPS = "Requires-Dist: ";
-const DEP_PARSE_REGEX = /^(?<name>[\w.-]+)(\s?\(?(?<specifier><|<=|!=|==|>=|>|~=|===)(?<version>[\w.]+)\)?)?/;
+const DEP_PARSE_REGEX =
+  /^(?<name>[\w.-]+)(\s?\(?(?<specifier><|<=|!=|==|>=|>|~=|===)(?<version>[\w.]+)\)?)?/;
 export function getPackageInfo(fileContent: string): PythonPackage {
   const lines = fileContent.split("\n");
   let name = "";

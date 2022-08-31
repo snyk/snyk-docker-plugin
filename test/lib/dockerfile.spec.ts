@@ -193,10 +193,11 @@ describe("readDockerfileAndAnalyse() correctly parses...", () => {
             },
           },
           dockerfileLayers: {
-            UlVOIGFwayB1cGRhdGUgJiYgYXBrIHVwZ3JhZGUgJiYgYXBrIGFkZCAtLXVwZGF0ZSAtLW5vLWNhY2hlIG5vZGVqcyBiYXNo: {
-              instruction:
-                "RUN apk update && apk upgrade && apk add --update --no-cache nodejs bash",
-            },
+            UlVOIGFwayB1cGRhdGUgJiYgYXBrIHVwZ3JhZGUgJiYgYXBrIGFkZCAtLXVwZGF0ZSAtLW5vLWNhY2hlIG5vZGVqcyBiYXNo:
+              {
+                instruction:
+                  "RUN apk update && apk upgrade && apk add --update --no-cache nodejs bash",
+              },
           },
           error: undefined,
         },

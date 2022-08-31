@@ -37,9 +37,10 @@ test("/etc/os-release links to /usr/lib/os-release", async (t) => {
     path: imagePath,
   });
 
-  const depGraph: DepGraph = pluginResultWithDockerSave.scanResults[0].facts.find(
-    (fact) => fact.type === "depGraph",
-  )!.data;
+  const depGraph: DepGraph =
+    pluginResultWithDockerSave.scanResults[0].facts.find(
+      (fact) => fact.type === "depGraph",
+    )!.data;
 
   t.deepEqual(depGraph.pkgManager.repositories, [{ alias: "debian:10" }]);
 });
@@ -52,9 +53,10 @@ test("static analysis provides hashes for key binaries", async (t) => {
     path: imagePath,
   });
 
-  const keyBinariesHashes: string[] = pluginResultWithSkopeoCopy.scanResults[0].facts.find(
-    (fact) => fact.type === "keyBinariesHashes",
-  )!.data;
+  const keyBinariesHashes: string[] =
+    pluginResultWithSkopeoCopy.scanResults[0].facts.find(
+      (fact) => fact.type === "keyBinariesHashes",
+    )!.data;
 
   t.equals(keyBinariesHashes.length, 4, "found four key binaries");
   const expectedHashes = [
@@ -101,9 +103,10 @@ test("static analysis works for scratch images", async (t) => {
     path: imagePath,
   });
 
-  const depGraph: DepGraph = pluginResultWithSkopeoCopy.scanResults[0].facts.find(
-    (fact) => fact.type === "depGraph",
-  )!.data;
+  const depGraph: DepGraph =
+    pluginResultWithSkopeoCopy.scanResults[0].facts.find(
+      (fact) => fact.type === "depGraph",
+    )!.data;
   const imageId: string = pluginResultWithSkopeoCopy.scanResults[0].facts.find(
     (fact) => fact.type === "imageId",
   )!.data;
@@ -231,9 +234,10 @@ test("static scanning NGINX with dockerfile analysis matches expected values", a
     file: dockerfilePath,
   });
 
-  const dockerfileAnalysis: DockerFileAnalysis = pluginResultStatic.scanResults[0].facts.find(
-    (fact) => fact.type === "dockerfileAnalysis",
-  )!.data;
+  const dockerfileAnalysis: DockerFileAnalysis =
+    pluginResultStatic.scanResults[0].facts.find(
+      (fact) => fact.type === "dockerfileAnalysis",
+    )!.data;
   t.equals(
     dockerfileAnalysis.baseImage,
     "debian:stretch-slim",

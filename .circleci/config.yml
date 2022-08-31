@@ -142,7 +142,9 @@ jobs:
           name: Use snyk-main npmjs user
           command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
       - run: npm install
-      - run: npm run test-jest-windows
+      - run: 
+          command: npm run test-jest-windows
+          no_output_timeout: 20m
   build:
     <<: *defaults
     steps:

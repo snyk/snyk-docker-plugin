@@ -81,9 +81,10 @@ describe("system tests", () => {
       depGraph.pkgManager.name,
     );
 
-    const dockerfileAnalysis: DockerFileAnalysis = pluginResponse.scanResults[0].facts.find(
-      (fact) => fact.type === "dockerfileAnalysis",
-    )!.data;
+    const dockerfileAnalysis: DockerFileAnalysis =
+      pluginResponse.scanResults[0].facts.find(
+        (fact) => fact.type === "dockerfileAnalysis",
+      )!.data;
     expect(dockerfileAnalysis.baseImage).toEqual("buildpack-deps:stretch");
     expect(pluginResponse.scanResults[0].target.image).toEqual(
       "docker-image|" + imgName,
@@ -122,9 +123,10 @@ describe("system tests", () => {
     const imageId: string = pluginResponse.scanResults[0].facts.find(
       (fact) => fact.type === "imageId",
     )!.data;
-    const dockerfileAnalysis: DockerFileAnalysis = pluginResponse.scanResults[0].facts.find(
-      (fact) => fact.type === "dockerfileAnalysis",
-    )!.data;
+    const dockerfileAnalysis: DockerFileAnalysis =
+      pluginResponse.scanResults[0].facts.find(
+        (fact) => fact.type === "dockerfileAnalysis",
+      )!.data;
 
     expect(imageId).toEqual(
       "sha256:7f70b30f2cc66b5e23308fb20c6e57dc1ea0c47950cca797831b705177c6b8ce",
@@ -182,9 +184,10 @@ describe("system tests", () => {
     const imageId: string = pluginResponse.scanResults[0].facts.find(
       (fact) => fact.type === "imageId",
     )!.data;
-    const dockerfileAnalysis: DockerFileAnalysis = pluginResponse.scanResults[0].facts.find(
-      (fact) => fact.type === "dockerfileAnalysis",
-    )!.data;
+    const dockerfileAnalysis: DockerFileAnalysis =
+      pluginResponse.scanResults[0].facts.find(
+        (fact) => fact.type === "dockerfileAnalysis",
+      )!.data;
 
     expect(imageId).toEqual(
       "sha256:ca0b6709748d024a67c502558ea88dc8a1f8a858d380f5ddafa1504126a3b018",
@@ -202,9 +205,10 @@ describe("system tests", () => {
 
     expect(depGraph.getDepPkgs()).toHaveLength(13);
 
-    const manifestFiles: ManifestFile[] = pluginResponse.scanResults[0].facts.find(
-      (fact) => fact.type === "imageManifestFiles",
-    )!.data;
+    const manifestFiles: ManifestFile[] =
+      pluginResponse.scanResults[0].facts.find(
+        (fact) => fact.type === "imageManifestFiles",
+      )!.data;
     expect(Array.isArray(manifestFiles)).toBeTruthy();
     expect(manifestFiles).toHaveLength(1);
 
@@ -243,9 +247,10 @@ describe("system tests", () => {
       const imageId: string = pluginResponse.scanResults[0].facts.find(
         (fact) => fact.type === "imageId",
       )!.data;
-      const dockerfileAnalysis: DockerFileAnalysis = pluginResponse.scanResults[0].facts.find(
-        (fact) => fact.type === "dockerfileAnalysis",
-      )!.data;
+      const dockerfileAnalysis: DockerFileAnalysis =
+        pluginResponse.scanResults[0].facts.find(
+          (fact) => fact.type === "dockerfileAnalysis",
+        )!.data;
 
       expect(imageId).toEqual(
         "sha256:ca0b6709748d024a67c502558ea88dc8a1f8a858d380f5ddafa1504126a3b018",

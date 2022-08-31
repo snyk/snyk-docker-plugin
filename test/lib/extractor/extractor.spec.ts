@@ -15,8 +15,9 @@ describe("extractImageContent", () => {
   });
 
   it("extracts red hat repositories information from layers", async () => {
-    const numOfFoundFiles = Object.keys(extractedContent.extractedLayers)
-      .length;
+    const numOfFoundFiles = Object.keys(
+      extractedContent.extractedLayers,
+    ).length;
     expect(numOfFoundFiles).toBe(1);
 
     expect(

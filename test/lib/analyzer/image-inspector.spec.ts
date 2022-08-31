@@ -155,10 +155,8 @@ describe("getImageArchive", () => {
       const imageSavePath = path.join(customPath, uuidv4());
       const registryPullSpy = jest.spyOn(Docker.prototype, "pull");
 
-      const archiveLocation: ArchiveResult = await imageInspector.getImageArchive(
-        targetImage,
-        imageSavePath,
-      );
+      const archiveLocation: ArchiveResult =
+        await imageInspector.getImageArchive(targetImage, imageSavePath);
 
       expect(registryPullSpy).not.toHaveBeenCalled();
       expect(archiveLocation.path).toEqual(
