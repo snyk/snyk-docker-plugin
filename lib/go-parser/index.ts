@@ -9,9 +9,7 @@ import {
 } from "../analyzer/applications/types";
 import { ExtractAction } from "../extractor/types";
 import { DepGraphFact } from "../facts";
-import { parseGoBinary } from "./parser";
-import { LineTable } from "./pclntab";
-import { Elf } from "./types";
+import { GoBinary, readRawBuildInfo } from "./go-binary";
 
 const ignoredPaths = [
   path.normalize("/boot"),
@@ -77,16 +75,7 @@ async function findGoBinaries(
           (section) => section.name === ".note.go.buildid",
         );
 
-        const interp = binaryFile.body.sections.find(
-          (section) => section.name === ".interp",
-        );
-
         if (!goBuildInfo && !goBuildId) {
-          return resolve(undefined);
-        } else if (interp) {
-          // Compiled using cgo
-          // we wouldn't be able to extract modules
-          // TODO: cgo-compiled binaries are not supported in this iteration
           return resolve(undefined);
         } else if (goBuildInfo) {
           const info = goBuildInfo.data
@@ -94,6 +83,9 @@ async function findGoBinaries(
             .toString(encoding);
 
           if (info === buildInfoMagic) {
+            // to make sure we got a Go binary with module support, we try
+            // reading it. Will throw an error if not.
+            readRawBuildInfo(binaryFile);
             return resolve(binaryFile);
           }
 
@@ -110,6 +102,9 @@ async function findGoBinaries(
           // Usually the buildID is simply actionID/contentID, but with exceptions.
           // https://github.com/golang/go/blob/master/src/cmd/go/internal/work/buildid.go#L23
           if (go === buildIdMagic && buildIdParts.length >= 2) {
+            // to make sure we got a Go binary with module support, we try
+            // reading it. Will throw an error if not.
+            readRawBuildInfo(binaryFile);
             return resolve(binaryFile);
           }
 
@@ -156,7 +151,7 @@ export async function goModulesToScannedProjects(
       await eventLoopSpinner.spin();
     }
 
-    const depGraph = await parseGoBinary(goBinary as Elf);
+    const depGraph = await new GoBinary(goBinary).depGraph();
 
     if (!depGraph) {
       continue;
@@ -176,13 +171,4 @@ export async function goModulesToScannedProjects(
   }
 
   return scanResults;
-}
-
-/**
- * Reads the given PCLN ELF section from a Go binary and returns
- * a list of files that have been used to compile that binary.
- * @param pcln: a buffer containing the ".gopclntab" ELF section
- */
-export function readFilesFromPCLNTable(pcln: Buffer): string[] {
-  return new LineTable(pcln).go12MapFiles();
 }
