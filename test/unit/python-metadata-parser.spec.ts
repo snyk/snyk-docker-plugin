@@ -1,4 +1,3 @@
-import exp from "constants";
 import { getPackageInfo } from "../../lib/python-parser/metadata-parser";
 describe("python metadata parser", () => {
   it("parses package metadata", () => {
@@ -71,5 +70,56 @@ describe("python metadata parser", () => {
       { name: "asgiref", version: "3.2", specifier: ">=" },
       { name: "python-dotenv" },
     ]);
+  });
+
+  it("parses package metadata with non-semver version", () => {
+    const fileContent = `
+      Metadata-Version: 2.1
+      Name: click
+      Version: 8.3.post11545
+      Summary: Composable command line interface toolkit
+      Home-page: https://palletsprojects.com/p/click/
+      License: BSD-3-Clause
+      Platform: UNKNOWN
+      Classifier: Development Status :: 5 - Production/Stable
+      Classifier: Intended Audience :: Developers
+      Classifier: License :: OSI Approved :: BSD License
+      Classifier: Operating System :: OS Independent
+      Classifier: Programming Language :: Python
+      Requires-Python: >=3.7
+      Description-Content-Type: text/x-rst
+      License-File: LICENSE.rst
+      Requires-Dist: colorama ; platform_system == "Windows"
+      Requires-Dist: importlib-metadata ; python_version < "3.8"
+    `;
+    const packageResult = getPackageInfo(fileContent);
+    expect(packageResult.name).toEqual("click");
+    expect(packageResult.version).toEqual("8.3.0");
+    expect(packageResult.dependencies).toHaveLength(2);
+  });
+
+  it("fails to parse package metadata when version can't be coerced to semver", () => {
+    const fileContent = `
+      Metadata-Version: 2.1
+      Name: click
+      Version: dfsd.fsdfs.df
+      Summary: Composable command line interface toolkit
+      Home-page: https://palletsprojects.com/p/click/
+      License: BSD-3-Clause
+      Platform: UNKNOWN
+      Classifier: Development Status :: 5 - Production/Stable
+      Classifier: Intended Audience :: Developers
+      Classifier: License :: OSI Approved :: BSD License
+      Classifier: Operating System :: OS Independent
+      Classifier: Programming Language :: Python
+      Requires-Python: >=3.7
+      Description-Content-Type: text/x-rst
+      License-File: LICENSE.rst
+      Requires-Dist: colorama ; platform_system == "Windows"
+      Requires-Dist: importlib-metadata ; python_version < "3.8"
+    `;
+    expect(() => {
+      getPackageInfo(fileContent);
+    }).toThrow();
   });
 });

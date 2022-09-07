@@ -1,4 +1,5 @@
 import { DepGraph, DepGraphBuilder } from "@snyk/dep-graph";
+import * as Debug from "debug";
 import { eventLoopSpinner } from "event-loop-spinner";
 import * as path from "path";
 import * as semver from "semver";
@@ -8,6 +9,7 @@ import { getRequirements } from "../../../python-parser/requirements-parser";
 import { PythonPackage, PythonRequirement } from "../../../python-parser/types";
 import { AppDepsScanResultWithoutTarget, FilePathToContent } from "../types";
 
+const debug = Debug("snyk");
 class PythonDepGraphBuilder {
   private requirements: PythonRequirement[];
   private metadata: PythonPackage[];
@@ -91,7 +93,12 @@ export async function pipFilesToScannedProjects(
     if (fileBaseName === "requirements.txt") {
       requirements[filepath] = getRequirements(filePathToContent[filepath]);
     } else if (fileBaseName === "METADATA") {
-      metadataItems.push(getPackageInfo(filePathToContent[filepath]));
+      try {
+        const packageInfo = getPackageInfo(filePathToContent[filepath]);
+        metadataItems.push(packageInfo);
+      } catch (err) {
+        debug(err.message);
+      }
     }
   }
   if (metadataItems.length === 0) {

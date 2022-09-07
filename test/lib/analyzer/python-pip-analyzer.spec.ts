@@ -87,6 +87,19 @@ describe("pip analyzer", () => {
     );
   });
 
+  it("uses the correct versions when versions are not semver compatible", async () => {
+    const filePathToContent = prepareFiles("non-semver-versions");
+    const res = await pipFilesToScannedProjects(filePathToContent);
+    const packageList = res[0].facts[0].data._depPkgsList;
+    expect(packageList.find((p) => p.name === "flask").version).toEqual(
+      "2.2.1",
+    );
+    expect(packageList.find((p) => p.name === "six").version).toEqual("1.17.0");
+    expect(packageList.find((p) => p.name === "rpc.py").version).toEqual(
+      "0.4.2",
+    );
+  });
+
   it("uses the latest versions when no version info is available", async () => {
     const filePathToContent = prepareFiles("no-versions");
     const res = await pipFilesToScannedProjects(filePathToContent);
