@@ -1,3 +1,4 @@
+import * as semver from "semver";
 import { specifierValidRange } from "./common";
 import { PythonPackage, PythonRequirement } from "./types";
 
@@ -29,7 +30,17 @@ export function getPackageInfo(fileContent: string): PythonPackage {
       }
     }
   }
-  return { name: name.toLowerCase(), version, dependencies } as PythonPackage;
+  const validVersion = semver.coerce(version);
+  if (!validVersion) {
+    throw new PythonInvalidVersionError(
+      `version ${version} is not compatible with semver and cannot be compared`,
+    );
+  }
+  return {
+    name: name.toLowerCase(),
+    version: validVersion.toString(),
+    dependencies,
+  } as PythonPackage;
 }
 
 // parse a line containing a dependency package name and (optional) specifier + version
@@ -47,3 +58,5 @@ function parseDependency(packageDependency: string): PythonRequirement | null {
     specifier: correctedSpecifier,
   } as PythonRequirement;
 }
+
+export class PythonInvalidVersionError extends Error {}
