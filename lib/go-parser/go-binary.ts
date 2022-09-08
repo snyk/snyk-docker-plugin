@@ -181,8 +181,18 @@ export function extractModuleInformation(
     throw Error("binary contains empty module info");
   }
 
-  const [, mainModuleLine, ...versionsLines] = mod.split("\n");
-  const [, name] = mainModuleLine.split("\t");
+  const [pathDirective, mainModuleLine, ...versionsLines] = mod.split("\n");
+  const lineSplit = mainModuleLine.split("\t");
+  let name = lineSplit[1];
+  if (lineSplit[0] !== "mod") {
+    // If the binary has no mod directive, it is a binary from the Go
+    // distribution, like the "go" command, "vet", "gofmt" or others. In that
+    // case, we use "go-distribution@" plus the path directive ("cmd/vet" for
+    // example) as the name.  Using the "@" ensures that customers cannot create
+    // name-clashes with these as "@" is an invalid character in Go modules.
+    name = "go-distribution@" + pathDirective.split("\t")[1];
+  }
+
   const modules: GoModule[] = [];
   versionsLines.forEach((versionLine) => {
     const [, name, ver] = versionLine.split("\t");

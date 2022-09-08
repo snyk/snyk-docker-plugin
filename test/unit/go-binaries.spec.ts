@@ -196,6 +196,7 @@ function stdlib(
       break;
 
     case GoVersion.Go118:
+    case undefined:
       lib.packages.set("unicode", ["casetables.go"]);
       break;
   }
@@ -239,7 +240,7 @@ function extractGoVersion(fileName: string): GoVersion {
       return GoVersion.Go116;
     case "go1.18":
       return GoVersion.Go118;
-    case "latest":
+    default:
       // if the test fails because we're using GoVersion.Go118 here, it means
       // that the binary format has changed and we need to introduce a new
       // version + check how to handle that.
@@ -248,22 +249,20 @@ function extractGoVersion(fileName: string): GoVersion {
 }
 
 describe("test from binaries", () => {
-  const files = readdirSync(path.join(__dirname, "../fixtures/go-binaries"), {
-    withFileTypes: true,
-  });
+  const files = readdirSync(path.join(__dirname, "../fixtures/go-binaries"));
   for (const file of files) {
-    if (!file.isFile()) {
+    if (!file.match(/^go1\.[0-9]{1,2}\.[0-9]{1,2}_.*/)) {
       continue;
     }
 
-    describe(`handles file ${file.name}`, () => {
+    describe(`handles file ${file}`, () => {
       const fileContent = readFileSync(
-        path.join(__dirname, "../fixtures/go-binaries/", file.name),
+        path.join(__dirname, "../fixtures/go-binaries/", file),
       );
-      const goVersion = extractGoVersion(file.name);
-      const isTrimmed = file.name.includes("trimmed");
-      const isVendored = file.name.includes("vendored");
-      const isCGo = file.name.includes("cgo");
+      const goVersion = extractGoVersion(file);
+      const isTrimmed = file.includes("trimmed");
+      const isVendored = file.includes("vendored");
+      const isCGo = file.includes("cgo");
 
       const testCase = new TestCase([
         stdlib(goVersion, isCGo, isTrimmed),
@@ -392,4 +391,19 @@ describe("test from binaries", () => {
       });
     });
   }
+});
+
+describe("test stdlib bin project name", () => {
+  it("has correct project name even if mod directive is missing", () => {
+    const goBin = new GoBinary(
+      elf.parse(
+        readFileSync(
+          path.join(__dirname, "../fixtures/go-binaries/stdlib_pack"),
+        ),
+      ),
+    );
+    expect(goBin.name).toBe("go-distribution@cmd/pack");
+    // binaries from the standard library usually don't have external deps.
+    expect(goBin.modules).toHaveLength(0);
+  });
 });
