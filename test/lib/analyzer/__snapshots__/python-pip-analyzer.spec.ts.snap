@@ -1,0 +1,159 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`pip analyzer handles cyclic dependencies 1`] = `
+Object {
+  "graph": Object {
+    "nodes": Array [
+      Object {
+        "deps": Array [
+          Object {
+            "nodeId": "six@1.17.0",
+          },
+          Object {
+            "nodeId": "flask@2.2.1",
+          },
+          Object {
+            "nodeId": "rpc.py@0.4.2",
+          },
+        ],
+        "nodeId": "root-node",
+        "pkgId": "/app/requirements.txt@",
+      },
+      Object {
+        "deps": Array [],
+        "nodeId": "six@1.17.0",
+        "pkgId": "six@1.17.0",
+      },
+      Object {
+        "deps": Array [
+          Object {
+            "nodeId": "werkzeug@2.2.1",
+          },
+          Object {
+            "nodeId": "jinja2@3.1.2",
+          },
+          Object {
+            "nodeId": "itsdangerous@2.1.2",
+          },
+          Object {
+            "nodeId": "click@8.1.3",
+          },
+        ],
+        "nodeId": "flask@2.2.1",
+        "pkgId": "flask@2.2.1",
+      },
+      Object {
+        "deps": Array [
+          Object {
+            "nodeId": "markupsafe@2.1.1",
+          },
+        ],
+        "nodeId": "werkzeug@2.2.1",
+        "pkgId": "werkzeug@2.2.1",
+      },
+      Object {
+        "deps": Array [
+          Object {
+            "nodeId": "flask@2.2.1",
+          },
+        ],
+        "nodeId": "markupsafe@2.1.1",
+        "pkgId": "markupsafe@2.1.1",
+      },
+      Object {
+        "deps": Array [
+          Object {
+            "nodeId": "markupsafe@2.1.1",
+          },
+        ],
+        "nodeId": "jinja2@3.1.2",
+        "pkgId": "jinja2@3.1.2",
+      },
+      Object {
+        "deps": Array [],
+        "nodeId": "itsdangerous@2.1.2",
+        "pkgId": "itsdangerous@2.1.2",
+      },
+      Object {
+        "deps": Array [],
+        "nodeId": "click@8.1.3",
+        "pkgId": "click@8.1.3",
+      },
+      Object {
+        "deps": Array [],
+        "nodeId": "rpc.py@0.4.2",
+        "pkgId": "rpc.py@0.4.2",
+      },
+    ],
+    "rootNodeId": "root-node",
+  },
+  "pkgManager": Object {
+    "name": "pip",
+  },
+  "pkgs": Array [
+    Object {
+      "id": "/app/requirements.txt@",
+      "info": Object {
+        "name": "/app/requirements.txt",
+      },
+    },
+    Object {
+      "id": "six@1.17.0",
+      "info": Object {
+        "name": "six",
+        "version": "1.17.0",
+      },
+    },
+    Object {
+      "id": "flask@2.2.1",
+      "info": Object {
+        "name": "flask",
+        "version": "2.2.1",
+      },
+    },
+    Object {
+      "id": "werkzeug@2.2.1",
+      "info": Object {
+        "name": "werkzeug",
+        "version": "2.2.1",
+      },
+    },
+    Object {
+      "id": "markupsafe@2.1.1",
+      "info": Object {
+        "name": "markupsafe",
+        "version": "2.1.1",
+      },
+    },
+    Object {
+      "id": "jinja2@3.1.2",
+      "info": Object {
+        "name": "jinja2",
+        "version": "3.1.2",
+      },
+    },
+    Object {
+      "id": "itsdangerous@2.1.2",
+      "info": Object {
+        "name": "itsdangerous",
+        "version": "2.1.2",
+      },
+    },
+    Object {
+      "id": "click@8.1.3",
+      "info": Object {
+        "name": "click",
+        "version": "8.1.3",
+      },
+    },
+    Object {
+      "id": "rpc.py@0.4.2",
+      "info": Object {
+        "name": "rpc.py",
+        "version": "0.4.2",
+      },
+    },
+  ],
+  "schemaVersion": "1.2.0",
+}
+`;

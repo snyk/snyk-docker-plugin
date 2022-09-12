@@ -18,6 +18,7 @@ class PythonDepGraphBuilder {
   private requirements: PythonRequirement[];
   private metadata: PythonMetadataFiles;
   private builder: DepGraphBuilder;
+  private visitedMap: Set<string> = new Set();
 
   constructor(
     name: string,
@@ -49,14 +50,17 @@ class PythonDepGraphBuilder {
       return;
     }
     const nodeId = `${metadata.name}@${metadata.version}`;
-    this.builder.addPkgNode(
-      { name: metadata.name, version: metadata.version },
-      nodeId,
-    );
-    this.builder.connectDep(root, nodeId);
-    for (const dep of metadata.dependencies) {
-      this.addDependenciesToDepGraph(nodeId, dep);
+    if (!this.visitedMap.has(nodeId)) {
+      this.visitedMap.add(nodeId);
+      this.builder.addPkgNode(
+        { name: metadata.name, version: metadata.version },
+        nodeId,
+      );
+      for (const dep of metadata.dependencies) {
+        await this.addDependenciesToDepGraph(nodeId, dep);
+      }
     }
+    this.builder.connectDep(root, nodeId);
   }
 
   // find the best match for a dependency in found metadata files
