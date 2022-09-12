@@ -75,17 +75,35 @@ function layersWithLatestFileModifications(
   layers: ExtractedLayers[],
 ): ExtractedLayers {
   const extractedLayers: ExtractedLayers = {};
+  const removedFilesToIgnore: Set<string> = new Set();
+
   // TODO: This removes the information about the layer name, maybe we would need it in the future?
   for (const layer of layers) {
     // go over extracted files products found in this layer
     for (const filename of Object.keys(layer)) {
-      // file was not found
-      if (!Reflect.has(extractedLayers, filename)) {
+      // if finding a deleted file - trimming to its original file name for excluding it from extractedLayers
+      if (isDeletedFile(filename)) {
+        removedFilesToIgnore.add(filename.replace(/.wh./, ""));
+      }
+
+      // not adding the original file to extractedLayers
+      // and removing it from the set since it can be found in consecutive layers
+      if (removedFilesToIgnore.has(filename)) {
+        removedFilesToIgnore.delete(filename);
+      } else if (
+        // file was not found + avoid adding deleted files with .wh.
+        !Reflect.has(extractedLayers, filename) &&
+        !isDeletedFile(filename)
+      ) {
         extractedLayers[filename] = layer[filename];
       }
     }
   }
   return extractedLayers;
+}
+
+export function isDeletedFile(filename: string) {
+  return filename.match(/.wh./gm);
 }
 
 function isBufferType(type: FileContent): type is Buffer {

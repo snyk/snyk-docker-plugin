@@ -3,6 +3,7 @@ import * as gunzip from "gunzip-maybe";
 import * as path from "path";
 import { Readable } from "stream";
 import { extract, Extract } from "tar-stream";
+import { isDeletedFile } from ".";
 import { applyCallbacks, isResultEmpty } from "./callbacks";
 import { ExtractAction, ExtractedLayers } from "./types";
 
@@ -36,7 +37,10 @@ export async function extractImageLayer(
               headers.size,
             );
 
-            if (!isResultEmpty(callbackResult)) {
+            if (
+              !isResultEmpty(callbackResult) ||
+              isDeletedFile(absoluteFileName)
+            ) {
               result[absoluteFileName] = callbackResult;
             }
           } catch (error) {
