@@ -6,19 +6,23 @@ import * as semver from "semver";
 import { DepGraphFact } from "../../../facts";
 import { getPackageInfo } from "../../../python-parser/metadata-parser";
 import { getRequirements } from "../../../python-parser/requirements-parser";
-import { PythonPackage, PythonRequirement } from "../../../python-parser/types";
+import {
+  PythonMetadataFiles,
+  PythonPackage,
+  PythonRequirement,
+} from "../../../python-parser/types";
 import { AppDepsScanResultWithoutTarget, FilePathToContent } from "../types";
 
 const debug = Debug("snyk");
 class PythonDepGraphBuilder {
   private requirements: PythonRequirement[];
-  private metadata: PythonPackage[];
+  private metadata: PythonMetadataFiles;
   private builder: DepGraphBuilder;
 
   constructor(
     name: string,
     requirements: PythonRequirement[],
-    metadata: PythonPackage[],
+    metadata: PythonMetadataFiles,
   ) {
     this.requirements = requirements;
     this.metadata = metadata;
@@ -57,20 +61,17 @@ class PythonDepGraphBuilder {
 
   // find the best match for a dependency in found metadata files
   private findMetadata(dep: PythonRequirement): PythonPackage | null {
-    const nameMatches = this.metadata.filter(
-      (meta) => meta.name.toLowerCase() === dep.name.toLowerCase(),
-    );
-    if (nameMatches.length === 0) {
+    const nameMatches = this.metadata[dep.name.toLowerCase()];
+    if (!nameMatches || nameMatches.length === 0) {
       return null;
     }
-    nameMatches.sort((v1, v2) => {
-      return semver.rcompare(v1.version, v2.version);
-    });
     if (nameMatches.length === 1 || !dep.version) {
       return nameMatches[0];
     }
     for (const meta of nameMatches) {
-      if (semver.satisfies(meta.version, `${dep.specifier}${dep.version}`)) {
+      if (
+        semver.satisfies(meta.version, `${dep.specifier}${dep.version}`, true)
+      ) {
         return meta;
       }
     }
@@ -87,7 +88,7 @@ export async function pipFilesToScannedProjects(
 ): Promise<AppDepsScanResultWithoutTarget[]> {
   const scanResults: AppDepsScanResultWithoutTarget[] = [];
   const requirements = {};
-  const metadataItems: PythonPackage[] = [];
+  const metadataItems: PythonMetadataFiles = {};
   for (const filepath of Object.keys(filePathToContent)) {
     const fileBaseName = path.basename(filepath);
     if (fileBaseName === "requirements.txt") {
@@ -95,15 +96,25 @@ export async function pipFilesToScannedProjects(
     } else if (fileBaseName === "METADATA") {
       try {
         const packageInfo = getPackageInfo(filePathToContent[filepath]);
-        metadataItems.push(packageInfo);
+        if (!metadataItems[packageInfo.name.toLowerCase()]) {
+          metadataItems[packageInfo.name.toLowerCase()] = [];
+        }
+        metadataItems[packageInfo.name.toLowerCase()].push(packageInfo);
       } catch (err) {
         debug(err.message);
       }
     }
   }
-  if (metadataItems.length === 0) {
+  if (Object.keys(metadataItems).length === 0) {
     return scanResults;
   }
+  // pre-sort each package name by version, descending
+  for (const name of Object.keys(metadataItems)) {
+    metadataItems[name].sort((v1, v2) => {
+      return semver.rcompare(v1.version, v2.version);
+    });
+  }
+
   for (const requirementsFile of Object.keys(requirements)) {
     if (requirements[requirementsFile].length === 0) {
       continue;
