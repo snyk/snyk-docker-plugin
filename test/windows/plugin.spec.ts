@@ -115,5 +115,5 @@ describe("windows scanning", () => {
     expect(pluginResult.scanResults[0].identity.args?.platform).toEqual(
       "windows/amd64",
     );
-  }, 600000);
+  }, 900000);
 });
