@@ -178,7 +178,7 @@ jobs:
           command: ./.circleci/build-go-binary-latest.sh
       - run:
           name: Run Go binaries unit test
-          command: npx jest test/unit/go-binary-information-parser.spec.ts
+          command: npx jest test/unit/go-binaries.spec.ts
       - notify_slack_on_failure
   release:
     <<: *release_defaults
