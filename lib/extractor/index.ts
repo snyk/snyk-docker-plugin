@@ -75,17 +75,32 @@ function layersWithLatestFileModifications(
   layers: ExtractedLayers[],
 ): ExtractedLayers {
   const extractedLayers: ExtractedLayers = {};
+  const filesToRemove: Set<string> = new Set();
+
   // TODO: This removes the information about the layer name, maybe we would need it in the future?
   for (const layer of layers) {
     // go over extracted files products found in this layer
     for (const filename of Object.keys(layer)) {
-      // file was not found
-      if (!Reflect.has(extractedLayers, filename)) {
+      if (isDeletedFile(filename)) {
+        filesToRemove.add(filename.replace(/.wh./, ""));
+      }
+
+      if (filesToRemove.has(filename)) {
+        filesToRemove.delete(filename);
+      } else if (
+        // file was not found
+        !Reflect.has(extractedLayers, filename) &&
+        !isDeletedFile(filename)
+      ) {
         extractedLayers[filename] = layer[filename];
       }
     }
   }
   return extractedLayers;
+}
+
+export function isDeletedFile(filename: string) {
+  return filename.match(/.wh./gm);
 }
 
 function isBufferType(type: FileContent): type is Buffer {

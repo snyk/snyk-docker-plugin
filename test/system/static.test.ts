@@ -298,8 +298,8 @@ test("able to scan opensuse/leap images", async (t) => {
 });
 
 /**
- * This test asserts that our scanner ignores files' deletion
- * by still reporting that they are part of the image.
+ * This test asserts that our scanner used to ignore files' deletion
+ * by reporting that they are part of the image.
  * The image in the example below was built with the following Dockerfile:
  *
  * FROM busybox
@@ -308,10 +308,10 @@ test("able to scan opensuse/leap images", async (t) => {
  *
  * Even though the node "binary"
  * (actually just an empty file to keep the fixture small)
- * has been removed, we still report it exists.
+ * has been removed, we used to report it exists.
  */
 
-test("bug exists: false positive for deleted files", async (t) => {
+test("bug fixed: used not to recognize deleted files", async (t) => {
   const fixturePath = getFixture("skopeo-copy/node-removed.tar");
   const imagePath = `oci-archive:${fixturePath}`;
 
@@ -321,12 +321,11 @@ test("bug exists: false positive for deleted files", async (t) => {
 
   const keyBinariesHashes: string[] = pluginResult.scanResults[0].facts.find(
     (fact) => fact.type === "keyBinariesHashes",
-  )!.data;
+  )?.data;
 
-  t.equal(keyBinariesHashes.length, 1, "one hash found for a file called node");
   t.equal(
-    keyBinariesHashes[0],
-    "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "matched file hash",
+    keyBinariesHashes,
+    undefined,
+    "should not have found '/node' file and its binary",
   );
 });
