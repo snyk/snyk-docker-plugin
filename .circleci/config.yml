@@ -1,7 +1,8 @@
 version: 2.1
 
 orbs:
-  win: circleci/windows@2.2.0
+  win: circleci/windows@5.0.0
+  node: circleci/node@5.0.2
 
 defaults: &defaults
   resource_class: small
@@ -12,11 +13,24 @@ defaults: &defaults
 windows_defaults: &windows_defaults
   executor:
     name: win/default
+    shell: bash.exe
   parameters:
     node_version:
       type: string
       default: ""
   working_directory: ~/snyk-docker-plugin
+
+windows_big: &windows_big
+  executor:
+    name: win/default
+    shell: bash.exe
+    size: large
+  parameters:
+    node_version:
+      type: string
+      default: ""
+  working_directory: ~/snyk-docker-plugin
+
 
 release_defaults: &release_defaults
   resource_class: small
@@ -80,12 +94,11 @@ commands:
         type: string
         default: ""
     steps:
+      - node/install:
+          node-version: << parameters.node_version >>
       - run:
-          name: Install specific version of Node
-          command: nvm install << parameters.node_version >>
-      - run:
-          name: Use specific version of Node
-          command: nvm use << parameters.node_version >>
+          name: Use currently installed node version
+          command: nvm list | awk '/<< parameters.node_version >>/ {print $1}' | xargs nvm use
 
 jobs:
   install:
@@ -133,7 +146,7 @@ jobs:
       - run: npm run test-jest
       - notify_slack_on_failure
   test_jest_windows:
-    <<: *windows_defaults
+    <<: *windows_big
     steps:
       - checkout
       - install_node_npm:
