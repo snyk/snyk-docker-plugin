@@ -56,9 +56,11 @@ class PythonDepGraphBuilder {
         { name: metadata.name, version: metadata.version },
         nodeId,
       );
+      const subDependencies: Array<Promise<void>> = [];
       for (const dep of metadata.dependencies) {
-        await this.addDependenciesToDepGraph(nodeId, dep);
+        subDependencies.push(this.addDependenciesToDepGraph(nodeId, dep));
       }
+      await Promise.all(subDependencies);
     }
     this.builder.connectDep(root, nodeId);
   }
