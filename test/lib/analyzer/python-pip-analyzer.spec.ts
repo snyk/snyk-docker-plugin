@@ -115,4 +115,14 @@ describe("pip analyzer", () => {
       "2.4.3",
     );
   });
+
+  it("handles cyclic dependencies", async () => {
+    const filePathToContent = prepareFiles("cyclic");
+    const res = await pipFilesToScannedProjects(filePathToContent);
+    expect(res[0].identity).toMatchObject({
+      type: "pip",
+      targetFile: "/app/requirements.txt",
+    });
+    expect(res[0].facts[0].data).toMatchSnapshot();
+  });
 });

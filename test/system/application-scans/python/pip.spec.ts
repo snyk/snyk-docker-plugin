@@ -15,7 +15,7 @@ describe("pip application scan", () => {
   });
 
   it("should handle --exclude-app-vulns with string and boolean value", async () => {
-    const fixturePath = getFixture("docker-archives/docker-save/php.tar");
+    const fixturePath = getFixture("docker-archives/docker-save/pip.tar");
     const imageNameAndTag = `docker-archive:${fixturePath}`;
 
     const pluginResultExcludeAppVulnsFalseString = await scan({

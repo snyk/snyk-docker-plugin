@@ -9,3 +9,7 @@ export interface PythonPackage {
   version: string;
   dependencies: PythonRequirement[];
 }
+
+export interface PythonMetadataFiles {
+  [name: string]: PythonPackage[];
+}
