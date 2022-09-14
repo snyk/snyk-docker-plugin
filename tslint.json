@@ -1,13 +1,11 @@
 {
   "defaultSeverity": "error",
-  "extends": [
-    "tslint:recommended",
-    "tslint-config-prettier"
-  ],
+  "extends": ["tslint:recommended", "tslint-config-prettier"],
   "rules": {
     "no-shadowed-variable": false,
     "interface-name": false,
     "object-literal-sort-keys": false,
-    "no-bitwise": false
+    "no-bitwise": false,
+    "max-classes-per-file": false
   }
 }

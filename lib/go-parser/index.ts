@@ -1,3 +1,4 @@
+import * as Debug from "debug";
 import * as elf from "elfy";
 import { eventLoopSpinner } from "event-loop-spinner";
 import * as path from "path";
@@ -10,6 +11,8 @@ import {
 import { ExtractAction } from "../extractor/types";
 import { DepGraphFact } from "../facts";
 import { GoBinary, readRawBuildInfo } from "./go-binary";
+
+const debug = Debug("snyk");
 
 const ignoredPaths = [
   path.normalize("/boot"),
@@ -151,23 +154,26 @@ export async function goModulesToScannedProjects(
       await eventLoopSpinner.spin();
     }
 
-    const depGraph = await new GoBinary(goBinary).depGraph();
+    try {
+      const depGraph = await new GoBinary(goBinary).depGraph();
+      if (!depGraph) {
+        continue;
+      }
 
-    if (!depGraph) {
-      continue;
+      const depGraphFact: DepGraphFact = {
+        type: "depGraph",
+        data: depGraph,
+      };
+      scanResults.push({
+        facts: [depGraphFact],
+        identity: {
+          type: DEP_GRAPH_TYPE,
+          targetFile: filePath,
+        },
+      });
+    } catch (err) {
+      debug(`Go binary scan for file ${filePath} failed: ${err}`);
     }
-
-    const depGraphFact: DepGraphFact = {
-      type: "depGraph",
-      data: depGraph,
-    };
-    scanResults.push({
-      facts: [depGraphFact],
-      identity: {
-        type: DEP_GRAPH_TYPE,
-        targetFile: filePath,
-      },
-    });
   }
 
   return scanResults;

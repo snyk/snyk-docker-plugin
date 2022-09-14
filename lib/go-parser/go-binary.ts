@@ -18,8 +18,14 @@ export class GoBinary {
     const pclnTab = goElfBinary.body.sections.find(
       (section) => section.name === ".gopclntab",
     );
+
+    // some CGo built binaries might not contain a pclnTab, which means we
+    // cannot scan the files.
+    // TODO: from a technical perspective, it would be enough to only report the
+    // modules, as the only remediation path is to upgrade a full module
+    // anyways. From a product perspective, it's not clear (yet).
     if (pclnTab === undefined) {
-      throw Error("no pcln table found in Go binary");
+      throw Error("no pcln table present in Go binary");
     }
 
     this.matchFilesToModules(new LineTable(pclnTab.data).go12MapFiles());
