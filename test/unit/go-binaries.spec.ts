@@ -3,6 +3,7 @@ import * as elf from "elfy";
 import { readdirSync, readFileSync } from "fs";
 import * as path from "path";
 
+import { goModulesToScannedProjects } from "../../lib/go-parser";
 import {
   extractModuleInformation,
   GoBinary,
@@ -405,5 +406,19 @@ describe("test stdlib bin project name", () => {
     expect(goBin.name).toBe("go-distribution@cmd/pack");
     // binaries from the standard library usually don't have external deps.
     expect(goBin.modules).toHaveLength(0);
+  });
+});
+
+describe("test binary without pcln table", () => {
+  it("does not fail if Go binary does not contain PCLN table", async () => {
+    const fileName = path.join(
+      __dirname,
+      "../fixtures/go-binaries/no-pcln-tab",
+    );
+    await expect(
+      goModulesToScannedProjects({
+        fileName: elf.parse(readFileSync(fileName)),
+      }),
+    ).resolves.not.toThrow();
   });
 });
