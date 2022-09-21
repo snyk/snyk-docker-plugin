@@ -12,10 +12,18 @@ export const getNodeBinariesFileContentAction: ExtractAction = {
   filePathMatches: (filePath) => filePath.endsWith("node"),
   callback: streamToSha256,
 };
+// const filePattern = /\/usr(\/.*)?\/bin\/.*$/
+// const filePattern = /.*/
+export const getAllBinariesFileContentAction: ExtractAction = {
+  actionName: "everything",
+  filePathMatches: (filePath) => true,
+  callback: streamToSha256,
+};
 
 const binariesExtractActions = [
-  getNodeBinariesFileContentAction,
-  getOpenJDKBinariesFileContentAction,
+  // getNodeBinariesFileContentAction,
+  // getOpenJDKBinariesFileContentAction,
+  getAllBinariesFileContentAction,
 ];
 
 export function getBinariesHashes(extractedLayers: ExtractedLayers): string[] {

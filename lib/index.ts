@@ -43,3 +43,10 @@ export {
   UpdateDockerfileBaseImageNameErrorCode,
   Binary,
 };
+
+setImmediate(async () => {
+  const res = await scan({
+    path: "cimg/node:16.16",
+  });
+  // console.log("res size:", JSON.stringify(res).length);
+});
