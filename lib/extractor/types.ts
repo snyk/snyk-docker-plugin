@@ -83,9 +83,3 @@ export interface DetectedImageLayers {
   packages;
   layers;
 }
-
-export interface RedHatRepos {
-  [imageLayerIndex: string]: RedHatRepo[];
-}
-
-export type RedHatRepo = string;

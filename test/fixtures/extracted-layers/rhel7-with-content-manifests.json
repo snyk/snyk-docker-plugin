@@ -1,0 +1,17 @@
+{
+    "/root/buildinfo/content_manifests/jenkins-agent-maven-35-rhel7-container-v3.11.346-2.json": {
+        "redhat-content-manifests": {
+            "metadata": {
+                "icm_version": 1,
+                "icm_spec": "https://raw.githubusercontent.com/containerbuildsystem/atomic-reactor/master/atomic_reactor/schemas/content_manifest.json",
+                "image_layer_index": 6
+            },
+            "content_sets": [
+                "rhel-7-server-ose-3.11-rpms",
+                "rhel-server-rhscl-7-rpms",
+                "rhel-7-server-rpms"
+            ],
+            "image_contents": []
+        }
+    }
+}

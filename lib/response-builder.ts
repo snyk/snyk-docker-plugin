@@ -143,6 +143,14 @@ async function buildResponse(
     additionalFacts.push(autoDetectedUserInstructionsFact);
   }
 
+  if (depsAnalysis.redHatRepositories.length > 0) {
+    const redHatRepositoriesFact: facts.RedHatRepositoriesFact = {
+      type: "redHatRepositories",
+      data: depsAnalysis.redHatRepositories,
+    };
+    additionalFacts.push(redHatRepositoriesFact);
+  }
+
   const applicationDependenciesScanResults: types.ScanResult[] = (
     depsAnalysis.applicationDependenciesScanResults || []
   ).map((appDepsScanResult) => {

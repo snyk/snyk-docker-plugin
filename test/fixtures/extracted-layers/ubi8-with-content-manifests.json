@@ -1,0 +1,37 @@
+{
+    "/root/buildinfo/content_manifests/s2i-core-container-1-155.json": {
+        "redhat-content-manifests": {
+            "content_sets": [
+                "rhel-8-for-x86_64-baseos-rpms",
+                "rhel-8-for-x86_64-appstream-rpms"
+            ],
+            "metadata": {
+                "image_layer_index": 2
+            }
+        }
+    },
+    "/root/buildinfo/content_manifests/ubi8-container-8.2-337": {
+        "redhat-content-manifests": {
+            "content_sets": [
+                "rhel-8-for-x86_64-baseos-beta-rpms",
+                "rhel-8-for-x86_64-appstream-beta-rpms",
+                "rhel-8-for-x86_64-baseos-htb-rpms",
+                "rhel-8-for-x86_64-appstream-htb-rpms"
+            ],
+            "metadata": {
+                "image_layer_index": 1
+            }
+        }
+    },
+    "/root/buildinfo/content_manifests/nodejs-10-container-1-99": {
+        "redhat-content-manifests": {
+            "content_sets": [
+                "rhel-8-for-x86_64-baseos-rpms",
+                "rhel-8-for-x86_64-appstream-rpms"
+            ],
+            "metadata": {
+                "image_layer_index": 4
+            }
+        }
+    }
+}
