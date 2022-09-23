@@ -34,6 +34,10 @@ import {
   getPoetryAppFileContentAction,
 } from "../inputs/python/static";
 import {
+  getRedHatRepositoriesContentAction,
+  getRedHatRepositoriesFromExtractedLayers,
+} from "../inputs/redHat/static";
+import {
   getRpmDbFileContent,
   getRpmDbFileContentAction,
   getRpmSqliteDbFileContent,
@@ -81,6 +85,7 @@ export async function analyze(
     getNodeBinariesFileContentAction,
     getOpenJDKBinariesFileContentAction,
     getDpkgPackageFileContentAction,
+    getRedHatRepositoriesContentAction,
   ];
 
   const checkForGlobs = shouldCheckForGlobs(globsToFind);
@@ -170,6 +175,9 @@ export async function analyze(
 
   const binaries = getBinariesHashes(extractedLayers);
 
+  const redHatRepositories =
+    getRedHatRepositoriesFromExtractedLayers(extractedLayers);
+
   const applicationDependenciesScanResults: AppDepsScanResultWithoutTarget[] =
     [];
 
@@ -222,6 +230,7 @@ export async function analyze(
     autoDetectedUserInstructions,
     imageLabels,
     imageCreationTime,
+    redHatRepositories,
   };
 }
 

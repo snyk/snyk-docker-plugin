@@ -1,5 +1,6 @@
 import { extractImageContent } from "../../../lib/extractor";
-import { getRedHatReposContentAction } from "../../../lib/inputs/rhel/static";
+import { ExtractionResult } from "../../../lib/extractor/types";
+import { getRedHatRepositoriesContentAction } from "../../../lib/inputs/redHat/static";
 import { ImageType } from "../../../lib/types";
 import { getFixture } from "../../util/index";
 
@@ -10,7 +11,7 @@ describe("extractImageContent", () => {
     extractedContent = await extractImageContent(
       ImageType.DockerArchive,
       getFixture("docker-archives/docker-save/nginx-with-buildinfo.tar"),
-      [getRedHatReposContentAction],
+      [getRedHatRepositoriesContentAction],
     );
   });
 

@@ -64,7 +64,8 @@ export type FactType =
   | "imageLabels"
   | "imageSizeBytes"
   | "loadedPackages"
-  | "imageCreationTime";
+  | "imageCreationTime"
+  | "redHatRepositories";
 
 export interface PluginResponse {
   /** The first result is guaranteed to be the OS dependencies scan result. */

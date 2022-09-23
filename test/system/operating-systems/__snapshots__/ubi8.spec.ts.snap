@@ -2775,6 +2775,13 @@ Object {
           "data": "Red Hat Enterprise Linux 8.2 (Ootpa)",
           "type": "imageOsReleasePrettyName",
         },
+        Object {
+          "data": Array [
+            "rhel-8-for-x86_64-baseos-rpms",
+            "rhel-8-for-x86_64-appstream-rpms",
+          ],
+          "type": "redHatRepositories",
+        },
       ],
       "identity": Object {
         "args": Object {
