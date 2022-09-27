@@ -76,7 +76,14 @@ async function pullWithDockerBinary(
       throw new Error(`Operating system is not supported`);
     }
 
-    if (err.stderr && err.stderr.includes("no matching manifest for")) {
+    const unknownManifestConditions = [
+      "no matching manifest for",
+      "manifest unknown",
+    ];
+    if (
+      err.stderr &&
+      unknownManifestConditions.some((value) => err.stderr.includes(value))
+    ) {
       if (platform) {
         throw new Error(`The image does not exist for ${platform}`);
       }
