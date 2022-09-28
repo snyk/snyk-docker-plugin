@@ -146,10 +146,6 @@ describe("getImageArchive", () => {
   });
 
   describe("from remote registry with binary", () => {
-    afterEach(async () => {
-      await subProcess.execute("docker", ["image", "rm", targetImage]);
-    });
-
     it("should produce the expected state", async () => {
       const customPath = tmp.dirSync().name;
       const imageSavePath = path.join(customPath, uuidv4());
@@ -177,6 +173,37 @@ describe("getImageArchive", () => {
 
       const customPathExistsOnDisk: boolean = fs.existsSync(customPath);
       expect(customPathExistsOnDisk).toBe(true);
+
+      await subProcess.execute("docker", ["image", "rm", targetImage]);
+    });
+
+    it("should fail correctly when manifest is not found for given tag", async () => {
+      const customPath = tmp.dirSync().name;
+      const imageSavePath = path.join(customPath, uuidv4());
+      const dockerPullCliSpy = jest
+        .spyOn(Docker.prototype, "pullCli")
+        .mockImplementation(() => {
+          return new Promise<subProcess.CmdOutput>((_, reject) => {
+            reject({
+              stdout: "",
+              stderr:
+                '"Error response from daemon: manifest for library/hello-world:non-existent-tag not found: manifest unknown: manifest unknown\n"',
+            });
+          });
+        });
+      const dockerPullSpy = jest.spyOn(Docker.prototype, "pull");
+
+      await expect(
+        imageInspector.getImageArchive(
+          "library/hello-world:non-existent-tag",
+          imageSavePath,
+        ),
+      ).rejects.toEqual(
+        new Error("The image does not exist for the current platform"),
+      );
+
+      expect(dockerPullCliSpy).toHaveBeenCalled();
+      expect(dockerPullSpy).not.toHaveBeenCalled();
     });
   });
 
