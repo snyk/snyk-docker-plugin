@@ -7,10 +7,15 @@ const poetryManifestFiles = ["pyproject.toml", "poetry.lock"];
 const pipManifestFiles = ["requirements.txt"];
 const pythonMetadataFilesRegex =
   /\/lib\/python.*?\/site-packages\/.*?\.dist-info\/METADATA/;
+const deletedPoetryAppFiles = poetryManifestFiles.map((file) => ".wh." + file);
+const deletedPipAppFiles = pipManifestFiles.map((file) => ".wh." + file);
 
 function poetryFilePathMatches(filePath: string): boolean {
   const fileName = basename(filePath);
-  return poetryManifestFiles.includes(fileName);
+  return (
+    poetryManifestFiles.includes(fileName) ||
+    deletedPoetryAppFiles.includes(fileName)
+  );
 }
 
 export const getPoetryAppFileContentAction: ExtractAction = {
@@ -23,7 +28,8 @@ function pipFilePathMatches(filePath: string): boolean {
   const fileName = basename(filePath);
   return (
     pipManifestFiles.includes(fileName) ||
-    pythonMetadataFilesRegex.test(filePath)
+    pythonMetadataFilesRegex.test(filePath) ||
+    deletedPipAppFiles.includes(fileName)
   );
 }
 
