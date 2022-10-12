@@ -81,6 +81,13 @@ class Docker {
     );
 
     const modem = new Modem();
+    // Depending on how `DOCKER_HOST` is set, we might connect to a socket or an
+    // HTTP server. However, the default http.globalAgent might be setup to use
+    // HTTP_PROXY, which we do not want to do when connecting to a socket. As
+    // such, if the socketPath is set, we do not use the global agent.
+    if (modem.socketPath !== "") {
+      modem.agent = false; // causes a new Agent with default values to be used.
+    }
 
     return new Promise<void>((resolve, reject) => {
       modem.dial(request, (err, stream: Stream) => {
