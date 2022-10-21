@@ -55,12 +55,12 @@ class Docker {
     targetImage: string,
     options?: DockerOptions,
   ): Promise<subProcess.CmdOutput> {
-    const opts: string[] = ["pull", targetImage];
+    const args: string[] = ["pull", targetImage];
     if (options?.platform) {
-      opts.push(`--platform=${options.platform}`);
+      args.push(`--platform=${options.platform}`);
     }
 
-    return subProcess.execute("docker", opts);
+    return subProcess.execute("docker", args);
   }
 
   public async save(targetImage: string, destination: string) {
