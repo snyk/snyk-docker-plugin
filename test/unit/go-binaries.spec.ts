@@ -5,6 +5,7 @@ import * as path from "path";
 
 import { goModulesToScannedProjects } from "../../lib/go-parser";
 import {
+  determinePaths,
   extractModuleInformation,
   GoBinary,
 } from "../../lib/go-parser/go-binary";
@@ -420,5 +421,113 @@ describe("test binary without pcln table", () => {
         fileName: elf.parse(readFileSync(fileName)),
       }),
     ).resolves.not.toThrow();
+  });
+});
+
+// The Go stdlib contains a vendored module, `golang.org/x/net`. If a binary
+// depends on that module as well, and is built with `-trimpath`, there will be
+// two different modules & files in the binary metadata, e.g.:
+// - vendor/golang.org/x/net/http/httpguts/guts.go
+// - golang.org/x/net/http/httpguts/guts.go.
+// We want to make sure this still works.
+describe("test stdlib vendor", () => {
+  it("finds the right dependencies", async () => {
+    const fileName = path.join(
+      __dirname,
+      "../fixtures/go-binaries/fake-vendor",
+    );
+    const graph = await new GoBinary(
+      elf.parse(readFileSync(fileName)),
+    ).depGraph();
+
+    expect(graph.getPkgs()).toContainEqual({
+      name: "golang.org/x/net/http/httpguts",
+      version: "0.1.0",
+    });
+    expect(graph.getPkgs()).toContainEqual({
+      name: "github.com/spf13/cobra",
+      version: "1.6.1",
+    });
+    expect(graph.rootPkg.name).toBe("github.com/myrepo/partvend");
+  });
+});
+
+describe("test path determination", () => {
+  it("finds the right paths with mix of vendor and normal", () => {
+    const modules = [
+      new GoModule("github.com/dep/a", "v0.0.1"),
+      new GoModule("github.com/dep/b", "v0.1.0"),
+    ];
+    const files = [
+      "/project/main.go",
+      "/project/pkg/pkg.go",
+      "/project/vendor/github.com/dep/b/pkg/b.go",
+      "/go/pkg/mod/cache/github.com/dep/a@v0.0.1/a.go",
+      "/usr/local/go/src/fmt/fmt.go",
+      "/usr/local/go/src/net/net.go",
+      "/usr/local/go/src/vendor/golang.org/x/net/net.go",
+    ];
+
+    const { modCachePath, vendorPath } = determinePaths(modules, files);
+    expect(modCachePath).toBe("/go/pkg/mod/cache/");
+    expect(vendorPath).toBe("/project/vendor/");
+  });
+
+  it("finds the right paths with only vendored", () => {
+    const modules = [
+      new GoModule("github.com/dep/a", "v0.0.1"),
+      new GoModule("github.com/dep/b", "v0.1.0"),
+    ];
+    const files = [
+      "/project/main.go",
+      "/project/pkg/pkg.go",
+      "/project/vendor/github.com/dep/b/pkg/b.go",
+      "/project/vendor/github.com/dep/a/a.go",
+      "/usr/local/go/src/fmt/fmt.go",
+      "/usr/local/go/src/net/net.go",
+      "/usr/local/go/src/vendor/golang.org/x/net/net.go",
+    ];
+
+    const { modCachePath, vendorPath } = determinePaths(modules, files);
+    expect(modCachePath).toBe("");
+    expect(vendorPath).toBe("/project/vendor/");
+  });
+  it("finds the right paths with only normal", () => {
+    const modules = [
+      new GoModule("github.com/dep/a", "v0.0.1"),
+      new GoModule("github.com/dep/b", "v0.1.0"),
+    ];
+    const files = [
+      "/project/main.go",
+      "/project/pkg/pkg.go",
+      "/go/pkg/mod/cache/github.com/dep/b@v0.1.0/pkg/b.go",
+      "/go/pkg/mod/cache/github.com/dep/a@v0.0.1/a.go",
+      "/usr/local/go/src/fmt/fmt.go",
+      "/usr/local/go/src/net/net.go",
+      "/usr/local/go/src/vendor/golang.org/x/net/net.go",
+    ];
+
+    const { modCachePath, vendorPath } = determinePaths(modules, files);
+    expect(modCachePath).toBe("/go/pkg/mod/cache/");
+    expect(vendorPath).toBe("");
+  });
+  it("finds no path with trimmed files", () => {
+    const modules = [
+      new GoModule("github.com/dep/a", "v0.0.1"),
+      new GoModule("github.com/dep/b", "v0.1.0"),
+    ];
+    const files = [
+      "github.com/my/project/main.go",
+      "github.com/my/project/pkg/pkg.go",
+      "github.com/dep/b@v0.1.0/pkg/b.go",
+      "github.com/dep/a@v0.0.1/a.go",
+      "fmt/fmt.go",
+      "net/net.go",
+      "vendor/golang.org/x/net/net.go",
+    ];
+
+    const { modCachePath, vendorPath } = determinePaths(modules, files);
+    expect(modCachePath).toBe("");
+    expect(vendorPath).toBe("");
   });
 });
