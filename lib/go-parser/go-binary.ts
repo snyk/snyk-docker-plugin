@@ -43,9 +43,11 @@ export class GoBinary {
           await eventLoopSpinner.spin();
         }
 
-        const version = module.snykNormalisedVersion();
-        const nodeId = `${pkg}@${version}`;
-        goModulesDepGraph.addPkgNode({ name: pkg, version }, nodeId);
+        const nodeId = `${pkg}@${module.version}`;
+        goModulesDepGraph.addPkgNode(
+          { name: pkg, version: module.version },
+          nodeId,
+        );
         goModulesDepGraph.connectDep(goModulesDepGraph.rootNodeId, nodeId);
       }
     }
