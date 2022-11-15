@@ -20,8 +20,7 @@ enum moduleType {
 
 interface Module {
   name: string;
-  version?: string;
-  snykVersion?: string;
+  version: string;
   // type of the module. If unset, External is assumed.
   type: moduleType;
   // list of package name to files.
@@ -90,11 +89,10 @@ class TestCase {
         continue;
       }
 
-      const vers = mod.snykVersion;
       for (const [pkgName] of mod.packages) {
         pkgs.push({
           name: buildName(mod, pkgName, true),
-          version: vers,
+          version: mod.version,
         });
       }
     }
@@ -272,7 +270,6 @@ describe("test from binaries", () => {
         {
           name: "github.com/go-redis/redis/v9",
           version: "v9.0.0-beta.2",
-          snykVersion: "#beta.2",
           type: moduleType.External,
           packages: new Map([
             // exhaustive package list, but non-exhaustive file list in each
@@ -289,7 +286,6 @@ describe("test from binaries", () => {
         {
           name: "github.com/ghodss/yaml",
           version: "v1.0.0",
-          snykVersion: "1.0.0",
           type: moduleType.External,
           packages: new Map([["", ["yaml.go"]]]),
         },
@@ -302,14 +298,12 @@ describe("test from binaries", () => {
         {
           name: "github.com/cespare/xxhash/v2",
           version: "v2.1.2",
-          snykVersion: "2.1.2",
           type: moduleType.External,
           packages: new Map(),
         },
         {
           name: "github.com/dgryski/go-rendezvous",
           version: "v0.0.0-20200823014737-9f7001d12a5f",
-          snykVersion: "#9f7001d12a5f",
           type: moduleType.External,
           packages: new Map(),
         },
@@ -442,11 +436,11 @@ describe("test stdlib vendor", () => {
 
     expect(graph.getPkgs()).toContainEqual({
       name: "golang.org/x/net/http/httpguts",
-      version: "0.1.0",
+      version: "v0.1.0",
     });
     expect(graph.getPkgs()).toContainEqual({
       name: "github.com/spf13/cobra",
-      version: "1.6.1",
+      version: "v1.6.1",
     });
     expect(graph.rootPkg.name).toBe("github.com/myrepo/partvend");
   });

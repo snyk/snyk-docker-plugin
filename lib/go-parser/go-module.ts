@@ -13,16 +13,4 @@ export class GoModule {
   public fullName(): string {
     return this.name + "@" + this.version;
   }
-
-  public snykNormalisedVersion(): string {
-    // Versions in Go have leading 'v'
-    let version = this.version.substring(1);
-    // In versions with hash, we only care about hash
-    // v0.0.0-20200905004654-be1d3432aa8f => #be1d3432aa8f
-    version = version.includes("-")
-      ? `#${version.substring(version.lastIndexOf("-") + 1)}`
-      : version;
-
-    return version;
-  }
 }
