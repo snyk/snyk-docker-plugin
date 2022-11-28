@@ -1,6 +1,6 @@
 import { getPackages, getPackagesSqlite } from "@snyk/rpm-parser";
 import { PackageInfo } from "@snyk/rpm-parser/lib/rpm/types";
-import { IParserSqliteResponse } from "@snyk/rpm-parser/lib/types";
+import { Response } from "@snyk/rpm-parser/lib/types";
 import * as Debug from "debug";
 import { normalize as normalizePath } from "path";
 import { getContentAsBuffer } from "../../extractor";
@@ -19,10 +19,10 @@ export const getRpmDbFileContentAction: ExtractAction = {
 
 export async function getRpmDbFileContent(
   extractedLayers: ExtractedLayers,
-): Promise<string> {
+): Promise<PackageInfo[]> {
   const rpmDb = getContentAsBuffer(extractedLayers, getRpmDbFileContentAction);
   if (!rpmDb) {
-    return "";
+    return [];
   }
 
   try {
@@ -33,7 +33,7 @@ export async function getRpmDbFileContent(
     return parserResponse.response;
   } catch (error) {
     debug(`An error occurred while analysing RPM packages: ${error}`);
-    return "";
+    return [];
   }
 }
 
@@ -49,7 +49,7 @@ export async function getRpmSqliteDbFileContent(
   }
 
   try {
-    const results: IParserSqliteResponse = await getPackagesSqlite(rpmDb);
+    const results: Response = await getPackagesSqlite(rpmDb);
 
     if (results.error) {
       throw results.error;
