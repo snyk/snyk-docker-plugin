@@ -70,7 +70,6 @@ export type FactType =
   | "imageSizeBytes"
   | "loadedPackages"
   | "imageCreationTime"
-  | "redHatRepositories"
   | "imageNames";
 
 export interface PluginResponse {
