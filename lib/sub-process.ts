@@ -1,4 +1,5 @@
 import * as childProcess from "child_process";
+import { quoteAll } from "shescape";
 
 export { execute, CmdOutput };
 interface CmdOutput {
@@ -8,13 +9,14 @@ interface CmdOutput {
 
 function execute(
   command: string,
-  args?: string[],
+  args: string[],
   options?,
 ): Promise<CmdOutput> {
   const spawnOptions: any = { shell: true };
   if (options && options.cwd) {
     spawnOptions.cwd = options.cwd;
   }
+  args = quoteAll(args, spawnOptions);
 
   return new Promise((resolve, reject) => {
     let stdout = "";
