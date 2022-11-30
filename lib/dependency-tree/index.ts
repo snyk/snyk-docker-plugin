@@ -3,7 +3,7 @@ import { DepTree } from "../types";
 /** @deprecated Should implement a new function to build a dependency graph instead. */
 export function buildTree(
   targetImage: string,
-  depType,
+  packageFormat: string,
   depInfosList,
   targetOS,
 ): DepTree {
@@ -44,7 +44,7 @@ export function buildTree(
     name: "docker-image|" + imageName,
     version: imageVersion,
     targetOS,
-    packageFormatVersion: depType + ":0.0.1",
+    packageFormatVersion: packageFormat + ":0.0.1",
     dependencies: {},
   };
 

@@ -30,22 +30,22 @@ export async function analyzeStatically(
   );
 
   /** @deprecated Should try to build a dependency graph instead. */
-  const dependenciesTree = await buildTree(
+  const dependenciesTree = buildTree(
     targetImage,
-    parsedAnalysisResult.type,
+    parsedAnalysisResult.packageFormat,
     parsedAnalysisResult.depInfosList,
     parsedAnalysisResult.targetOS,
   );
 
   const analysis: StaticAnalysis & {
     depTree: DepTree;
-    packageManager: string;
+    packageFormat: string;
   } = {
     ...staticAnalysis,
     depTree: dependenciesTree,
     imageId: parsedAnalysisResult.imageId,
     imageLayers: parsedAnalysisResult.imageLayers,
-    packageManager: parsedAnalysisResult.type,
+    packageFormat: parsedAnalysisResult.packageFormat,
   };
 
   const excludeBaseImageVulns = isTrue(options["exclude-base-image-vulns"]);

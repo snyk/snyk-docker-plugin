@@ -13,7 +13,7 @@ export { buildResponse };
 async function buildResponse(
   depsAnalysis: StaticAnalysis & {
     depTree: types.DepTree;
-    packageManager: string;
+    packageFormat: string;
   },
   dockerfileAnalysis: DockerFileAnalysis | undefined,
   excludeBaseImageVulns: boolean,
@@ -31,7 +31,7 @@ async function buildResponse(
   /** This must be called after all final changes to the DependencyTree. */
   const depGraph = await legacy.depTreeToGraph(
     depsAnalysis.depTree,
-    depsAnalysis.packageManager,
+    depsAnalysis.packageFormat,
   );
 
   const additionalFacts: types.Fact[] = [];

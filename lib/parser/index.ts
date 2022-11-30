@@ -15,14 +15,14 @@ export function parseAnalysisResults(targetImage, analysis: StaticAnalysis) {
     };
   }
 
-  let depType;
+  let packageFormat: string;
   switch (analysisResult.AnalyzeType) {
     case AnalysisType.Apt: {
-      depType = "deb";
+      packageFormat = "deb";
       break;
     }
     default: {
-      depType = analysisResult.AnalyzeType.toLowerCase();
+      packageFormat = analysisResult.AnalyzeType.toLowerCase();
     }
   }
 
@@ -30,7 +30,7 @@ export function parseAnalysisResults(targetImage, analysis: StaticAnalysis) {
     imageId: analysis.imageId,
     platform: analysis.platform,
     targetOS: analysis.osRelease,
-    type: depType,
+    packageFormat,
     depInfosList: analysisResult.Analysis,
     imageLayers: analysis.imageLayers,
   };
