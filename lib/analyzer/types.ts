@@ -90,6 +90,10 @@ export interface StaticPackagesAnalysis extends StaticAnalysis {
   results: ImagePackagesAnalysis[];
 }
 
+export interface StaticPackagesAnalysis extends StaticAnalysis {
+  results: ImagePackagesAnalysis[];
+}
+
 export interface ArchiveResult {
   path: string;
   removeArchive(): void;
