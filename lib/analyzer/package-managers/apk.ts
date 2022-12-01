@@ -1,9 +1,13 @@
-import { AnalysisType, AnalyzedPackage, ImageAnalysis } from "../types";
+import {
+  AnalysisType,
+  AnalyzedPackageWithVersion,
+  ImagePackagesAnalysis,
+} from "../types";
 
 export function analyze(
   targetImage: string,
   apkDbFileContent: string,
-): Promise<ImageAnalysis> {
+): Promise<ImagePackagesAnalysis> {
   return Promise.resolve({
     Image: targetImage,
     AnalyzeType: AnalysisType.Apk,
@@ -11,8 +15,8 @@ export function analyze(
   });
 }
 
-function parseFile(text: string) {
-  const pkgs: AnalyzedPackage[] = [];
+function parseFile(text: string): AnalyzedPackageWithVersion[] {
+  const pkgs: AnalyzedPackageWithVersion[] = [];
   let curPkg: any = null;
   for (const line of text.split("\n")) {
     curPkg = parseLine(line, curPkg, pkgs);
@@ -22,8 +26,8 @@ function parseFile(text: string) {
 
 function parseLine(
   text: string,
-  curPkg: AnalyzedPackage,
-  pkgs: AnalyzedPackage[],
+  curPkg: AnalyzedPackageWithVersion,
+  pkgs: AnalyzedPackageWithVersion[],
 ) {
   const key = text.charAt(0);
   const value = text.substr(2).trim();
@@ -31,7 +35,7 @@ function parseLine(
     case "P": // Package
       curPkg = {
         Name: value,
-        Version: undefined,
+        Version: "",
         Source: undefined,
         Provides: [],
         Deps: {},

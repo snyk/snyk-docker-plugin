@@ -14,6 +14,9 @@ export interface AnalyzedPackage {
   };
   AutoInstalled?: boolean;
 }
+export interface AnalyzedPackageWithVersion extends AnalyzedPackage {
+  Version: string;
+}
 
 export interface DockerInspectOutput {
   Id: string;
@@ -28,6 +31,11 @@ export interface ImageAnalysis {
   Image: string;
   AnalyzeType: AnalysisType;
   Analysis: AnalyzedPackage[] | Binary[];
+}
+
+export interface ImagePackagesAnalysis extends ImageAnalysis {
+  AnalyzeType: Exclude<AnalysisType, AnalysisType.Binaries>;
+  Analysis: AnalyzedPackageWithVersion[];
 }
 
 export enum AnalysisType {
@@ -76,6 +84,14 @@ export interface StaticAnalysis {
   imageLabels?: { [key: string]: string };
   imageCreationTime?: string;
   redHatRepositories: string[];
+}
+
+export interface StaticPackagesAnalysis extends StaticAnalysis {
+  results: ImagePackagesAnalysis[];
+}
+
+export interface StaticPackagesAnalysis extends StaticAnalysis {
+  results: ImagePackagesAnalysis[];
 }
 
 export interface ArchiveResult {

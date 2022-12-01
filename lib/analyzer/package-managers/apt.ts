@@ -1,14 +1,15 @@
 import {
   AnalysisType,
   AnalyzedPackage,
+  AnalyzedPackageWithVersion,
   IAptFiles,
-  ImageAnalysis,
+  ImagePackagesAnalysis,
 } from "../types";
 
 export function analyze(
   targetImage: string,
   aptFiles: IAptFiles,
-): Promise<ImageAnalysis> {
+): Promise<ImagePackagesAnalysis> {
   const pkgs = parseDpkgFile(aptFiles.dpkgFile);
 
   if (aptFiles.extFile) {
@@ -25,8 +26,8 @@ export function analyze(
 export function analyzeDistroless(
   targetImage: string,
   aptFiles: string[],
-): Promise<ImageAnalysis> {
-  const analyzedPackages: AnalyzedPackage[] = [];
+): Promise<ImagePackagesAnalysis> {
+  const analyzedPackages: AnalyzedPackageWithVersion[] = [];
 
   for (const fileContent of aptFiles) {
     const currentPackages = parseDpkgFile(fileContent);
@@ -40,8 +41,8 @@ export function analyzeDistroless(
   });
 }
 
-function parseDpkgFile(text: string): AnalyzedPackage[] {
-  const pkgs: AnalyzedPackage[] = [];
+function parseDpkgFile(text: string): AnalyzedPackageWithVersion[] {
+  const pkgs: AnalyzedPackageWithVersion[] = [];
   let curPkg: any = null;
   for (const line of text.split("\n")) {
     curPkg = parseDpkgLine(line, curPkg, pkgs);
@@ -51,15 +52,15 @@ function parseDpkgFile(text: string): AnalyzedPackage[] {
 
 function parseDpkgLine(
   text: string,
-  curPkg: AnalyzedPackage,
-  pkgs: AnalyzedPackage[],
+  curPkg: AnalyzedPackageWithVersion,
+  pkgs: AnalyzedPackageWithVersion[],
 ): AnalyzedPackage {
   const [key, value] = text.split(": ");
   switch (key) {
     case "Package":
       curPkg = {
         Name: value,
-        Version: undefined,
+        Version: "",
         Source: undefined,
         Provides: [],
         Deps: {},

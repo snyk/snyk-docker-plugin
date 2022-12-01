@@ -1,11 +1,12 @@
-import { DepTree } from "../types";
+import { AnalyzedPackageWithVersion, OSRelease } from "../analyzer/types";
+import { DepTree, DepTreeDep } from "../types";
 
 /** @deprecated Should implement a new function to build a dependency graph instead. */
 export function buildTree(
   targetImage: string,
-  depType,
-  depInfosList,
-  targetOS,
+  packageFormat: string,
+  depInfosList: AnalyzedPackageWithVersion[],
+  targetOS: OSRelease,
 ): DepTree {
   // A tag can only occur in the last section of a docker image name, so
   // check any colon separator after the final '/'. If there are no '/',
@@ -39,28 +40,28 @@ export function buildTree(
     imageVersion = "";
   }
 
-  const root = {
+  const root: DepTree = {
     // don't use the real image name to avoid scanning it as an issue
     name: "docker-image|" + imageName,
     version: imageVersion,
     targetOS,
-    packageFormatVersion: depType + ":0.0.1",
+    packageFormatVersion: packageFormat + ":0.0.1",
     dependencies: {},
   };
 
   const depsMap = depInfosList.reduce((acc, depInfo) => {
     const name = depInfo.Name;
-    acc[name] = depInfo;
+    acc[name] = depInfo as AnalyzedPackage;
     return acc;
-  }, {});
+  }, {} as PackageMap);
 
   const virtualDepsMap = depInfosList.reduce((acc, depInfo) => {
     const providesNames = depInfo.Provides || [];
     for (const name of providesNames) {
-      acc[name] = depInfo;
+      acc[name] = depInfo as AnalyzedPackage;
     }
     return acc;
-  }, {});
+  }, {} as PackageMap);
 
   const depsCounts = {};
   for (const depInfo of depInfosList) {
@@ -77,7 +78,7 @@ export function buildTree(
     return depsCounts[depName] > DEP_FREQ_THRESHOLD;
   });
 
-  const attachDeps = (depInfos) => {
+  const attachDeps = (depInfos: AnalyzedPackageWithVersion[]) => {
     const depNamesToSkip = new Set(tooFrequentDepNames);
     for (const depInfo of depInfos) {
       const subtree = buildTreeRecursive(
@@ -99,8 +100,8 @@ export function buildTree(
   });
   attachDeps(manuallyInstalledDeps);
 
-  // attach (as direct deps) pkgs marked as auto-insatalled,
-  //  but not dependant upon:
+  // attach (as direct deps) pkgs marked as auto-installed,
+  // but not dependant upon:
   const notVisitedDeps = depInfosList.filter((depInfo) => {
     const depName = depInfo.Name;
     return !depsMap[depName]._visited;
@@ -133,13 +134,21 @@ export function buildTree(
   return root;
 }
 
+interface AnalyzedPackage extends AnalyzedPackageWithVersion {
+  _visited: boolean;
+}
+
+interface PackageMap {
+  [name: string]: AnalyzedPackage;
+}
+
 function buildTreeRecursive(
-  depName,
-  ancestors,
-  depsMap,
-  virtualDepsMap,
-  depNamesToSkip,
-) {
+  depName: string,
+  ancestors: Set<string>,
+  depsMap: PackageMap,
+  virtualDepsMap: PackageMap,
+  depNamesToSkip: Set<string>,
+): DepTreeDep | null {
   const depInfo = depsMap[depName] || virtualDepsMap[depName];
   if (!depInfo) {
     return null;
@@ -152,13 +161,10 @@ function buildTreeRecursive(
     return null;
   }
 
-  const tree: {
-    name: string;
-    version: string;
-    dependencies?: any;
-  } = {
+  const tree: DepTreeDep = {
     name: fullName,
     version: depInfo.Version,
+    dependencies: {},
   };
   if (depInfo._visited) {
     return tree;
@@ -190,11 +196,11 @@ function buildTreeRecursive(
 }
 
 function countDepsRecursive(
-  depName,
-  ancestors,
-  depsMap,
-  virtualDepsMap,
-  depCounts,
+  depName: string,
+  ancestors: Set<string>,
+  depsMap: PackageMap,
+  virtualDepsMap: PackageMap,
+  depCounts: { [name: string]: number },
 ) {
   const depInfo = depsMap[depName] || virtualDepsMap[depName];
   if (!depInfo) {
@@ -216,7 +222,7 @@ function countDepsRecursive(
   }
 }
 
-function depFullName(depInfo) {
+function depFullName(depInfo: AnalyzedPackageWithVersion): string {
   let fullName = depInfo.Name;
   if (depInfo.Source) {
     fullName = depInfo.Source + "/" + fullName;

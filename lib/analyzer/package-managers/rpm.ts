@@ -1,11 +1,15 @@
 import { formatRpmPackageVersion } from "@snyk/rpm-parser";
 import { PackageInfo } from "@snyk/rpm-parser/lib/rpm/types";
-import { AnalysisType, AnalyzedPackage, ImageAnalysis } from "../types";
+import {
+  AnalysisType,
+  AnalyzedPackageWithVersion,
+  ImagePackagesAnalysis,
+} from "../types";
 
 export function analyze(
   targetImage: string,
   rpmDbFilecontent: string,
-): Promise<ImageAnalysis> {
+): Promise<ImagePackagesAnalysis> {
   return Promise.resolve({
     Image: targetImage,
     AnalyzeType: AnalysisType.Rpm,
@@ -14,17 +18,17 @@ export function analyze(
 }
 
 function parseOutput(output: string) {
-  const pkgs: AnalyzedPackage[] = [];
+  const pkgs: AnalyzedPackageWithVersion[] = [];
   for (const line of output.split("\n")) {
     parseLine(line, pkgs);
   }
   return pkgs;
 }
 
-function parseLine(text: string, pkgs: AnalyzedPackage[]) {
+function parseLine(text: string, pkgs: AnalyzedPackageWithVersion[]) {
   const [name, version, size] = text.split("\t");
   if (name && version && size) {
-    const pkg: AnalyzedPackage = {
+    const pkg: AnalyzedPackageWithVersion = {
       Name: name,
       Version: version,
       Source: undefined,
@@ -39,8 +43,8 @@ function parseLine(text: string, pkgs: AnalyzedPackage[]) {
 export function mapRpmSqlitePackages(
   targetImage: string,
   rpmPackages: PackageInfo[],
-): ImageAnalysis {
-  let analysis;
+): ImagePackagesAnalysis {
+  let analysis: AnalyzedPackageWithVersion[] = [];
 
   if (rpmPackages) {
     analysis = rpmPackages.map((pkg) => {
@@ -57,6 +61,6 @@ export function mapRpmSqlitePackages(
   return {
     Image: targetImage,
     AnalyzeType: AnalysisType.Rpm,
-    Analysis: analysis as AnalyzedPackage[],
+    Analysis: analysis,
   };
 }

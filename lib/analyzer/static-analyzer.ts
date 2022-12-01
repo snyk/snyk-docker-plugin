@@ -63,7 +63,11 @@ import {
   analyze as rpmAnalyze,
   mapRpmSqlitePackages,
 } from "./package-managers/rpm";
-import { ImageAnalysis, OSRelease, StaticAnalysis } from "./types";
+import {
+  ImagePackagesAnalysis,
+  OSRelease,
+  StaticPackagesAnalysis,
+} from "./types";
 
 const debug = Debug("snyk");
 
@@ -74,7 +78,7 @@ export async function analyze(
   imagePath: string,
   globsToFind: { include: string[]; exclude: string[] },
   options: Partial<PluginOptions>,
-): Promise<StaticAnalysis> {
+): Promise<StaticPackagesAnalysis> {
   const staticAnalysisActions = [
     getApkDbFileContentAction,
     getDpkgFileContentAction,
@@ -159,7 +163,7 @@ export async function analyze(
     throw new Error("Failed to detect OS release");
   }
 
-  let results: ImageAnalysis[];
+  let results: ImagePackagesAnalysis[];
   try {
     results = await Promise.all([
       apkAnalyze(targetImage, apkDbFileContent),
