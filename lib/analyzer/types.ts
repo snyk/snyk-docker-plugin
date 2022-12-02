@@ -1,3 +1,4 @@
+import { ImageName } from "../extractor/image";
 import { AutoDetectedUserInstructions, ManifestFile } from "../types";
 import {
   AppDepsScanResultWithoutTarget,
@@ -95,6 +96,7 @@ export interface StaticPackagesAnalysis extends StaticAnalysis {
 }
 
 export interface ArchiveResult {
+  imageName: ImageName;
   path: string;
   removeArchive(): void;
 }

@@ -1,7 +1,11 @@
 import { DepGraph } from "@snyk/dep-graph";
 import { JarFingerprint } from "./analyzer/types";
 import { DockerFileAnalysis } from "./dockerfile/types";
-import { AutoDetectedUserInstructions, ManifestFile } from "./types";
+import {
+  AutoDetectedUserInstructions,
+  ImageNameInfo,
+  ManifestFile,
+} from "./types";
 
 export interface DepGraphFact {
   type: "depGraph";
@@ -35,6 +39,11 @@ export interface AutoDetectedUserInstructionsFact {
 export interface ImageIdFact {
   type: "imageId";
   data: string;
+}
+
+export interface ImageNamesFact {
+  type: "imageNames";
+  data: ImageNameInfo;
 }
 
 export interface ImageOsReleasePrettyNameFact {

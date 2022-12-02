@@ -4,7 +4,10 @@ import * as mkdirp from "mkdirp";
 import * as path from "path";
 
 import { Docker, DockerOptions } from "../docker";
-import {
+import { ImageName } from "../extractor/image";
+
+import type { DockerPullResult } from "@snyk/snyk-docker-pull";
+import type {
   ArchiveResult,
   DestinationDir,
   DockerInspectOutput,
@@ -118,12 +121,12 @@ async function pullFromContainerRegistry(
   imageSavePath: string,
   username: string | undefined,
   password: string | undefined,
-): Promise<void> {
+): Promise<DockerPullResult> {
   const { hostname, imageName, tag } = extractImageDetails(targetImage);
   debug(
     `Attempting to pull: registry: ${hostname}, image: ${imageName}, tag: ${tag}`,
   );
-  await docker.pull(
+  return await docker.pull(
     hostname,
     imageName,
     tag,
@@ -141,7 +144,7 @@ async function pullImage(
   username: string | undefined,
   password: string | undefined,
   platform: string | undefined,
-): Promise<void> {
+): Promise<ImageName> {
   if (await Docker.binaryExists()) {
     const pullAndSaveSuccessful = await pullWithDockerBinary(
       docker,
@@ -152,17 +155,24 @@ async function pullImage(
       platform,
     );
     if (pullAndSaveSuccessful) {
-      return;
+      return new ImageName(targetImage);
     }
   }
 
-  await pullFromContainerRegistry(
+  const { indexDigest, manifestDigest } = await pullFromContainerRegistry(
     docker,
     targetImage,
     imageSavePath,
     username,
     password,
   );
+
+  const imageName = new ImageName(targetImage, {
+    manifest: manifestDigest,
+    index: indexDigest,
+  });
+
+  return imageName;
 }
 
 /**
@@ -209,7 +219,7 @@ async function getImageArchive(
   }
 
   if (inspectResult === undefined) {
-    await pullImage(
+    const imageName = await pullImage(
       docker,
       targetImage,
       saveLocation,
@@ -220,6 +230,7 @@ async function getImageArchive(
     );
 
     return {
+      imageName,
       path: saveLocation,
       removeArchive: destination.removeCallback,
     };
@@ -230,7 +241,7 @@ async function getImageArchive(
     inspectResult &&
     !isLocalImageSameArchitecture(platform, inspectResult.Architecture)
   ) {
-    await pullImage(
+    const imageName = await pullImage(
       docker,
       targetImage,
       saveLocation,
@@ -239,14 +250,20 @@ async function getImageArchive(
       password,
       platform,
     );
+    return {
+      imageName,
+      path: saveLocation,
+      removeArchive: destination.removeCallback,
+    };
   } else {
     await docker.save(targetImage, saveLocation);
+    const imageName = new ImageName(targetImage);
+    return {
+      imageName,
+      path: saveLocation,
+      removeArchive: destination.removeCallback,
+    };
   }
-
-  return {
-    path: saveLocation,
-    removeArchive: destination.removeCallback,
-  };
 }
 
 function extractImageDetails(targetImage: string): ImageDetails {
