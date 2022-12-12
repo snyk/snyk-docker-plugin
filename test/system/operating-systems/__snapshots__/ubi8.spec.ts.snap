@@ -2782,6 +2782,14 @@ Object {
           ],
           "type": "redHatRepositories",
         },
+        Object {
+          "data": Object {
+            "names": Array [
+              "registry.access.redhat.com/ubi8/ubi:8.2-347",
+            ],
+          },
+          "type": "imageNames",
+        },
       ],
       "identity": Object {
         "args": Object {

@@ -58,6 +58,14 @@ Object {
           ],
           "type": "rootFs",
         },
+        Object {
+          "data": Object {
+            "names": Array [
+              "snyk/runtime-fixtures:scratch",
+            ],
+          },
+          "type": "imageNames",
+        },
       ],
       "identity": Object {
         "args": Object {

@@ -58,6 +58,14 @@ Object {
           ],
           "type": "rootFs",
         },
+        Object {
+          "data": Object {
+            "names": Array [
+              "busybox@sha256:32dc7202280d641c9c0d94a13247195adc83dba83aca0eed383888c01311cfc2",
+            ],
+          },
+          "type": "imageNames",
+        },
       ],
       "identity": Object {
         "args": Object {

@@ -1665,6 +1665,14 @@ Object {
           "data": "Debian GNU/Linux 9 (stretch)",
           "type": "imageOsReleasePrettyName",
         },
+        Object {
+          "data": Object {
+            "names": Array [
+              "debian@sha256:e7157902df9c7549eea5eb7b896cdca02d917e2ba0e339cd4a5087e2b53eb1d7",
+            ],
+          },
+          "type": "imageNames",
+        },
       ],
       "identity": Object {
         "args": Object {

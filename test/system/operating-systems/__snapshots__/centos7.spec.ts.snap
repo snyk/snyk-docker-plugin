@@ -2282,6 +2282,14 @@ Object {
           "data": "CentOS Linux 7 (Core)",
           "type": "imageOsReleasePrettyName",
         },
+        Object {
+          "data": Object {
+            "names": Array [
+              "centos@sha256:50b9a3bc27378889210f88d6d0695938e45a912aa99b3fdacfb9a0fef511f15a",
+            ],
+          },
+          "type": "imageNames",
+        },
       ],
       "identity": Object {
         "args": Object {
@@ -4578,6 +4586,14 @@ Object {
         Object {
           "data": "CentOS Linux 7 (Core)",
           "type": "imageOsReleasePrettyName",
+        },
+        Object {
+          "data": Object {
+            "names": Array [
+              "centos:7.8.2003",
+            ],
+          },
+          "type": "imageNames",
         },
       ],
       "identity": Object {

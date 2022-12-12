@@ -1135,6 +1135,14 @@ Object {
           },
           "type": "autoDetectedUserInstructions",
         },
+        Object {
+          "data": Object {
+            "names": Array [
+              "arm64v8/nginx:1.19.2-alpine",
+            ],
+          },
+          "type": "imageNames",
+        },
       ],
       "identity": Object {
         "args": Object {

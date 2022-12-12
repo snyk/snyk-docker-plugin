@@ -1623,6 +1623,14 @@ Object {
           "data": "Amazon Linux 2",
           "type": "imageOsReleasePrettyName",
         },
+        Object {
+          "data": Object {
+            "names": Array [
+              "amazonlinux:2.0.20200722.0",
+            ],
+          },
+          "type": "imageNames",
+        },
       ],
       "identity": Object {
         "args": Object {
@@ -3590,6 +3598,14 @@ Object {
         Object {
           "data": "Amazon Linux 2022",
           "type": "imageOsReleasePrettyName",
+        },
+        Object {
+          "data": Object {
+            "names": Array [
+              "amazonlinux:2022.0.20220504.1",
+            ],
+          },
+          "type": "imageNames",
         },
       ],
       "identity": Object {

@@ -1899,6 +1899,14 @@ Object {
           "data": "SUSE Linux Enterprise Server 15 SP2",
           "type": "imageOsReleasePrettyName",
         },
+        Object {
+          "data": Object {
+            "names": Array [
+              "registry.suse.com/suse/sle15:15.2.8.2.751",
+            ],
+          },
+          "type": "imageNames",
+        },
       ],
       "identity": Object {
         "args": Object {

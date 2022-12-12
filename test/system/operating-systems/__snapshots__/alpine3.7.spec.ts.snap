@@ -364,6 +364,14 @@ Object {
           "data": "Alpine Linux v3.7",
           "type": "imageOsReleasePrettyName",
         },
+        Object {
+          "data": Object {
+            "names": Array [
+              "alpine@sha256:92251458088c638061cda8fd8b403b76d661a4dc6b7ee71b6affcf1872557b2b",
+            ],
+          },
+          "type": "imageNames",
+        },
       ],
       "identity": Object {
         "args": Object {
@@ -742,6 +750,14 @@ Object {
         Object {
           "data": "Alpine Linux v3.7",
           "type": "imageOsReleasePrettyName",
+        },
+        Object {
+          "data": Object {
+            "names": Array [
+              "alpine:3.7.3",
+            ],
+          },
+          "type": "imageNames",
         },
       ],
       "identity": Object {
