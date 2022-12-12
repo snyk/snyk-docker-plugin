@@ -13,6 +13,7 @@ export interface AnalyzedPackage {
   Deps: {
     [name: string]: any;
   };
+  Purl?: string;
   AutoInstalled?: boolean;
 }
 export interface AnalyzedPackageWithVersion extends AnalyzedPackage {
@@ -84,11 +85,6 @@ export interface StaticAnalysis {
   manifestFiles: ManifestFile[];
   imageLabels?: { [key: string]: string };
   imageCreationTime?: string;
-  redHatRepositories: string[];
-}
-
-export interface StaticPackagesAnalysis extends StaticAnalysis {
-  results: ImagePackagesAnalysis[];
 }
 
 export interface StaticPackagesAnalysis extends StaticAnalysis {

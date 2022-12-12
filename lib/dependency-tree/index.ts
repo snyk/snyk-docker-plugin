@@ -164,6 +164,7 @@ function buildTreeRecursive(
   const tree: DepTreeDep = {
     name: fullName,
     version: depInfo.Version,
+    purl: depInfo.Purl,
     dependencies: {},
   };
   if (depInfo._visited) {

@@ -163,13 +163,20 @@ export async function analyze(
     throw new Error("Failed to detect OS release");
   }
 
+  const redHatRepositories =
+    getRedHatRepositoriesFromExtractedLayers(extractedLayers);
+
   let results: ImagePackagesAnalysis[];
   try {
     results = await Promise.all([
       apkAnalyze(targetImage, apkDbFileContent),
       aptAnalyze(targetImage, aptDbFileContent),
-      rpmAnalyze(targetImage, rpmDbFileContent),
-      mapRpmSqlitePackages(targetImage, rpmSqliteDbFileContent),
+      rpmAnalyze(targetImage, rpmDbFileContent, redHatRepositories),
+      mapRpmSqlitePackages(
+        targetImage,
+        rpmSqliteDbFileContent,
+        redHatRepositories,
+      ),
       aptDistrolessAnalyze(targetImage, distrolessAptFiles),
     ]);
   } catch (err) {
@@ -178,9 +185,6 @@ export async function analyze(
   }
 
   const binaries = getBinariesHashes(extractedLayers);
-
-  const redHatRepositories =
-    getRedHatRepositoriesFromExtractedLayers(extractedLayers);
 
   const applicationDependenciesScanResults: AppDepsScanResultWithoutTarget[] =
     [];
@@ -234,7 +238,6 @@ export async function analyze(
     autoDetectedUserInstructions,
     imageLabels,
     imageCreationTime,
-    redHatRepositories,
   };
 }
 

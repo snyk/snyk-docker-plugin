@@ -1006,6 +1006,7 @@ Object {
                 "id": "aaa_base@84.87+git20180409.04c9dae-3.39.1",
                 "info": Object {
                   "name": "aaa_base",
+                  "purl": "pkg:rpm/aaa_base@84.87%2Bgit20180409.04c9dae-3.39.1",
                   "version": "84.87+git20180409.04c9dae-3.39.1",
                 },
               },
@@ -1013,6 +1014,7 @@ Object {
                 "id": "bash@4.4-9.10.1",
                 "info": Object {
                   "name": "bash",
+                  "purl": "pkg:rpm/bash@4.4-9.10.1",
                   "version": "4.4-9.10.1",
                 },
               },
@@ -1020,6 +1022,7 @@ Object {
                 "id": "boost-license1_66_0@1.66.0-10.1",
                 "info": Object {
                   "name": "boost-license1_66_0",
+                  "purl": "pkg:rpm/boost-license1_66_0@1.66.0-10.1",
                   "version": "1.66.0-10.1",
                 },
               },
@@ -1027,6 +1030,7 @@ Object {
                 "id": "ca-certificates@2+git20170807.10b2785-7.3.3",
                 "info": Object {
                   "name": "ca-certificates",
+                  "purl": "pkg:rpm/ca-certificates@2%2Bgit20170807.10b2785-7.3.3",
                   "version": "2+git20170807.10b2785-7.3.3",
                 },
               },
@@ -1034,6 +1038,7 @@ Object {
                 "id": "ca-certificates-mozilla@2.42-9.3.1",
                 "info": Object {
                   "name": "ca-certificates-mozilla",
+                  "purl": "pkg:rpm/ca-certificates-mozilla@2.42-9.3.1",
                   "version": "2.42-9.3.1",
                 },
               },
@@ -1041,6 +1046,7 @@ Object {
                 "id": "container-suseconnect@2.3.0-4.15.2",
                 "info": Object {
                   "name": "container-suseconnect",
+                  "purl": "pkg:rpm/container-suseconnect@2.3.0-4.15.2",
                   "version": "2.3.0-4.15.2",
                 },
               },
@@ -1048,6 +1054,7 @@ Object {
                 "id": "coreutils@8.29-2.12",
                 "info": Object {
                   "name": "coreutils",
+                  "purl": "pkg:rpm/coreutils@8.29-2.12",
                   "version": "8.29-2.12",
                 },
               },
@@ -1055,6 +1062,7 @@ Object {
                 "id": "cpio@2.12-3.3.1",
                 "info": Object {
                   "name": "cpio",
+                  "purl": "pkg:rpm/cpio@2.12-3.3.1",
                   "version": "2.12-3.3.1",
                 },
               },
@@ -1062,6 +1070,7 @@ Object {
                 "id": "cracklib@2.9.7-11.3.1",
                 "info": Object {
                   "name": "cracklib",
+                  "purl": "pkg:rpm/cracklib@2.9.7-11.3.1",
                   "version": "2.9.7-11.3.1",
                 },
               },
@@ -1069,6 +1078,7 @@ Object {
                 "id": "cracklib-dict-small@2.9.7-11.3.1",
                 "info": Object {
                   "name": "cracklib-dict-small",
+                  "purl": "pkg:rpm/cracklib-dict-small@2.9.7-11.3.1",
                   "version": "2.9.7-11.3.1",
                 },
               },
@@ -1076,6 +1086,7 @@ Object {
                 "id": "diffutils@3.6-4.3.1",
                 "info": Object {
                   "name": "diffutils",
+                  "purl": "pkg:rpm/diffutils@3.6-4.3.1",
                   "version": "3.6-4.3.1",
                 },
               },
@@ -1083,6 +1094,7 @@ Object {
                 "id": "file-magic@5.32-7.8.1",
                 "info": Object {
                   "name": "file-magic",
+                  "purl": "pkg:rpm/file-magic@5.32-7.8.1",
                   "version": "5.32-7.8.1",
                 },
               },
@@ -1090,6 +1102,7 @@ Object {
                 "id": "filesystem@15.0-9.2",
                 "info": Object {
                   "name": "filesystem",
+                  "purl": "pkg:rpm/filesystem@15.0-9.2",
                   "version": "15.0-9.2",
                 },
               },
@@ -1097,6 +1110,7 @@ Object {
                 "id": "fillup@1.42-2.18",
                 "info": Object {
                   "name": "fillup",
+                  "purl": "pkg:rpm/fillup@1.42-2.18",
                   "version": "1.42-2.18",
                 },
               },
@@ -1104,6 +1118,7 @@ Object {
                 "id": "findutils@4.6.0-2.21",
                 "info": Object {
                   "name": "findutils",
+                  "purl": "pkg:rpm/findutils@4.6.0-2.21",
                   "version": "4.6.0-2.21",
                 },
               },
@@ -1111,6 +1126,7 @@ Object {
                 "id": "glibc@2.26-13.51.1",
                 "info": Object {
                   "name": "glibc",
+                  "purl": "pkg:rpm/glibc@2.26-13.51.1",
                   "version": "2.26-13.51.1",
                 },
               },
@@ -1118,6 +1134,7 @@ Object {
                 "id": "gpg-pubkey@50a3dd1c-50f35137",
                 "info": Object {
                   "name": "gpg-pubkey",
+                  "purl": "pkg:rpm/gpg-pubkey@50a3dd1c-50f35137",
                   "version": "50a3dd1c-50f35137",
                 },
               },
@@ -1125,6 +1142,7 @@ Object {
                 "id": "gpg2@2.2.5-4.14.4",
                 "info": Object {
                   "name": "gpg2",
+                  "purl": "pkg:rpm/gpg2@2.2.5-4.14.4",
                   "version": "2.2.5-4.14.4",
                 },
               },
@@ -1132,6 +1150,7 @@ Object {
                 "id": "grep@3.1-4.3.12",
                 "info": Object {
                   "name": "grep",
+                  "purl": "pkg:rpm/grep@3.1-4.3.12",
                   "version": "3.1-4.3.12",
                 },
               },
@@ -1139,6 +1158,7 @@ Object {
                 "id": "info@6.5-4.17",
                 "info": Object {
                   "name": "info",
+                  "purl": "pkg:rpm/info@6.5-4.17",
                   "version": "6.5-4.17",
                 },
               },
@@ -1146,6 +1166,7 @@ Object {
                 "id": "krb5@1.16.3-3.12.2",
                 "info": Object {
                   "name": "krb5",
+                  "purl": "pkg:rpm/krb5@1.16.3-3.12.2",
                   "version": "1.16.3-3.12.2",
                 },
               },
@@ -1153,6 +1174,7 @@ Object {
                 "id": "kubic-locale-archive@2.26-2.15",
                 "info": Object {
                   "name": "kubic-locale-archive",
+                  "purl": "pkg:rpm/kubic-locale-archive@2.26-2.15",
                   "version": "2.26-2.15",
                 },
               },
@@ -1160,6 +1182,7 @@ Object {
                 "id": "libacl1@2.2.52-4.3.1",
                 "info": Object {
                   "name": "libacl1",
+                  "purl": "pkg:rpm/libacl1@2.2.52-4.3.1",
                   "version": "2.2.52-4.3.1",
                 },
               },
@@ -1167,6 +1190,7 @@ Object {
                 "id": "libassuan0@2.5.1-2.14",
                 "info": Object {
                   "name": "libassuan0",
+                  "purl": "pkg:rpm/libassuan0@2.5.1-2.14",
                   "version": "2.5.1-2.14",
                 },
               },
@@ -1174,6 +1198,7 @@ Object {
                 "id": "libattr1@2.4.47-2.19",
                 "info": Object {
                   "name": "libattr1",
+                  "purl": "pkg:rpm/libattr1@2.4.47-2.19",
                   "version": "2.4.47-2.19",
                 },
               },
@@ -1181,6 +1206,7 @@ Object {
                 "id": "libaudit1@2.8.1-10.7",
                 "info": Object {
                   "name": "libaudit1",
+                  "purl": "pkg:rpm/libaudit1@2.8.1-10.7",
                   "version": "2.8.1-10.7",
                 },
               },
@@ -1188,6 +1214,7 @@ Object {
                 "id": "libaugeas0@1.10.1-1.11",
                 "info": Object {
                   "name": "libaugeas0",
+                  "purl": "pkg:rpm/libaugeas0@1.10.1-1.11",
                   "version": "1.10.1-1.11",
                 },
               },
@@ -1195,6 +1222,7 @@ Object {
                 "id": "libblkid1@2.33.1-4.8.1",
                 "info": Object {
                   "name": "libblkid1",
+                  "purl": "pkg:rpm/libblkid1@2.33.1-4.8.1",
                   "version": "2.33.1-4.8.1",
                 },
               },
@@ -1202,6 +1230,7 @@ Object {
                 "id": "libboost_system1_66_0@1.66.0-10.1",
                 "info": Object {
                   "name": "libboost_system1_66_0",
+                  "purl": "pkg:rpm/libboost_system1_66_0@1.66.0-10.1",
                   "version": "1.66.0-10.1",
                 },
               },
@@ -1209,6 +1238,7 @@ Object {
                 "id": "libboost_thread1_66_0@1.66.0-10.1",
                 "info": Object {
                   "name": "libboost_thread1_66_0",
+                  "purl": "pkg:rpm/libboost_thread1_66_0@1.66.0-10.1",
                   "version": "1.66.0-10.1",
                 },
               },
@@ -1216,6 +1246,7 @@ Object {
                 "id": "libbz2-1@1.0.6-5.9.1",
                 "info": Object {
                   "name": "libbz2-1",
+                  "purl": "pkg:rpm/libbz2-1@1.0.6-5.9.1",
                   "version": "1.0.6-5.9.1",
                 },
               },
@@ -1223,6 +1254,7 @@ Object {
                 "id": "libcap-ng0@0.7.9-4.37",
                 "info": Object {
                   "name": "libcap-ng0",
+                  "purl": "pkg:rpm/libcap-ng0@0.7.9-4.37",
                   "version": "0.7.9-4.37",
                 },
               },
@@ -1230,6 +1262,7 @@ Object {
                 "id": "libcap2@2.25-2.41",
                 "info": Object {
                   "name": "libcap2",
+                  "purl": "pkg:rpm/libcap2@2.25-2.41",
                   "version": "2.25-2.41",
                 },
               },
@@ -1237,6 +1270,7 @@ Object {
                 "id": "libcom_err2@1.43.8-4.23.1",
                 "info": Object {
                   "name": "libcom_err2",
+                  "purl": "pkg:rpm/libcom_err2@1.43.8-4.23.1",
                   "version": "1.43.8-4.23.1",
                 },
               },
@@ -1244,6 +1278,7 @@ Object {
                 "id": "libcrack2@2.9.7-11.3.1",
                 "info": Object {
                   "name": "libcrack2",
+                  "purl": "pkg:rpm/libcrack2@2.9.7-11.3.1",
                   "version": "2.9.7-11.3.1",
                 },
               },
@@ -1251,6 +1286,7 @@ Object {
                 "id": "libcurl4@7.66.0-4.6.1",
                 "info": Object {
                   "name": "libcurl4",
+                  "purl": "pkg:rpm/libcurl4@7.66.0-4.6.1",
                   "version": "7.66.0-4.6.1",
                 },
               },
@@ -1258,6 +1294,7 @@ Object {
                 "id": "libdw1@0.168-4.5.3",
                 "info": Object {
                   "name": "libdw1",
+                  "purl": "pkg:rpm/libdw1@0.168-4.5.3",
                   "version": "0.168-4.5.3",
                 },
               },
@@ -1265,6 +1302,7 @@ Object {
                 "id": "libebl-plugins@0.168-4.5.3",
                 "info": Object {
                   "name": "libebl-plugins",
+                  "purl": "pkg:rpm/libebl-plugins@0.168-4.5.3",
                   "version": "0.168-4.5.3",
                 },
               },
@@ -1272,6 +1310,7 @@ Object {
                 "id": "libelf1@0.168-4.5.3",
                 "info": Object {
                   "name": "libelf1",
+                  "purl": "pkg:rpm/libelf1@0.168-4.5.3",
                   "version": "0.168-4.5.3",
                 },
               },
@@ -1279,6 +1318,7 @@ Object {
                 "id": "libfdisk1@2.33.1-4.8.1",
                 "info": Object {
                   "name": "libfdisk1",
+                  "purl": "pkg:rpm/libfdisk1@2.33.1-4.8.1",
                   "version": "2.33.1-4.8.1",
                 },
               },
@@ -1286,6 +1326,7 @@ Object {
                 "id": "libffi7@3.2.1.git259-10.8",
                 "info": Object {
                   "name": "libffi7",
+                  "purl": "pkg:rpm/libffi7@3.2.1.git259-10.8",
                   "version": "3.2.1.git259-10.8",
                 },
               },
@@ -1293,6 +1334,7 @@ Object {
                 "id": "libgcc_s1@9.3.1+git1296-1.6.1",
                 "info": Object {
                   "name": "libgcc_s1",
+                  "purl": "pkg:rpm/libgcc_s1@9.3.1%2Bgit1296-1.6.1",
                   "version": "9.3.1+git1296-1.6.1",
                 },
               },
@@ -1300,6 +1342,7 @@ Object {
                 "id": "libgcrypt20@1.8.2-8.36.1",
                 "info": Object {
                   "name": "libgcrypt20",
+                  "purl": "pkg:rpm/libgcrypt20@1.8.2-8.36.1",
                   "version": "1.8.2-8.36.1",
                 },
               },
@@ -1307,6 +1350,7 @@ Object {
                 "id": "libglib-2_0-0@2.62.5-1.26",
                 "info": Object {
                   "name": "libglib-2_0-0",
+                  "purl": "pkg:rpm/libglib-2_0-0@2.62.5-1.26",
                   "version": "2.62.5-1.26",
                 },
               },
@@ -1314,6 +1358,7 @@ Object {
                 "id": "libgmp10@6.1.2-4.3.1",
                 "info": Object {
                   "name": "libgmp10",
+                  "purl": "pkg:rpm/libgmp10@6.1.2-4.3.1",
                   "version": "6.1.2-4.3.1",
                 },
               },
@@ -1321,6 +1366,7 @@ Object {
                 "id": "libgnutls30@3.6.7-12.1",
                 "info": Object {
                   "name": "libgnutls30",
+                  "purl": "pkg:rpm/libgnutls30@3.6.7-12.1",
                   "version": "3.6.7-12.1",
                 },
               },
@@ -1328,6 +1374,7 @@ Object {
                 "id": "libgpg-error0@1.29-1.8",
                 "info": Object {
                   "name": "libgpg-error0",
+                  "purl": "pkg:rpm/libgpg-error0@1.29-1.8",
                   "version": "1.29-1.8",
                 },
               },
@@ -1335,6 +1382,7 @@ Object {
                 "id": "libgpgme11@1.13.1-2.57",
                 "info": Object {
                   "name": "libgpgme11",
+                  "purl": "pkg:rpm/libgpgme11@1.13.1-2.57",
                   "version": "1.13.1-2.57",
                 },
               },
@@ -1342,6 +1390,7 @@ Object {
                 "id": "libhogweed4@3.4.1-4.12.1",
                 "info": Object {
                   "name": "libhogweed4",
+                  "purl": "pkg:rpm/libhogweed4@3.4.1-4.12.1",
                   "version": "3.4.1-4.12.1",
                 },
               },
@@ -1349,6 +1398,7 @@ Object {
                 "id": "libidn2-0@2.2.0-3.3.1",
                 "info": Object {
                   "name": "libidn2-0",
+                  "purl": "pkg:rpm/libidn2-0@2.2.0-3.3.1",
                   "version": "2.2.0-3.3.1",
                 },
               },
@@ -1356,6 +1406,7 @@ Object {
                 "id": "libkeyutils1@1.5.10-3.42",
                 "info": Object {
                   "name": "libkeyutils1",
+                  "purl": "pkg:rpm/libkeyutils1@1.5.10-3.42",
                   "version": "1.5.10-3.42",
                 },
               },
@@ -1363,6 +1414,7 @@ Object {
                 "id": "libksba8@1.3.5-2.14",
                 "info": Object {
                   "name": "libksba8",
+                  "purl": "pkg:rpm/libksba8@1.3.5-2.14",
                   "version": "1.3.5-2.14",
                 },
               },
@@ -1370,6 +1422,7 @@ Object {
                 "id": "libldap-2_4-2@2.4.46-9.37.1",
                 "info": Object {
                   "name": "libldap-2_4-2",
+                  "purl": "pkg:rpm/libldap-2_4-2@2.4.46-9.37.1",
                   "version": "2.4.46-9.37.1",
                 },
               },
@@ -1377,6 +1430,7 @@ Object {
                 "id": "libldap-data@2.4.46-9.37.1",
                 "info": Object {
                   "name": "libldap-data",
+                  "purl": "pkg:rpm/libldap-data@2.4.46-9.37.1",
                   "version": "2.4.46-9.37.1",
                 },
               },
@@ -1384,6 +1438,7 @@ Object {
                 "id": "liblua5_3-5@5.3.4-3.3.2",
                 "info": Object {
                   "name": "liblua5_3-5",
+                  "purl": "pkg:rpm/liblua5_3-5@5.3.4-3.3.2",
                   "version": "5.3.4-3.3.2",
                 },
               },
@@ -1391,6 +1446,7 @@ Object {
                 "id": "liblz4-1@1.8.0-3.5.1",
                 "info": Object {
                   "name": "liblz4-1",
+                  "purl": "pkg:rpm/liblz4-1@1.8.0-3.5.1",
                   "version": "1.8.0-3.5.1",
                 },
               },
@@ -1398,6 +1454,7 @@ Object {
                 "id": "liblzma5@5.2.3-4.3.1",
                 "info": Object {
                   "name": "liblzma5",
+                  "purl": "pkg:rpm/liblzma5@5.2.3-4.3.1",
                   "version": "5.2.3-4.3.1",
                 },
               },
@@ -1405,6 +1462,7 @@ Object {
                 "id": "libmagic1@5.32-7.8.1",
                 "info": Object {
                   "name": "libmagic1",
+                  "purl": "pkg:rpm/libmagic1@5.32-7.8.1",
                   "version": "5.32-7.8.1",
                 },
               },
@@ -1412,6 +1470,7 @@ Object {
                 "id": "libmodman1@2.0.1-1.27",
                 "info": Object {
                   "name": "libmodman1",
+                  "purl": "pkg:rpm/libmodman1@2.0.1-1.27",
                   "version": "2.0.1-1.27",
                 },
               },
@@ -1419,6 +1478,7 @@ Object {
                 "id": "libmount1@2.33.1-4.8.1",
                 "info": Object {
                   "name": "libmount1",
+                  "purl": "pkg:rpm/libmount1@2.33.1-4.8.1",
                   "version": "2.33.1-4.8.1",
                 },
               },
@@ -1426,6 +1486,7 @@ Object {
                 "id": "libncurses6@6.1-5.6.2",
                 "info": Object {
                   "name": "libncurses6",
+                  "purl": "pkg:rpm/libncurses6@6.1-5.6.2",
                   "version": "6.1-5.6.2",
                 },
               },
@@ -1433,6 +1494,7 @@ Object {
                 "id": "libnettle6@3.4.1-4.12.1",
                 "info": Object {
                   "name": "libnettle6",
+                  "purl": "pkg:rpm/libnettle6@3.4.1-4.12.1",
                   "version": "3.4.1-4.12.1",
                 },
               },
@@ -1440,6 +1502,7 @@ Object {
                 "id": "libnghttp2-14@1.40.0-1.15",
                 "info": Object {
                   "name": "libnghttp2-14",
+                  "purl": "pkg:rpm/libnghttp2-14@1.40.0-1.15",
                   "version": "1.40.0-1.15",
                 },
               },
@@ -1447,6 +1510,7 @@ Object {
                 "id": "libnpth0@1.5-2.11",
                 "info": Object {
                   "name": "libnpth0",
+                  "purl": "pkg:rpm/libnpth0@1.5-2.11",
                   "version": "1.5-2.11",
                 },
               },
@@ -1454,6 +1518,7 @@ Object {
                 "id": "libnsl2@1.2.0-2.44",
                 "info": Object {
                   "name": "libnsl2",
+                  "purl": "pkg:rpm/libnsl2@1.2.0-2.44",
                   "version": "1.2.0-2.44",
                 },
               },
@@ -1461,6 +1526,7 @@ Object {
                 "id": "libopenssl1_1@1.1.1d-9.9",
                 "info": Object {
                   "name": "libopenssl1_1",
+                  "purl": "pkg:rpm/libopenssl1_1@1.1.1d-9.9",
                   "version": "1.1.1d-9.9",
                 },
               },
@@ -1468,6 +1534,7 @@ Object {
                 "id": "libp11-kit0@0.23.2-4.8.3",
                 "info": Object {
                   "name": "libp11-kit0",
+                  "purl": "pkg:rpm/libp11-kit0@0.23.2-4.8.3",
                   "version": "0.23.2-4.8.3",
                 },
               },
@@ -1475,6 +1542,7 @@ Object {
                 "id": "libpcre1@8.41-4.20",
                 "info": Object {
                   "name": "libpcre1",
+                  "purl": "pkg:rpm/libpcre1@8.41-4.20",
                   "version": "8.41-4.20",
                 },
               },
@@ -1482,6 +1550,7 @@ Object {
                 "id": "libpopt0@1.16-3.22",
                 "info": Object {
                   "name": "libpopt0",
+                  "purl": "pkg:rpm/libpopt0@1.16-3.22",
                   "version": "1.16-3.22",
                 },
               },
@@ -1489,6 +1558,7 @@ Object {
                 "id": "libprocps7@3.3.15-7.10.2",
                 "info": Object {
                   "name": "libprocps7",
+                  "purl": "pkg:rpm/libprocps7@3.3.15-7.10.2",
                   "version": "3.3.15-7.10.2",
                 },
               },
@@ -1496,6 +1566,7 @@ Object {
                 "id": "libproxy1@0.4.15-2.15",
                 "info": Object {
                   "name": "libproxy1",
+                  "purl": "pkg:rpm/libproxy1@0.4.15-2.15",
                   "version": "0.4.15-2.15",
                 },
               },
@@ -1503,6 +1574,7 @@ Object {
                 "id": "libpsl5@0.20.1-1.20",
                 "info": Object {
                   "name": "libpsl5",
+                  "purl": "pkg:rpm/libpsl5@0.20.1-1.20",
                   "version": "0.20.1-1.20",
                 },
               },
@@ -1510,6 +1582,7 @@ Object {
                 "id": "libreadline7@7.0-9.10.1",
                 "info": Object {
                   "name": "libreadline7",
+                  "purl": "pkg:rpm/libreadline7@7.0-9.10.1",
                   "version": "7.0-9.10.1",
                 },
               },
@@ -1517,6 +1590,7 @@ Object {
                 "id": "libsasl2-3@2.1.26-5.7.1",
                 "info": Object {
                   "name": "libsasl2-3",
+                  "purl": "pkg:rpm/libsasl2-3@2.1.26-5.7.1",
                   "version": "2.1.26-5.7.1",
                 },
               },
@@ -1524,6 +1598,7 @@ Object {
                 "id": "libselinux1@3.0-1.31",
                 "info": Object {
                   "name": "libselinux1",
+                  "purl": "pkg:rpm/libselinux1@3.0-1.31",
                   "version": "3.0-1.31",
                 },
               },
@@ -1531,6 +1606,7 @@ Object {
                 "id": "libsemanage1@3.0-1.27",
                 "info": Object {
                   "name": "libsemanage1",
+                  "purl": "pkg:rpm/libsemanage1@3.0-1.27",
                   "version": "3.0-1.27",
                 },
               },
@@ -1538,6 +1614,7 @@ Object {
                 "id": "libsepol1@3.0-1.31",
                 "info": Object {
                   "name": "libsepol1",
+                  "purl": "pkg:rpm/libsepol1@3.0-1.31",
                   "version": "3.0-1.31",
                 },
               },
@@ -1545,6 +1622,7 @@ Object {
                 "id": "libsigc-2_0-0@2.10.2-1.18",
                 "info": Object {
                   "name": "libsigc-2_0-0",
+                  "purl": "pkg:rpm/libsigc-2_0-0@2.10.2-1.18",
                   "version": "2.10.2-1.18",
                 },
               },
@@ -1552,6 +1630,7 @@ Object {
                 "id": "libsmartcols1@2.33.1-4.8.1",
                 "info": Object {
                   "name": "libsmartcols1",
+                  "purl": "pkg:rpm/libsmartcols1@2.33.1-4.8.1",
                   "version": "2.33.1-4.8.1",
                 },
               },
@@ -1559,6 +1638,7 @@ Object {
                 "id": "libsolv-tools@0.7.14-3.5.1",
                 "info": Object {
                   "name": "libsolv-tools",
+                  "purl": "pkg:rpm/libsolv-tools@0.7.14-3.5.1",
                   "version": "0.7.14-3.5.1",
                 },
               },
@@ -1566,6 +1646,7 @@ Object {
                 "id": "libsqlite3-0@3.28.0-3.9.2",
                 "info": Object {
                   "name": "libsqlite3-0",
+                  "purl": "pkg:rpm/libsqlite3-0@3.28.0-3.9.2",
                   "version": "3.28.0-3.9.2",
                 },
               },
@@ -1573,6 +1654,7 @@ Object {
                 "id": "libssh4@0.8.7-10.12.1",
                 "info": Object {
                   "name": "libssh4",
+                  "purl": "pkg:rpm/libssh4@0.8.7-10.12.1",
                   "version": "0.8.7-10.12.1",
                 },
               },
@@ -1580,6 +1662,7 @@ Object {
                 "id": "libstdc++6@9.3.1+git1296-1.6.1",
                 "info": Object {
                   "name": "libstdc++6",
+                  "purl": "pkg:rpm/libstdc%2B%2B6@9.3.1%2Bgit1296-1.6.1",
                   "version": "9.3.1+git1296-1.6.1",
                 },
               },
@@ -1587,6 +1670,7 @@ Object {
                 "id": "libsystemd0@234-24.58.1",
                 "info": Object {
                   "name": "libsystemd0",
+                  "purl": "pkg:rpm/libsystemd0@234-24.58.1",
                   "version": "234-24.58.1",
                 },
               },
@@ -1594,6 +1678,7 @@ Object {
                 "id": "libtasn1@4.13-4.5.1",
                 "info": Object {
                   "name": "libtasn1",
+                  "purl": "pkg:rpm/libtasn1@4.13-4.5.1",
                   "version": "4.13-4.5.1",
                 },
               },
@@ -1601,6 +1686,7 @@ Object {
                 "id": "libtasn1-6@4.13-4.5.1",
                 "info": Object {
                   "name": "libtasn1-6",
+                  "purl": "pkg:rpm/libtasn1-6@4.13-4.5.1",
                   "version": "4.13-4.5.1",
                 },
               },
@@ -1608,6 +1694,7 @@ Object {
                 "id": "libtirpc-netconfig@1.0.2-3.8.1",
                 "info": Object {
                   "name": "libtirpc-netconfig",
+                  "purl": "pkg:rpm/libtirpc-netconfig@1.0.2-3.8.1",
                   "version": "1.0.2-3.8.1",
                 },
               },
@@ -1615,6 +1702,7 @@ Object {
                 "id": "libtirpc3@1.0.2-3.8.1",
                 "info": Object {
                   "name": "libtirpc3",
+                  "purl": "pkg:rpm/libtirpc3@1.0.2-3.8.1",
                   "version": "1.0.2-3.8.1",
                 },
               },
@@ -1622,6 +1710,7 @@ Object {
                 "id": "libudev1@234-24.58.1",
                 "info": Object {
                   "name": "libudev1",
+                  "purl": "pkg:rpm/libudev1@234-24.58.1",
                   "version": "234-24.58.1",
                 },
               },
@@ -1629,6 +1718,7 @@ Object {
                 "id": "libunistring2@0.9.9-1.15",
                 "info": Object {
                   "name": "libunistring2",
+                  "purl": "pkg:rpm/libunistring2@0.9.9-1.15",
                   "version": "0.9.9-1.15",
                 },
               },
@@ -1636,6 +1726,7 @@ Object {
                 "id": "libusb-1_0-0@1.0.21-1.29",
                 "info": Object {
                   "name": "libusb-1_0-0",
+                  "purl": "pkg:rpm/libusb-1_0-0@1.0.21-1.29",
                   "version": "1.0.21-1.29",
                 },
               },
@@ -1643,6 +1734,7 @@ Object {
                 "id": "libutempter0@1.1.6-3.42",
                 "info": Object {
                   "name": "libutempter0",
+                  "purl": "pkg:rpm/libutempter0@1.1.6-3.42",
                   "version": "1.1.6-3.42",
                 },
               },
@@ -1650,6 +1742,7 @@ Object {
                 "id": "libuuid1@2.33.1-4.8.1",
                 "info": Object {
                   "name": "libuuid1",
+                  "purl": "pkg:rpm/libuuid1@2.33.1-4.8.1",
                   "version": "2.33.1-4.8.1",
                 },
               },
@@ -1657,6 +1750,7 @@ Object {
                 "id": "libverto1@0.2.6-3.20",
                 "info": Object {
                   "name": "libverto1",
+                  "purl": "pkg:rpm/libverto1@0.2.6-3.20",
                   "version": "0.2.6-3.20",
                 },
               },
@@ -1664,6 +1758,7 @@ Object {
                 "id": "libxml2-2@2.9.7-3.25.1",
                 "info": Object {
                   "name": "libxml2-2",
+                  "purl": "pkg:rpm/libxml2-2@2.9.7-3.25.1",
                   "version": "2.9.7-3.25.1",
                 },
               },
@@ -1671,6 +1766,7 @@ Object {
                 "id": "libz1@1.2.11-3.18.1",
                 "info": Object {
                   "name": "libz1",
+                  "purl": "pkg:rpm/libz1@1.2.11-3.18.1",
                   "version": "1.2.11-3.18.1",
                 },
               },
@@ -1678,6 +1774,7 @@ Object {
                 "id": "libzio1@1.06-2.20",
                 "info": Object {
                   "name": "libzio1",
+                  "purl": "pkg:rpm/libzio1@1.06-2.20",
                   "version": "1.06-2.20",
                 },
               },
@@ -1685,6 +1782,7 @@ Object {
                 "id": "libzstd1@1.4.4-1.3.1",
                 "info": Object {
                   "name": "libzstd1",
+                  "purl": "pkg:rpm/libzstd1@1.4.4-1.3.1",
                   "version": "1.4.4-1.3.1",
                 },
               },
@@ -1692,6 +1790,7 @@ Object {
                 "id": "libzypp@17.24.1-3.11.1",
                 "info": Object {
                   "name": "libzypp",
+                  "purl": "pkg:rpm/libzypp@17.24.1-3.11.1",
                   "version": "17.24.1-3.11.1",
                 },
               },
@@ -1699,6 +1798,7 @@ Object {
                 "id": "ncurses-utils@6.1-5.6.2",
                 "info": Object {
                   "name": "ncurses-utils",
+                  "purl": "pkg:rpm/ncurses-utils@6.1-5.6.2",
                   "version": "6.1-5.6.2",
                 },
               },
@@ -1706,6 +1806,7 @@ Object {
                 "id": "netcfg@11.6-1.11",
                 "info": Object {
                   "name": "netcfg",
+                  "purl": "pkg:rpm/netcfg@11.6-1.11",
                   "version": "11.6-1.11",
                 },
               },
@@ -1713,6 +1814,7 @@ Object {
                 "id": "openssl@1.1.1d-1.46",
                 "info": Object {
                   "name": "openssl",
+                  "purl": "pkg:rpm/openssl@1.1.1d-1.46",
                   "version": "1.1.1d-1.46",
                 },
               },
@@ -1720,6 +1822,7 @@ Object {
                 "id": "openssl-1_1@1.1.1d-9.9",
                 "info": Object {
                   "name": "openssl-1_1",
+                  "purl": "pkg:rpm/openssl-1_1@1.1.1d-9.9",
                   "version": "1.1.1d-9.9",
                 },
               },
@@ -1727,6 +1830,7 @@ Object {
                 "id": "p11-kit@0.23.2-4.8.3",
                 "info": Object {
                   "name": "p11-kit",
+                  "purl": "pkg:rpm/p11-kit@0.23.2-4.8.3",
                   "version": "0.23.2-4.8.3",
                 },
               },
@@ -1734,6 +1838,7 @@ Object {
                 "id": "p11-kit-tools@0.23.2-4.8.3",
                 "info": Object {
                   "name": "p11-kit-tools",
+                  "purl": "pkg:rpm/p11-kit-tools@0.23.2-4.8.3",
                   "version": "0.23.2-4.8.3",
                 },
               },
@@ -1741,6 +1846,7 @@ Object {
                 "id": "pam@1.3.0-6.16.1",
                 "info": Object {
                   "name": "pam",
+                  "purl": "pkg:rpm/pam@1.3.0-6.16.1",
                   "version": "1.3.0-6.16.1",
                 },
               },
@@ -1748,6 +1854,7 @@ Object {
                 "id": "perl-base@5.26.1-7.12.1",
                 "info": Object {
                   "name": "perl-base",
+                  "purl": "pkg:rpm/perl-base@5.26.1-7.12.1",
                   "version": "5.26.1-7.12.1",
                 },
               },
@@ -1755,6 +1862,7 @@ Object {
                 "id": "permissions@20181224-21.1",
                 "info": Object {
                   "name": "permissions",
+                  "purl": "pkg:rpm/permissions@20181224-21.1",
                   "version": "20181224-21.1",
                 },
               },
@@ -1762,6 +1870,7 @@ Object {
                 "id": "pinentry@1.1.0-4.3.1",
                 "info": Object {
                   "name": "pinentry",
+                  "purl": "pkg:rpm/pinentry@1.1.0-4.3.1",
                   "version": "1.1.0-4.3.1",
                 },
               },
@@ -1769,6 +1878,7 @@ Object {
                 "id": "procps@3.3.15-7.10.2",
                 "info": Object {
                   "name": "procps",
+                  "purl": "pkg:rpm/procps@3.3.15-7.10.2",
                   "version": "3.3.15-7.10.2",
                 },
               },
@@ -1776,6 +1886,7 @@ Object {
                 "id": "rpm@4.14.1-20.3",
                 "info": Object {
                   "name": "rpm",
+                  "purl": "pkg:rpm/rpm@4.14.1-20.3",
                   "version": "4.14.1-20.3",
                 },
               },
@@ -1783,6 +1894,7 @@ Object {
                 "id": "sed@4.4-2.11",
                 "info": Object {
                   "name": "sed",
+                  "purl": "pkg:rpm/sed@4.4-2.11",
                   "version": "4.4-2.11",
                 },
               },
@@ -1790,6 +1902,7 @@ Object {
                 "id": "shadow@4.6-3.5.6",
                 "info": Object {
                   "name": "shadow",
+                  "purl": "pkg:rpm/shadow@4.6-3.5.6",
                   "version": "4.6-3.5.6",
                 },
               },
@@ -1797,6 +1910,7 @@ Object {
                 "id": "sles-release@15.2-49.1",
                 "info": Object {
                   "name": "sles-release",
+                  "purl": "pkg:rpm/sles-release@15.2-49.1",
                   "version": "15.2-49.1",
                 },
               },
@@ -1804,6 +1918,7 @@ Object {
                 "id": "suse-build-key@12.0-8.9.1",
                 "info": Object {
                   "name": "suse-build-key",
+                  "purl": "pkg:rpm/suse-build-key@12.0-8.9.1",
                   "version": "12.0-8.9.1",
                 },
               },
@@ -1811,6 +1926,7 @@ Object {
                 "id": "system-group-hardware@20170617-4.155",
                 "info": Object {
                   "name": "system-group-hardware",
+                  "purl": "pkg:rpm/system-group-hardware@20170617-4.155",
                   "version": "20170617-4.155",
                 },
               },
@@ -1818,6 +1934,7 @@ Object {
                 "id": "system-user-root@20190513-3.3.1",
                 "info": Object {
                   "name": "system-user-root",
+                  "purl": "pkg:rpm/system-user-root@20190513-3.3.1",
                   "version": "20190513-3.3.1",
                 },
               },
@@ -1825,6 +1942,7 @@ Object {
                 "id": "sysuser-shadow@2.0-2.151",
                 "info": Object {
                   "name": "sysuser-shadow",
+                  "purl": "pkg:rpm/sysuser-shadow@2.0-2.151",
                   "version": "2.0-2.151",
                 },
               },
@@ -1832,6 +1950,7 @@ Object {
                 "id": "terminfo-base@6.1-5.6.2",
                 "info": Object {
                   "name": "terminfo-base",
+                  "purl": "pkg:rpm/terminfo-base@6.1-5.6.2",
                   "version": "6.1-5.6.2",
                 },
               },
@@ -1839,6 +1958,7 @@ Object {
                 "id": "util-linux@2.33.1-4.8.1",
                 "info": Object {
                   "name": "util-linux",
+                  "purl": "pkg:rpm/util-linux@2.33.1-4.8.1",
                   "version": "2.33.1-4.8.1",
                 },
               },
@@ -1846,6 +1966,7 @@ Object {
                 "id": "zypper@1.14.37-3.3.3",
                 "info": Object {
                   "name": "zypper",
+                  "purl": "pkg:rpm/zypper@1.14.37-3.3.3",
                   "version": "1.14.37-3.3.3",
                 },
               },

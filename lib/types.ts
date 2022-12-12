@@ -216,6 +216,7 @@ export interface DepTreeDep {
   dependencies: {
     [depName: string]: DepTreeDep;
   };
+  purl?: string;
   labels?: {
     [key: string]: string;
   };

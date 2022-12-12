@@ -1606,6 +1606,7 @@ Object {
                 "id": "MAKEDEV@3.24-6.el6",
                 "info": Object {
                   "name": "MAKEDEV",
+                  "purl": "pkg:rpm/MAKEDEV@3.24-6.el6",
                   "version": "3.24-6.el6",
                 },
               },
@@ -1613,6 +1614,7 @@ Object {
                 "id": "at@3.1.10-49.el6",
                 "info": Object {
                   "name": "at",
+                  "purl": "pkg:rpm/at@3.1.10-49.el6",
                   "version": "3.1.10-49.el6",
                 },
               },
@@ -1620,6 +1622,7 @@ Object {
                 "id": "audit-libs@2.4.5-6.el6",
                 "info": Object {
                   "name": "audit-libs",
+                  "purl": "pkg:rpm/audit-libs@2.4.5-6.el6",
                   "version": "2.4.5-6.el6",
                 },
               },
@@ -1627,6 +1630,7 @@ Object {
                 "id": "basesystem@10.0-4.el6",
                 "info": Object {
                   "name": "basesystem",
+                  "purl": "pkg:rpm/basesystem@10.0-4.el6",
                   "version": "10.0-4.el6",
                 },
               },
@@ -1634,6 +1638,7 @@ Object {
                 "id": "bash@4.1.2-48.el6",
                 "info": Object {
                   "name": "bash",
+                  "purl": "pkg:rpm/bash@4.1.2-48.el6",
                   "version": "4.1.2-48.el6",
                 },
               },
@@ -1641,6 +1646,7 @@ Object {
                 "id": "bc@1.06.95-1.el6",
                 "info": Object {
                   "name": "bc",
+                  "purl": "pkg:rpm/bc@1.06.95-1.el6",
                   "version": "1.06.95-1.el6",
                 },
               },
@@ -1648,6 +1654,7 @@ Object {
                 "id": "bind-libs@32:9.8.2-0.68.rc1.el6_10.1",
                 "info": Object {
                   "name": "bind-libs",
+                  "purl": "pkg:rpm/bind-libs@32:9.8.2-0.68.rc1.el6_10.1?epoch=32",
                   "version": "32:9.8.2-0.68.rc1.el6_10.1",
                 },
               },
@@ -1655,6 +1662,7 @@ Object {
                 "id": "bind-utils@32:9.8.2-0.68.rc1.el6_10.1",
                 "info": Object {
                   "name": "bind-utils",
+                  "purl": "pkg:rpm/bind-utils@32:9.8.2-0.68.rc1.el6_10.1?epoch=32",
                   "version": "32:9.8.2-0.68.rc1.el6_10.1",
                 },
               },
@@ -1662,6 +1670,7 @@ Object {
                 "id": "binutils@2.20.51.0.2-5.48.el6",
                 "info": Object {
                   "name": "binutils",
+                  "purl": "pkg:rpm/binutils@2.20.51.0.2-5.48.el6",
                   "version": "2.20.51.0.2-5.48.el6",
                 },
               },
@@ -1669,6 +1678,7 @@ Object {
                 "id": "bzip2@1.0.5-7.el6_0",
                 "info": Object {
                   "name": "bzip2",
+                  "purl": "pkg:rpm/bzip2@1.0.5-7.el6_0",
                   "version": "1.0.5-7.el6_0",
                 },
               },
@@ -1676,6 +1686,7 @@ Object {
                 "id": "bzip2-libs@1.0.5-7.el6_0",
                 "info": Object {
                   "name": "bzip2-libs",
+                  "purl": "pkg:rpm/bzip2-libs@1.0.5-7.el6_0",
                   "version": "1.0.5-7.el6_0",
                 },
               },
@@ -1683,6 +1694,7 @@ Object {
                 "id": "ca-certificates@2020.2.41-65.1.el6_10",
                 "info": Object {
                   "name": "ca-certificates",
+                  "purl": "pkg:rpm/ca-certificates@2020.2.41-65.1.el6_10",
                   "version": "2020.2.41-65.1.el6_10",
                 },
               },
@@ -1690,6 +1702,7 @@ Object {
                 "id": "centos-release@6-10.el6.centos.12.3",
                 "info": Object {
                   "name": "centos-release",
+                  "purl": "pkg:rpm/centos-release@6-10.el6.centos.12.3",
                   "version": "6-10.el6.centos.12.3",
                 },
               },
@@ -1697,6 +1710,7 @@ Object {
                 "id": "checkpolicy@2.0.22-1.el6",
                 "info": Object {
                   "name": "checkpolicy",
+                  "purl": "pkg:rpm/checkpolicy@2.0.22-1.el6",
                   "version": "2.0.22-1.el6",
                 },
               },
@@ -1704,6 +1718,7 @@ Object {
                 "id": "chkconfig@1.3.49.5-1.el6",
                 "info": Object {
                   "name": "chkconfig",
+                  "purl": "pkg:rpm/chkconfig@1.3.49.5-1.el6",
                   "version": "1.3.49.5-1.el6",
                 },
               },
@@ -1711,6 +1726,7 @@ Object {
                 "id": "coreutils@8.4-47.el6",
                 "info": Object {
                   "name": "coreutils",
+                  "purl": "pkg:rpm/coreutils@8.4-47.el6",
                   "version": "8.4-47.el6",
                 },
               },
@@ -1718,6 +1734,7 @@ Object {
                 "id": "coreutils-libs@8.4-47.el6",
                 "info": Object {
                   "name": "coreutils-libs",
+                  "purl": "pkg:rpm/coreutils-libs@8.4-47.el6",
                   "version": "8.4-47.el6",
                 },
               },
@@ -1725,6 +1742,7 @@ Object {
                 "id": "cpio@2.10-13.el6",
                 "info": Object {
                   "name": "cpio",
+                  "purl": "pkg:rpm/cpio@2.10-13.el6",
                   "version": "2.10-13.el6",
                 },
               },
@@ -1732,6 +1750,7 @@ Object {
                 "id": "cracklib@2.8.16-4.el6",
                 "info": Object {
                   "name": "cracklib",
+                  "purl": "pkg:rpm/cracklib@2.8.16-4.el6",
                   "version": "2.8.16-4.el6",
                 },
               },
@@ -1739,6 +1758,7 @@ Object {
                 "id": "cracklib-dicts@2.8.16-4.el6",
                 "info": Object {
                   "name": "cracklib-dicts",
+                  "purl": "pkg:rpm/cracklib-dicts@2.8.16-4.el6",
                   "version": "2.8.16-4.el6",
                 },
               },
@@ -1746,6 +1766,7 @@ Object {
                 "id": "cronie@1.4.4-16.el6_8.2",
                 "info": Object {
                   "name": "cronie",
+                  "purl": "pkg:rpm/cronie@1.4.4-16.el6_8.2",
                   "version": "1.4.4-16.el6_8.2",
                 },
               },
@@ -1753,6 +1774,7 @@ Object {
                 "id": "cronie-anacron@1.4.4-16.el6_8.2",
                 "info": Object {
                   "name": "cronie-anacron",
+                  "purl": "pkg:rpm/cronie-anacron@1.4.4-16.el6_8.2",
                   "version": "1.4.4-16.el6_8.2",
                 },
               },
@@ -1760,6 +1782,7 @@ Object {
                 "id": "crontabs@1.10-33.el6",
                 "info": Object {
                   "name": "crontabs",
+                  "purl": "pkg:rpm/crontabs@1.10-33.el6",
                   "version": "1.10-33.el6",
                 },
               },
@@ -1767,6 +1790,7 @@ Object {
                 "id": "curl@7.19.7-54.el6_10",
                 "info": Object {
                   "name": "curl",
+                  "purl": "pkg:rpm/curl@7.19.7-54.el6_10",
                   "version": "7.19.7-54.el6_10",
                 },
               },
@@ -1774,6 +1798,7 @@ Object {
                 "id": "cvs@1.11.23-16.el6",
                 "info": Object {
                   "name": "cvs",
+                  "purl": "pkg:rpm/cvs@1.11.23-16.el6",
                   "version": "1.11.23-16.el6",
                 },
               },
@@ -1781,6 +1806,7 @@ Object {
                 "id": "cyrus-sasl@2.1.23-15.el6_6.2",
                 "info": Object {
                   "name": "cyrus-sasl",
+                  "purl": "pkg:rpm/cyrus-sasl@2.1.23-15.el6_6.2",
                   "version": "2.1.23-15.el6_6.2",
                 },
               },
@@ -1788,6 +1814,7 @@ Object {
                 "id": "cyrus-sasl-lib@2.1.23-15.el6_6.2",
                 "info": Object {
                   "name": "cyrus-sasl-lib",
+                  "purl": "pkg:rpm/cyrus-sasl-lib@2.1.23-15.el6_6.2",
                   "version": "2.1.23-15.el6_6.2",
                 },
               },
@@ -1795,6 +1822,7 @@ Object {
                 "id": "dash@0.5.5.1-4.el6",
                 "info": Object {
                   "name": "dash",
+                  "purl": "pkg:rpm/dash@0.5.5.1-4.el6",
                   "version": "0.5.5.1-4.el6",
                 },
               },
@@ -1802,6 +1830,7 @@ Object {
                 "id": "db4@4.7.25-22.el6",
                 "info": Object {
                   "name": "db4",
+                  "purl": "pkg:rpm/db4@4.7.25-22.el6",
                   "version": "4.7.25-22.el6",
                 },
               },
@@ -1809,6 +1838,7 @@ Object {
                 "id": "db4-cxx@4.7.25-22.el6",
                 "info": Object {
                   "name": "db4-cxx",
+                  "purl": "pkg:rpm/db4-cxx@4.7.25-22.el6",
                   "version": "4.7.25-22.el6",
                 },
               },
@@ -1816,6 +1846,7 @@ Object {
                 "id": "db4-devel@4.7.25-22.el6",
                 "info": Object {
                   "name": "db4-devel",
+                  "purl": "pkg:rpm/db4-devel@4.7.25-22.el6",
                   "version": "4.7.25-22.el6",
                 },
               },
@@ -1823,6 +1854,7 @@ Object {
                 "id": "db4-utils@4.7.25-22.el6",
                 "info": Object {
                   "name": "db4-utils",
+                  "purl": "pkg:rpm/db4-utils@4.7.25-22.el6",
                   "version": "4.7.25-22.el6",
                 },
               },
@@ -1830,6 +1862,7 @@ Object {
                 "id": "dbus-glib@0.86-6.el6",
                 "info": Object {
                   "name": "dbus-glib",
+                  "purl": "pkg:rpm/dbus-glib@0.86-6.el6",
                   "version": "0.86-6.el6",
                 },
               },
@@ -1837,6 +1870,7 @@ Object {
                 "id": "dbus-libs@1:1.2.24-9.el6",
                 "info": Object {
                   "name": "dbus-libs",
+                  "purl": "pkg:rpm/dbus-libs@1:1.2.24-9.el6?epoch=1",
                   "version": "1:1.2.24-9.el6",
                 },
               },
@@ -1844,6 +1878,7 @@ Object {
                 "id": "diffutils@2.8.1-28.el6",
                 "info": Object {
                   "name": "diffutils",
+                  "purl": "pkg:rpm/diffutils@2.8.1-28.el6",
                   "version": "2.8.1-28.el6",
                 },
               },
@@ -1851,6 +1886,7 @@ Object {
                 "id": "dmidecode@1:2.12-7.el6",
                 "info": Object {
                   "name": "dmidecode",
+                  "purl": "pkg:rpm/dmidecode@1:2.12-7.el6?epoch=1",
                   "version": "1:2.12-7.el6",
                 },
               },
@@ -1858,6 +1894,7 @@ Object {
                 "id": "ed@1.1-3.3.el6",
                 "info": Object {
                   "name": "ed",
+                  "purl": "pkg:rpm/ed@1.1-3.3.el6",
                   "version": "1.1-3.3.el6",
                 },
               },
@@ -1865,6 +1902,7 @@ Object {
                 "id": "elfutils-libelf@0.164-2.el6",
                 "info": Object {
                   "name": "elfutils-libelf",
+                  "purl": "pkg:rpm/elfutils-libelf@0.164-2.el6",
                   "version": "0.164-2.el6",
                 },
               },
@@ -1872,6 +1910,7 @@ Object {
                 "id": "ethtool@2:3.5-6.el6",
                 "info": Object {
                   "name": "ethtool",
+                  "purl": "pkg:rpm/ethtool@2:3.5-6.el6?epoch=2",
                   "version": "2:3.5-6.el6",
                 },
               },
@@ -1879,6 +1918,7 @@ Object {
                 "id": "expat@2.0.1-13.el6_8",
                 "info": Object {
                   "name": "expat",
+                  "purl": "pkg:rpm/expat@2.0.1-13.el6_8",
                   "version": "2.0.1-13.el6_8",
                 },
               },
@@ -1886,6 +1926,7 @@ Object {
                 "id": "file@5.04-30.el6",
                 "info": Object {
                   "name": "file",
+                  "purl": "pkg:rpm/file@5.04-30.el6",
                   "version": "5.04-30.el6",
                 },
               },
@@ -1893,6 +1934,7 @@ Object {
                 "id": "file-libs@5.04-30.el6",
                 "info": Object {
                   "name": "file-libs",
+                  "purl": "pkg:rpm/file-libs@5.04-30.el6",
                   "version": "5.04-30.el6",
                 },
               },
@@ -1900,6 +1942,7 @@ Object {
                 "id": "filesystem@2.4.30-3.el6",
                 "info": Object {
                   "name": "filesystem",
+                  "purl": "pkg:rpm/filesystem@2.4.30-3.el6",
                   "version": "2.4.30-3.el6",
                 },
               },
@@ -1907,6 +1950,7 @@ Object {
                 "id": "findutils@1:4.4.2-9.el6",
                 "info": Object {
                   "name": "findutils",
+                  "purl": "pkg:rpm/findutils@1:4.4.2-9.el6?epoch=1",
                   "version": "1:4.4.2-9.el6",
                 },
               },
@@ -1914,6 +1958,7 @@ Object {
                 "id": "gamin@0.1.10-9.el6",
                 "info": Object {
                   "name": "gamin",
+                  "purl": "pkg:rpm/gamin@0.1.10-9.el6",
                   "version": "0.1.10-9.el6",
                 },
               },
@@ -1921,6 +1966,7 @@ Object {
                 "id": "gawk@3.1.7-10.el6_7.3",
                 "info": Object {
                   "name": "gawk",
+                  "purl": "pkg:rpm/gawk@3.1.7-10.el6_7.3",
                   "version": "3.1.7-10.el6_7.3",
                 },
               },
@@ -1928,6 +1974,7 @@ Object {
                 "id": "gdbm@1.8.0-39.el6",
                 "info": Object {
                   "name": "gdbm",
+                  "purl": "pkg:rpm/gdbm@1.8.0-39.el6",
                   "version": "1.8.0-39.el6",
                 },
               },
@@ -1935,6 +1982,7 @@ Object {
                 "id": "gdbm-devel@1.8.0-39.el6",
                 "info": Object {
                   "name": "gdbm-devel",
+                  "purl": "pkg:rpm/gdbm-devel@1.8.0-39.el6",
                   "version": "1.8.0-39.el6",
                 },
               },
@@ -1942,6 +1990,7 @@ Object {
                 "id": "gettext@0.17-18.el6",
                 "info": Object {
                   "name": "gettext",
+                  "purl": "pkg:rpm/gettext@0.17-18.el6",
                   "version": "0.17-18.el6",
                 },
               },
@@ -1949,6 +1998,7 @@ Object {
                 "id": "glib2@2.28.8-10.el6",
                 "info": Object {
                   "name": "glib2",
+                  "purl": "pkg:rpm/glib2@2.28.8-10.el6",
                   "version": "2.28.8-10.el6",
                 },
               },
@@ -1956,6 +2006,7 @@ Object {
                 "id": "glibc@2.12-1.212.el6_10.3",
                 "info": Object {
                   "name": "glibc",
+                  "purl": "pkg:rpm/glibc@2.12-1.212.el6_10.3",
                   "version": "2.12-1.212.el6_10.3",
                 },
               },
@@ -1963,6 +2014,7 @@ Object {
                 "id": "glibc-common@2.12-1.212.el6_10.3",
                 "info": Object {
                   "name": "glibc-common",
+                  "purl": "pkg:rpm/glibc-common@2.12-1.212.el6_10.3",
                   "version": "2.12-1.212.el6_10.3",
                 },
               },
@@ -1970,6 +2022,7 @@ Object {
                 "id": "glibc-devel@2.12-1.212.el6_10.3",
                 "info": Object {
                   "name": "glibc-devel",
+                  "purl": "pkg:rpm/glibc-devel@2.12-1.212.el6_10.3",
                   "version": "2.12-1.212.el6_10.3",
                 },
               },
@@ -1977,6 +2030,7 @@ Object {
                 "id": "glibc-headers@2.12-1.212.el6_10.3",
                 "info": Object {
                   "name": "glibc-headers",
+                  "purl": "pkg:rpm/glibc-headers@2.12-1.212.el6_10.3",
                   "version": "2.12-1.212.el6_10.3",
                 },
               },
@@ -1984,6 +2038,7 @@ Object {
                 "id": "gmp@4.3.1-13.el6",
                 "info": Object {
                   "name": "gmp",
+                  "purl": "pkg:rpm/gmp@4.3.1-13.el6",
                   "version": "4.3.1-13.el6",
                 },
               },
@@ -1991,6 +2046,7 @@ Object {
                 "id": "gnupg2@2.0.14-9.el6_10",
                 "info": Object {
                   "name": "gnupg2",
+                  "purl": "pkg:rpm/gnupg2@2.0.14-9.el6_10",
                   "version": "2.0.14-9.el6_10",
                 },
               },
@@ -1998,6 +2054,7 @@ Object {
                 "id": "gpg-pubkey@c105b9de-4e0fd3a3",
                 "info": Object {
                   "name": "gpg-pubkey",
+                  "purl": "pkg:rpm/gpg-pubkey@c105b9de-4e0fd3a3",
                   "version": "c105b9de-4e0fd3a3",
                 },
               },
@@ -2005,6 +2062,7 @@ Object {
                 "id": "gpgme@1.1.8-3.el6",
                 "info": Object {
                   "name": "gpgme",
+                  "purl": "pkg:rpm/gpgme@1.1.8-3.el6",
                   "version": "1.1.8-3.el6",
                 },
               },
@@ -2012,6 +2070,7 @@ Object {
                 "id": "grep@2.20-6.el6",
                 "info": Object {
                   "name": "grep",
+                  "purl": "pkg:rpm/grep@2.20-6.el6",
                   "version": "2.20-6.el6",
                 },
               },
@@ -2019,6 +2078,7 @@ Object {
                 "id": "groff@1.18.1.4-21.el6",
                 "info": Object {
                   "name": "groff",
+                  "purl": "pkg:rpm/groff@1.18.1.4-21.el6",
                   "version": "1.18.1.4-21.el6",
                 },
               },
@@ -2026,6 +2086,7 @@ Object {
                 "id": "gzip@1.3.12-24.el6",
                 "info": Object {
                   "name": "gzip",
+                  "purl": "pkg:rpm/gzip@1.3.12-24.el6",
                   "version": "1.3.12-24.el6",
                 },
               },
@@ -2033,6 +2094,7 @@ Object {
                 "id": "hwdata@0.233-20.1.el6",
                 "info": Object {
                   "name": "hwdata",
+                  "purl": "pkg:rpm/hwdata@0.233-20.1.el6",
                   "version": "0.233-20.1.el6",
                 },
               },
@@ -2040,6 +2102,7 @@ Object {
                 "id": "info@4.13a-8.el6",
                 "info": Object {
                   "name": "info",
+                  "purl": "pkg:rpm/info@4.13a-8.el6",
                   "version": "4.13a-8.el6",
                 },
               },
@@ -2047,6 +2110,7 @@ Object {
                 "id": "initscripts@9.03.61-1.el6.centos",
                 "info": Object {
                   "name": "initscripts",
+                  "purl": "pkg:rpm/initscripts@9.03.61-1.el6.centos",
                   "version": "9.03.61-1.el6.centos",
                 },
               },
@@ -2054,6 +2118,7 @@ Object {
                 "id": "iproute@2.6.32-57.el6",
                 "info": Object {
                   "name": "iproute",
+                  "purl": "pkg:rpm/iproute@2.6.32-57.el6",
                   "version": "2.6.32-57.el6",
                 },
               },
@@ -2061,6 +2126,7 @@ Object {
                 "id": "iptables@1.4.7-19.el6",
                 "info": Object {
                   "name": "iptables",
+                  "purl": "pkg:rpm/iptables@1.4.7-19.el6",
                   "version": "1.4.7-19.el6",
                 },
               },
@@ -2068,6 +2134,7 @@ Object {
                 "id": "iputils@20071127-24.el6",
                 "info": Object {
                   "name": "iputils",
+                  "purl": "pkg:rpm/iputils@20071127-24.el6",
                   "version": "20071127-24.el6",
                 },
               },
@@ -2075,6 +2142,7 @@ Object {
                 "id": "kernel-headers@2.6.32-754.35.1.el6",
                 "info": Object {
                   "name": "kernel-headers",
+                  "purl": "pkg:rpm/kernel-headers@2.6.32-754.35.1.el6",
                   "version": "2.6.32-754.35.1.el6",
                 },
               },
@@ -2082,6 +2150,7 @@ Object {
                 "id": "keyutils-libs@1.4-5.el6",
                 "info": Object {
                   "name": "keyutils-libs",
+                  "purl": "pkg:rpm/keyutils-libs@1.4-5.el6",
                   "version": "1.4-5.el6",
                 },
               },
@@ -2089,6 +2158,7 @@ Object {
                 "id": "krb5-libs@1.10.3-65.el6",
                 "info": Object {
                   "name": "krb5-libs",
+                  "purl": "pkg:rpm/krb5-libs@1.10.3-65.el6",
                   "version": "1.10.3-65.el6",
                 },
               },
@@ -2096,6 +2166,7 @@ Object {
                 "id": "less@436-13.el6",
                 "info": Object {
                   "name": "less",
+                  "purl": "pkg:rpm/less@436-13.el6",
                   "version": "436-13.el6",
                 },
               },
@@ -2103,6 +2174,7 @@ Object {
                 "id": "libacl@2.2.49-7.el6_9.1",
                 "info": Object {
                   "name": "libacl",
+                  "purl": "pkg:rpm/libacl@2.2.49-7.el6_9.1",
                   "version": "2.2.49-7.el6_9.1",
                 },
               },
@@ -2110,6 +2182,7 @@ Object {
                 "id": "libattr@2.4.44-7.el6",
                 "info": Object {
                   "name": "libattr",
+                  "purl": "pkg:rpm/libattr@2.4.44-7.el6",
                   "version": "2.4.44-7.el6",
                 },
               },
@@ -2117,6 +2190,7 @@ Object {
                 "id": "libblkid@2.17.2-12.28.el6_9.2",
                 "info": Object {
                   "name": "libblkid",
+                  "purl": "pkg:rpm/libblkid@2.17.2-12.28.el6_9.2",
                   "version": "2.17.2-12.28.el6_9.2",
                 },
               },
@@ -2124,6 +2198,7 @@ Object {
                 "id": "libcap@2.16-5.5.el6",
                 "info": Object {
                   "name": "libcap",
+                  "purl": "pkg:rpm/libcap@2.16-5.5.el6",
                   "version": "2.16-5.5.el6",
                 },
               },
@@ -2131,6 +2206,7 @@ Object {
                 "id": "libcom_err@1.41.12-24.el6",
                 "info": Object {
                   "name": "libcom_err",
+                  "purl": "pkg:rpm/libcom_err@1.41.12-24.el6",
                   "version": "1.41.12-24.el6",
                 },
               },
@@ -2138,6 +2214,7 @@ Object {
                 "id": "libcurl@7.19.7-54.el6_10",
                 "info": Object {
                   "name": "libcurl",
+                  "purl": "pkg:rpm/libcurl@7.19.7-54.el6_10",
                   "version": "7.19.7-54.el6_10",
                 },
               },
@@ -2145,6 +2222,7 @@ Object {
                 "id": "libdrm@2.4.65-2.el6",
                 "info": Object {
                   "name": "libdrm",
+                  "purl": "pkg:rpm/libdrm@2.4.65-2.el6",
                   "version": "2.4.65-2.el6",
                 },
               },
@@ -2152,6 +2230,7 @@ Object {
                 "id": "libffi@3.0.5-3.2.el6",
                 "info": Object {
                   "name": "libffi",
+                  "purl": "pkg:rpm/libffi@3.0.5-3.2.el6",
                   "version": "3.0.5-3.2.el6",
                 },
               },
@@ -2159,6 +2238,7 @@ Object {
                 "id": "libgcc@4.4.7-23.el6",
                 "info": Object {
                   "name": "libgcc",
+                  "purl": "pkg:rpm/libgcc@4.4.7-23.el6",
                   "version": "4.4.7-23.el6",
                 },
               },
@@ -2166,6 +2246,7 @@ Object {
                 "id": "libgcrypt@1.4.5-12.el6_8",
                 "info": Object {
                   "name": "libgcrypt",
+                  "purl": "pkg:rpm/libgcrypt@1.4.5-12.el6_8",
                   "version": "1.4.5-12.el6_8",
                 },
               },
@@ -2173,6 +2254,7 @@ Object {
                 "id": "libgomp@4.4.7-23.el6",
                 "info": Object {
                   "name": "libgomp",
+                  "purl": "pkg:rpm/libgomp@4.4.7-23.el6",
                   "version": "4.4.7-23.el6",
                 },
               },
@@ -2180,6 +2262,7 @@ Object {
                 "id": "libgpg-error@1.7-4.el6",
                 "info": Object {
                   "name": "libgpg-error",
+                  "purl": "pkg:rpm/libgpg-error@1.7-4.el6",
                   "version": "1.7-4.el6",
                 },
               },
@@ -2187,6 +2270,7 @@ Object {
                 "id": "libidn@1.18-2.el6",
                 "info": Object {
                   "name": "libidn",
+                  "purl": "pkg:rpm/libidn@1.18-2.el6",
                   "version": "1.18-2.el6",
                 },
               },
@@ -2194,6 +2278,7 @@ Object {
                 "id": "libnih@1.0.1-8.el6",
                 "info": Object {
                   "name": "libnih",
+                  "purl": "pkg:rpm/libnih@1.0.1-8.el6",
                   "version": "1.0.1-8.el6",
                 },
               },
@@ -2201,6 +2286,7 @@ Object {
                 "id": "libpcap@14:1.4.0-4.20130826git2dbcaa1.el6",
                 "info": Object {
                   "name": "libpcap",
+                  "purl": "pkg:rpm/libpcap@14:1.4.0-4.20130826git2dbcaa1.el6?epoch=14",
                   "version": "14:1.4.0-4.20130826git2dbcaa1.el6",
                 },
               },
@@ -2208,6 +2294,7 @@ Object {
                 "id": "libpciaccess@0.13.4-1.el6",
                 "info": Object {
                   "name": "libpciaccess",
+                  "purl": "pkg:rpm/libpciaccess@0.13.4-1.el6",
                   "version": "0.13.4-1.el6",
                 },
               },
@@ -2215,6 +2302,7 @@ Object {
                 "id": "libselinux@2.0.94-7.el6",
                 "info": Object {
                   "name": "libselinux",
+                  "purl": "pkg:rpm/libselinux@2.0.94-7.el6",
                   "version": "2.0.94-7.el6",
                 },
               },
@@ -2222,6 +2310,7 @@ Object {
                 "id": "libselinux-utils@2.0.94-7.el6",
                 "info": Object {
                   "name": "libselinux-utils",
+                  "purl": "pkg:rpm/libselinux-utils@2.0.94-7.el6",
                   "version": "2.0.94-7.el6",
                 },
               },
@@ -2229,6 +2318,7 @@ Object {
                 "id": "libsemanage@2.0.43-5.1.el6",
                 "info": Object {
                   "name": "libsemanage",
+                  "purl": "pkg:rpm/libsemanage@2.0.43-5.1.el6",
                   "version": "2.0.43-5.1.el6",
                 },
               },
@@ -2236,6 +2326,7 @@ Object {
                 "id": "libsepol@2.0.41-4.el6",
                 "info": Object {
                   "name": "libsepol",
+                  "purl": "pkg:rpm/libsepol@2.0.41-4.el6",
                   "version": "2.0.41-4.el6",
                 },
               },
@@ -2243,6 +2334,7 @@ Object {
                 "id": "libssh2@1.4.2-2.el6_7.1",
                 "info": Object {
                   "name": "libssh2",
+                  "purl": "pkg:rpm/libssh2@1.4.2-2.el6_7.1",
                   "version": "1.4.2-2.el6_7.1",
                 },
               },
@@ -2250,6 +2342,7 @@ Object {
                 "id": "libstdc++@4.4.7-23.el6",
                 "info": Object {
                   "name": "libstdc++",
+                  "purl": "pkg:rpm/libstdc%2B%2B@4.4.7-23.el6",
                   "version": "4.4.7-23.el6",
                 },
               },
@@ -2257,6 +2350,7 @@ Object {
                 "id": "libtasn1@2.3-6.el6_5",
                 "info": Object {
                   "name": "libtasn1",
+                  "purl": "pkg:rpm/libtasn1@2.3-6.el6_5",
                   "version": "2.3-6.el6_5",
                 },
               },
@@ -2264,6 +2358,7 @@ Object {
                 "id": "libusb@0.1.12-23.el6",
                 "info": Object {
                   "name": "libusb",
+                  "purl": "pkg:rpm/libusb@0.1.12-23.el6",
                   "version": "0.1.12-23.el6",
                 },
               },
@@ -2271,6 +2366,7 @@ Object {
                 "id": "libuser@0.56.13-8.el6_7",
                 "info": Object {
                   "name": "libuser",
+                  "purl": "pkg:rpm/libuser@0.56.13-8.el6_7",
                   "version": "0.56.13-8.el6_7",
                 },
               },
@@ -2278,6 +2374,7 @@ Object {
                 "id": "libutempter@1.1.5-4.1.el6",
                 "info": Object {
                   "name": "libutempter",
+                  "purl": "pkg:rpm/libutempter@1.1.5-4.1.el6",
                   "version": "1.1.5-4.1.el6",
                 },
               },
@@ -2285,6 +2382,7 @@ Object {
                 "id": "libuuid@2.17.2-12.28.el6_9.2",
                 "info": Object {
                   "name": "libuuid",
+                  "purl": "pkg:rpm/libuuid@2.17.2-12.28.el6_9.2",
                   "version": "2.17.2-12.28.el6_9.2",
                 },
               },
@@ -2292,6 +2390,7 @@ Object {
                 "id": "libxml2@2.7.6-21.el6_8.1",
                 "info": Object {
                   "name": "libxml2",
+                  "purl": "pkg:rpm/libxml2@2.7.6-21.el6_8.1",
                   "version": "2.7.6-21.el6_8.1",
                 },
               },
@@ -2299,6 +2398,7 @@ Object {
                 "id": "logrotate@3.7.8-28.el6",
                 "info": Object {
                   "name": "logrotate",
+                  "purl": "pkg:rpm/logrotate@3.7.8-28.el6",
                   "version": "3.7.8-28.el6",
                 },
               },
@@ -2306,6 +2406,7 @@ Object {
                 "id": "lsof@4.82-5.el6",
                 "info": Object {
                   "name": "lsof",
+                  "purl": "pkg:rpm/lsof@4.82-5.el6",
                   "version": "4.82-5.el6",
                 },
               },
@@ -2313,6 +2414,7 @@ Object {
                 "id": "lua@5.1.4-4.1.el6",
                 "info": Object {
                   "name": "lua",
+                  "purl": "pkg:rpm/lua@5.1.4-4.1.el6",
                   "version": "5.1.4-4.1.el6",
                 },
               },
@@ -2320,6 +2422,7 @@ Object {
                 "id": "m4@1.4.13-5.el6",
                 "info": Object {
                   "name": "m4",
+                  "purl": "pkg:rpm/m4@1.4.13-5.el6",
                   "version": "1.4.13-5.el6",
                 },
               },
@@ -2327,6 +2430,7 @@ Object {
                 "id": "mailx@12.4-10.el6_10",
                 "info": Object {
                   "name": "mailx",
+                  "purl": "pkg:rpm/mailx@12.4-10.el6_10",
                   "version": "12.4-10.el6_10",
                 },
               },
@@ -2334,6 +2438,7 @@ Object {
                 "id": "make@1:3.81-23.el6",
                 "info": Object {
                   "name": "make",
+                  "purl": "pkg:rpm/make@1:3.81-23.el6?epoch=1",
                   "version": "1:3.81-23.el6",
                 },
               },
@@ -2341,6 +2446,7 @@ Object {
                 "id": "man@1.6f-39.el6",
                 "info": Object {
                   "name": "man",
+                  "purl": "pkg:rpm/man@1.6f-39.el6",
                   "version": "1.6f-39.el6",
                 },
               },
@@ -2348,6 +2454,7 @@ Object {
                 "id": "mingetty@1.08-5.el6",
                 "info": Object {
                   "name": "mingetty",
+                  "purl": "pkg:rpm/mingetty@1.08-5.el6",
                   "version": "1.08-5.el6",
                 },
               },
@@ -2355,6 +2462,7 @@ Object {
                 "id": "module-init-tools@3.9-26.el6",
                 "info": Object {
                   "name": "module-init-tools",
+                  "purl": "pkg:rpm/module-init-tools@3.9-26.el6",
                   "version": "3.9-26.el6",
                 },
               },
@@ -2362,6 +2470,7 @@ Object {
                 "id": "mysql-libs@5.1.73-8.el6_8",
                 "info": Object {
                   "name": "mysql-libs",
+                  "purl": "pkg:rpm/mysql-libs@5.1.73-8.el6_8",
                   "version": "5.1.73-8.el6_8",
                 },
               },
@@ -2369,6 +2478,7 @@ Object {
                 "id": "nc@1.84-24.el6",
                 "info": Object {
                   "name": "nc",
+                  "purl": "pkg:rpm/nc@1.84-24.el6",
                   "version": "1.84-24.el6",
                 },
               },
@@ -2376,6 +2486,7 @@ Object {
                 "id": "ncurses@5.7-4.20090207.el6",
                 "info": Object {
                   "name": "ncurses",
+                  "purl": "pkg:rpm/ncurses@5.7-4.20090207.el6",
                   "version": "5.7-4.20090207.el6",
                 },
               },
@@ -2383,6 +2494,7 @@ Object {
                 "id": "ncurses-base@5.7-4.20090207.el6",
                 "info": Object {
                   "name": "ncurses-base",
+                  "purl": "pkg:rpm/ncurses-base@5.7-4.20090207.el6",
                   "version": "5.7-4.20090207.el6",
                 },
               },
@@ -2390,6 +2502,7 @@ Object {
                 "id": "ncurses-libs@5.7-4.20090207.el6",
                 "info": Object {
                   "name": "ncurses-libs",
+                  "purl": "pkg:rpm/ncurses-libs@5.7-4.20090207.el6",
                   "version": "5.7-4.20090207.el6",
                 },
               },
@@ -2397,6 +2510,7 @@ Object {
                 "id": "net-tools@1.60-114.el6",
                 "info": Object {
                   "name": "net-tools",
+                  "purl": "pkg:rpm/net-tools@1.60-114.el6",
                   "version": "1.60-114.el6",
                 },
               },
@@ -2404,6 +2518,7 @@ Object {
                 "id": "nmap@2:5.51-6.el6",
                 "info": Object {
                   "name": "nmap",
+                  "purl": "pkg:rpm/nmap@2:5.51-6.el6?epoch=2",
                   "version": "2:5.51-6.el6",
                 },
               },
@@ -2411,6 +2526,7 @@ Object {
                 "id": "nspr@4.19.0-1.el6",
                 "info": Object {
                   "name": "nspr",
+                  "purl": "pkg:rpm/nspr@4.19.0-1.el6",
                   "version": "4.19.0-1.el6",
                 },
               },
@@ -2418,6 +2534,7 @@ Object {
                 "id": "nss@3.36.0-8.el6",
                 "info": Object {
                   "name": "nss",
+                  "purl": "pkg:rpm/nss@3.36.0-8.el6",
                   "version": "3.36.0-8.el6",
                 },
               },
@@ -2425,6 +2542,7 @@ Object {
                 "id": "nss-softokn@3.14.3-23.3.el6_8",
                 "info": Object {
                   "name": "nss-softokn",
+                  "purl": "pkg:rpm/nss-softokn@3.14.3-23.3.el6_8",
                   "version": "3.14.3-23.3.el6_8",
                 },
               },
@@ -2432,6 +2550,7 @@ Object {
                 "id": "nss-softokn-freebl@3.14.3-23.3.el6_8",
                 "info": Object {
                   "name": "nss-softokn-freebl",
+                  "purl": "pkg:rpm/nss-softokn-freebl@3.14.3-23.3.el6_8",
                   "version": "3.14.3-23.3.el6_8",
                 },
               },
@@ -2439,6 +2558,7 @@ Object {
                 "id": "nss-sysinit@3.36.0-8.el6",
                 "info": Object {
                   "name": "nss-sysinit",
+                  "purl": "pkg:rpm/nss-sysinit@3.36.0-8.el6",
                   "version": "3.36.0-8.el6",
                 },
               },
@@ -2446,6 +2566,7 @@ Object {
                 "id": "nss-tools@3.36.0-8.el6",
                 "info": Object {
                   "name": "nss-tools",
+                  "purl": "pkg:rpm/nss-tools@3.36.0-8.el6",
                   "version": "3.36.0-8.el6",
                 },
               },
@@ -2453,6 +2574,7 @@ Object {
                 "id": "nss-util@3.36.0-1.el6",
                 "info": Object {
                   "name": "nss-util",
+                  "purl": "pkg:rpm/nss-util@3.36.0-1.el6",
                   "version": "3.36.0-1.el6",
                 },
               },
@@ -2460,6 +2582,7 @@ Object {
                 "id": "openldap@2.4.40-16.el6",
                 "info": Object {
                   "name": "openldap",
+                  "purl": "pkg:rpm/openldap@2.4.40-16.el6",
                   "version": "2.4.40-16.el6",
                 },
               },
@@ -2467,6 +2590,7 @@ Object {
                 "id": "openssl@1.0.1e-58.el6_10",
                 "info": Object {
                   "name": "openssl",
+                  "purl": "pkg:rpm/openssl@1.0.1e-58.el6_10",
                   "version": "1.0.1e-58.el6_10",
                 },
               },
@@ -2474,6 +2598,7 @@ Object {
                 "id": "p11-kit@0.18.5-2.el6_5.2",
                 "info": Object {
                   "name": "p11-kit",
+                  "purl": "pkg:rpm/p11-kit@0.18.5-2.el6_5.2",
                   "version": "0.18.5-2.el6_5.2",
                 },
               },
@@ -2481,6 +2606,7 @@ Object {
                 "id": "p11-kit-trust@0.18.5-2.el6_5.2",
                 "info": Object {
                   "name": "p11-kit-trust",
+                  "purl": "pkg:rpm/p11-kit-trust@0.18.5-2.el6_5.2",
                   "version": "0.18.5-2.el6_5.2",
                 },
               },
@@ -2488,6 +2614,7 @@ Object {
                 "id": "pam@1.1.1-24.el6",
                 "info": Object {
                   "name": "pam",
+                  "purl": "pkg:rpm/pam@1.1.1-24.el6",
                   "version": "1.1.1-24.el6",
                 },
               },
@@ -2495,6 +2622,7 @@ Object {
                 "id": "passwd@0.77-7.el6",
                 "info": Object {
                   "name": "passwd",
+                  "purl": "pkg:rpm/passwd@0.77-7.el6",
                   "version": "0.77-7.el6",
                 },
               },
@@ -2502,6 +2630,7 @@ Object {
                 "id": "patch@2.6-8.el6_9",
                 "info": Object {
                   "name": "patch",
+                  "purl": "pkg:rpm/patch@2.6-8.el6_9",
                   "version": "2.6-8.el6_9",
                 },
               },
@@ -2509,6 +2638,7 @@ Object {
                 "id": "pax@3.4-10.1.el6",
                 "info": Object {
                   "name": "pax",
+                  "purl": "pkg:rpm/pax@3.4-10.1.el6",
                   "version": "3.4-10.1.el6",
                 },
               },
@@ -2516,6 +2646,7 @@ Object {
                 "id": "pcre@7.8-7.el6",
                 "info": Object {
                   "name": "pcre",
+                  "purl": "pkg:rpm/pcre@7.8-7.el6",
                   "version": "7.8-7.el6",
                 },
               },
@@ -2523,6 +2654,7 @@ Object {
                 "id": "perl@4:5.10.1-144.el6",
                 "info": Object {
                   "name": "perl",
+                  "purl": "pkg:rpm/perl@4:5.10.1-144.el6?epoch=4",
                   "version": "4:5.10.1-144.el6",
                 },
               },
@@ -2530,6 +2662,7 @@ Object {
                 "id": "perl-CGI@3.51-144.el6",
                 "info": Object {
                   "name": "perl-CGI",
+                  "purl": "pkg:rpm/perl-CGI@3.51-144.el6",
                   "version": "3.51-144.el6",
                 },
               },
@@ -2537,6 +2670,7 @@ Object {
                 "id": "perl-ExtUtils-MakeMaker@6.55-144.el6",
                 "info": Object {
                   "name": "perl-ExtUtils-MakeMaker",
+                  "purl": "pkg:rpm/perl-ExtUtils-MakeMaker@6.55-144.el6",
                   "version": "6.55-144.el6",
                 },
               },
@@ -2544,6 +2678,7 @@ Object {
                 "id": "perl-ExtUtils-ParseXS@1:2.2003.0-144.el6",
                 "info": Object {
                   "name": "perl-ExtUtils-ParseXS",
+                  "purl": "pkg:rpm/perl-ExtUtils-ParseXS@1:2.2003.0-144.el6?epoch=1",
                   "version": "1:2.2003.0-144.el6",
                 },
               },
@@ -2551,6 +2686,7 @@ Object {
                 "id": "perl-Module-Pluggable@1:3.90-144.el6",
                 "info": Object {
                   "name": "perl-Module-Pluggable",
+                  "purl": "pkg:rpm/perl-Module-Pluggable@1:3.90-144.el6?epoch=1",
                   "version": "1:3.90-144.el6",
                 },
               },
@@ -2558,6 +2694,7 @@ Object {
                 "id": "perl-Pod-Escapes@1:1.04-144.el6",
                 "info": Object {
                   "name": "perl-Pod-Escapes",
+                  "purl": "pkg:rpm/perl-Pod-Escapes@1:1.04-144.el6?epoch=1",
                   "version": "1:1.04-144.el6",
                 },
               },
@@ -2565,6 +2702,7 @@ Object {
                 "id": "perl-Pod-Simple@1:3.13-144.el6",
                 "info": Object {
                   "name": "perl-Pod-Simple",
+                  "purl": "pkg:rpm/perl-Pod-Simple@1:3.13-144.el6?epoch=1",
                   "version": "1:3.13-144.el6",
                 },
               },
@@ -2572,6 +2710,7 @@ Object {
                 "id": "perl-Test-Harness@3.17-144.el6",
                 "info": Object {
                   "name": "perl-Test-Harness",
+                  "purl": "pkg:rpm/perl-Test-Harness@3.17-144.el6",
                   "version": "3.17-144.el6",
                 },
               },
@@ -2579,6 +2718,7 @@ Object {
                 "id": "perl-Test-Simple@0.92-144.el6",
                 "info": Object {
                   "name": "perl-Test-Simple",
+                  "purl": "pkg:rpm/perl-Test-Simple@0.92-144.el6",
                   "version": "0.92-144.el6",
                 },
               },
@@ -2586,6 +2726,7 @@ Object {
                 "id": "perl-devel@4:5.10.1-144.el6",
                 "info": Object {
                   "name": "perl-devel",
+                  "purl": "pkg:rpm/perl-devel@4:5.10.1-144.el6?epoch=4",
                   "version": "4:5.10.1-144.el6",
                 },
               },
@@ -2593,6 +2734,7 @@ Object {
                 "id": "perl-libs@4:5.10.1-144.el6",
                 "info": Object {
                   "name": "perl-libs",
+                  "purl": "pkg:rpm/perl-libs@4:5.10.1-144.el6?epoch=4",
                   "version": "4:5.10.1-144.el6",
                 },
               },
@@ -2600,6 +2742,7 @@ Object {
                 "id": "perl-version@3:0.77-144.el6",
                 "info": Object {
                   "name": "perl-version",
+                  "purl": "pkg:rpm/perl-version@3:0.77-144.el6?epoch=3",
                   "version": "3:0.77-144.el6",
                 },
               },
@@ -2607,6 +2750,7 @@ Object {
                 "id": "pinentry@0.7.6-8.el6",
                 "info": Object {
                   "name": "pinentry",
+                  "purl": "pkg:rpm/pinentry@0.7.6-8.el6",
                   "version": "0.7.6-8.el6",
                 },
               },
@@ -2614,6 +2758,7 @@ Object {
                 "id": "pkgconfig@1:0.23-9.1.el6",
                 "info": Object {
                   "name": "pkgconfig",
+                  "purl": "pkg:rpm/pkgconfig@1:0.23-9.1.el6?epoch=1",
                   "version": "1:0.23-9.1.el6",
                 },
               },
@@ -2621,6 +2766,7 @@ Object {
                 "id": "plymouth@0.8.3-29.el6.centos",
                 "info": Object {
                   "name": "plymouth",
+                  "purl": "pkg:rpm/plymouth@0.8.3-29.el6.centos",
                   "version": "0.8.3-29.el6.centos",
                 },
               },
@@ -2628,6 +2774,7 @@ Object {
                 "id": "plymouth-core-libs@0.8.3-29.el6.centos",
                 "info": Object {
                   "name": "plymouth-core-libs",
+                  "purl": "pkg:rpm/plymouth-core-libs@0.8.3-29.el6.centos",
                   "version": "0.8.3-29.el6.centos",
                 },
               },
@@ -2635,6 +2782,7 @@ Object {
                 "id": "plymouth-scripts@0.8.3-29.el6.centos",
                 "info": Object {
                   "name": "plymouth-scripts",
+                  "purl": "pkg:rpm/plymouth-scripts@0.8.3-29.el6.centos",
                   "version": "0.8.3-29.el6.centos",
                 },
               },
@@ -2642,6 +2790,7 @@ Object {
                 "id": "policycoreutils@2.0.83-30.1.el6_8",
                 "info": Object {
                   "name": "policycoreutils",
+                  "purl": "pkg:rpm/policycoreutils@2.0.83-30.1.el6_8",
                   "version": "2.0.83-30.1.el6_8",
                 },
               },
@@ -2649,6 +2798,7 @@ Object {
                 "id": "popt@1.13-7.el6",
                 "info": Object {
                   "name": "popt",
+                  "purl": "pkg:rpm/popt@1.13-7.el6",
                   "version": "1.13-7.el6",
                 },
               },
@@ -2656,6 +2806,7 @@ Object {
                 "id": "postfix@2:2.6.6-8.el6",
                 "info": Object {
                   "name": "postfix",
+                  "purl": "pkg:rpm/postfix@2:2.6.6-8.el6?epoch=2",
                   "version": "2:2.6.6-8.el6",
                 },
               },
@@ -2663,6 +2814,7 @@ Object {
                 "id": "procps@3.2.8-45.el6_9.3",
                 "info": Object {
                   "name": "procps",
+                  "purl": "pkg:rpm/procps@3.2.8-45.el6_9.3",
                   "version": "3.2.8-45.el6_9.3",
                 },
               },
@@ -2670,6 +2822,7 @@ Object {
                 "id": "psmisc@22.6-24.el6",
                 "info": Object {
                   "name": "psmisc",
+                  "purl": "pkg:rpm/psmisc@22.6-24.el6",
                   "version": "22.6-24.el6",
                 },
               },
@@ -2677,6 +2830,7 @@ Object {
                 "id": "pth@2.0.7-9.3.el6",
                 "info": Object {
                   "name": "pth",
+                  "purl": "pkg:rpm/pth@2.0.7-9.3.el6",
                   "version": "2.0.7-9.3.el6",
                 },
               },
@@ -2684,6 +2838,7 @@ Object {
                 "id": "pygpgme@0.1-18.20090824bzr68.el6",
                 "info": Object {
                   "name": "pygpgme",
+                  "purl": "pkg:rpm/pygpgme@0.1-18.20090824bzr68.el6",
                   "version": "0.1-18.20090824bzr68.el6",
                 },
               },
@@ -2691,6 +2846,7 @@ Object {
                 "id": "python@2.6.6-66.el6_8",
                 "info": Object {
                   "name": "python",
+                  "purl": "pkg:rpm/python@2.6.6-66.el6_8",
                   "version": "2.6.6-66.el6_8",
                 },
               },
@@ -2698,6 +2854,7 @@ Object {
                 "id": "python-iniparse@0.3.1-2.1.el6",
                 "info": Object {
                   "name": "python-iniparse",
+                  "purl": "pkg:rpm/python-iniparse@0.3.1-2.1.el6",
                   "version": "0.3.1-2.1.el6",
                 },
               },
@@ -2705,6 +2862,7 @@ Object {
                 "id": "python-libs@2.6.6-66.el6_8",
                 "info": Object {
                   "name": "python-libs",
+                  "purl": "pkg:rpm/python-libs@2.6.6-66.el6_8",
                   "version": "2.6.6-66.el6_8",
                 },
               },
@@ -2712,6 +2870,7 @@ Object {
                 "id": "python-pycurl@7.19.0-9.el6",
                 "info": Object {
                   "name": "python-pycurl",
+                  "purl": "pkg:rpm/python-pycurl@7.19.0-9.el6",
                   "version": "7.19.0-9.el6",
                 },
               },
@@ -2719,6 +2878,7 @@ Object {
                 "id": "python-urlgrabber@3.9.1-11.el6",
                 "info": Object {
                   "name": "python-urlgrabber",
+                  "purl": "pkg:rpm/python-urlgrabber@3.9.1-11.el6",
                   "version": "3.9.1-11.el6",
                 },
               },
@@ -2726,6 +2886,7 @@ Object {
                 "id": "readline@6.0-4.el6",
                 "info": Object {
                   "name": "readline",
+                  "purl": "pkg:rpm/readline@6.0-4.el6",
                   "version": "6.0-4.el6",
                 },
               },
@@ -2733,6 +2894,7 @@ Object {
                 "id": "redhat-logos@60.0.14-12.el6.centos",
                 "info": Object {
                   "name": "redhat-logos",
+                  "purl": "pkg:rpm/redhat-logos@60.0.14-12.el6.centos",
                   "version": "60.0.14-12.el6.centos",
                 },
               },
@@ -2740,6 +2902,7 @@ Object {
                 "id": "redhat-lsb-core@4.0-7.el6.centos",
                 "info": Object {
                   "name": "redhat-lsb-core",
+                  "purl": "pkg:rpm/redhat-lsb-core@4.0-7.el6.centos",
                   "version": "4.0-7.el6.centos",
                 },
               },
@@ -2747,6 +2910,7 @@ Object {
                 "id": "rootfiles@8.1-6.1.el6",
                 "info": Object {
                   "name": "rootfiles",
+                  "purl": "pkg:rpm/rootfiles@8.1-6.1.el6",
                   "version": "8.1-6.1.el6",
                 },
               },
@@ -2754,6 +2918,7 @@ Object {
                 "id": "rpm@4.8.0-59.el6",
                 "info": Object {
                   "name": "rpm",
+                  "purl": "pkg:rpm/rpm@4.8.0-59.el6",
                   "version": "4.8.0-59.el6",
                 },
               },
@@ -2761,6 +2926,7 @@ Object {
                 "id": "rpm-libs@4.8.0-59.el6",
                 "info": Object {
                   "name": "rpm-libs",
+                  "purl": "pkg:rpm/rpm-libs@4.8.0-59.el6",
                   "version": "4.8.0-59.el6",
                 },
               },
@@ -2768,6 +2934,7 @@ Object {
                 "id": "rpm-python@4.8.0-59.el6",
                 "info": Object {
                   "name": "rpm-python",
+                  "purl": "pkg:rpm/rpm-python@4.8.0-59.el6",
                   "version": "4.8.0-59.el6",
                 },
               },
@@ -2775,6 +2942,7 @@ Object {
                 "id": "rsyslog@5.8.10-12.el6",
                 "info": Object {
                   "name": "rsyslog",
+                  "purl": "pkg:rpm/rsyslog@5.8.10-12.el6",
                   "version": "5.8.10-12.el6",
                 },
               },
@@ -2782,6 +2950,7 @@ Object {
                 "id": "sed@4.2.1-10.el6",
                 "info": Object {
                   "name": "sed",
+                  "purl": "pkg:rpm/sed@4.2.1-10.el6",
                   "version": "4.2.1-10.el6",
                 },
               },
@@ -2789,6 +2958,7 @@ Object {
                 "id": "setup@2.8.14-23.el6",
                 "info": Object {
                   "name": "setup",
+                  "purl": "pkg:rpm/setup@2.8.14-23.el6",
                   "version": "2.8.14-23.el6",
                 },
               },
@@ -2796,6 +2966,7 @@ Object {
                 "id": "shadow-utils@2:4.1.5.1-5.el6",
                 "info": Object {
                   "name": "shadow-utils",
+                  "purl": "pkg:rpm/shadow-utils@2:4.1.5.1-5.el6?epoch=2",
                   "version": "2:4.1.5.1-5.el6",
                 },
               },
@@ -2803,6 +2974,7 @@ Object {
                 "id": "shared-mime-info@0.70-6.el6",
                 "info": Object {
                   "name": "shared-mime-info",
+                  "purl": "pkg:rpm/shared-mime-info@0.70-6.el6",
                   "version": "0.70-6.el6",
                 },
               },
@@ -2810,6 +2982,7 @@ Object {
                 "id": "sqlite@3.6.20-1.el6_7.2",
                 "info": Object {
                   "name": "sqlite",
+                  "purl": "pkg:rpm/sqlite@3.6.20-1.el6_7.2",
                   "version": "3.6.20-1.el6_7.2",
                 },
               },
@@ -2817,6 +2990,7 @@ Object {
                 "id": "strace@4.8-11.el6",
                 "info": Object {
                   "name": "strace",
+                  "purl": "pkg:rpm/strace@4.8-11.el6",
                   "version": "4.8-11.el6",
                 },
               },
@@ -2824,6 +2998,7 @@ Object {
                 "id": "sudo@1.8.6p3-29.el6_10.3",
                 "info": Object {
                   "name": "sudo",
+                  "purl": "pkg:rpm/sudo@1.8.6p3-29.el6_10.3",
                   "version": "1.8.6p3-29.el6_10.3",
                 },
               },
@@ -2831,6 +3006,7 @@ Object {
                 "id": "sysvinit-tools@2.87-6.dsf.el6",
                 "info": Object {
                   "name": "sysvinit-tools",
+                  "purl": "pkg:rpm/sysvinit-tools@2.87-6.dsf.el6",
                   "version": "2.87-6.dsf.el6",
                 },
               },
@@ -2838,6 +3014,7 @@ Object {
                 "id": "tar@2:1.23-15.el6_8",
                 "info": Object {
                   "name": "tar",
+                  "purl": "pkg:rpm/tar@2:1.23-15.el6_8?epoch=2",
                   "version": "2:1.23-15.el6_8",
                 },
               },
@@ -2845,6 +3022,7 @@ Object {
                 "id": "tcpdump@14:4.0.0-11.20090921gitdf3cb4.2.el6",
                 "info": Object {
                   "name": "tcpdump",
+                  "purl": "pkg:rpm/tcpdump@14:4.0.0-11.20090921gitdf3cb4.2.el6?epoch=14",
                   "version": "14:4.0.0-11.20090921gitdf3cb4.2.el6",
                 },
               },
@@ -2852,6 +3030,7 @@ Object {
                 "id": "telnet@1:0.17-49.el6_10",
                 "info": Object {
                   "name": "telnet",
+                  "purl": "pkg:rpm/telnet@1:0.17-49.el6_10?epoch=1",
                   "version": "1:0.17-49.el6_10",
                 },
               },
@@ -2859,6 +3038,7 @@ Object {
                 "id": "time@1.7-38.el6",
                 "info": Object {
                   "name": "time",
+                  "purl": "pkg:rpm/time@1.7-38.el6",
                   "version": "1.7-38.el6",
                 },
               },
@@ -2866,6 +3046,7 @@ Object {
                 "id": "tzdata@2018e-3.el6",
                 "info": Object {
                   "name": "tzdata",
+                  "purl": "pkg:rpm/tzdata@2018e-3.el6",
                   "version": "2018e-3.el6",
                 },
               },
@@ -2873,6 +3054,7 @@ Object {
                 "id": "udev@147-2.74.el6_10",
                 "info": Object {
                   "name": "udev",
+                  "purl": "pkg:rpm/udev@147-2.74.el6_10",
                   "version": "147-2.74.el6_10",
                 },
               },
@@ -2880,6 +3062,7 @@ Object {
                 "id": "upstart@0.6.5-17.el6",
                 "info": Object {
                   "name": "upstart",
+                  "purl": "pkg:rpm/upstart@0.6.5-17.el6",
                   "version": "0.6.5-17.el6",
                 },
               },
@@ -2887,6 +3070,7 @@ Object {
                 "id": "ustr@1.0.4-9.1.el6",
                 "info": Object {
                   "name": "ustr",
+                  "purl": "pkg:rpm/ustr@1.0.4-9.1.el6",
                   "version": "1.0.4-9.1.el6",
                 },
               },
@@ -2894,6 +3078,7 @@ Object {
                 "id": "util-linux-ng@2.17.2-12.28.el6_9.2",
                 "info": Object {
                   "name": "util-linux-ng",
+                  "purl": "pkg:rpm/util-linux-ng@2.17.2-12.28.el6_9.2",
                   "version": "2.17.2-12.28.el6_9.2",
                 },
               },
@@ -2901,6 +3086,7 @@ Object {
                 "id": "vim-minimal@2:7.4.629-5.el6_10.2",
                 "info": Object {
                   "name": "vim-minimal",
+                  "purl": "pkg:rpm/vim-minimal@2:7.4.629-5.el6_10.2?epoch=2",
                   "version": "2:7.4.629-5.el6_10.2",
                 },
               },
@@ -2908,6 +3094,7 @@ Object {
                 "id": "wget@1.12-10.el6",
                 "info": Object {
                   "name": "wget",
+                  "purl": "pkg:rpm/wget@1.12-10.el6",
                   "version": "1.12-10.el6",
                 },
               },
@@ -2915,6 +3102,7 @@ Object {
                 "id": "which@2.19-6.el6",
                 "info": Object {
                   "name": "which",
+                  "purl": "pkg:rpm/which@2.19-6.el6",
                   "version": "2.19-6.el6",
                 },
               },
@@ -2922,6 +3110,7 @@ Object {
                 "id": "xz@4.999.9-0.5.beta.20091007git.el6",
                 "info": Object {
                   "name": "xz",
+                  "purl": "pkg:rpm/xz@4.999.9-0.5.beta.20091007git.el6",
                   "version": "4.999.9-0.5.beta.20091007git.el6",
                 },
               },
@@ -2929,6 +3118,7 @@ Object {
                 "id": "xz-libs@4.999.9-0.5.beta.20091007git.el6",
                 "info": Object {
                   "name": "xz-libs",
+                  "purl": "pkg:rpm/xz-libs@4.999.9-0.5.beta.20091007git.el6",
                   "version": "4.999.9-0.5.beta.20091007git.el6",
                 },
               },
@@ -2936,6 +3126,7 @@ Object {
                 "id": "xz-lzma-compat@4.999.9-0.5.beta.20091007git.el6",
                 "info": Object {
                   "name": "xz-lzma-compat",
+                  "purl": "pkg:rpm/xz-lzma-compat@4.999.9-0.5.beta.20091007git.el6",
                   "version": "4.999.9-0.5.beta.20091007git.el6",
                 },
               },
@@ -2943,6 +3134,7 @@ Object {
                 "id": "yum@3.2.29-81.el6.centos",
                 "info": Object {
                   "name": "yum",
+                  "purl": "pkg:rpm/yum@3.2.29-81.el6.centos",
                   "version": "3.2.29-81.el6.centos",
                 },
               },
@@ -2950,6 +3142,7 @@ Object {
                 "id": "yum-metadata-parser@1.1.2-16.el6",
                 "info": Object {
                   "name": "yum-metadata-parser",
+                  "purl": "pkg:rpm/yum-metadata-parser@1.1.2-16.el6",
                   "version": "1.1.2-16.el6",
                 },
               },
@@ -2957,6 +3150,7 @@ Object {
                 "id": "yum-plugin-fastestmirror@1.1.30-42.el6_10",
                 "info": Object {
                   "name": "yum-plugin-fastestmirror",
+                  "purl": "pkg:rpm/yum-plugin-fastestmirror@1.1.30-42.el6_10",
                   "version": "1.1.30-42.el6_10",
                 },
               },
@@ -2964,6 +3158,7 @@ Object {
                 "id": "yum-plugin-ovl@1.1.30-42.el6_10",
                 "info": Object {
                   "name": "yum-plugin-ovl",
+                  "purl": "pkg:rpm/yum-plugin-ovl@1.1.30-42.el6_10",
                   "version": "1.1.30-42.el6_10",
                 },
               },
@@ -2971,6 +3166,7 @@ Object {
                 "id": "zlib@1.2.3-29.el6",
                 "info": Object {
                   "name": "zlib",
+                  "purl": "pkg:rpm/zlib@1.2.3-29.el6",
                   "version": "1.2.3-29.el6",
                 },
               },
@@ -4650,6 +4846,7 @@ Object {
                 "id": "MAKEDEV@3.24-6.el6",
                 "info": Object {
                   "name": "MAKEDEV",
+                  "purl": "pkg:rpm/MAKEDEV@3.24-6.el6",
                   "version": "3.24-6.el6",
                 },
               },
@@ -4657,6 +4854,7 @@ Object {
                 "id": "at@3.1.10-49.el6",
                 "info": Object {
                   "name": "at",
+                  "purl": "pkg:rpm/at@3.1.10-49.el6",
                   "version": "3.1.10-49.el6",
                 },
               },
@@ -4664,6 +4862,7 @@ Object {
                 "id": "audit-libs@2.4.5-6.el6",
                 "info": Object {
                   "name": "audit-libs",
+                  "purl": "pkg:rpm/audit-libs@2.4.5-6.el6",
                   "version": "2.4.5-6.el6",
                 },
               },
@@ -4671,6 +4870,7 @@ Object {
                 "id": "basesystem@10.0-4.el6",
                 "info": Object {
                   "name": "basesystem",
+                  "purl": "pkg:rpm/basesystem@10.0-4.el6",
                   "version": "10.0-4.el6",
                 },
               },
@@ -4678,6 +4878,7 @@ Object {
                 "id": "bash@4.1.2-48.el6",
                 "info": Object {
                   "name": "bash",
+                  "purl": "pkg:rpm/bash@4.1.2-48.el6",
                   "version": "4.1.2-48.el6",
                 },
               },
@@ -4685,6 +4886,7 @@ Object {
                 "id": "bc@1.06.95-1.el6",
                 "info": Object {
                   "name": "bc",
+                  "purl": "pkg:rpm/bc@1.06.95-1.el6",
                   "version": "1.06.95-1.el6",
                 },
               },
@@ -4692,6 +4894,7 @@ Object {
                 "id": "bind-libs@32:9.8.2-0.68.rc1.el6_10.1",
                 "info": Object {
                   "name": "bind-libs",
+                  "purl": "pkg:rpm/bind-libs@32:9.8.2-0.68.rc1.el6_10.1?epoch=32",
                   "version": "32:9.8.2-0.68.rc1.el6_10.1",
                 },
               },
@@ -4699,6 +4902,7 @@ Object {
                 "id": "bind-utils@32:9.8.2-0.68.rc1.el6_10.1",
                 "info": Object {
                   "name": "bind-utils",
+                  "purl": "pkg:rpm/bind-utils@32:9.8.2-0.68.rc1.el6_10.1?epoch=32",
                   "version": "32:9.8.2-0.68.rc1.el6_10.1",
                 },
               },
@@ -4706,6 +4910,7 @@ Object {
                 "id": "binutils@2.20.51.0.2-5.48.el6",
                 "info": Object {
                   "name": "binutils",
+                  "purl": "pkg:rpm/binutils@2.20.51.0.2-5.48.el6",
                   "version": "2.20.51.0.2-5.48.el6",
                 },
               },
@@ -4713,6 +4918,7 @@ Object {
                 "id": "bzip2@1.0.5-7.el6_0",
                 "info": Object {
                   "name": "bzip2",
+                  "purl": "pkg:rpm/bzip2@1.0.5-7.el6_0",
                   "version": "1.0.5-7.el6_0",
                 },
               },
@@ -4720,6 +4926,7 @@ Object {
                 "id": "bzip2-libs@1.0.5-7.el6_0",
                 "info": Object {
                   "name": "bzip2-libs",
+                  "purl": "pkg:rpm/bzip2-libs@1.0.5-7.el6_0",
                   "version": "1.0.5-7.el6_0",
                 },
               },
@@ -4727,6 +4934,7 @@ Object {
                 "id": "ca-certificates@2020.2.41-65.1.el6_10",
                 "info": Object {
                   "name": "ca-certificates",
+                  "purl": "pkg:rpm/ca-certificates@2020.2.41-65.1.el6_10",
                   "version": "2020.2.41-65.1.el6_10",
                 },
               },
@@ -4734,6 +4942,7 @@ Object {
                 "id": "centos-release@6-10.el6.centos.12.3",
                 "info": Object {
                   "name": "centos-release",
+                  "purl": "pkg:rpm/centos-release@6-10.el6.centos.12.3",
                   "version": "6-10.el6.centos.12.3",
                 },
               },
@@ -4741,6 +4950,7 @@ Object {
                 "id": "checkpolicy@2.0.22-1.el6",
                 "info": Object {
                   "name": "checkpolicy",
+                  "purl": "pkg:rpm/checkpolicy@2.0.22-1.el6",
                   "version": "2.0.22-1.el6",
                 },
               },
@@ -4748,6 +4958,7 @@ Object {
                 "id": "chkconfig@1.3.49.5-1.el6",
                 "info": Object {
                   "name": "chkconfig",
+                  "purl": "pkg:rpm/chkconfig@1.3.49.5-1.el6",
                   "version": "1.3.49.5-1.el6",
                 },
               },
@@ -4755,6 +4966,7 @@ Object {
                 "id": "coreutils@8.4-47.el6",
                 "info": Object {
                   "name": "coreutils",
+                  "purl": "pkg:rpm/coreutils@8.4-47.el6",
                   "version": "8.4-47.el6",
                 },
               },
@@ -4762,6 +4974,7 @@ Object {
                 "id": "coreutils-libs@8.4-47.el6",
                 "info": Object {
                   "name": "coreutils-libs",
+                  "purl": "pkg:rpm/coreutils-libs@8.4-47.el6",
                   "version": "8.4-47.el6",
                 },
               },
@@ -4769,6 +4982,7 @@ Object {
                 "id": "cpio@2.10-13.el6",
                 "info": Object {
                   "name": "cpio",
+                  "purl": "pkg:rpm/cpio@2.10-13.el6",
                   "version": "2.10-13.el6",
                 },
               },
@@ -4776,6 +4990,7 @@ Object {
                 "id": "cracklib@2.8.16-4.el6",
                 "info": Object {
                   "name": "cracklib",
+                  "purl": "pkg:rpm/cracklib@2.8.16-4.el6",
                   "version": "2.8.16-4.el6",
                 },
               },
@@ -4783,6 +4998,7 @@ Object {
                 "id": "cracklib-dicts@2.8.16-4.el6",
                 "info": Object {
                   "name": "cracklib-dicts",
+                  "purl": "pkg:rpm/cracklib-dicts@2.8.16-4.el6",
                   "version": "2.8.16-4.el6",
                 },
               },
@@ -4790,6 +5006,7 @@ Object {
                 "id": "cronie@1.4.4-16.el6_8.2",
                 "info": Object {
                   "name": "cronie",
+                  "purl": "pkg:rpm/cronie@1.4.4-16.el6_8.2",
                   "version": "1.4.4-16.el6_8.2",
                 },
               },
@@ -4797,6 +5014,7 @@ Object {
                 "id": "cronie-anacron@1.4.4-16.el6_8.2",
                 "info": Object {
                   "name": "cronie-anacron",
+                  "purl": "pkg:rpm/cronie-anacron@1.4.4-16.el6_8.2",
                   "version": "1.4.4-16.el6_8.2",
                 },
               },
@@ -4804,6 +5022,7 @@ Object {
                 "id": "crontabs@1.10-33.el6",
                 "info": Object {
                   "name": "crontabs",
+                  "purl": "pkg:rpm/crontabs@1.10-33.el6",
                   "version": "1.10-33.el6",
                 },
               },
@@ -4811,6 +5030,7 @@ Object {
                 "id": "curl@7.19.7-54.el6_10",
                 "info": Object {
                   "name": "curl",
+                  "purl": "pkg:rpm/curl@7.19.7-54.el6_10",
                   "version": "7.19.7-54.el6_10",
                 },
               },
@@ -4818,6 +5038,7 @@ Object {
                 "id": "cvs@1.11.23-16.el6",
                 "info": Object {
                   "name": "cvs",
+                  "purl": "pkg:rpm/cvs@1.11.23-16.el6",
                   "version": "1.11.23-16.el6",
                 },
               },
@@ -4825,6 +5046,7 @@ Object {
                 "id": "cyrus-sasl@2.1.23-15.el6_6.2",
                 "info": Object {
                   "name": "cyrus-sasl",
+                  "purl": "pkg:rpm/cyrus-sasl@2.1.23-15.el6_6.2",
                   "version": "2.1.23-15.el6_6.2",
                 },
               },
@@ -4832,6 +5054,7 @@ Object {
                 "id": "cyrus-sasl-lib@2.1.23-15.el6_6.2",
                 "info": Object {
                   "name": "cyrus-sasl-lib",
+                  "purl": "pkg:rpm/cyrus-sasl-lib@2.1.23-15.el6_6.2",
                   "version": "2.1.23-15.el6_6.2",
                 },
               },
@@ -4839,6 +5062,7 @@ Object {
                 "id": "dash@0.5.5.1-4.el6",
                 "info": Object {
                   "name": "dash",
+                  "purl": "pkg:rpm/dash@0.5.5.1-4.el6",
                   "version": "0.5.5.1-4.el6",
                 },
               },
@@ -4846,6 +5070,7 @@ Object {
                 "id": "db4@4.7.25-22.el6",
                 "info": Object {
                   "name": "db4",
+                  "purl": "pkg:rpm/db4@4.7.25-22.el6",
                   "version": "4.7.25-22.el6",
                 },
               },
@@ -4853,6 +5078,7 @@ Object {
                 "id": "db4-cxx@4.7.25-22.el6",
                 "info": Object {
                   "name": "db4-cxx",
+                  "purl": "pkg:rpm/db4-cxx@4.7.25-22.el6",
                   "version": "4.7.25-22.el6",
                 },
               },
@@ -4860,6 +5086,7 @@ Object {
                 "id": "db4-devel@4.7.25-22.el6",
                 "info": Object {
                   "name": "db4-devel",
+                  "purl": "pkg:rpm/db4-devel@4.7.25-22.el6",
                   "version": "4.7.25-22.el6",
                 },
               },
@@ -4867,6 +5094,7 @@ Object {
                 "id": "db4-utils@4.7.25-22.el6",
                 "info": Object {
                   "name": "db4-utils",
+                  "purl": "pkg:rpm/db4-utils@4.7.25-22.el6",
                   "version": "4.7.25-22.el6",
                 },
               },
@@ -4874,6 +5102,7 @@ Object {
                 "id": "dbus-glib@0.86-6.el6",
                 "info": Object {
                   "name": "dbus-glib",
+                  "purl": "pkg:rpm/dbus-glib@0.86-6.el6",
                   "version": "0.86-6.el6",
                 },
               },
@@ -4881,6 +5110,7 @@ Object {
                 "id": "dbus-libs@1:1.2.24-9.el6",
                 "info": Object {
                   "name": "dbus-libs",
+                  "purl": "pkg:rpm/dbus-libs@1:1.2.24-9.el6?epoch=1",
                   "version": "1:1.2.24-9.el6",
                 },
               },
@@ -4888,6 +5118,7 @@ Object {
                 "id": "diffutils@2.8.1-28.el6",
                 "info": Object {
                   "name": "diffutils",
+                  "purl": "pkg:rpm/diffutils@2.8.1-28.el6",
                   "version": "2.8.1-28.el6",
                 },
               },
@@ -4895,6 +5126,7 @@ Object {
                 "id": "dmidecode@1:2.12-7.el6",
                 "info": Object {
                   "name": "dmidecode",
+                  "purl": "pkg:rpm/dmidecode@1:2.12-7.el6?epoch=1",
                   "version": "1:2.12-7.el6",
                 },
               },
@@ -4902,6 +5134,7 @@ Object {
                 "id": "ed@1.1-3.3.el6",
                 "info": Object {
                   "name": "ed",
+                  "purl": "pkg:rpm/ed@1.1-3.3.el6",
                   "version": "1.1-3.3.el6",
                 },
               },
@@ -4909,6 +5142,7 @@ Object {
                 "id": "elfutils-libelf@0.164-2.el6",
                 "info": Object {
                   "name": "elfutils-libelf",
+                  "purl": "pkg:rpm/elfutils-libelf@0.164-2.el6",
                   "version": "0.164-2.el6",
                 },
               },
@@ -4916,6 +5150,7 @@ Object {
                 "id": "ethtool@2:3.5-6.el6",
                 "info": Object {
                   "name": "ethtool",
+                  "purl": "pkg:rpm/ethtool@2:3.5-6.el6?epoch=2",
                   "version": "2:3.5-6.el6",
                 },
               },
@@ -4923,6 +5158,7 @@ Object {
                 "id": "expat@2.0.1-13.el6_8",
                 "info": Object {
                   "name": "expat",
+                  "purl": "pkg:rpm/expat@2.0.1-13.el6_8",
                   "version": "2.0.1-13.el6_8",
                 },
               },
@@ -4930,6 +5166,7 @@ Object {
                 "id": "file@5.04-30.el6",
                 "info": Object {
                   "name": "file",
+                  "purl": "pkg:rpm/file@5.04-30.el6",
                   "version": "5.04-30.el6",
                 },
               },
@@ -4937,6 +5174,7 @@ Object {
                 "id": "file-libs@5.04-30.el6",
                 "info": Object {
                   "name": "file-libs",
+                  "purl": "pkg:rpm/file-libs@5.04-30.el6",
                   "version": "5.04-30.el6",
                 },
               },
@@ -4944,6 +5182,7 @@ Object {
                 "id": "filesystem@2.4.30-3.el6",
                 "info": Object {
                   "name": "filesystem",
+                  "purl": "pkg:rpm/filesystem@2.4.30-3.el6",
                   "version": "2.4.30-3.el6",
                 },
               },
@@ -4951,6 +5190,7 @@ Object {
                 "id": "findutils@1:4.4.2-9.el6",
                 "info": Object {
                   "name": "findutils",
+                  "purl": "pkg:rpm/findutils@1:4.4.2-9.el6?epoch=1",
                   "version": "1:4.4.2-9.el6",
                 },
               },
@@ -4958,6 +5198,7 @@ Object {
                 "id": "gamin@0.1.10-9.el6",
                 "info": Object {
                   "name": "gamin",
+                  "purl": "pkg:rpm/gamin@0.1.10-9.el6",
                   "version": "0.1.10-9.el6",
                 },
               },
@@ -4965,6 +5206,7 @@ Object {
                 "id": "gawk@3.1.7-10.el6_7.3",
                 "info": Object {
                   "name": "gawk",
+                  "purl": "pkg:rpm/gawk@3.1.7-10.el6_7.3",
                   "version": "3.1.7-10.el6_7.3",
                 },
               },
@@ -4972,6 +5214,7 @@ Object {
                 "id": "gdbm@1.8.0-39.el6",
                 "info": Object {
                   "name": "gdbm",
+                  "purl": "pkg:rpm/gdbm@1.8.0-39.el6",
                   "version": "1.8.0-39.el6",
                 },
               },
@@ -4979,6 +5222,7 @@ Object {
                 "id": "gdbm-devel@1.8.0-39.el6",
                 "info": Object {
                   "name": "gdbm-devel",
+                  "purl": "pkg:rpm/gdbm-devel@1.8.0-39.el6",
                   "version": "1.8.0-39.el6",
                 },
               },
@@ -4986,6 +5230,7 @@ Object {
                 "id": "gettext@0.17-18.el6",
                 "info": Object {
                   "name": "gettext",
+                  "purl": "pkg:rpm/gettext@0.17-18.el6",
                   "version": "0.17-18.el6",
                 },
               },
@@ -4993,6 +5238,7 @@ Object {
                 "id": "glib2@2.28.8-10.el6",
                 "info": Object {
                   "name": "glib2",
+                  "purl": "pkg:rpm/glib2@2.28.8-10.el6",
                   "version": "2.28.8-10.el6",
                 },
               },
@@ -5000,6 +5246,7 @@ Object {
                 "id": "glibc@2.12-1.212.el6_10.3",
                 "info": Object {
                   "name": "glibc",
+                  "purl": "pkg:rpm/glibc@2.12-1.212.el6_10.3",
                   "version": "2.12-1.212.el6_10.3",
                 },
               },
@@ -5007,6 +5254,7 @@ Object {
                 "id": "glibc-common@2.12-1.212.el6_10.3",
                 "info": Object {
                   "name": "glibc-common",
+                  "purl": "pkg:rpm/glibc-common@2.12-1.212.el6_10.3",
                   "version": "2.12-1.212.el6_10.3",
                 },
               },
@@ -5014,6 +5262,7 @@ Object {
                 "id": "glibc-devel@2.12-1.212.el6_10.3",
                 "info": Object {
                   "name": "glibc-devel",
+                  "purl": "pkg:rpm/glibc-devel@2.12-1.212.el6_10.3",
                   "version": "2.12-1.212.el6_10.3",
                 },
               },
@@ -5021,6 +5270,7 @@ Object {
                 "id": "glibc-headers@2.12-1.212.el6_10.3",
                 "info": Object {
                   "name": "glibc-headers",
+                  "purl": "pkg:rpm/glibc-headers@2.12-1.212.el6_10.3",
                   "version": "2.12-1.212.el6_10.3",
                 },
               },
@@ -5028,6 +5278,7 @@ Object {
                 "id": "gmp@4.3.1-13.el6",
                 "info": Object {
                   "name": "gmp",
+                  "purl": "pkg:rpm/gmp@4.3.1-13.el6",
                   "version": "4.3.1-13.el6",
                 },
               },
@@ -5035,6 +5286,7 @@ Object {
                 "id": "gnupg2@2.0.14-9.el6_10",
                 "info": Object {
                   "name": "gnupg2",
+                  "purl": "pkg:rpm/gnupg2@2.0.14-9.el6_10",
                   "version": "2.0.14-9.el6_10",
                 },
               },
@@ -5042,6 +5294,7 @@ Object {
                 "id": "gpg-pubkey@c105b9de-4e0fd3a3",
                 "info": Object {
                   "name": "gpg-pubkey",
+                  "purl": "pkg:rpm/gpg-pubkey@c105b9de-4e0fd3a3",
                   "version": "c105b9de-4e0fd3a3",
                 },
               },
@@ -5049,6 +5302,7 @@ Object {
                 "id": "gpgme@1.1.8-3.el6",
                 "info": Object {
                   "name": "gpgme",
+                  "purl": "pkg:rpm/gpgme@1.1.8-3.el6",
                   "version": "1.1.8-3.el6",
                 },
               },
@@ -5056,6 +5310,7 @@ Object {
                 "id": "grep@2.20-6.el6",
                 "info": Object {
                   "name": "grep",
+                  "purl": "pkg:rpm/grep@2.20-6.el6",
                   "version": "2.20-6.el6",
                 },
               },
@@ -5063,6 +5318,7 @@ Object {
                 "id": "groff@1.18.1.4-21.el6",
                 "info": Object {
                   "name": "groff",
+                  "purl": "pkg:rpm/groff@1.18.1.4-21.el6",
                   "version": "1.18.1.4-21.el6",
                 },
               },
@@ -5070,6 +5326,7 @@ Object {
                 "id": "gzip@1.3.12-24.el6",
                 "info": Object {
                   "name": "gzip",
+                  "purl": "pkg:rpm/gzip@1.3.12-24.el6",
                   "version": "1.3.12-24.el6",
                 },
               },
@@ -5077,6 +5334,7 @@ Object {
                 "id": "hwdata@0.233-20.1.el6",
                 "info": Object {
                   "name": "hwdata",
+                  "purl": "pkg:rpm/hwdata@0.233-20.1.el6",
                   "version": "0.233-20.1.el6",
                 },
               },
@@ -5084,6 +5342,7 @@ Object {
                 "id": "info@4.13a-8.el6",
                 "info": Object {
                   "name": "info",
+                  "purl": "pkg:rpm/info@4.13a-8.el6",
                   "version": "4.13a-8.el6",
                 },
               },
@@ -5091,6 +5350,7 @@ Object {
                 "id": "initscripts@9.03.61-1.el6.centos",
                 "info": Object {
                   "name": "initscripts",
+                  "purl": "pkg:rpm/initscripts@9.03.61-1.el6.centos",
                   "version": "9.03.61-1.el6.centos",
                 },
               },
@@ -5098,6 +5358,7 @@ Object {
                 "id": "iproute@2.6.32-57.el6",
                 "info": Object {
                   "name": "iproute",
+                  "purl": "pkg:rpm/iproute@2.6.32-57.el6",
                   "version": "2.6.32-57.el6",
                 },
               },
@@ -5105,6 +5366,7 @@ Object {
                 "id": "iptables@1.4.7-19.el6",
                 "info": Object {
                   "name": "iptables",
+                  "purl": "pkg:rpm/iptables@1.4.7-19.el6",
                   "version": "1.4.7-19.el6",
                 },
               },
@@ -5112,6 +5374,7 @@ Object {
                 "id": "iputils@20071127-24.el6",
                 "info": Object {
                   "name": "iputils",
+                  "purl": "pkg:rpm/iputils@20071127-24.el6",
                   "version": "20071127-24.el6",
                 },
               },
@@ -5119,6 +5382,7 @@ Object {
                 "id": "kernel-headers@2.6.32-754.35.1.el6",
                 "info": Object {
                   "name": "kernel-headers",
+                  "purl": "pkg:rpm/kernel-headers@2.6.32-754.35.1.el6",
                   "version": "2.6.32-754.35.1.el6",
                 },
               },
@@ -5126,6 +5390,7 @@ Object {
                 "id": "keyutils-libs@1.4-5.el6",
                 "info": Object {
                   "name": "keyutils-libs",
+                  "purl": "pkg:rpm/keyutils-libs@1.4-5.el6",
                   "version": "1.4-5.el6",
                 },
               },
@@ -5133,6 +5398,7 @@ Object {
                 "id": "krb5-libs@1.10.3-65.el6",
                 "info": Object {
                   "name": "krb5-libs",
+                  "purl": "pkg:rpm/krb5-libs@1.10.3-65.el6",
                   "version": "1.10.3-65.el6",
                 },
               },
@@ -5140,6 +5406,7 @@ Object {
                 "id": "less@436-13.el6",
                 "info": Object {
                   "name": "less",
+                  "purl": "pkg:rpm/less@436-13.el6",
                   "version": "436-13.el6",
                 },
               },
@@ -5147,6 +5414,7 @@ Object {
                 "id": "libacl@2.2.49-7.el6_9.1",
                 "info": Object {
                   "name": "libacl",
+                  "purl": "pkg:rpm/libacl@2.2.49-7.el6_9.1",
                   "version": "2.2.49-7.el6_9.1",
                 },
               },
@@ -5154,6 +5422,7 @@ Object {
                 "id": "libattr@2.4.44-7.el6",
                 "info": Object {
                   "name": "libattr",
+                  "purl": "pkg:rpm/libattr@2.4.44-7.el6",
                   "version": "2.4.44-7.el6",
                 },
               },
@@ -5161,6 +5430,7 @@ Object {
                 "id": "libblkid@2.17.2-12.28.el6_9.2",
                 "info": Object {
                   "name": "libblkid",
+                  "purl": "pkg:rpm/libblkid@2.17.2-12.28.el6_9.2",
                   "version": "2.17.2-12.28.el6_9.2",
                 },
               },
@@ -5168,6 +5438,7 @@ Object {
                 "id": "libcap@2.16-5.5.el6",
                 "info": Object {
                   "name": "libcap",
+                  "purl": "pkg:rpm/libcap@2.16-5.5.el6",
                   "version": "2.16-5.5.el6",
                 },
               },
@@ -5175,6 +5446,7 @@ Object {
                 "id": "libcom_err@1.41.12-24.el6",
                 "info": Object {
                   "name": "libcom_err",
+                  "purl": "pkg:rpm/libcom_err@1.41.12-24.el6",
                   "version": "1.41.12-24.el6",
                 },
               },
@@ -5182,6 +5454,7 @@ Object {
                 "id": "libcurl@7.19.7-54.el6_10",
                 "info": Object {
                   "name": "libcurl",
+                  "purl": "pkg:rpm/libcurl@7.19.7-54.el6_10",
                   "version": "7.19.7-54.el6_10",
                 },
               },
@@ -5189,6 +5462,7 @@ Object {
                 "id": "libdrm@2.4.65-2.el6",
                 "info": Object {
                   "name": "libdrm",
+                  "purl": "pkg:rpm/libdrm@2.4.65-2.el6",
                   "version": "2.4.65-2.el6",
                 },
               },
@@ -5196,6 +5470,7 @@ Object {
                 "id": "libffi@3.0.5-3.2.el6",
                 "info": Object {
                   "name": "libffi",
+                  "purl": "pkg:rpm/libffi@3.0.5-3.2.el6",
                   "version": "3.0.5-3.2.el6",
                 },
               },
@@ -5203,6 +5478,7 @@ Object {
                 "id": "libgcc@4.4.7-23.el6",
                 "info": Object {
                   "name": "libgcc",
+                  "purl": "pkg:rpm/libgcc@4.4.7-23.el6",
                   "version": "4.4.7-23.el6",
                 },
               },
@@ -5210,6 +5486,7 @@ Object {
                 "id": "libgcrypt@1.4.5-12.el6_8",
                 "info": Object {
                   "name": "libgcrypt",
+                  "purl": "pkg:rpm/libgcrypt@1.4.5-12.el6_8",
                   "version": "1.4.5-12.el6_8",
                 },
               },
@@ -5217,6 +5494,7 @@ Object {
                 "id": "libgomp@4.4.7-23.el6",
                 "info": Object {
                   "name": "libgomp",
+                  "purl": "pkg:rpm/libgomp@4.4.7-23.el6",
                   "version": "4.4.7-23.el6",
                 },
               },
@@ -5224,6 +5502,7 @@ Object {
                 "id": "libgpg-error@1.7-4.el6",
                 "info": Object {
                   "name": "libgpg-error",
+                  "purl": "pkg:rpm/libgpg-error@1.7-4.el6",
                   "version": "1.7-4.el6",
                 },
               },
@@ -5231,6 +5510,7 @@ Object {
                 "id": "libidn@1.18-2.el6",
                 "info": Object {
                   "name": "libidn",
+                  "purl": "pkg:rpm/libidn@1.18-2.el6",
                   "version": "1.18-2.el6",
                 },
               },
@@ -5238,6 +5518,7 @@ Object {
                 "id": "libnih@1.0.1-8.el6",
                 "info": Object {
                   "name": "libnih",
+                  "purl": "pkg:rpm/libnih@1.0.1-8.el6",
                   "version": "1.0.1-8.el6",
                 },
               },
@@ -5245,6 +5526,7 @@ Object {
                 "id": "libpcap@14:1.4.0-4.20130826git2dbcaa1.el6",
                 "info": Object {
                   "name": "libpcap",
+                  "purl": "pkg:rpm/libpcap@14:1.4.0-4.20130826git2dbcaa1.el6?epoch=14",
                   "version": "14:1.4.0-4.20130826git2dbcaa1.el6",
                 },
               },
@@ -5252,6 +5534,7 @@ Object {
                 "id": "libpciaccess@0.13.4-1.el6",
                 "info": Object {
                   "name": "libpciaccess",
+                  "purl": "pkg:rpm/libpciaccess@0.13.4-1.el6",
                   "version": "0.13.4-1.el6",
                 },
               },
@@ -5259,6 +5542,7 @@ Object {
                 "id": "libselinux@2.0.94-7.el6",
                 "info": Object {
                   "name": "libselinux",
+                  "purl": "pkg:rpm/libselinux@2.0.94-7.el6",
                   "version": "2.0.94-7.el6",
                 },
               },
@@ -5266,6 +5550,7 @@ Object {
                 "id": "libselinux-utils@2.0.94-7.el6",
                 "info": Object {
                   "name": "libselinux-utils",
+                  "purl": "pkg:rpm/libselinux-utils@2.0.94-7.el6",
                   "version": "2.0.94-7.el6",
                 },
               },
@@ -5273,6 +5558,7 @@ Object {
                 "id": "libsemanage@2.0.43-5.1.el6",
                 "info": Object {
                   "name": "libsemanage",
+                  "purl": "pkg:rpm/libsemanage@2.0.43-5.1.el6",
                   "version": "2.0.43-5.1.el6",
                 },
               },
@@ -5280,6 +5566,7 @@ Object {
                 "id": "libsepol@2.0.41-4.el6",
                 "info": Object {
                   "name": "libsepol",
+                  "purl": "pkg:rpm/libsepol@2.0.41-4.el6",
                   "version": "2.0.41-4.el6",
                 },
               },
@@ -5287,6 +5574,7 @@ Object {
                 "id": "libssh2@1.4.2-2.el6_7.1",
                 "info": Object {
                   "name": "libssh2",
+                  "purl": "pkg:rpm/libssh2@1.4.2-2.el6_7.1",
                   "version": "1.4.2-2.el6_7.1",
                 },
               },
@@ -5294,6 +5582,7 @@ Object {
                 "id": "libstdc++@4.4.7-23.el6",
                 "info": Object {
                   "name": "libstdc++",
+                  "purl": "pkg:rpm/libstdc%2B%2B@4.4.7-23.el6",
                   "version": "4.4.7-23.el6",
                 },
               },
@@ -5301,6 +5590,7 @@ Object {
                 "id": "libtasn1@2.3-6.el6_5",
                 "info": Object {
                   "name": "libtasn1",
+                  "purl": "pkg:rpm/libtasn1@2.3-6.el6_5",
                   "version": "2.3-6.el6_5",
                 },
               },
@@ -5308,6 +5598,7 @@ Object {
                 "id": "libusb@0.1.12-23.el6",
                 "info": Object {
                   "name": "libusb",
+                  "purl": "pkg:rpm/libusb@0.1.12-23.el6",
                   "version": "0.1.12-23.el6",
                 },
               },
@@ -5315,6 +5606,7 @@ Object {
                 "id": "libuser@0.56.13-8.el6_7",
                 "info": Object {
                   "name": "libuser",
+                  "purl": "pkg:rpm/libuser@0.56.13-8.el6_7",
                   "version": "0.56.13-8.el6_7",
                 },
               },
@@ -5322,6 +5614,7 @@ Object {
                 "id": "libutempter@1.1.5-4.1.el6",
                 "info": Object {
                   "name": "libutempter",
+                  "purl": "pkg:rpm/libutempter@1.1.5-4.1.el6",
                   "version": "1.1.5-4.1.el6",
                 },
               },
@@ -5329,6 +5622,7 @@ Object {
                 "id": "libuuid@2.17.2-12.28.el6_9.2",
                 "info": Object {
                   "name": "libuuid",
+                  "purl": "pkg:rpm/libuuid@2.17.2-12.28.el6_9.2",
                   "version": "2.17.2-12.28.el6_9.2",
                 },
               },
@@ -5336,6 +5630,7 @@ Object {
                 "id": "libxml2@2.7.6-21.el6_8.1",
                 "info": Object {
                   "name": "libxml2",
+                  "purl": "pkg:rpm/libxml2@2.7.6-21.el6_8.1",
                   "version": "2.7.6-21.el6_8.1",
                 },
               },
@@ -5343,6 +5638,7 @@ Object {
                 "id": "logrotate@3.7.8-28.el6",
                 "info": Object {
                   "name": "logrotate",
+                  "purl": "pkg:rpm/logrotate@3.7.8-28.el6",
                   "version": "3.7.8-28.el6",
                 },
               },
@@ -5350,6 +5646,7 @@ Object {
                 "id": "lsof@4.82-5.el6",
                 "info": Object {
                   "name": "lsof",
+                  "purl": "pkg:rpm/lsof@4.82-5.el6",
                   "version": "4.82-5.el6",
                 },
               },
@@ -5357,6 +5654,7 @@ Object {
                 "id": "lua@5.1.4-4.1.el6",
                 "info": Object {
                   "name": "lua",
+                  "purl": "pkg:rpm/lua@5.1.4-4.1.el6",
                   "version": "5.1.4-4.1.el6",
                 },
               },
@@ -5364,6 +5662,7 @@ Object {
                 "id": "m4@1.4.13-5.el6",
                 "info": Object {
                   "name": "m4",
+                  "purl": "pkg:rpm/m4@1.4.13-5.el6",
                   "version": "1.4.13-5.el6",
                 },
               },
@@ -5371,6 +5670,7 @@ Object {
                 "id": "mailx@12.4-10.el6_10",
                 "info": Object {
                   "name": "mailx",
+                  "purl": "pkg:rpm/mailx@12.4-10.el6_10",
                   "version": "12.4-10.el6_10",
                 },
               },
@@ -5378,6 +5678,7 @@ Object {
                 "id": "make@1:3.81-23.el6",
                 "info": Object {
                   "name": "make",
+                  "purl": "pkg:rpm/make@1:3.81-23.el6?epoch=1",
                   "version": "1:3.81-23.el6",
                 },
               },
@@ -5385,6 +5686,7 @@ Object {
                 "id": "man@1.6f-39.el6",
                 "info": Object {
                   "name": "man",
+                  "purl": "pkg:rpm/man@1.6f-39.el6",
                   "version": "1.6f-39.el6",
                 },
               },
@@ -5392,6 +5694,7 @@ Object {
                 "id": "mingetty@1.08-5.el6",
                 "info": Object {
                   "name": "mingetty",
+                  "purl": "pkg:rpm/mingetty@1.08-5.el6",
                   "version": "1.08-5.el6",
                 },
               },
@@ -5399,6 +5702,7 @@ Object {
                 "id": "module-init-tools@3.9-26.el6",
                 "info": Object {
                   "name": "module-init-tools",
+                  "purl": "pkg:rpm/module-init-tools@3.9-26.el6",
                   "version": "3.9-26.el6",
                 },
               },
@@ -5406,6 +5710,7 @@ Object {
                 "id": "mysql-libs@5.1.73-8.el6_8",
                 "info": Object {
                   "name": "mysql-libs",
+                  "purl": "pkg:rpm/mysql-libs@5.1.73-8.el6_8",
                   "version": "5.1.73-8.el6_8",
                 },
               },
@@ -5413,6 +5718,7 @@ Object {
                 "id": "nc@1.84-24.el6",
                 "info": Object {
                   "name": "nc",
+                  "purl": "pkg:rpm/nc@1.84-24.el6",
                   "version": "1.84-24.el6",
                 },
               },
@@ -5420,6 +5726,7 @@ Object {
                 "id": "ncurses@5.7-4.20090207.el6",
                 "info": Object {
                   "name": "ncurses",
+                  "purl": "pkg:rpm/ncurses@5.7-4.20090207.el6",
                   "version": "5.7-4.20090207.el6",
                 },
               },
@@ -5427,6 +5734,7 @@ Object {
                 "id": "ncurses-base@5.7-4.20090207.el6",
                 "info": Object {
                   "name": "ncurses-base",
+                  "purl": "pkg:rpm/ncurses-base@5.7-4.20090207.el6",
                   "version": "5.7-4.20090207.el6",
                 },
               },
@@ -5434,6 +5742,7 @@ Object {
                 "id": "ncurses-libs@5.7-4.20090207.el6",
                 "info": Object {
                   "name": "ncurses-libs",
+                  "purl": "pkg:rpm/ncurses-libs@5.7-4.20090207.el6",
                   "version": "5.7-4.20090207.el6",
                 },
               },
@@ -5441,6 +5750,7 @@ Object {
                 "id": "net-tools@1.60-114.el6",
                 "info": Object {
                   "name": "net-tools",
+                  "purl": "pkg:rpm/net-tools@1.60-114.el6",
                   "version": "1.60-114.el6",
                 },
               },
@@ -5448,6 +5758,7 @@ Object {
                 "id": "nmap@2:5.51-6.el6",
                 "info": Object {
                   "name": "nmap",
+                  "purl": "pkg:rpm/nmap@2:5.51-6.el6?epoch=2",
                   "version": "2:5.51-6.el6",
                 },
               },
@@ -5455,6 +5766,7 @@ Object {
                 "id": "nspr@4.19.0-1.el6",
                 "info": Object {
                   "name": "nspr",
+                  "purl": "pkg:rpm/nspr@4.19.0-1.el6",
                   "version": "4.19.0-1.el6",
                 },
               },
@@ -5462,6 +5774,7 @@ Object {
                 "id": "nss@3.36.0-8.el6",
                 "info": Object {
                   "name": "nss",
+                  "purl": "pkg:rpm/nss@3.36.0-8.el6",
                   "version": "3.36.0-8.el6",
                 },
               },
@@ -5469,6 +5782,7 @@ Object {
                 "id": "nss-softokn@3.14.3-23.3.el6_8",
                 "info": Object {
                   "name": "nss-softokn",
+                  "purl": "pkg:rpm/nss-softokn@3.14.3-23.3.el6_8",
                   "version": "3.14.3-23.3.el6_8",
                 },
               },
@@ -5476,6 +5790,7 @@ Object {
                 "id": "nss-softokn-freebl@3.14.3-23.3.el6_8",
                 "info": Object {
                   "name": "nss-softokn-freebl",
+                  "purl": "pkg:rpm/nss-softokn-freebl@3.14.3-23.3.el6_8",
                   "version": "3.14.3-23.3.el6_8",
                 },
               },
@@ -5483,6 +5798,7 @@ Object {
                 "id": "nss-sysinit@3.36.0-8.el6",
                 "info": Object {
                   "name": "nss-sysinit",
+                  "purl": "pkg:rpm/nss-sysinit@3.36.0-8.el6",
                   "version": "3.36.0-8.el6",
                 },
               },
@@ -5490,6 +5806,7 @@ Object {
                 "id": "nss-tools@3.36.0-8.el6",
                 "info": Object {
                   "name": "nss-tools",
+                  "purl": "pkg:rpm/nss-tools@3.36.0-8.el6",
                   "version": "3.36.0-8.el6",
                 },
               },
@@ -5497,6 +5814,7 @@ Object {
                 "id": "nss-util@3.36.0-1.el6",
                 "info": Object {
                   "name": "nss-util",
+                  "purl": "pkg:rpm/nss-util@3.36.0-1.el6",
                   "version": "3.36.0-1.el6",
                 },
               },
@@ -5504,6 +5822,7 @@ Object {
                 "id": "openldap@2.4.40-16.el6",
                 "info": Object {
                   "name": "openldap",
+                  "purl": "pkg:rpm/openldap@2.4.40-16.el6",
                   "version": "2.4.40-16.el6",
                 },
               },
@@ -5511,6 +5830,7 @@ Object {
                 "id": "openssl@1.0.1e-58.el6_10",
                 "info": Object {
                   "name": "openssl",
+                  "purl": "pkg:rpm/openssl@1.0.1e-58.el6_10",
                   "version": "1.0.1e-58.el6_10",
                 },
               },
@@ -5518,6 +5838,7 @@ Object {
                 "id": "p11-kit@0.18.5-2.el6_5.2",
                 "info": Object {
                   "name": "p11-kit",
+                  "purl": "pkg:rpm/p11-kit@0.18.5-2.el6_5.2",
                   "version": "0.18.5-2.el6_5.2",
                 },
               },
@@ -5525,6 +5846,7 @@ Object {
                 "id": "p11-kit-trust@0.18.5-2.el6_5.2",
                 "info": Object {
                   "name": "p11-kit-trust",
+                  "purl": "pkg:rpm/p11-kit-trust@0.18.5-2.el6_5.2",
                   "version": "0.18.5-2.el6_5.2",
                 },
               },
@@ -5532,6 +5854,7 @@ Object {
                 "id": "pam@1.1.1-24.el6",
                 "info": Object {
                   "name": "pam",
+                  "purl": "pkg:rpm/pam@1.1.1-24.el6",
                   "version": "1.1.1-24.el6",
                 },
               },
@@ -5539,6 +5862,7 @@ Object {
                 "id": "passwd@0.77-7.el6",
                 "info": Object {
                   "name": "passwd",
+                  "purl": "pkg:rpm/passwd@0.77-7.el6",
                   "version": "0.77-7.el6",
                 },
               },
@@ -5546,6 +5870,7 @@ Object {
                 "id": "patch@2.6-8.el6_9",
                 "info": Object {
                   "name": "patch",
+                  "purl": "pkg:rpm/patch@2.6-8.el6_9",
                   "version": "2.6-8.el6_9",
                 },
               },
@@ -5553,6 +5878,7 @@ Object {
                 "id": "pax@3.4-10.1.el6",
                 "info": Object {
                   "name": "pax",
+                  "purl": "pkg:rpm/pax@3.4-10.1.el6",
                   "version": "3.4-10.1.el6",
                 },
               },
@@ -5560,6 +5886,7 @@ Object {
                 "id": "pcre@7.8-7.el6",
                 "info": Object {
                   "name": "pcre",
+                  "purl": "pkg:rpm/pcre@7.8-7.el6",
                   "version": "7.8-7.el6",
                 },
               },
@@ -5567,6 +5894,7 @@ Object {
                 "id": "perl@4:5.10.1-144.el6",
                 "info": Object {
                   "name": "perl",
+                  "purl": "pkg:rpm/perl@4:5.10.1-144.el6?epoch=4",
                   "version": "4:5.10.1-144.el6",
                 },
               },
@@ -5574,6 +5902,7 @@ Object {
                 "id": "perl-CGI@3.51-144.el6",
                 "info": Object {
                   "name": "perl-CGI",
+                  "purl": "pkg:rpm/perl-CGI@3.51-144.el6",
                   "version": "3.51-144.el6",
                 },
               },
@@ -5581,6 +5910,7 @@ Object {
                 "id": "perl-ExtUtils-MakeMaker@6.55-144.el6",
                 "info": Object {
                   "name": "perl-ExtUtils-MakeMaker",
+                  "purl": "pkg:rpm/perl-ExtUtils-MakeMaker@6.55-144.el6",
                   "version": "6.55-144.el6",
                 },
               },
@@ -5588,6 +5918,7 @@ Object {
                 "id": "perl-ExtUtils-ParseXS@1:2.2003.0-144.el6",
                 "info": Object {
                   "name": "perl-ExtUtils-ParseXS",
+                  "purl": "pkg:rpm/perl-ExtUtils-ParseXS@1:2.2003.0-144.el6?epoch=1",
                   "version": "1:2.2003.0-144.el6",
                 },
               },
@@ -5595,6 +5926,7 @@ Object {
                 "id": "perl-Module-Pluggable@1:3.90-144.el6",
                 "info": Object {
                   "name": "perl-Module-Pluggable",
+                  "purl": "pkg:rpm/perl-Module-Pluggable@1:3.90-144.el6?epoch=1",
                   "version": "1:3.90-144.el6",
                 },
               },
@@ -5602,6 +5934,7 @@ Object {
                 "id": "perl-Pod-Escapes@1:1.04-144.el6",
                 "info": Object {
                   "name": "perl-Pod-Escapes",
+                  "purl": "pkg:rpm/perl-Pod-Escapes@1:1.04-144.el6?epoch=1",
                   "version": "1:1.04-144.el6",
                 },
               },
@@ -5609,6 +5942,7 @@ Object {
                 "id": "perl-Pod-Simple@1:3.13-144.el6",
                 "info": Object {
                   "name": "perl-Pod-Simple",
+                  "purl": "pkg:rpm/perl-Pod-Simple@1:3.13-144.el6?epoch=1",
                   "version": "1:3.13-144.el6",
                 },
               },
@@ -5616,6 +5950,7 @@ Object {
                 "id": "perl-Test-Harness@3.17-144.el6",
                 "info": Object {
                   "name": "perl-Test-Harness",
+                  "purl": "pkg:rpm/perl-Test-Harness@3.17-144.el6",
                   "version": "3.17-144.el6",
                 },
               },
@@ -5623,6 +5958,7 @@ Object {
                 "id": "perl-Test-Simple@0.92-144.el6",
                 "info": Object {
                   "name": "perl-Test-Simple",
+                  "purl": "pkg:rpm/perl-Test-Simple@0.92-144.el6",
                   "version": "0.92-144.el6",
                 },
               },
@@ -5630,6 +5966,7 @@ Object {
                 "id": "perl-devel@4:5.10.1-144.el6",
                 "info": Object {
                   "name": "perl-devel",
+                  "purl": "pkg:rpm/perl-devel@4:5.10.1-144.el6?epoch=4",
                   "version": "4:5.10.1-144.el6",
                 },
               },
@@ -5637,6 +5974,7 @@ Object {
                 "id": "perl-libs@4:5.10.1-144.el6",
                 "info": Object {
                   "name": "perl-libs",
+                  "purl": "pkg:rpm/perl-libs@4:5.10.1-144.el6?epoch=4",
                   "version": "4:5.10.1-144.el6",
                 },
               },
@@ -5644,6 +5982,7 @@ Object {
                 "id": "perl-version@3:0.77-144.el6",
                 "info": Object {
                   "name": "perl-version",
+                  "purl": "pkg:rpm/perl-version@3:0.77-144.el6?epoch=3",
                   "version": "3:0.77-144.el6",
                 },
               },
@@ -5651,6 +5990,7 @@ Object {
                 "id": "pinentry@0.7.6-8.el6",
                 "info": Object {
                   "name": "pinentry",
+                  "purl": "pkg:rpm/pinentry@0.7.6-8.el6",
                   "version": "0.7.6-8.el6",
                 },
               },
@@ -5658,6 +5998,7 @@ Object {
                 "id": "pkgconfig@1:0.23-9.1.el6",
                 "info": Object {
                   "name": "pkgconfig",
+                  "purl": "pkg:rpm/pkgconfig@1:0.23-9.1.el6?epoch=1",
                   "version": "1:0.23-9.1.el6",
                 },
               },
@@ -5665,6 +6006,7 @@ Object {
                 "id": "plymouth@0.8.3-29.el6.centos",
                 "info": Object {
                   "name": "plymouth",
+                  "purl": "pkg:rpm/plymouth@0.8.3-29.el6.centos",
                   "version": "0.8.3-29.el6.centos",
                 },
               },
@@ -5672,6 +6014,7 @@ Object {
                 "id": "plymouth-core-libs@0.8.3-29.el6.centos",
                 "info": Object {
                   "name": "plymouth-core-libs",
+                  "purl": "pkg:rpm/plymouth-core-libs@0.8.3-29.el6.centos",
                   "version": "0.8.3-29.el6.centos",
                 },
               },
@@ -5679,6 +6022,7 @@ Object {
                 "id": "plymouth-scripts@0.8.3-29.el6.centos",
                 "info": Object {
                   "name": "plymouth-scripts",
+                  "purl": "pkg:rpm/plymouth-scripts@0.8.3-29.el6.centos",
                   "version": "0.8.3-29.el6.centos",
                 },
               },
@@ -5686,6 +6030,7 @@ Object {
                 "id": "policycoreutils@2.0.83-30.1.el6_8",
                 "info": Object {
                   "name": "policycoreutils",
+                  "purl": "pkg:rpm/policycoreutils@2.0.83-30.1.el6_8",
                   "version": "2.0.83-30.1.el6_8",
                 },
               },
@@ -5693,6 +6038,7 @@ Object {
                 "id": "popt@1.13-7.el6",
                 "info": Object {
                   "name": "popt",
+                  "purl": "pkg:rpm/popt@1.13-7.el6",
                   "version": "1.13-7.el6",
                 },
               },
@@ -5700,6 +6046,7 @@ Object {
                 "id": "postfix@2:2.6.6-8.el6",
                 "info": Object {
                   "name": "postfix",
+                  "purl": "pkg:rpm/postfix@2:2.6.6-8.el6?epoch=2",
                   "version": "2:2.6.6-8.el6",
                 },
               },
@@ -5707,6 +6054,7 @@ Object {
                 "id": "procps@3.2.8-45.el6_9.3",
                 "info": Object {
                   "name": "procps",
+                  "purl": "pkg:rpm/procps@3.2.8-45.el6_9.3",
                   "version": "3.2.8-45.el6_9.3",
                 },
               },
@@ -5714,6 +6062,7 @@ Object {
                 "id": "psmisc@22.6-24.el6",
                 "info": Object {
                   "name": "psmisc",
+                  "purl": "pkg:rpm/psmisc@22.6-24.el6",
                   "version": "22.6-24.el6",
                 },
               },
@@ -5721,6 +6070,7 @@ Object {
                 "id": "pth@2.0.7-9.3.el6",
                 "info": Object {
                   "name": "pth",
+                  "purl": "pkg:rpm/pth@2.0.7-9.3.el6",
                   "version": "2.0.7-9.3.el6",
                 },
               },
@@ -5728,6 +6078,7 @@ Object {
                 "id": "pygpgme@0.1-18.20090824bzr68.el6",
                 "info": Object {
                   "name": "pygpgme",
+                  "purl": "pkg:rpm/pygpgme@0.1-18.20090824bzr68.el6",
                   "version": "0.1-18.20090824bzr68.el6",
                 },
               },
@@ -5735,6 +6086,7 @@ Object {
                 "id": "python@2.6.6-66.el6_8",
                 "info": Object {
                   "name": "python",
+                  "purl": "pkg:rpm/python@2.6.6-66.el6_8",
                   "version": "2.6.6-66.el6_8",
                 },
               },
@@ -5742,6 +6094,7 @@ Object {
                 "id": "python-iniparse@0.3.1-2.1.el6",
                 "info": Object {
                   "name": "python-iniparse",
+                  "purl": "pkg:rpm/python-iniparse@0.3.1-2.1.el6",
                   "version": "0.3.1-2.1.el6",
                 },
               },
@@ -5749,6 +6102,7 @@ Object {
                 "id": "python-libs@2.6.6-66.el6_8",
                 "info": Object {
                   "name": "python-libs",
+                  "purl": "pkg:rpm/python-libs@2.6.6-66.el6_8",
                   "version": "2.6.6-66.el6_8",
                 },
               },
@@ -5756,6 +6110,7 @@ Object {
                 "id": "python-pycurl@7.19.0-9.el6",
                 "info": Object {
                   "name": "python-pycurl",
+                  "purl": "pkg:rpm/python-pycurl@7.19.0-9.el6",
                   "version": "7.19.0-9.el6",
                 },
               },
@@ -5763,6 +6118,7 @@ Object {
                 "id": "python-urlgrabber@3.9.1-11.el6",
                 "info": Object {
                   "name": "python-urlgrabber",
+                  "purl": "pkg:rpm/python-urlgrabber@3.9.1-11.el6",
                   "version": "3.9.1-11.el6",
                 },
               },
@@ -5770,6 +6126,7 @@ Object {
                 "id": "readline@6.0-4.el6",
                 "info": Object {
                   "name": "readline",
+                  "purl": "pkg:rpm/readline@6.0-4.el6",
                   "version": "6.0-4.el6",
                 },
               },
@@ -5777,6 +6134,7 @@ Object {
                 "id": "redhat-logos@60.0.14-12.el6.centos",
                 "info": Object {
                   "name": "redhat-logos",
+                  "purl": "pkg:rpm/redhat-logos@60.0.14-12.el6.centos",
                   "version": "60.0.14-12.el6.centos",
                 },
               },
@@ -5784,6 +6142,7 @@ Object {
                 "id": "redhat-lsb-core@4.0-7.el6.centos",
                 "info": Object {
                   "name": "redhat-lsb-core",
+                  "purl": "pkg:rpm/redhat-lsb-core@4.0-7.el6.centos",
                   "version": "4.0-7.el6.centos",
                 },
               },
@@ -5791,6 +6150,7 @@ Object {
                 "id": "rootfiles@8.1-6.1.el6",
                 "info": Object {
                   "name": "rootfiles",
+                  "purl": "pkg:rpm/rootfiles@8.1-6.1.el6",
                   "version": "8.1-6.1.el6",
                 },
               },
@@ -5798,6 +6158,7 @@ Object {
                 "id": "rpm@4.8.0-59.el6",
                 "info": Object {
                   "name": "rpm",
+                  "purl": "pkg:rpm/rpm@4.8.0-59.el6",
                   "version": "4.8.0-59.el6",
                 },
               },
@@ -5805,6 +6166,7 @@ Object {
                 "id": "rpm-libs@4.8.0-59.el6",
                 "info": Object {
                   "name": "rpm-libs",
+                  "purl": "pkg:rpm/rpm-libs@4.8.0-59.el6",
                   "version": "4.8.0-59.el6",
                 },
               },
@@ -5812,6 +6174,7 @@ Object {
                 "id": "rpm-python@4.8.0-59.el6",
                 "info": Object {
                   "name": "rpm-python",
+                  "purl": "pkg:rpm/rpm-python@4.8.0-59.el6",
                   "version": "4.8.0-59.el6",
                 },
               },
@@ -5819,6 +6182,7 @@ Object {
                 "id": "rsyslog@5.8.10-12.el6",
                 "info": Object {
                   "name": "rsyslog",
+                  "purl": "pkg:rpm/rsyslog@5.8.10-12.el6",
                   "version": "5.8.10-12.el6",
                 },
               },
@@ -5826,6 +6190,7 @@ Object {
                 "id": "sed@4.2.1-10.el6",
                 "info": Object {
                   "name": "sed",
+                  "purl": "pkg:rpm/sed@4.2.1-10.el6",
                   "version": "4.2.1-10.el6",
                 },
               },
@@ -5833,6 +6198,7 @@ Object {
                 "id": "setup@2.8.14-23.el6",
                 "info": Object {
                   "name": "setup",
+                  "purl": "pkg:rpm/setup@2.8.14-23.el6",
                   "version": "2.8.14-23.el6",
                 },
               },
@@ -5840,6 +6206,7 @@ Object {
                 "id": "shadow-utils@2:4.1.5.1-5.el6",
                 "info": Object {
                   "name": "shadow-utils",
+                  "purl": "pkg:rpm/shadow-utils@2:4.1.5.1-5.el6?epoch=2",
                   "version": "2:4.1.5.1-5.el6",
                 },
               },
@@ -5847,6 +6214,7 @@ Object {
                 "id": "shared-mime-info@0.70-6.el6",
                 "info": Object {
                   "name": "shared-mime-info",
+                  "purl": "pkg:rpm/shared-mime-info@0.70-6.el6",
                   "version": "0.70-6.el6",
                 },
               },
@@ -5854,6 +6222,7 @@ Object {
                 "id": "sqlite@3.6.20-1.el6_7.2",
                 "info": Object {
                   "name": "sqlite",
+                  "purl": "pkg:rpm/sqlite@3.6.20-1.el6_7.2",
                   "version": "3.6.20-1.el6_7.2",
                 },
               },
@@ -5861,6 +6230,7 @@ Object {
                 "id": "strace@4.8-11.el6",
                 "info": Object {
                   "name": "strace",
+                  "purl": "pkg:rpm/strace@4.8-11.el6",
                   "version": "4.8-11.el6",
                 },
               },
@@ -5868,6 +6238,7 @@ Object {
                 "id": "sudo@1.8.6p3-29.el6_10.3",
                 "info": Object {
                   "name": "sudo",
+                  "purl": "pkg:rpm/sudo@1.8.6p3-29.el6_10.3",
                   "version": "1.8.6p3-29.el6_10.3",
                 },
               },
@@ -5875,6 +6246,7 @@ Object {
                 "id": "sysvinit-tools@2.87-6.dsf.el6",
                 "info": Object {
                   "name": "sysvinit-tools",
+                  "purl": "pkg:rpm/sysvinit-tools@2.87-6.dsf.el6",
                   "version": "2.87-6.dsf.el6",
                 },
               },
@@ -5882,6 +6254,7 @@ Object {
                 "id": "tar@2:1.23-15.el6_8",
                 "info": Object {
                   "name": "tar",
+                  "purl": "pkg:rpm/tar@2:1.23-15.el6_8?epoch=2",
                   "version": "2:1.23-15.el6_8",
                 },
               },
@@ -5889,6 +6262,7 @@ Object {
                 "id": "tcpdump@14:4.0.0-11.20090921gitdf3cb4.2.el6",
                 "info": Object {
                   "name": "tcpdump",
+                  "purl": "pkg:rpm/tcpdump@14:4.0.0-11.20090921gitdf3cb4.2.el6?epoch=14",
                   "version": "14:4.0.0-11.20090921gitdf3cb4.2.el6",
                 },
               },
@@ -5896,6 +6270,7 @@ Object {
                 "id": "telnet@1:0.17-49.el6_10",
                 "info": Object {
                   "name": "telnet",
+                  "purl": "pkg:rpm/telnet@1:0.17-49.el6_10?epoch=1",
                   "version": "1:0.17-49.el6_10",
                 },
               },
@@ -5903,6 +6278,7 @@ Object {
                 "id": "time@1.7-38.el6",
                 "info": Object {
                   "name": "time",
+                  "purl": "pkg:rpm/time@1.7-38.el6",
                   "version": "1.7-38.el6",
                 },
               },
@@ -5910,6 +6286,7 @@ Object {
                 "id": "tzdata@2018e-3.el6",
                 "info": Object {
                   "name": "tzdata",
+                  "purl": "pkg:rpm/tzdata@2018e-3.el6",
                   "version": "2018e-3.el6",
                 },
               },
@@ -5917,6 +6294,7 @@ Object {
                 "id": "udev@147-2.74.el6_10",
                 "info": Object {
                   "name": "udev",
+                  "purl": "pkg:rpm/udev@147-2.74.el6_10",
                   "version": "147-2.74.el6_10",
                 },
               },
@@ -5924,6 +6302,7 @@ Object {
                 "id": "upstart@0.6.5-17.el6",
                 "info": Object {
                   "name": "upstart",
+                  "purl": "pkg:rpm/upstart@0.6.5-17.el6",
                   "version": "0.6.5-17.el6",
                 },
               },
@@ -5931,6 +6310,7 @@ Object {
                 "id": "ustr@1.0.4-9.1.el6",
                 "info": Object {
                   "name": "ustr",
+                  "purl": "pkg:rpm/ustr@1.0.4-9.1.el6",
                   "version": "1.0.4-9.1.el6",
                 },
               },
@@ -5938,6 +6318,7 @@ Object {
                 "id": "util-linux-ng@2.17.2-12.28.el6_9.2",
                 "info": Object {
                   "name": "util-linux-ng",
+                  "purl": "pkg:rpm/util-linux-ng@2.17.2-12.28.el6_9.2",
                   "version": "2.17.2-12.28.el6_9.2",
                 },
               },
@@ -5945,6 +6326,7 @@ Object {
                 "id": "vim-minimal@2:7.4.629-5.el6_10.2",
                 "info": Object {
                   "name": "vim-minimal",
+                  "purl": "pkg:rpm/vim-minimal@2:7.4.629-5.el6_10.2?epoch=2",
                   "version": "2:7.4.629-5.el6_10.2",
                 },
               },
@@ -5952,6 +6334,7 @@ Object {
                 "id": "wget@1.12-10.el6",
                 "info": Object {
                   "name": "wget",
+                  "purl": "pkg:rpm/wget@1.12-10.el6",
                   "version": "1.12-10.el6",
                 },
               },
@@ -5959,6 +6342,7 @@ Object {
                 "id": "which@2.19-6.el6",
                 "info": Object {
                   "name": "which",
+                  "purl": "pkg:rpm/which@2.19-6.el6",
                   "version": "2.19-6.el6",
                 },
               },
@@ -5966,6 +6350,7 @@ Object {
                 "id": "xz@4.999.9-0.5.beta.20091007git.el6",
                 "info": Object {
                   "name": "xz",
+                  "purl": "pkg:rpm/xz@4.999.9-0.5.beta.20091007git.el6",
                   "version": "4.999.9-0.5.beta.20091007git.el6",
                 },
               },
@@ -5973,6 +6358,7 @@ Object {
                 "id": "xz-libs@4.999.9-0.5.beta.20091007git.el6",
                 "info": Object {
                   "name": "xz-libs",
+                  "purl": "pkg:rpm/xz-libs@4.999.9-0.5.beta.20091007git.el6",
                   "version": "4.999.9-0.5.beta.20091007git.el6",
                 },
               },
@@ -5980,6 +6366,7 @@ Object {
                 "id": "xz-lzma-compat@4.999.9-0.5.beta.20091007git.el6",
                 "info": Object {
                   "name": "xz-lzma-compat",
+                  "purl": "pkg:rpm/xz-lzma-compat@4.999.9-0.5.beta.20091007git.el6",
                   "version": "4.999.9-0.5.beta.20091007git.el6",
                 },
               },
@@ -5987,6 +6374,7 @@ Object {
                 "id": "yum@3.2.29-81.el6.centos",
                 "info": Object {
                   "name": "yum",
+                  "purl": "pkg:rpm/yum@3.2.29-81.el6.centos",
                   "version": "3.2.29-81.el6.centos",
                 },
               },
@@ -5994,6 +6382,7 @@ Object {
                 "id": "yum-metadata-parser@1.1.2-16.el6",
                 "info": Object {
                   "name": "yum-metadata-parser",
+                  "purl": "pkg:rpm/yum-metadata-parser@1.1.2-16.el6",
                   "version": "1.1.2-16.el6",
                 },
               },
@@ -6001,6 +6390,7 @@ Object {
                 "id": "yum-plugin-fastestmirror@1.1.30-42.el6_10",
                 "info": Object {
                   "name": "yum-plugin-fastestmirror",
+                  "purl": "pkg:rpm/yum-plugin-fastestmirror@1.1.30-42.el6_10",
                   "version": "1.1.30-42.el6_10",
                 },
               },
@@ -6008,6 +6398,7 @@ Object {
                 "id": "yum-plugin-ovl@1.1.30-42.el6_10",
                 "info": Object {
                   "name": "yum-plugin-ovl",
+                  "purl": "pkg:rpm/yum-plugin-ovl@1.1.30-42.el6_10",
                   "version": "1.1.30-42.el6_10",
                 },
               },
@@ -6015,6 +6406,7 @@ Object {
                 "id": "zlib@1.2.3-29.el6",
                 "info": Object {
                   "name": "zlib",
+                  "purl": "pkg:rpm/zlib@1.2.3-29.el6",
                   "version": "1.2.3-29.el6",
                 },
               },
