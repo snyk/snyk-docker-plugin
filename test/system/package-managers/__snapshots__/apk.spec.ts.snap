@@ -382,6 +382,14 @@ Object {
           "data": "Alpine Linux v3.12",
           "type": "imageOsReleasePrettyName",
         },
+        Object {
+          "data": Object {
+            "names": Array [
+              "alpine:3.12.0",
+            ],
+          },
+          "type": "imageNames",
+        },
       ],
       "identity": Object {
         "args": Object {

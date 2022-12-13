@@ -44,6 +44,11 @@ export interface ManifestFile {
   contents: string;
 }
 
+export interface ImageNameInfo {
+  names: string[];
+  // this will allow us to extend in the future when needed
+}
+
 export type FactType =
   | "depGraph"
   // Hashes of executables not installed by a package manager (e.g. if they were copied straight onto the image).
@@ -65,7 +70,8 @@ export type FactType =
   | "imageSizeBytes"
   | "loadedPackages"
   | "imageCreationTime"
-  | "redHatRepositories";
+  | "redHatRepositories"
+  | "imageNames";
 
 export interface PluginResponse {
   /** The first result is guaranteed to be the OS dependencies scan result. */

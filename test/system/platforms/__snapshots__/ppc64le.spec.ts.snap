@@ -886,6 +886,14 @@ Object {
           },
           "type": "autoDetectedUserInstructions",
         },
+        Object {
+          "data": Object {
+            "names": Array [
+              "ppc64le/php:8.0.0rc1-fpm-alpine3.12",
+            ],
+          },
+          "type": "imageNames",
+        },
       ],
       "identity": Object {
         "args": Object {
@@ -1786,6 +1794,14 @@ Object {
             },
           },
           "type": "autoDetectedUserInstructions",
+        },
+        Object {
+          "data": Object {
+            "names": Array [
+              "ppc64le/php:8.0.0rc1-fpm-alpine3.12",
+            ],
+          },
+          "type": "imageNames",
         },
       ],
       "identity": Object {

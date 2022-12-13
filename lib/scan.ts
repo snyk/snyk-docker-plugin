@@ -145,6 +145,7 @@ async function imageIdentifierAnalysis(
   );
 
   const imagePath = archiveResult.path;
+  const imageName = archiveResult.imageName;
   try {
     return await staticModule.analyzeStatically(
       targetImage,
@@ -153,6 +154,7 @@ async function imageIdentifierAnalysis(
       imagePath,
       globToFind,
       options,
+      imageName,
     );
   } finally {
     archiveResult.removeArchive();

@@ -2804,6 +2804,14 @@ Object {
           "data": "Oracle Linux Server 8.2",
           "type": "imageOsReleasePrettyName",
         },
+        Object {
+          "data": Object {
+            "names": Array [
+              "oraclelinux@sha256:652409ec0fd4e79b07ecf82e35ebf50277be69f6b8e873129a55a0bdedf827d0",
+            ],
+          },
+          "type": "imageNames",
+        },
       ],
       "identity": Object {
         "args": Object {

@@ -2,6 +2,7 @@ import * as analyzer from "./analyzer";
 import { StaticAnalysis } from "./analyzer/types";
 import { buildTree } from "./dependency-tree";
 import { DockerFileAnalysis } from "./dockerfile/types";
+import { ImageName } from "./extractor/image";
 import { isTrue } from "./option-utils";
 import { parseAnalysisResults } from "./parser";
 import { buildResponse } from "./response-builder";
@@ -14,6 +15,7 @@ export async function analyzeStatically(
   imagePath: string,
   globsToFind: { include: string[]; exclude: string[] },
   options: Partial<PluginOptions>,
+  imageName?: ImageName,
 ): Promise<PluginResponse> {
   const staticAnalysis = await analyzer.analyzeStatically(
     targetImage,
@@ -49,5 +51,10 @@ export async function analyzeStatically(
   };
 
   const excludeBaseImageVulns = isTrue(options["exclude-base-image-vulns"]);
-  return buildResponse(analysis, dockerfileAnalysis, excludeBaseImageVulns);
+  return buildResponse(
+    analysis,
+    dockerfileAnalysis,
+    excludeBaseImageVulns,
+    imageName,
+  );
 }

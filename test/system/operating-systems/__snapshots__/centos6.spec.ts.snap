@@ -3021,6 +3021,14 @@ Object {
           ],
           "type": "rootFs",
         },
+        Object {
+          "data": Object {
+            "names": Array [
+              "dokken/centos-6@sha256:494b9b280814f1e661597b48e229156e4dccb60dce198d9210f7572ff22626d2",
+            ],
+          },
+          "type": "imageNames",
+        },
       ],
       "identity": Object {
         "args": Object {
@@ -6056,6 +6064,14 @@ Object {
             "sha256:2b7c38b09edb3ce271c3f5d11560644cb8d153917529c1d28a2818fc8cc0d7aa",
           ],
           "type": "rootFs",
+        },
+        Object {
+          "data": Object {
+            "names": Array [
+              "dokken/centos-6@sha256:494b9b280814f1e661597b48e229156e4dccb60dce198d9210f7572ff22626d2",
+            ],
+          },
+          "type": "imageNames",
         },
       ],
       "identity": Object {
