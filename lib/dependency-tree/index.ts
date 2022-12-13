@@ -1,5 +1,6 @@
-import { AnalyzedPackageWithVersion, OSRelease } from "../analyzer/types";
-import { DepTree, DepTreeDep } from "../types";
+import type { AnalyzedPackageWithVersion, OSRelease } from "../analyzer/types";
+import { ImageName } from "../extractor/image";
+import type { DepTree, DepTreeDep } from "../types";
 
 /** @deprecated Should implement a new function to build a dependency graph instead. */
 export function buildTree(
@@ -7,38 +8,13 @@ export function buildTree(
   packageFormat: string,
   depInfosList: AnalyzedPackageWithVersion[],
   targetOS: OSRelease,
+  imgName?: ImageName,
 ): DepTree {
-  // A tag can only occur in the last section of a docker image name, so
-  // check any colon separator after the final '/'. If there are no '/',
-  // which is common when using Docker's official images such as
-  // "debian:stretch", just check for ':'
-  const finalSlash = targetImage.lastIndexOf("/");
-  const hasVersion =
-    (finalSlash >= 0 && targetImage.slice(finalSlash).includes(":")) ||
-    targetImage.includes(":");
-
-  // Defaults for simple images from dockerhub, like "node" or "centos"
-  let imageName = targetImage;
-  let imageVersion = "latest";
-
-  // If we have a version, split on the last ':' to avoid the optional
-  // port on a hostname (i.e. localhost:5000)
-  if (hasVersion) {
-    const versionSeparator = targetImage.lastIndexOf(":");
-    imageName = targetImage.slice(0, versionSeparator);
-    imageVersion = targetImage.slice(versionSeparator + 1);
-  }
-
-  if (imageName.endsWith(".tar")) {
-    imageVersion = "";
-  }
-
-  const shaString = "@sha256";
-
-  if (imageName.endsWith(shaString)) {
-    imageName = imageName.slice(0, imageName.length - shaString.length);
-    imageVersion = "";
-  }
+  const imageName = imgName ? imgName.name : targetImage;
+  // If we don't get an imageName, we never pulled it from a registry, meaning
+  // that the image is probably a file on disk. In that case we don't have a
+  // version (there would be ways to determine one, but we don't do that.)
+  const imageVersion = imgName && imgName.tag ? imgName.tag : "";
 
   const root: DepTree = {
     // don't use the real image name to avoid scanning it as an issue
