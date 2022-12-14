@@ -8,36 +8,22 @@ import {
 
 export function analyze(
   targetImage: string,
-  rpmDbFilecontent: string,
+  pkgs: PackageInfo[],
 ): Promise<ImagePackagesAnalysis> {
   return Promise.resolve({
     Image: targetImage,
     AnalyzeType: AnalysisType.Rpm,
-    Analysis: parseOutput(rpmDbFilecontent),
+    Analysis: pkgs.map((pkgInfo) => {
+      return {
+        Name: pkgInfo.name,
+        Version: formatRpmPackageVersion(pkgInfo),
+        Source: undefined,
+        Provides: [],
+        Deps: {},
+        AutoInstalled: undefined,
+      };
+    }),
   });
-}
-
-function parseOutput(output: string) {
-  const pkgs: AnalyzedPackageWithVersion[] = [];
-  for (const line of output.split("\n")) {
-    parseLine(line, pkgs);
-  }
-  return pkgs;
-}
-
-function parseLine(text: string, pkgs: AnalyzedPackageWithVersion[]) {
-  const [name, version, size] = text.split("\t");
-  if (name && version && size) {
-    const pkg: AnalyzedPackageWithVersion = {
-      Name: name,
-      Version: version,
-      Source: undefined,
-      Provides: [],
-      Deps: {},
-      AutoInstalled: undefined,
-    };
-    pkgs.push(pkg);
-  }
 }
 
 export function mapRpmSqlitePackages(
