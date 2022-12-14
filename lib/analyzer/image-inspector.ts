@@ -59,11 +59,7 @@ async function pullWithDockerBinary(
     await docker.save(targetImage, saveLocation);
     return (pullAndSaveSuccessful = true);
   } catch (err) {
-    debug(
-      `couldn't pull ${targetImage} using docker binary: ${JSON.stringify(
-        err,
-      )}`,
-    );
+    debug(`couldn't pull ${targetImage} using docker binary: ${err}`);
 
     if (
       err.stderr &&
@@ -319,7 +315,7 @@ function isLocalImageSameArchitecture(
     // Note: this is using the same flag/input pattern as the new Docker buildx: eg. linux/arm64/v8
     platformArchitecture = platformOption.split("/")[1];
   } catch (error) {
-    debug(`Error parsing platform flag: '${JSON.stringify(error)}'`);
+    debug(`Error parsing platform flag: '${error}'`);
     return false;
   }
 
