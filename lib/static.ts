@@ -2,7 +2,7 @@ import * as analyzer from "./analyzer";
 import { StaticAnalysis } from "./analyzer/types";
 import { buildTree } from "./dependency-tree";
 import { DockerFileAnalysis } from "./dockerfile/types";
-import { ImageName } from "./extractor/image";
+import { getImageNames, ImageName } from "./extractor/image";
 import { isTrue } from "./option-utils";
 import { parseAnalysisResults } from "./parser";
 import { buildResponse } from "./response-builder";
@@ -51,10 +51,13 @@ export async function analyzeStatically(
   };
 
   const excludeBaseImageVulns = isTrue(options["exclude-base-image-vulns"]);
+
+  const names = getImageNames(options, imageName);
+
   return buildResponse(
     analysis,
     dockerfileAnalysis,
     excludeBaseImageVulns,
-    imageName,
+    names,
   );
 }

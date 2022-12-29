@@ -8118,6 +8118,14 @@ Object {
           },
           "type": "autoDetectedUserInstructions",
         },
+        Object {
+          "data": Object {
+            "names": Array [
+              "snyk/runtime-fixtures:dockergoof",
+            ],
+          },
+          "type": "imageNames",
+        },
       ],
       "identity": Object {
         "args": Object {

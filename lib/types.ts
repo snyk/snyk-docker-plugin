@@ -151,6 +151,14 @@ export interface PluginOptions {
   imageNameAndTag: string;
 
   /**
+   * WARNING! This is NOT used by the Snyk CLI!
+   *
+   * It is used by K8s-Monitor to preserve the imageNameAndDigest if we can extract this
+   * information from the workload metadata when scanning archives.
+   */
+  imageNameAndDigest: string;
+
+  /**
    * Provide patterns on which to match for detecting package manager manifest files.
    * Used for the APP+OS deps feature, not by the CLI.
    */
