@@ -6,7 +6,6 @@ import * as facts from "./facts";
 
 import { instructionDigest } from "./dockerfile";
 import { DockerFileAnalysis, DockerFilePackages } from "./dockerfile/types";
-import { ImageName } from "./extractor/image";
 import * as types from "./types";
 
 export { buildResponse };
@@ -18,7 +17,7 @@ async function buildResponse(
   },
   dockerfileAnalysis: DockerFileAnalysis | undefined,
   excludeBaseImageVulns: boolean,
-  imageName?: ImageName,
+  names?: string[],
 ): Promise<types.PluginResponse> {
   const deps = depsAnalysis.depTree.dependencies;
   const dockerfilePkgs = collectDockerfilePkgs(dockerfileAnalysis, deps);
@@ -182,8 +181,7 @@ async function buildResponse(
     data: depGraph,
   };
 
-  if (imageName) {
-    const names = imageName.getAllNames();
+  if (names) {
     if (names.length > 0) {
       const imageNameInfo = { names };
       const imageNamesFact: facts.ImageNamesFact = {

@@ -1,4 +1,6 @@
-export { ImageName, ImageDigest };
+import { PluginOptions } from "../types";
+
+export { ImageName, ImageDigest, getImageNames };
 class ImageName {
   public name: string;
   public tag?: string;
@@ -129,4 +131,29 @@ class ImageDigest {
   public toString(): string {
     return this.alg + ":" + this.hex;
   }
+}
+
+function getImageNames(
+  options?: Partial<PluginOptions>,
+  imageName?: ImageName,
+): string[] {
+  if (imageName) {
+    return imageName.getAllNames();
+  }
+
+  const names: string[] = [];
+  if (options?.imageNameAndTag) {
+    const imageName = new ImageName(options.imageNameAndTag);
+    names.push(...imageName.getAllNames());
+  }
+
+  if (
+    options?.imageNameAndDigest &&
+    options?.imageNameAndDigest !== options?.imageNameAndTag
+  ) {
+    const imageName = new ImageName(options.imageNameAndDigest);
+    names.push(...imageName.getAllNames());
+  }
+
+  return names;
 }
