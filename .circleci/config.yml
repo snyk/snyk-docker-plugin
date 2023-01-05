@@ -3,6 +3,7 @@ version: 2.1
 orbs:
   win: circleci/windows@5.0.0
   node: circleci/node@5.0.2
+  slack: circleci/slack@4
 
 defaults: &defaults
   resource_class: small
@@ -19,6 +20,20 @@ windows_defaults: &windows_defaults
       type: string
       default: ""
   working_directory: ~/snyk-docker-plugin
+
+slack-fail-notify: &slack-fail-notify
+  slack/notify:
+    event: fail
+    channel: mycelium-alerts
+    branch_pattern: "main"
+    template: basic_fail_1
+
+slack-success-notify: &slack-success-notify
+  slack/notify:
+    event: pass
+    channel: mycelium-deployment
+    branch_pattern: "main"
+    template: basic_success_1
 
 windows_big: &windows_big
   executor:
@@ -73,20 +88,6 @@ commands:
             git merge --no-edit "$CIRCLE_BRANCH"
       - attach_workspace:
           at: ~/snyk-docker-plugin
-  notify_slack_on_failure:
-    steps:
-      - run:
-          name: Notify Slack on failure
-          command: |
-            if [[ "$CIRCLE_BRANCH" == "main" ]]; then
-              ./.circleci/slack-notify-failure.sh "${CIRCLE_JOB}"
-            fi
-          when: on_fail
-  notify_slack_on_success:
-    steps:
-      - run:
-          name: Notify Slack on success
-          command: ./.circleci/slack-notify-success.sh
   install_node_npm:
     description: Install specific Node version
     parameters:
@@ -112,7 +113,6 @@ jobs:
       - attach_workspace:
           at: ~/snyk-docker-plugin
       - run: npm run lint
-      - notify_slack_on_failure
   test:
     <<: *defaults
     steps:
@@ -121,7 +121,6 @@ jobs:
       - attach_workspace:
           at: ~/snyk-docker-plugin
       - run: npm test
-      - notify_slack_on_failure
   test_windows:
     <<: *windows_defaults
     steps:
@@ -144,7 +143,6 @@ jobs:
           command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
       - run: npm install
       - run: npm run test-jest
-      - notify_slack_on_failure
   test_jest_windows:
     <<: *windows_big
     steps:
@@ -167,7 +165,6 @@ jobs:
           command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
       - run: npm install
       - run: npm run build
-      - notify_slack_on_failure
   build_cli:
     <<: *defaults
     resource_class: medium
@@ -176,7 +173,6 @@ jobs:
       - run:
           name: Build Snyk CLI with latest changes
           command: ./.circleci/build-cli.sh
-      - notify_slack_on_failure
   build_and_test_latest_go_binary:
     <<: *defaults
     resource_class: medium
@@ -192,7 +188,6 @@ jobs:
       - run:
           name: Run Go binaries unit test
           command: npx jest test/unit/go-binaries.spec.ts
-      - notify_slack_on_failure
   release:
     <<: *release_defaults
     steps:
@@ -202,8 +197,6 @@ jobs:
       - run:
           name: Release on GitHub
           command: npx semantic-release
-      - notify_slack_on_success
-      - notify_slack_on_failure
 
 workflows:
   version: 2
@@ -218,38 +211,64 @@ workflows:
           context: nodejs-install
       - lint:
           name: Lint
-          context: nodejs-install
+          context: 
+            - nodejs-install
+            - snyk-bot-slack
           requires:
             - Install
+          post-steps:
+            - *slack-fail-notify
       - build:
           name: Build
+          context:
+            - snyk-bot-slack
           requires:
             - Lint
+          post-steps:
+            - *slack-fail-notify
       - test:
           name: Test
-          context: nodejs-install
+          context: 
+            - nodejs-install
+            - snyk-bot-slack
           requires:
             - Build
+          post-steps:
+            - *slack-fail-notify
       - test_windows:
           name: Test Windows
-          context: nodejs-install
+          context: 
+            - nodejs-install
+            - snyk-bot-slack
           node_version: "12"
           requires:
             - Build
+          post-steps:
+            - *slack-fail-notify
       - test_jest_windows:
           name: Test Jest Windows
-          context: nodejs-install
+          context: 
+            - nodejs-install
+            - snyk-bot-slack
           node_version: "12"
           requires:
             - Build
+          post-steps:
+            - *slack-fail-notify
       - build_cli:
           name: Build CLI with changes
-          context: nodejs-install
+          context: 
+            - nodejs-install
+            - snyk-bot-slack
           requires:
             - Build
+          post-steps:
+            - *slack-fail-notify
       - release:
           name: Release to GitHub
-          context: nodejs-lib-release
+          context: 
+            - nodejs-lib-release
+            - snyk-bot-slack
           filters:
             branches:
               only:
@@ -260,6 +279,9 @@ workflows:
             - Test
             - Test Windows
             - Test Jest Windows
+          post-steps:
+            - *slack-fail-notify
+            - *slack-success-notify
   go_regression_test:
     when:
       and:
@@ -269,8 +291,12 @@ workflows:
       - install:
           name: Install
           context: nodejs-install
+          post-steps:
+            - *slack-fail-notify
       - build_and_test_latest_go_binary:
           name: Build Go binary
           context: nodejs-install
           requires:
             - Install
+          post-steps:
+            - *slack-fail-notify
