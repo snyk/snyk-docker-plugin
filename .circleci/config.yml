@@ -24,14 +24,14 @@ windows_defaults: &windows_defaults
 slack-fail-notify: &slack-fail-notify
   slack/notify:
     event: fail
-    channel: mycelium-alerts
+    channel: lumos-alerts
     branch_pattern: "main"
     template: basic_fail_1
 
 slack-success-notify: &slack-success-notify
   slack/notify:
     event: pass
-    channel: mycelium-deployment
+    channel: lumos-deployment
     branch_pattern: "main"
     template: basic_success_1
 
