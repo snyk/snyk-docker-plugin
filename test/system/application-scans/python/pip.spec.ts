@@ -14,6 +14,20 @@ describe("pip application scan", () => {
     expect(pluginResult.scanResults).toHaveLength(2);
   });
 
+  it("should correctly return applications as multiple scan results with dist-packages", async () => {
+    const fixturePath = getFixture(
+      "docker-archives/docker-save/pip-dist-packages.tar",
+    );
+    const imageNameAndTag = `docker-archive:${fixturePath}`;
+
+    const pluginResult = await scan({
+      path: imageNameAndTag,
+    });
+
+    expect(pluginResult).toMatchSnapshot();
+    expect(pluginResult.scanResults).toHaveLength(2);
+  });
+
   it("should handle --exclude-app-vulns with string and boolean value", async () => {
     const fixturePath = getFixture("docker-archives/docker-save/pip.tar");
     const imageNameAndTag = `docker-archive:${fixturePath}`;
