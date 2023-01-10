@@ -6,7 +6,7 @@ import { streamToString } from "../../stream-utils";
 const poetryManifestFiles = ["pyproject.toml", "poetry.lock"];
 const pipManifestFiles = ["requirements.txt"];
 const pythonMetadataFilesRegex =
-  /\/lib\/python.*?\/site-packages\/.*?\.dist-info\/METADATA/;
+  /\/lib\/python.*?\/(?:dist|site)-packages\/.*?\.dist-info\/METADATA/;
 const deletedPoetryAppFiles = poetryManifestFiles.map((file) => ".wh." + file);
 const deletedPipAppFiles = pipManifestFiles.map((file) => ".wh." + file);
 
