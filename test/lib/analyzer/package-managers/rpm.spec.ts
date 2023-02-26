@@ -3,14 +3,18 @@ import { mapRpmSqlitePackages } from "../../../../lib/analyzer/package-managers/
 
 describe("Correctly maps RPM package version", () => {
   it("formats version without epoch", () => {
-    const mappedResults = mapRpmSqlitePackages("image", [
-      {
-        name: "pkg1",
-        version: "1.2.3",
-        release: "1",
-        size: 1,
-      },
-    ]);
+    const mappedResults = mapRpmSqlitePackages(
+      "image",
+      [
+        {
+          name: "pkg1",
+          version: "1.2.3",
+          release: "1",
+          size: 1,
+        },
+      ],
+      [],
+    );
 
     const expected = [
       {
@@ -20,20 +24,25 @@ describe("Correctly maps RPM package version", () => {
         Provides: [],
         Deps: {},
         AutoInstalled: undefined,
+        Purl: "pkg:rpm/pkg1@1.2.3-1",
       },
     ];
     expect(mappedResults.Analysis).toMatchObject(expected);
   });
   it("formats version with epoch == 0", () => {
-    const mappedResults = mapRpmSqlitePackages("image", [
-      {
-        name: "pkg2",
-        version: "1.2.3",
-        release: "2",
-        epoch: 0,
-        size: 1,
-      },
-    ]);
+    const mappedResults = mapRpmSqlitePackages(
+      "image",
+      [
+        {
+          name: "pkg2",
+          version: "1.2.3",
+          release: "2",
+          epoch: 0,
+          size: 1,
+        },
+      ],
+      [],
+    );
 
     const expected = [
       {
@@ -43,20 +52,25 @@ describe("Correctly maps RPM package version", () => {
         Provides: [],
         Deps: {},
         AutoInstalled: undefined,
+        Purl: "pkg:rpm/pkg2@1.2.3-2",
       },
     ];
     expect(mappedResults.Analysis).toMatchObject(expected);
   });
   it("formats version with epoch", () => {
-    const mappedResults = mapRpmSqlitePackages("image", [
-      {
-        name: "pkg3",
-        version: "1.2.3",
-        release: "3",
-        epoch: 1,
-        size: 1,
-      },
-    ]);
+    const mappedResults = mapRpmSqlitePackages(
+      "image",
+      [
+        {
+          name: "pkg3",
+          version: "1.2.3",
+          release: "3",
+          epoch: 1,
+          size: 1,
+        },
+      ],
+      [],
+    );
 
     const expected = [
       {
@@ -66,6 +80,7 @@ describe("Correctly maps RPM package version", () => {
         Provides: [],
         Deps: {},
         AutoInstalled: undefined,
+        Purl: "pkg:rpm/pkg3@1:1.2.3-3?epoch=1",
       },
     ];
     expect(mappedResults.Analysis).toMatchObject(expected);

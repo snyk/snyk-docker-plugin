@@ -91,8 +91,3 @@ export interface LoadedPackagesFact {
   type: "loadedPackages";
   data: string;
 }
-
-export interface RedHatRepositoriesFact {
-  type: "redHatRepositories";
-  data: string[];
-}

@@ -1810,14 +1810,6 @@ Object {
           },
           "type": "autoDetectedUserInstructions",
         },
-        Object {
-          "data": Array [
-            "rhel-7-server-ose-3.11-rpms",
-            "rhel-server-rhscl-7-rpms",
-            "rhel-7-server-rpms",
-          ],
-          "type": "redHatRepositories",
-        },
       ],
       "identity": Object {
         "args": Object {

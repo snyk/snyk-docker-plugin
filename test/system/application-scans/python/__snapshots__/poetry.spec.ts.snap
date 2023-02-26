@@ -92,6 +92,11 @@ Object {
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "scope": "prod",
+                    },
+                  },
                   "nodeId": "six",
                   "pkgId": "six@1.16.0",
                 },
@@ -113,6 +118,11 @@ Object {
                       "nodeId": "werkzeug",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "scope": "prod",
+                    },
+                  },
                   "nodeId": "flask",
                   "pkgId": "flask@2.2.0",
                 },
@@ -125,11 +135,21 @@ Object {
                       "nodeId": "importlib-metadata",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "scope": "prod",
+                    },
+                  },
                   "nodeId": "click",
                   "pkgId": "click@8.1.3",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "scope": "prod",
+                    },
+                  },
                   "nodeId": "colorama",
                   "pkgId": "colorama@0.4.5",
                 },
@@ -142,21 +162,41 @@ Object {
                       "nodeId": "zipp",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "scope": "prod",
+                    },
+                  },
                   "nodeId": "importlib-metadata",
                   "pkgId": "importlib-metadata@4.12.0",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "scope": "prod",
+                    },
+                  },
                   "nodeId": "typing-extensions",
                   "pkgId": "typing-extensions@3.10.0.2",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "scope": "prod",
+                    },
+                  },
                   "nodeId": "zipp",
                   "pkgId": "zipp@3.8.1",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "scope": "prod",
+                    },
+                  },
                   "nodeId": "itsdangerous",
                   "pkgId": "itsdangerous@2.1.2",
                 },
@@ -166,11 +206,21 @@ Object {
                       "nodeId": "markupsafe",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "scope": "prod",
+                    },
+                  },
                   "nodeId": "jinja2",
                   "pkgId": "jinja2@3.1.2",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "scope": "prod",
+                    },
+                  },
                   "nodeId": "markupsafe",
                   "pkgId": "markupsafe@2.1.1",
                 },
@@ -180,6 +230,11 @@ Object {
                       "nodeId": "markupsafe",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "scope": "prod",
+                    },
+                  },
                   "nodeId": "werkzeug",
                   "pkgId": "werkzeug@2.2.1",
                 },
@@ -189,6 +244,11 @@ Object {
                       "nodeId": "typing-extensions",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "scope": "prod",
+                    },
+                  },
                   "nodeId": "rpc.py",
                   "pkgId": "rpc.py@0.4.2",
                 },
