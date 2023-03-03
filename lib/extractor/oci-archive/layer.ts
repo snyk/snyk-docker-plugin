@@ -176,11 +176,17 @@ function getAllManifestsIndexItems(
 ): OciManifestInfo[] {
   const allManifestsInfo: OciManifestInfo[] = [];
   for (const manifest of imageIndex.manifests) {
-    if (manifest.mediaType === "application/vnd.oci.image.manifest.v1+json") {
+    if (
+      manifest.mediaType === "application/vnd.oci.image.manifest.v1+json" ||
+      manifest.mediaType ===
+        "application/vnd.docker.distribution.manifest.v2+json"
+    ) {
       // an archive manifest file
       allManifestsInfo.push(manifest);
     } else if (
-      manifest.mediaType === "application/vnd.oci.image.index.v1+json"
+      manifest.mediaType === "application/vnd.oci.image.index.v1+json" ||
+      manifest.mediaType ===
+        "application/vnd.docker.distribution.manifest.list.v2+json"
     ) {
       // nested index
       const index = indexFiles[manifest.digest];
@@ -202,7 +208,9 @@ function isImageConfigFile(json: any): json is ImageConfig {
 
 function isImageIndexFile(json: any): boolean {
   return (
-    json?.mediaType === "application/vnd.oci.image.index.v1+json" &&
+    (json?.mediaType === "application/vnd.oci.image.index.v1+json" ||
+      json?.mediaType ===
+        "application/vnd.docker.distribution.manifest.list.v2+json") &&
     Array.isArray(json?.manifests)
   );
 }
