@@ -4,11 +4,13 @@ import * as gunzip from "gunzip-maybe";
 import { normalize as normalizePath, sep as pathSeparator } from "path";
 import { PassThrough } from "stream";
 import { extract, Extract } from "tar-stream";
+import { InvalidArchiveError } from "..";
 import { streamToJson } from "../../stream-utils";
 import { extractImageLayer } from "../layer";
 import {
   ExtractAction,
   ExtractedLayers,
+  ExtractedLayersAndManifest,
   ImageConfig,
   OciArchiveManifest,
   OciImageIndex,
@@ -16,6 +18,13 @@ import {
 } from "../types";
 
 const debug = Debug("snyk");
+const MEDIATYPE_DOCKER_MANIFEST_V2 =
+  "application/vnd.docker.distribution.manifest.v2+json";
+const MEDIATYPE_DOCKER_MANIFEST_LIST_V2 =
+  "application/vnd.docker.distribution.manifest.list.v2+json";
+const MEDIATYPE_OCI_MANIFEST_V1 = "application/vnd.oci.image.manifest.v1+json";
+const MEDIATYPE_OCI_MANIFEST_LIST_V1 =
+  "application/vnd.oci.image.index.v1+json";
 
 /**
  * Retrieve the products of files content from the specified oci-archive.
@@ -26,11 +35,7 @@ const debug = Debug("snyk");
 export async function extractArchive(
   ociArchiveFilesystemPath: string,
   extractActions: ExtractAction[],
-): Promise<{
-  layers: ExtractedLayers[];
-  manifest: OciArchiveManifest;
-  imageConfig: ImageConfig;
-}> {
+): Promise<ExtractedLayersAndManifest> {
   return new Promise((resolve, reject) => {
     const tarExtractor: Extract = extract();
 
@@ -97,7 +102,7 @@ export async function extractArchive(
         debug(
           `Error getting layers and manifest content from oci archive: '${error}'`,
         );
-        reject(new Error("Invalid OCI archive"));
+        reject(new InvalidArchiveError("Invalid OCI archive"));
       }
     });
 
@@ -177,16 +182,14 @@ function getAllManifestsIndexItems(
   const allManifestsInfo: OciManifestInfo[] = [];
   for (const manifest of imageIndex.manifests) {
     if (
-      manifest.mediaType === "application/vnd.oci.image.manifest.v1+json" ||
-      manifest.mediaType ===
-        "application/vnd.docker.distribution.manifest.v2+json"
+      manifest.mediaType === MEDIATYPE_OCI_MANIFEST_V1 ||
+      manifest.mediaType === MEDIATYPE_DOCKER_MANIFEST_V2
     ) {
       // an archive manifest file
       allManifestsInfo.push(manifest);
     } else if (
-      manifest.mediaType === "application/vnd.oci.image.index.v1+json" ||
-      manifest.mediaType ===
-        "application/vnd.docker.distribution.manifest.list.v2+json"
+      manifest.mediaType === MEDIATYPE_OCI_MANIFEST_LIST_V1 ||
+      manifest.mediaType === MEDIATYPE_DOCKER_MANIFEST_LIST_V2
     ) {
       // nested index
       const index = indexFiles[manifest.digest];
@@ -208,9 +211,8 @@ function isImageConfigFile(json: any): json is ImageConfig {
 
 function isImageIndexFile(json: any): boolean {
   return (
-    (json?.mediaType === "application/vnd.oci.image.index.v1+json" ||
-      json?.mediaType ===
-        "application/vnd.docker.distribution.manifest.list.v2+json") &&
+    (json?.mediaType === MEDIATYPE_OCI_MANIFEST_LIST_V1 ||
+      json?.mediaType === MEDIATYPE_DOCKER_MANIFEST_LIST_V2) &&
     Array.isArray(json?.manifests)
   );
 }

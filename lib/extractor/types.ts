@@ -11,6 +11,19 @@ export type FileContent = string | Buffer | Elf;
 
 export type FileNameAndContent = Record<string, FileContent>;
 
+export interface Extractor {
+  extractArchive(
+    fileSystemPath: string,
+    extractActions: ExtractAction[],
+  ): ExtractedLayersAndManifest;
+  getImageIdFromManifest(
+    manifest: DockerArchiveManifest | OciArchiveManifest,
+  ): string;
+  getManifestLayers(
+    manifest: DockerArchiveManifest | OciArchiveManifest,
+  ): string[];
+}
+
 export interface ExtractionResult {
   imageId: string;
   manifestLayers: string[];
@@ -28,7 +41,7 @@ export interface ExtractedLayers {
 
 export interface ExtractedLayersAndManifest {
   layers: ExtractedLayers[];
-  manifest: DockerArchiveManifest;
+  manifest: DockerArchiveManifest | OciArchiveManifest;
   imageConfig: ImageConfig;
 }
 

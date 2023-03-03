@@ -4,6 +4,7 @@ import * as gunzip from "gunzip-maybe";
 import { basename, normalize as normalizePath } from "path";
 import { Readable } from "stream";
 import { extract, Extract } from "tar-stream";
+import { InvalidArchiveError } from "..";
 import { streamToJson } from "../../stream-utils";
 import { extractImageLayer } from "../layer";
 import {
@@ -68,7 +69,7 @@ export async function extractArchive(
         debug(
           `Error getting layers and manifest content from docker archive: ${error}`,
         );
-        reject(new Error("Invalid Docker archive"));
+        reject(new InvalidArchiveError("Invalid Docker archive"));
       }
     });
 
