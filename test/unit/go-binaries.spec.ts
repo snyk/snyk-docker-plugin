@@ -259,7 +259,10 @@ function extractGoVersion(fileName: string): GoVersion {
 describe("test from binaries", () => {
   const files = readdirSync(path.join(__dirname, "../fixtures/go-binaries"));
   for (const file of files) {
-    if (!file.match(/^go1\.[0-9]{1,2}\.[0-9]{1,2}_.*/)) {
+    if (
+      !file.match(/^go1\.[0-9]{1,2}\.[0-9]{1,2}_.*/) &&
+      !file.match(/^latest_.*/)
+    ) {
       continue;
     }
 
