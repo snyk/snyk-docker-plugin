@@ -3,7 +3,6 @@
 bin/
 npm-debug.log
 dist/
-package-lock.json
 yarn.lock
 .DS_Store
 test/fixtures/ls-output/xxx.txt

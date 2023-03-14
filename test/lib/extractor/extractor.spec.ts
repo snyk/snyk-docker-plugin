@@ -1,4 +1,7 @@
-import { extractImageContent } from "../../../lib/extractor";
+import {
+  extractImageContent,
+  InvalidArchiveError,
+} from "../../../lib/extractor";
 import { ExtractionResult } from "../../../lib/extractor/types";
 import { getRedHatRepositoriesContentAction } from "../../../lib/inputs/redHat/static";
 import { ImageType } from "../../../lib/types";
@@ -49,5 +52,25 @@ describe("extractImageContent", () => {
 
   it("extracts image creation time", async () => {
     expect(typeof extractedContent.imageCreationTime).toEqual("string");
+  });
+
+  describe("with images pulled with containerd", () => {
+    const fixture = getFixture("containerd-archives/alpine.tar");
+
+    it("successfully extracts the archive when image type is set to oci-archive", async () => {
+      await expect(
+        extractImageContent(ImageType.OciArchive, fixture, []),
+      ).resolves.not.toThrow();
+    });
+
+    it("successfully extracts the archive when image type is not set", async () => {
+      await expect(extractImageContent(0, fixture, [])).resolves.not.toThrow();
+    });
+
+    it("throws InvalidArchive error when type is set to docker-archive", async () => {
+      await expect(
+        extractImageContent(ImageType.DockerArchive, fixture, []),
+      ).rejects.toThrow(InvalidArchiveError);
+    });
   });
 });

@@ -1,12 +1,63 @@
-import { ImageType } from "../types";
+import {
+  getLayersFromPackages,
+  getPackagesFromRunInstructions,
+} from "../dockerfile/instruction-parser";
+import { AutoDetectedUserInstructions, ImageType } from "../types";
 import * as dockerExtractor from "./docker-archive";
 import * as ociExtractor from "./oci-archive";
 import {
+  DockerArchiveManifest,
   ExtractAction,
   ExtractedLayers,
+  ExtractedLayersAndManifest,
   ExtractionResult,
+  Extractor,
   FileContent,
+  ImageConfig,
+  OciArchiveManifest,
 } from "./types";
+
+export class InvalidArchiveError extends Error {
+  constructor(message) {
+    super();
+    this.name = "InvalidArchiveError";
+    this.message = message;
+  }
+}
+class ArchiveExtractor {
+  private extractor: Extractor;
+  private fileSystemPath: string;
+  private extractActions: ExtractAction[];
+
+  constructor(extractor: Extractor, path: string, actions: ExtractAction[]) {
+    this.fileSystemPath = path;
+    this.extractActions = actions;
+    this.extractor = extractor;
+  }
+
+  public getExtractor(): Extractor {
+    return this.extractor;
+  }
+
+  public async getLayersAndManifest(): Promise<ExtractedLayersAndManifest> {
+    return await this.extractor.extractArchive(
+      this.fileSystemPath,
+      this.extractActions,
+    );
+  }
+
+  public getImageIdFromManifest(
+    manifest: DockerArchiveManifest | OciArchiveManifest,
+  ) {
+    return this.extractor.getImageIdFromManifest(manifest);
+  }
+
+  public getManifestLayers(
+    manifest: DockerArchiveManifest | OciArchiveManifest,
+  ) {
+    return this.extractor.getManifestLayers(manifest);
+  }
+}
 
 /**
  * Given a path on the file system to a image archive, open it up to inspect the layers
@@ -20,55 +71,113 @@ export async function extractImageContent(
   fileSystemPath: string,
   extractActions: ExtractAction[],
 ): Promise<ExtractionResult> {
-  switch (imageType) {
-    case ImageType.OciArchive:
-      const ociArchive = await ociExtractor.extractArchive(
+  const extractors = new Map<ImageType, ArchiveExtractor>([
+    [
+      ImageType.DockerArchive,
+      new ArchiveExtractor(
+        dockerExtractor as unknown as Extractor,
         fileSystemPath,
         extractActions,
-      );
-
-      return {
-        imageId: ociExtractor.getImageIdFromManifest(ociArchive.manifest),
-        manifestLayers: ociExtractor.getManifestLayers(ociArchive.manifest),
-        extractedLayers: layersWithLatestFileModifications(ociArchive.layers),
-        rootFsLayers: dockerExtractor.getRootFsLayersFromConfig(
-          ociArchive.imageConfig,
-        ),
-        autoDetectedUserInstructions:
-          dockerExtractor.getDetectedLayersInfoFromConfig(
-            ociArchive.imageConfig,
-          ),
-        platform: dockerExtractor.getPlatformFromConfig(ociArchive.imageConfig),
-        imageLabels: ociArchive.imageConfig.config.Labels,
-      };
-    default:
-      const dockerArchive = await dockerExtractor.extractArchive(
+      ),
+    ],
+    [
+      ImageType.OciArchive,
+      new ArchiveExtractor(
+        ociExtractor as unknown as Extractor,
         fileSystemPath,
         extractActions,
-      );
+      ),
+    ],
+  ]);
 
-      return {
-        imageId: dockerExtractor.getImageIdFromManifest(dockerArchive.manifest),
-        manifestLayers: dockerExtractor.getManifestLayers(
-          dockerArchive.manifest,
-        ),
-        extractedLayers: layersWithLatestFileModifications(
-          dockerArchive.layers,
-        ),
-        rootFsLayers: dockerExtractor.getRootFsLayersFromConfig(
-          dockerArchive.imageConfig,
-        ),
-        autoDetectedUserInstructions:
-          dockerExtractor.getDetectedLayersInfoFromConfig(
-            dockerArchive.imageConfig,
-          ),
-        platform: dockerExtractor.getPlatformFromConfig(
-          dockerArchive.imageConfig,
-        ),
-        imageLabels: dockerArchive.imageConfig.config.Labels,
-        imageCreationTime: dockerArchive.imageConfig.created,
-      };
+  let extractor: ArchiveExtractor;
+  let archiveContent: ExtractedLayersAndManifest;
+
+  if (extractors.has(imageType)) {
+    extractor = extractors.get(imageType) as ArchiveExtractor;
+    archiveContent = await extractor.getLayersAndManifest();
+  } else {
+    // At this stage we do not know the format of the image so we will attempt
+    // to extract the archive using the dockerExtractor but fall back to use the
+    // ociExtractor if we encounter an invalid format.
+    // This will happen on images pulled by the docker binary when using
+    // containerd under the hood
+    // @see https://snyksec.atlassian.net/browse/LUM-147
+    try {
+      extractor = extractors.get(ImageType.DockerArchive) as ArchiveExtractor;
+      archiveContent = await extractor.getLayersAndManifest();
+    } catch (err) {
+      if (err instanceof InvalidArchiveError) {
+        extractor = extractors.get(ImageType.OciArchive) as ArchiveExtractor;
+        archiveContent = await extractor.getLayersAndManifest();
+      } else {
+        throw err;
+      }
+    }
   }
+
+  return {
+    imageId: extractor.getImageIdFromManifest(archiveContent.manifest),
+    manifestLayers: extractor.getManifestLayers(archiveContent.manifest),
+    imageCreationTime: archiveContent.imageConfig.created,
+    extractedLayers: layersWithLatestFileModifications(archiveContent.layers),
+    rootFsLayers: getRootFsLayersFromConfig(archiveContent.imageConfig),
+    autoDetectedUserInstructions: getDetectedLayersInfoFromConfig(
+      archiveContent.imageConfig,
+    ),
+    platform: getPlatformFromConfig(archiveContent.imageConfig),
+    imageLabels: archiveContent.imageConfig.config.Labels,
+  };
+}
+
+export function getRootFsLayersFromConfig(imageConfig: ImageConfig): string[] {
+  try {
+    return imageConfig.rootfs.diff_ids;
+  } catch (err) {
+    throw new Error("Failed to extract rootfs array from image config");
+  }
+}
+
+export function getPlatformFromConfig(
+  imageConfig: ImageConfig,
+): string | undefined {
+  return imageConfig.os && imageConfig.architecture
+    ? `${imageConfig.os}/${imageConfig.architecture}`
+    : undefined;
+}
+
+export function getDetectedLayersInfoFromConfig(
+  imageConfig,
+): AutoDetectedUserInstructions {
+  const runInstructions = getUserInstructionLayersFromConfig(imageConfig)
+    .filter((instruction) => !instruction.empty_layer && instruction.created_by)
+    .map((instruction) => instruction.created_by.replace("# buildkit", ""));
+
+  const dockerfilePackages = getPackagesFromRunInstructions(runInstructions);
+  const dockerfileLayers = getLayersFromPackages(dockerfilePackages);
+  return { dockerfilePackages, dockerfileLayers };
+}
+
+export function getUserInstructionLayersFromConfig(imageConfig) {
+  const diffInHours = (d1, d2) => Math.abs(d1 - d2) / 1000 / (60 * 60);
+  const maxDiffInHours = 5;
+
+  const history = imageConfig.history;
+  if (!history) {
+    return [];
+  }
+  const lastInstructionTime = new Date(history.slice(-1)[0].created);
+  const userInstructionLayers = history.filter((layer) => {
+    return (
+      diffInHours(new Date(layer.created), lastInstructionTime) <=
+      maxDiffInHours
+    );
+  });
+  // should only happen if there are no layers created by user instructions
+  if (userInstructionLayers.length === history.length) {
+    return [];
+  }
+  return userInstructionLayers;
 }
 
 function layersWithLatestFileModifications(

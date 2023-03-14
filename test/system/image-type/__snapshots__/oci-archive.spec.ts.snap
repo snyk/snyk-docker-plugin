@@ -49,6 +49,10 @@ Object {
           "type": "imageLayers",
         },
         Object {
+          "data": "2020-06-02T21:19:57.279412246Z",
+          "type": "imageCreationTime",
+        },
+        Object {
           "data": Array [
             "sha256:1be74353c3d0fd55fb5638a52953e6f1bc441e5b1710921db9ec2aa202725569",
           ],
@@ -436,6 +440,10 @@ Object {
             "sha256:df20fa9351a15782c64e6dddb2d4a6f50bf6d3688060a34c4014b0d9a752eb4c",
           ],
           "type": "imageLayers",
+        },
+        Object {
+          "data": "2020-05-29T21:19:46.363518345Z",
+          "type": "imageCreationTime",
         },
         Object {
           "data": Array [
@@ -832,6 +840,10 @@ Object {
             "sha256:f3141be012f44da562dafa209c4650c3feb90989297d110bb5e05e3e9febf819",
           ],
           "type": "imageLayers",
+        },
+        Object {
+          "data": "2022-08-24T07:47:15.252640403Z",
+          "type": "imageCreationTime",
         },
         Object {
           "data": Array [

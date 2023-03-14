@@ -6,7 +6,7 @@ import { extractImageContent } from "../../../lib/extractor";
 import {
   getDetectedLayersInfoFromConfig,
   getUserInstructionLayersFromConfig,
-} from "../../../lib/extractor/docker-archive/index";
+} from "../../../lib/extractor/index";
 import { ExtractAction } from "../../../lib/extractor/types";
 import { AutoDetectedUserInstructions, ImageType } from "../../../lib/types";
 import { getFixture, getObjFromFixture } from "../../util";
