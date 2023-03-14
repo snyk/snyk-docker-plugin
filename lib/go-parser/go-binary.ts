@@ -146,12 +146,20 @@ export function extractModuleInformation(
 
   const modules: GoModule[] = [];
   versionsLines.forEach((versionLine) => {
-    const [, name, ver] = versionLine.split("\t");
+    const [depType, name, ver] = versionLine.split("\t");
     if (!name || !ver) {
       return;
     }
 
-    modules.push(new GoModule(name, ver));
+    if (depType === "dep") {
+      modules.push(new GoModule(name, ver));
+    } else if (depType === "=>") {
+      // we've found a replace directive. These are always for the previous
+      // line/ module, so we simply need to replace the last module we added.
+      const last = modules.length - 1;
+      modules[last].name = name;
+      modules[last].version = ver;
+    }
   });
 
   return [name, modules];

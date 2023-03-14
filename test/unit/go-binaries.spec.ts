@@ -457,6 +457,43 @@ describe("test stdlib vendor", () => {
   });
 });
 
+describe("test replace directive", () => {
+  it("finds the right dependencies", async () => {
+    // this replace binary was built with two replaces:
+    //
+    // require (
+    //   github.com/ghodss/yaml v1.0.0
+    //   github.com/go-redis/redis/v9 v9.0.0-beta.2
+    //   github.com/gorilla/mux v1.6.0
+    // )
+    // replace (
+    //   github.com/ghodss/yaml => github.com/bradfitz/yaml v1.0.0
+    //   github.com/gorilla/mux => github.com/gorilla/mux v1.8.0
+    // )
+    const fileName = path.join(__dirname, "../fixtures/go-binaries/replace");
+    const graph = await new GoBinary(
+      elf.parse(readFileSync(fileName)),
+    ).depGraph();
+
+    expect(graph.getPkgs()).toContainEqual({
+      name: "github.com/bradfitz/yaml",
+      version: "v1.0.0",
+    });
+    expect(graph.getPkgs()).not.toContainEqual({
+      name: "github.com/ghodss/yaml",
+      version: "v1.0.0",
+    });
+    expect(graph.getPkgs()).toContainEqual({
+      name: "github.com/gorilla/mux",
+      version: "v1.8.0",
+    });
+    expect(graph.getPkgs()).not.toContainEqual({
+      name: "github.com/gorilla/mux",
+      version: "v1.6.0",
+    });
+  });
+});
+
 describe("test path determination", () => {
   it("finds the right paths with mix of vendor and normal", () => {
     const modules = [
