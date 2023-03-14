@@ -196,8 +196,13 @@ function stdlib(
       break;
 
     case GoVersion.Go118:
-    case undefined:
+      lib.packages.set("syscall", ["asm_linux_amd64.s"]);
       lib.packages.set("unicode", ["casetables.go"]);
+      break;
+
+    case GoVersion.Go120:
+    case undefined:
+      lib.packages.set("crypto/ecdsa", ["ecdsa_legacy.go"]);
       break;
   }
 
@@ -228,6 +233,7 @@ enum GoVersion {
   Go113,
   Go116,
   Go118,
+  Go120,
 }
 
 function extractGoVersion(fileName: string): GoVersion {
@@ -240,18 +246,23 @@ function extractGoVersion(fileName: string): GoVersion {
       return GoVersion.Go116;
     case "go1.18":
       return GoVersion.Go118;
+    case "go1.20":
+      return GoVersion.Go120;
     default:
-      // if the test fails because we're using GoVersion.Go118 here, it means
+      // if the test fails because we're using GoVersion.Go120 here, it means
       // that the binary format has changed and we need to introduce a new
       // version + check how to handle that.
-      return GoVersion.Go118;
+      return GoVersion.Go120;
   }
 }
 
 describe("test from binaries", () => {
   const files = readdirSync(path.join(__dirname, "../fixtures/go-binaries"));
   for (const file of files) {
-    if (!file.match(/^go1\.[0-9]{1,2}\.[0-9]{1,2}_.*/)) {
+    if (
+      !file.match(/^go1\.[0-9]{1,2}\.[0-9]{1,2}_.*/) &&
+      !file.match(/^latest_.*/)
+    ) {
       continue;
     }
 
@@ -443,6 +454,43 @@ describe("test stdlib vendor", () => {
       version: "v1.6.1",
     });
     expect(graph.rootPkg.name).toBe("github.com/myrepo/partvend");
+  });
+});
+
+describe("test replace directive", () => {
+  it("finds the right dependencies", async () => {
+    // this replace binary was built with two replaces:
+    //
+    // require (
+    //   github.com/ghodss/yaml v1.0.0
+    //   github.com/go-redis/redis/v9 v9.0.0-beta.2
+    //   github.com/gorilla/mux v1.6.0
+    // )
+    // replace (
+    //   github.com/ghodss/yaml => github.com/bradfitz/yaml v1.0.0
+    //   github.com/gorilla/mux => github.com/gorilla/mux v1.8.0
+    // )
+    const fileName = path.join(__dirname, "../fixtures/go-binaries/replace");
+    const graph = await new GoBinary(
+      elf.parse(readFileSync(fileName)),
+    ).depGraph();
+
+    expect(graph.getPkgs()).toContainEqual({
+      name: "github.com/bradfitz/yaml",
+      version: "v1.0.0",
+    });
+    expect(graph.getPkgs()).not.toContainEqual({
+      name: "github.com/ghodss/yaml",
+      version: "v1.0.0",
+    });
+    expect(graph.getPkgs()).toContainEqual({
+      name: "github.com/gorilla/mux",
+      version: "v1.8.0",
+    });
+    expect(graph.getPkgs()).not.toContainEqual({
+      name: "github.com/gorilla/mux",
+      version: "v1.6.0",
+    });
   });
 });
 
