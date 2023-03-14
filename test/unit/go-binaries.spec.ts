@@ -196,8 +196,13 @@ function stdlib(
       break;
 
     case GoVersion.Go118:
-    case undefined:
+      lib.packages.set("syscall", ["asm_linux_amd64.s"]);
       lib.packages.set("unicode", ["casetables.go"]);
+      break;
+
+    case GoVersion.Go120:
+    case undefined:
+      lib.packages.set("crypto/ecdsa", ["ecdsa_legacy.go"]);
       break;
   }
 
@@ -228,6 +233,7 @@ enum GoVersion {
   Go113,
   Go116,
   Go118,
+  Go120,
 }
 
 function extractGoVersion(fileName: string): GoVersion {
@@ -240,11 +246,13 @@ function extractGoVersion(fileName: string): GoVersion {
       return GoVersion.Go116;
     case "go1.18":
       return GoVersion.Go118;
+    case "go1.20":
+      return GoVersion.Go120;
     default:
-      // if the test fails because we're using GoVersion.Go118 here, it means
+      // if the test fails because we're using GoVersion.Go120 here, it means
       // that the binary format has changed and we need to introduce a new
       // version + check how to handle that.
-      return GoVersion.Go118;
+      return GoVersion.Go120;
   }
 }
 

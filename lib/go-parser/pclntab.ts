@@ -3,6 +3,7 @@ export class LineTable {
   private static go12magic = 0xfffffffb;
   private static go116magic = 0xfffffffa;
   private static go118magic = 0xfffffff0;
+  private static go120magic = 0xfffffff1;
 
   // the Go type contains some exported fields, but as we don't require anything, we don't export it.
   // We only store what we require, so some fields are missing when compared to the Go implementation.
@@ -50,8 +51,14 @@ export class LineTable {
     } else if (beMagic === LineTable.go118magic) {
       this.binary = bigEndian;
       this.version = pclnVersion.v118;
+    } else if (beMagic === LineTable.go120magic) {
+      this.binary = bigEndian;
+      this.version = pclnVersion.v120;
+    } else if (leMagic === LineTable.go120magic) {
+      this.binary = littleEndian;
+      this.version = pclnVersion.v118;
     } else {
-      throw new Error("unknown / unsupported Go version");
+      throw new Error(`unknown / unsupported Go version`);
     }
 
     this.ptrsize = b[7];
@@ -70,6 +77,7 @@ export class LineTable {
 
     switch (this.version) {
       case pclnVersion.v118:
+      case pclnVersion.v120:
         this.nfiletab = Number(offset(1));
         this.filetab = data(5);
         this.funcdata = data(7);
@@ -172,6 +180,7 @@ enum pclnVersion {
   v12,
   v116,
   v118,
+  v120,
 }
 
 // this and the endianness below matches the http://godoc.org/binary package in Go.
