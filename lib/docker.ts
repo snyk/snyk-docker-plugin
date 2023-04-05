@@ -1,3 +1,4 @@
+import { contentTypes } from "@snyk/docker-registry-v2-client";
 import {
   DockerPull,
   DockerPullOptions,
@@ -47,6 +48,14 @@ class Docker {
       password,
       loadImage: false,
       imageSavePath,
+      reqOptions: {
+        acceptManifest: [
+          contentTypes.OCI_MANIFEST_V1,
+          contentTypes.OCI_INDEX_V1,
+          contentTypes.MANIFEST_V2,
+          contentTypes.MANIFEST_LIST_V2,
+        ].join(","),
+      },
     };
     return await dockerPull.pull(registry, repo, tag, opt);
   }

@@ -32,8 +32,9 @@
   "dependencies": {
     "@snyk/composer-lockfile-parser": "^1.4.1",
     "@snyk/dep-graph": "^2.5.0",
+    "@snyk/docker-registry-v2-client": "^2.9.0",
     "@snyk/rpm-parser": "3.1.0",
-    "@snyk/snyk-docker-pull": "^3.7.5",
+    "@snyk/snyk-docker-pull": "^3.8.0",
     "adm-zip": "^0.5.5",
     "chalk": "^2.4.2",
     "debug": "^4.1.1",
