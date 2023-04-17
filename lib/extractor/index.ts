@@ -93,26 +93,25 @@ export async function extractImageContent(
   let extractor: ArchiveExtractor;
   let archiveContent: ExtractedLayersAndManifest;
 
-  if (extractors.has(imageType)) {
-    extractor = extractors.get(imageType) as ArchiveExtractor;
+  if (!extractors.has(imageType)) {
+    // default to Docker extractor if image type is unknown
+    imageType = ImageType.DockerArchive;
+  }
+  extractor = extractors.get(imageType) as ArchiveExtractor;
+
+  try {
     archiveContent = await extractor.getLayersAndManifest();
-  } else {
-    // At this stage we do not know the format of the image so we will attempt
-    // to extract the archive using the dockerExtractor but fall back to use the
-    // ociExtractor if we encounter an invalid format.
-    // This will happen on images pulled by the docker binary when using
-    // containerd under the hood
-    // @see https://snyksec.atlassian.net/browse/LUM-147
-    try {
-      extractor = extractors.get(ImageType.DockerArchive) as ArchiveExtractor;
-      archiveContent = await extractor.getLayersAndManifest();
-    } catch (err) {
-      if (err instanceof InvalidArchiveError) {
+  } catch (err) {
+    if (err instanceof InvalidArchiveError) {
+      // fallback to the other extractor if layer extraction failed
+      if (imageType === ImageType.DockerArchive) {
         extractor = extractors.get(ImageType.OciArchive) as ArchiveExtractor;
-        archiveContent = await extractor.getLayersAndManifest();
       } else {
-        throw err;
+        extractor = extractors.get(ImageType.DockerArchive) as ArchiveExtractor;
       }
+      archiveContent = await extractor.getLayersAndManifest();
+    } else {
+      throw err;
     }
   }
 

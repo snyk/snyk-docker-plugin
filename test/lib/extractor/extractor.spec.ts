@@ -67,10 +67,10 @@ describe("extractImageContent", () => {
       await expect(extractImageContent(0, fixture, [])).resolves.not.toThrow();
     });
 
-    it("throws InvalidArchive error when type is set to docker-archive", async () => {
+    it("successfully extracts the archive when image type is set to docker-archive", async () => {
       await expect(
         extractImageContent(ImageType.DockerArchive, fixture, []),
-      ).rejects.toThrow(InvalidArchiveError);
+      ).resolves.not.toThrow();
     });
   });
 });
