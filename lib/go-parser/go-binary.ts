@@ -104,7 +104,7 @@ export class GoBinary {
           // (github.com/my/pkg@v0.0.1/a.go), the path.parse expression returns
           // just a slash. This would result in a package name with a trailing
           // slash, which is incorrect.
-          let dirName = path.parse(parts[1]).dir;
+          let dirName = path.posix.parse(parts[1]).dir;
           if (dirName === "/") {
             dirName = "";
           }
@@ -411,7 +411,10 @@ function determineVendorPath(modules: GoModule[], files: string[]): string {
   // We check for other files in that root to make sure that we really got the
   // right vendor folder, and not just a random folder named `vendor` somewhere.
   for (const [, mod] of Object.entries(modules)) {
-    const vendoredModulePath = path.join("vendor", mod.name) + "/";
+    // use path.posix.join so that we will always get linux-style paths even if
+    // the plugin runs on Windows. This is necessary because the Go binaries
+    // always contain linux-style path separators.
+    const vendoredModulePath = path.posix.join("vendor", mod.name) + "/";
     const file = files.find((file) => file.includes(vendoredModulePath));
     if (file) {
       // make sure that we find other files in that path not in the vendor
@@ -422,7 +425,7 @@ function determineVendorPath(modules: GoModule[], files: string[]): string {
           file.includes(mainModulePath) && !file.includes(vendoredModulePath),
       );
       if (success) {
-        return path.join(mainModulePath, "vendor") + "/";
+        return path.posix.join(mainModulePath, "vendor") + "/";
       }
     }
   }
