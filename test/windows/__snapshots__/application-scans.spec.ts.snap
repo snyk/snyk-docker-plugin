@@ -1,5 +1,1891 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`go binaries scanning should return expected result 1`] = `
+Object {
+  "scanResults": Array [
+    Object {
+      "facts": Array [
+        Object {
+          "data": Object {
+            "graph": Object {
+              "nodes": Array [
+                Object {
+                  "deps": Array [],
+                  "nodeId": "root-node",
+                  "pkgId": "docker-image|go-windows.tar@",
+                },
+              ],
+              "rootNodeId": "root-node",
+            },
+            "pkgManager": Object {
+              "name": "linux",
+              "repositories": Array [
+                Object {
+                  "alias": "unknown:0.0",
+                },
+              ],
+            },
+            "pkgs": Array [
+              Object {
+                "id": "docker-image|go-windows.tar@",
+                "info": Object {
+                  "name": "docker-image|go-windows.tar",
+                  "version": undefined,
+                },
+              },
+            ],
+            "schemaVersion": "1.3.0",
+          },
+          "type": "depGraph",
+        },
+        Object {
+          "data": "sha256:df6b7f6e1cae591aa79cd0a355e9486a5b145a519f6351904605e17b34ceb63e",
+          "type": "imageId",
+        },
+        Object {
+          "data": Array [
+            "2d0714e906bed2c04c0df856b8928376970d0f163c7dc63cf99bc681d7e668fa\\\\layer.tar",
+          ],
+          "type": "imageLayers",
+        },
+        Object {
+          "data": "2023-04-19T14:01:51.201404297Z",
+          "type": "imageCreationTime",
+        },
+        Object {
+          "data": Array [
+            "sha256:ce0da4b7457cb5e10bf509fedb7565a73b83188cab59f3f007477b744ae272d8",
+          ],
+          "type": "rootFs",
+        },
+      ],
+      "identity": Object {
+        "args": Object {
+          "platform": "linux/arm64",
+        },
+        "type": "linux",
+      },
+      "target": Object {
+        "image": "docker-image|go-windows.tar",
+      },
+    },
+    Object {
+      "facts": Array [
+        Object {
+          "data": Object {
+            "graph": Object {
+              "nodes": Array [
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "github.com/blang/semver/v4@v4.0.0",
+                    },
+                    Object {
+                      "nodeId": "github.com/cespare/xxhash/v2@v2.1.2",
+                    },
+                    Object {
+                      "nodeId": "github.com/container-storage-interface/spec/lib/go/csi@v1.7.0",
+                    },
+                    Object {
+                      "nodeId": "github.com/go-logr/logr@v1.2.3",
+                    },
+                    Object {
+                      "nodeId": "github.com/golang/protobuf/proto@v1.5.2",
+                    },
+                    Object {
+                      "nodeId": "github.com/golang/protobuf/jsonpb@v1.5.2",
+                    },
+                    Object {
+                      "nodeId": "github.com/golang/protobuf/ptypes/any@v1.5.2",
+                    },
+                    Object {
+                      "nodeId": "github.com/golang/protobuf/ptypes/duration@v1.5.2",
+                    },
+                    Object {
+                      "nodeId": "github.com/golang/protobuf/ptypes/timestamp@v1.5.2",
+                    },
+                    Object {
+                      "nodeId": "github.com/golang/protobuf/ptypes@v1.5.2",
+                    },
+                    Object {
+                      "nodeId": "github.com/golang/protobuf/protoc-gen-go/descriptor@v1.5.2",
+                    },
+                    Object {
+                      "nodeId": "github.com/golang/protobuf/descriptor@v1.5.2",
+                    },
+                    Object {
+                      "nodeId": "github.com/golang/protobuf/ptypes/wrappers@v1.5.2",
+                    },
+                    Object {
+                      "nodeId": "github.com/kubernetes-csi/csi-lib-utils/metrics@v0.12.0",
+                    },
+                    Object {
+                      "nodeId": "github.com/kubernetes-csi/csi-lib-utils/protosanitizer@v0.12.0",
+                    },
+                    Object {
+                      "nodeId": "github.com/kubernetes-csi/csi-lib-utils/connection@v0.12.0",
+                    },
+                    Object {
+                      "nodeId": "github.com/kubernetes-csi/csi-lib-utils/rpc@v0.12.0",
+                    },
+                    Object {
+                      "nodeId": "github.com/matttproud/golang_protobuf_extensions/pbutil@v1.0.2",
+                    },
+                    Object {
+                      "nodeId": "github.com/prometheus/client_golang/prometheus/internal@v1.14.0",
+                    },
+                    Object {
+                      "nodeId": "github.com/prometheus/client_golang/prometheus@v1.14.0",
+                    },
+                    Object {
+                      "nodeId": "github.com/prometheus/client_golang/prometheus/promhttp@v1.14.0",
+                    },
+                    Object {
+                      "nodeId": "github.com/prometheus/client_model/go@v0.3.0",
+                    },
+                    Object {
+                      "nodeId": "github.com/prometheus/common/model@v0.37.0",
+                    },
+                    Object {
+                      "nodeId": "github.com/prometheus/common/internal/bitbucket.org/ww/goautoneg@v0.37.0",
+                    },
+                    Object {
+                      "nodeId": "github.com/prometheus/common/expfmt@v0.37.0",
+                    },
+                    Object {
+                      "nodeId": "github.com/prometheus/procfs/internal/util@v0.8.0",
+                    },
+                    Object {
+                      "nodeId": "github.com/prometheus/procfs/internal/fs@v0.8.0",
+                    },
+                    Object {
+                      "nodeId": "github.com/prometheus/procfs@v0.8.0",
+                    },
+                    Object {
+                      "nodeId": "github.com/spf13/pflag@v1.0.5",
+                    },
+                    Object {
+                      "nodeId": "golang.org/x/net/idna@v0.4.0",
+                    },
+                    Object {
+                      "nodeId": "golang.org/x/net/http/httpguts@v0.4.0",
+                    },
+                    Object {
+                      "nodeId": "golang.org/x/net/http2/hpack@v0.4.0",
+                    },
+                    Object {
+                      "nodeId": "golang.org/x/net/http2@v0.4.0",
+                    },
+                    Object {
+                      "nodeId": "golang.org/x/net/internal/timeseries@v0.4.0",
+                    },
+                    Object {
+                      "nodeId": "golang.org/x/net/trace@v0.4.0",
+                    },
+                    Object {
+                      "nodeId": "golang.org/x/sys/unix@v0.3.0",
+                    },
+                    Object {
+                      "nodeId": "golang.org/x/text/transform@v0.5.0",
+                    },
+                    Object {
+                      "nodeId": "golang.org/x/text/unicode/bidi@v0.5.0",
+                    },
+                    Object {
+                      "nodeId": "golang.org/x/text/secure/bidirule@v0.5.0",
+                    },
+                    Object {
+                      "nodeId": "golang.org/x/text/unicode/norm@v0.5.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/genproto/googleapis/rpc/status@v0.0.0-20220804142021-4e6b2dfa6612",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/grpc/internal/grpclog@v1.49.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/grpc/grpclog@v1.49.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/grpc/connectivity@v1.49.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/grpc/attributes@v1.49.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/grpc/internal/credentials@v1.49.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/grpc/credentials@v1.49.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/grpc/internal/channelz@v1.49.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/grpc/internal/pretty@v1.49.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/grpc/resolver@v1.49.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/grpc/metadata@v1.49.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/grpc/balancer@v1.49.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/grpc/balancer/base@v1.49.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/grpc/internal/balancer/gracefulswitch@v1.49.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/grpc/internal/buffer@v1.49.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/grpc/internal/grpcsync@v1.49.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/grpc/codes@v1.49.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/grpc/internal/grpcrand@v1.49.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/grpc/internal/backoff@v1.49.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/grpc/internal/serviceconfig@v1.49.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/grpc/internal/resolver@v1.49.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/grpc/internal/grpcutil@v1.49.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/grpc/internal/status@v1.49.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/grpc/status@v1.49.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/grpc/stats@v1.49.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/grpc/internal/metadata@v1.49.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/grpc/internal/syscall@v1.49.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/grpc/internal/transport@v1.49.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/grpc/peer@v1.49.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/grpc/internal/transport/networktype@v1.49.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/grpc/balancer/roundrobin@v1.49.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/grpc/internal/envconfig@v1.49.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/grpc/internal/resolver/dns@v1.49.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/grpc/balancer/grpclb/state@v1.49.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/grpc/internal/resolver/passthrough@v1.49.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/grpc/internal/resolver/unix@v1.49.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/grpc/encoding@v1.49.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/grpc/encoding/proto@v1.49.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/grpc/credentials/insecure@v1.49.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/grpc/binarylog/grpc_binarylog_v1@v1.49.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/grpc/internal/binarylog@v1.49.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/grpc@v1.49.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/grpc/internal/balancerload@v1.49.0",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/protobuf/internal/detrand@v1.28.1",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/protobuf/internal/errors@v1.28.1",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/protobuf/encoding/protowire@v1.28.1",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/protobuf/reflect/protoreflect@v1.28.1",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/protobuf/internal/encoding/messageset@v1.28.1",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/protobuf/internal/strs@v1.28.1",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/protobuf/internal/encoding/text@v1.28.1",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/protobuf/reflect/protoregistry@v1.28.1",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/protobuf/internal/order@v1.28.1",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/protobuf/proto@v1.28.1",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/protobuf/encoding/prototext@v1.28.1",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/protobuf/internal/descfmt@v1.28.1",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/protobuf/internal/encoding/defval@v1.28.1",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/protobuf/internal/filedesc@v1.28.1",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/protobuf/internal/encoding/tag@v1.28.1",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/protobuf/internal/impl@v1.28.1",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/protobuf/internal/filetype@v1.28.1",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/protobuf/types/descriptorpb@v1.28.1",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/protobuf/reflect/protodesc@v1.28.1",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/protobuf/internal/encoding/json@v1.28.1",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/protobuf/encoding/protojson@v1.28.1",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/protobuf/types/known/anypb@v1.28.1",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/protobuf/types/known/durationpb@v1.28.1",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/protobuf/types/known/timestamppb@v1.28.1",
+                    },
+                    Object {
+                      "nodeId": "google.golang.org/protobuf/types/known/wrapperspb@v1.28.1",
+                    },
+                    Object {
+                      "nodeId": "k8s.io/apimachinery/pkg/version@v0.26.0",
+                    },
+                    Object {
+                      "nodeId": "k8s.io/apimachinery/pkg/util/sets@v0.26.0",
+                    },
+                    Object {
+                      "nodeId": "k8s.io/component-base/version@v0.26.0",
+                    },
+                    Object {
+                      "nodeId": "k8s.io/component-base/metrics@v0.26.0",
+                    },
+                    Object {
+                      "nodeId": "k8s.io/klog/v2/internal/severity@v2.80.1",
+                    },
+                    Object {
+                      "nodeId": "k8s.io/klog/v2/internal/buffer@v2.80.1",
+                    },
+                    Object {
+                      "nodeId": "k8s.io/klog/v2/internal/clock@v2.80.1",
+                    },
+                    Object {
+                      "nodeId": "k8s.io/klog/v2/internal/dbg@v2.80.1",
+                    },
+                    Object {
+                      "nodeId": "k8s.io/klog/v2/internal/serialize@v2.80.1",
+                    },
+                    Object {
+                      "nodeId": "k8s.io/klog/v2@v2.80.1",
+                    },
+                  ],
+                  "nodeId": "root-node",
+                  "pkgId": "github.com/kubernetes-csi/livenessprobe@",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/blang/semver/v4@v4.0.0",
+                  "pkgId": "github.com/blang/semver/v4@v4.0.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/cespare/xxhash/v2@v2.1.2",
+                  "pkgId": "github.com/cespare/xxhash/v2@v2.1.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/container-storage-interface/spec/lib/go/csi@v1.7.0",
+                  "pkgId": "github.com/container-storage-interface/spec/lib/go/csi@v1.7.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/go-logr/logr@v1.2.3",
+                  "pkgId": "github.com/go-logr/logr@v1.2.3",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/golang/protobuf/proto@v1.5.2",
+                  "pkgId": "github.com/golang/protobuf/proto@v1.5.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/golang/protobuf/jsonpb@v1.5.2",
+                  "pkgId": "github.com/golang/protobuf/jsonpb@v1.5.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/golang/protobuf/ptypes/any@v1.5.2",
+                  "pkgId": "github.com/golang/protobuf/ptypes/any@v1.5.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/golang/protobuf/ptypes/duration@v1.5.2",
+                  "pkgId": "github.com/golang/protobuf/ptypes/duration@v1.5.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/golang/protobuf/ptypes/timestamp@v1.5.2",
+                  "pkgId": "github.com/golang/protobuf/ptypes/timestamp@v1.5.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/golang/protobuf/ptypes@v1.5.2",
+                  "pkgId": "github.com/golang/protobuf/ptypes@v1.5.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/golang/protobuf/protoc-gen-go/descriptor@v1.5.2",
+                  "pkgId": "github.com/golang/protobuf/protoc-gen-go/descriptor@v1.5.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/golang/protobuf/descriptor@v1.5.2",
+                  "pkgId": "github.com/golang/protobuf/descriptor@v1.5.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/golang/protobuf/ptypes/wrappers@v1.5.2",
+                  "pkgId": "github.com/golang/protobuf/ptypes/wrappers@v1.5.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/kubernetes-csi/csi-lib-utils/metrics@v0.12.0",
+                  "pkgId": "github.com/kubernetes-csi/csi-lib-utils/metrics@v0.12.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/kubernetes-csi/csi-lib-utils/protosanitizer@v0.12.0",
+                  "pkgId": "github.com/kubernetes-csi/csi-lib-utils/protosanitizer@v0.12.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/kubernetes-csi/csi-lib-utils/connection@v0.12.0",
+                  "pkgId": "github.com/kubernetes-csi/csi-lib-utils/connection@v0.12.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/kubernetes-csi/csi-lib-utils/rpc@v0.12.0",
+                  "pkgId": "github.com/kubernetes-csi/csi-lib-utils/rpc@v0.12.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/matttproud/golang_protobuf_extensions/pbutil@v1.0.2",
+                  "pkgId": "github.com/matttproud/golang_protobuf_extensions/pbutil@v1.0.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/prometheus/client_golang/prometheus/internal@v1.14.0",
+                  "pkgId": "github.com/prometheus/client_golang/prometheus/internal@v1.14.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/prometheus/client_golang/prometheus@v1.14.0",
+                  "pkgId": "github.com/prometheus/client_golang/prometheus@v1.14.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/prometheus/client_golang/prometheus/promhttp@v1.14.0",
+                  "pkgId": "github.com/prometheus/client_golang/prometheus/promhttp@v1.14.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/prometheus/client_model/go@v0.3.0",
+                  "pkgId": "github.com/prometheus/client_model/go@v0.3.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/prometheus/common/model@v0.37.0",
+                  "pkgId": "github.com/prometheus/common/model@v0.37.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/prometheus/common/internal/bitbucket.org/ww/goautoneg@v0.37.0",
+                  "pkgId": "github.com/prometheus/common/internal/bitbucket.org/ww/goautoneg@v0.37.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/prometheus/common/expfmt@v0.37.0",
+                  "pkgId": "github.com/prometheus/common/expfmt@v0.37.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/prometheus/procfs/internal/util@v0.8.0",
+                  "pkgId": "github.com/prometheus/procfs/internal/util@v0.8.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/prometheus/procfs/internal/fs@v0.8.0",
+                  "pkgId": "github.com/prometheus/procfs/internal/fs@v0.8.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/prometheus/procfs@v0.8.0",
+                  "pkgId": "github.com/prometheus/procfs@v0.8.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "github.com/spf13/pflag@v1.0.5",
+                  "pkgId": "github.com/spf13/pflag@v1.0.5",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "golang.org/x/net/idna@v0.4.0",
+                  "pkgId": "golang.org/x/net/idna@v0.4.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "golang.org/x/net/http/httpguts@v0.4.0",
+                  "pkgId": "golang.org/x/net/http/httpguts@v0.4.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "golang.org/x/net/http2/hpack@v0.4.0",
+                  "pkgId": "golang.org/x/net/http2/hpack@v0.4.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "golang.org/x/net/http2@v0.4.0",
+                  "pkgId": "golang.org/x/net/http2@v0.4.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "golang.org/x/net/internal/timeseries@v0.4.0",
+                  "pkgId": "golang.org/x/net/internal/timeseries@v0.4.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "golang.org/x/net/trace@v0.4.0",
+                  "pkgId": "golang.org/x/net/trace@v0.4.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "golang.org/x/sys/unix@v0.3.0",
+                  "pkgId": "golang.org/x/sys/unix@v0.3.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "golang.org/x/text/transform@v0.5.0",
+                  "pkgId": "golang.org/x/text/transform@v0.5.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "golang.org/x/text/unicode/bidi@v0.5.0",
+                  "pkgId": "golang.org/x/text/unicode/bidi@v0.5.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "golang.org/x/text/secure/bidirule@v0.5.0",
+                  "pkgId": "golang.org/x/text/secure/bidirule@v0.5.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "golang.org/x/text/unicode/norm@v0.5.0",
+                  "pkgId": "golang.org/x/text/unicode/norm@v0.5.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/genproto/googleapis/rpc/status@v0.0.0-20220804142021-4e6b2dfa6612",
+                  "pkgId": "google.golang.org/genproto/googleapis/rpc/status@v0.0.0-20220804142021-4e6b2dfa6612",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/grpc/internal/grpclog@v1.49.0",
+                  "pkgId": "google.golang.org/grpc/internal/grpclog@v1.49.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/grpc/grpclog@v1.49.0",
+                  "pkgId": "google.golang.org/grpc/grpclog@v1.49.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/grpc/connectivity@v1.49.0",
+                  "pkgId": "google.golang.org/grpc/connectivity@v1.49.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/grpc/attributes@v1.49.0",
+                  "pkgId": "google.golang.org/grpc/attributes@v1.49.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/grpc/internal/credentials@v1.49.0",
+                  "pkgId": "google.golang.org/grpc/internal/credentials@v1.49.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/grpc/credentials@v1.49.0",
+                  "pkgId": "google.golang.org/grpc/credentials@v1.49.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/grpc/internal/channelz@v1.49.0",
+                  "pkgId": "google.golang.org/grpc/internal/channelz@v1.49.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/grpc/internal/pretty@v1.49.0",
+                  "pkgId": "google.golang.org/grpc/internal/pretty@v1.49.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/grpc/resolver@v1.49.0",
+                  "pkgId": "google.golang.org/grpc/resolver@v1.49.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/grpc/metadata@v1.49.0",
+                  "pkgId": "google.golang.org/grpc/metadata@v1.49.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/grpc/balancer@v1.49.0",
+                  "pkgId": "google.golang.org/grpc/balancer@v1.49.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/grpc/balancer/base@v1.49.0",
+                  "pkgId": "google.golang.org/grpc/balancer/base@v1.49.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/grpc/internal/balancer/gracefulswitch@v1.49.0",
+                  "pkgId": "google.golang.org/grpc/internal/balancer/gracefulswitch@v1.49.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/grpc/internal/buffer@v1.49.0",
+                  "pkgId": "google.golang.org/grpc/internal/buffer@v1.49.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/grpc/internal/grpcsync@v1.49.0",
+                  "pkgId": "google.golang.org/grpc/internal/grpcsync@v1.49.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/grpc/codes@v1.49.0",
+                  "pkgId": "google.golang.org/grpc/codes@v1.49.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/grpc/internal/grpcrand@v1.49.0",
+                  "pkgId": "google.golang.org/grpc/internal/grpcrand@v1.49.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/grpc/internal/backoff@v1.49.0",
+                  "pkgId": "google.golang.org/grpc/internal/backoff@v1.49.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/grpc/internal/serviceconfig@v1.49.0",
+                  "pkgId": "google.golang.org/grpc/internal/serviceconfig@v1.49.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/grpc/internal/resolver@v1.49.0",
+                  "pkgId": "google.golang.org/grpc/internal/resolver@v1.49.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/grpc/internal/grpcutil@v1.49.0",
+                  "pkgId": "google.golang.org/grpc/internal/grpcutil@v1.49.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/grpc/internal/status@v1.49.0",
+                  "pkgId": "google.golang.org/grpc/internal/status@v1.49.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/grpc/status@v1.49.0",
+                  "pkgId": "google.golang.org/grpc/status@v1.49.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/grpc/stats@v1.49.0",
+                  "pkgId": "google.golang.org/grpc/stats@v1.49.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/grpc/internal/metadata@v1.49.0",
+                  "pkgId": "google.golang.org/grpc/internal/metadata@v1.49.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/grpc/internal/syscall@v1.49.0",
+                  "pkgId": "google.golang.org/grpc/internal/syscall@v1.49.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/grpc/internal/transport@v1.49.0",
+                  "pkgId": "google.golang.org/grpc/internal/transport@v1.49.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/grpc/peer@v1.49.0",
+                  "pkgId": "google.golang.org/grpc/peer@v1.49.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/grpc/internal/transport/networktype@v1.49.0",
+                  "pkgId": "google.golang.org/grpc/internal/transport/networktype@v1.49.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/grpc/balancer/roundrobin@v1.49.0",
+                  "pkgId": "google.golang.org/grpc/balancer/roundrobin@v1.49.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/grpc/internal/envconfig@v1.49.0",
+                  "pkgId": "google.golang.org/grpc/internal/envconfig@v1.49.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/grpc/internal/resolver/dns@v1.49.0",
+                  "pkgId": "google.golang.org/grpc/internal/resolver/dns@v1.49.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/grpc/balancer/grpclb/state@v1.49.0",
+                  "pkgId": "google.golang.org/grpc/balancer/grpclb/state@v1.49.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/grpc/internal/resolver/passthrough@v1.49.0",
+                  "pkgId": "google.golang.org/grpc/internal/resolver/passthrough@v1.49.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/grpc/internal/resolver/unix@v1.49.0",
+                  "pkgId": "google.golang.org/grpc/internal/resolver/unix@v1.49.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/grpc/encoding@v1.49.0",
+                  "pkgId": "google.golang.org/grpc/encoding@v1.49.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/grpc/encoding/proto@v1.49.0",
+                  "pkgId": "google.golang.org/grpc/encoding/proto@v1.49.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/grpc/credentials/insecure@v1.49.0",
+                  "pkgId": "google.golang.org/grpc/credentials/insecure@v1.49.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/grpc/binarylog/grpc_binarylog_v1@v1.49.0",
+                  "pkgId": "google.golang.org/grpc/binarylog/grpc_binarylog_v1@v1.49.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/grpc/internal/binarylog@v1.49.0",
+                  "pkgId": "google.golang.org/grpc/internal/binarylog@v1.49.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/grpc@v1.49.0",
+                  "pkgId": "google.golang.org/grpc@v1.49.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/grpc/internal/balancerload@v1.49.0",
+                  "pkgId": "google.golang.org/grpc/internal/balancerload@v1.49.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/protobuf/internal/detrand@v1.28.1",
+                  "pkgId": "google.golang.org/protobuf/internal/detrand@v1.28.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/protobuf/internal/errors@v1.28.1",
+                  "pkgId": "google.golang.org/protobuf/internal/errors@v1.28.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/protobuf/encoding/protowire@v1.28.1",
+                  "pkgId": "google.golang.org/protobuf/encoding/protowire@v1.28.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/protobuf/reflect/protoreflect@v1.28.1",
+                  "pkgId": "google.golang.org/protobuf/reflect/protoreflect@v1.28.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/protobuf/internal/encoding/messageset@v1.28.1",
+                  "pkgId": "google.golang.org/protobuf/internal/encoding/messageset@v1.28.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/protobuf/internal/strs@v1.28.1",
+                  "pkgId": "google.golang.org/protobuf/internal/strs@v1.28.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/protobuf/internal/encoding/text@v1.28.1",
+                  "pkgId": "google.golang.org/protobuf/internal/encoding/text@v1.28.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/protobuf/reflect/protoregistry@v1.28.1",
+                  "pkgId": "google.golang.org/protobuf/reflect/protoregistry@v1.28.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/protobuf/internal/order@v1.28.1",
+                  "pkgId": "google.golang.org/protobuf/internal/order@v1.28.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/protobuf/proto@v1.28.1",
+                  "pkgId": "google.golang.org/protobuf/proto@v1.28.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/protobuf/encoding/prototext@v1.28.1",
+                  "pkgId": "google.golang.org/protobuf/encoding/prototext@v1.28.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/protobuf/internal/descfmt@v1.28.1",
+                  "pkgId": "google.golang.org/protobuf/internal/descfmt@v1.28.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/protobuf/internal/encoding/defval@v1.28.1",
+                  "pkgId": "google.golang.org/protobuf/internal/encoding/defval@v1.28.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/protobuf/internal/filedesc@v1.28.1",
+                  "pkgId": "google.golang.org/protobuf/internal/filedesc@v1.28.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/protobuf/internal/encoding/tag@v1.28.1",
+                  "pkgId": "google.golang.org/protobuf/internal/encoding/tag@v1.28.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/protobuf/internal/impl@v1.28.1",
+                  "pkgId": "google.golang.org/protobuf/internal/impl@v1.28.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/protobuf/internal/filetype@v1.28.1",
+                  "pkgId": "google.golang.org/protobuf/internal/filetype@v1.28.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/protobuf/types/descriptorpb@v1.28.1",
+                  "pkgId": "google.golang.org/protobuf/types/descriptorpb@v1.28.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/protobuf/reflect/protodesc@v1.28.1",
+                  "pkgId": "google.golang.org/protobuf/reflect/protodesc@v1.28.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/protobuf/internal/encoding/json@v1.28.1",
+                  "pkgId": "google.golang.org/protobuf/internal/encoding/json@v1.28.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/protobuf/encoding/protojson@v1.28.1",
+                  "pkgId": "google.golang.org/protobuf/encoding/protojson@v1.28.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/protobuf/types/known/anypb@v1.28.1",
+                  "pkgId": "google.golang.org/protobuf/types/known/anypb@v1.28.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/protobuf/types/known/durationpb@v1.28.1",
+                  "pkgId": "google.golang.org/protobuf/types/known/durationpb@v1.28.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/protobuf/types/known/timestamppb@v1.28.1",
+                  "pkgId": "google.golang.org/protobuf/types/known/timestamppb@v1.28.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "google.golang.org/protobuf/types/known/wrapperspb@v1.28.1",
+                  "pkgId": "google.golang.org/protobuf/types/known/wrapperspb@v1.28.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "k8s.io/apimachinery/pkg/version@v0.26.0",
+                  "pkgId": "k8s.io/apimachinery/pkg/version@v0.26.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "k8s.io/apimachinery/pkg/util/sets@v0.26.0",
+                  "pkgId": "k8s.io/apimachinery/pkg/util/sets@v0.26.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "k8s.io/component-base/version@v0.26.0",
+                  "pkgId": "k8s.io/component-base/version@v0.26.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "k8s.io/component-base/metrics@v0.26.0",
+                  "pkgId": "k8s.io/component-base/metrics@v0.26.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "k8s.io/klog/v2/internal/severity@v2.80.1",
+                  "pkgId": "k8s.io/klog/v2/internal/severity@v2.80.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "k8s.io/klog/v2/internal/buffer@v2.80.1",
+                  "pkgId": "k8s.io/klog/v2/internal/buffer@v2.80.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "k8s.io/klog/v2/internal/clock@v2.80.1",
+                  "pkgId": "k8s.io/klog/v2/internal/clock@v2.80.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "k8s.io/klog/v2/internal/dbg@v2.80.1",
+                  "pkgId": "k8s.io/klog/v2/internal/dbg@v2.80.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "k8s.io/klog/v2/internal/serialize@v2.80.1",
+                  "pkgId": "k8s.io/klog/v2/internal/serialize@v2.80.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "k8s.io/klog/v2@v2.80.1",
+                  "pkgId": "k8s.io/klog/v2@v2.80.1",
+                },
+              ],
+              "rootNodeId": "root-node",
+            },
+            "pkgManager": Object {
+              "name": "gomodules",
+            },
+            "pkgs": Array [
+              Object {
+                "id": "github.com/kubernetes-csi/livenessprobe@",
+                "info": Object {
+                  "name": "github.com/kubernetes-csi/livenessprobe",
+                },
+              },
+              Object {
+                "id": "github.com/blang/semver/v4@v4.0.0",
+                "info": Object {
+                  "name": "github.com/blang/semver/v4",
+                  "version": "v4.0.0",
+                },
+              },
+              Object {
+                "id": "github.com/cespare/xxhash/v2@v2.1.2",
+                "info": Object {
+                  "name": "github.com/cespare/xxhash/v2",
+                  "version": "v2.1.2",
+                },
+              },
+              Object {
+                "id": "github.com/container-storage-interface/spec/lib/go/csi@v1.7.0",
+                "info": Object {
+                  "name": "github.com/container-storage-interface/spec/lib/go/csi",
+                  "version": "v1.7.0",
+                },
+              },
+              Object {
+                "id": "github.com/go-logr/logr@v1.2.3",
+                "info": Object {
+                  "name": "github.com/go-logr/logr",
+                  "version": "v1.2.3",
+                },
+              },
+              Object {
+                "id": "github.com/golang/protobuf/proto@v1.5.2",
+                "info": Object {
+                  "name": "github.com/golang/protobuf/proto",
+                  "version": "v1.5.2",
+                },
+              },
+              Object {
+                "id": "github.com/golang/protobuf/jsonpb@v1.5.2",
+                "info": Object {
+                  "name": "github.com/golang/protobuf/jsonpb",
+                  "version": "v1.5.2",
+                },
+              },
+              Object {
+                "id": "github.com/golang/protobuf/ptypes/any@v1.5.2",
+                "info": Object {
+                  "name": "github.com/golang/protobuf/ptypes/any",
+                  "version": "v1.5.2",
+                },
+              },
+              Object {
+                "id": "github.com/golang/protobuf/ptypes/duration@v1.5.2",
+                "info": Object {
+                  "name": "github.com/golang/protobuf/ptypes/duration",
+                  "version": "v1.5.2",
+                },
+              },
+              Object {
+                "id": "github.com/golang/protobuf/ptypes/timestamp@v1.5.2",
+                "info": Object {
+                  "name": "github.com/golang/protobuf/ptypes/timestamp",
+                  "version": "v1.5.2",
+                },
+              },
+              Object {
+                "id": "github.com/golang/protobuf/ptypes@v1.5.2",
+                "info": Object {
+                  "name": "github.com/golang/protobuf/ptypes",
+                  "version": "v1.5.2",
+                },
+              },
+              Object {
+                "id": "github.com/golang/protobuf/protoc-gen-go/descriptor@v1.5.2",
+                "info": Object {
+                  "name": "github.com/golang/protobuf/protoc-gen-go/descriptor",
+                  "version": "v1.5.2",
+                },
+              },
+              Object {
+                "id": "github.com/golang/protobuf/descriptor@v1.5.2",
+                "info": Object {
+                  "name": "github.com/golang/protobuf/descriptor",
+                  "version": "v1.5.2",
+                },
+              },
+              Object {
+                "id": "github.com/golang/protobuf/ptypes/wrappers@v1.5.2",
+                "info": Object {
+                  "name": "github.com/golang/protobuf/ptypes/wrappers",
+                  "version": "v1.5.2",
+                },
+              },
+              Object {
+                "id": "github.com/kubernetes-csi/csi-lib-utils/metrics@v0.12.0",
+                "info": Object {
+                  "name": "github.com/kubernetes-csi/csi-lib-utils/metrics",
+                  "version": "v0.12.0",
+                },
+              },
+              Object {
+                "id": "github.com/kubernetes-csi/csi-lib-utils/protosanitizer@v0.12.0",
+                "info": Object {
+                  "name": "github.com/kubernetes-csi/csi-lib-utils/protosanitizer",
+                  "version": "v0.12.0",
+                },
+              },
+              Object {
+                "id": "github.com/kubernetes-csi/csi-lib-utils/connection@v0.12.0",
+                "info": Object {
+                  "name": "github.com/kubernetes-csi/csi-lib-utils/connection",
+                  "version": "v0.12.0",
+                },
+              },
+              Object {
+                "id": "github.com/kubernetes-csi/csi-lib-utils/rpc@v0.12.0",
+                "info": Object {
+                  "name": "github.com/kubernetes-csi/csi-lib-utils/rpc",
+                  "version": "v0.12.0",
+                },
+              },
+              Object {
+                "id": "github.com/matttproud/golang_protobuf_extensions/pbutil@v1.0.2",
+                "info": Object {
+                  "name": "github.com/matttproud/golang_protobuf_extensions/pbutil",
+                  "version": "v1.0.2",
+                },
+              },
+              Object {
+                "id": "github.com/prometheus/client_golang/prometheus/internal@v1.14.0",
+                "info": Object {
+                  "name": "github.com/prometheus/client_golang/prometheus/internal",
+                  "version": "v1.14.0",
+                },
+              },
+              Object {
+                "id": "github.com/prometheus/client_golang/prometheus@v1.14.0",
+                "info": Object {
+                  "name": "github.com/prometheus/client_golang/prometheus",
+                  "version": "v1.14.0",
+                },
+              },
+              Object {
+                "id": "github.com/prometheus/client_golang/prometheus/promhttp@v1.14.0",
+                "info": Object {
+                  "name": "github.com/prometheus/client_golang/prometheus/promhttp",
+                  "version": "v1.14.0",
+                },
+              },
+              Object {
+                "id": "github.com/prometheus/client_model/go@v0.3.0",
+                "info": Object {
+                  "name": "github.com/prometheus/client_model/go",
+                  "version": "v0.3.0",
+                },
+              },
+              Object {
+                "id": "github.com/prometheus/common/model@v0.37.0",
+                "info": Object {
+                  "name": "github.com/prometheus/common/model",
+                  "version": "v0.37.0",
+                },
+              },
+              Object {
+                "id": "github.com/prometheus/common/internal/bitbucket.org/ww/goautoneg@v0.37.0",
+                "info": Object {
+                  "name": "github.com/prometheus/common/internal/bitbucket.org/ww/goautoneg",
+                  "version": "v0.37.0",
+                },
+              },
+              Object {
+                "id": "github.com/prometheus/common/expfmt@v0.37.0",
+                "info": Object {
+                  "name": "github.com/prometheus/common/expfmt",
+                  "version": "v0.37.0",
+                },
+              },
+              Object {
+                "id": "github.com/prometheus/procfs/internal/util@v0.8.0",
+                "info": Object {
+                  "name": "github.com/prometheus/procfs/internal/util",
+                  "version": "v0.8.0",
+                },
+              },
+              Object {
+                "id": "github.com/prometheus/procfs/internal/fs@v0.8.0",
+                "info": Object {
+                  "name": "github.com/prometheus/procfs/internal/fs",
+                  "version": "v0.8.0",
+                },
+              },
+              Object {
+                "id": "github.com/prometheus/procfs@v0.8.0",
+                "info": Object {
+                  "name": "github.com/prometheus/procfs",
+                  "version": "v0.8.0",
+                },
+              },
+              Object {
+                "id": "github.com/spf13/pflag@v1.0.5",
+                "info": Object {
+                  "name": "github.com/spf13/pflag",
+                  "version": "v1.0.5",
+                },
+              },
+              Object {
+                "id": "golang.org/x/net/idna@v0.4.0",
+                "info": Object {
+                  "name": "golang.org/x/net/idna",
+                  "version": "v0.4.0",
+                },
+              },
+              Object {
+                "id": "golang.org/x/net/http/httpguts@v0.4.0",
+                "info": Object {
+                  "name": "golang.org/x/net/http/httpguts",
+                  "version": "v0.4.0",
+                },
+              },
+              Object {
+                "id": "golang.org/x/net/http2/hpack@v0.4.0",
+                "info": Object {
+                  "name": "golang.org/x/net/http2/hpack",
+                  "version": "v0.4.0",
+                },
+              },
+              Object {
+                "id": "golang.org/x/net/http2@v0.4.0",
+                "info": Object {
+                  "name": "golang.org/x/net/http2",
+                  "version": "v0.4.0",
+                },
+              },
+              Object {
+                "id": "golang.org/x/net/internal/timeseries@v0.4.0",
+                "info": Object {
+                  "name": "golang.org/x/net/internal/timeseries",
+                  "version": "v0.4.0",
+                },
+              },
+              Object {
+                "id": "golang.org/x/net/trace@v0.4.0",
+                "info": Object {
+                  "name": "golang.org/x/net/trace",
+                  "version": "v0.4.0",
+                },
+              },
+              Object {
+                "id": "golang.org/x/sys/unix@v0.3.0",
+                "info": Object {
+                  "name": "golang.org/x/sys/unix",
+                  "version": "v0.3.0",
+                },
+              },
+              Object {
+                "id": "golang.org/x/text/transform@v0.5.0",
+                "info": Object {
+                  "name": "golang.org/x/text/transform",
+                  "version": "v0.5.0",
+                },
+              },
+              Object {
+                "id": "golang.org/x/text/unicode/bidi@v0.5.0",
+                "info": Object {
+                  "name": "golang.org/x/text/unicode/bidi",
+                  "version": "v0.5.0",
+                },
+              },
+              Object {
+                "id": "golang.org/x/text/secure/bidirule@v0.5.0",
+                "info": Object {
+                  "name": "golang.org/x/text/secure/bidirule",
+                  "version": "v0.5.0",
+                },
+              },
+              Object {
+                "id": "golang.org/x/text/unicode/norm@v0.5.0",
+                "info": Object {
+                  "name": "golang.org/x/text/unicode/norm",
+                  "version": "v0.5.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/genproto/googleapis/rpc/status@v0.0.0-20220804142021-4e6b2dfa6612",
+                "info": Object {
+                  "name": "google.golang.org/genproto/googleapis/rpc/status",
+                  "version": "v0.0.0-20220804142021-4e6b2dfa6612",
+                },
+              },
+              Object {
+                "id": "google.golang.org/grpc/internal/grpclog@v1.49.0",
+                "info": Object {
+                  "name": "google.golang.org/grpc/internal/grpclog",
+                  "version": "v1.49.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/grpc/grpclog@v1.49.0",
+                "info": Object {
+                  "name": "google.golang.org/grpc/grpclog",
+                  "version": "v1.49.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/grpc/connectivity@v1.49.0",
+                "info": Object {
+                  "name": "google.golang.org/grpc/connectivity",
+                  "version": "v1.49.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/grpc/attributes@v1.49.0",
+                "info": Object {
+                  "name": "google.golang.org/grpc/attributes",
+                  "version": "v1.49.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/grpc/internal/credentials@v1.49.0",
+                "info": Object {
+                  "name": "google.golang.org/grpc/internal/credentials",
+                  "version": "v1.49.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/grpc/credentials@v1.49.0",
+                "info": Object {
+                  "name": "google.golang.org/grpc/credentials",
+                  "version": "v1.49.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/grpc/internal/channelz@v1.49.0",
+                "info": Object {
+                  "name": "google.golang.org/grpc/internal/channelz",
+                  "version": "v1.49.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/grpc/internal/pretty@v1.49.0",
+                "info": Object {
+                  "name": "google.golang.org/grpc/internal/pretty",
+                  "version": "v1.49.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/grpc/resolver@v1.49.0",
+                "info": Object {
+                  "name": "google.golang.org/grpc/resolver",
+                  "version": "v1.49.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/grpc/metadata@v1.49.0",
+                "info": Object {
+                  "name": "google.golang.org/grpc/metadata",
+                  "version": "v1.49.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/grpc/balancer@v1.49.0",
+                "info": Object {
+                  "name": "google.golang.org/grpc/balancer",
+                  "version": "v1.49.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/grpc/balancer/base@v1.49.0",
+                "info": Object {
+                  "name": "google.golang.org/grpc/balancer/base",
+                  "version": "v1.49.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/grpc/internal/balancer/gracefulswitch@v1.49.0",
+                "info": Object {
+                  "name": "google.golang.org/grpc/internal/balancer/gracefulswitch",
+                  "version": "v1.49.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/grpc/internal/buffer@v1.49.0",
+                "info": Object {
+                  "name": "google.golang.org/grpc/internal/buffer",
+                  "version": "v1.49.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/grpc/internal/grpcsync@v1.49.0",
+                "info": Object {
+                  "name": "google.golang.org/grpc/internal/grpcsync",
+                  "version": "v1.49.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/grpc/codes@v1.49.0",
+                "info": Object {
+                  "name": "google.golang.org/grpc/codes",
+                  "version": "v1.49.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/grpc/internal/grpcrand@v1.49.0",
+                "info": Object {
+                  "name": "google.golang.org/grpc/internal/grpcrand",
+                  "version": "v1.49.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/grpc/internal/backoff@v1.49.0",
+                "info": Object {
+                  "name": "google.golang.org/grpc/internal/backoff",
+                  "version": "v1.49.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/grpc/internal/serviceconfig@v1.49.0",
+                "info": Object {
+                  "name": "google.golang.org/grpc/internal/serviceconfig",
+                  "version": "v1.49.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/grpc/internal/resolver@v1.49.0",
+                "info": Object {
+                  "name": "google.golang.org/grpc/internal/resolver",
+                  "version": "v1.49.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/grpc/internal/grpcutil@v1.49.0",
+                "info": Object {
+                  "name": "google.golang.org/grpc/internal/grpcutil",
+                  "version": "v1.49.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/grpc/internal/status@v1.49.0",
+                "info": Object {
+                  "name": "google.golang.org/grpc/internal/status",
+                  "version": "v1.49.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/grpc/status@v1.49.0",
+                "info": Object {
+                  "name": "google.golang.org/grpc/status",
+                  "version": "v1.49.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/grpc/stats@v1.49.0",
+                "info": Object {
+                  "name": "google.golang.org/grpc/stats",
+                  "version": "v1.49.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/grpc/internal/metadata@v1.49.0",
+                "info": Object {
+                  "name": "google.golang.org/grpc/internal/metadata",
+                  "version": "v1.49.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/grpc/internal/syscall@v1.49.0",
+                "info": Object {
+                  "name": "google.golang.org/grpc/internal/syscall",
+                  "version": "v1.49.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/grpc/internal/transport@v1.49.0",
+                "info": Object {
+                  "name": "google.golang.org/grpc/internal/transport",
+                  "version": "v1.49.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/grpc/peer@v1.49.0",
+                "info": Object {
+                  "name": "google.golang.org/grpc/peer",
+                  "version": "v1.49.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/grpc/internal/transport/networktype@v1.49.0",
+                "info": Object {
+                  "name": "google.golang.org/grpc/internal/transport/networktype",
+                  "version": "v1.49.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/grpc/balancer/roundrobin@v1.49.0",
+                "info": Object {
+                  "name": "google.golang.org/grpc/balancer/roundrobin",
+                  "version": "v1.49.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/grpc/internal/envconfig@v1.49.0",
+                "info": Object {
+                  "name": "google.golang.org/grpc/internal/envconfig",
+                  "version": "v1.49.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/grpc/internal/resolver/dns@v1.49.0",
+                "info": Object {
+                  "name": "google.golang.org/grpc/internal/resolver/dns",
+                  "version": "v1.49.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/grpc/balancer/grpclb/state@v1.49.0",
+                "info": Object {
+                  "name": "google.golang.org/grpc/balancer/grpclb/state",
+                  "version": "v1.49.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/grpc/internal/resolver/passthrough@v1.49.0",
+                "info": Object {
+                  "name": "google.golang.org/grpc/internal/resolver/passthrough",
+                  "version": "v1.49.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/grpc/internal/resolver/unix@v1.49.0",
+                "info": Object {
+                  "name": "google.golang.org/grpc/internal/resolver/unix",
+                  "version": "v1.49.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/grpc/encoding@v1.49.0",
+                "info": Object {
+                  "name": "google.golang.org/grpc/encoding",
+                  "version": "v1.49.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/grpc/encoding/proto@v1.49.0",
+                "info": Object {
+                  "name": "google.golang.org/grpc/encoding/proto",
+                  "version": "v1.49.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/grpc/credentials/insecure@v1.49.0",
+                "info": Object {
+                  "name": "google.golang.org/grpc/credentials/insecure",
+                  "version": "v1.49.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/grpc/binarylog/grpc_binarylog_v1@v1.49.0",
+                "info": Object {
+                  "name": "google.golang.org/grpc/binarylog/grpc_binarylog_v1",
+                  "version": "v1.49.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/grpc/internal/binarylog@v1.49.0",
+                "info": Object {
+                  "name": "google.golang.org/grpc/internal/binarylog",
+                  "version": "v1.49.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/grpc@v1.49.0",
+                "info": Object {
+                  "name": "google.golang.org/grpc",
+                  "version": "v1.49.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/grpc/internal/balancerload@v1.49.0",
+                "info": Object {
+                  "name": "google.golang.org/grpc/internal/balancerload",
+                  "version": "v1.49.0",
+                },
+              },
+              Object {
+                "id": "google.golang.org/protobuf/internal/detrand@v1.28.1",
+                "info": Object {
+                  "name": "google.golang.org/protobuf/internal/detrand",
+                  "version": "v1.28.1",
+                },
+              },
+              Object {
+                "id": "google.golang.org/protobuf/internal/errors@v1.28.1",
+                "info": Object {
+                  "name": "google.golang.org/protobuf/internal/errors",
+                  "version": "v1.28.1",
+                },
+              },
+              Object {
+                "id": "google.golang.org/protobuf/encoding/protowire@v1.28.1",
+                "info": Object {
+                  "name": "google.golang.org/protobuf/encoding/protowire",
+                  "version": "v1.28.1",
+                },
+              },
+              Object {
+                "id": "google.golang.org/protobuf/reflect/protoreflect@v1.28.1",
+                "info": Object {
+                  "name": "google.golang.org/protobuf/reflect/protoreflect",
+                  "version": "v1.28.1",
+                },
+              },
+              Object {
+                "id": "google.golang.org/protobuf/internal/encoding/messageset@v1.28.1",
+                "info": Object {
+                  "name": "google.golang.org/protobuf/internal/encoding/messageset",
+                  "version": "v1.28.1",
+                },
+              },
+              Object {
+                "id": "google.golang.org/protobuf/internal/strs@v1.28.1",
+                "info": Object {
+                  "name": "google.golang.org/protobuf/internal/strs",
+                  "version": "v1.28.1",
+                },
+              },
+              Object {
+                "id": "google.golang.org/protobuf/internal/encoding/text@v1.28.1",
+                "info": Object {
+                  "name": "google.golang.org/protobuf/internal/encoding/text",
+                  "version": "v1.28.1",
+                },
+              },
+              Object {
+                "id": "google.golang.org/protobuf/reflect/protoregistry@v1.28.1",
+                "info": Object {
+                  "name": "google.golang.org/protobuf/reflect/protoregistry",
+                  "version": "v1.28.1",
+                },
+              },
+              Object {
+                "id": "google.golang.org/protobuf/internal/order@v1.28.1",
+                "info": Object {
+                  "name": "google.golang.org/protobuf/internal/order",
+                  "version": "v1.28.1",
+                },
+              },
+              Object {
+                "id": "google.golang.org/protobuf/proto@v1.28.1",
+                "info": Object {
+                  "name": "google.golang.org/protobuf/proto",
+                  "version": "v1.28.1",
+                },
+              },
+              Object {
+                "id": "google.golang.org/protobuf/encoding/prototext@v1.28.1",
+                "info": Object {
+                  "name": "google.golang.org/protobuf/encoding/prototext",
+                  "version": "v1.28.1",
+                },
+              },
+              Object {
+                "id": "google.golang.org/protobuf/internal/descfmt@v1.28.1",
+                "info": Object {
+                  "name": "google.golang.org/protobuf/internal/descfmt",
+                  "version": "v1.28.1",
+                },
+              },
+              Object {
+                "id": "google.golang.org/protobuf/internal/encoding/defval@v1.28.1",
+                "info": Object {
+                  "name": "google.golang.org/protobuf/internal/encoding/defval",
+                  "version": "v1.28.1",
+                },
+              },
+              Object {
+                "id": "google.golang.org/protobuf/internal/filedesc@v1.28.1",
+                "info": Object {
+                  "name": "google.golang.org/protobuf/internal/filedesc",
+                  "version": "v1.28.1",
+                },
+              },
+              Object {
+                "id": "google.golang.org/protobuf/internal/encoding/tag@v1.28.1",
+                "info": Object {
+                  "name": "google.golang.org/protobuf/internal/encoding/tag",
+                  "version": "v1.28.1",
+                },
+              },
+              Object {
+                "id": "google.golang.org/protobuf/internal/impl@v1.28.1",
+                "info": Object {
+                  "name": "google.golang.org/protobuf/internal/impl",
+                  "version": "v1.28.1",
+                },
+              },
+              Object {
+                "id": "google.golang.org/protobuf/internal/filetype@v1.28.1",
+                "info": Object {
+                  "name": "google.golang.org/protobuf/internal/filetype",
+                  "version": "v1.28.1",
+                },
+              },
+              Object {
+                "id": "google.golang.org/protobuf/types/descriptorpb@v1.28.1",
+                "info": Object {
+                  "name": "google.golang.org/protobuf/types/descriptorpb",
+                  "version": "v1.28.1",
+                },
+              },
+              Object {
+                "id": "google.golang.org/protobuf/reflect/protodesc@v1.28.1",
+                "info": Object {
+                  "name": "google.golang.org/protobuf/reflect/protodesc",
+                  "version": "v1.28.1",
+                },
+              },
+              Object {
+                "id": "google.golang.org/protobuf/internal/encoding/json@v1.28.1",
+                "info": Object {
+                  "name": "google.golang.org/protobuf/internal/encoding/json",
+                  "version": "v1.28.1",
+                },
+              },
+              Object {
+                "id": "google.golang.org/protobuf/encoding/protojson@v1.28.1",
+                "info": Object {
+                  "name": "google.golang.org/protobuf/encoding/protojson",
+                  "version": "v1.28.1",
+                },
+              },
+              Object {
+                "id": "google.golang.org/protobuf/types/known/anypb@v1.28.1",
+                "info": Object {
+                  "name": "google.golang.org/protobuf/types/known/anypb",
+                  "version": "v1.28.1",
+                },
+              },
+              Object {
+                "id": "google.golang.org/protobuf/types/known/durationpb@v1.28.1",
+                "info": Object {
+                  "name": "google.golang.org/protobuf/types/known/durationpb",
+                  "version": "v1.28.1",
+                },
+              },
+              Object {
+                "id": "google.golang.org/protobuf/types/known/timestamppb@v1.28.1",
+                "info": Object {
+                  "name": "google.golang.org/protobuf/types/known/timestamppb",
+                  "version": "v1.28.1",
+                },
+              },
+              Object {
+                "id": "google.golang.org/protobuf/types/known/wrapperspb@v1.28.1",
+                "info": Object {
+                  "name": "google.golang.org/protobuf/types/known/wrapperspb",
+                  "version": "v1.28.1",
+                },
+              },
+              Object {
+                "id": "k8s.io/apimachinery/pkg/version@v0.26.0",
+                "info": Object {
+                  "name": "k8s.io/apimachinery/pkg/version",
+                  "version": "v0.26.0",
+                },
+              },
+              Object {
+                "id": "k8s.io/apimachinery/pkg/util/sets@v0.26.0",
+                "info": Object {
+                  "name": "k8s.io/apimachinery/pkg/util/sets",
+                  "version": "v0.26.0",
+                },
+              },
+              Object {
+                "id": "k8s.io/component-base/version@v0.26.0",
+                "info": Object {
+                  "name": "k8s.io/component-base/version",
+                  "version": "v0.26.0",
+                },
+              },
+              Object {
+                "id": "k8s.io/component-base/metrics@v0.26.0",
+                "info": Object {
+                  "name": "k8s.io/component-base/metrics",
+                  "version": "v0.26.0",
+                },
+              },
+              Object {
+                "id": "k8s.io/klog/v2/internal/severity@v2.80.1",
+                "info": Object {
+                  "name": "k8s.io/klog/v2/internal/severity",
+                  "version": "v2.80.1",
+                },
+              },
+              Object {
+                "id": "k8s.io/klog/v2/internal/buffer@v2.80.1",
+                "info": Object {
+                  "name": "k8s.io/klog/v2/internal/buffer",
+                  "version": "v2.80.1",
+                },
+              },
+              Object {
+                "id": "k8s.io/klog/v2/internal/clock@v2.80.1",
+                "info": Object {
+                  "name": "k8s.io/klog/v2/internal/clock",
+                  "version": "v2.80.1",
+                },
+              },
+              Object {
+                "id": "k8s.io/klog/v2/internal/dbg@v2.80.1",
+                "info": Object {
+                  "name": "k8s.io/klog/v2/internal/dbg",
+                  "version": "v2.80.1",
+                },
+              },
+              Object {
+                "id": "k8s.io/klog/v2/internal/serialize@v2.80.1",
+                "info": Object {
+                  "name": "k8s.io/klog/v2/internal/serialize",
+                  "version": "v2.80.1",
+                },
+              },
+              Object {
+                "id": "k8s.io/klog/v2@v2.80.1",
+                "info": Object {
+                  "name": "k8s.io/klog/v2",
+                  "version": "v2.80.1",
+                },
+              },
+            ],
+            "schemaVersion": "1.3.0",
+          },
+          "type": "depGraph",
+        },
+        Object {
+          "data": "sha256:df6b7f6e1cae591aa79cd0a355e9486a5b145a519f6351904605e17b34ceb63e",
+          "type": "imageId",
+        },
+      ],
+      "identity": Object {
+        "targetFile": "\\\\livenessprobe",
+        "type": "gomodules",
+      },
+      "target": Object {
+        "image": "docker-image|go-windows.tar",
+      },
+    },
+  ],
+}
+`;
+
 exports[`jar binaries scanning should return expected result 1`] = `
 Object {
   "scanResults": Array [
