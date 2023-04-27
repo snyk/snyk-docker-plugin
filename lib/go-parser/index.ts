@@ -1,7 +1,9 @@
 import * as Debug from "debug";
 import * as elf from "elfy";
 import { eventLoopSpinner } from "event-loop-spinner";
-import * as path from "path";
+// NOTE: Paths will always be normalized to POSIX even on Windows.
+// This makes it easier to ignore differences between Linux and Windows.
+import { posix as path } from "path";
 import { Readable } from "stream";
 
 import {
@@ -33,9 +35,10 @@ const ignoredPaths = [
 export const DEP_GRAPH_TYPE = "gomodules";
 
 function filePathMatches(filePath: string): boolean {
-  const dirName = path.dirname(filePath);
+  const normalizedPath = path.normalize(filePath);
+  const dirName = path.dirname(normalizedPath);
   return (
-    !path.parse(filePath).ext &&
+    !path.parse(normalizedPath).ext &&
     !ignoredPaths.some((ignorePath) => dirName.startsWith(ignorePath))
   );
 }
@@ -99,7 +102,7 @@ async function findGoBinaries(
             .split(/\0+/g)
             .filter(Boolean);
           const go = strings[strings.length - 2];
-          const buildIdParts = strings[strings.length - 1].split("/");
+          const buildIdParts = strings[strings.length - 1].split(path.sep);
 
           // Build ID's precise form is actionID/[.../]contentID.
           // Usually the buildID is simply actionID/contentID, but with exceptions.
@@ -168,6 +171,12 @@ export async function goModulesToScannedProjects(
         facts: [depGraphFact],
         identity: {
           type: DEP_GRAPH_TYPE,
+          // TODO: The path will contain forward slashes on Linux or backslashes on Windows.
+          // So if you scanned the exact same image but from two different machines,
+          // we'd generate two different identities.
+          // These two identities would create two different Projects if monitored... so is this a bug?
+          // If we enforce forward-slashes in every case, would that create duplicate Projects
+          // for existing users who are using the current "backslashes on Windows" behaviour?
           targetFile: filePath,
         },
       });
