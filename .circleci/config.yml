@@ -207,11 +207,14 @@ workflows:
     jobs:
       - install:
           name: Install
-          context: nodejs-install
+          context: 
+            - nodejs-install
+            - team-lumos
       - lint:
           name: Lint
           context:
             - nodejs-install
+            - team-lumos
             - snyk-bot-slack
           requires:
             - Install
@@ -229,6 +232,7 @@ workflows:
           name: Test
           context:
             - nodejs-install
+            - team-lumos
             - snyk-bot-slack
           requires:
             - Build
@@ -238,6 +242,7 @@ workflows:
           name: Test Windows
           context:
             - nodejs-install
+            - team-lumos
             - snyk-bot-slack
           node_version: "12"
           requires:
@@ -248,6 +253,7 @@ workflows:
           name: Test Jest Windows
           context:
             - nodejs-install
+            - team-lumos
             - snyk-bot-slack
           node_version: "12"
           requires:
@@ -258,6 +264,7 @@ workflows:
           name: Build CLI with changes
           context:
             - nodejs-install
+            - team-lumos
             - snyk-bot-slack
           requires:
             - Build
@@ -267,6 +274,7 @@ workflows:
           name: Release to GitHub
           context:
             - nodejs-lib-release
+            - team-lumos
             - snyk-bot-slack
           filters:
             branches:
@@ -289,12 +297,16 @@ workflows:
     jobs:
       - install:
           name: Install
-          context: nodejs-install
+          context: 
+            - nodejs-install
+            - team-lumos
           post-steps:
             - *slack-fail-notify
       - build_and_test_latest_go_binary:
           name: Build Go binary
-          context: nodejs-install
+          context: 
+            - nodejs-install
+            - team-lumos
           requires:
             - Install
           post-steps:
