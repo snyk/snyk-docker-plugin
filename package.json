@@ -44,7 +44,7 @@
     "event-loop-spinner": "^2.0.0",
     "gunzip-maybe": "^1.4.2",
     "mkdirp": "^1.0.4",
-    "packageurl-js": "^1.0.0",
+    "packageurl-js": "^1.0.2",
     "semver": "^7.3.4",
     "shescape": "1.6.6",
     "snyk-nodejs-lockfile-parser": "^1.45.1",
