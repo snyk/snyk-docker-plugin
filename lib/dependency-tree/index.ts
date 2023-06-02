@@ -124,6 +124,7 @@ export function buildTree(
       const pkg = {
         name: depFullName(depInfo),
         version: depInfo.Version,
+        sourceVersion: depInfo.SourceVersion,
       };
       metaSubtree.dependencies[pkg.name] = pkg;
     }
