@@ -1,4 +1,4 @@
-import { legacy } from "@snyk/dep-graph";
+import { DepGraph, legacy } from "@snyk/dep-graph";
 import { StaticAnalysis } from "./analyzer/types";
 import * as facts from "./facts";
 // Module that provides functions to collect and build response after all
@@ -147,6 +147,18 @@ async function buildResponse(
   const applicationDependenciesScanResults: types.ScanResult[] = (
     depsAnalysis.applicationDependenciesScanResults || []
   ).map((appDepsScanResult) => {
+    // if the scanResult doesn't have a name set, use the name of the root
+    // package of the depGraph.
+    if (!appDepsScanResult.name) {
+      const dgFact = appDepsScanResult.facts.find(
+        (dg) => dg.type === "depGraph",
+      );
+      // not every scanResult has a depGraph, for example the JAR fingerprints.
+      if (dgFact) {
+        appDepsScanResult.name = (dgFact?.data as DepGraph).rootPkg.name || "";
+      }
+    }
+
     if (depsAnalysis.imageId) {
       const imageIdFact: facts.ImageIdFact = {
         type: "imageId",
@@ -194,6 +206,7 @@ async function buildResponse(
         type: depGraph.pkgManager.name,
         args,
       },
+      name: depGraph.rootPkg.name,
     },
     ...applicationDependenciesScanResults,
   ];
