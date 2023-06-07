@@ -16,23 +16,23 @@ schemas:
   FactType:
     type: string
     enum:
-      - depGraph
-      - keyBinariesHashes
-      - imageLayers
-      - dockerfileAnalysis
-      - rootFs
-      - imageId
-      - imageOsReleasePrettyName
-      - imageManifestFiles
-      - testedFiles
-      - jarFingerprints
       - autoDetectedUserInstructions
-      - imageLabels
-      - imageSizeBytes
-      - loadedPackages
+      - depGraph
+      - dockerfileAnalysis
       - imageCreationTime
+      - imageId
+      - imageLabels
+      - imageLayers
+      - imageManifestFiles
       - imageNames
+      - imageOsReleasePrettyName
+      - imageSizeBytes
+      - jarFingerprints
+      - keyBinariesHashes
+      - loadedPackages
       - redHatRepositories
+      - rootFs
+      - testedFiles
   Identity:
     type: object
     description: Identity defines "what" you found.

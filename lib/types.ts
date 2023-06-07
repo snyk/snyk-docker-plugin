@@ -50,27 +50,27 @@ export interface ImageNameInfo {
 }
 
 export type FactType =
+  | "autoDetectedUserInstructions"
   | "depGraph"
-  // Hashes of executables not installed by a package manager (e.g. if they were copied straight onto the image).
-  | "keyBinariesHashes"
+  | "dockerfileAnalysis"
+  | "imageCreationTime"
+  | "imageId"
+  | "imageLabels"
   // Collects the file names of the individual .tar layers found in the scanned image.
   | "imageLayers"
-  | "dockerfileAnalysis"
-  | "rootFs"
-  | "imageId"
-  | "imageOsReleasePrettyName"
   // Package manager manifests (e.g. requirements.txt, Gemfile.lock) collected as part of an application scan.
   | "imageManifestFiles"
-  // Used for application dependencies scanning; shows which files were used in the analysis of the dependencies.
-  | "testedFiles"
+  | "imageNames"
+  | "imageOsReleasePrettyName"
+  | "imageSizeBytes"
   // Hashes of extracted *.jar binaries, hashed with sha1 algorithm
   | "jarFingerprints"
-  | "autoDetectedUserInstructions"
-  | "imageLabels"
-  | "imageSizeBytes"
+  // Hashes of executables not installed by a package manager (e.g. if they were copied straight onto the image).
+  | "keyBinariesHashes"
   | "loadedPackages"
-  | "imageCreationTime"
-  | "imageNames";
+  | "rootFs"
+  // Used for application dependencies scanning; shows which files were used in the analysis of the dependencies.
+  | "testedFiles";
 
 export interface PluginResponse {
   /** The first result is guaranteed to be the OS dependencies scan result. */
