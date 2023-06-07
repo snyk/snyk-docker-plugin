@@ -1,0 +1,66 @@
+schemas:
+  ContainerTarget:
+    type: object
+    description: The target defines "where" you found this scan result.
+    properties:
+      image:
+        type: string
+  Fact:
+    type: object
+    description: The thing you found.
+    properties:
+      type:
+        $ref: "#/schemas/FactType"
+      data:
+        type: object
+  FactType:
+    type: string
+    enum:
+      - depGraph
+      - keyBinariesHashes
+      - imageLayers
+      - dockerfileAnalysis
+      - rootFs
+      - imageId
+      - imageOsReleasePrettyName
+      - imageManifestFiles
+      - testedFiles
+      - jarFingerprints
+      - autoDetectedUserInstructions
+      - imageLabels
+      - imageSizeBytes
+      - loadedPackages
+      - imageCreationTime
+      - imageNames
+      - redHatRepositories
+  Identity:
+    type: object
+    description: Identity defines "what" you found.
+    properties:
+      type:
+        type: string
+        description: Ecosystem type
+        example: deb
+      targetFile:
+        type: string
+      args:
+        type: object
+        additionalProperties:
+          type: string
+  ScanResult:
+    type: object
+    properties:
+      name:
+        type: string
+        description: User-friendly name to use as the name of the Project that Snyk creates.
+      policy:
+        type: string
+        description: Contains the Snyk policy file content.
+      target:
+        $ref: "#/schemas/ContainerTarget"
+      identity:
+        $ref: "#/schemas/Identity"
+      facts:
+        type: array
+        items:
+          $ref: "#/schemas/Fact"
