@@ -17,8 +17,10 @@ schemas:
     type: string
     enum:
       - autoDetectedUserInstructions
+      - binaries
       - depGraph
       - dockerfileAnalysis
+      - dockerLayers
       - imageCreationTime
       - imageId
       - imageLabels
@@ -27,12 +29,14 @@ schemas:
       - imageNames
       - imageOsReleasePrettyName
       - imageSizeBytes
+      - hashes
       - jarFingerprints
       - keyBinariesHashes
       - loadedPackages
       - redHatRepositories
       - rootFs
       - testedFiles
+      - workloadMetadata
   Identity:
     type: object
     description: Identity defines "what" you found.
