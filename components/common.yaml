@@ -11,8 +11,7 @@ schemas:
     properties:
       type:
         $ref: "#/schemas/FactType"
-      data:
-        type: object
+      data: {}
   FactType:
     type: string
     enum:
