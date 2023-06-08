@@ -50,6 +50,20 @@ schemas:
         type: object
         additionalProperties:
           type: string
+  KubernetesTarget:
+    type: object
+    description: The target defines "where" you found this scan result for kubernetes.
+    properties:
+      cluster:
+        type: string
+      fullLocator:
+        type: string
+      id:
+        type: string
+      image:
+        type: string
+      name:
+        type: string
   ScanResult:
     type: object
     properties:
@@ -60,7 +74,9 @@ schemas:
         type: string
         description: Contains the Snyk policy file content.
       target:
-        $ref: "#/schemas/ContainerTarget"
+        anyOf:
+          - $ref: "#/schemas/ContainerTarget"
+          - $ref: "#/schemas/KubernetesTarget"
       identity:
         $ref: "#/schemas/Identity"
       facts:
