@@ -45,7 +45,7 @@
     "gunzip-maybe": "^1.4.2",
     "mkdirp": "^1.0.4",
     "packageurl-js": "^1.0.0",
-    "semver": "^7.5.0",
+    "semver": "^7.5.1",
     "shescape": "1.6.6",
     "snyk-nodejs-lockfile-parser": "^1.49.0",
     "snyk-poetry-lockfile-parser": "^1.1.7",
