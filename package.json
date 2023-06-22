@@ -47,7 +47,7 @@
     "packageurl-js": "^1.0.0",
     "semver": "^7.5.1",
     "shescape": "1.6.6",
-    "snyk-nodejs-lockfile-parser": "^1.50.0",
+    "snyk-nodejs-lockfile-parser": "^1.51.1",
     "snyk-poetry-lockfile-parser": "^1.1.7",
     "tar-stream": "^2.1.0",
     "tmp": "^0.2.1",
