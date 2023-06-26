@@ -4,6 +4,7 @@ orbs:
   win: circleci/windows@5.0.0
   node: circleci/node@5.1.0
   slack: circleci/slack@4
+  prodsec: snyk/prodsec-orb@1.0
 
 defaults: &defaults
   resource_class: small
@@ -205,6 +206,11 @@ workflows:
       not:
         equal: [scheduled_pipeline, << pipeline.trigger_source >>]
     jobs:
+      - prodsec/secrets-scan:
+          name: Scan repository for secrets
+          context:
+            - snyk-bot-slack
+          channel: container-integration-alerts
       - install:
           name: Install
           context: 
