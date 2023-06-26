@@ -211,6 +211,10 @@ workflows:
           context:
             - snyk-bot-slack
           channel: lumos-alerts
+          filters:
+            branches:
+              ignore:
+                main
       - install:
           name: Install
           context: 
