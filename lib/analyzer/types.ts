@@ -9,6 +9,7 @@ export interface AnalyzedPackage {
   Name: string;
   Version?: string;
   Source?: string;
+  SourceVersion?: string;
   Provides: string[];
   Deps: {
     [name: string]: any;

@@ -1,3 +1,4 @@
+import { PackageURL } from "packageurl-js";
 import {
   AnalysisType,
   AnalyzedPackage,
@@ -43,18 +44,45 @@ export function analyzeDistroless(
 
 function parseDpkgFile(text: string): AnalyzedPackageWithVersion[] {
   const pkgs: AnalyzedPackageWithVersion[] = [];
-  let curPkg: any = null;
+  let curPkg: AnalyzedPackageWithVersion | null = null;
   for (const line of text.split("\n")) {
-    curPkg = parseDpkgLine(line, curPkg, pkgs);
+    curPkg = parseDpkgLine(line, curPkg!, pkgs);
+    if (curPkg) {
+      curPkg.Purl = purl(curPkg);
+    }
   }
   return pkgs;
+}
+
+export function purl(curPkg: AnalyzedPackageWithVersion): string | undefined {
+  if (!curPkg.Name || !curPkg.Version) {
+    return undefined;
+  }
+
+  const qualifiers: { [key: string]: string } = {};
+  if (curPkg.Source && curPkg.SourceVersion) {
+    qualifiers.upstream = `${curPkg.Source}@${curPkg.SourceVersion}`;
+  } else if (curPkg.Source) {
+    qualifiers.upstream = curPkg.Source;
+  }
+
+  return new PackageURL(
+    "deb",
+    "",
+    curPkg.Name,
+    curPkg.Version,
+    // make sure that we pass in undefined if there are no qualifiers, because
+    // the packageurl-js library doesn't handle that properly...
+    Object.keys(qualifiers).length !== 0 ? qualifiers : undefined,
+    undefined,
+  ).toString();
 }
 
 function parseDpkgLine(
   text: string,
   curPkg: AnalyzedPackageWithVersion,
   pkgs: AnalyzedPackageWithVersion[],
-): AnalyzedPackage {
+): AnalyzedPackageWithVersion {
   const [key, value] = text.split(": ");
   switch (key) {
     case "Package":
@@ -62,6 +90,7 @@ function parseDpkgLine(
         Name: value,
         Version: "",
         Source: undefined,
+        SourceVersion: undefined,
         Provides: [],
         Deps: {},
         AutoInstalled: undefined,
@@ -72,7 +101,22 @@ function parseDpkgLine(
       curPkg.Version = value;
       break;
     case "Source":
-      curPkg.Source = value.trim().split(" ")[0];
+      /**
+       * The value may look something like this:
+       * libgcc6 (1.3.0-b1)
+       * <name> (<version>)
+       *
+       * For example, Syft matches these values with a regex:
+       * https://github.com/anchore/syft/blob/1764e1c3f6bd66781f8350d957a1f95e4d9ad3de/syft/pkg/cataloger/deb/parse_dpkg_db.go#L169-L173
+       */
+      const parts = value.split(" ");
+      curPkg.Source = parts[0];
+      if (parts.length > 1) {
+        curPkg.SourceVersion = parts[1]
+          .trim()
+          .replace("(", "")
+          .replace(")", "");
+      }
       break;
     case "Provides":
       for (let name of value.split(",")) {
