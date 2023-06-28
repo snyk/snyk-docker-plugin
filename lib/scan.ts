@@ -4,6 +4,7 @@ import * as path from "path";
 import { getImageArchive } from "./analyzer/image-inspector";
 import { readDockerfileAndAnalyse } from "./dockerfile";
 import { DockerFileAnalysis } from "./dockerfile/types";
+import { ImageName } from "./extractor/image";
 import { fullImageSavePath } from "./image-save-path";
 import { getArchivePath, getImageType } from "./image-type";
 import { isNumber, isTrue } from "./option-utils";
@@ -114,6 +115,17 @@ async function localArchiveAnalysis(
     // The target image becomes the base of the path, e.g. "archive.tar" for "/var/tmp/archive.tar"
     path.basename(archivePath);
 
+  let imageName: ImageName | undefined;
+  if (
+    (options.digests?.manifest || options.digests?.index) &&
+    options.imageNameAndTag
+  ) {
+    imageName = new ImageName(options.imageNameAndTag, {
+      manifest: options.digests?.manifest,
+      index: options.digests?.index,
+    });
+  }
+
   return await staticModule.analyzeStatically(
     imageIdentifier,
     dockerfileAnalysis,
@@ -121,6 +133,7 @@ async function localArchiveAnalysis(
     archivePath,
     globToFind,
     options,
+    imageName,
   );
 }
 
