@@ -158,6 +158,14 @@ export interface PluginOptions {
   imageNameAndDigest: string;
 
   /**
+   * WARNING! This is NOT used by the Snyk CLI!
+   *
+   * It is used by Docker Registry Agent to preserve the image digests if we can extract this
+   * information from pulling the image with Snyk Docker Pull.
+   */
+  digests: { manifest?: string; index?: string };
+
+  /**
    * Provide patterns on which to match for detecting package manager manifest files.
    * Used for the APP+OS deps feature, not by the CLI.
    */
