@@ -38,9 +38,13 @@ slack-success-notify: &slack-success-notify
 
 windows_big: &windows_big
   executor:
-    name: win/default
+    name: win/server-2022
     shell: bash.exe
     size: large
+    # we've pinned the version because without it, it uses "current" (at the time of writing, "2023.06.1"),
+    # which has a broken Docker installation. See https://discuss.circleci.com/t/build-failures-when-running-docker-on-junes-windows-executor/48605
+    # TODO: check if it works again with the next release and unpin the version.
+    version: "2023.05.1"
   parameters:
     node_version:
       type: string
@@ -143,7 +147,7 @@ jobs:
           command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
       - run: npm ci
       - run: npm run test-jest
-  test_jest_windows:
+  test_jest_windows_with_docker:
     <<: *windows_big
     steps:
       - checkout
@@ -153,6 +157,22 @@ jobs:
           name: Use snyk-main npmjs user
           command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
       - run: npm ci
+      - run: docker version
+      - run:
+          command: npm run test-jest-windows
+          no_output_timeout: 20m
+  test_jest_windows_no_docker:
+    <<: *windows_big
+    steps:
+      - checkout
+      - install_node_npm:
+          node_version: << parameters.node_version >>
+      - run:
+          name: Use snyk-main npmjs user
+          command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
+      - run: npm ci
+        # make docker appear to be broken.
+      - run: "function docker() { return 1; }"
       - run:
           command: npm run test-jest-windows
           no_output_timeout: 20m
@@ -213,11 +233,10 @@ workflows:
           channel: lumos-alerts
           filters:
             branches:
-              ignore:
-                main
+              ignore: main
       - install:
           name: Install
-          context: 
+          context:
             - nodejs-install
             - team-lumos
       - lint:
@@ -259,8 +278,19 @@ workflows:
             - Build
           post-steps:
             - *slack-fail-notify
-      - test_jest_windows:
-          name: Test Jest Windows
+      - test_jest_windows_with_docker:
+          name: Test Jest Windows with Docker
+          context:
+            - nodejs-install
+            - team-lumos
+            - snyk-bot-slack
+          node_version: "12"
+          requires:
+            - Build
+          post-steps:
+            - *slack-fail-notify
+      - test_jest_windows_no_docker:
+          name: Test Jest Windows no Docker
           context:
             - nodejs-install
             - team-lumos
@@ -295,7 +325,8 @@ workflows:
             - Build
             - Test
             - Test Windows
-            - Test Jest Windows
+            - Test Jest Windows with Docker
+            - Test Jest Windows no Docker
           post-steps:
             - *slack-fail-notify
             - *slack-success-notify
@@ -307,14 +338,14 @@ workflows:
     jobs:
       - install:
           name: Install
-          context: 
+          context:
             - nodejs-install
             - team-lumos
           post-steps:
             - *slack-fail-notify
       - build_and_test_latest_go_binary:
           name: Build Go binary
-          context: 
+          context:
             - nodejs-install
             - team-lumos
           requires:

@@ -159,7 +159,7 @@ export async function analyze(
       dockerfileAnalysis,
     );
   } catch (err) {
-    debug(`Could not detect OS release: ${err}`);
+    debug(`Could not detect OS release: ${err.message}`);
     throw new Error("Failed to detect OS release");
   }
 
@@ -180,7 +180,7 @@ export async function analyze(
       aptDistrolessAnalyze(targetImage, distrolessAptFiles),
     ]);
   } catch (err) {
-    debug(`Could not detect installed OS packages: ${err}`);
+    debug(`Could not detect installed OS packages: ${err.message}`);
     throw new Error("Failed to detect installed OS packages");
   }
 

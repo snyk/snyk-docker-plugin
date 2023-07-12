@@ -59,7 +59,7 @@ export async function detect(
     try {
       osRelease = await handler(osReleaseFile);
     } catch (err) {
-      debug(`Malformed OS release file: ${err}`);
+      debug(`Malformed OS release file: ${err.message}`);
     }
     if (osRelease) {
       break;

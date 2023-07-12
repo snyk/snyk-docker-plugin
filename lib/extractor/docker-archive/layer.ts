@@ -43,7 +43,7 @@ export async function extractArchive(
               extractActions,
             );
           } catch (error) {
-            debug(`Error extracting layer content from: '${error}'`);
+            debug(`Error extracting layer content from: '${error.message}'`);
             reject(new Error("Error reading tar archive"));
           }
         } else if (isManifestFile(normalizedName)) {
@@ -67,7 +67,7 @@ export async function extractArchive(
         );
       } catch (error) {
         debug(
-          `Error getting layers and manifest content from docker archive: ${error}`,
+          `Error getting layers and manifest content from docker archive: ${error.message}`,
         );
         reject(new InvalidArchiveError("Invalid Docker archive"));
       }

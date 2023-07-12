@@ -100,7 +100,7 @@ export async function extractArchive(
         );
       } catch (error) {
         debug(
-          `Error getting layers and manifest content from oci archive: '${error}'`,
+          `Error getting layers and manifest content from oci archive: '${error.message}'`,
         );
         reject(new InvalidArchiveError("Invalid OCI archive"));
       }

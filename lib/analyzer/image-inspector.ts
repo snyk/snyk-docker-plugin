@@ -34,7 +34,9 @@ function cleanupCallback(imageFolderPath: string, imageName: string) {
     }
     fs.rmdir(imageFolderPath, (err) => {
       if (err !== null) {
-        debug(`Can't remove folder ${imageFolderPath}, got error ${err}`);
+        debug(
+          `Can't remove folder ${imageFolderPath}, got error ${err.message}`,
+        );
       }
     });
   };
@@ -59,55 +61,49 @@ async function pullWithDockerBinary(
     await docker.save(targetImage, saveLocation);
     return (pullAndSaveSuccessful = true);
   } catch (err) {
-    debug(`couldn't pull ${targetImage} using docker binary: ${err}`);
+    debug(`couldn't pull ${targetImage} using docker binary: ${err.message}`);
 
-    if (
-      err.stderr &&
-      err.stderr.includes("unknown operating system or architecture")
-    ) {
-      throw new Error("Unknown operating system or architecture");
-    }
-
-    if (
-      err.stderr &&
-      err.stderr.includes("operating system is not supported")
-    ) {
-      throw new Error(`Operating system is not supported`);
-    }
-
-    const unknownManifestConditions = [
-      "no matching manifest for",
-      "manifest unknown",
-    ];
-    if (
-      err.stderr &&
-      unknownManifestConditions.some((value) => err.stderr.includes(value))
-    ) {
-      if (platform) {
-        throw new Error(`The image does not exist for ${platform}`);
-      }
-      throw new Error(`The image does not exist for the current platform`);
-    }
-
-    if (err.stderr && err.stderr.includes("invalid reference format")) {
-      throw new Error(`invalid image format`);
-    }
-
-    if (err.stderr.includes("unknown flag: --platform")) {
-      throw new Error(
-        '"--platform" is only supported on a Docker daemon with version later than 17.09',
-      );
-    }
-
-    if (
-      err.stderr &&
-      err.stderr ===
-        '"--platform" is only supported on a Docker daemon with experimental features enabled'
-    ) {
-      throw new Error(err.stderr);
-    }
+    handleDockerPullError(err.stderr, platform);
 
     return pullAndSaveSuccessful;
+  }
+}
+
+function handleDockerPullError(err: string, platform?: string) {
+  if (err && err.includes("unknown operating system or architecture")) {
+    throw new Error("Unknown operating system or architecture");
+  }
+
+  if (err.includes("operating system is not supported")) {
+    throw new Error(`Operating system is not supported`);
+  }
+
+  const unknownManifestConditions = [
+    "no matching manifest for",
+    "manifest unknown",
+  ];
+  if (unknownManifestConditions.some((value) => err.includes(value))) {
+    if (platform) {
+      throw new Error(`The image does not exist for ${platform}`);
+    }
+    throw new Error(`The image does not exist for the current platform`);
+  }
+
+  if (err.includes("invalid reference format")) {
+    throw new Error(`invalid image format`);
+  }
+
+  if (err.includes("unknown flag: --platform")) {
+    throw new Error(
+      '"--platform" is only supported on a Docker daemon with version later than 17.09',
+    );
+  }
+
+  if (
+    err ===
+    '"--platform" is only supported on a Docker daemon with experimental features enabled'
+  ) {
+    throw new Error(err);
   }
 }
 
@@ -122,14 +118,19 @@ async function pullFromContainerRegistry(
   debug(
     `Attempting to pull: registry: ${hostname}, image: ${imageName}, tag: ${tag}`,
   );
-  return await docker.pull(
-    hostname,
-    imageName,
-    tag,
-    imageSavePath,
-    username,
-    password,
-  );
+  try {
+    return await docker.pull(
+      hostname,
+      imageName,
+      tag,
+      imageSavePath,
+      username,
+      password,
+    );
+  } catch (err) {
+    handleDockerPullError(err.message);
+    throw err;
+  }
 }
 
 async function pullImage(
@@ -315,7 +316,7 @@ function isLocalImageSameArchitecture(
     // Note: this is using the same flag/input pattern as the new Docker buildx: eg. linux/arm64/v8
     platformArchitecture = platformOption.split("/")[1];
   } catch (error) {
-    debug(`Error parsing platform flag: '${error}'`);
+    debug(`Error parsing platform flag: '${error.message}'`);
     return false;
   }
 
