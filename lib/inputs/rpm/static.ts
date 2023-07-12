@@ -32,7 +32,7 @@ export async function getRpmDbFileContent(
     }
     return parserResponse.response;
   } catch (error) {
-    debug(`An error occurred while analysing RPM packages: ${error}`);
+    debug(`An error occurred while analysing RPM packages: ${error.message}`);
     return [];
   }
 }
@@ -56,7 +56,7 @@ export async function getRpmSqliteDbFileContent(
     }
     return results.response;
   } catch (error) {
-    debug(`An error occurred while analysing RPM packages: ${error}`);
+    debug(`An error occurred while analysing RPM packages: ${error.message}`);
     return [];
   }
 }

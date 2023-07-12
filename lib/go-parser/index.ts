@@ -181,7 +181,7 @@ export async function goModulesToScannedProjects(
         },
       });
     } catch (err) {
-      debug(`Go binary scan for file ${filePath} failed: ${err}`);
+      debug(`Go binary scan for file ${filePath} failed: ${err.message}`);
     }
   }
 

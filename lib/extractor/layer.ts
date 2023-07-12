@@ -46,7 +46,7 @@ export async function extractImageLayer(
           } catch (error) {
             // An ExtractAction has thrown an uncaught exception, likely a bug in the code!
             debug(
-              `Exception thrown while applying callbacks during image layer extraction: ${error}`,
+              `Exception thrown while applying callbacks during image layer extraction: ${error.message}`,
             );
             reject(error);
           }

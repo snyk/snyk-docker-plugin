@@ -34,7 +34,9 @@ function cleanupCallback(imageFolderPath: string, imageName: string) {
     }
     fs.rmdir(imageFolderPath, (err) => {
       if (err !== null) {
-        debug(`Can't remove folder ${imageFolderPath}, got error ${err}`);
+        debug(
+          `Can't remove folder ${imageFolderPath}, got error ${err.message}`,
+        );
       }
     });
   };
@@ -59,7 +61,7 @@ async function pullWithDockerBinary(
     await docker.save(targetImage, saveLocation);
     return (pullAndSaveSuccessful = true);
   } catch (err) {
-    debug(`couldn't pull ${targetImage} using docker binary: ${err}`);
+    debug(`couldn't pull ${targetImage} using docker binary: ${err.message}`);
 
     handleDockerPullError(err.stderr, platform);
 
@@ -314,7 +316,7 @@ function isLocalImageSameArchitecture(
     // Note: this is using the same flag/input pattern as the new Docker buildx: eg. linux/arm64/v8
     platformArchitecture = platformOption.split("/")[1];
   } catch (error) {
-    debug(`Error parsing platform flag: '${error}'`);
+    debug(`Error parsing platform flag: '${error.message}'`);
     return false;
   }
 
