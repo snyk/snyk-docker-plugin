@@ -80,6 +80,7 @@ describe("windows scanning", () => {
 
   it("can static scan for Identifier type image (nginx:1.19.11)", async () => {
     const imageNameAndTag = "nginx:1.19.11";
+    process.env.DEBUG = "*";
 
     await expect(() =>
       plugin.scan({

@@ -38,9 +38,10 @@ slack-success-notify: &slack-success-notify
 
 windows_big: &windows_big
   executor:
-    name: win/default
+    name: win/server-2022
     shell: bash.exe
     size: large
+    version: "2023.05.1"
   parameters:
     node_version:
       type: string
@@ -213,11 +214,10 @@ workflows:
           channel: lumos-alerts
           filters:
             branches:
-              ignore:
-                main
+              ignore: main
       - install:
           name: Install
-          context: 
+          context:
             - nodejs-install
             - team-lumos
       - lint:
@@ -307,14 +307,14 @@ workflows:
     jobs:
       - install:
           name: Install
-          context: 
+          context:
             - nodejs-install
             - team-lumos
           post-steps:
             - *slack-fail-notify
       - build_and_test_latest_go_binary:
           name: Build Go binary
-          context: 
+          context:
             - nodejs-install
             - team-lumos
           requires:
