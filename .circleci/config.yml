@@ -5,6 +5,7 @@ orbs:
   node: circleci/node@5.1.0
   slack: circleci/slack@4
   prodsec: snyk/prodsec-orb@1.0
+  snyk: snyk/snyk@1
 
 defaults: &defaults
   resource_class: small
@@ -117,6 +118,26 @@ jobs:
       - attach_workspace:
           at: ~/snyk-docker-plugin
       - run: npm run lint
+  scan_code:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/snyk-docker-plugin
+      - snyk/scan:
+          command: code test
+          fail-on-issues: true
+          severity-threshold: high
+          monitor-on-build: false
+  scan_deps:
+    <<: *defaults
+    steps:
+      - checkout
+      - install_deps
+      - snyk/scan:
+          fail-on-issues: true
+          severity-threshold: high
+          monitor-on-build: false
   test:
     <<: *defaults
     steps:
@@ -257,6 +278,20 @@ workflows:
             - Lint
           post-steps:
             - *slack-fail-notify
+      - scan_code:
+          name: Scan Code
+          context:
+            - snyk-bot-slack
+            - team-lumos
+          post-steps:
+            - *slack-fail-notify
+      - scan_deps:
+          name: Scan Dependencies
+          context:
+            - snyk-bot-slack
+            - team-lumos
+          post-steps:
+            - *slack-fail-notify
       - test:
           name: Test
           context:
@@ -323,6 +358,8 @@ workflows:
           requires:
             - Lint
             - Build
+            - Scan Code
+            - Scan Dependencies
             - Test
             - Test Windows
             - Test Jest Windows with Docker
