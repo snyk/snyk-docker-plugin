@@ -34,7 +34,7 @@
     "@snyk/dep-graph": "^2.7.0",
     "@snyk/docker-registry-v2-client": "^2.10.0",
     "@snyk/rpm-parser": "3.1.0",
-    "@snyk/snyk-docker-pull": "^3.10.0",
+    "@snyk/snyk-docker-pull": "^3.10.1",
     "adm-zip": "^0.5.5",
     "chalk": "^2.4.2",
     "debug": "^4.1.1",
