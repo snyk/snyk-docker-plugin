@@ -108,7 +108,7 @@ export function buildTree(
   });
   attachDeps(notVisitedDeps);
 
-  // group all the "too frequest" deps under a meta package:
+  // attach all the "too frequent" deps to the root:
   if (tooFrequentDepNames.length > 0) {
     const tooFrequentDeps = tooFrequentDepNames.map((name) => {
       return depsMap[name];
@@ -121,15 +121,25 @@ export function buildTree(
     };
 
     for (const depInfo of tooFrequentDeps) {
-      const pkg = {
+      const pkg: DepTreeDep = {
         name: depFullName(depInfo),
         version: depInfo.Version,
         sourceVersion: depInfo.SourceVersion,
+        dependencies: {},
       };
-      metaSubtree.dependencies[pkg.name] = pkg;
+
+      // The existence of the "meta" package breaks upgrade
+      // logic for linux pkg managers
+      if (["deb", "apk", "rpm"].includes(packageFormat)) {
+        root.dependencies[pkg.name] = pkg;
+      } else {
+        metaSubtree.dependencies[pkg.name] = pkg;
+      }
     }
 
-    root.dependencies[metaSubtree.name] = metaSubtree;
+    if (Object.keys(metaSubtree.dependencies).length > 0) {
+      root.dependencies[metaSubtree.name] = metaSubtree;
+    }
   }
 
   return root;

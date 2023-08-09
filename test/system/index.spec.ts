@@ -95,7 +95,7 @@ describe("system tests", () => {
     );
     expect(depGraph.pkgManager.repositories).toEqual([{ alias: "debian:8" }]);
 
-    expect(depGraph.getPkgs()).toHaveLength(383);
+    expect(depGraph.getPkgs()).toHaveLength(382);
   });
 
   test("inspect nginx:1.13.10", async () => {
@@ -140,7 +140,7 @@ describe("system tests", () => {
     expect(depGraph.rootPkg.version).toEqual(imgTag);
     expect(depGraph.pkgManager.repositories).toEqual([{ alias: "debian:9" }]);
 
-    expect(depGraph.getPkgs()).toHaveLength(110);
+    expect(depGraph.getPkgs()).toHaveLength(109);
 
     expect(Object.keys(dockerfileAnalysis.dockerfileLayers)).toHaveLength(1);
 

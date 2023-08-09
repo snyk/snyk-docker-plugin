@@ -12,6 +12,9 @@ Object {
                 Object {
                   "deps": Array [
                     Object {
+                      "nodeId": "acl/libacl1@2.2.53-4",
+                    },
+                    Object {
                       "nodeId": "adduser@3.118|1",
                     },
                     Object {
@@ -19,6 +22,9 @@ Object {
                     },
                     Object {
                       "nodeId": "apt/libapt-pkg5.0@1.8.2.1|2",
+                    },
+                    Object {
+                      "nodeId": "attr/libattr1@1:2.4.48-4",
                     },
                     Object {
                       "nodeId": "audit/libaudit-common@1:2.8.4-3",
@@ -36,6 +42,9 @@ Object {
                       "nodeId": "bash@5.0-4",
                     },
                     Object {
+                      "nodeId": "bzip2/libbz2-1.0@1.0.6-9.2~deb10u1",
+                    },
+                    Object {
                       "nodeId": "cdebconf/libdebconfclient0@0.249",
                     },
                     Object {
@@ -48,6 +57,9 @@ Object {
                       "nodeId": "db5.3/libdb5.3@5.3.28+dfsg1-0.5",
                     },
                     Object {
+                      "nodeId": "debconf@1.5.71",
+                    },
+                    Object {
                       "nodeId": "debian-archive-keyring@2019.1",
                     },
                     Object {
@@ -55,6 +67,9 @@ Object {
                     },
                     Object {
                       "nodeId": "diffutils@1:3.7-3",
+                    },
+                    Object {
+                      "nodeId": "dpkg@1.19.7",
                     },
                     Object {
                       "nodeId": "e2fsprogs@1.44.5-1+deb10u3",
@@ -72,10 +87,19 @@ Object {
                       "nodeId": "findutils@4.6.0+git+20190209-2",
                     },
                     Object {
+                      "nodeId": "gcc-8/gcc-8-base@8.3.0-6",
+                    },
+                    Object {
+                      "nodeId": "gcc-8/libgcc1@1:8.3.0-6",
+                    },
+                    Object {
                       "nodeId": "gcc-8/libstdc++6@8.3.0-6",
                     },
                     Object {
                       "nodeId": "glibc/libc-bin@2.28-10",
+                    },
+                    Object {
+                      "nodeId": "glibc/libc6@2.28-10",
                     },
                     Object {
                       "nodeId": "gmp/libgmp10@2:6.1.2+dfsg-4",
@@ -117,6 +141,9 @@ Object {
                       "nodeId": "libseccomp/libseccomp2@2.3.3-4",
                     },
                     Object {
+                      "nodeId": "libselinux/libselinux1@2.8-1+b1",
+                    },
+                    Object {
                       "nodeId": "libsemanage/libsemanage-common@2.8-2",
                     },
                     Object {
@@ -142,9 +169,6 @@ Object {
                     },
                     Object {
                       "nodeId": "mawk/mawk@1.3.3-17+b3",
-                    },
-                    Object {
-                      "nodeId": "meta-common-packages@meta",
                     },
                     Object {
                       "nodeId": "ncurses/libncursesw6@6.1+20181013-2+deb10u2|1",
@@ -183,6 +207,12 @@ Object {
                       "nodeId": "pam/libpam0g@1.3.1-5|1",
                     },
                     Object {
+                      "nodeId": "pcre3/libpcre3@2:8.39-12",
+                    },
+                    Object {
+                      "nodeId": "perl/perl-base@5.28.1-6+deb10u1",
+                    },
+                    Object {
                       "nodeId": "sed@4.7-1",
                     },
                     Object {
@@ -199,6 +229,9 @@ Object {
                     },
                     Object {
                       "nodeId": "sysvinit/sysvinit-utils@2.93-8",
+                    },
+                    Object {
+                      "nodeId": "tar@1.30+dfsg-6",
                     },
                     Object {
                       "nodeId": "tzdata@2020a-0+deb10u1",
@@ -230,9 +263,20 @@ Object {
                     Object {
                       "nodeId": "util-linux/mount@2.33.1-0.1",
                     },
+                    Object {
+                      "nodeId": "xz-utils/liblzma5@5.2.4-1",
+                    },
+                    Object {
+                      "nodeId": "zlib/zlib1g@1:1.2.11.dfsg-1",
+                    },
                   ],
                   "nodeId": "root-node",
                   "pkgId": "docker-image|redis@",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "acl/libacl1@2.2.53-4",
+                  "pkgId": "acl/libacl1@2.2.53-4",
                 },
                 Object {
                   "deps": Array [],
@@ -627,6 +671,11 @@ Object {
                 },
                 Object {
                   "deps": Array [],
+                  "nodeId": "attr/libattr1@1:2.4.48-4",
+                  "pkgId": "attr/libattr1@1:2.4.48-4",
+                },
+                Object {
+                  "deps": Array [],
                   "nodeId": "mawk/mawk@1.3.3-17+b3",
                   "pkgId": "mawk/mawk@1.3.3-17+b3",
                 },
@@ -685,6 +734,11 @@ Object {
                 },
                 Object {
                   "deps": Array [],
+                  "nodeId": "bzip2/libbz2-1.0@1.0.6-9.2~deb10u1",
+                  "pkgId": "bzip2/libbz2-1.0@1.0.6-9.2~deb10u1",
+                },
+                Object {
+                  "deps": Array [],
                   "nodeId": "coreutils@8.30-3",
                   "pkgId": "coreutils@8.30-3",
                 },
@@ -699,8 +753,18 @@ Object {
                 },
                 Object {
                   "deps": Array [],
+                  "nodeId": "debconf@1.5.71",
+                  "pkgId": "debconf@1.5.71",
+                },
+                Object {
+                  "deps": Array [],
                   "nodeId": "diffutils@1:3.7-3",
                   "pkgId": "diffutils@1:3.7-3",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "dpkg@1.19.7",
+                  "pkgId": "dpkg@1.19.7",
                 },
                 Object {
                   "deps": Array [],
@@ -773,8 +837,23 @@ Object {
                 },
                 Object {
                   "deps": Array [],
+                  "nodeId": "gcc-8/gcc-8-base@8.3.0-6",
+                  "pkgId": "gcc-8/gcc-8-base@8.3.0-6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gcc-8/libgcc1@1:8.3.0-6",
+                  "pkgId": "gcc-8/libgcc1@1:8.3.0-6",
+                },
+                Object {
+                  "deps": Array [],
                   "nodeId": "glibc/libc-bin@2.28-10",
                   "pkgId": "glibc/libc-bin@2.28-10",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "glibc/libc6@2.28-10",
+                  "pkgId": "glibc/libc6@2.28-10",
                 },
                 Object {
                   "deps": Array [],
@@ -798,126 +877,13 @@ Object {
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "lsb/lsb-base@10.2019051400",
-                  "pkgId": "lsb/lsb-base@10.2019051400",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "acl/libacl1@2.2.53-4",
-                  "pkgId": "acl/libacl1@2.2.53-4",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "attr/libattr1@1:2.4.48-4",
-                  "pkgId": "attr/libattr1@1:2.4.48-4",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "bzip2/libbz2-1.0@1.0.6-9.2~deb10u1",
-                  "pkgId": "bzip2/libbz2-1.0@1.0.6-9.2~deb10u1",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "debconf@1.5.71",
-                  "pkgId": "debconf@1.5.71",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "dpkg@1.19.7",
-                  "pkgId": "dpkg@1.19.7",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "gcc-8/gcc-8-base@8.3.0-6",
-                  "pkgId": "gcc-8/gcc-8-base@8.3.0-6",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "gcc-8/libgcc1@1:8.3.0-6",
-                  "pkgId": "gcc-8/libgcc1@1:8.3.0-6",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "glibc/libc6@2.28-10",
-                  "pkgId": "glibc/libc6@2.28-10",
-                },
-                Object {
-                  "deps": Array [],
                   "nodeId": "libselinux/libselinux1@2.8-1+b1",
                   "pkgId": "libselinux/libselinux1@2.8-1+b1",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "pcre3/libpcre3@2:8.39-12",
-                  "pkgId": "pcre3/libpcre3@2:8.39-12",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "perl/perl-base@5.28.1-6+deb10u1",
-                  "pkgId": "perl/perl-base@5.28.1-6+deb10u1",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "tar@1.30+dfsg-6",
-                  "pkgId": "tar@1.30+dfsg-6",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "xz-utils/liblzma5@5.2.4-1",
-                  "pkgId": "xz-utils/liblzma5@5.2.4-1",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "zlib/zlib1g@1:1.2.11.dfsg-1",
-                  "pkgId": "zlib/zlib1g@1:1.2.11.dfsg-1",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "acl/libacl1@2.2.53-4",
-                    },
-                    Object {
-                      "nodeId": "attr/libattr1@1:2.4.48-4",
-                    },
-                    Object {
-                      "nodeId": "bzip2/libbz2-1.0@1.0.6-9.2~deb10u1",
-                    },
-                    Object {
-                      "nodeId": "debconf@1.5.71",
-                    },
-                    Object {
-                      "nodeId": "dpkg@1.19.7",
-                    },
-                    Object {
-                      "nodeId": "gcc-8/gcc-8-base@8.3.0-6",
-                    },
-                    Object {
-                      "nodeId": "gcc-8/libgcc1@1:8.3.0-6",
-                    },
-                    Object {
-                      "nodeId": "glibc/libc6@2.28-10",
-                    },
-                    Object {
-                      "nodeId": "libselinux/libselinux1@2.8-1+b1",
-                    },
-                    Object {
-                      "nodeId": "pcre3/libpcre3@2:8.39-12",
-                    },
-                    Object {
-                      "nodeId": "perl/perl-base@5.28.1-6+deb10u1",
-                    },
-                    Object {
-                      "nodeId": "tar@1.30+dfsg-6",
-                    },
-                    Object {
-                      "nodeId": "xz-utils/liblzma5@5.2.4-1",
-                    },
-                    Object {
-                      "nodeId": "zlib/zlib1g@1:1.2.11.dfsg-1",
-                    },
-                  ],
-                  "nodeId": "meta-common-packages@meta",
-                  "pkgId": "meta-common-packages@meta",
+                  "nodeId": "lsb/lsb-base@10.2019051400",
+                  "pkgId": "lsb/lsb-base@10.2019051400",
                 },
                 Object {
                   "deps": Array [],
@@ -965,6 +931,16 @@ Object {
                   "deps": Array [],
                   "nodeId": "pam/libpam-runtime@1.3.1-5|2",
                   "pkgId": "pam/libpam-runtime@1.3.1-5",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pcre3/libpcre3@2:8.39-12",
+                  "pkgId": "pcre3/libpcre3@2:8.39-12",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "perl/perl-base@5.28.1-6+deb10u1",
+                  "pkgId": "perl/perl-base@5.28.1-6+deb10u1",
                 },
                 Object {
                   "deps": Array [],
@@ -1052,6 +1028,11 @@ Object {
                   ],
                   "nodeId": "sysvinit/sysvinit-utils@2.93-8",
                   "pkgId": "sysvinit/sysvinit-utils@2.93-8",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "tar@1.30+dfsg-6",
+                  "pkgId": "tar@1.30+dfsg-6",
                 },
                 Object {
                   "deps": Array [],
@@ -1147,6 +1128,16 @@ Object {
                   "nodeId": "util-linux/mount@2.33.1-0.1",
                   "pkgId": "util-linux/mount@2.33.1-0.1",
                 },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "xz-utils/liblzma5@5.2.4-1",
+                  "pkgId": "xz-utils/liblzma5@5.2.4-1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "zlib/zlib1g@1:1.2.11.dfsg-1",
+                  "pkgId": "zlib/zlib1g@1:1.2.11.dfsg-1",
+                },
               ],
               "rootNodeId": "root-node",
             },
@@ -1164,6 +1155,13 @@ Object {
                 "info": Object {
                   "name": "docker-image|redis",
                   "version": undefined,
+                },
+              },
+              Object {
+                "id": "acl/libacl1@2.2.53-4",
+                "info": Object {
+                  "name": "acl/libacl1",
+                  "version": "2.2.53-4",
                 },
               },
               Object {
@@ -1431,6 +1429,13 @@ Object {
                 },
               },
               Object {
+                "id": "attr/libattr1@1:2.4.48-4",
+                "info": Object {
+                  "name": "attr/libattr1",
+                  "version": "1:2.4.48-4",
+                },
+              },
+              Object {
                 "id": "mawk/mawk@1.3.3-17+b3",
                 "info": Object {
                   "name": "mawk/mawk",
@@ -1487,6 +1492,13 @@ Object {
                 },
               },
               Object {
+                "id": "bzip2/libbz2-1.0@1.0.6-9.2~deb10u1",
+                "info": Object {
+                  "name": "bzip2/libbz2-1.0",
+                  "version": "1.0.6-9.2~deb10u1",
+                },
+              },
+              Object {
                 "id": "coreutils@8.30-3",
                 "info": Object {
                   "name": "coreutils",
@@ -1503,11 +1515,25 @@ Object {
                 },
               },
               Object {
+                "id": "debconf@1.5.71",
+                "info": Object {
+                  "name": "debconf",
+                  "version": "1.5.71",
+                },
+              },
+              Object {
                 "id": "diffutils@1:3.7-3",
                 "info": Object {
                   "name": "diffutils",
                   "purl": "pkg:deb/diffutils@1:3.7-3",
                   "version": "1:3.7-3",
+                },
+              },
+              Object {
+                "id": "dpkg@1.19.7",
+                "info": Object {
+                  "name": "dpkg",
+                  "version": "1.19.7",
                 },
               },
               Object {
@@ -1567,10 +1593,31 @@ Object {
                 },
               },
               Object {
+                "id": "gcc-8/gcc-8-base@8.3.0-6",
+                "info": Object {
+                  "name": "gcc-8/gcc-8-base",
+                  "version": "8.3.0-6",
+                },
+              },
+              Object {
+                "id": "gcc-8/libgcc1@1:8.3.0-6",
+                "info": Object {
+                  "name": "gcc-8/libgcc1",
+                  "version": "1:8.3.0-6",
+                },
+              },
+              Object {
                 "id": "glibc/libc-bin@2.28-10",
                 "info": Object {
                   "name": "glibc/libc-bin",
                   "purl": "pkg:deb/libc-bin@2.28-10?upstream=glibc",
+                  "version": "2.28-10",
+                },
+              },
+              Object {
+                "id": "glibc/libc6@2.28-10",
+                "info": Object {
+                  "name": "glibc/libc6",
                   "version": "2.28-10",
                 },
               },
@@ -1607,70 +1654,6 @@ Object {
                 },
               },
               Object {
-                "id": "lsb/lsb-base@10.2019051400",
-                "info": Object {
-                  "name": "lsb/lsb-base",
-                  "purl": "pkg:deb/lsb-base@10.2019051400?upstream=lsb",
-                  "version": "10.2019051400",
-                },
-              },
-              Object {
-                "id": "acl/libacl1@2.2.53-4",
-                "info": Object {
-                  "name": "acl/libacl1",
-                  "version": "2.2.53-4",
-                },
-              },
-              Object {
-                "id": "attr/libattr1@1:2.4.48-4",
-                "info": Object {
-                  "name": "attr/libattr1",
-                  "version": "1:2.4.48-4",
-                },
-              },
-              Object {
-                "id": "bzip2/libbz2-1.0@1.0.6-9.2~deb10u1",
-                "info": Object {
-                  "name": "bzip2/libbz2-1.0",
-                  "version": "1.0.6-9.2~deb10u1",
-                },
-              },
-              Object {
-                "id": "debconf@1.5.71",
-                "info": Object {
-                  "name": "debconf",
-                  "version": "1.5.71",
-                },
-              },
-              Object {
-                "id": "dpkg@1.19.7",
-                "info": Object {
-                  "name": "dpkg",
-                  "version": "1.19.7",
-                },
-              },
-              Object {
-                "id": "gcc-8/gcc-8-base@8.3.0-6",
-                "info": Object {
-                  "name": "gcc-8/gcc-8-base",
-                  "version": "8.3.0-6",
-                },
-              },
-              Object {
-                "id": "gcc-8/libgcc1@1:8.3.0-6",
-                "info": Object {
-                  "name": "gcc-8/libgcc1",
-                  "version": "1:8.3.0-6",
-                },
-              },
-              Object {
-                "id": "glibc/libc6@2.28-10",
-                "info": Object {
-                  "name": "glibc/libc6",
-                  "version": "2.28-10",
-                },
-              },
-              Object {
                 "id": "libselinux/libselinux1@2.8-1+b1",
                 "info": Object {
                   "name": "libselinux/libselinux1",
@@ -1678,45 +1661,11 @@ Object {
                 },
               },
               Object {
-                "id": "pcre3/libpcre3@2:8.39-12",
+                "id": "lsb/lsb-base@10.2019051400",
                 "info": Object {
-                  "name": "pcre3/libpcre3",
-                  "version": "2:8.39-12",
-                },
-              },
-              Object {
-                "id": "perl/perl-base@5.28.1-6+deb10u1",
-                "info": Object {
-                  "name": "perl/perl-base",
-                  "version": "5.28.1-6+deb10u1",
-                },
-              },
-              Object {
-                "id": "tar@1.30+dfsg-6",
-                "info": Object {
-                  "name": "tar",
-                  "version": "1.30+dfsg-6",
-                },
-              },
-              Object {
-                "id": "xz-utils/liblzma5@5.2.4-1",
-                "info": Object {
-                  "name": "xz-utils/liblzma5",
-                  "version": "5.2.4-1",
-                },
-              },
-              Object {
-                "id": "zlib/zlib1g@1:1.2.11.dfsg-1",
-                "info": Object {
-                  "name": "zlib/zlib1g",
-                  "version": "1:1.2.11.dfsg-1",
-                },
-              },
-              Object {
-                "id": "meta-common-packages@meta",
-                "info": Object {
-                  "name": "meta-common-packages",
-                  "version": "meta",
+                  "name": "lsb/lsb-base",
+                  "purl": "pkg:deb/lsb-base@10.2019051400?upstream=lsb",
+                  "version": "10.2019051400",
                 },
               },
               Object {
@@ -1760,6 +1709,20 @@ Object {
                 },
               },
               Object {
+                "id": "pcre3/libpcre3@2:8.39-12",
+                "info": Object {
+                  "name": "pcre3/libpcre3",
+                  "version": "2:8.39-12",
+                },
+              },
+              Object {
+                "id": "perl/perl-base@5.28.1-6+deb10u1",
+                "info": Object {
+                  "name": "perl/perl-base",
+                  "version": "5.28.1-6+deb10u1",
+                },
+              },
+              Object {
                 "id": "sed@4.7-1",
                 "info": Object {
                   "name": "sed",
@@ -1789,6 +1752,13 @@ Object {
                   "name": "sysvinit/sysvinit-utils",
                   "purl": "pkg:deb/sysvinit-utils@2.93-8?upstream=sysvinit",
                   "version": "2.93-8",
+                },
+              },
+              Object {
+                "id": "tar@1.30+dfsg-6",
+                "info": Object {
+                  "name": "tar",
+                  "version": "1.30+dfsg-6",
                 },
               },
               Object {
@@ -1845,6 +1815,20 @@ Object {
                   "name": "util-linux/mount",
                   "purl": "pkg:deb/mount@2.33.1-0.1?upstream=util-linux",
                   "version": "2.33.1-0.1",
+                },
+              },
+              Object {
+                "id": "xz-utils/liblzma5@5.2.4-1",
+                "info": Object {
+                  "name": "xz-utils/liblzma5",
+                  "version": "5.2.4-1",
+                },
+              },
+              Object {
+                "id": "zlib/zlib1g@1:1.2.11.dfsg-1",
+                "info": Object {
+                  "name": "zlib/zlib1g",
+                  "version": "1:1.2.11.dfsg-1",
                 },
               },
             ],
@@ -1968,6 +1952,9 @@ Object {
                 Object {
                   "deps": Array [
                     Object {
+                      "nodeId": "acl/libacl1@2.2.53-4",
+                    },
+                    Object {
                       "nodeId": "adduser@3.118|1",
                     },
                     Object {
@@ -1975,6 +1962,9 @@ Object {
                     },
                     Object {
                       "nodeId": "apt/libapt-pkg5.0@1.8.2.1|2",
+                    },
+                    Object {
+                      "nodeId": "attr/libattr1@1:2.4.48-4",
                     },
                     Object {
                       "nodeId": "audit/libaudit-common@1:2.8.4-3",
@@ -1992,6 +1982,9 @@ Object {
                       "nodeId": "bash@5.0-4",
                     },
                     Object {
+                      "nodeId": "bzip2/libbz2-1.0@1.0.6-9.2~deb10u1",
+                    },
+                    Object {
                       "nodeId": "cdebconf/libdebconfclient0@0.249",
                     },
                     Object {
@@ -2004,6 +1997,9 @@ Object {
                       "nodeId": "db5.3/libdb5.3@5.3.28+dfsg1-0.5",
                     },
                     Object {
+                      "nodeId": "debconf@1.5.71",
+                    },
+                    Object {
                       "nodeId": "debian-archive-keyring@2019.1",
                     },
                     Object {
@@ -2011,6 +2007,9 @@ Object {
                     },
                     Object {
                       "nodeId": "diffutils@1:3.7-3",
+                    },
+                    Object {
+                      "nodeId": "dpkg@1.19.7",
                     },
                     Object {
                       "nodeId": "e2fsprogs@1.44.5-1+deb10u3",
@@ -2028,10 +2027,19 @@ Object {
                       "nodeId": "findutils@4.6.0+git+20190209-2",
                     },
                     Object {
+                      "nodeId": "gcc-8/gcc-8-base@8.3.0-6",
+                    },
+                    Object {
+                      "nodeId": "gcc-8/libgcc1@1:8.3.0-6",
+                    },
+                    Object {
                       "nodeId": "gcc-8/libstdc++6@8.3.0-6",
                     },
                     Object {
                       "nodeId": "glibc/libc-bin@2.28-10",
+                    },
+                    Object {
+                      "nodeId": "glibc/libc6@2.28-10",
                     },
                     Object {
                       "nodeId": "gmp/libgmp10@2:6.1.2+dfsg-4",
@@ -2073,6 +2081,9 @@ Object {
                       "nodeId": "libseccomp/libseccomp2@2.3.3-4",
                     },
                     Object {
+                      "nodeId": "libselinux/libselinux1@2.8-1+b1",
+                    },
+                    Object {
                       "nodeId": "libsemanage/libsemanage-common@2.8-2",
                     },
                     Object {
@@ -2098,9 +2109,6 @@ Object {
                     },
                     Object {
                       "nodeId": "mawk/mawk@1.3.3-17+b3",
-                    },
-                    Object {
-                      "nodeId": "meta-common-packages@meta",
                     },
                     Object {
                       "nodeId": "ncurses/libncursesw6@6.1+20181013-2+deb10u2|1",
@@ -2139,6 +2147,12 @@ Object {
                       "nodeId": "pam/libpam0g@1.3.1-5|1",
                     },
                     Object {
+                      "nodeId": "pcre3/libpcre3@2:8.39-12",
+                    },
+                    Object {
+                      "nodeId": "perl/perl-base@5.28.1-6+deb10u1",
+                    },
+                    Object {
                       "nodeId": "sed@4.7-1",
                     },
                     Object {
@@ -2155,6 +2169,9 @@ Object {
                     },
                     Object {
                       "nodeId": "sysvinit/sysvinit-utils@2.93-8",
+                    },
+                    Object {
+                      "nodeId": "tar@1.30+dfsg-6",
                     },
                     Object {
                       "nodeId": "tzdata@2020a-0+deb10u1",
@@ -2186,9 +2203,20 @@ Object {
                     Object {
                       "nodeId": "util-linux/mount@2.33.1-0.1",
                     },
+                    Object {
+                      "nodeId": "xz-utils/liblzma5@5.2.4-1",
+                    },
+                    Object {
+                      "nodeId": "zlib/zlib1g@1:1.2.11.dfsg-1",
+                    },
                   ],
                   "nodeId": "root-node",
                   "pkgId": "docker-image|redis@",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "acl/libacl1@2.2.53-4",
+                  "pkgId": "acl/libacl1@2.2.53-4",
                 },
                 Object {
                   "deps": Array [],
@@ -2583,6 +2611,11 @@ Object {
                 },
                 Object {
                   "deps": Array [],
+                  "nodeId": "attr/libattr1@1:2.4.48-4",
+                  "pkgId": "attr/libattr1@1:2.4.48-4",
+                },
+                Object {
+                  "deps": Array [],
                   "nodeId": "mawk/mawk@1.3.3-17+b3",
                   "pkgId": "mawk/mawk@1.3.3-17+b3",
                 },
@@ -2641,6 +2674,11 @@ Object {
                 },
                 Object {
                   "deps": Array [],
+                  "nodeId": "bzip2/libbz2-1.0@1.0.6-9.2~deb10u1",
+                  "pkgId": "bzip2/libbz2-1.0@1.0.6-9.2~deb10u1",
+                },
+                Object {
+                  "deps": Array [],
                   "nodeId": "coreutils@8.30-3",
                   "pkgId": "coreutils@8.30-3",
                 },
@@ -2655,8 +2693,18 @@ Object {
                 },
                 Object {
                   "deps": Array [],
+                  "nodeId": "debconf@1.5.71",
+                  "pkgId": "debconf@1.5.71",
+                },
+                Object {
+                  "deps": Array [],
                   "nodeId": "diffutils@1:3.7-3",
                   "pkgId": "diffutils@1:3.7-3",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "dpkg@1.19.7",
+                  "pkgId": "dpkg@1.19.7",
                 },
                 Object {
                   "deps": Array [],
@@ -2729,8 +2777,23 @@ Object {
                 },
                 Object {
                   "deps": Array [],
+                  "nodeId": "gcc-8/gcc-8-base@8.3.0-6",
+                  "pkgId": "gcc-8/gcc-8-base@8.3.0-6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gcc-8/libgcc1@1:8.3.0-6",
+                  "pkgId": "gcc-8/libgcc1@1:8.3.0-6",
+                },
+                Object {
+                  "deps": Array [],
                   "nodeId": "glibc/libc-bin@2.28-10",
                   "pkgId": "glibc/libc-bin@2.28-10",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "glibc/libc6@2.28-10",
+                  "pkgId": "glibc/libc6@2.28-10",
                 },
                 Object {
                   "deps": Array [],
@@ -2754,126 +2817,13 @@ Object {
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "lsb/lsb-base@10.2019051400",
-                  "pkgId": "lsb/lsb-base@10.2019051400",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "acl/libacl1@2.2.53-4",
-                  "pkgId": "acl/libacl1@2.2.53-4",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "attr/libattr1@1:2.4.48-4",
-                  "pkgId": "attr/libattr1@1:2.4.48-4",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "bzip2/libbz2-1.0@1.0.6-9.2~deb10u1",
-                  "pkgId": "bzip2/libbz2-1.0@1.0.6-9.2~deb10u1",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "debconf@1.5.71",
-                  "pkgId": "debconf@1.5.71",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "dpkg@1.19.7",
-                  "pkgId": "dpkg@1.19.7",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "gcc-8/gcc-8-base@8.3.0-6",
-                  "pkgId": "gcc-8/gcc-8-base@8.3.0-6",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "gcc-8/libgcc1@1:8.3.0-6",
-                  "pkgId": "gcc-8/libgcc1@1:8.3.0-6",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "glibc/libc6@2.28-10",
-                  "pkgId": "glibc/libc6@2.28-10",
-                },
-                Object {
-                  "deps": Array [],
                   "nodeId": "libselinux/libselinux1@2.8-1+b1",
                   "pkgId": "libselinux/libselinux1@2.8-1+b1",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "pcre3/libpcre3@2:8.39-12",
-                  "pkgId": "pcre3/libpcre3@2:8.39-12",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "perl/perl-base@5.28.1-6+deb10u1",
-                  "pkgId": "perl/perl-base@5.28.1-6+deb10u1",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "tar@1.30+dfsg-6",
-                  "pkgId": "tar@1.30+dfsg-6",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "xz-utils/liblzma5@5.2.4-1",
-                  "pkgId": "xz-utils/liblzma5@5.2.4-1",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "zlib/zlib1g@1:1.2.11.dfsg-1",
-                  "pkgId": "zlib/zlib1g@1:1.2.11.dfsg-1",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "acl/libacl1@2.2.53-4",
-                    },
-                    Object {
-                      "nodeId": "attr/libattr1@1:2.4.48-4",
-                    },
-                    Object {
-                      "nodeId": "bzip2/libbz2-1.0@1.0.6-9.2~deb10u1",
-                    },
-                    Object {
-                      "nodeId": "debconf@1.5.71",
-                    },
-                    Object {
-                      "nodeId": "dpkg@1.19.7",
-                    },
-                    Object {
-                      "nodeId": "gcc-8/gcc-8-base@8.3.0-6",
-                    },
-                    Object {
-                      "nodeId": "gcc-8/libgcc1@1:8.3.0-6",
-                    },
-                    Object {
-                      "nodeId": "glibc/libc6@2.28-10",
-                    },
-                    Object {
-                      "nodeId": "libselinux/libselinux1@2.8-1+b1",
-                    },
-                    Object {
-                      "nodeId": "pcre3/libpcre3@2:8.39-12",
-                    },
-                    Object {
-                      "nodeId": "perl/perl-base@5.28.1-6+deb10u1",
-                    },
-                    Object {
-                      "nodeId": "tar@1.30+dfsg-6",
-                    },
-                    Object {
-                      "nodeId": "xz-utils/liblzma5@5.2.4-1",
-                    },
-                    Object {
-                      "nodeId": "zlib/zlib1g@1:1.2.11.dfsg-1",
-                    },
-                  ],
-                  "nodeId": "meta-common-packages@meta",
-                  "pkgId": "meta-common-packages@meta",
+                  "nodeId": "lsb/lsb-base@10.2019051400",
+                  "pkgId": "lsb/lsb-base@10.2019051400",
                 },
                 Object {
                   "deps": Array [],
@@ -2921,6 +2871,16 @@ Object {
                   "deps": Array [],
                   "nodeId": "pam/libpam-runtime@1.3.1-5|2",
                   "pkgId": "pam/libpam-runtime@1.3.1-5",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pcre3/libpcre3@2:8.39-12",
+                  "pkgId": "pcre3/libpcre3@2:8.39-12",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "perl/perl-base@5.28.1-6+deb10u1",
+                  "pkgId": "perl/perl-base@5.28.1-6+deb10u1",
                 },
                 Object {
                   "deps": Array [],
@@ -3008,6 +2968,11 @@ Object {
                   ],
                   "nodeId": "sysvinit/sysvinit-utils@2.93-8",
                   "pkgId": "sysvinit/sysvinit-utils@2.93-8",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "tar@1.30+dfsg-6",
+                  "pkgId": "tar@1.30+dfsg-6",
                 },
                 Object {
                   "deps": Array [],
@@ -3103,6 +3068,16 @@ Object {
                   "nodeId": "util-linux/mount@2.33.1-0.1",
                   "pkgId": "util-linux/mount@2.33.1-0.1",
                 },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "xz-utils/liblzma5@5.2.4-1",
+                  "pkgId": "xz-utils/liblzma5@5.2.4-1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "zlib/zlib1g@1:1.2.11.dfsg-1",
+                  "pkgId": "zlib/zlib1g@1:1.2.11.dfsg-1",
+                },
               ],
               "rootNodeId": "root-node",
             },
@@ -3120,6 +3095,13 @@ Object {
                 "info": Object {
                   "name": "docker-image|redis",
                   "version": undefined,
+                },
+              },
+              Object {
+                "id": "acl/libacl1@2.2.53-4",
+                "info": Object {
+                  "name": "acl/libacl1",
+                  "version": "2.2.53-4",
                 },
               },
               Object {
@@ -3387,6 +3369,13 @@ Object {
                 },
               },
               Object {
+                "id": "attr/libattr1@1:2.4.48-4",
+                "info": Object {
+                  "name": "attr/libattr1",
+                  "version": "1:2.4.48-4",
+                },
+              },
+              Object {
                 "id": "mawk/mawk@1.3.3-17+b3",
                 "info": Object {
                   "name": "mawk/mawk",
@@ -3443,6 +3432,13 @@ Object {
                 },
               },
               Object {
+                "id": "bzip2/libbz2-1.0@1.0.6-9.2~deb10u1",
+                "info": Object {
+                  "name": "bzip2/libbz2-1.0",
+                  "version": "1.0.6-9.2~deb10u1",
+                },
+              },
+              Object {
                 "id": "coreutils@8.30-3",
                 "info": Object {
                   "name": "coreutils",
@@ -3459,11 +3455,25 @@ Object {
                 },
               },
               Object {
+                "id": "debconf@1.5.71",
+                "info": Object {
+                  "name": "debconf",
+                  "version": "1.5.71",
+                },
+              },
+              Object {
                 "id": "diffutils@1:3.7-3",
                 "info": Object {
                   "name": "diffutils",
                   "purl": "pkg:deb/diffutils@1:3.7-3",
                   "version": "1:3.7-3",
+                },
+              },
+              Object {
+                "id": "dpkg@1.19.7",
+                "info": Object {
+                  "name": "dpkg",
+                  "version": "1.19.7",
                 },
               },
               Object {
@@ -3523,10 +3533,31 @@ Object {
                 },
               },
               Object {
+                "id": "gcc-8/gcc-8-base@8.3.0-6",
+                "info": Object {
+                  "name": "gcc-8/gcc-8-base",
+                  "version": "8.3.0-6",
+                },
+              },
+              Object {
+                "id": "gcc-8/libgcc1@1:8.3.0-6",
+                "info": Object {
+                  "name": "gcc-8/libgcc1",
+                  "version": "1:8.3.0-6",
+                },
+              },
+              Object {
                 "id": "glibc/libc-bin@2.28-10",
                 "info": Object {
                   "name": "glibc/libc-bin",
                   "purl": "pkg:deb/libc-bin@2.28-10?upstream=glibc",
+                  "version": "2.28-10",
+                },
+              },
+              Object {
+                "id": "glibc/libc6@2.28-10",
+                "info": Object {
+                  "name": "glibc/libc6",
                   "version": "2.28-10",
                 },
               },
@@ -3563,70 +3594,6 @@ Object {
                 },
               },
               Object {
-                "id": "lsb/lsb-base@10.2019051400",
-                "info": Object {
-                  "name": "lsb/lsb-base",
-                  "purl": "pkg:deb/lsb-base@10.2019051400?upstream=lsb",
-                  "version": "10.2019051400",
-                },
-              },
-              Object {
-                "id": "acl/libacl1@2.2.53-4",
-                "info": Object {
-                  "name": "acl/libacl1",
-                  "version": "2.2.53-4",
-                },
-              },
-              Object {
-                "id": "attr/libattr1@1:2.4.48-4",
-                "info": Object {
-                  "name": "attr/libattr1",
-                  "version": "1:2.4.48-4",
-                },
-              },
-              Object {
-                "id": "bzip2/libbz2-1.0@1.0.6-9.2~deb10u1",
-                "info": Object {
-                  "name": "bzip2/libbz2-1.0",
-                  "version": "1.0.6-9.2~deb10u1",
-                },
-              },
-              Object {
-                "id": "debconf@1.5.71",
-                "info": Object {
-                  "name": "debconf",
-                  "version": "1.5.71",
-                },
-              },
-              Object {
-                "id": "dpkg@1.19.7",
-                "info": Object {
-                  "name": "dpkg",
-                  "version": "1.19.7",
-                },
-              },
-              Object {
-                "id": "gcc-8/gcc-8-base@8.3.0-6",
-                "info": Object {
-                  "name": "gcc-8/gcc-8-base",
-                  "version": "8.3.0-6",
-                },
-              },
-              Object {
-                "id": "gcc-8/libgcc1@1:8.3.0-6",
-                "info": Object {
-                  "name": "gcc-8/libgcc1",
-                  "version": "1:8.3.0-6",
-                },
-              },
-              Object {
-                "id": "glibc/libc6@2.28-10",
-                "info": Object {
-                  "name": "glibc/libc6",
-                  "version": "2.28-10",
-                },
-              },
-              Object {
                 "id": "libselinux/libselinux1@2.8-1+b1",
                 "info": Object {
                   "name": "libselinux/libselinux1",
@@ -3634,45 +3601,11 @@ Object {
                 },
               },
               Object {
-                "id": "pcre3/libpcre3@2:8.39-12",
+                "id": "lsb/lsb-base@10.2019051400",
                 "info": Object {
-                  "name": "pcre3/libpcre3",
-                  "version": "2:8.39-12",
-                },
-              },
-              Object {
-                "id": "perl/perl-base@5.28.1-6+deb10u1",
-                "info": Object {
-                  "name": "perl/perl-base",
-                  "version": "5.28.1-6+deb10u1",
-                },
-              },
-              Object {
-                "id": "tar@1.30+dfsg-6",
-                "info": Object {
-                  "name": "tar",
-                  "version": "1.30+dfsg-6",
-                },
-              },
-              Object {
-                "id": "xz-utils/liblzma5@5.2.4-1",
-                "info": Object {
-                  "name": "xz-utils/liblzma5",
-                  "version": "5.2.4-1",
-                },
-              },
-              Object {
-                "id": "zlib/zlib1g@1:1.2.11.dfsg-1",
-                "info": Object {
-                  "name": "zlib/zlib1g",
-                  "version": "1:1.2.11.dfsg-1",
-                },
-              },
-              Object {
-                "id": "meta-common-packages@meta",
-                "info": Object {
-                  "name": "meta-common-packages",
-                  "version": "meta",
+                  "name": "lsb/lsb-base",
+                  "purl": "pkg:deb/lsb-base@10.2019051400?upstream=lsb",
+                  "version": "10.2019051400",
                 },
               },
               Object {
@@ -3716,6 +3649,20 @@ Object {
                 },
               },
               Object {
+                "id": "pcre3/libpcre3@2:8.39-12",
+                "info": Object {
+                  "name": "pcre3/libpcre3",
+                  "version": "2:8.39-12",
+                },
+              },
+              Object {
+                "id": "perl/perl-base@5.28.1-6+deb10u1",
+                "info": Object {
+                  "name": "perl/perl-base",
+                  "version": "5.28.1-6+deb10u1",
+                },
+              },
+              Object {
                 "id": "sed@4.7-1",
                 "info": Object {
                   "name": "sed",
@@ -3745,6 +3692,13 @@ Object {
                   "name": "sysvinit/sysvinit-utils",
                   "purl": "pkg:deb/sysvinit-utils@2.93-8?upstream=sysvinit",
                   "version": "2.93-8",
+                },
+              },
+              Object {
+                "id": "tar@1.30+dfsg-6",
+                "info": Object {
+                  "name": "tar",
+                  "version": "1.30+dfsg-6",
                 },
               },
               Object {
@@ -3801,6 +3755,20 @@ Object {
                   "name": "util-linux/mount",
                   "purl": "pkg:deb/mount@2.33.1-0.1?upstream=util-linux",
                   "version": "2.33.1-0.1",
+                },
+              },
+              Object {
+                "id": "xz-utils/liblzma5@5.2.4-1",
+                "info": Object {
+                  "name": "xz-utils/liblzma5",
+                  "version": "5.2.4-1",
+                },
+              },
+              Object {
+                "id": "zlib/zlib1g@1:1.2.11.dfsg-1",
+                "info": Object {
+                  "name": "zlib/zlib1g",
+                  "version": "1:1.2.11.dfsg-1",
                 },
               },
             ],
