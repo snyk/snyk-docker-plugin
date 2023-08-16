@@ -221,6 +221,7 @@ export interface PluginOptions {
 export interface DepTreeDep {
   name: string;
   version: string;
+  sourceVersion?: string;
   dependencies: {
     [depName: string]: DepTreeDep;
   };

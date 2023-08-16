@@ -438,10 +438,22 @@ Object {
                       "nodeId": "acl@2.2.52-2",
                     },
                     Object {
+                      "nodeId": "acl/libacl1@2.2.52-2",
+                    },
+                    Object {
                       "nodeId": "apt@1.0.9.8.4",
                     },
                     Object {
                       "nodeId": "apt/libapt-pkg4.12@1.0.9.8.4",
+                    },
+                    Object {
+                      "nodeId": "attr/libattr1@1:2.4.47-2",
+                    },
+                    Object {
+                      "nodeId": "audit/libaudit-common@1:2.4-1",
+                    },
+                    Object {
+                      "nodeId": "audit/libaudit1@1:2.4-1+b1",
                     },
                     Object {
                       "nodeId": "autoconf@2.69-8|1",
@@ -459,6 +471,9 @@ Object {
                       "nodeId": "bzip2/bzip2@1.0.6-7+b3",
                     },
                     Object {
+                      "nodeId": "bzip2/libbz2-1.0@1.0.6-7+b3",
+                    },
+                    Object {
                       "nodeId": "bzip2/libbz2-dev@1.0.6-7+b3",
                     },
                     Object {
@@ -468,7 +483,13 @@ Object {
                       "nodeId": "ca-certificates@20141019+deb8u3",
                     },
                     Object {
+                      "nodeId": "cairo/libcairo2@1.14.0-2.1+deb8u2",
+                    },
+                    Object {
                       "nodeId": "cdebconf/libdebconfclient0@0.192",
+                    },
+                    Object {
+                      "nodeId": "coreutils@8.23-4",
                     },
                     Object {
                       "nodeId": "cryptsetup/libcryptsetup4@2:1.6.6-5|1",
@@ -486,13 +507,25 @@ Object {
                       "nodeId": "db-defaults/libdb-dev@5.3.0+b1",
                     },
                     Object {
+                      "nodeId": "db5.3/libdb5.3@5.3.28-9+deb8u1",
+                    },
+                    Object {
+                      "nodeId": "debconf@1.5.56+deb8u1",
+                    },
+                    Object {
                       "nodeId": "debconf/debconf-i18n@1.5.56+deb8u1",
                     },
                     Object {
                       "nodeId": "debian-archive-keyring@2017.5~deb8u1|2",
                     },
                     Object {
+                      "nodeId": "debianutils/debianutils@4.4+b1",
+                    },
+                    Object {
                       "nodeId": "diffutils/diffutils@1:3.3-1+b1",
+                    },
+                    Object {
+                      "nodeId": "dpkg@1.17.27",
                     },
                     Object {
                       "nodeId": "dpkg/dpkg-dev@1.17.27",
@@ -504,7 +537,13 @@ Object {
                       "nodeId": "e2fsprogs/e2fsprogs@1.42.12-2+b1",
                     },
                     Object {
+                      "nodeId": "e2fsprogs/libcomerr2@1.42.12-2+b1",
+                    },
+                    Object {
                       "nodeId": "e2fsprogs/libss2@1.42.12-2+b1",
+                    },
+                    Object {
+                      "nodeId": "expat/libexpat1@2.1.0-6+deb8u4",
                     },
                     Object {
                       "nodeId": "file@1:5.22+15-2+deb8u3|1",
@@ -513,7 +552,31 @@ Object {
                       "nodeId": "findutils/findutils@4.4.2-9+b1",
                     },
                     Object {
+                      "nodeId": "fontconfig@2.11.0-6.3+deb8u1",
+                    },
+                    Object {
+                      "nodeId": "fontconfig/fontconfig-config@2.11.0-6.3+deb8u1",
+                    },
+                    Object {
+                      "nodeId": "fontconfig/libfontconfig1@2.11.0-6.3+deb8u1",
+                    },
+                    Object {
+                      "nodeId": "fonts-dejavu/fonts-dejavu-core@2.34-1",
+                    },
+                    Object {
+                      "nodeId": "freetype/libfreetype6@2.5.2-3+deb8u2",
+                    },
+                    Object {
                       "nodeId": "gcc-4.8/gcc-4.8-base@4.8.4-1",
+                    },
+                    Object {
+                      "nodeId": "gcc-4.9/gcc-4.9-base@4.9.2-10+deb8u1",
+                    },
+                    Object {
+                      "nodeId": "gcc-4.9/libgcc1@1:4.9.2-10+deb8u1",
+                    },
+                    Object {
+                      "nodeId": "gcc-4.9/libstdc++6@4.9.2-10+deb8u1",
                     },
                     Object {
                       "nodeId": "gcc-defaults/g++@4:4.9.2-2",
@@ -531,10 +594,28 @@ Object {
                       "nodeId": "git@1:2.1.4-2.1+deb8u6",
                     },
                     Object {
+                      "nodeId": "glib2.0/libglib2.0-0@2.42.1-1+b1",
+                    },
+                    Object {
                       "nodeId": "glib2.0/libglib2.0-dev@2.42.1-1+b1|1",
                     },
                     Object {
                       "nodeId": "glibc/libc-bin@2.19-18+deb8u10",
+                    },
+                    Object {
+                      "nodeId": "glibc/libc-dev-bin@2.19-18+deb8u10",
+                    },
+                    Object {
+                      "nodeId": "glibc/libc6@2.19-18+deb8u10",
+                    },
+                    Object {
+                      "nodeId": "glibc/libc6-dev@2.19-18+deb8u10",
+                    },
+                    Object {
+                      "nodeId": "glibc/multiarch-support@2.19-18+deb8u10",
+                    },
+                    Object {
+                      "nodeId": "gmp/libgmp10@2:6.0.0+dfsg-6",
                     },
                     Object {
                       "nodeId": "gnupg@1.4.18-7+deb8u4|2",
@@ -573,13 +654,28 @@ Object {
                       "nodeId": "iputils/iputils-ping@3:20121221-5+b2",
                     },
                     Object {
+                      "nodeId": "jbigkit/libjbig0@2.1-3.1",
+                    },
+                    Object {
+                      "nodeId": "keyutils/libkeyutils1@1.5.9-5+b1",
+                    },
+                    Object {
                       "nodeId": "kmod/libkmod2@18-3",
+                    },
+                    Object {
+                      "nodeId": "krb5/libk5crypto3@1.12.1+dfsg-19+deb8u4",
                     },
                     Object {
                       "nodeId": "krb5/libkrb5-dev@1.12.1+dfsg-19+deb8u4",
                     },
                     Object {
+                      "nodeId": "krb5/libkrb5support0@1.12.1+dfsg-19+deb8u4",
+                    },
+                    Object {
                       "nodeId": "libcap2/libcap2-bin@1:2.24-8|2",
+                    },
+                    Object {
+                      "nodeId": "libdatrie/libdatrie1@0.2.8-1",
                     },
                     Object {
                       "nodeId": "libevent/libevent-dev@2.0.21-stable-2+deb8u1",
@@ -588,13 +684,34 @@ Object {
                       "nodeId": "libffi/libffi-dev@3.1-2+deb8u1",
                     },
                     Object {
+                      "nodeId": "libffi/libffi6@3.1-2+deb8u1",
+                    },
+                    Object {
                       "nodeId": "libjpeg-turbo/libjpeg-dev@1:1.3.1-12|2",
+                    },
+                    Object {
+                      "nodeId": "libjpeg-turbo/libjpeg62-turbo@1:1.3.1-12",
                     },
                     Object {
                       "nodeId": "liblocale-gettext-perl/liblocale-gettext-perl@1.05-8+b1",
                     },
                     Object {
+                      "nodeId": "libpng/libpng12-0@1.2.50-2+deb8u3",
+                    },
+                    Object {
                       "nodeId": "libpng/libpng12-dev@1.2.50-2+deb8u3",
+                    },
+                    Object {
+                      "nodeId": "libselinux/libselinux1@2.3-2",
+                    },
+                    Object {
+                      "nodeId": "libsemanage/libsemanage-common@2.3-1",
+                    },
+                    Object {
+                      "nodeId": "libsemanage/libsemanage1@2.3-1+b1",
+                    },
+                    Object {
+                      "nodeId": "libsepol/libsepol1@2.3-2",
                     },
                     Object {
                       "nodeId": "libtext-charwidth-perl/libtext-charwidth-perl@0.04-7+b3",
@@ -606,6 +723,12 @@ Object {
                       "nodeId": "libtext-wrapi18n-perl@0.06-7|2",
                     },
                     Object {
+                      "nodeId": "libthai/libthai-data@0.1.21-1",
+                    },
+                    Object {
+                      "nodeId": "libthai/libthai0@0.1.21-1",
+                    },
+                    Object {
                       "nodeId": "libtool@2.4.2-1.11",
                     },
                     Object {
@@ -615,13 +738,49 @@ Object {
                       "nodeId": "libwebp/libwebp-dev@0.4.1-1.2+b2",
                     },
                     Object {
+                      "nodeId": "libx11/libx11-6@2:1.6.2-3+deb8u1",
+                    },
+                    Object {
+                      "nodeId": "libx11/libx11-data@2:1.6.2-3+deb8u1",
+                    },
+                    Object {
+                      "nodeId": "libxau/libxau-dev@1:1.0.8-1",
+                    },
+                    Object {
+                      "nodeId": "libxau/libxau6@1:1.0.8-1",
+                    },
+                    Object {
+                      "nodeId": "libxcb/libxcb-render0@1.10-3+b1",
+                    },
+                    Object {
+                      "nodeId": "libxcb/libxcb-shm0@1.10-3+b1",
+                    },
+                    Object {
+                      "nodeId": "libxcb/libxcb1@1.10-3+b1",
+                    },
+                    Object {
+                      "nodeId": "libxdmcp/libxdmcp-dev@1:1.1.1-1+b1",
+                    },
+                    Object {
+                      "nodeId": "libxdmcp/libxdmcp6@1:1.1.1-1+b1",
+                    },
+                    Object {
+                      "nodeId": "libxext/libxext6@2:1.3.3-1",
+                    },
+                    Object {
                       "nodeId": "libxml2/libxml2-dev@2.9.1+dfsg1-5+deb8u6|2",
+                    },
+                    Object {
+                      "nodeId": "libxrender/libxrender1@1:0.9.8-1+b1",
                     },
                     Object {
                       "nodeId": "libxslt/libxslt1-dev@1.1.28-2+deb8u3",
                     },
                     Object {
                       "nodeId": "libyaml/libyaml-dev@0.1.6-3",
+                    },
+                    Object {
+                      "nodeId": "linux/linux-libc-dev@3.16.56-1+deb8u1",
                     },
                     Object {
                       "nodeId": "lvm2/dmsetup@2:1.02.90-2.2+deb8u1|2",
@@ -636,9 +795,6 @@ Object {
                       "nodeId": "mercurial@3.1.2-2+deb8u4",
                     },
                     Object {
-                      "nodeId": "meta-common-packages@meta",
-                    },
-                    Object {
                       "nodeId": "mysql-5.5/libmysqlclient-dev@5.5.60-0+deb8u1",
                     },
                     Object {
@@ -646,6 +802,9 @@ Object {
                     },
                     Object {
                       "nodeId": "ncurses/libncursesw5-dev@5.9+20140913-1+deb8u2",
+                    },
+                    Object {
+                      "nodeId": "ncurses/libtinfo5@5.9+20140913-1+deb8u2",
                     },
                     Object {
                       "nodeId": "ncurses/ncurses-base@5.9+20140913-1+deb8u2",
@@ -660,10 +819,31 @@ Object {
                       "nodeId": "openssl/libssl-dev@1.0.1t-1+deb8u8|1",
                     },
                     Object {
+                      "nodeId": "pam/libpam-modules@1.1.8-3.1+deb8u2+b1",
+                    },
+                    Object {
+                      "nodeId": "pam/libpam-modules-bin@1.1.8-3.1+deb8u2+b1",
+                    },
+                    Object {
                       "nodeId": "pam/libpam-runtime@1.1.8-3.1+deb8u2",
                     },
                     Object {
+                      "nodeId": "pam/libpam0g@1.1.8-3.1+deb8u2+b1",
+                    },
+                    Object {
+                      "nodeId": "pango1.0/libpango-1.0-0@1.36.8-3",
+                    },
+                    Object {
                       "nodeId": "patch@2.7.5-1",
+                    },
+                    Object {
+                      "nodeId": "pcre3/libpcre3@2:8.35-3.3+deb8u4",
+                    },
+                    Object {
+                      "nodeId": "perl/perl-base@5.20.2-3+deb8u10",
+                    },
+                    Object {
+                      "nodeId": "pixman/libpixman-1-0@0.32.6-3",
                     },
                     Object {
                       "nodeId": "postgresql-9.4/libpq-dev@9.4.15-0+deb8u1",
@@ -681,7 +861,13 @@ Object {
                       "nodeId": "sed@4.2.2-4+deb8u1",
                     },
                     Object {
+                      "nodeId": "sensible-utils@0.0.9+deb8u1",
+                    },
+                    Object {
                       "nodeId": "shadow/login@1:4.2-3+deb8u4",
+                    },
+                    Object {
+                      "nodeId": "shadow/passwd@1:4.2-3+deb8u4",
                     },
                     Object {
                       "nodeId": "slang2/libslang2@2.3.0-2",
@@ -720,7 +906,19 @@ Object {
                       "nodeId": "sysvinit/sysvinit-utils@2.88dsf-59|1",
                     },
                     Object {
+                      "nodeId": "tar@1.27.1-2+deb8u1",
+                    },
+                    Object {
+                      "nodeId": "tiff/libtiff5@4.0.3-12.3+deb8u5",
+                    },
+                    Object {
                       "nodeId": "tzdata@2018d-0+deb8u1",
+                    },
+                    Object {
+                      "nodeId": "ucf@3.0030",
+                    },
+                    Object {
+                      "nodeId": "ustr/libustr-1.0-1@1.0.4-3+b2",
                     },
                     Object {
                       "nodeId": "util-linux@2.25.2-6|1",
@@ -738,16 +936,34 @@ Object {
                       "nodeId": "util-linux/libsmartcols1@2.25.2-6",
                     },
                     Object {
+                      "nodeId": "util-linux/libuuid1@2.25.2-6",
+                    },
+                    Object {
                       "nodeId": "util-linux/mount@2.25.2-6|2",
                     },
                     Object {
                       "nodeId": "wget@1.16-1+deb8u5",
                     },
                     Object {
+                      "nodeId": "x11proto-core/x11proto-core-dev@7.0.26-1",
+                    },
+                    Object {
+                      "nodeId": "xorg-sgml-doctools@1:1.11-1",
+                    },
+                    Object {
                       "nodeId": "xz-utils/liblzma-dev@5.1.1alpha+20120614-2+b3",
                     },
                     Object {
+                      "nodeId": "xz-utils/liblzma5@5.1.1alpha+20120614-2+b3",
+                    },
+                    Object {
                       "nodeId": "xz-utils/xz-utils@5.1.1alpha+20120614-2+b3",
+                    },
+                    Object {
+                      "nodeId": "zlib/zlib1g@1:1.2.8.dfsg-2+b1",
+                    },
+                    Object {
+                      "nodeId": "zlib/zlib1g-dev@1:1.2.8.dfsg-2+b1",
                     },
                   ],
                   "nodeId": "root-node",
@@ -757,6 +973,11 @@ Object {
                   "deps": Array [],
                   "nodeId": "acl@2.2.52-2",
                   "pkgId": "acl@2.2.52-2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "acl/libacl1@2.2.52-2",
+                  "pkgId": "acl/libacl1@2.2.52-2",
                 },
                 Object {
                   "deps": Array [],
@@ -811,6 +1032,21 @@ Object {
                   ],
                   "nodeId": "apt@1.0.9.8.4",
                   "pkgId": "apt@1.0.9.8.4",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "attr/libattr1@1:2.4.47-2",
+                  "pkgId": "attr/libattr1@1:2.4.47-2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "audit/libaudit-common@1:2.4-1",
+                  "pkgId": "audit/libaudit-common@1:2.4-1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "audit/libaudit1@1:2.4-1+b1",
+                  "pkgId": "audit/libaudit1@1:2.4-1+b1",
                 },
                 Object {
                   "deps": Array [],
@@ -944,6 +1180,11 @@ Object {
                   "deps": Array [],
                   "nodeId": "bzip2/bzip2@1.0.6-7+b3",
                   "pkgId": "bzip2/bzip2@1.0.6-7+b3",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "bzip2/libbz2-1.0@1.0.6-7+b3",
+                  "pkgId": "bzip2/libbz2-1.0@1.0.6-7+b3",
                 },
                 Object {
                   "deps": Array [],
@@ -1145,6 +1386,16 @@ Object {
                   ],
                   "nodeId": "ca-certificates@20141019+deb8u3",
                   "pkgId": "ca-certificates@20141019+deb8u3",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "cairo/libcairo2@1.14.0-2.1+deb8u2",
+                  "pkgId": "cairo/libcairo2@1.14.0-2.1+deb8u2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "coreutils@8.23-4",
+                  "pkgId": "coreutils@8.23-4",
                 },
                 Object {
                   "deps": Array [],
@@ -1368,6 +1619,16 @@ Object {
                 },
                 Object {
                   "deps": Array [],
+                  "nodeId": "db5.3/libdb5.3@5.3.28-9+deb8u1",
+                  "pkgId": "db5.3/libdb5.3@5.3.28-9+deb8u1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "debconf@1.5.56+deb8u1",
+                  "pkgId": "debconf@1.5.56+deb8u1",
+                },
+                Object {
+                  "deps": Array [],
                   "nodeId": "liblocale-gettext-perl/liblocale-gettext-perl@1.05-8+b1",
                   "pkgId": "liblocale-gettext-perl/liblocale-gettext-perl@1.05-8+b1",
                 },
@@ -1420,8 +1681,18 @@ Object {
                 },
                 Object {
                   "deps": Array [],
+                  "nodeId": "debianutils/debianutils@4.4+b1",
+                  "pkgId": "debianutils/debianutils@4.4+b1",
+                },
+                Object {
+                  "deps": Array [],
                   "nodeId": "diffutils/diffutils@1:3.3-1+b1",
                   "pkgId": "diffutils/diffutils@1:3.3-1+b1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "dpkg@1.17.27",
+                  "pkgId": "dpkg@1.17.27",
                 },
                 Object {
                   "deps": Array [],
@@ -1566,6 +1837,16 @@ Object {
                 },
                 Object {
                   "deps": Array [],
+                  "nodeId": "e2fsprogs/libcomerr2@1.42.12-2+b1",
+                  "pkgId": "e2fsprogs/libcomerr2@1.42.12-2+b1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "expat/libexpat1@2.1.0-6+deb8u4",
+                  "pkgId": "expat/libexpat1@2.1.0-6+deb8u4",
+                },
+                Object {
+                  "deps": Array [],
                   "nodeId": "file@1:5.22+15-2+deb8u3|1",
                   "pkgId": "file@1:5.22+15-2+deb8u3",
                 },
@@ -1585,8 +1866,53 @@ Object {
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
+                  "nodeId": "fontconfig@2.11.0-6.3+deb8u1",
+                  "pkgId": "fontconfig@2.11.0-6.3+deb8u1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "fontconfig/fontconfig-config@2.11.0-6.3+deb8u1",
+                  "pkgId": "fontconfig/fontconfig-config@2.11.0-6.3+deb8u1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "fontconfig/libfontconfig1@2.11.0-6.3+deb8u1",
+                  "pkgId": "fontconfig/libfontconfig1@2.11.0-6.3+deb8u1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "fonts-dejavu/fonts-dejavu-core@2.34-1",
+                  "pkgId": "fonts-dejavu/fonts-dejavu-core@2.34-1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "freetype/libfreetype6@2.5.2-3+deb8u2",
+                  "pkgId": "freetype/libfreetype6@2.5.2-3+deb8u2",
+                },
+                Object {
+                  "deps": Array [],
                   "nodeId": "gcc-4.8/gcc-4.8-base@4.8.4-1",
                   "pkgId": "gcc-4.8/gcc-4.8-base@4.8.4-1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gcc-4.9/gcc-4.9-base@4.9.2-10+deb8u1",
+                  "pkgId": "gcc-4.9/gcc-4.9-base@4.9.2-10+deb8u1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gcc-4.9/libgcc1@1:4.9.2-10+deb8u1",
+                  "pkgId": "gcc-4.9/libgcc1@1:4.9.2-10+deb8u1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gcc-4.9/libstdc++6@4.9.2-10+deb8u1",
+                  "pkgId": "gcc-4.9/libstdc++6@4.9.2-10+deb8u1",
                 },
                 Object {
                   "deps": Array [],
@@ -1887,6 +2213,11 @@ Object {
                 },
                 Object {
                   "deps": Array [],
+                  "nodeId": "glib2.0/libglib2.0-0@2.42.1-1+b1",
+                  "pkgId": "glib2.0/libglib2.0-0@2.42.1-1+b1",
+                },
+                Object {
+                  "deps": Array [],
                   "nodeId": "glib2.0/libglib2.0-dev@2.42.1-1+b1|1",
                   "pkgId": "glib2.0/libglib2.0-dev@2.42.1-1+b1",
                 },
@@ -1909,6 +2240,31 @@ Object {
                   "deps": Array [],
                   "nodeId": "glibc/libc-bin@2.19-18+deb8u10",
                   "pkgId": "glibc/libc-bin@2.19-18+deb8u10",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "glibc/libc-dev-bin@2.19-18+deb8u10",
+                  "pkgId": "glibc/libc-dev-bin@2.19-18+deb8u10",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "glibc/libc6@2.19-18+deb8u10",
+                  "pkgId": "glibc/libc6@2.19-18+deb8u10",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "glibc/libc6-dev@2.19-18+deb8u10",
+                  "pkgId": "glibc/libc6-dev@2.19-18+deb8u10",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "glibc/multiarch-support@2.19-18+deb8u10",
+                  "pkgId": "glibc/multiarch-support@2.19-18+deb8u10",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gmp/libgmp10@2:6.0.0+dfsg-6",
+                  "pkgId": "gmp/libgmp10@2:6.0.0+dfsg-6",
                 },
                 Object {
                   "deps": Array [],
@@ -3589,6 +3945,21 @@ Object {
                 },
                 Object {
                   "deps": Array [],
+                  "nodeId": "jbigkit/libjbig0@2.1-3.1",
+                  "pkgId": "jbigkit/libjbig0@2.1-3.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "keyutils/libkeyutils1@1.5.9-5+b1",
+                  "pkgId": "keyutils/libkeyutils1@1.5.9-5+b1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "krb5/libk5crypto3@1.12.1+dfsg-19+deb8u4",
+                  "pkgId": "krb5/libk5crypto3@1.12.1+dfsg-19+deb8u4",
+                },
+                Object {
+                  "deps": Array [],
                   "nodeId": "krb5/krb5-multidev@1.12.1+dfsg-19+deb8u4|1",
                   "pkgId": "krb5/krb5-multidev@1.12.1+dfsg-19+deb8u4",
                 },
@@ -3624,6 +3995,16 @@ Object {
                   ],
                   "nodeId": "krb5/libkrb5-dev@1.12.1+dfsg-19+deb8u4",
                   "pkgId": "krb5/libkrb5-dev@1.12.1+dfsg-19+deb8u4",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "krb5/libkrb5support0@1.12.1+dfsg-19+deb8u4",
+                  "pkgId": "krb5/libkrb5support0@1.12.1+dfsg-19+deb8u4",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libdatrie/libdatrie1@0.2.8-1",
+                  "pkgId": "libdatrie/libdatrie1@0.2.8-1",
                 },
                 Object {
                   "deps": Array [],
@@ -3690,6 +4071,51 @@ Object {
                   "deps": Array [],
                   "nodeId": "libffi/libffi-dev@3.1-2+deb8u1",
                   "pkgId": "libffi/libffi-dev@3.1-2+deb8u1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libffi/libffi6@3.1-2+deb8u1",
+                  "pkgId": "libffi/libffi6@3.1-2+deb8u1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libjpeg-turbo/libjpeg62-turbo@1:1.3.1-12",
+                  "pkgId": "libjpeg-turbo/libjpeg62-turbo@1:1.3.1-12",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libpng/libpng12-0@1.2.50-2+deb8u3",
+                  "pkgId": "libpng/libpng12-0@1.2.50-2+deb8u3",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libselinux/libselinux1@2.3-2",
+                  "pkgId": "libselinux/libselinux1@2.3-2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libsemanage/libsemanage-common@2.3-1",
+                  "pkgId": "libsemanage/libsemanage-common@2.3-1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libsemanage/libsemanage1@2.3-1+b1",
+                  "pkgId": "libsemanage/libsemanage1@2.3-1+b1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libsepol/libsepol1@2.3-2",
+                  "pkgId": "libsepol/libsepol1@2.3-2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libthai/libthai-data@0.1.21-1",
+                  "pkgId": "libthai/libthai-data@0.1.21-1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libthai/libthai0@0.1.21-1",
+                  "pkgId": "libthai/libthai0@0.1.21-1",
                 },
                 Object {
                   "deps": Array [],
@@ -3821,283 +4247,6 @@ Object {
                   "pkgId": "libwebp/libwebp-dev@0.4.1-1.2+b2",
                 },
                 Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "libgcrypt20@1.6.3-2+deb8u4|2",
-                    },
-                    Object {
-                      "nodeId": "libxml2@2.9.1+dfsg1-5+deb8u6",
-                    },
-                  ],
-                  "nodeId": "libxslt/libxslt1.1@1.1.28-2+deb8u3",
-                  "pkgId": "libxslt/libxslt1.1@1.1.28-2+deb8u3",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "libxml2/libxml2-dev@2.9.1+dfsg1-5+deb8u6|2",
-                    },
-                    Object {
-                      "nodeId": "libxslt/libxslt1.1@1.1.28-2+deb8u3",
-                    },
-                  ],
-                  "nodeId": "libxslt/libxslt1-dev@1.1.28-2+deb8u3",
-                  "pkgId": "libxslt/libxslt1-dev@1.1.28-2+deb8u3",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "libyaml/libyaml-0-2@0.1.6-3",
-                  "pkgId": "libyaml/libyaml-0-2@0.1.6-3",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "libyaml/libyaml-0-2@0.1.6-3",
-                    },
-                  ],
-                  "nodeId": "libyaml/libyaml-dev@0.1.6-3",
-                  "pkgId": "libyaml/libyaml-dev@0.1.6-3",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "explorercanvas/libjs-excanvas@0.r3-3",
-                  "pkgId": "explorercanvas/libjs-excanvas@0.r3-3",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "explorercanvas/libjs-excanvas@0.r3-3",
-                    },
-                    Object {
-                      "nodeId": "python-defaults/python@2.7.9-1|2",
-                    },
-                  ],
-                  "nodeId": "mercurial/mercurial-common@3.1.2-2+deb8u4",
-                  "pkgId": "mercurial/mercurial-common@3.1.2-2+deb8u4",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "mercurial/mercurial-common@3.1.2-2+deb8u4",
-                    },
-                    Object {
-                      "nodeId": "python-defaults/python@2.7.9-1|2",
-                    },
-                  ],
-                  "nodeId": "mercurial@3.1.2-2+deb8u4",
-                  "pkgId": "mercurial@3.1.2-2+deb8u4",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "acl/libacl1@2.2.52-2",
-                  "pkgId": "acl/libacl1@2.2.52-2",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "attr/libattr1@1:2.4.47-2",
-                  "pkgId": "attr/libattr1@1:2.4.47-2",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "audit/libaudit-common@1:2.4-1",
-                  "pkgId": "audit/libaudit-common@1:2.4-1",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "audit/libaudit1@1:2.4-1+b1",
-                  "pkgId": "audit/libaudit1@1:2.4-1+b1",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "bzip2/libbz2-1.0@1.0.6-7+b3",
-                  "pkgId": "bzip2/libbz2-1.0@1.0.6-7+b3",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "cairo/libcairo2@1.14.0-2.1+deb8u2",
-                  "pkgId": "cairo/libcairo2@1.14.0-2.1+deb8u2",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "coreutils@8.23-4",
-                  "pkgId": "coreutils@8.23-4",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "db5.3/libdb5.3@5.3.28-9+deb8u1",
-                  "pkgId": "db5.3/libdb5.3@5.3.28-9+deb8u1",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "debconf@1.5.56+deb8u1",
-                  "pkgId": "debconf@1.5.56+deb8u1",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "debianutils/debianutils@4.4+b1",
-                  "pkgId": "debianutils/debianutils@4.4+b1",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "dpkg@1.17.27",
-                  "pkgId": "dpkg@1.17.27",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "e2fsprogs/libcomerr2@1.42.12-2+b1",
-                  "pkgId": "e2fsprogs/libcomerr2@1.42.12-2+b1",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "expat/libexpat1@2.1.0-6+deb8u4",
-                  "pkgId": "expat/libexpat1@2.1.0-6+deb8u4",
-                },
-                Object {
-                  "deps": Array [],
-                  "info": Object {
-                    "labels": Object {
-                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
-                    },
-                  },
-                  "nodeId": "fontconfig@2.11.0-6.3+deb8u1",
-                  "pkgId": "fontconfig@2.11.0-6.3+deb8u1",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "fontconfig/fontconfig-config@2.11.0-6.3+deb8u1",
-                  "pkgId": "fontconfig/fontconfig-config@2.11.0-6.3+deb8u1",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "fontconfig/libfontconfig1@2.11.0-6.3+deb8u1",
-                  "pkgId": "fontconfig/libfontconfig1@2.11.0-6.3+deb8u1",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "fonts-dejavu/fonts-dejavu-core@2.34-1",
-                  "pkgId": "fonts-dejavu/fonts-dejavu-core@2.34-1",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "freetype/libfreetype6@2.5.2-3+deb8u2",
-                  "pkgId": "freetype/libfreetype6@2.5.2-3+deb8u2",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "gcc-4.9/gcc-4.9-base@4.9.2-10+deb8u1",
-                  "pkgId": "gcc-4.9/gcc-4.9-base@4.9.2-10+deb8u1",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "gcc-4.9/libgcc1@1:4.9.2-10+deb8u1",
-                  "pkgId": "gcc-4.9/libgcc1@1:4.9.2-10+deb8u1",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "gcc-4.9/libstdc++6@4.9.2-10+deb8u1",
-                  "pkgId": "gcc-4.9/libstdc++6@4.9.2-10+deb8u1",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "glib2.0/libglib2.0-0@2.42.1-1+b1",
-                  "pkgId": "glib2.0/libglib2.0-0@2.42.1-1+b1",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "glibc/libc-dev-bin@2.19-18+deb8u10",
-                  "pkgId": "glibc/libc-dev-bin@2.19-18+deb8u10",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "glibc/libc6@2.19-18+deb8u10",
-                  "pkgId": "glibc/libc6@2.19-18+deb8u10",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "glibc/libc6-dev@2.19-18+deb8u10",
-                  "pkgId": "glibc/libc6-dev@2.19-18+deb8u10",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "glibc/multiarch-support@2.19-18+deb8u10",
-                  "pkgId": "glibc/multiarch-support@2.19-18+deb8u10",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "gmp/libgmp10@2:6.0.0+dfsg-6",
-                  "pkgId": "gmp/libgmp10@2:6.0.0+dfsg-6",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "jbigkit/libjbig0@2.1-3.1",
-                  "pkgId": "jbigkit/libjbig0@2.1-3.1",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "keyutils/libkeyutils1@1.5.9-5+b1",
-                  "pkgId": "keyutils/libkeyutils1@1.5.9-5+b1",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "krb5/libk5crypto3@1.12.1+dfsg-19+deb8u4",
-                  "pkgId": "krb5/libk5crypto3@1.12.1+dfsg-19+deb8u4",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "krb5/libkrb5support0@1.12.1+dfsg-19+deb8u4",
-                  "pkgId": "krb5/libkrb5support0@1.12.1+dfsg-19+deb8u4",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "libdatrie/libdatrie1@0.2.8-1",
-                  "pkgId": "libdatrie/libdatrie1@0.2.8-1",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "libffi/libffi6@3.1-2+deb8u1",
-                  "pkgId": "libffi/libffi6@3.1-2+deb8u1",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "libjpeg-turbo/libjpeg62-turbo@1:1.3.1-12",
-                  "pkgId": "libjpeg-turbo/libjpeg62-turbo@1:1.3.1-12",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "libpng/libpng12-0@1.2.50-2+deb8u3",
-                  "pkgId": "libpng/libpng12-0@1.2.50-2+deb8u3",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "libselinux/libselinux1@2.3-2",
-                  "pkgId": "libselinux/libselinux1@2.3-2",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "libsemanage/libsemanage-common@2.3-1",
-                  "pkgId": "libsemanage/libsemanage-common@2.3-1",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "libsemanage/libsemanage1@2.3-1+b1",
-                  "pkgId": "libsemanage/libsemanage1@2.3-1+b1",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "libsepol/libsepol1@2.3-2",
-                  "pkgId": "libsepol/libsepol1@2.3-2",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "libthai/libthai-data@0.1.21-1",
-                  "pkgId": "libthai/libthai-data@0.1.21-1",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "libthai/libthai0@0.1.21-1",
-                  "pkgId": "libthai/libthai0@0.1.21-1",
-                },
-                Object {
                   "deps": Array [],
                   "nodeId": "libx11/libx11-6@2:1.6.2-3+deb8u1",
                   "pkgId": "libx11/libx11-6@2:1.6.2-3+deb8u1",
@@ -4153,334 +4302,76 @@ Object {
                   "pkgId": "libxrender/libxrender1@1:0.9.8-1+b1",
                 },
                 Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "libgcrypt20@1.6.3-2+deb8u4|2",
+                    },
+                    Object {
+                      "nodeId": "libxml2@2.9.1+dfsg1-5+deb8u6",
+                    },
+                  ],
+                  "nodeId": "libxslt/libxslt1.1@1.1.28-2+deb8u3",
+                  "pkgId": "libxslt/libxslt1.1@1.1.28-2+deb8u3",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "libxml2/libxml2-dev@2.9.1+dfsg1-5+deb8u6|2",
+                    },
+                    Object {
+                      "nodeId": "libxslt/libxslt1.1@1.1.28-2+deb8u3",
+                    },
+                  ],
+                  "nodeId": "libxslt/libxslt1-dev@1.1.28-2+deb8u3",
+                  "pkgId": "libxslt/libxslt1-dev@1.1.28-2+deb8u3",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libyaml/libyaml-0-2@0.1.6-3",
+                  "pkgId": "libyaml/libyaml-0-2@0.1.6-3",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "libyaml/libyaml-0-2@0.1.6-3",
+                    },
+                  ],
+                  "nodeId": "libyaml/libyaml-dev@0.1.6-3",
+                  "pkgId": "libyaml/libyaml-dev@0.1.6-3",
+                },
+                Object {
                   "deps": Array [],
                   "nodeId": "linux/linux-libc-dev@3.16.56-1+deb8u1",
                   "pkgId": "linux/linux-libc-dev@3.16.56-1+deb8u1",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "ncurses/libtinfo5@5.9+20140913-1+deb8u2",
-                  "pkgId": "ncurses/libtinfo5@5.9+20140913-1+deb8u2",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "pam/libpam-modules@1.1.8-3.1+deb8u2+b1",
-                  "pkgId": "pam/libpam-modules@1.1.8-3.1+deb8u2+b1",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "pam/libpam-modules-bin@1.1.8-3.1+deb8u2+b1",
-                  "pkgId": "pam/libpam-modules-bin@1.1.8-3.1+deb8u2+b1",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "pam/libpam0g@1.1.8-3.1+deb8u2+b1",
-                  "pkgId": "pam/libpam0g@1.1.8-3.1+deb8u2+b1",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "pango1.0/libpango-1.0-0@1.36.8-3",
-                  "pkgId": "pango1.0/libpango-1.0-0@1.36.8-3",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "pcre3/libpcre3@2:8.35-3.3+deb8u4",
-                  "pkgId": "pcre3/libpcre3@2:8.35-3.3+deb8u4",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "perl/perl-base@5.20.2-3+deb8u10",
-                  "pkgId": "perl/perl-base@5.20.2-3+deb8u10",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "pixman/libpixman-1-0@0.32.6-3",
-                  "pkgId": "pixman/libpixman-1-0@0.32.6-3",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "sensible-utils@0.0.9+deb8u1",
-                  "pkgId": "sensible-utils@0.0.9+deb8u1",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "shadow/passwd@1:4.2-3+deb8u4",
-                  "pkgId": "shadow/passwd@1:4.2-3+deb8u4",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "tar@1.27.1-2+deb8u1",
-                  "pkgId": "tar@1.27.1-2+deb8u1",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "tiff/libtiff5@4.0.3-12.3+deb8u5",
-                  "pkgId": "tiff/libtiff5@4.0.3-12.3+deb8u5",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "ucf@3.0030",
-                  "pkgId": "ucf@3.0030",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "ustr/libustr-1.0-1@1.0.4-3+b2",
-                  "pkgId": "ustr/libustr-1.0-1@1.0.4-3+b2",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "util-linux/libuuid1@2.25.2-6",
-                  "pkgId": "util-linux/libuuid1@2.25.2-6",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "x11proto-core/x11proto-core-dev@7.0.26-1",
-                  "pkgId": "x11proto-core/x11proto-core-dev@7.0.26-1",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "xorg-sgml-doctools@1:1.11-1",
-                  "pkgId": "xorg-sgml-doctools@1:1.11-1",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "xz-utils/liblzma5@5.1.1alpha+20120614-2+b3",
-                  "pkgId": "xz-utils/liblzma5@5.1.1alpha+20120614-2+b3",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "zlib/zlib1g@1:1.2.8.dfsg-2+b1",
-                  "pkgId": "zlib/zlib1g@1:1.2.8.dfsg-2+b1",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "zlib/zlib1g-dev@1:1.2.8.dfsg-2+b1",
-                  "pkgId": "zlib/zlib1g-dev@1:1.2.8.dfsg-2+b1",
+                  "nodeId": "explorercanvas/libjs-excanvas@0.r3-3",
+                  "pkgId": "explorercanvas/libjs-excanvas@0.r3-3",
                 },
                 Object {
                   "deps": Array [
                     Object {
-                      "nodeId": "acl/libacl1@2.2.52-2",
+                      "nodeId": "explorercanvas/libjs-excanvas@0.r3-3",
                     },
                     Object {
-                      "nodeId": "attr/libattr1@1:2.4.47-2",
-                    },
-                    Object {
-                      "nodeId": "audit/libaudit-common@1:2.4-1",
-                    },
-                    Object {
-                      "nodeId": "audit/libaudit1@1:2.4-1+b1",
-                    },
-                    Object {
-                      "nodeId": "bzip2/libbz2-1.0@1.0.6-7+b3",
-                    },
-                    Object {
-                      "nodeId": "cairo/libcairo2@1.14.0-2.1+deb8u2",
-                    },
-                    Object {
-                      "nodeId": "coreutils@8.23-4",
-                    },
-                    Object {
-                      "nodeId": "db5.3/libdb5.3@5.3.28-9+deb8u1",
-                    },
-                    Object {
-                      "nodeId": "debconf@1.5.56+deb8u1",
-                    },
-                    Object {
-                      "nodeId": "debianutils/debianutils@4.4+b1",
-                    },
-                    Object {
-                      "nodeId": "dpkg@1.17.27",
-                    },
-                    Object {
-                      "nodeId": "e2fsprogs/libcomerr2@1.42.12-2+b1",
-                    },
-                    Object {
-                      "nodeId": "expat/libexpat1@2.1.0-6+deb8u4",
-                    },
-                    Object {
-                      "nodeId": "fontconfig@2.11.0-6.3+deb8u1",
-                    },
-                    Object {
-                      "nodeId": "fontconfig/fontconfig-config@2.11.0-6.3+deb8u1",
-                    },
-                    Object {
-                      "nodeId": "fontconfig/libfontconfig1@2.11.0-6.3+deb8u1",
-                    },
-                    Object {
-                      "nodeId": "fonts-dejavu/fonts-dejavu-core@2.34-1",
-                    },
-                    Object {
-                      "nodeId": "freetype/libfreetype6@2.5.2-3+deb8u2",
-                    },
-                    Object {
-                      "nodeId": "gcc-4.9/gcc-4.9-base@4.9.2-10+deb8u1",
-                    },
-                    Object {
-                      "nodeId": "gcc-4.9/libgcc1@1:4.9.2-10+deb8u1",
-                    },
-                    Object {
-                      "nodeId": "gcc-4.9/libstdc++6@4.9.2-10+deb8u1",
-                    },
-                    Object {
-                      "nodeId": "glib2.0/libglib2.0-0@2.42.1-1+b1",
-                    },
-                    Object {
-                      "nodeId": "glibc/libc-dev-bin@2.19-18+deb8u10",
-                    },
-                    Object {
-                      "nodeId": "glibc/libc6@2.19-18+deb8u10",
-                    },
-                    Object {
-                      "nodeId": "glibc/libc6-dev@2.19-18+deb8u10",
-                    },
-                    Object {
-                      "nodeId": "glibc/multiarch-support@2.19-18+deb8u10",
-                    },
-                    Object {
-                      "nodeId": "gmp/libgmp10@2:6.0.0+dfsg-6",
-                    },
-                    Object {
-                      "nodeId": "jbigkit/libjbig0@2.1-3.1",
-                    },
-                    Object {
-                      "nodeId": "keyutils/libkeyutils1@1.5.9-5+b1",
-                    },
-                    Object {
-                      "nodeId": "krb5/libk5crypto3@1.12.1+dfsg-19+deb8u4",
-                    },
-                    Object {
-                      "nodeId": "krb5/libkrb5support0@1.12.1+dfsg-19+deb8u4",
-                    },
-                    Object {
-                      "nodeId": "libdatrie/libdatrie1@0.2.8-1",
-                    },
-                    Object {
-                      "nodeId": "libffi/libffi6@3.1-2+deb8u1",
-                    },
-                    Object {
-                      "nodeId": "libjpeg-turbo/libjpeg62-turbo@1:1.3.1-12",
-                    },
-                    Object {
-                      "nodeId": "libpng/libpng12-0@1.2.50-2+deb8u3",
-                    },
-                    Object {
-                      "nodeId": "libselinux/libselinux1@2.3-2",
-                    },
-                    Object {
-                      "nodeId": "libsemanage/libsemanage-common@2.3-1",
-                    },
-                    Object {
-                      "nodeId": "libsemanage/libsemanage1@2.3-1+b1",
-                    },
-                    Object {
-                      "nodeId": "libsepol/libsepol1@2.3-2",
-                    },
-                    Object {
-                      "nodeId": "libthai/libthai-data@0.1.21-1",
-                    },
-                    Object {
-                      "nodeId": "libthai/libthai0@0.1.21-1",
-                    },
-                    Object {
-                      "nodeId": "libx11/libx11-6@2:1.6.2-3+deb8u1",
-                    },
-                    Object {
-                      "nodeId": "libx11/libx11-data@2:1.6.2-3+deb8u1",
-                    },
-                    Object {
-                      "nodeId": "libxau/libxau-dev@1:1.0.8-1",
-                    },
-                    Object {
-                      "nodeId": "libxau/libxau6@1:1.0.8-1",
-                    },
-                    Object {
-                      "nodeId": "libxcb/libxcb-render0@1.10-3+b1",
-                    },
-                    Object {
-                      "nodeId": "libxcb/libxcb-shm0@1.10-3+b1",
-                    },
-                    Object {
-                      "nodeId": "libxcb/libxcb1@1.10-3+b1",
-                    },
-                    Object {
-                      "nodeId": "libxdmcp/libxdmcp-dev@1:1.1.1-1+b1",
-                    },
-                    Object {
-                      "nodeId": "libxdmcp/libxdmcp6@1:1.1.1-1+b1",
-                    },
-                    Object {
-                      "nodeId": "libxext/libxext6@2:1.3.3-1",
-                    },
-                    Object {
-                      "nodeId": "libxrender/libxrender1@1:0.9.8-1+b1",
-                    },
-                    Object {
-                      "nodeId": "linux/linux-libc-dev@3.16.56-1+deb8u1",
-                    },
-                    Object {
-                      "nodeId": "ncurses/libtinfo5@5.9+20140913-1+deb8u2",
-                    },
-                    Object {
-                      "nodeId": "pam/libpam-modules@1.1.8-3.1+deb8u2+b1",
-                    },
-                    Object {
-                      "nodeId": "pam/libpam-modules-bin@1.1.8-3.1+deb8u2+b1",
-                    },
-                    Object {
-                      "nodeId": "pam/libpam0g@1.1.8-3.1+deb8u2+b1",
-                    },
-                    Object {
-                      "nodeId": "pango1.0/libpango-1.0-0@1.36.8-3",
-                    },
-                    Object {
-                      "nodeId": "pcre3/libpcre3@2:8.35-3.3+deb8u4",
-                    },
-                    Object {
-                      "nodeId": "perl/perl-base@5.20.2-3+deb8u10",
-                    },
-                    Object {
-                      "nodeId": "pixman/libpixman-1-0@0.32.6-3",
-                    },
-                    Object {
-                      "nodeId": "sensible-utils@0.0.9+deb8u1",
-                    },
-                    Object {
-                      "nodeId": "shadow/passwd@1:4.2-3+deb8u4",
-                    },
-                    Object {
-                      "nodeId": "tar@1.27.1-2+deb8u1",
-                    },
-                    Object {
-                      "nodeId": "tiff/libtiff5@4.0.3-12.3+deb8u5",
-                    },
-                    Object {
-                      "nodeId": "ucf@3.0030",
-                    },
-                    Object {
-                      "nodeId": "ustr/libustr-1.0-1@1.0.4-3+b2",
-                    },
-                    Object {
-                      "nodeId": "util-linux/libuuid1@2.25.2-6",
-                    },
-                    Object {
-                      "nodeId": "x11proto-core/x11proto-core-dev@7.0.26-1",
-                    },
-                    Object {
-                      "nodeId": "xorg-sgml-doctools@1:1.11-1",
-                    },
-                    Object {
-                      "nodeId": "xz-utils/liblzma5@5.1.1alpha+20120614-2+b3",
-                    },
-                    Object {
-                      "nodeId": "zlib/zlib1g@1:1.2.8.dfsg-2+b1",
-                    },
-                    Object {
-                      "nodeId": "zlib/zlib1g-dev@1:1.2.8.dfsg-2+b1",
+                      "nodeId": "python-defaults/python@2.7.9-1|2",
                     },
                   ],
-                  "nodeId": "meta-common-packages@meta",
-                  "pkgId": "meta-common-packages@meta",
+                  "nodeId": "mercurial/mercurial-common@3.1.2-2+deb8u4",
+                  "pkgId": "mercurial/mercurial-common@3.1.2-2+deb8u4",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "mercurial/mercurial-common@3.1.2-2+deb8u4",
+                    },
+                    Object {
+                      "nodeId": "python-defaults/python@2.7.9-1|2",
+                    },
+                  ],
+                  "nodeId": "mercurial@3.1.2-2+deb8u4",
+                  "pkgId": "mercurial@3.1.2-2+deb8u4",
                 },
                 Object {
                   "deps": Array [],
@@ -4547,6 +4438,11 @@ Object {
                 },
                 Object {
                   "deps": Array [],
+                  "nodeId": "ncurses/libtinfo5@5.9+20140913-1+deb8u2",
+                  "pkgId": "ncurses/libtinfo5@5.9+20140913-1+deb8u2",
+                },
+                Object {
+                  "deps": Array [],
                   "nodeId": "ncurses/ncurses-base@5.9+20140913-1+deb8u2",
                   "pkgId": "ncurses/ncurses-base@5.9+20140913-1+deb8u2",
                 },
@@ -4607,8 +4503,43 @@ Object {
                 },
                 Object {
                   "deps": Array [],
+                  "nodeId": "pam/libpam-modules@1.1.8-3.1+deb8u2+b1",
+                  "pkgId": "pam/libpam-modules@1.1.8-3.1+deb8u2+b1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pam/libpam-modules-bin@1.1.8-3.1+deb8u2+b1",
+                  "pkgId": "pam/libpam-modules-bin@1.1.8-3.1+deb8u2+b1",
+                },
+                Object {
+                  "deps": Array [],
                   "nodeId": "pam/libpam-runtime@1.1.8-3.1+deb8u2",
                   "pkgId": "pam/libpam-runtime@1.1.8-3.1+deb8u2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pam/libpam0g@1.1.8-3.1+deb8u2+b1",
+                  "pkgId": "pam/libpam0g@1.1.8-3.1+deb8u2+b1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pango1.0/libpango-1.0-0@1.36.8-3",
+                  "pkgId": "pango1.0/libpango-1.0-0@1.36.8-3",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pcre3/libpcre3@2:8.35-3.3+deb8u4",
+                  "pkgId": "pcre3/libpcre3@2:8.35-3.3+deb8u4",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "perl/perl-base@5.20.2-3+deb8u10",
+                  "pkgId": "perl/perl-base@5.20.2-3+deb8u10",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pixman/libpixman-1-0@0.32.6-3",
+                  "pkgId": "pixman/libpixman-1-0@0.32.6-3",
                 },
                 Object {
                   "deps": Array [],
@@ -4756,6 +4687,11 @@ Object {
                   "pkgId": "sed@4.2.2-4+deb8u1",
                 },
                 Object {
+                  "deps": Array [],
+                  "nodeId": "sensible-utils@0.0.9+deb8u1",
+                  "pkgId": "sensible-utils@0.0.9+deb8u1",
+                },
+                Object {
                   "deps": Array [
                     Object {
                       "nodeId": "pam/libpam-runtime@1.1.8-3.1+deb8u2",
@@ -4763,6 +4699,11 @@ Object {
                   ],
                   "nodeId": "shadow/login@1:4.2-3+deb8u4",
                   "pkgId": "shadow/login@1:4.2-3+deb8u4",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "shadow/passwd@1:4.2-3+deb8u4",
+                  "pkgId": "shadow/passwd@1:4.2-3+deb8u4",
                 },
                 Object {
                   "deps": Array [
@@ -4859,6 +4800,26 @@ Object {
                   "pkgId": "subversion@1.8.10-6+deb8u5",
                 },
                 Object {
+                  "deps": Array [],
+                  "nodeId": "tar@1.27.1-2+deb8u1",
+                  "pkgId": "tar@1.27.1-2+deb8u1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "tiff/libtiff5@4.0.3-12.3+deb8u5",
+                  "pkgId": "tiff/libtiff5@4.0.3-12.3+deb8u5",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "ucf@3.0030",
+                  "pkgId": "ucf@3.0030",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "ustr/libustr-1.0-1@1.0.4-3+b2",
+                  "pkgId": "ustr/libustr-1.0-1@1.0.4-3+b2",
+                },
+                Object {
                   "deps": Array [
                     Object {
                       "nodeId": "systemd/libsystemd0@215-17+deb8u7|2",
@@ -4866,6 +4827,11 @@ Object {
                   ],
                   "nodeId": "util-linux/bsdutils@1:2.25.2-6",
                   "pkgId": "util-linux/bsdutils@1:2.25.2-6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "util-linux/libuuid1@2.25.2-6",
+                  "pkgId": "util-linux/libuuid1@2.25.2-6",
                 },
                 Object {
                   "deps": Array [],
@@ -4899,6 +4865,31 @@ Object {
                   "nodeId": "wget@1.16-1+deb8u5",
                   "pkgId": "wget@1.16-1+deb8u5",
                 },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "x11proto-core/x11proto-core-dev@7.0.26-1",
+                  "pkgId": "x11proto-core/x11proto-core-dev@7.0.26-1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "xorg-sgml-doctools@1:1.11-1",
+                  "pkgId": "xorg-sgml-doctools@1:1.11-1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "xz-utils/liblzma5@5.1.1alpha+20120614-2+b3",
+                  "pkgId": "xz-utils/liblzma5@5.1.1alpha+20120614-2+b3",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "zlib/zlib1g@1:1.2.8.dfsg-2+b1",
+                  "pkgId": "zlib/zlib1g@1:1.2.8.dfsg-2+b1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "zlib/zlib1g-dev@1:1.2.8.dfsg-2+b1",
+                  "pkgId": "zlib/zlib1g-dev@1:1.2.8.dfsg-2+b1",
+                },
               ],
               "rootNodeId": "root-node",
             },
@@ -4923,6 +4914,13 @@ Object {
                 "info": Object {
                   "name": "acl",
                   "purl": "pkg:deb/acl@2.2.52-2",
+                  "version": "2.2.52-2",
+                },
+              },
+              Object {
+                "id": "acl/libacl1@2.2.52-2",
+                "info": Object {
+                  "name": "acl/libacl1",
                   "version": "2.2.52-2",
                 },
               },
@@ -4956,6 +4954,27 @@ Object {
                   "name": "apt",
                   "purl": "pkg:deb/apt@1.0.9.8.4",
                   "version": "1.0.9.8.4",
+                },
+              },
+              Object {
+                "id": "attr/libattr1@1:2.4.47-2",
+                "info": Object {
+                  "name": "attr/libattr1",
+                  "version": "1:2.4.47-2",
+                },
+              },
+              Object {
+                "id": "audit/libaudit-common@1:2.4-1",
+                "info": Object {
+                  "name": "audit/libaudit-common",
+                  "version": "1:2.4-1",
+                },
+              },
+              Object {
+                "id": "audit/libaudit1@1:2.4-1+b1",
+                "info": Object {
+                  "name": "audit/libaudit1",
+                  "version": "1:2.4-1+b1",
                 },
               },
               Object {
@@ -5075,6 +5094,13 @@ Object {
                 "info": Object {
                   "name": "bzip2/bzip2",
                   "purl": "pkg:deb/bzip2@1.0.6-7%2Bb3?upstream=bzip2%401.0.6-7",
+                  "version": "1.0.6-7+b3",
+                },
+              },
+              Object {
+                "id": "bzip2/libbz2-1.0@1.0.6-7+b3",
+                "info": Object {
+                  "name": "bzip2/libbz2-1.0",
                   "version": "1.0.6-7+b3",
                 },
               },
@@ -5239,6 +5265,20 @@ Object {
                 },
               },
               Object {
+                "id": "cairo/libcairo2@1.14.0-2.1+deb8u2",
+                "info": Object {
+                  "name": "cairo/libcairo2",
+                  "version": "1.14.0-2.1+deb8u2",
+                },
+              },
+              Object {
+                "id": "coreutils@8.23-4",
+                "info": Object {
+                  "name": "coreutils",
+                  "version": "8.23-4",
+                },
+              },
+              Object {
                 "id": "cryptsetup/libcryptsetup4@2:1.6.6-5",
                 "info": Object {
                   "name": "cryptsetup/libcryptsetup4",
@@ -5375,6 +5415,20 @@ Object {
                 },
               },
               Object {
+                "id": "db5.3/libdb5.3@5.3.28-9+deb8u1",
+                "info": Object {
+                  "name": "db5.3/libdb5.3",
+                  "version": "5.3.28-9+deb8u1",
+                },
+              },
+              Object {
+                "id": "debconf@1.5.56+deb8u1",
+                "info": Object {
+                  "name": "debconf",
+                  "version": "1.5.56+deb8u1",
+                },
+              },
+              Object {
                 "id": "liblocale-gettext-perl/liblocale-gettext-perl@1.05-8+b1",
                 "info": Object {
                   "name": "liblocale-gettext-perl/liblocale-gettext-perl",
@@ -5423,11 +5477,25 @@ Object {
                 },
               },
               Object {
+                "id": "debianutils/debianutils@4.4+b1",
+                "info": Object {
+                  "name": "debianutils/debianutils",
+                  "version": "4.4+b1",
+                },
+              },
+              Object {
                 "id": "diffutils/diffutils@1:3.3-1+b1",
                 "info": Object {
                   "name": "diffutils/diffutils",
                   "purl": "pkg:deb/diffutils@1:3.3-1%2Bb1?upstream=diffutils%401%3A3.3-1",
                   "version": "1:3.3-1+b1",
+                },
+              },
+              Object {
+                "id": "dpkg@1.17.27",
+                "info": Object {
+                  "name": "dpkg",
+                  "version": "1.17.27",
                 },
               },
               Object {
@@ -5535,6 +5603,20 @@ Object {
                 },
               },
               Object {
+                "id": "e2fsprogs/libcomerr2@1.42.12-2+b1",
+                "info": Object {
+                  "name": "e2fsprogs/libcomerr2",
+                  "version": "1.42.12-2+b1",
+                },
+              },
+              Object {
+                "id": "expat/libexpat1@2.1.0-6+deb8u4",
+                "info": Object {
+                  "name": "expat/libexpat1",
+                  "version": "2.1.0-6+deb8u4",
+                },
+              },
+              Object {
                 "id": "file@1:5.22+15-2+deb8u3",
                 "info": Object {
                   "name": "file",
@@ -5551,11 +5633,67 @@ Object {
                 },
               },
               Object {
+                "id": "fontconfig@2.11.0-6.3+deb8u1",
+                "info": Object {
+                  "name": "fontconfig",
+                  "version": "2.11.0-6.3+deb8u1",
+                },
+              },
+              Object {
+                "id": "fontconfig/fontconfig-config@2.11.0-6.3+deb8u1",
+                "info": Object {
+                  "name": "fontconfig/fontconfig-config",
+                  "version": "2.11.0-6.3+deb8u1",
+                },
+              },
+              Object {
+                "id": "fontconfig/libfontconfig1@2.11.0-6.3+deb8u1",
+                "info": Object {
+                  "name": "fontconfig/libfontconfig1",
+                  "version": "2.11.0-6.3+deb8u1",
+                },
+              },
+              Object {
+                "id": "fonts-dejavu/fonts-dejavu-core@2.34-1",
+                "info": Object {
+                  "name": "fonts-dejavu/fonts-dejavu-core",
+                  "version": "2.34-1",
+                },
+              },
+              Object {
+                "id": "freetype/libfreetype6@2.5.2-3+deb8u2",
+                "info": Object {
+                  "name": "freetype/libfreetype6",
+                  "version": "2.5.2-3+deb8u2",
+                },
+              },
+              Object {
                 "id": "gcc-4.8/gcc-4.8-base@4.8.4-1",
                 "info": Object {
                   "name": "gcc-4.8/gcc-4.8-base",
                   "purl": "pkg:deb/gcc-4.8-base@4.8.4-1?upstream=gcc-4.8",
                   "version": "4.8.4-1",
+                },
+              },
+              Object {
+                "id": "gcc-4.9/gcc-4.9-base@4.9.2-10+deb8u1",
+                "info": Object {
+                  "name": "gcc-4.9/gcc-4.9-base",
+                  "version": "4.9.2-10+deb8u1",
+                },
+              },
+              Object {
+                "id": "gcc-4.9/libgcc1@1:4.9.2-10+deb8u1",
+                "info": Object {
+                  "name": "gcc-4.9/libgcc1",
+                  "version": "1:4.9.2-10+deb8u1",
+                },
+              },
+              Object {
+                "id": "gcc-4.9/libstdc++6@4.9.2-10+deb8u1",
+                "info": Object {
+                  "name": "gcc-4.9/libstdc++6",
+                  "version": "4.9.2-10+deb8u1",
                 },
               },
               Object {
@@ -5711,6 +5849,13 @@ Object {
                 },
               },
               Object {
+                "id": "glib2.0/libglib2.0-0@2.42.1-1+b1",
+                "info": Object {
+                  "name": "glib2.0/libglib2.0-0",
+                  "version": "2.42.1-1+b1",
+                },
+              },
+              Object {
                 "id": "glib2.0/libglib2.0-dev@2.42.1-1+b1",
                 "info": Object {
                   "name": "glib2.0/libglib2.0-dev",
@@ -5724,6 +5869,41 @@ Object {
                   "name": "glibc/libc-bin",
                   "purl": "pkg:deb/libc-bin@2.19-18%2Bdeb8u10?upstream=glibc",
                   "version": "2.19-18+deb8u10",
+                },
+              },
+              Object {
+                "id": "glibc/libc-dev-bin@2.19-18+deb8u10",
+                "info": Object {
+                  "name": "glibc/libc-dev-bin",
+                  "version": "2.19-18+deb8u10",
+                },
+              },
+              Object {
+                "id": "glibc/libc6@2.19-18+deb8u10",
+                "info": Object {
+                  "name": "glibc/libc6",
+                  "version": "2.19-18+deb8u10",
+                },
+              },
+              Object {
+                "id": "glibc/libc6-dev@2.19-18+deb8u10",
+                "info": Object {
+                  "name": "glibc/libc6-dev",
+                  "version": "2.19-18+deb8u10",
+                },
+              },
+              Object {
+                "id": "glibc/multiarch-support@2.19-18+deb8u10",
+                "info": Object {
+                  "name": "glibc/multiarch-support",
+                  "version": "2.19-18+deb8u10",
+                },
+              },
+              Object {
+                "id": "gmp/libgmp10@2:6.0.0+dfsg-6",
+                "info": Object {
+                  "name": "gmp/libgmp10",
+                  "version": "2:6.0.0+dfsg-6",
                 },
               },
               Object {
@@ -6839,6 +7019,27 @@ Object {
                 },
               },
               Object {
+                "id": "jbigkit/libjbig0@2.1-3.1",
+                "info": Object {
+                  "name": "jbigkit/libjbig0",
+                  "version": "2.1-3.1",
+                },
+              },
+              Object {
+                "id": "keyutils/libkeyutils1@1.5.9-5+b1",
+                "info": Object {
+                  "name": "keyutils/libkeyutils1",
+                  "version": "1.5.9-5+b1",
+                },
+              },
+              Object {
+                "id": "krb5/libk5crypto3@1.12.1+dfsg-19+deb8u4",
+                "info": Object {
+                  "name": "krb5/libk5crypto3",
+                  "version": "1.12.1+dfsg-19+deb8u4",
+                },
+              },
+              Object {
                 "id": "krb5/krb5-multidev@1.12.1+dfsg-19+deb8u4",
                 "info": Object {
                   "name": "krb5/krb5-multidev",
@@ -6852,6 +7053,20 @@ Object {
                   "name": "krb5/libkrb5-dev",
                   "purl": "pkg:deb/libkrb5-dev@1.12.1%2Bdfsg-19%2Bdeb8u4?upstream=krb5",
                   "version": "1.12.1+dfsg-19+deb8u4",
+                },
+              },
+              Object {
+                "id": "krb5/libkrb5support0@1.12.1+dfsg-19+deb8u4",
+                "info": Object {
+                  "name": "krb5/libkrb5support0",
+                  "version": "1.12.1+dfsg-19+deb8u4",
+                },
+              },
+              Object {
+                "id": "libdatrie/libdatrie1@0.2.8-1",
+                "info": Object {
+                  "name": "libdatrie/libdatrie1",
+                  "version": "0.2.8-1",
                 },
               },
               Object {
@@ -6908,6 +7123,69 @@ Object {
                   "name": "libffi/libffi-dev",
                   "purl": "pkg:deb/libffi-dev@3.1-2%2Bdeb8u1?upstream=libffi",
                   "version": "3.1-2+deb8u1",
+                },
+              },
+              Object {
+                "id": "libffi/libffi6@3.1-2+deb8u1",
+                "info": Object {
+                  "name": "libffi/libffi6",
+                  "version": "3.1-2+deb8u1",
+                },
+              },
+              Object {
+                "id": "libjpeg-turbo/libjpeg62-turbo@1:1.3.1-12",
+                "info": Object {
+                  "name": "libjpeg-turbo/libjpeg62-turbo",
+                  "version": "1:1.3.1-12",
+                },
+              },
+              Object {
+                "id": "libpng/libpng12-0@1.2.50-2+deb8u3",
+                "info": Object {
+                  "name": "libpng/libpng12-0",
+                  "version": "1.2.50-2+deb8u3",
+                },
+              },
+              Object {
+                "id": "libselinux/libselinux1@2.3-2",
+                "info": Object {
+                  "name": "libselinux/libselinux1",
+                  "version": "2.3-2",
+                },
+              },
+              Object {
+                "id": "libsemanage/libsemanage-common@2.3-1",
+                "info": Object {
+                  "name": "libsemanage/libsemanage-common",
+                  "version": "2.3-1",
+                },
+              },
+              Object {
+                "id": "libsemanage/libsemanage1@2.3-1+b1",
+                "info": Object {
+                  "name": "libsemanage/libsemanage1",
+                  "version": "2.3-1+b1",
+                },
+              },
+              Object {
+                "id": "libsepol/libsepol1@2.3-2",
+                "info": Object {
+                  "name": "libsepol/libsepol1",
+                  "version": "2.3-2",
+                },
+              },
+              Object {
+                "id": "libthai/libthai-data@0.1.21-1",
+                "info": Object {
+                  "name": "libthai/libthai-data",
+                  "version": "0.1.21-1",
+                },
+              },
+              Object {
+                "id": "libthai/libthai0@0.1.21-1",
+                "info": Object {
+                  "name": "libthai/libthai0",
+                  "version": "0.1.21-1",
                 },
               },
               Object {
@@ -7031,349 +7309,6 @@ Object {
                 },
               },
               Object {
-                "id": "libxslt/libxslt1.1@1.1.28-2+deb8u3",
-                "info": Object {
-                  "name": "libxslt/libxslt1.1",
-                  "purl": "pkg:deb/libxslt1.1@1.1.28-2%2Bdeb8u3?upstream=libxslt",
-                  "version": "1.1.28-2+deb8u3",
-                },
-              },
-              Object {
-                "id": "libxslt/libxslt1-dev@1.1.28-2+deb8u3",
-                "info": Object {
-                  "name": "libxslt/libxslt1-dev",
-                  "purl": "pkg:deb/libxslt1-dev@1.1.28-2%2Bdeb8u3?upstream=libxslt",
-                  "version": "1.1.28-2+deb8u3",
-                },
-              },
-              Object {
-                "id": "libyaml/libyaml-0-2@0.1.6-3",
-                "info": Object {
-                  "name": "libyaml/libyaml-0-2",
-                  "purl": "pkg:deb/libyaml-0-2@0.1.6-3?upstream=libyaml",
-                  "version": "0.1.6-3",
-                },
-              },
-              Object {
-                "id": "libyaml/libyaml-dev@0.1.6-3",
-                "info": Object {
-                  "name": "libyaml/libyaml-dev",
-                  "purl": "pkg:deb/libyaml-dev@0.1.6-3?upstream=libyaml",
-                  "version": "0.1.6-3",
-                },
-              },
-              Object {
-                "id": "explorercanvas/libjs-excanvas@0.r3-3",
-                "info": Object {
-                  "name": "explorercanvas/libjs-excanvas",
-                  "purl": "pkg:deb/libjs-excanvas@0.r3-3?upstream=explorercanvas",
-                  "version": "0.r3-3",
-                },
-              },
-              Object {
-                "id": "mercurial/mercurial-common@3.1.2-2+deb8u4",
-                "info": Object {
-                  "name": "mercurial/mercurial-common",
-                  "purl": "pkg:deb/mercurial-common@3.1.2-2%2Bdeb8u4?upstream=mercurial",
-                  "version": "3.1.2-2+deb8u4",
-                },
-              },
-              Object {
-                "id": "mercurial@3.1.2-2+deb8u4",
-                "info": Object {
-                  "name": "mercurial",
-                  "purl": "pkg:deb/mercurial@3.1.2-2%2Bdeb8u4",
-                  "version": "3.1.2-2+deb8u4",
-                },
-              },
-              Object {
-                "id": "acl/libacl1@2.2.52-2",
-                "info": Object {
-                  "name": "acl/libacl1",
-                  "version": "2.2.52-2",
-                },
-              },
-              Object {
-                "id": "attr/libattr1@1:2.4.47-2",
-                "info": Object {
-                  "name": "attr/libattr1",
-                  "version": "1:2.4.47-2",
-                },
-              },
-              Object {
-                "id": "audit/libaudit-common@1:2.4-1",
-                "info": Object {
-                  "name": "audit/libaudit-common",
-                  "version": "1:2.4-1",
-                },
-              },
-              Object {
-                "id": "audit/libaudit1@1:2.4-1+b1",
-                "info": Object {
-                  "name": "audit/libaudit1",
-                  "version": "1:2.4-1+b1",
-                },
-              },
-              Object {
-                "id": "bzip2/libbz2-1.0@1.0.6-7+b3",
-                "info": Object {
-                  "name": "bzip2/libbz2-1.0",
-                  "version": "1.0.6-7+b3",
-                },
-              },
-              Object {
-                "id": "cairo/libcairo2@1.14.0-2.1+deb8u2",
-                "info": Object {
-                  "name": "cairo/libcairo2",
-                  "version": "1.14.0-2.1+deb8u2",
-                },
-              },
-              Object {
-                "id": "coreutils@8.23-4",
-                "info": Object {
-                  "name": "coreutils",
-                  "version": "8.23-4",
-                },
-              },
-              Object {
-                "id": "db5.3/libdb5.3@5.3.28-9+deb8u1",
-                "info": Object {
-                  "name": "db5.3/libdb5.3",
-                  "version": "5.3.28-9+deb8u1",
-                },
-              },
-              Object {
-                "id": "debconf@1.5.56+deb8u1",
-                "info": Object {
-                  "name": "debconf",
-                  "version": "1.5.56+deb8u1",
-                },
-              },
-              Object {
-                "id": "debianutils/debianutils@4.4+b1",
-                "info": Object {
-                  "name": "debianutils/debianutils",
-                  "version": "4.4+b1",
-                },
-              },
-              Object {
-                "id": "dpkg@1.17.27",
-                "info": Object {
-                  "name": "dpkg",
-                  "version": "1.17.27",
-                },
-              },
-              Object {
-                "id": "e2fsprogs/libcomerr2@1.42.12-2+b1",
-                "info": Object {
-                  "name": "e2fsprogs/libcomerr2",
-                  "version": "1.42.12-2+b1",
-                },
-              },
-              Object {
-                "id": "expat/libexpat1@2.1.0-6+deb8u4",
-                "info": Object {
-                  "name": "expat/libexpat1",
-                  "version": "2.1.0-6+deb8u4",
-                },
-              },
-              Object {
-                "id": "fontconfig@2.11.0-6.3+deb8u1",
-                "info": Object {
-                  "name": "fontconfig",
-                  "version": "2.11.0-6.3+deb8u1",
-                },
-              },
-              Object {
-                "id": "fontconfig/fontconfig-config@2.11.0-6.3+deb8u1",
-                "info": Object {
-                  "name": "fontconfig/fontconfig-config",
-                  "version": "2.11.0-6.3+deb8u1",
-                },
-              },
-              Object {
-                "id": "fontconfig/libfontconfig1@2.11.0-6.3+deb8u1",
-                "info": Object {
-                  "name": "fontconfig/libfontconfig1",
-                  "version": "2.11.0-6.3+deb8u1",
-                },
-              },
-              Object {
-                "id": "fonts-dejavu/fonts-dejavu-core@2.34-1",
-                "info": Object {
-                  "name": "fonts-dejavu/fonts-dejavu-core",
-                  "version": "2.34-1",
-                },
-              },
-              Object {
-                "id": "freetype/libfreetype6@2.5.2-3+deb8u2",
-                "info": Object {
-                  "name": "freetype/libfreetype6",
-                  "version": "2.5.2-3+deb8u2",
-                },
-              },
-              Object {
-                "id": "gcc-4.9/gcc-4.9-base@4.9.2-10+deb8u1",
-                "info": Object {
-                  "name": "gcc-4.9/gcc-4.9-base",
-                  "version": "4.9.2-10+deb8u1",
-                },
-              },
-              Object {
-                "id": "gcc-4.9/libgcc1@1:4.9.2-10+deb8u1",
-                "info": Object {
-                  "name": "gcc-4.9/libgcc1",
-                  "version": "1:4.9.2-10+deb8u1",
-                },
-              },
-              Object {
-                "id": "gcc-4.9/libstdc++6@4.9.2-10+deb8u1",
-                "info": Object {
-                  "name": "gcc-4.9/libstdc++6",
-                  "version": "4.9.2-10+deb8u1",
-                },
-              },
-              Object {
-                "id": "glib2.0/libglib2.0-0@2.42.1-1+b1",
-                "info": Object {
-                  "name": "glib2.0/libglib2.0-0",
-                  "version": "2.42.1-1+b1",
-                },
-              },
-              Object {
-                "id": "glibc/libc-dev-bin@2.19-18+deb8u10",
-                "info": Object {
-                  "name": "glibc/libc-dev-bin",
-                  "version": "2.19-18+deb8u10",
-                },
-              },
-              Object {
-                "id": "glibc/libc6@2.19-18+deb8u10",
-                "info": Object {
-                  "name": "glibc/libc6",
-                  "version": "2.19-18+deb8u10",
-                },
-              },
-              Object {
-                "id": "glibc/libc6-dev@2.19-18+deb8u10",
-                "info": Object {
-                  "name": "glibc/libc6-dev",
-                  "version": "2.19-18+deb8u10",
-                },
-              },
-              Object {
-                "id": "glibc/multiarch-support@2.19-18+deb8u10",
-                "info": Object {
-                  "name": "glibc/multiarch-support",
-                  "version": "2.19-18+deb8u10",
-                },
-              },
-              Object {
-                "id": "gmp/libgmp10@2:6.0.0+dfsg-6",
-                "info": Object {
-                  "name": "gmp/libgmp10",
-                  "version": "2:6.0.0+dfsg-6",
-                },
-              },
-              Object {
-                "id": "jbigkit/libjbig0@2.1-3.1",
-                "info": Object {
-                  "name": "jbigkit/libjbig0",
-                  "version": "2.1-3.1",
-                },
-              },
-              Object {
-                "id": "keyutils/libkeyutils1@1.5.9-5+b1",
-                "info": Object {
-                  "name": "keyutils/libkeyutils1",
-                  "version": "1.5.9-5+b1",
-                },
-              },
-              Object {
-                "id": "krb5/libk5crypto3@1.12.1+dfsg-19+deb8u4",
-                "info": Object {
-                  "name": "krb5/libk5crypto3",
-                  "version": "1.12.1+dfsg-19+deb8u4",
-                },
-              },
-              Object {
-                "id": "krb5/libkrb5support0@1.12.1+dfsg-19+deb8u4",
-                "info": Object {
-                  "name": "krb5/libkrb5support0",
-                  "version": "1.12.1+dfsg-19+deb8u4",
-                },
-              },
-              Object {
-                "id": "libdatrie/libdatrie1@0.2.8-1",
-                "info": Object {
-                  "name": "libdatrie/libdatrie1",
-                  "version": "0.2.8-1",
-                },
-              },
-              Object {
-                "id": "libffi/libffi6@3.1-2+deb8u1",
-                "info": Object {
-                  "name": "libffi/libffi6",
-                  "version": "3.1-2+deb8u1",
-                },
-              },
-              Object {
-                "id": "libjpeg-turbo/libjpeg62-turbo@1:1.3.1-12",
-                "info": Object {
-                  "name": "libjpeg-turbo/libjpeg62-turbo",
-                  "version": "1:1.3.1-12",
-                },
-              },
-              Object {
-                "id": "libpng/libpng12-0@1.2.50-2+deb8u3",
-                "info": Object {
-                  "name": "libpng/libpng12-0",
-                  "version": "1.2.50-2+deb8u3",
-                },
-              },
-              Object {
-                "id": "libselinux/libselinux1@2.3-2",
-                "info": Object {
-                  "name": "libselinux/libselinux1",
-                  "version": "2.3-2",
-                },
-              },
-              Object {
-                "id": "libsemanage/libsemanage-common@2.3-1",
-                "info": Object {
-                  "name": "libsemanage/libsemanage-common",
-                  "version": "2.3-1",
-                },
-              },
-              Object {
-                "id": "libsemanage/libsemanage1@2.3-1+b1",
-                "info": Object {
-                  "name": "libsemanage/libsemanage1",
-                  "version": "2.3-1+b1",
-                },
-              },
-              Object {
-                "id": "libsepol/libsepol1@2.3-2",
-                "info": Object {
-                  "name": "libsepol/libsepol1",
-                  "version": "2.3-2",
-                },
-              },
-              Object {
-                "id": "libthai/libthai-data@0.1.21-1",
-                "info": Object {
-                  "name": "libthai/libthai-data",
-                  "version": "0.1.21-1",
-                },
-              },
-              Object {
-                "id": "libthai/libthai0@0.1.21-1",
-                "info": Object {
-                  "name": "libthai/libthai0",
-                  "version": "0.1.21-1",
-                },
-              },
-              Object {
                 "id": "libx11/libx11-6@2:1.6.2-3+deb8u1",
                 "info": Object {
                   "name": "libx11/libx11-6",
@@ -7451,6 +7386,38 @@ Object {
                 },
               },
               Object {
+                "id": "libxslt/libxslt1.1@1.1.28-2+deb8u3",
+                "info": Object {
+                  "name": "libxslt/libxslt1.1",
+                  "purl": "pkg:deb/libxslt1.1@1.1.28-2%2Bdeb8u3?upstream=libxslt",
+                  "version": "1.1.28-2+deb8u3",
+                },
+              },
+              Object {
+                "id": "libxslt/libxslt1-dev@1.1.28-2+deb8u3",
+                "info": Object {
+                  "name": "libxslt/libxslt1-dev",
+                  "purl": "pkg:deb/libxslt1-dev@1.1.28-2%2Bdeb8u3?upstream=libxslt",
+                  "version": "1.1.28-2+deb8u3",
+                },
+              },
+              Object {
+                "id": "libyaml/libyaml-0-2@0.1.6-3",
+                "info": Object {
+                  "name": "libyaml/libyaml-0-2",
+                  "purl": "pkg:deb/libyaml-0-2@0.1.6-3?upstream=libyaml",
+                  "version": "0.1.6-3",
+                },
+              },
+              Object {
+                "id": "libyaml/libyaml-dev@0.1.6-3",
+                "info": Object {
+                  "name": "libyaml/libyaml-dev",
+                  "purl": "pkg:deb/libyaml-dev@0.1.6-3?upstream=libyaml",
+                  "version": "0.1.6-3",
+                },
+              },
+              Object {
                 "id": "linux/linux-libc-dev@3.16.56-1+deb8u1",
                 "info": Object {
                   "name": "linux/linux-libc-dev",
@@ -7458,150 +7425,27 @@ Object {
                 },
               },
               Object {
-                "id": "ncurses/libtinfo5@5.9+20140913-1+deb8u2",
+                "id": "explorercanvas/libjs-excanvas@0.r3-3",
                 "info": Object {
-                  "name": "ncurses/libtinfo5",
-                  "version": "5.9+20140913-1+deb8u2",
+                  "name": "explorercanvas/libjs-excanvas",
+                  "purl": "pkg:deb/libjs-excanvas@0.r3-3?upstream=explorercanvas",
+                  "version": "0.r3-3",
                 },
               },
               Object {
-                "id": "pam/libpam-modules@1.1.8-3.1+deb8u2+b1",
+                "id": "mercurial/mercurial-common@3.1.2-2+deb8u4",
                 "info": Object {
-                  "name": "pam/libpam-modules",
-                  "version": "1.1.8-3.1+deb8u2+b1",
+                  "name": "mercurial/mercurial-common",
+                  "purl": "pkg:deb/mercurial-common@3.1.2-2%2Bdeb8u4?upstream=mercurial",
+                  "version": "3.1.2-2+deb8u4",
                 },
               },
               Object {
-                "id": "pam/libpam-modules-bin@1.1.8-3.1+deb8u2+b1",
+                "id": "mercurial@3.1.2-2+deb8u4",
                 "info": Object {
-                  "name": "pam/libpam-modules-bin",
-                  "version": "1.1.8-3.1+deb8u2+b1",
-                },
-              },
-              Object {
-                "id": "pam/libpam0g@1.1.8-3.1+deb8u2+b1",
-                "info": Object {
-                  "name": "pam/libpam0g",
-                  "version": "1.1.8-3.1+deb8u2+b1",
-                },
-              },
-              Object {
-                "id": "pango1.0/libpango-1.0-0@1.36.8-3",
-                "info": Object {
-                  "name": "pango1.0/libpango-1.0-0",
-                  "version": "1.36.8-3",
-                },
-              },
-              Object {
-                "id": "pcre3/libpcre3@2:8.35-3.3+deb8u4",
-                "info": Object {
-                  "name": "pcre3/libpcre3",
-                  "version": "2:8.35-3.3+deb8u4",
-                },
-              },
-              Object {
-                "id": "perl/perl-base@5.20.2-3+deb8u10",
-                "info": Object {
-                  "name": "perl/perl-base",
-                  "version": "5.20.2-3+deb8u10",
-                },
-              },
-              Object {
-                "id": "pixman/libpixman-1-0@0.32.6-3",
-                "info": Object {
-                  "name": "pixman/libpixman-1-0",
-                  "version": "0.32.6-3",
-                },
-              },
-              Object {
-                "id": "sensible-utils@0.0.9+deb8u1",
-                "info": Object {
-                  "name": "sensible-utils",
-                  "version": "0.0.9+deb8u1",
-                },
-              },
-              Object {
-                "id": "shadow/passwd@1:4.2-3+deb8u4",
-                "info": Object {
-                  "name": "shadow/passwd",
-                  "version": "1:4.2-3+deb8u4",
-                },
-              },
-              Object {
-                "id": "tar@1.27.1-2+deb8u1",
-                "info": Object {
-                  "name": "tar",
-                  "version": "1.27.1-2+deb8u1",
-                },
-              },
-              Object {
-                "id": "tiff/libtiff5@4.0.3-12.3+deb8u5",
-                "info": Object {
-                  "name": "tiff/libtiff5",
-                  "version": "4.0.3-12.3+deb8u5",
-                },
-              },
-              Object {
-                "id": "ucf@3.0030",
-                "info": Object {
-                  "name": "ucf",
-                  "version": "3.0030",
-                },
-              },
-              Object {
-                "id": "ustr/libustr-1.0-1@1.0.4-3+b2",
-                "info": Object {
-                  "name": "ustr/libustr-1.0-1",
-                  "version": "1.0.4-3+b2",
-                },
-              },
-              Object {
-                "id": "util-linux/libuuid1@2.25.2-6",
-                "info": Object {
-                  "name": "util-linux/libuuid1",
-                  "version": "2.25.2-6",
-                },
-              },
-              Object {
-                "id": "x11proto-core/x11proto-core-dev@7.0.26-1",
-                "info": Object {
-                  "name": "x11proto-core/x11proto-core-dev",
-                  "version": "7.0.26-1",
-                },
-              },
-              Object {
-                "id": "xorg-sgml-doctools@1:1.11-1",
-                "info": Object {
-                  "name": "xorg-sgml-doctools",
-                  "version": "1:1.11-1",
-                },
-              },
-              Object {
-                "id": "xz-utils/liblzma5@5.1.1alpha+20120614-2+b3",
-                "info": Object {
-                  "name": "xz-utils/liblzma5",
-                  "version": "5.1.1alpha+20120614-2+b3",
-                },
-              },
-              Object {
-                "id": "zlib/zlib1g@1:1.2.8.dfsg-2+b1",
-                "info": Object {
-                  "name": "zlib/zlib1g",
-                  "version": "1:1.2.8.dfsg-2+b1",
-                },
-              },
-              Object {
-                "id": "zlib/zlib1g-dev@1:1.2.8.dfsg-2+b1",
-                "info": Object {
-                  "name": "zlib/zlib1g-dev",
-                  "version": "1:1.2.8.dfsg-2+b1",
-                },
-              },
-              Object {
-                "id": "meta-common-packages@meta",
-                "info": Object {
-                  "name": "meta-common-packages",
-                  "version": "meta",
+                  "name": "mercurial",
+                  "purl": "pkg:deb/mercurial@3.1.2-2%2Bdeb8u4",
+                  "version": "3.1.2-2+deb8u4",
                 },
               },
               Object {
@@ -7661,6 +7505,13 @@ Object {
                 },
               },
               Object {
+                "id": "ncurses/libtinfo5@5.9+20140913-1+deb8u2",
+                "info": Object {
+                  "name": "ncurses/libtinfo5",
+                  "version": "5.9+20140913-1+deb8u2",
+                },
+              },
+              Object {
                 "id": "ncurses/ncurses-base@5.9+20140913-1+deb8u2",
                 "info": Object {
                   "name": "ncurses/ncurses-base",
@@ -7709,11 +7560,60 @@ Object {
                 },
               },
               Object {
+                "id": "pam/libpam-modules@1.1.8-3.1+deb8u2+b1",
+                "info": Object {
+                  "name": "pam/libpam-modules",
+                  "version": "1.1.8-3.1+deb8u2+b1",
+                },
+              },
+              Object {
+                "id": "pam/libpam-modules-bin@1.1.8-3.1+deb8u2+b1",
+                "info": Object {
+                  "name": "pam/libpam-modules-bin",
+                  "version": "1.1.8-3.1+deb8u2+b1",
+                },
+              },
+              Object {
                 "id": "pam/libpam-runtime@1.1.8-3.1+deb8u2",
                 "info": Object {
                   "name": "pam/libpam-runtime",
                   "purl": "pkg:deb/libpam-runtime@1.1.8-3.1%2Bdeb8u2?upstream=pam",
                   "version": "1.1.8-3.1+deb8u2",
+                },
+              },
+              Object {
+                "id": "pam/libpam0g@1.1.8-3.1+deb8u2+b1",
+                "info": Object {
+                  "name": "pam/libpam0g",
+                  "version": "1.1.8-3.1+deb8u2+b1",
+                },
+              },
+              Object {
+                "id": "pango1.0/libpango-1.0-0@1.36.8-3",
+                "info": Object {
+                  "name": "pango1.0/libpango-1.0-0",
+                  "version": "1.36.8-3",
+                },
+              },
+              Object {
+                "id": "pcre3/libpcre3@2:8.35-3.3+deb8u4",
+                "info": Object {
+                  "name": "pcre3/libpcre3",
+                  "version": "2:8.35-3.3+deb8u4",
+                },
+              },
+              Object {
+                "id": "perl/perl-base@5.20.2-3+deb8u10",
+                "info": Object {
+                  "name": "perl/perl-base",
+                  "version": "5.20.2-3+deb8u10",
+                },
+              },
+              Object {
+                "id": "pixman/libpixman-1-0@0.32.6-3",
+                "info": Object {
+                  "name": "pixman/libpixman-1-0",
+                  "version": "0.32.6-3",
                 },
               },
               Object {
@@ -7813,10 +7713,24 @@ Object {
                 },
               },
               Object {
+                "id": "sensible-utils@0.0.9+deb8u1",
+                "info": Object {
+                  "name": "sensible-utils",
+                  "version": "0.0.9+deb8u1",
+                },
+              },
+              Object {
                 "id": "shadow/login@1:4.2-3+deb8u4",
                 "info": Object {
                   "name": "shadow/login",
                   "purl": "pkg:deb/login@1:4.2-3%2Bdeb8u4?upstream=shadow",
+                  "version": "1:4.2-3+deb8u4",
+                },
+              },
+              Object {
+                "id": "shadow/passwd@1:4.2-3+deb8u4",
+                "info": Object {
+                  "name": "shadow/passwd",
                   "version": "1:4.2-3+deb8u4",
                 },
               },
@@ -7869,11 +7783,46 @@ Object {
                 },
               },
               Object {
+                "id": "tar@1.27.1-2+deb8u1",
+                "info": Object {
+                  "name": "tar",
+                  "version": "1.27.1-2+deb8u1",
+                },
+              },
+              Object {
+                "id": "tiff/libtiff5@4.0.3-12.3+deb8u5",
+                "info": Object {
+                  "name": "tiff/libtiff5",
+                  "version": "4.0.3-12.3+deb8u5",
+                },
+              },
+              Object {
+                "id": "ucf@3.0030",
+                "info": Object {
+                  "name": "ucf",
+                  "version": "3.0030",
+                },
+              },
+              Object {
+                "id": "ustr/libustr-1.0-1@1.0.4-3+b2",
+                "info": Object {
+                  "name": "ustr/libustr-1.0-1",
+                  "version": "1.0.4-3+b2",
+                },
+              },
+              Object {
                 "id": "util-linux/bsdutils@1:2.25.2-6",
                 "info": Object {
                   "name": "util-linux/bsdutils",
                   "purl": "pkg:deb/bsdutils@1:2.25.2-6?upstream=util-linux%402.25.2-6",
                   "version": "1:2.25.2-6",
+                },
+              },
+              Object {
+                "id": "util-linux/libuuid1@2.25.2-6",
+                "info": Object {
+                  "name": "util-linux/libuuid1",
+                  "version": "2.25.2-6",
                 },
               },
               Object {
@@ -7898,6 +7847,41 @@ Object {
                   "name": "wget",
                   "purl": "pkg:deb/wget@1.16-1%2Bdeb8u5",
                   "version": "1.16-1+deb8u5",
+                },
+              },
+              Object {
+                "id": "x11proto-core/x11proto-core-dev@7.0.26-1",
+                "info": Object {
+                  "name": "x11proto-core/x11proto-core-dev",
+                  "version": "7.0.26-1",
+                },
+              },
+              Object {
+                "id": "xorg-sgml-doctools@1:1.11-1",
+                "info": Object {
+                  "name": "xorg-sgml-doctools",
+                  "version": "1:1.11-1",
+                },
+              },
+              Object {
+                "id": "xz-utils/liblzma5@5.1.1alpha+20120614-2+b3",
+                "info": Object {
+                  "name": "xz-utils/liblzma5",
+                  "version": "5.1.1alpha+20120614-2+b3",
+                },
+              },
+              Object {
+                "id": "zlib/zlib1g@1:1.2.8.dfsg-2+b1",
+                "info": Object {
+                  "name": "zlib/zlib1g",
+                  "version": "1:1.2.8.dfsg-2+b1",
+                },
+              },
+              Object {
+                "id": "zlib/zlib1g-dev@1:1.2.8.dfsg-2+b1",
+                "info": Object {
+                  "name": "zlib/zlib1g-dev",
+                  "version": "1:1.2.8.dfsg-2+b1",
                 },
               },
             ],

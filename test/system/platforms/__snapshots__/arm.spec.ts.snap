@@ -87,7 +87,7 @@ Object {
                       "nodeId": "libxslt/libxslt@1.1.34-r0|1",
                     },
                     Object {
-                      "nodeId": "meta-common-packages@meta",
+                      "nodeId": "musl/musl@1.1.24-r9",
                     },
                     Object {
                       "nodeId": "musl/musl-utils@1.1.24-r8|2",
@@ -504,15 +504,6 @@ Object {
                   "pkgId": "musl/musl@1.1.24-r9",
                 },
                 Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "musl/musl@1.1.24-r9",
-                    },
-                  ],
-                  "nodeId": "meta-common-packages@meta",
-                  "pkgId": "meta-common-packages@meta",
-                },
-                Object {
                   "deps": Array [],
                   "nodeId": "pax-utils/scanelf@1.2.6-r0",
                   "pkgId": "pax-utils/scanelf@1.2.6-r0",
@@ -872,13 +863,6 @@ Object {
                 "info": Object {
                   "name": "musl/musl",
                   "version": "1.1.24-r9",
-                },
-              },
-              Object {
-                "id": "meta-common-packages@meta",
-                "info": Object {
-                  "name": "meta-common-packages",
-                  "version": "meta",
                 },
               },
               Object {
