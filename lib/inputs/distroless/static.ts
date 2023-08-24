@@ -16,6 +16,12 @@ export function getAptFiles(extractedLayers: ExtractedLayers): string[] {
     if (!("dpkg" in extractedLayers[fileName])) {
       continue;
     }
+    // when the nodejs distroless image is build, the metadata is added to status.d
+    // this causes us to wronfgully identify nodejs as deb package
+    // https://github.com/GoogleContainerTools/distroless/blob/main/private/remote/node_archive.bzl#L29
+    if (fileName === "/var/lib/dpkg/status.d/nodejs") {
+      continue;
+    }
     files.push(extractedLayers[fileName].dpkg.toString("utf8"));
   }
 
