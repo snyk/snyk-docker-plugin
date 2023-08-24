@@ -182,6 +182,30 @@ test("static analysis for distroless base-debian9", async (t) => {
   );
 });
 
+test("static analysis for distroless node image", async (t) => {
+  // 70b8c7f2d41a844d310c23e0695388c916a364ed was "latest" at the time of writing
+  const imageNameAndTag =
+    "gcr.io/distroless/nodejs20-debian11@sha256:ca5777fb7a45d6d19d9992a5517a2ad24ddd9844f0225e45b7151ede5ffc5de0";
+
+  const pluginResult = await plugin.scan({
+    path: imageNameAndTag,
+  });
+
+  const depGraph: DepGraph = pluginResult.scanResults[0].facts.find(
+    (fact) => fact.type === "depGraph",
+  )!.data;
+
+  const depGraphDepPkgs = depGraph.getDepPkgs();
+  t.ok(
+    depGraphDepPkgs.find((pkg) => pkg.name === "nodejs") === undefined,
+    "nodejs excluded from depGraph",
+  );
+  const binaryHashes = pluginResult.scanResults[0].facts.find(
+    (fact) => fact.type === "keyBinariesHashes",
+  );
+  t.ok(binaryHashes?.data.length === 1);
+});
+
 test("manifest files are detected", async (t) => {
   const imageNameAndTag = "debian:10";
   const manifestGlobs = [
