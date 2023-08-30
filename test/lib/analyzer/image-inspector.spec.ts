@@ -40,11 +40,6 @@ describe("extractImageDetails", () => {
       imageName: "library/nginx",
       tag: "1.18",
     }}
-    ${"nginx:1.18"} | ${{
-      hostname: "registry-1.docker.io",
-      imageName: "library/nginx",
-      tag: "1.18",
-    }}
     ${"calico/cni:release-v3.14"} | ${{
       hostname: "registry-1.docker.io",
       imageName: "calico/cni",
@@ -71,6 +66,11 @@ describe("extractImageDetails", () => {
       tag: "sha256:8756a25c4c5e902c4fe20322cc69d510a0517b51eab630c614efbd612ed568bf",
     }}
     ${"localhost:1234/foo/bar@sha256:8756a25c4c5e902c4fe20322cc69d510a0517b51eab630c614efbd612ed568bf"} | ${{
+      hostname: "localhost:1234",
+      imageName: "foo/bar",
+      tag: "sha256:8756a25c4c5e902c4fe20322cc69d510a0517b51eab630c614efbd612ed568bf",
+    }}
+    ${"localhost:1234/foo/bar:alpine3.15@sha256:8756a25c4c5e902c4fe20322cc69d510a0517b51eab630c614efbd612ed568bf"} | ${{
       hostname: "localhost:1234",
       imageName: "foo/bar",
       tag: "sha256:8756a25c4c5e902c4fe20322cc69d510a0517b51eab630c614efbd612ed568bf",

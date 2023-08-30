@@ -261,48 +261,92 @@ async function getImageArchive(
   }
 }
 
-function extractImageDetails(targetImage: string): ImageDetails {
-  let remainder: string;
-  let hostname: string;
-  let imageName: string;
-  let tag: string;
-
-  // We need to detect if the `targetImage` is part of a URL. Based on the Docker specification,
-  // the hostname should contain a `.` or `:` before the first instance of a `/` otherwise the
-  // default hostname will be used (registry-1.docker.io). ref: https://stackoverflow.com/a/37867949
-  const i = targetImage.indexOf("/");
-  if (
-    i === -1 ||
-    (!targetImage.substring(0, i).includes(".") &&
-      !targetImage.substring(0, i).includes(":") &&
-      targetImage.substring(0, i) !== "localhost")
-  ) {
-    hostname = "registry-1.docker.io";
-    remainder = targetImage;
-    // First assume the remainder is image@sha
-    [imageName, tag] = remainder.split("@");
-    if (tag === undefined) {
-      [imageName, tag] = remainder.split(":");
-    }
-    imageName =
-      imageName.indexOf("/") === -1 ? "library/" + imageName : imageName;
-  } else {
-    hostname = targetImage.substring(0, i);
-    remainder = targetImage.substring(i + 1);
-    [imageName, tag] = remainder.split("@");
-    if (tag === undefined) {
-      [imageName, tag] = remainder.split(":");
-    }
+function isImagePartOfURL(targetImage): boolean {
+  // Based on the Docker spec, if the image contains a hostname, then the hostname should contain
+  // a `.` or `:` before the first instance of a `/`. ref: https://stackoverflow.com/a/37867949
+  if (!targetImage.includes("/")) {
+    return false;
   }
 
-  // Assume the latest tag if no tag was found.
-  tag = tag || "latest";
+  const partBeforeFirstForwardSlash = targetImage.split("/")[0];
+
+  return (
+    partBeforeFirstForwardSlash.includes(".") ||
+    partBeforeFirstForwardSlash.includes(":") ||
+    partBeforeFirstForwardSlash === "localhost"
+  );
+}
+
+function extractHostnameFromTargetImage(targetImage: string): {
+  hostname: string;
+  remainder: string;
+} {
+  // We need to detect if the `targetImage` is part of a URL. If not, the default hostname will be
+  // used (registry-1.docker.io). ref: https://stackoverflow.com/a/37867949
+  const defaultHostname = "registry-1.docker.io";
+
+  if (!isImagePartOfURL(targetImage)) {
+    return { hostname: defaultHostname, remainder: targetImage };
+  }
+
+  const i = targetImage.indexOf("/");
+  return {
+    hostname: targetImage.substring(0, i),
+    remainder: targetImage.substring(i + 1),
+  };
+}
+
+function extractImageNameAndTag(
+  remainder: string,
+  targetImage: string,
+): { imageName: string; tag: string } {
+  const defaultTag = "latest";
+
+  if (!remainder.includes("@")) {
+    const [imageName, tag] = remainder.split(":");
+
+    return {
+      imageName: appendDefaultRepoPrefixIfRequired(imageName, targetImage),
+      tag: tag || defaultTag,
+    };
+  }
+
+  const [imageName, tag] = remainder.split("@");
 
   return {
-    hostname,
-    imageName,
-    tag,
+    imageName: appendDefaultRepoPrefixIfRequired(
+      dropTagIfSHAIsPresent(imageName),
+      targetImage,
+    ),
+    tag: tag || defaultTag,
   };
+}
+
+function appendDefaultRepoPrefixIfRequired(
+  imageName: string,
+  targetImage: string,
+): string {
+  const defaultRepoPrefix = "library/";
+
+  if (isImagePartOfURL(targetImage) || imageName.includes("/")) {
+    return imageName;
+  }
+
+  return defaultRepoPrefix + imageName;
+}
+
+function dropTagIfSHAIsPresent(imageName: string): string {
+  if (!imageName.includes(":")) {
+    return imageName;
+  }
+
+  return imageName.split(":")[0];
+}
+
+function extractImageDetails(targetImage: string): ImageDetails {
+  const { hostname, remainder } = extractHostnameFromTargetImage(targetImage);
+  const { imageName, tag } = extractImageNameAndTag(remainder, targetImage);
+  return { hostname, imageName, tag };
 }
 
 function isLocalImageSameArchitecture(
