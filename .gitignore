@@ -1,5 +1,6 @@
 /node_modules/
 .idea/
+.run/
 bin/
 npm-debug.log
 dist/
