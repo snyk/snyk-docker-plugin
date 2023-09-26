@@ -1,0 +1,11 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: snyk-docker-plugin
+  annotations:
+    github.com/project-slug: snyk/snyk-docker-plugin
+    github.com/team-slug: snyk/lumos
+spec:
+  type: external-library
+  lifecycle: "-"
+  owner: lumos
