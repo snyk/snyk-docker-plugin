@@ -42,7 +42,7 @@
     "event-loop-spinner": "^2.0.0",
     "gunzip-maybe": "^1.4.2",
     "mkdirp": "^1.0.4",
-    "packageurl-js": "^1.0.2",
+    "packageurl-js": "^1.1.1",
     "semver": "^7.5.4",
     "shescape": "^1.7.4",
     "snyk-nodejs-lockfile-parser": "^1.52.1",
