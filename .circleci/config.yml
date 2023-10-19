@@ -142,21 +142,11 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - setup_remote_docker
+      - setup_remote_docker:
+          version: 20.10.23
       - attach_workspace:
           at: ~/snyk-docker-plugin
       - run: npm test
-  test_windows:
-    <<: *windows_defaults
-    steps:
-      - checkout
-      - install_node_npm:
-          node_version: << parameters.node_version >>
-      - run:
-          name: Use snyk-main npmjs user
-          command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
-      - run: npm ci
-      - run: npm run test-windows
   test_jest:
     <<: *defaults
     resource_class: medium
@@ -302,17 +292,6 @@ workflows:
             - Build
           post-steps:
             - *slack-fail-notify
-      - test_windows:
-          name: Test Windows
-          context:
-            - nodejs-install
-            - team-lumos
-            - snyk-bot-slack
-          node_version: "12"
-          requires:
-            - Build
-          post-steps:
-            - *slack-fail-notify
       - test_jest_windows_with_docker:
           name: Test Jest Windows with Docker
           context:
@@ -361,7 +340,6 @@ workflows:
             - Scan Code
             - Scan Dependencies
             - Test
-            - Test Windows
             - Test Jest Windows with Docker
             - Test Jest Windows no Docker
           post-steps:
