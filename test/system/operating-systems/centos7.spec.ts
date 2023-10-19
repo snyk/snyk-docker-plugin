@@ -3,12 +3,16 @@ import { execute } from "../../../lib/sub-process";
 
 describe("centos tests", () => {
   afterAll(async () => {
-    await execute("docker", ["image", "rm", "centos:7.8.2003"]).catch();
+    await execute("docker", ["image", "rm", "centos:7.8.2003"]).catch(() => {
+      /* no-op */
+    });
     await execute("docker", [
       "image",
       "rm",
       "centos@sha256:50b9a3bc27378889210f88d6d0695938e45a912aa99b3fdacfb9a0fef511f15a",
-    ]).catch();
+    ]).catch(() => {
+      /* no-op */
+    });
   });
 
   it("should correctly analyze a centos image by tag", async () => {
