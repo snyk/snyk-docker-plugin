@@ -21,7 +21,6 @@
     "format": "prettier --loglevel warn --write '{lib,test}/**/*.ts' && tslint --fix --format stylish '{lib,test}/**/*.ts'",
     "test": "npm run unit-test && npm run test-jest",
     "test-jest": "jest --ci --maxWorkers=3 --logHeapUsage",
-    "test-windows": "tap test/windows/**/*.test.ts -R=spec --timeout=300",
     "test-jest-windows": "jest --ci --maxWorkers=3 --config test/windows/jest.config.js --logHeapUsage",
     "unit-test": "tap test/**/*.test.ts -R=spec --timeout=300",
     "prepare": "npm run build"
