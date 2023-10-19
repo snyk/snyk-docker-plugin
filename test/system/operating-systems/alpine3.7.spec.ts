@@ -3,12 +3,16 @@ import { execute } from "../../../lib/sub-process";
 
 describe("alpine tests", () => {
   afterAll(async () => {
-    await execute("docker", ["image", "rm", "alpine:3.7.3"]).catch();
+    await execute("docker", ["image", "rm", "alpine:3.7.3"]).catch(() => {
+      /* no-op */
+    });
     await execute("docker", [
       "image",
       "rm",
       "alpine@sha256:92251458088c638061cda8fd8b403b76d661a4dc6b7ee71b6affcf1872557b2b",
-    ]).catch();
+    ]).catch(() => {
+      /* no-op */
+    });
   });
 
   it("should correctly analyze an alpine image by tag", async () => {
