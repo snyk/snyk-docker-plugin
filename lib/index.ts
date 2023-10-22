@@ -4,6 +4,7 @@ import * as dockerFile from "./dockerfile";
 import {
   analyseDockerfile,
   DockerFileAnalysis,
+  parseDockerfile,
   updateDockerfileBaseImageName,
 } from "./dockerfile";
 import {
@@ -42,4 +43,5 @@ export {
   updateDockerfileBaseImageName,
   UpdateDockerfileBaseImageNameErrorCode,
   Binary,
+  parseDockerfile,
 };
