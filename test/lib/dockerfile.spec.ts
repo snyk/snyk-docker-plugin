@@ -1,5 +1,7 @@
-import exp from "constants";
+import { DockerfileParser } from "dockerfile-ast";
+import { Dockerfile } from "dockerfile-ast/lib/dockerfile";
 import * as path from "path";
+import { parseDockerfile } from "../../lib/dockerfile";
 
 import * as dockerFile from "../../lib/dockerfile";
 import {
@@ -266,5 +268,25 @@ describe("readDockerfileAndAnalyse() correctly parses...", () => {
         expected.dockerfileLayers[digest],
       );
     });
+  });
+});
+
+describe("parseDockerfile()", () => {
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
+  test("returns undefined when Dockerfile is not supplied", async () => {
+    const dockerfileContent: string = "some dockerfile content";
+
+    const expectedParsedDockerfile: jest.Mocked<Dockerfile> =
+      jest.mocked(Dockerfile);
+    jest
+      .spyOn(DockerfileParser, "parse")
+      .mockImplementation(() => expectedParsedDockerfile);
+
+    const result = parseDockerfile(dockerfileContent);
+
+    expect(result).toEqual(expectedParsedDockerfile);
   });
 });
