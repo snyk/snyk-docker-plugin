@@ -1,4 +1,4 @@
-import { DockerfileParser } from "dockerfile-ast";
+import { Dockerfile, DockerfileParser } from "dockerfile-ast";
 import * as fs from "fs";
 import { normalize as normalizePath } from "path";
 import {
@@ -18,6 +18,7 @@ export {
   getDockerfileBaseImageName,
   updateDockerfileBaseImageName,
   DockerFileAnalysis,
+  parseDockerfile,
 };
 
 async function readDockerfileAndAnalyse(
@@ -52,4 +53,8 @@ async function readFile(path: string) {
       return err ? reject(err) : resolve(data);
     });
   }) as Promise<string>;
+}
+
+function parseDockerfile(content: string): Dockerfile {
+  return DockerfileParser.parse(content);
 }
