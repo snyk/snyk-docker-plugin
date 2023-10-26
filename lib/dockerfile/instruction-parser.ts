@@ -174,19 +174,37 @@ function getDockerfileBaseImageName(
         UnresolvedDockerfileVariableHandling.Abort,
         fromName,
       );
+
       const hasUnresolvedVariables =
         expandedName.split(":").some((name) => !name) ||
         expandedName.split("@").some((name) => !name);
-      // store the resolved stage name
-      if (!hasUnresolvedVariables) {
-        stagesNames.last = stagesNames.aliases[expandedName] || expandedName;
-      }
+
       if (args.length > 2 && args[1].getValue().toUpperCase() === "AS") {
         // the AS alias name
         const aliasName = args[2].getValue();
         // support nested referral
-        stagesNames.aliases[aliasName] = stagesNames.last;
+        if (!expandedName) {
+          stagesNames.aliases[aliasName] = null;
+        } else {
+          stagesNames.aliases[aliasName] =
+            stagesNames.aliases[expandedName] || expandedName;
+        }
       }
+
+      const hasUnresolvedAlias =
+        Object.keys(stagesNames.aliases).includes(expandedName) &&
+        !stagesNames.aliases[expandedName];
+
+      if (expandedName === "" || hasUnresolvedVariables || hasUnresolvedAlias) {
+        return {
+          ...stagesNames,
+          last: undefined,
+        };
+      }
+
+      // store the resolved stage name
+      stagesNames.last = stagesNames.aliases[expandedName] || expandedName;
+
       return stagesNames;
     },
     { last: undefined, aliases: {} },
