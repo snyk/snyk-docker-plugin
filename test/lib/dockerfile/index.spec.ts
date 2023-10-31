@@ -54,6 +54,46 @@ describe("base image parsing", () => {
 
   it.each`
     dockerfile
+    ${"ARG A" + EOL + "FROM image" + EOL + "FROM ${A}"}
+    ${"ARG A" + EOL + "FROM image" + EOL + "FROM ${A}:1.0.0"}
+    ${"ARG A" + EOL + "FROM image" + EOL + "FROM ${A}@sha256:abcd1234"}
+    ${"ARG A" + EOL + "FROM image" + EOL + "FROM image:${A}"}
+    ${"ARG A" + EOL + "FROM image" + EOL + "FROM image@${A}"}
+  `(
+    "does not detect unresolvable final stage: $dockerfile",
+    ({ dockerfile }) => {
+      const result = getDockerfileBaseImageName(
+        DockerfileParser.parse(dockerfile),
+      );
+
+      expect(result.baseImage).toBeUndefined();
+      expect(result).toEqual({
+        error: {
+          code: DockerFileAnalysisErrorCode.BASE_IMAGE_NON_RESOLVABLE,
+        },
+      });
+    },
+  );
+
+  it.each`
+    dockerfile
+    ${"ARG A" + EOL + "ARG B" + EOL + "FROM ${A}" + EOL + "FROM ${B}" + EOL + "FROM image"}
+    ${"ARG A" + EOL + "ARG B" + EOL + "FROM ${A} AS baseA" + EOL + "FROM BaseA AS baseB" + EOL + "FROM image"}
+    ${"ARG A" + EOL + "FROM image:tag0" + EOL + "FROM ${A}" + EOL + "FROM image:tag1"}
+    ${"ARG A" + EOL + "FROM image:tag0 AS baseA" + EOL + "FROM ${A}" + EOL + "FROM baseA"}
+  `(
+    "always detects final stage when resolvable: $dockerfile",
+    ({ dockerfile }) => {
+      const result = getDockerfileBaseImageName(
+        DockerfileParser.parse(dockerfile),
+      );
+      expect(result.baseImage).toBeDefined();
+      expect(result.error).toBeUndefined();
+    },
+  );
+
+  it.each`
+    dockerfile
     ${"FROM image"}
     ${"FROM image AS foo"}
     ${"FROM image:tag"}
@@ -86,14 +126,16 @@ describe("base image updating", () => {
 
   describe("multi stage", () => {
     it.each`
-      scenario                        | content                                                                   | expected
-      ${"basic"}                      | ${"FROM repo:tag2" + EOL + "FROM repo"}                                   | ${"FROM repo:tag2" + EOL + "FROM repo:tag0"}
-      ${"with tag"}                   | ${"FROM repo:tag2" + EOL + "FROM repo:tag1"}                              | ${"FROM repo:tag2" + EOL + "FROM repo:tag0"}
-      ${"duplicate"}                  | ${"FROM repo" + EOL + "FROM repo"}                                        | ${"FROM repo:tag0" + EOL + "FROM repo:tag0"}
-      ${"duplicate with tag"}         | ${"FROM repo:tag1" + EOL + "FROM repo:tag1"}                              | ${"FROM repo:tag0" + EOL + "FROM repo:tag0"}
-      ${"with arg"}                   | ${"ARG IMAGE=repo:tag1" + EOL + "FROM repo:tag2" + EOL + "FROM ${IMAGE}"} | ${"ARG IMAGE=repo:tag0" + EOL + "FROM repo:tag2" + EOL + "FROM ${IMAGE}"}
-      ${"with non related arg"}       | ${"ARG IMAGE=repo:tag1" + EOL + "FROM ${IMAGE}" + EOL + "FROM repo:tag2"} | ${"ARG IMAGE=repo:tag1" + EOL + "FROM ${IMAGE}" + EOL + "FROM repo:tag0"}
-      ${"with duplicate related arg"} | ${"ARG IMAGE=repo:tag1" + EOL + "FROM repo:tag1" + EOL + "FROM ${IMAGE}"} | ${"ARG IMAGE=repo:tag0" + EOL + "FROM repo:tag0" + EOL + "FROM ${IMAGE}"}
+      scenario                         | content                                                                             | expected
+      ${"basic"}                       | ${"FROM repo:tag2" + EOL + "FROM repo"}                                             | ${"FROM repo:tag2" + EOL + "FROM repo:tag0"}
+      ${"with tag"}                    | ${"FROM repo:tag2" + EOL + "FROM repo:tag1"}                                        | ${"FROM repo:tag2" + EOL + "FROM repo:tag0"}
+      ${"duplicate"}                   | ${"FROM repo" + EOL + "FROM repo"}                                                  | ${"FROM repo:tag0" + EOL + "FROM repo:tag0"}
+      ${"duplicate with tag"}          | ${"FROM repo:tag1" + EOL + "FROM repo:tag1"}                                        | ${"FROM repo:tag0" + EOL + "FROM repo:tag0"}
+      ${"with arg"}                    | ${"ARG IMAGE=repo:tag1" + EOL + "FROM repo:tag2" + EOL + "FROM ${IMAGE}"}           | ${"ARG IMAGE=repo:tag0" + EOL + "FROM repo:tag2" + EOL + "FROM ${IMAGE}"}
+      ${"with non related arg"}        | ${"ARG IMAGE=repo:tag1" + EOL + "FROM ${IMAGE}" + EOL + "FROM repo:tag2"}           | ${"ARG IMAGE=repo:tag1" + EOL + "FROM ${IMAGE}" + EOL + "FROM repo:tag0"}
+      ${"with duplicate related arg"}  | ${"ARG IMAGE=repo:tag1" + EOL + "FROM repo:tag1" + EOL + "FROM ${IMAGE}"}           | ${"ARG IMAGE=repo:tag0" + EOL + "FROM repo:tag0" + EOL + "FROM ${IMAGE}"}
+      ${"last stage resolvable"}       | ${"ARG A" + EOL + "FROM ${A}" + EOL + "FROM repo:tag1"}                             | ${"ARG A" + EOL + "FROM ${A}" + EOL + "FROM repo:tag0"}
+      ${"last stage resolvable alias"} | ${"ARG A" + EOL + "FROM repo:tag2 as base" + EOL + "FROM ${A}" + EOL + "FROM base"} | ${"ARG A" + EOL + "FROM repo:tag0 as base" + EOL + "FROM ${A}" + EOL + "FROM base"}
     `("updates base image: $scenario", ({ content, expected }) => {
       const result = updateDockerfileBaseImageName(content, "repo:tag0");
       expect(result.error).toBeUndefined();
@@ -146,7 +188,7 @@ describe("base image updating", () => {
       ${"${REPO}:${MAJOR}.${MINOR}.${PATCH}-${FLAVOR}"} | ${"ARG REPO=repo" + EOL + "ARG MAJOR=1" + EOL + "ARG MINOR=0" + EOL + "ARG PATCH=0" + EOL + "ARG FLAVOR=slim" + EOL + "FROM ${REPO}:${MAJOR}.${MINOR}.${PATCH}-${FLAVOR}"}
     `("does not update: $scenario", ({ content }) => {
       const result = updateDockerfileBaseImageName(content, "image:tag0");
-      expect(result.error.code).toBe(
+      expect(result.error?.code).toBe(
         UpdateDockerfileBaseImageNameErrorCode.BASE_IMAGE_NAME_FRAGMENTED,
       );
       expect(result.contents).toBe(content);
@@ -160,7 +202,20 @@ describe("base image updating", () => {
       ${"missing FROM"}   | ${"#FROM image:tag"}
     `("does not update: $scenario", ({ content }) => {
       const result = updateDockerfileBaseImageName(content, "image:tag0");
-      expect(result.error.code).toBe(
+      expect(result.error?.code).toBe(
+        UpdateDockerfileBaseImageNameErrorCode.BASE_IMAGE_NAME_NOT_FOUND,
+      );
+      expect(result.contents).toBe(content);
+    });
+
+    it.each`
+      scenario                                 | content
+      ${"final stage with unresolveable arg"}  | ${"ARG A" + EOL + "FROM image:tag0" + EOL + "FROM ${A}"}
+      ${"all stages unresolveable"}            | ${"ARG A" + EOL + "FROM ${A} as base" + EOL + "FROM base"}
+      ${"final stage from unresolvable alias"} | ${"ARG A" + EOL + "FROM image:tag0" + EOL + "FROM ${A} as base" + EOL + "FROM base"}
+    `("does not update: $scenario", ({ content }) => {
+      const result = updateDockerfileBaseImageName(content, "image:tag1");
+      expect(result.error?.code).toBe(
         UpdateDockerfileBaseImageNameErrorCode.BASE_IMAGE_NAME_NOT_FOUND,
       );
       expect(result.contents).toBe(content);
