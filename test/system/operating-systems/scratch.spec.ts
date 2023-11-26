@@ -7,7 +7,9 @@ describe("scratch tests", () => {
       "image",
       "rm",
       "snyk/runtime-fixtures:scratch",
-    ]).catch();
+    ]).catch(() => {
+      console.error(`tests teardown failed to remove docker image`);
+    });
   });
 
   it("should correctly analyze an scratch image by sha256", async () => {

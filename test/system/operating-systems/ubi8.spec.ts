@@ -7,7 +7,9 @@ describe("redhat ubi8 tests", () => {
       "image",
       "rm",
       "registry.access.redhat.com/ubi8/ubi:8.2-347",
-    ]).catch();
+    ]).catch(() => {
+      console.error(`tests teardown failed to remove docker image`);
+    });
   });
 
   it("should correctly analyze an ubi8 image by tag", async () => {

@@ -7,7 +7,9 @@ describe("suse linux enterprise server tests", () => {
       "image",
       "rm",
       "registry.suse.com/suse/sle15:15.2.8.2.751",
-    ]).catch();
+    ]).catch(() => {
+      console.error(`tests teardown failed to remove docker image`);
+    });
   });
 
   it("should correctly analyze an sles image by tag", async () => {

@@ -7,7 +7,9 @@ describe("find globs tests", () => {
       "image",
       "rm",
       "debian@sha256:f520e4a80b736389c3de162b8f60608d11c9fa3b2ec619bd40aabfd7e70d3455",
-    ]).catch();
+    ]).catch(() => {
+      console.error(`tests teardown failed to remove docker image`);
+    });
   });
 
   it("should correctly return manifest files when detected by globs", async () => {

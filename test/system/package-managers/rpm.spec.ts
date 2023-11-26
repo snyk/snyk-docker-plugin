@@ -8,7 +8,9 @@ describe("rpm package manager tests", () => {
       "rm",
       "amazonlinux:2.0.20200722.0",
       "amazonlinux:2022.0.20220504.1",
-    ]).catch();
+    ]).catch(() => {
+      console.error(`tests teardown failed to remove docker image`);
+    });
   });
 
   it("should correctly analyze an rpm image", async () => {

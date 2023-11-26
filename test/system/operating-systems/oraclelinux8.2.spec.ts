@@ -7,7 +7,9 @@ describe("oracle linux tests", () => {
       "image",
       "rm",
       "oraclelinux@sha256:652409ec0fd4e79b07ecf82e35ebf50277be69f6b8e873129a55a0bdedf827d0",
-    ]).catch();
+    ]).catch(() => {
+      console.error(`tests teardown failed to remove docker image`);
+    });
   });
 
   it("should correctly analyze an oracle linux image by sha256", async () => {

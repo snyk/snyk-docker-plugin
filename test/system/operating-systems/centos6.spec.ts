@@ -7,7 +7,9 @@ describe("CentOS 7 tests", () => {
       "image",
       "rm",
       "dokken/centos-6@sha256:494b9b280814f1e661597b48e229156e4dccb60dce198d9210f7572ff22626d2",
-    ]).catch();
+    ]).catch(() => {
+      console.error(`tests teardown failed to remove docker image`);
+    });
   });
 
   it("can scan a centos6-based image", async () => {

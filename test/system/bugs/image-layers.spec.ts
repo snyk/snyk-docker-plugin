@@ -11,7 +11,9 @@ describe("demonstrates a potential bug with image layers", () => {
       "image",
       "rm",
       "debian:stable-20200803-slim",
-    ]).catch();
+    ]).catch(() => {
+      console.error(`tests teardown failed to remove docker image`);
+    });
   });
 
   /** This bug potentially lies in the pull library. */
