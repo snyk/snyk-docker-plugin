@@ -7,7 +7,9 @@ describe("PPC64 platform tests", () => {
       "image",
       "rm",
       "ppc64le/php:8.0.0rc1-fpm-alpine3.12",
-    ]).catch();
+    ]).catch(() => {
+      console.error(`tests teardown failed to remove docker image`);
+    });
   });
 
   it("should correctly scan a PPC image and return platform: ppc64le", async () => {

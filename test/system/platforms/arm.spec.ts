@@ -7,7 +7,9 @@ describe("ARM platform tests", () => {
       "image",
       "rm",
       "arm64v8/nginx:1.19.2-alpine",
-    ]).catch();
+    ]).catch(() => {
+      console.error(`tests teardown failed to remove docker image`);
+    });
   });
 
   it("should correctly scan an ARM image", async () => {

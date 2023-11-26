@@ -7,7 +7,9 @@ describe("busybox tests", () => {
       "image",
       "rm",
       "busybox@sha256:32dc7202280d641c9c0d94a13247195adc83dba83aca0eed383888c01311cfc2",
-    ]).catch();
+    ]).catch(() => {
+      console.error(`tests teardown failed to remove docker image`);
+    });
   });
 
   it("should correctly analyze a busybox image by sha256", async () => {

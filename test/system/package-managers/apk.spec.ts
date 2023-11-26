@@ -3,7 +3,9 @@ import { execute } from "../../../lib/sub-process";
 
 describe("apk package manager tests", () => {
   afterAll(async () => {
-    await execute("docker", ["image", "rm", "alpine:3.12.0"]).catch();
+    await execute("docker", ["image", "rm", "alpine:3.12.0"]).catch(() => {
+      console.error(`tests teardown failed to remove docker image`);
+    });
   });
 
   it("should correctly analyze an apk image", async () => {

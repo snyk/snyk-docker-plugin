@@ -7,7 +7,9 @@ describe("debian tests", () => {
       "image",
       "rm",
       "debian@sha256:e7157902df9c7549eea5eb7b896cdca02d917e2ba0e339cd4a5087e2b53eb1d7",
-    ]).catch();
+    ]).catch(() => {
+      console.error(`tests teardown failed to remove docker image`);
+    });
   });
 
   it("should correctly analyze a debian image by sha256", async () => {

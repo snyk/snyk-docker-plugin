@@ -7,7 +7,9 @@ describe("deb package manager tests", () => {
       "image",
       "rm",
       "debian@sha256:89ff9e144a438f6bdf89fba6a1fdcb614b6d03bc14433bbb937088ca7c7a7b6d",
-    ]).catch();
+    ]).catch(() => {
+      console.error(`tests teardown failed to remove docker image`);
+    });
   });
 
   it("should correctly analyze a deb image", async () => {

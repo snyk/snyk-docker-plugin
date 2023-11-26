@@ -7,7 +7,9 @@ describe("AMD platform tests", () => {
       "image",
       "rm",
       "redis@sha256:fed4c3c120450b140aaff9b125306cc58aba99876399b081a6ba054c0328a189",
-    ]).catch();
+    ]).catch(() => {
+      console.error(`tests teardown failed to remove docker image`);
+    });
   });
 
   it("should correctly scan an AMD image and return platform: amd64", async () => {

@@ -6,6 +6,7 @@
     "interface-name": false,
     "object-literal-sort-keys": false,
     "no-bitwise": false,
-    "max-classes-per-file": false
+    "max-classes-per-file": false,
+    "no-console": false
   }
 }
