@@ -157,8 +157,8 @@ Object {
         },
         Object {
           "data": Array [
-            "cd28a18f08941d5f62d26d4612c17ce135fcbb3c33d86060d72c65e6186b61ad/layer.tar",
-            "795faa8b6bf2e2d15702e670d4e456b1c3fa86a1fff2def41e1d3298a483f565/layer.tar",
+            "b9cd0ea6c874f41c5c0ce7710de3f77e4c62988612c5e389b3b2b08ee356d8be/layer.tar",
+            "e2745900642c76d22dd0947e689689bba500cf937f75e3e335d1068221f31251/layer.tar",
           ],
           "type": "imageLayers",
         },
@@ -180,6 +180,7 @@ Object {
         Object {
           "data": Object {
             "names": Array [
+              "gcr.io/distroless/base-debian10@sha256:8756a25c4c5e902c4fe20322cc69d510a0517b51eab630c614efbd612ed568bf",
               "gcr.io/distroless/base-debian10@sha256:8756a25c4c5e902c4fe20322cc69d510a0517b51eab630c614efbd612ed568bf",
             ],
           },

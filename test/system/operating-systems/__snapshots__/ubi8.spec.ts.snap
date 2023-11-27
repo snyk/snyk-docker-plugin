@@ -6035,11 +6035,11 @@ Object {
         },
         Object {
           "data": Array [
-            "7230f17da77234a3dfff88a15bff9000167b64e3990dd89438db1e982ea42144/layer.tar",
-            "67aead152fc0e4e68e455dfda942c994efc557da946a6d07a7e27858b708a981/layer.tar",
-            "7c3016ed3901e7e56a373af2971c3124df03297c01995a37e75a9553c73d4a33/layer.tar",
-            "e3c209a5cb40632b043955f4551b4a9bc2b1acf373e4f0fa64494eaab62e179a/layer.tar",
-            "c0c58c272eeaa4f02a5f1ed8aca1016315e51235bdf596da369325867c25d289/layer.tar",
+            "a905c078265c2d3a1f959f8ca1d79b30453a16aed4de47dec5ed1c048b26a103/layer.tar",
+            "121d5409a427be35e19a57dbaa3d29e62baaf98a5f4296288b646aeb282fd554/layer.tar",
+            "a50500db3d1b335828f1a31bf32652ecf422beb7f12bd28f5ab052af90b81428/layer.tar",
+            "97b9bf14b9b756916dfa15569caa9183ae65a53d9f438356d2ba9540b64f9f78/layer.tar",
+            "01561dd6d6562de4cce2ee7e7ec077227b0133305d6f2b41fa1793ad9044e572/layer.tar",
           ],
           "type": "imageLayers",
         },
@@ -6096,6 +6096,7 @@ Object {
         Object {
           "data": Object {
             "names": Array [
+              "registry.access.redhat.com/ubi8/nodejs-10@sha256:d344ac95abeeb0d5e2b2897caca0c806fae925b12f82242fc34e0a9d2eb785ca",
               "registry.access.redhat.com/ubi8/nodejs-10@sha256:d344ac95abeeb0d5e2b2897caca0c806fae925b12f82242fc34e0a9d2eb785ca",
             ],
           },
@@ -9025,8 +9026,8 @@ Object {
         },
         Object {
           "data": Array [
-            "1de76a962da9f1bf775dd311c39a5895878fb76df24ee89b2c7868c501f5a116/layer.tar",
-            "8ddbe8b9111dfaa75f3a9f8ec59cc9769fe264c3874e449dfc7e3b8010008374/layer.tar",
+            "ec1681b6a383e4ecedbeddd5abc596f3de835aed6db39a735f62395c8edbff30/layer.tar",
+            "c4d668e229cd131e0a8e4f8218dca628d9cf9697572875e355fe4b247b6aa9f0/layer.tar",
           ],
           "type": "imageLayers",
         },
@@ -9074,6 +9075,8 @@ Object {
           "data": Object {
             "names": Array [
               "registry.access.redhat.com/ubi8/ubi:8.2-347",
+              "registry.access.redhat.com/ubi8/ubi@sha256:3ce39afb014c36f0a285cd832d6722733eea40385e2c53bfeb9d6121ba6a940e",
+              "registry.access.redhat.com/ubi8/ubi@sha256:d748c21a55796827da82c61f162b505c59451cba24f1874e5185f21275b6bddc",
             ],
           },
           "type": "imageNames",

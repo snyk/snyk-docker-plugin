@@ -1696,7 +1696,7 @@ Object {
         },
         Object {
           "data": Array [
-            "1055bdb815777509eb503f8729b3ab549118c3f0931cc16a42a6712a74513e90/layer.tar",
+            "4f250268ed6a0b777b9a3d9e0659754a8c97f28420f30cb78c184c3eead07d14/layer.tar",
           ],
           "type": "imageLayers",
         },
@@ -1717,6 +1717,7 @@ Object {
         Object {
           "data": Object {
             "names": Array [
+              "debian@sha256:e7157902df9c7549eea5eb7b896cdca02d917e2ba0e339cd4a5087e2b53eb1d7",
               "debian@sha256:e7157902df9c7549eea5eb7b896cdca02d917e2ba0e339cd4a5087e2b53eb1d7",
             ],
           },

@@ -2957,7 +2957,7 @@ Object {
         },
         Object {
           "data": Array [
-            "27d87e19f3866794d679ff3a3224ecc67f1b4120850ffd4161da0a29a7b224b4/layer.tar",
+            "6c3a3ba2973ac77d6356db438301d73aff2750671490e8bdf69a77d550140d72/layer.tar",
           ],
           "type": "imageLayers",
         },
@@ -2989,6 +2989,7 @@ Object {
         Object {
           "data": Object {
             "names": Array [
+              "oraclelinux@sha256:652409ec0fd4e79b07ecf82e35ebf50277be69f6b8e873129a55a0bdedf827d0",
               "oraclelinux@sha256:652409ec0fd4e79b07ecf82e35ebf50277be69f6b8e873129a55a0bdedf827d0",
             ],
           },

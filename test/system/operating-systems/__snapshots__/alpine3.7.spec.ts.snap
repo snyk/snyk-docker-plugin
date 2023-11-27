@@ -346,7 +346,7 @@ Object {
         },
         Object {
           "data": Array [
-            "9dc84fbaf586a6da942b080c52689ac0cd8266ae7971ffd8e62729542e21c52c/layer.tar",
+            "5d20c808ce198565ff70b3ed23a991dd49afac45dece63474b27ce6ed036adc6/layer.tar",
           ],
           "type": "imageLayers",
         },
@@ -367,6 +367,7 @@ Object {
         Object {
           "data": Object {
             "names": Array [
+              "alpine@sha256:92251458088c638061cda8fd8b403b76d661a4dc6b7ee71b6affcf1872557b2b",
               "alpine@sha256:92251458088c638061cda8fd8b403b76d661a4dc6b7ee71b6affcf1872557b2b",
             ],
           },
@@ -733,7 +734,7 @@ Object {
         },
         Object {
           "data": Array [
-            "9dc84fbaf586a6da942b080c52689ac0cd8266ae7971ffd8e62729542e21c52c/layer.tar",
+            "5d20c808ce198565ff70b3ed23a991dd49afac45dece63474b27ce6ed036adc6/layer.tar",
           ],
           "type": "imageLayers",
         },
@@ -755,6 +756,8 @@ Object {
           "data": Object {
             "names": Array [
               "alpine:3.7.3",
+              "alpine@sha256:92251458088c638061cda8fd8b403b76d661a4dc6b7ee71b6affcf1872557b2b",
+              "alpine@sha256:8421d9a84432575381bfabd248f1eb56f3aa21d9d7cd2511583c68c9b7511d10",
             ],
           },
           "type": "imageNames",

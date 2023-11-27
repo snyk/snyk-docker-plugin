@@ -1842,12 +1842,12 @@ Object {
         },
         Object {
           "data": Array [
-            "313245f5a6080c52576aea6a361c22da586339cf54f160b117b7f3bfc1ed306c/layer.tar",
-            "2c5f9d9162ea5c31e229b500c3ed14f33b5616f77669b964f846234a30cf011d/layer.tar",
-            "3af91cd96570f2aa276fdc317a04e75c7fc4f156b5b0c604582809d9e8b6aab5/layer.tar",
-            "3e850b0f386ace71949af80e6b3592730744cc7c25c7f6bd3d53bc3845d6ec42/layer.tar",
-            "c961e0ffb143aa1be0a530a0edd4c7f5b9a5c0e81319560ce3f4409f7fc7fe78/layer.tar",
-            "4baee5ef150aea0d65b6db15f11077ca8f6c4484e159d8671b52f4926b4d2d1b/layer.tar",
+            "bb79b6b2107fea8e8a47133a660b78e3a546998fcf0427be39ac9a0af4a97e90/layer.tar",
+            "1ed3521a5dcbd05214eb7f35b952ecf018d5a6610c32ba4e315028c556f45e94/layer.tar",
+            "5999b99cee8f2875d391d64df20b6296b63f23951a7d41749f028375e887cd05/layer.tar",
+            "f99a38f44786b9434af817ff56fd90f9d75238546317c49c46b3c9759ccba941/layer.tar",
+            "d6fc863042e2c63ac7bdca3ce8d5b88ef6d96ab1a827bad3ff97c4dedd2e4dd5/layer.tar",
+            "9bd1af4eae13aa3ef99901fcb1fb86ee8b778f0ead82a6aac53573b0b236568b/layer.tar",
           ],
           "type": "imageLayers",
         },
@@ -1920,6 +1920,7 @@ Object {
         Object {
           "data": Object {
             "names": Array [
+              "redis@sha256:fed4c3c120450b140aaff9b125306cc58aba99876399b081a6ba054c0328a189",
               "redis@sha256:fed4c3c120450b140aaff9b125306cc58aba99876399b081a6ba054c0328a189",
             ],
           },
@@ -3782,12 +3783,12 @@ Object {
         },
         Object {
           "data": Array [
-            "313245f5a6080c52576aea6a361c22da586339cf54f160b117b7f3bfc1ed306c/layer.tar",
-            "2c5f9d9162ea5c31e229b500c3ed14f33b5616f77669b964f846234a30cf011d/layer.tar",
-            "3af91cd96570f2aa276fdc317a04e75c7fc4f156b5b0c604582809d9e8b6aab5/layer.tar",
-            "3e850b0f386ace71949af80e6b3592730744cc7c25c7f6bd3d53bc3845d6ec42/layer.tar",
-            "c961e0ffb143aa1be0a530a0edd4c7f5b9a5c0e81319560ce3f4409f7fc7fe78/layer.tar",
-            "4baee5ef150aea0d65b6db15f11077ca8f6c4484e159d8671b52f4926b4d2d1b/layer.tar",
+            "bb79b6b2107fea8e8a47133a660b78e3a546998fcf0427be39ac9a0af4a97e90/layer.tar",
+            "1ed3521a5dcbd05214eb7f35b952ecf018d5a6610c32ba4e315028c556f45e94/layer.tar",
+            "5999b99cee8f2875d391d64df20b6296b63f23951a7d41749f028375e887cd05/layer.tar",
+            "f99a38f44786b9434af817ff56fd90f9d75238546317c49c46b3c9759ccba941/layer.tar",
+            "d6fc863042e2c63ac7bdca3ce8d5b88ef6d96ab1a827bad3ff97c4dedd2e4dd5/layer.tar",
+            "9bd1af4eae13aa3ef99901fcb1fb86ee8b778f0ead82a6aac53573b0b236568b/layer.tar",
           ],
           "type": "imageLayers",
         },
@@ -3860,6 +3861,7 @@ Object {
         Object {
           "data": Object {
             "names": Array [
+              "redis@sha256:fed4c3c120450b140aaff9b125306cc58aba99876399b081a6ba054c0328a189",
               "redis@sha256:fed4c3c120450b140aaff9b125306cc58aba99876399b081a6ba054c0328a189",
             ],
           },
