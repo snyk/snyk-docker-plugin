@@ -1709,7 +1709,7 @@ Object {
         },
         Object {
           "data": Array [
-            "0cc919d951d6f4655c06c786488a33da3f6dee832221053e197d4502866e17f6/layer.tar",
+            "37373184fe69e0fc20370c26317bf4c5b9b843c60b375563d4ee1c7766a89782/layer.tar",
           ],
           "type": "imageLayers",
         },
@@ -1731,6 +1731,8 @@ Object {
           "data": Object {
             "names": Array [
               "amazonlinux:2.0.20200722.0",
+              "amazonlinux@sha256:1481659e18042055e174f9f5e61998bf7ab57f8c9432f3c9412a56d116cc0c68",
+              "amazonlinux@sha256:2c99363fc74d3a39f02365b964e73cceb2b2524c00e9977e16680156e2f79ee8",
             ],
           },
           "type": "imageNames",
@@ -3811,7 +3813,7 @@ Object {
         },
         Object {
           "data": Array [
-            "1953dcb9d82bb4934038184ec054fe1c39c75c32cbe32df9e3a4394056890b0b/layer.tar",
+            "7516adf672a9b100319b04f4b961b4cc3070ca53af354317e3d80c6a73ca275f/layer.tar",
           ],
           "type": "imageLayers",
         },
@@ -3833,6 +3835,8 @@ Object {
           "data": Object {
             "names": Array [
               "amazonlinux:2022.0.20220504.1",
+              "amazonlinux@sha256:8453a47334b50bd11a6dc8a9ff7c3e40a4ba284f0dc68c5e0edf328b11fe372f",
+              "amazonlinux@sha256:3b1eddcdaaf8d664e960b9d48c77c29ee81f108e54673e4015f924993ea81cdf",
             ],
           },
           "type": "imageNames",

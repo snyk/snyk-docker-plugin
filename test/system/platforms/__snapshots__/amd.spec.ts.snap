@@ -1216,7 +1216,7 @@ Object {
                 "id": "db5.3/libdb5.3@5.3.28+dfsg1-0.5",
                 "info": Object {
                   "name": "db5.3/libdb5.3",
-                  "purl": "pkg:deb/libdb5.3@5.3.28%2Bdfsg1-0.5?upstream=db5.3",
+                  "purl": "pkg:deb/libdb5.3@5.3.28+dfsg1-0.5?upstream=db5.3",
                   "version": "5.3.28+dfsg1-0.5",
                 },
               },
@@ -1272,7 +1272,7 @@ Object {
                 "id": "libzstd/libzstd1@1.3.8+dfsg-3",
                 "info": Object {
                   "name": "libzstd/libzstd1",
-                  "purl": "pkg:deb/libzstd1@1.3.8%2Bdfsg-3?upstream=libzstd",
+                  "purl": "pkg:deb/libzstd1@1.3.8+dfsg-3?upstream=libzstd",
                   "version": "1.3.8+dfsg-3",
                 },
               },
@@ -1336,7 +1336,7 @@ Object {
                 "id": "gnupg2/gpgv@2.2.12-1+deb10u1",
                 "info": Object {
                   "name": "gnupg2/gpgv",
-                  "purl": "pkg:deb/gpgv@2.2.12-1%2Bdeb10u1?upstream=gnupg2",
+                  "purl": "pkg:deb/gpgv@2.2.12-1+deb10u1?upstream=gnupg2",
                   "version": "2.2.12-1+deb10u1",
                 },
               },
@@ -1344,7 +1344,7 @@ Object {
                 "id": "gmp/libgmp10@2:6.1.2+dfsg-4",
                 "info": Object {
                   "name": "gmp/libgmp10",
-                  "purl": "pkg:deb/libgmp10@2:6.1.2%2Bdfsg-4?upstream=gmp",
+                  "purl": "pkg:deb/libgmp10@2:6.1.2+dfsg-4?upstream=gmp",
                   "version": "2:6.1.2+dfsg-4",
                 },
               },
@@ -1360,7 +1360,7 @@ Object {
                 "id": "libidn2/libidn2-0@2.0.5-1+deb10u1",
                 "info": Object {
                   "name": "libidn2/libidn2-0",
-                  "purl": "pkg:deb/libidn2-0@2.0.5-1%2Bdeb10u1?upstream=libidn2",
+                  "purl": "pkg:deb/libidn2-0@2.0.5-1+deb10u1?upstream=libidn2",
                   "version": "2.0.5-1+deb10u1",
                 },
               },
@@ -1408,7 +1408,7 @@ Object {
                 "id": "gnutls28/libgnutls30@3.6.7-4+deb10u5",
                 "info": Object {
                   "name": "gnutls28/libgnutls30",
-                  "purl": "pkg:deb/libgnutls30@3.6.7-4%2Bdeb10u5?upstream=gnutls28",
+                  "purl": "pkg:deb/libgnutls30@3.6.7-4+deb10u5?upstream=gnutls28",
                   "version": "3.6.7-4+deb10u5",
                 },
               },
@@ -1439,7 +1439,7 @@ Object {
                 "id": "mawk/mawk@1.3.3-17+b3",
                 "info": Object {
                   "name": "mawk/mawk",
-                  "purl": "pkg:deb/mawk@1.3.3-17%2Bb3?upstream=mawk%401.3.3-17",
+                  "purl": "pkg:deb/mawk@1.3.3-17+b3?upstream=mawk%401.3.3-17",
                   "version": "1.3.3-17+b3",
                 },
               },
@@ -1447,7 +1447,7 @@ Object {
                 "id": "base-files@10.3+deb10u6",
                 "info": Object {
                   "name": "base-files",
-                  "purl": "pkg:deb/base-files@10.3%2Bdeb10u6",
+                  "purl": "pkg:deb/base-files@10.3+deb10u6",
                   "version": "10.3+deb10u6",
                 },
               },
@@ -1479,7 +1479,7 @@ Object {
                 "id": "ncurses/libtinfo6@6.1+20181013-2+deb10u2",
                 "info": Object {
                   "name": "ncurses/libtinfo6",
-                  "purl": "pkg:deb/libtinfo6@6.1%2B20181013-2%2Bdeb10u2?upstream=ncurses",
+                  "purl": "pkg:deb/libtinfo6@6.1+20181013-2+deb10u2?upstream=ncurses",
                   "version": "6.1+20181013-2+deb10u2",
                 },
               },
@@ -1540,7 +1540,7 @@ Object {
                 "id": "e2fsprogs/libcom-err2@1.44.5-1+deb10u3",
                 "info": Object {
                   "name": "e2fsprogs/libcom-err2",
-                  "purl": "pkg:deb/libcom-err2@1.44.5-1%2Bdeb10u3?upstream=e2fsprogs",
+                  "purl": "pkg:deb/libcom-err2@1.44.5-1+deb10u3?upstream=e2fsprogs",
                   "version": "1.44.5-1+deb10u3",
                 },
               },
@@ -1548,7 +1548,7 @@ Object {
                 "id": "e2fsprogs/libext2fs2@1.44.5-1+deb10u3",
                 "info": Object {
                   "name": "e2fsprogs/libext2fs2",
-                  "purl": "pkg:deb/libext2fs2@1.44.5-1%2Bdeb10u3?upstream=e2fsprogs",
+                  "purl": "pkg:deb/libext2fs2@1.44.5-1+deb10u3?upstream=e2fsprogs",
                   "version": "1.44.5-1+deb10u3",
                 },
               },
@@ -1556,7 +1556,7 @@ Object {
                 "id": "e2fsprogs/libss2@1.44.5-1+deb10u3",
                 "info": Object {
                   "name": "e2fsprogs/libss2",
-                  "purl": "pkg:deb/libss2@1.44.5-1%2Bdeb10u3?upstream=e2fsprogs",
+                  "purl": "pkg:deb/libss2@1.44.5-1+deb10u3?upstream=e2fsprogs",
                   "version": "1.44.5-1+deb10u3",
                 },
               },
@@ -1580,7 +1580,7 @@ Object {
                 "id": "e2fsprogs@1.44.5-1+deb10u3",
                 "info": Object {
                   "name": "e2fsprogs",
-                  "purl": "pkg:deb/e2fsprogs@1.44.5-1%2Bdeb10u3",
+                  "purl": "pkg:deb/e2fsprogs@1.44.5-1+deb10u3",
                   "version": "1.44.5-1+deb10u3",
                 },
               },
@@ -1588,7 +1588,7 @@ Object {
                 "id": "findutils@4.6.0+git+20190209-2",
                 "info": Object {
                   "name": "findutils",
-                  "purl": "pkg:deb/findutils@4.6.0%2Bgit%2B20190209-2",
+                  "purl": "pkg:deb/findutils@4.6.0+git+20190209-2",
                   "version": "4.6.0+git+20190209-2",
                 },
               },
@@ -1649,7 +1649,7 @@ Object {
                 "id": "init-system-helpers@1.56+nmu1",
                 "info": Object {
                   "name": "init-system-helpers",
-                  "purl": "pkg:deb/init-system-helpers@1.56%2Bnmu1",
+                  "purl": "pkg:deb/init-system-helpers@1.56+nmu1",
                   "version": "1.56+nmu1",
                 },
               },
@@ -1672,7 +1672,7 @@ Object {
                 "id": "ncurses/libncursesw6@6.1+20181013-2+deb10u2",
                 "info": Object {
                   "name": "ncurses/libncursesw6",
-                  "purl": "pkg:deb/libncursesw6@6.1%2B20181013-2%2Bdeb10u2?upstream=ncurses",
+                  "purl": "pkg:deb/libncursesw6@6.1+20181013-2+deb10u2?upstream=ncurses",
                   "version": "6.1+20181013-2+deb10u2",
                 },
               },
@@ -1680,7 +1680,7 @@ Object {
                 "id": "ncurses/ncurses-base@6.1+20181013-2+deb10u2",
                 "info": Object {
                   "name": "ncurses/ncurses-base",
-                  "purl": "pkg:deb/ncurses-base@6.1%2B20181013-2%2Bdeb10u2?upstream=ncurses",
+                  "purl": "pkg:deb/ncurses-base@6.1+20181013-2+deb10u2?upstream=ncurses",
                   "version": "6.1+20181013-2+deb10u2",
                 },
               },
@@ -1688,7 +1688,7 @@ Object {
                 "id": "ncurses/ncurses-bin@6.1+20181013-2+deb10u2",
                 "info": Object {
                   "name": "ncurses/ncurses-bin",
-                  "purl": "pkg:deb/ncurses-bin@6.1%2B20181013-2%2Bdeb10u2?upstream=ncurses",
+                  "purl": "pkg:deb/ncurses-bin@6.1+20181013-2+deb10u2?upstream=ncurses",
                   "version": "6.1+20181013-2+deb10u2",
                 },
               },
@@ -1696,7 +1696,7 @@ Object {
                 "id": "openssl/libssl1.1@1.1.1d-0+deb10u3",
                 "info": Object {
                   "name": "openssl/libssl1.1",
-                  "purl": "pkg:deb/libssl1.1@1.1.1d-0%2Bdeb10u3?upstream=openssl",
+                  "purl": "pkg:deb/libssl1.1@1.1.1d-0+deb10u3?upstream=openssl",
                   "version": "1.1.1d-0+deb10u3",
                 },
               },
@@ -1765,7 +1765,7 @@ Object {
                 "id": "tzdata@2020a-0+deb10u1",
                 "info": Object {
                   "name": "tzdata",
-                  "purl": "pkg:deb/tzdata@2020a-0%2Bdeb10u1",
+                  "purl": "pkg:deb/tzdata@2020a-0+deb10u1",
                   "version": "2020a-0+deb10u1",
                 },
               },
@@ -1842,12 +1842,12 @@ Object {
         },
         Object {
           "data": Array [
-            "313245f5a6080c52576aea6a361c22da586339cf54f160b117b7f3bfc1ed306c/layer.tar",
-            "2c5f9d9162ea5c31e229b500c3ed14f33b5616f77669b964f846234a30cf011d/layer.tar",
-            "3af91cd96570f2aa276fdc317a04e75c7fc4f156b5b0c604582809d9e8b6aab5/layer.tar",
-            "3e850b0f386ace71949af80e6b3592730744cc7c25c7f6bd3d53bc3845d6ec42/layer.tar",
-            "c961e0ffb143aa1be0a530a0edd4c7f5b9a5c0e81319560ce3f4409f7fc7fe78/layer.tar",
-            "4baee5ef150aea0d65b6db15f11077ca8f6c4484e159d8671b52f4926b4d2d1b/layer.tar",
+            "bb79b6b2107fea8e8a47133a660b78e3a546998fcf0427be39ac9a0af4a97e90/layer.tar",
+            "1ed3521a5dcbd05214eb7f35b952ecf018d5a6610c32ba4e315028c556f45e94/layer.tar",
+            "5999b99cee8f2875d391d64df20b6296b63f23951a7d41749f028375e887cd05/layer.tar",
+            "f99a38f44786b9434af817ff56fd90f9d75238546317c49c46b3c9759ccba941/layer.tar",
+            "d6fc863042e2c63ac7bdca3ce8d5b88ef6d96ab1a827bad3ff97c4dedd2e4dd5/layer.tar",
+            "9bd1af4eae13aa3ef99901fcb1fb86ee8b778f0ead82a6aac53573b0b236568b/layer.tar",
           ],
           "type": "imageLayers",
         },
@@ -1920,6 +1920,7 @@ Object {
         Object {
           "data": Object {
             "names": Array [
+              "redis@sha256:fed4c3c120450b140aaff9b125306cc58aba99876399b081a6ba054c0328a189",
               "redis@sha256:fed4c3c120450b140aaff9b125306cc58aba99876399b081a6ba054c0328a189",
             ],
           },
@@ -3156,7 +3157,7 @@ Object {
                 "id": "db5.3/libdb5.3@5.3.28+dfsg1-0.5",
                 "info": Object {
                   "name": "db5.3/libdb5.3",
-                  "purl": "pkg:deb/libdb5.3@5.3.28%2Bdfsg1-0.5?upstream=db5.3",
+                  "purl": "pkg:deb/libdb5.3@5.3.28+dfsg1-0.5?upstream=db5.3",
                   "version": "5.3.28+dfsg1-0.5",
                 },
               },
@@ -3212,7 +3213,7 @@ Object {
                 "id": "libzstd/libzstd1@1.3.8+dfsg-3",
                 "info": Object {
                   "name": "libzstd/libzstd1",
-                  "purl": "pkg:deb/libzstd1@1.3.8%2Bdfsg-3?upstream=libzstd",
+                  "purl": "pkg:deb/libzstd1@1.3.8+dfsg-3?upstream=libzstd",
                   "version": "1.3.8+dfsg-3",
                 },
               },
@@ -3276,7 +3277,7 @@ Object {
                 "id": "gnupg2/gpgv@2.2.12-1+deb10u1",
                 "info": Object {
                   "name": "gnupg2/gpgv",
-                  "purl": "pkg:deb/gpgv@2.2.12-1%2Bdeb10u1?upstream=gnupg2",
+                  "purl": "pkg:deb/gpgv@2.2.12-1+deb10u1?upstream=gnupg2",
                   "version": "2.2.12-1+deb10u1",
                 },
               },
@@ -3284,7 +3285,7 @@ Object {
                 "id": "gmp/libgmp10@2:6.1.2+dfsg-4",
                 "info": Object {
                   "name": "gmp/libgmp10",
-                  "purl": "pkg:deb/libgmp10@2:6.1.2%2Bdfsg-4?upstream=gmp",
+                  "purl": "pkg:deb/libgmp10@2:6.1.2+dfsg-4?upstream=gmp",
                   "version": "2:6.1.2+dfsg-4",
                 },
               },
@@ -3300,7 +3301,7 @@ Object {
                 "id": "libidn2/libidn2-0@2.0.5-1+deb10u1",
                 "info": Object {
                   "name": "libidn2/libidn2-0",
-                  "purl": "pkg:deb/libidn2-0@2.0.5-1%2Bdeb10u1?upstream=libidn2",
+                  "purl": "pkg:deb/libidn2-0@2.0.5-1+deb10u1?upstream=libidn2",
                   "version": "2.0.5-1+deb10u1",
                 },
               },
@@ -3348,7 +3349,7 @@ Object {
                 "id": "gnutls28/libgnutls30@3.6.7-4+deb10u5",
                 "info": Object {
                   "name": "gnutls28/libgnutls30",
-                  "purl": "pkg:deb/libgnutls30@3.6.7-4%2Bdeb10u5?upstream=gnutls28",
+                  "purl": "pkg:deb/libgnutls30@3.6.7-4+deb10u5?upstream=gnutls28",
                   "version": "3.6.7-4+deb10u5",
                 },
               },
@@ -3379,7 +3380,7 @@ Object {
                 "id": "mawk/mawk@1.3.3-17+b3",
                 "info": Object {
                   "name": "mawk/mawk",
-                  "purl": "pkg:deb/mawk@1.3.3-17%2Bb3?upstream=mawk%401.3.3-17",
+                  "purl": "pkg:deb/mawk@1.3.3-17+b3?upstream=mawk%401.3.3-17",
                   "version": "1.3.3-17+b3",
                 },
               },
@@ -3387,7 +3388,7 @@ Object {
                 "id": "base-files@10.3+deb10u6",
                 "info": Object {
                   "name": "base-files",
-                  "purl": "pkg:deb/base-files@10.3%2Bdeb10u6",
+                  "purl": "pkg:deb/base-files@10.3+deb10u6",
                   "version": "10.3+deb10u6",
                 },
               },
@@ -3419,7 +3420,7 @@ Object {
                 "id": "ncurses/libtinfo6@6.1+20181013-2+deb10u2",
                 "info": Object {
                   "name": "ncurses/libtinfo6",
-                  "purl": "pkg:deb/libtinfo6@6.1%2B20181013-2%2Bdeb10u2?upstream=ncurses",
+                  "purl": "pkg:deb/libtinfo6@6.1+20181013-2+deb10u2?upstream=ncurses",
                   "version": "6.1+20181013-2+deb10u2",
                 },
               },
@@ -3480,7 +3481,7 @@ Object {
                 "id": "e2fsprogs/libcom-err2@1.44.5-1+deb10u3",
                 "info": Object {
                   "name": "e2fsprogs/libcom-err2",
-                  "purl": "pkg:deb/libcom-err2@1.44.5-1%2Bdeb10u3?upstream=e2fsprogs",
+                  "purl": "pkg:deb/libcom-err2@1.44.5-1+deb10u3?upstream=e2fsprogs",
                   "version": "1.44.5-1+deb10u3",
                 },
               },
@@ -3488,7 +3489,7 @@ Object {
                 "id": "e2fsprogs/libext2fs2@1.44.5-1+deb10u3",
                 "info": Object {
                   "name": "e2fsprogs/libext2fs2",
-                  "purl": "pkg:deb/libext2fs2@1.44.5-1%2Bdeb10u3?upstream=e2fsprogs",
+                  "purl": "pkg:deb/libext2fs2@1.44.5-1+deb10u3?upstream=e2fsprogs",
                   "version": "1.44.5-1+deb10u3",
                 },
               },
@@ -3496,7 +3497,7 @@ Object {
                 "id": "e2fsprogs/libss2@1.44.5-1+deb10u3",
                 "info": Object {
                   "name": "e2fsprogs/libss2",
-                  "purl": "pkg:deb/libss2@1.44.5-1%2Bdeb10u3?upstream=e2fsprogs",
+                  "purl": "pkg:deb/libss2@1.44.5-1+deb10u3?upstream=e2fsprogs",
                   "version": "1.44.5-1+deb10u3",
                 },
               },
@@ -3520,7 +3521,7 @@ Object {
                 "id": "e2fsprogs@1.44.5-1+deb10u3",
                 "info": Object {
                   "name": "e2fsprogs",
-                  "purl": "pkg:deb/e2fsprogs@1.44.5-1%2Bdeb10u3",
+                  "purl": "pkg:deb/e2fsprogs@1.44.5-1+deb10u3",
                   "version": "1.44.5-1+deb10u3",
                 },
               },
@@ -3528,7 +3529,7 @@ Object {
                 "id": "findutils@4.6.0+git+20190209-2",
                 "info": Object {
                   "name": "findutils",
-                  "purl": "pkg:deb/findutils@4.6.0%2Bgit%2B20190209-2",
+                  "purl": "pkg:deb/findutils@4.6.0+git+20190209-2",
                   "version": "4.6.0+git+20190209-2",
                 },
               },
@@ -3589,7 +3590,7 @@ Object {
                 "id": "init-system-helpers@1.56+nmu1",
                 "info": Object {
                   "name": "init-system-helpers",
-                  "purl": "pkg:deb/init-system-helpers@1.56%2Bnmu1",
+                  "purl": "pkg:deb/init-system-helpers@1.56+nmu1",
                   "version": "1.56+nmu1",
                 },
               },
@@ -3612,7 +3613,7 @@ Object {
                 "id": "ncurses/libncursesw6@6.1+20181013-2+deb10u2",
                 "info": Object {
                   "name": "ncurses/libncursesw6",
-                  "purl": "pkg:deb/libncursesw6@6.1%2B20181013-2%2Bdeb10u2?upstream=ncurses",
+                  "purl": "pkg:deb/libncursesw6@6.1+20181013-2+deb10u2?upstream=ncurses",
                   "version": "6.1+20181013-2+deb10u2",
                 },
               },
@@ -3620,7 +3621,7 @@ Object {
                 "id": "ncurses/ncurses-base@6.1+20181013-2+deb10u2",
                 "info": Object {
                   "name": "ncurses/ncurses-base",
-                  "purl": "pkg:deb/ncurses-base@6.1%2B20181013-2%2Bdeb10u2?upstream=ncurses",
+                  "purl": "pkg:deb/ncurses-base@6.1+20181013-2+deb10u2?upstream=ncurses",
                   "version": "6.1+20181013-2+deb10u2",
                 },
               },
@@ -3628,7 +3629,7 @@ Object {
                 "id": "ncurses/ncurses-bin@6.1+20181013-2+deb10u2",
                 "info": Object {
                   "name": "ncurses/ncurses-bin",
-                  "purl": "pkg:deb/ncurses-bin@6.1%2B20181013-2%2Bdeb10u2?upstream=ncurses",
+                  "purl": "pkg:deb/ncurses-bin@6.1+20181013-2+deb10u2?upstream=ncurses",
                   "version": "6.1+20181013-2+deb10u2",
                 },
               },
@@ -3636,7 +3637,7 @@ Object {
                 "id": "openssl/libssl1.1@1.1.1d-0+deb10u3",
                 "info": Object {
                   "name": "openssl/libssl1.1",
-                  "purl": "pkg:deb/libssl1.1@1.1.1d-0%2Bdeb10u3?upstream=openssl",
+                  "purl": "pkg:deb/libssl1.1@1.1.1d-0+deb10u3?upstream=openssl",
                   "version": "1.1.1d-0+deb10u3",
                 },
               },
@@ -3705,7 +3706,7 @@ Object {
                 "id": "tzdata@2020a-0+deb10u1",
                 "info": Object {
                   "name": "tzdata",
-                  "purl": "pkg:deb/tzdata@2020a-0%2Bdeb10u1",
+                  "purl": "pkg:deb/tzdata@2020a-0+deb10u1",
                   "version": "2020a-0+deb10u1",
                 },
               },
@@ -3782,12 +3783,12 @@ Object {
         },
         Object {
           "data": Array [
-            "313245f5a6080c52576aea6a361c22da586339cf54f160b117b7f3bfc1ed306c/layer.tar",
-            "2c5f9d9162ea5c31e229b500c3ed14f33b5616f77669b964f846234a30cf011d/layer.tar",
-            "3af91cd96570f2aa276fdc317a04e75c7fc4f156b5b0c604582809d9e8b6aab5/layer.tar",
-            "3e850b0f386ace71949af80e6b3592730744cc7c25c7f6bd3d53bc3845d6ec42/layer.tar",
-            "c961e0ffb143aa1be0a530a0edd4c7f5b9a5c0e81319560ce3f4409f7fc7fe78/layer.tar",
-            "4baee5ef150aea0d65b6db15f11077ca8f6c4484e159d8671b52f4926b4d2d1b/layer.tar",
+            "bb79b6b2107fea8e8a47133a660b78e3a546998fcf0427be39ac9a0af4a97e90/layer.tar",
+            "1ed3521a5dcbd05214eb7f35b952ecf018d5a6610c32ba4e315028c556f45e94/layer.tar",
+            "5999b99cee8f2875d391d64df20b6296b63f23951a7d41749f028375e887cd05/layer.tar",
+            "f99a38f44786b9434af817ff56fd90f9d75238546317c49c46b3c9759ccba941/layer.tar",
+            "d6fc863042e2c63ac7bdca3ce8d5b88ef6d96ab1a827bad3ff97c4dedd2e4dd5/layer.tar",
+            "9bd1af4eae13aa3ef99901fcb1fb86ee8b778f0ead82a6aac53573b0b236568b/layer.tar",
           ],
           "type": "imageLayers",
         },
@@ -3860,6 +3861,7 @@ Object {
         Object {
           "data": Object {
             "names": Array [
+              "redis@sha256:fed4c3c120450b140aaff9b125306cc58aba99876399b081a6ba054c0328a189",
               "redis@sha256:fed4c3c120450b140aaff9b125306cc58aba99876399b081a6ba054c0328a189",
             ],
           },

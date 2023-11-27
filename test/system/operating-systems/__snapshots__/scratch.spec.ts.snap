@@ -44,7 +44,7 @@ Object {
         },
         Object {
           "data": Array [
-            "3c2c609e90eca700d5c9c39cb57b0f469bff69c08797713c7ebe56aadd57d613/layer.tar",
+            "55be39592db47a8e28bcccf7301f9dd34689c64f62a6d91715aca35d2c10fa3a/layer.tar",
           ],
           "type": "imageLayers",
         },
@@ -62,6 +62,7 @@ Object {
           "data": Object {
             "names": Array [
               "snyk/runtime-fixtures:scratch",
+              "snyk/runtime-fixtures@sha256:8f6283b7f48f51c674a6270bfa0fb0637cfd96c7b49cdddf1dede94fe4ee77f9",
             ],
           },
           "type": "imageNames",

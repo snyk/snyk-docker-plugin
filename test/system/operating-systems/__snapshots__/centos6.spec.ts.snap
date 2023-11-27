@@ -3181,11 +3181,11 @@ Object {
         },
         Object {
           "data": Array [
-            "e3d6e0a09adc552a4285778455f896da9d58fb8ce2d039c71242f7714f82b1bb/layer.tar",
-            "ccb2cf349299df18df3a19de063d771f45272473d5b95096a2a52b43f3e1fe92/layer.tar",
-            "f585de9f64390357561a1aa0429ec8574b881d9491fc4c679afa11a5a8e96345/layer.tar",
-            "7b230090ec7cd46b2314325b92e9ff14910994a497d59e607334441b1d72dccb/layer.tar",
-            "29328c690ed7d63a6b5423629b91d01ee9f28106208f98feaf8d93dda329e804/layer.tar",
+            "ff50d722b38227ec8f2bbf0cdbce428b66745077c173d8117d91376128fa532e/layer.tar",
+            "84e0d1671716528b6f2cfa3c5117b59929e4493c9cc92f4028366303efa35c39/layer.tar",
+            "826574c5b389816ae84b73341ceff34764f1b11e014afad7abb1ff212ef31896/layer.tar",
+            "113f5299e5454fd22e73bedc486d6e0373666daf01bd803854f767f8649c2ee2/layer.tar",
+            "8d33272ddf389194f2812716f8617b947c2950dd0d8ae4a71c26319410ac77c7/layer.tar",
           ],
           "type": "imageLayers",
         },
@@ -3220,6 +3220,7 @@ Object {
         Object {
           "data": Object {
             "names": Array [
+              "dokken/centos-6@sha256:494b9b280814f1e661597b48e229156e4dccb60dce198d9210f7572ff22626d2",
               "dokken/centos-6@sha256:494b9b280814f1e661597b48e229156e4dccb60dce198d9210f7572ff22626d2",
             ],
           },
@@ -6421,11 +6422,11 @@ Object {
         },
         Object {
           "data": Array [
-            "e3d6e0a09adc552a4285778455f896da9d58fb8ce2d039c71242f7714f82b1bb/layer.tar",
-            "ccb2cf349299df18df3a19de063d771f45272473d5b95096a2a52b43f3e1fe92/layer.tar",
-            "f585de9f64390357561a1aa0429ec8574b881d9491fc4c679afa11a5a8e96345/layer.tar",
-            "7b230090ec7cd46b2314325b92e9ff14910994a497d59e607334441b1d72dccb/layer.tar",
-            "29328c690ed7d63a6b5423629b91d01ee9f28106208f98feaf8d93dda329e804/layer.tar",
+            "ff50d722b38227ec8f2bbf0cdbce428b66745077c173d8117d91376128fa532e/layer.tar",
+            "84e0d1671716528b6f2cfa3c5117b59929e4493c9cc92f4028366303efa35c39/layer.tar",
+            "826574c5b389816ae84b73341ceff34764f1b11e014afad7abb1ff212ef31896/layer.tar",
+            "113f5299e5454fd22e73bedc486d6e0373666daf01bd803854f767f8649c2ee2/layer.tar",
+            "8d33272ddf389194f2812716f8617b947c2950dd0d8ae4a71c26319410ac77c7/layer.tar",
           ],
           "type": "imageLayers",
         },
@@ -6460,6 +6461,7 @@ Object {
         Object {
           "data": Object {
             "names": Array [
+              "dokken/centos-6@sha256:494b9b280814f1e661597b48e229156e4dccb60dce198d9210f7572ff22626d2",
               "dokken/centos-6@sha256:494b9b280814f1e661597b48e229156e4dccb60dce198d9210f7572ff22626d2",
             ],
           },

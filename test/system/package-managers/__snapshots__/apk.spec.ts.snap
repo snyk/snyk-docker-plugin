@@ -364,7 +364,7 @@ Object {
         },
         Object {
           "data": Array [
-            "fa27ccac46e9a5b7ff1d188e99763db1a5fb45adb34a917c1c482dfde99ad432/layer.tar",
+            "df20fa9351a15782c64e6dddb2d4a6f50bf6d3688060a34c4014b0d9a752eb4c/layer.tar",
           ],
           "type": "imageLayers",
         },
@@ -386,6 +386,8 @@ Object {
           "data": Object {
             "names": Array [
               "alpine:3.12.0",
+              "alpine@sha256:a15790640a6690aa1730c38cf0a440e2aa44aaca9b0e8931a9f2b0d7cc90fd65",
+              "alpine@sha256:185518070891758909c9f839cf4ca393ee977ac378609f700f60a771a2dfe321",
             ],
           },
           "type": "imageNames",

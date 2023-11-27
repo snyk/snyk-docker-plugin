@@ -44,7 +44,7 @@ Object {
         },
         Object {
           "data": Array [
-            "d24325657bb21b922a4cd584d4d665c24617cb4137f0c41967e6db61ba878ef4/layer.tar",
+            "5360e8f7191161ccd0b6ee792b5fe816481f0d5af19aca5c4116b593b7bc1f46/layer.tar",
           ],
           "type": "imageLayers",
         },
@@ -61,6 +61,7 @@ Object {
         Object {
           "data": Object {
             "names": Array [
+              "busybox@sha256:32dc7202280d641c9c0d94a13247195adc83dba83aca0eed383888c01311cfc2",
               "busybox@sha256:32dc7202280d641c9c0d94a13247195adc83dba83aca0eed383888c01311cfc2",
             ],
           },

@@ -2397,7 +2397,7 @@ Object {
         },
         Object {
           "data": Array [
-            "15bad9f44dc39404a46e24c4feee6b2ae903e31ddccd9b14571a1a6afb4516c5/layer.tar",
+            "9b4ebb48de8dbb85a3d9fbdec4d28a3e2e14912f27b7234c10c1658a05c320a5/layer.tar",
           ],
           "type": "imageLayers",
         },
@@ -2432,6 +2432,7 @@ Object {
         Object {
           "data": Object {
             "names": Array [
+              "centos@sha256:50b9a3bc27378889210f88d6d0695938e45a912aa99b3fdacfb9a0fef511f15a",
               "centos@sha256:50b9a3bc27378889210f88d6d0695938e45a912aa99b3fdacfb9a0fef511f15a",
             ],
           },
@@ -4849,7 +4850,7 @@ Object {
         },
         Object {
           "data": Array [
-            "15bad9f44dc39404a46e24c4feee6b2ae903e31ddccd9b14571a1a6afb4516c5/layer.tar",
+            "9b4ebb48de8dbb85a3d9fbdec4d28a3e2e14912f27b7234c10c1658a05c320a5/layer.tar",
           ],
           "type": "imageLayers",
         },
@@ -4885,6 +4886,8 @@ Object {
           "data": Object {
             "names": Array [
               "centos:7.8.2003",
+              "centos@sha256:50b9a3bc27378889210f88d6d0695938e45a912aa99b3fdacfb9a0fef511f15a",
+              "centos@sha256:8540a199ad51c6b7b51492fa9fee27549fd11b3bb913e888ab2ccf77cbb72cc1",
             ],
           },
           "type": "imageNames",

@@ -939,11 +939,11 @@ Object {
         },
         Object {
           "data": Array [
-            "5390ea421a6d4930f333f3c7d1aa28b46e12899a7d04ad840bf6bc05d1cf43a1/layer.tar",
-            "5e1163caba8b73499bf6405fc73292f2ef1938ba3b0bf27f01e6b5553f884a28/layer.tar",
-            "6aad3b5cb2f3de036559687b1cc64145830274cee6dc083938d2fa7f69628f12/layer.tar",
-            "3dc47ad2322610bae7cd618423f5e4e93060734af1cb408c0e13127249c1ca58/layer.tar",
-            "63125b20e0223a5453c70f72b710f126dfa2b7f55d210f145d6c460a3ae58ef4/layer.tar",
+            "b538f80385f9b48122e3da068c932a96ea5018afa3c7be79da00437414bd18cd/layer.tar",
+            "66942047c7b3b1e4cfa170855e791fffb10e70e4061f5d20cdf3d712b1d9ba79/layer.tar",
+            "03513b8933dacfb95cb1d00fc4846b0c28686aba484b00ef5409ae368e83c922/layer.tar",
+            "d81823b5c9b536108c620f3c7b371517e997a25caa8495ef8cb040a17a1eb8be/layer.tar",
+            "86ade662cda571f878ef3c7f9a69bb8649b60974fa25680948cad5ab16cac36b/layer.tar",
           ],
           "type": "imageLayers",
         },
@@ -1123,6 +1123,7 @@ Object {
           "data": Object {
             "names": Array [
               "arm64v8/nginx:1.19.2-alpine",
+              "arm64v8/nginx@sha256:8d99a3e08d0f07ca0fdf1db5c56b1f30d9cc97af5458ecfac604b8887cba289a",
             ],
           },
           "type": "imageNames",
