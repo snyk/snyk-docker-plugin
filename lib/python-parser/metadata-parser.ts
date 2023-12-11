@@ -30,15 +30,10 @@ export function getPackageInfo(fileContent: string): PythonPackage {
       }
     }
   }
-  const validVersion = semver.coerce(version);
-  if (!validVersion) {
-    throw new PythonInvalidVersionError(
-      `version ${version} is not compatible with semver and cannot be compared`,
-    );
-  }
+  const validVersion = getParseableVersion(version);
   return {
     name: name.toLowerCase(),
-    version: validVersion.toString(),
+    version: validVersion,
     dependencies,
   } as PythonPackage;
 }
@@ -57,6 +52,22 @@ function parseDependency(packageDependency: string): PythonRequirement | null {
     version,
     specifier: correctedSpecifier,
   } as PythonRequirement;
+}
+
+function getParseableVersion(versionString: string): string {
+  const validVersion = semver.coerce(versionString);
+  if (!validVersion) {
+    throw new PythonInvalidVersionError(
+      `version ${versionString} is not compatible with semver and cannot be compared`,
+    );
+  }
+  if (
+    versionString.indexOf(validVersion.version) === 0 &&
+    /^\d+(\.\d+)+$/.test(versionString)
+  ) {
+    return versionString;
+  }
+  return validVersion.version;
 }
 
 export class PythonInvalidVersionError extends Error {}
