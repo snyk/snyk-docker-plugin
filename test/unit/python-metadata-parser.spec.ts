@@ -122,4 +122,33 @@ describe("python metadata parser", () => {
       getPackageInfo(fileContent);
     }).toThrow();
   });
+
+  it("Parses a package metadata when version isn't valid semver but has additional sections", () => {
+    const fileContent = `
+      Metadata-Version: 2.1
+      Name: opencv-python
+      Version: 4.8.1.78
+      Summary: Wrapper package for OpenCV python bindings.
+      Home-page: https://github.com/opencv/opencv-python
+      Maintainer: OpenCV Team
+      License: Apache 2.0
+      Platform: UNKNOWN
+      Requires-Python: >=3.6
+      Description-Content-Type: text/markdown
+      License-File: LICENSE-3RD-PARTY.txt
+      License-File: LICENSE.txt
+      Requires-Dist: numpy (>=1.13.3) ; python_version < "3.7"
+      Requires-Dist: numpy (>=1.21.0) ; python_version <= "3.9" and platform_system == "Darwin" and platform_machine == "arm64"
+      Requires-Dist: numpy (>=1.21.2) ; python_version >= "3.10"
+      Requires-Dist: numpy (>=1.21.4) ; python_version >= "3.10" and platform_system == "Darwin"
+      Requires-Dist: numpy (>=1.23.5) ; python_version >= "3.11"
+      Requires-Dist: numpy (>=1.19.3) ; python_version >= "3.6" and platform_system == "Linux" and platform_machine == "aarch64"
+      Requires-Dist: numpy (>=1.17.0) ; python_version >= "3.7"
+      Requires-Dist: numpy (>=1.17.3) ; python_version >= "3.8"
+      Requires-Dist: numpy (>=1.19.3) ; python_version >= "3.9"
+    `;
+    const packageResult = getPackageInfo(fileContent);
+    expect(packageResult.name).toEqual("opencv-python");
+    expect(packageResult.version).toEqual("4.8.1.78");
+  });
 });
