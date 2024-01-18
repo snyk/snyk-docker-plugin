@@ -1,8 +1,12 @@
-import * as lockFileParser from "@snyk/composer-lockfile-parser";
 import { legacy } from "@snyk/dep-graph";
 import * as path from "path";
 import { DepGraphFact, TestedFilesFact } from "../../facts";
 
+import {
+  buildDepTree,
+  ComposerParserResponse,
+} from "@snyk/composer-lockfile-parser";
+import { InvalidUserInputError } from "@snyk/composer-lockfile-parser/dist/errors";
 import { DepTreeDep } from "../../types";
 import { AppDepsScanResultWithoutTarget, FilePathToContent } from "./types";
 
@@ -22,13 +26,25 @@ export async function phpFilesToScannedProjects(
   const shouldIncludeDevDependencies = false;
 
   for (const pathPair of filePairs) {
-    const parserResult = await lockFileParser.buildDepTree(
-      filePathToContent[pathPair.lock],
-      filePathToContent[pathPair.manifest],
-      pathPair.manifest,
-      {},
-      shouldIncludeDevDependencies,
-    );
+    let parserResult: ComposerParserResponse | undefined;
+    try {
+      parserResult = buildDepTree(
+        filePathToContent[pathPair.lock],
+        filePathToContent[pathPair.manifest],
+        pathPair.manifest,
+        {},
+        shouldIncludeDevDependencies,
+      );
+    } catch (e) {
+      // This will skip parsing all files that error due to being malformed.
+      // If we do not do this, the entire scan will fail.
+      // Ideally, we'd like to log this, but logging does not exist in this library.
+      if (e instanceof InvalidUserInputError) {
+        continue;
+      } else {
+        throw e;
+      }
+    }
 
     const depGraph = await legacy.depTreeToGraph(
       parserResult as DepTreeDep,
