@@ -6,6 +6,7 @@ import * as facts from "./facts";
 
 import { instructionDigest } from "./dockerfile";
 import { DockerFileAnalysis, DockerFilePackages } from "./dockerfile/types";
+import { OCIDistributionMetadata } from "./extractor/oci-distribution-metadata";
 import * as types from "./types";
 
 export { buildResponse };
@@ -18,6 +19,7 @@ async function buildResponse(
   dockerfileAnalysis: DockerFileAnalysis | undefined,
   excludeBaseImageVulns: boolean,
   names?: string[],
+  ociDistributionMetadata?: OCIDistributionMetadata,
 ): Promise<types.PluginResponse> {
   const deps = depsAnalysis.depTree.dependencies;
   const dockerfilePkgs = collectDockerfilePkgs(dockerfileAnalysis, deps);
@@ -182,6 +184,14 @@ async function buildResponse(
       };
       additionalFacts.push(imageNamesFact);
     }
+  }
+
+  if (ociDistributionMetadata) {
+    const metadataFact: facts.OCIDistributionMetadataFact = {
+      type: "ociDistributionMetadata",
+      data: ociDistributionMetadata,
+    };
+    additionalFacts.push(metadataFact);
   }
 
   const scanResults: types.ScanResult[] = [
