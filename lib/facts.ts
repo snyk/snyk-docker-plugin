@@ -1,6 +1,7 @@
 import { DepGraph } from "@snyk/dep-graph";
 import { JarFingerprint } from "./analyzer/types";
 import { DockerFileAnalysis } from "./dockerfile/types";
+import { OCIDistributionMetadata } from "./extractor/oci-distribution-metadata";
 import {
   AutoDetectedUserInstructions,
   ImageNameInfo,
@@ -90,4 +91,9 @@ export interface ImageCreationTimeFact {
 export interface LoadedPackagesFact {
   type: "loadedPackages";
   data: string;
+}
+
+export interface OCIDistributionMetadataFact {
+  type: "ociDistributionMetadata";
+  data: OCIDistributionMetadata;
 }

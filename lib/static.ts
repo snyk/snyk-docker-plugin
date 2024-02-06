@@ -3,6 +3,10 @@ import { StaticAnalysis } from "./analyzer/types";
 import { buildTree } from "./dependency-tree";
 import { DockerFileAnalysis } from "./dockerfile/types";
 import { getImageNames, ImageName } from "./extractor/image";
+import {
+  constructOCIDisributionMetadata,
+  OCIDistributionMetadata,
+} from "./extractor/oci-distribution-metadata";
 import { isTrue } from "./option-utils";
 import { parseAnalysisResults } from "./parser";
 import { buildResponse } from "./response-builder";
@@ -53,11 +57,21 @@ export async function analyzeStatically(
   const excludeBaseImageVulns = isTrue(options["exclude-base-image-vulns"]);
 
   const names = getImageNames(options, imageName);
+  let ociDistributionMetadata: OCIDistributionMetadata | undefined;
+  if (options.imageNameAndTag && options.digests?.manifest) {
+    ociDistributionMetadata = constructOCIDisributionMetadata({
+      imageName: options.imageNameAndTag,
+      manifestDigest: options.digests.manifest,
+      indexDigest: options.digests.index,
+      platform: options.platform ?? "linux/amd64",
+    });
+  }
 
   return buildResponse(
     analysis,
     dockerfileAnalysis,
     excludeBaseImageVulns,
     names,
+    ociDistributionMetadata,
   );
 }

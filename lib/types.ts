@@ -68,6 +68,7 @@ export type FactType =
   // Hashes of executables not installed by a package manager (e.g. if they were copied straight onto the image).
   | "keyBinariesHashes"
   | "loadedPackages"
+  | "ociDistributionMetadata"
   | "rootFs"
   // Used for application dependencies scanning; shows which files were used in the analysis of the dependencies.
   | "testedFiles";
