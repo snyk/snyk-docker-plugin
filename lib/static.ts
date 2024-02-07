@@ -63,7 +63,6 @@ export async function analyzeStatically(
       imageName: options.imageNameAndTag,
       manifestDigest: options.digests.manifest,
       indexDigest: options.digests.index,
-      platform: options.platform ?? "linux/amd64",
     });
   }
 
