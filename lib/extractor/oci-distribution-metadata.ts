@@ -16,23 +16,18 @@ export interface OCIDistributionMetadata {
   // (Optional) Must match [a-zA-Z0-9_][a-zA-Z0-9._-]{0,127} (https://github.com/opencontainers/distribution-spec/blob/3940529fe6c0a068290b27fb3cd797cf0528bed6/spec.md?plain=1#L160).
   // Max size: 127 bytes.
   imageTag?: string;
-  // Must be a valid OCI Image architecure/os string (https://github.com/opencontainers/image-spec/blob/93f6e65855a1e046b42afbad0ad129a3d44dc971/config.md?plain=1#L103).
-  // Max size: 64 bytes.
-  platform: string;
 }
 
 interface OCIDistributionMetadataConstructorInput {
   imageName: string;
   manifestDigest: string;
   indexDigest?: string;
-  platform: string;
 }
 
 export function constructOCIDisributionMetadata({
   imageName,
   manifestDigest,
   indexDigest,
-  platform,
 }: OCIDistributionMetadataConstructorInput):
   | OCIDistributionMetadata
   | undefined {
@@ -48,7 +43,6 @@ export function constructOCIDisributionMetadata({
       manifestDigest,
       indexDigest,
       imageTag: ref.tag,
-      platform,
     };
 
     if (!ociDistributionMetadataIsValid(metadata)) {
@@ -90,15 +84,6 @@ function ociDistributionMetadataIsValid(
     return false;
   }
 
-  // 64 byte limit is enforced by Snyk for platform stability.
-  // Longer strings may be valid, but the maximum at time of writing is found by combining GOARCH=dragonfly and GOOS=mips64le, and is 18 bytes.
-  if (
-    Buffer.byteLength(data.platform) > 64 ||
-    !platformIsValid(data.platform)
-  ) {
-    return false;
-  }
-
   return true;
 }
 
@@ -117,9 +102,3 @@ const digestIsValid = (digest: string) => /^sha256:[a-f0-9]{64}$/.test(digest);
 // https://github.com/opencontainers/distribution-spec/blob/3940529fe6c0a068290b27fb3cd797cf0528bed6/spec.md?plain=1#L160
 const tagIsValid = (tag: string) =>
   /^[a-zA-Z0-9_][a-zA-Z0-9._-]{0,127}$/.test(tag);
-
-// Specification Source: OCI Image Spec V1
-// https://github.com/opencontainers/image-spec/blob/93f6e65855a1e046b42afbad0ad129a3d44dc971/config.md?plain=1#L103
-// Regular Expression explanation: platform must be two lowercase alpha-numeric strings separated by a '/' character.
-const platformIsValid = (platform: string) =>
-  /^[a-z0-9]+\/[a-z0-9]+$/.test(platform);

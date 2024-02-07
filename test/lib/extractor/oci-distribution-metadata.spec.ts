@@ -11,7 +11,6 @@ describe("constructOCIDisributionMetadata should", () => {
         imageName: string;
         manifestDigest: string;
         indexDigest?: string;
-        platform: string;
       },
       OCIDistributionMetadata | undefined,
     ]
@@ -22,14 +21,12 @@ describe("constructOCIDisributionMetadata should", () => {
         imageName: "gcr.io/example/repo:test",
         manifestDigest:
           "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        platform: "linux/amd64",
       },
       {
         imageTag: "test",
         indexDigest: undefined,
         manifestDigest:
           "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        platform: "linux/amd64",
         registryHost: "gcr.io",
         repository: "example/repo",
       },
@@ -42,7 +39,6 @@ describe("constructOCIDisributionMetadata should", () => {
           "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
         indexDigest:
           "sha256:8e552c2054fbd598196e35e5d04d4ad3cc1913d49ac5f9ed7235993f442dd9c6",
-        platform: "linux/amd64",
       },
       {
         imageTag: "test",
@@ -50,25 +46,6 @@ describe("constructOCIDisributionMetadata should", () => {
           "sha256:8e552c2054fbd598196e35e5d04d4ad3cc1913d49ac5f9ed7235993f442dd9c6",
         manifestDigest:
           "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        platform: "linux/amd64",
-        registryHost: "gcr.io",
-        repository: "example/repo",
-      },
-    ],
-    [
-      "given a non-default platform include it in the result",
-      {
-        imageName: "gcr.io/example/repo:test",
-        manifestDigest:
-          "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        platform: "linux/arm64",
-      },
-      {
-        imageTag: "test",
-        indexDigest: undefined,
-        manifestDigest:
-          "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        platform: "linux/arm64",
         registryHost: "gcr.io",
         repository: "example/repo",
       },
@@ -80,14 +57,12 @@ describe("constructOCIDisributionMetadata should", () => {
           "gcr.io/example/repo@sha256:8e552c2054fbd598196e35e5d04d4ad3cc1913d49ac5f9ed7235993f442dd9c6",
         manifestDigest:
           "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        platform: "linux/amd64",
       },
       {
         imageTag: undefined,
         indexDigest: undefined,
         manifestDigest:
           "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        platform: "linux/amd64",
         registryHost: "gcr.io",
         repository: "example/repo",
       },
@@ -98,14 +73,12 @@ describe("constructOCIDisributionMetadata should", () => {
         imageName: "example/repo:test",
         manifestDigest:
           "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        platform: "linux/amd64",
       },
       {
         imageTag: "test",
         indexDigest: undefined,
         manifestDigest:
           "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        platform: "linux/amd64",
         registryHost: "docker.io",
         repository: "example/repo",
       },
@@ -116,14 +89,12 @@ describe("constructOCIDisributionMetadata should", () => {
         imageName: "repo:test",
         manifestDigest:
           "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        platform: "linux/amd64",
       },
       {
         imageTag: "test",
         indexDigest: undefined,
         manifestDigest:
           "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        platform: "linux/amd64",
         registryHost: "docker.io",
         repository: "library/repo",
       },
@@ -135,7 +106,6 @@ describe("constructOCIDisributionMetadata should", () => {
         imageName: "a".repeat(256) + ".io/repo:test",
         manifestDigest:
           "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        platform: "linux/amd64",
       },
       undefined,
     ],
@@ -146,19 +116,6 @@ describe("constructOCIDisributionMetadata should", () => {
         imageName: "gcr.io/" + "a".repeat(2049) + ":test",
         manifestDigest:
           "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        platform: "linux/amd64",
-      },
-      undefined,
-    ],
-    [
-      "given a platform that is too long should return undefined",
-      {
-        imageName: "gcr.io/example/repo:test",
-        manifestDigest:
-          "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        // 64 is the maximum length, there are 65 characters here
-        platform:
-          "linux/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
       },
       undefined,
     ],
@@ -168,7 +125,6 @@ describe("constructOCIDisributionMetadata should", () => {
         imageName: "..io/repo:test",
         manifestDigest:
           "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        platform: "linux/amd64",
       },
       undefined,
     ],
@@ -178,7 +134,6 @@ describe("constructOCIDisributionMetadata should", () => {
         imageName: "gcr.io/re*&&po:test",
         manifestDigest:
           "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        platform: "linux/amd64",
       },
       undefined,
     ],
@@ -188,7 +143,6 @@ describe("constructOCIDisributionMetadata should", () => {
         imageName: "gcr.io/example/repo:__*image=",
         manifestDigest:
           "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        platform: "linux/amd64",
       },
       undefined,
     ],
@@ -197,7 +151,6 @@ describe("constructOCIDisributionMetadata should", () => {
       {
         imageName: "gcr.io/example/repo:test",
         manifestDigest: "sha256:abc",
-        platform: "linux/amd64",
       },
       undefined,
     ],
@@ -208,17 +161,6 @@ describe("constructOCIDisributionMetadata should", () => {
         indexDigest: "sha256:abc",
         manifestDigest:
           "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        platform: "linux/amd64",
-      },
-      undefined,
-    ],
-    [
-      "given an invalid platform should return undefined",
-      {
-        imageName: "gcr.io/example/repo:test",
-        manifestDigest:
-          "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        platform: "linux/unix/amd64",
       },
       undefined,
     ],
