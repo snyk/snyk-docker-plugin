@@ -289,6 +289,14 @@ function extractHostnameFromTargetImage(targetImage: string): {
     return { hostname: defaultHostname, remainder: targetImage };
   }
 
+  const dockerFriendlyRegistryHostname = "docker.io/";
+  if (targetImage.startsWith(dockerFriendlyRegistryHostname)) {
+    return {
+      hostname: defaultHostname,
+      remainder: targetImage.substring(dockerFriendlyRegistryHostname.length),
+    };
+  }
+
   const i = targetImage.indexOf("/");
   return {
     hostname: targetImage.substring(0, i),
