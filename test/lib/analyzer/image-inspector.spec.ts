@@ -45,6 +45,11 @@ describe("extractImageDetails", () => {
       imageName: "calico/cni",
       tag: "release-v3.14",
     }}
+    ${"docker.io/calico/cni:release-v3.14"} | ${{
+      hostname: "registry-1.docker.io",
+      imageName: "calico/cni",
+      tag: "release-v3.14",
+    }}
     ${"gcr.io:3000/kubernetes/someImage:alpine"} | ${{
       hostname: "gcr.io:3000",
       imageName: "kubernetes/someImage",
