@@ -1,12 +1,23 @@
 import * as crypto from "crypto";
+import { Readable } from "stream";
 import { HashAlgorithm } from "./types";
 
 const HASH_ENCODING = "hex";
 
-export function bufferToSha1(buffer: Buffer): string {
+export async function bufferToSha1(buffer: Buffer): Promise<string> {
+  const stream = Readable.from(buffer);
   const hash = crypto.createHash(HashAlgorithm.Sha1);
-  hash.setEncoding(HASH_ENCODING);
-  hash.update(buffer);
-  hash.end();
-  return hash.read().toString(HASH_ENCODING);
+
+  return new Promise((resolve, reject) => {
+    stream
+      .pipe(hash)
+      .on("finish", () => {
+        hash.end();
+        const digest = hash.read().toString(HASH_ENCODING);
+        resolve(digest);
+      })
+      .on("error", (err) => {
+        reject(err);
+      });
+  });
 }

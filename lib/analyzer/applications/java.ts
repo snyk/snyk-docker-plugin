@@ -43,7 +43,7 @@ export async function jarFilesToScannedResults(
       continue;
     }
 
-    const fingerprints = getFingerprints(
+    const fingerprints = await getFingerprints(
       desiredLevelsOfUnpacking,
       mappedResult[path],
     );
@@ -68,14 +68,15 @@ export async function jarFilesToScannedResults(
   return scanResults;
 }
 
-function getFingerprints(
+async function getFingerprints(
   desiredLevelsOfUnpacking: number,
   jarBuffers: JarBuffer[],
-): JarFingerprint[] {
-  const fingerprints = new Set([
-    ...unpackJars(jarBuffers, desiredLevelsOfUnpacking),
-  ]);
-  return Array.from(fingerprints);
+): Promise<JarFingerprint[]> {
+  const fingerprints: JarFingerprint[] = await unpackJars(
+    jarBuffers,
+    desiredLevelsOfUnpacking,
+  );
+  return Array.from(new Set(fingerprints));
 }
 
 /**
@@ -188,11 +189,11 @@ function unpackJar({
  * @param {number} unpackedLevels
  * @returns JarFingerprint[]
  */
-function unpackJars(
+async function unpackJars(
   jarBuffers: JarBuffer[],
   desiredLevelsOfUnpacking: number,
   unpackedLevels: number = 0,
-): JarFingerprint[] {
+): Promise<JarFingerprint[]> {
   // We have to unpack jars to get the pom.properties manifest which
   // we use to support shaded jars and get the package coords (if exists)
   // to reduce the dependency on maven search and support private jars.
@@ -228,7 +229,7 @@ function unpackJars(
       // sha so maven-deps can fallback to searching maven central
       fingerprints.push({
         location: jarInfo.location,
-        digest: jarInfo.coords ? null : bufferToSha1(jarInfo.buffer),
+        digest: jarInfo.coords ? null : await bufferToSha1(jarInfo.buffer),
         dependencies: jarInfo.dependencies,
         ...jarInfo.coords,
       });
@@ -237,13 +238,12 @@ function unpackJars(
     if (jarInfo.nestedJars.length > 0) {
       // this is an uber/fat JAR so we need to unpack the nested JARs to
       // analyze them for coords and further nested JARs (depth flag allowing)
-      fingerprints.push(
-        ...unpackJars(
-          jarInfo.nestedJars,
-          desiredLevelsOfUnpacking,
-          unpackedLevels + 1,
-        ),
+      const nestedJarFingerprints = await unpackJars(
+        jarInfo.nestedJars,
+        desiredLevelsOfUnpacking,
+        unpackedLevels + 1,
       );
+      fingerprints.push(...nestedJarFingerprints);
     }
   }
 
