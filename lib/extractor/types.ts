@@ -15,6 +15,7 @@ export interface Extractor {
   extractArchive(
     fileSystemPath: string,
     extractActions: ExtractAction[],
+    platform?: string,
   ): ExtractedLayersAndManifest;
   getImageIdFromManifest(
     manifest: DockerArchiveManifest | OciArchiveManifest,
@@ -76,7 +77,13 @@ export interface OciArchiveManifest {
 export interface OciManifestInfo {
   digest: string;
   mediaType: string;
-  platform?: { architecture: string; os: string };
+  platform?: OciPlatformInfo;
+}
+
+export interface OciPlatformInfo {
+  os?: string;
+  architecture?: string;
+  variant?: string;
 }
 
 export interface OciImageIndex {

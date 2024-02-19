@@ -17,9 +17,9 @@ function getDockerfileFixturePath(folder: string): string {
 
 describe("system tests", () => {
   test("inspect an image that does not exist and is not pullable", async () => {
-    await expect(() =>
-      plugin.scan({ path: "not-here:latest" }),
-    ).rejects.toThrowError("authentication required");
+    await expect(plugin.scan({ path: "not-here:latest" })).rejects.toThrowError(
+      "authentication required",
+    );
   });
 
   test("inspect an image with an unsupported pkg manager", async () => {

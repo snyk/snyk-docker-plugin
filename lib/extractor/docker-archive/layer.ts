@@ -21,11 +21,13 @@ const debug = Debug("snyk");
  * Retrieve the products of files content from the specified docker-archive.
  * @param dockerArchiveFilesystemPath Path to image file saved in docker-archive format.
  * @param extractActions Array of pattern-callbacks pairs.
+ * @param platform Platform string
  * @returns Array of extracted files products sorted by the reverse order of the layers from last to first.
  */
 export async function extractArchive(
   dockerArchiveFilesystemPath: string,
   extractActions: ExtractAction[],
+  platform: string | undefined,
 ): Promise<ExtractedLayersAndManifest> {
   return new Promise((resolve, reject) => {
     const tarExtractor: Extract = extract();

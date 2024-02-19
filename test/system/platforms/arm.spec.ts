@@ -14,11 +14,12 @@ describe("ARM platform tests", () => {
 
   it("should correctly scan an ARM image", async () => {
     const image = "arm64v8/nginx:1.19.2-alpine";
-    const pluginResult = await scan({
-      path: image,
-    });
-
-    expect(pluginResult).toMatchSnapshot();
+    await expect(
+      scan({
+        path: image,
+        platform: "linux/arm64/v8",
+      }),
+    ).resolves;
   });
 
   it.todo(

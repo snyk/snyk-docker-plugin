@@ -1,7 +1,7 @@
 import * as path from "path";
 import { extractImageContent } from "../../../lib/extractor";
 import { getImageNames, ImageName } from "../../../lib/extractor/image";
-import { ExtractAction } from "../../../lib/extractor/types";
+import { ExtractAction, ExtractionResult } from "../../../lib/extractor/types";
 import { streamToString } from "../../../lib/stream-utils";
 import { ImageType } from "../../../lib/types";
 
@@ -304,6 +304,7 @@ describe("image", () => {
         ImageType.OciArchive,
         getFixture("oci-archives/nginx.tar"),
         extractActions,
+        "linux/amd64",
       );
 
       //  ImageId returned as expected
