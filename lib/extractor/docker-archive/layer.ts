@@ -6,6 +6,7 @@ import { Readable } from "stream";
 import { extract, Extract } from "tar-stream";
 import { InvalidArchiveError } from "..";
 import { streamToJson } from "../../stream-utils";
+import { PluginOptions } from "../../types";
 import { extractImageLayer } from "../layer";
 import {
   DockerArchiveManifest,
@@ -21,11 +22,13 @@ const debug = Debug("snyk");
  * Retrieve the products of files content from the specified docker-archive.
  * @param dockerArchiveFilesystemPath Path to image file saved in docker-archive format.
  * @param extractActions Array of pattern-callbacks pairs.
+ * @param options PluginOptions
  * @returns Array of extracted files products sorted by the reverse order of the layers from last to first.
  */
 export async function extractArchive(
   dockerArchiveFilesystemPath: string,
   extractActions: ExtractAction[],
+  _options: Partial<PluginOptions>,
 ): Promise<ExtractedLayersAndManifest> {
   return new Promise((resolve, reject) => {
     const tarExtractor: Extract = extract();

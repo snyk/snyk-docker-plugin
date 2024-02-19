@@ -6,6 +6,7 @@ import { PassThrough } from "stream";
 import { extract, Extract } from "tar-stream";
 import { InvalidArchiveError } from "..";
 import { streamToJson } from "../../stream-utils";
+import { PluginOptions } from "../../types";
 import { extractImageLayer } from "../layer";
 import {
   ExtractAction,
@@ -15,6 +16,7 @@ import {
   OciArchiveManifest,
   OciImageIndex,
   OciManifestInfo,
+  OciPlatformInfo,
 } from "../types";
 
 const debug = Debug("snyk");
@@ -30,18 +32,20 @@ const MEDIATYPE_OCI_MANIFEST_LIST_V1 =
  * Retrieve the products of files content from the specified oci-archive.
  * @param ociArchiveFilesystemPath Path to image file saved in oci-archive format.
  * @param extractActions Array of pattern-callbacks pairs.
+ * @param options PluginOptions
  * @returns Array of extracted files products sorted by the reverse order of the layers from last to first.
  */
 export async function extractArchive(
   ociArchiveFilesystemPath: string,
   extractActions: ExtractAction[],
+  options: PluginOptions,
 ): Promise<ExtractedLayersAndManifest> {
   return new Promise((resolve, reject) => {
     const tarExtractor: Extract = extract();
 
     const layers: Record<string, ExtractedLayers> = {};
     const manifests: Record<string, OciArchiveManifest> = {};
-    let imageConfig: ImageConfig | undefined;
+    const configs: ImageConfig[] = [];
     let mainIndexFile: OciImageIndex;
     const indexFiles: Record<string, OciImageIndex> = {};
 
@@ -75,7 +79,7 @@ export async function extractArchive(
           } else if (isImageIndexFile(manifest)) {
             indexFiles[digest] = manifest as OciImageIndex;
           } else if (isImageConfigFile(manifest)) {
-            imageConfig = manifest;
+            configs.push(manifest);
           }
           if (layer !== undefined) {
             layers[digest] = layer as ExtractedLayers;
@@ -94,8 +98,9 @@ export async function extractArchive(
             mainIndexFile,
             manifests,
             indexFiles,
-            imageConfig,
+            configs,
             layers,
+            options,
           ),
         );
       } catch (error) {
@@ -120,19 +125,28 @@ function getLayersContentAndArchiveManifest(
   imageIndex: OciImageIndex | undefined,
   manifestCollection: Record<string, OciArchiveManifest>,
   indexFiles: Record<string, OciImageIndex>,
-  imageConfig: ImageConfig | undefined,
+  configs: ImageConfig[],
   layers: Record<string, ExtractedLayers>,
+  options: Partial<PluginOptions>,
 ): {
   layers: ExtractedLayers[];
   manifest: OciArchiveManifest;
   imageConfig: ImageConfig;
 } {
+  const platform = options?.platform || "linux/amd64";
+  const platformInfo = getOciPlatformInfoFromOptionString(platform as string);
+
+  // get manifest file first
+  const manifest = getManifest(
+    imageIndex,
+    manifestCollection,
+    indexFiles,
+    platformInfo,
+  );
+
   // filter empty layers
   // get the layers content without the name
   // reverse layers order from last to first
-
-  // get manifest file first
-  const manifest = getManifest(imageIndex, manifestCollection, indexFiles);
   const filteredLayers = manifest.layers
     .filter((layer) => layers[layer.digest])
     .map((layer) => layers[layer.digest])
@@ -141,6 +155,8 @@ function getLayersContentAndArchiveManifest(
   if (filteredLayers.length === 0) {
     throw new Error("We found no layers in the provided image");
   }
+
+  const imageConfig = getImageConfig(configs, platformInfo);
 
   if (imageConfig === undefined) {
     throw new Error("Could not find the image config in the provided image");
@@ -157,19 +173,19 @@ function getManifest(
   imageIndex: OciImageIndex | undefined,
   manifestCollection: Record<string, OciArchiveManifest>,
   indexFiles: Record<string, OciImageIndex>,
+  platformInfo: OciPlatformInfo,
 ): OciArchiveManifest {
   if (!imageIndex) {
     return manifestCollection[Object.keys(manifestCollection)[0]];
   }
+
   const allManifests = getAllManifestsIndexItems(imageIndex, indexFiles);
-  const manifestInfo: OciManifestInfo | undefined = allManifests.find((item) =>
-    item.platform
-      ? item.platform.architecture === "amd64" && item.platform.os === "linux"
-      : item,
-  );
+  const manifestInfo = getImageManifestInfo(allManifests, platformInfo);
 
   if (manifestInfo === undefined) {
-    throw new Error("Unsupported type of CPU architecture or operating system");
+    throw new Error(
+      "Image does not support type of CPU architecture or operating system",
+    );
   }
 
   return manifestCollection[manifestInfo.digest];
@@ -219,4 +235,79 @@ function isImageIndexFile(json: any): boolean {
 
 function isMainIndexFile(name: string): boolean {
   return name === "index.json";
+}
+
+function getOciPlatformInfoFromOptionString(platform: string): OciPlatformInfo {
+  const [os, architecture, variant] = platform.split("/") as [
+    os: string,
+    architecture: string,
+    variant: string | undefined,
+  ];
+
+  return {
+    os,
+    architecture,
+    variant,
+  };
+}
+
+function getImageManifestInfo(
+  manifests: OciManifestInfo[],
+  platformInfo: OciPlatformInfo,
+): OciManifestInfo | undefined {
+  // manifests do not always have a plaform, this is the case for OCI
+  // images built with Docker when no platform is specified
+  if (manifests.length === 1 && !manifests[0].platform) {
+    return manifests[0];
+  }
+
+  return getBestMatchForPlatform(
+    manifests,
+    platformInfo,
+    (target: OciManifestInfo): OciPlatformInfo => {
+      return {
+        os: target.platform?.os,
+        architecture: target.platform?.architecture,
+        variant: target.platform?.variant,
+      };
+    },
+  );
+}
+
+function getImageConfig(
+  manifests: ImageConfig[],
+  platformInfo: OciPlatformInfo,
+): ImageConfig | undefined {
+  return getBestMatchForPlatform(
+    manifests,
+    platformInfo,
+    (target: ImageConfig): OciPlatformInfo => {
+      return {
+        os: target.os,
+        architecture: target.architecture,
+      };
+    },
+  );
+}
+
+function getBestMatchForPlatform<T>(
+  manifests: T[],
+  platformInfo: OciPlatformInfo,
+  extractPlatformInfoFromManifest: (target: T) => OciPlatformInfo,
+): T | undefined {
+  const matches = manifests.filter((item) => {
+    const { os, architecture } = extractPlatformInfoFromManifest(item);
+
+    return os === platformInfo.os && architecture === platformInfo.architecture;
+  });
+
+  if (matches.length > 1) {
+    return matches.find((item) => {
+      const { variant } = extractPlatformInfoFromManifest(item);
+
+      return variant === platformInfo.variant;
+    });
+  }
+
+  return matches[0] || undefined;
 }
