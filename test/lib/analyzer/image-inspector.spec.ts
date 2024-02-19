@@ -80,7 +80,7 @@ describe("extractImageDetails", () => {
       imageName: "foo/bar",
       tag: "sha256:8756a25c4c5e902c4fe20322cc69d510a0517b51eab630c614efbd612ed568bf",
     }}
-  `("extract details for $image", ({ image, expected }) => {
+  `("extract details for image", ({ image, expected }) => {
     const {
       hostname,
       imageName,
@@ -91,16 +91,17 @@ describe("extractImageDetails", () => {
     expect(tag).toEqual(expected.tag);
   });
   it("should throw an error if the image name has an invalid format", async () => {
-     const imageNameAndTag = "/test:unknown";
+    const imageNameAndTag = "/test:unknown";
 
-     await expect(() =>
-       plugin.scan({
-         path: imageNameAndTag,
-       }),
-     ).rejects.toEqual(
-       new Error("invalid image format"),
-     );
-   });
+    await expect(() =>
+      plugin.scan({
+        path: imageNameAndTag,
+      }),
+    ).rejects.toEqual(
+      new Error("invalid image format"),
+    );
+
+  });
 });
 
 describe("getImageArchive", () => {

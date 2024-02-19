@@ -28,11 +28,18 @@ class ArchiveExtractor {
   private extractor: Extractor;
   private fileSystemPath: string;
   private extractActions: ExtractAction[];
+  private platform: string | undefined;
 
-  constructor(extractor: Extractor, path: string, actions: ExtractAction[]) {
+  constructor(
+    extractor: Extractor,
+    path: string,
+    actions: ExtractAction[],
+    platform?: string,
+  ) {
     this.fileSystemPath = path;
     this.extractActions = actions;
     this.extractor = extractor;
+    this.platform = platform;
   }
 
   public getExtractor(): Extractor {
@@ -43,6 +50,7 @@ class ArchiveExtractor {
     return await this.extractor.extractArchive(
       this.fileSystemPath,
       this.extractActions,
+      this.platform,
     );
   }
 
@@ -70,6 +78,7 @@ export async function extractImageContent(
   imageType: ImageType,
   fileSystemPath: string,
   extractActions: ExtractAction[],
+  platform?: string,
 ): Promise<ExtractionResult> {
   const extractors = new Map<ImageType, ArchiveExtractor>([
     [
@@ -86,6 +95,7 @@ export async function extractImageContent(
         ociExtractor as unknown as Extractor,
         fileSystemPath,
         extractActions,
+        platform,
       ),
     ],
   ]);

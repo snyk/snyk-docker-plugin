@@ -142,24 +142,16 @@ jobs:
           monitor-on-build: false
   test:
     <<: *defaults
+    resource_class: large
     steps:
       - checkout
+      # pinning to docker engine 24 to test latest changes don't break
+      # will need to pin to 25 soon due to breaking changes in engine
       - setup_remote_docker:
-          version: 20.10.23
+          version: docker24
       - attach_workspace:
           at: ~/snyk-docker-plugin
       - run: npm test
-  test_jest:
-    <<: *defaults
-    resource_class: medium
-    steps:
-      - checkout
-      - setup_remote_docker
-      - run:
-          name: Use snyk-main npmjs user
-          command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
-      - run: npm ci
-      - run: npm run test-jest
   test_jest_windows_with_docker:
     <<: *windows_big
     steps:
@@ -211,9 +203,7 @@ jobs:
     resource_class: medium
     steps:
       - setup_remote_docker:
-          # We want support for the --platform flag. CircleCI uses
-          # 17.09.0-ce by default which is way too old.
-          version: 20.10.14
+          version: docker24
       - checkout_and_merge
       - run:
           name: Build a Go binary with latest Go version

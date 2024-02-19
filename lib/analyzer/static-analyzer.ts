@@ -130,6 +130,7 @@ export async function analyze(
     imageType,
     imagePath,
     staticAnalysisActions,
+    options.platform,
   );
 
   const [
