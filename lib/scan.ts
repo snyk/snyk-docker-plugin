@@ -19,6 +19,14 @@ export function mergeEnvVarsIntoCredentials(
   options.password = options.password || process.env.SNYK_REGISTRY_PASSWORD;
 }
 
+function sanitizePlatform(options: Partial<PluginOptions>): void {
+  if (options.platform === undefined) {
+    options.platform = "linux/amd64";
+  } else if (options.platform.split("/").length > 3) {
+    throw new Error("Unsupported platform provided");
+  }
+}
+
 export async function scan(
   options?: Partial<PluginOptions>,
 ): Promise<PluginResponse> {
@@ -27,6 +35,7 @@ export async function scan(
   }
 
   mergeEnvVarsIntoCredentials(options);
+  sanitizePlatform(options);
 
   if (!options.path) {
     throw new Error("No image identifier or path provided");
