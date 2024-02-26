@@ -6,6 +6,7 @@ import { Readable } from "stream";
 import { extract, Extract } from "tar-stream";
 import { InvalidArchiveError } from "..";
 import { streamToJson } from "../../stream-utils";
+import { PluginOptions } from "../../types";
 import { extractImageLayer } from "../layer";
 import {
   DockerArchiveManifest,
@@ -26,6 +27,7 @@ const debug = Debug("snyk");
 export async function extractArchive(
   dockerArchiveFilesystemPath: string,
   extractActions: ExtractAction[],
+  _options: Partial<PluginOptions>,
 ): Promise<ExtractedLayersAndManifest> {
   return new Promise((resolve, reject) => {
     const tarExtractor: Extract = extract();

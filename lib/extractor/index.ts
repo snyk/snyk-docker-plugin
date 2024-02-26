@@ -3,6 +3,7 @@ import {
   getPackagesFromRunInstructions,
 } from "../dockerfile/instruction-parser";
 import { AutoDetectedUserInstructions, ImageType } from "../types";
+import { PluginOptions } from "../types";
 import * as dockerExtractor from "./docker-archive";
 import * as ociExtractor from "./oci-archive";
 import {
@@ -28,11 +29,18 @@ class ArchiveExtractor {
   private extractor: Extractor;
   private fileSystemPath: string;
   private extractActions: ExtractAction[];
+  private options: Partial<PluginOptions>;
 
-  constructor(extractor: Extractor, path: string, actions: ExtractAction[]) {
+  constructor(
+    extractor: Extractor,
+    path: string,
+    actions: ExtractAction[],
+    options: Partial<PluginOptions>,
+  ) {
     this.fileSystemPath = path;
     this.extractActions = actions;
     this.extractor = extractor;
+    this.options = options;
   }
 
   public getExtractor(): Extractor {
@@ -43,6 +51,7 @@ class ArchiveExtractor {
     return await this.extractor.extractArchive(
       this.fileSystemPath,
       this.extractActions,
+      this.options,
     );
   }
 
@@ -70,6 +79,7 @@ export async function extractImageContent(
   imageType: ImageType,
   fileSystemPath: string,
   extractActions: ExtractAction[],
+  options: Partial<PluginOptions>,
 ): Promise<ExtractionResult> {
   const extractors = new Map<ImageType, ArchiveExtractor>([
     [
@@ -78,6 +88,7 @@ export async function extractImageContent(
         dockerExtractor as unknown as Extractor,
         fileSystemPath,
         extractActions,
+        options,
       ),
     ],
     [
@@ -86,6 +97,7 @@ export async function extractImageContent(
         ociExtractor as unknown as Extractor,
         fileSystemPath,
         extractActions,
+        options,
       ),
     ],
   ]);
