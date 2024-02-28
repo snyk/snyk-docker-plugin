@@ -50,6 +50,8 @@ export async function extractImageLayer(
             );
             reject(error);
           }
+        } else if (isDeletedFile(absoluteFileName)) {
+          result[absoluteFileName] = {};
         }
       }
 

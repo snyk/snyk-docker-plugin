@@ -1,3 +1,4 @@
+import path = require("path");
 import {
   getLayersFromPackages,
   getPackagesFromRunInstructions,
@@ -210,7 +211,16 @@ function layersWithLatestFileModifications(
       // and removing it from the set since it can be found in consecutive layers
       if (removedFilesToIgnore.has(filename)) {
         removedFilesToIgnore.delete(filename);
-      } else if (
+        continue;
+      }
+      if (
+        Array.from(removedFilesToIgnore).some((removedFile) =>
+          isFileInFolder(removedFile, filename),
+        )
+      ) {
+        continue;
+      }
+      if (
         // file was not found + avoid adding deleted files with .wh.
         !Reflect.has(extractedLayers, filename) &&
         !isDeletedFile(filename)
@@ -266,4 +276,11 @@ function getContent(
   return firstFileNameMatch !== undefined
     ? extractedLayers[firstFileNameMatch][extractAction.actionName]
     : undefined;
+}
+
+function isFileInFolder(folder: string, file: string): boolean {
+  const folderPath = path.normalize(folder);
+  const filePath = path.normalize(file);
+
+  return filePath.startsWith(path.join(folderPath, path.sep));
 }
