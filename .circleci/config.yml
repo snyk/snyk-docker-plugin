@@ -145,7 +145,7 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker:
-          version: 20.10.23
+          version: default
       - attach_workspace:
           at: ~/snyk-docker-plugin
       - run: npm run test-jest
