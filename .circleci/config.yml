@@ -26,14 +26,14 @@ windows_defaults: &windows_defaults
 slack-fail-notify: &slack-fail-notify
   slack/notify:
     event: fail
-    channel: lumos-alerts
+    channel: team-unify-alerts
     branch_pattern: "main"
     template: basic_fail_1
 
 slack-success-notify: &slack-success-notify
   slack/notify:
     event: pass
-    channel: lumos-deployment
+    channel: team-unify-pipeline-info
     branch_pattern: "main"
     template: basic_success_1
 
@@ -232,7 +232,7 @@ workflows:
           name: Scan repository for secrets
           context:
             - snyk-bot-slack
-          channel: lumos-alerts
+          channel: team-unify-alerts
           filters:
             branches:
               ignore: main
@@ -240,12 +240,12 @@ workflows:
           name: Install
           context:
             - nodejs-install
-            - team-lumos
+            - team-unify
       - lint:
           name: Lint
           context:
             - nodejs-install
-            - team-lumos
+            - team-unify
             - snyk-bot-slack
           requires:
             - Install
@@ -263,21 +263,23 @@ workflows:
           name: Scan Code
           context:
             - snyk-bot-slack
-            - team-lumos
+            - team-unify
+            - snyk-token-team-link
           post-steps:
             - *slack-fail-notify
       - scan_deps:
           name: Scan Dependencies
           context:
             - snyk-bot-slack
-            - team-lumos
+            - team-unify
+            - snyk-token-team-link
           post-steps:
             - *slack-fail-notify
       - test:
           name: Test
           context:
             - nodejs-install
-            - team-lumos
+            - team-unify
             - snyk-bot-slack
           requires:
             - Build
@@ -287,7 +289,7 @@ workflows:
           name: Test Jest Windows with Docker
           context:
             - nodejs-install
-            - team-lumos
+            - team-unify
             - snyk-bot-slack
           node_version: *windows_node_version
           requires:
@@ -298,7 +300,7 @@ workflows:
           name: Test Jest Windows no Docker
           context:
             - nodejs-install
-            - team-lumos
+            - team-unify
             - snyk-bot-slack
           node_version: *windows_node_version
           requires:
@@ -309,7 +311,7 @@ workflows:
           name: Build CLI with changes
           context:
             - nodejs-install
-            - team-lumos
+            - team-unify
             - snyk-bot-slack
           requires:
             - Build
@@ -319,7 +321,7 @@ workflows:
           name: Release to GitHub
           context:
             - nodejs-lib-release
-            - team-lumos
+            - team-unify
             - snyk-bot-slack
           filters:
             branches:
@@ -346,14 +348,14 @@ workflows:
           name: Install
           context:
             - nodejs-install
-            - team-lumos
+            - team-unify
           post-steps:
             - *slack-fail-notify
       - build_and_test_latest_go_binary:
           name: Build Go binary
           context:
             - nodejs-install
-            - team-lumos
+            - team-unify
           requires:
             - Install
           post-steps:
