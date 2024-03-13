@@ -57,7 +57,7 @@ release_defaults: &release_defaults
     - image: node:14
   working_directory: ~/snyk-docker-plugin
 
-define: &windows_node_version "14"
+define: &windows_node_version "18.19.1"
 
 commands:
   install_deps:
