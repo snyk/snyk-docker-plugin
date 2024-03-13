@@ -4,8 +4,8 @@ metadata:
   name: snyk-docker-plugin
   annotations:
     github.com/project-slug: snyk/snyk-docker-plugin
-    github.com/team-slug: snyk/lumos
+    github.com/team-slug: snyk/unify
 spec:
   type: external-library
   lifecycle: "-"
-  owner: lumos
+  owner: unify
