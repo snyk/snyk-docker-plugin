@@ -13,7 +13,7 @@
   "scripts": {
     "build": "tsc",
     "build-watch": "tsc -w",
-    "debug": "tsc-watch --project tsconfig.json --onSuccess 'node --inspect --inspect-brk .'",
+    "debug": "npx ts-node-dev --files --transpile-only --inspect=4223 scripts/debug.ts",
     "lint": "run-p --max-parallel=${JOBS:-5} --aggregate-output lint:*",
     "lint:prettier": "prettier --check \"{lib,test}/**/*.ts\"",
     "lint:tslint": "tslint --format stylish \"{lib,test}/**/*.ts\"",
