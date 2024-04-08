@@ -144,8 +144,7 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - setup_remote_docker:
-          version: 20.10.23
+      - setup_remote_docker
       - attach_workspace:
           at: ~/snyk-docker-plugin
       - run: npm run test-jest
@@ -199,10 +198,7 @@ jobs:
     <<: *defaults
     resource_class: medium
     steps:
-      - setup_remote_docker:
-          # We want support for the --platform flag. CircleCI uses
-          # 17.09.0-ce by default which is way too old.
-          version: 20.10.14
+      - setup_remote_docker
       - checkout_and_merge
       - run:
           name: Build a Go binary with latest Go version
