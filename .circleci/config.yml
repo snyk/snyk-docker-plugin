@@ -26,7 +26,7 @@ windows_defaults: &windows_defaults
 slack-fail-notify: &slack-fail-notify
   slack/notify:
     event: fail
-    channel: team-unify-alerts
+    channel: team-unify-pipeline-info
     branch_pattern: "main"
     template: basic_fail_1
 
@@ -228,7 +228,7 @@ workflows:
           name: Scan repository for secrets
           context:
             - snyk-bot-slack
-          channel: team-unify-alerts
+          channel: team-unify-pipeline-info
           filters:
             branches:
               ignore: main
