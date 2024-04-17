@@ -31,3 +31,7 @@ export interface FilePathToElfContent {
 export interface AggregatedJars {
   [path: string]: JarBuffer[];
 }
+
+export interface FilesByDir {
+  [directoryName: string]: string[];
+}
