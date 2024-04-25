@@ -5,12 +5,14 @@ import {
   AnalysisType,
   AnalyzedPackageWithVersion,
   ImagePackagesAnalysis,
+  OSRelease,
 } from "../types";
 
 export function analyze(
   targetImage: string,
   pkgs: PackageInfo[],
   repositories: string[],
+  osRelease?: OSRelease,
 ): Promise<ImagePackagesAnalysis> {
   return Promise.resolve({
     Image: targetImage,
@@ -23,13 +25,18 @@ export function analyze(
         Provides: [],
         Deps: {},
         AutoInstalled: undefined,
-        Purl: purl(pkgInfo, repositories),
+        Purl: purl(pkgInfo, repositories, osRelease),
       };
     }),
   });
 }
 
-function purl(pkg: PackageInfo, repos: string[]): string {
+function purl(
+  pkg: PackageInfo,
+  repos: string[],
+  osRelease?: OSRelease,
+): string {
+  let vendor = "";
   const qualifiers: { [key: string]: string } = {};
   if (pkg.module) {
     const [modName, modVersion] = pkg.module.split(":");
@@ -44,9 +51,14 @@ function purl(pkg: PackageInfo, repos: string[]): string {
     qualifiers.epoch = String(pkg.epoch);
   }
 
+  if (osRelease) {
+    qualifiers.distro = `${osRelease.name}-${osRelease.version}`;
+    vendor = osRelease.name;
+  }
+
   return new PackageURL(
     AnalysisType.Rpm.toLowerCase(),
-    "", // would be the Vendor according to the purl rpm spec
+    vendor,
     pkg.name,
     formatRpmPackageVersion(pkg),
     // make sure that we pass in undefined if there are no qualifiers, because
@@ -60,6 +72,7 @@ export function mapRpmSqlitePackages(
   targetImage: string,
   rpmPackages: PackageInfo[],
   repositories: string[],
+  osRelease?: OSRelease,
 ): ImagePackagesAnalysis {
   let analysis: AnalyzedPackageWithVersion[] = [];
 
@@ -72,7 +85,7 @@ export function mapRpmSqlitePackages(
         Provides: [],
         Deps: {},
         AutoInstalled: undefined,
-        Purl: purl(pkg, repositories),
+        Purl: purl(pkg, repositories, osRelease),
       };
     });
   }

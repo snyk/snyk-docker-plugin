@@ -102,7 +102,7 @@ Object {
                 "id": "base-files@10.3+deb10u5",
                 "info": Object {
                   "name": "base-files",
-                  "purl": "pkg:deb/base-files@10.3%2Bdeb10u5",
+                  "purl": "pkg:deb/debian/base-files@10.3%2Bdeb10u5?distro=debian-buster",
                   "version": "10.3+deb10u5",
                 },
               },
@@ -110,7 +110,7 @@ Object {
                 "id": "glibc/libc6@2.28-10",
                 "info": Object {
                   "name": "glibc/libc6",
-                  "purl": "pkg:deb/libc6@2.28-10?upstream=glibc",
+                  "purl": "pkg:deb/debian/libc6@2.28-10?distro=debian-buster&upstream=glibc",
                   "version": "2.28-10",
                 },
               },
@@ -118,7 +118,7 @@ Object {
                 "id": "netbase@5.6",
                 "info": Object {
                   "name": "netbase",
-                  "purl": "pkg:deb/netbase@5.6",
+                  "purl": "pkg:deb/debian/netbase@5.6?distro=debian-buster",
                   "version": "5.6",
                 },
               },
@@ -126,7 +126,7 @@ Object {
                 "id": "openssl/libssl1.1@1.1.1d-0+deb10u3",
                 "info": Object {
                   "name": "openssl/libssl1.1",
-                  "purl": "pkg:deb/libssl1.1@1.1.1d-0%2Bdeb10u3?upstream=openssl",
+                  "purl": "pkg:deb/debian/libssl1.1@1.1.1d-0%2Bdeb10u3?distro=debian-buster&upstream=openssl",
                   "version": "1.1.1d-0+deb10u3",
                 },
               },
@@ -134,7 +134,7 @@ Object {
                 "id": "openssl@1.1.1d-0+deb10u3",
                 "info": Object {
                   "name": "openssl",
-                  "purl": "pkg:deb/openssl@1.1.1d-0%2Bdeb10u3",
+                  "purl": "pkg:deb/debian/openssl@1.1.1d-0%2Bdeb10u3?distro=debian-buster",
                   "version": "1.1.1d-0+deb10u3",
                 },
               },
@@ -142,7 +142,7 @@ Object {
                 "id": "tzdata@2020a-0+deb10u1",
                 "info": Object {
                   "name": "tzdata",
-                  "purl": "pkg:deb/tzdata@2020a-0%2Bdeb10u1",
+                  "purl": "pkg:deb/debian/tzdata@2020a-0%2Bdeb10u1?distro=debian-buster",
                   "version": "2020a-0+deb10u1",
                 },
               },

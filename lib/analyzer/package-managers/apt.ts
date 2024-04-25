@@ -5,13 +5,15 @@ import {
   AnalyzedPackageWithVersion,
   IAptFiles,
   ImagePackagesAnalysis,
+  OSRelease,
 } from "../types";
 
 export function analyze(
   targetImage: string,
   aptFiles: IAptFiles,
+  osRelease?: OSRelease,
 ): Promise<ImagePackagesAnalysis> {
-  const pkgs = parseDpkgFile(aptFiles.dpkgFile);
+  const pkgs = parseDpkgFile(aptFiles.dpkgFile, osRelease);
 
   if (aptFiles.extFile) {
     setAutoInstalledPackages(aptFiles.extFile, pkgs);
@@ -27,11 +29,12 @@ export function analyze(
 export function analyzeDistroless(
   targetImage: string,
   aptFiles: string[],
+  osRelease?: OSRelease,
 ): Promise<ImagePackagesAnalysis> {
   const analyzedPackages: AnalyzedPackageWithVersion[] = [];
 
   for (const fileContent of aptFiles) {
-    const currentPackages = parseDpkgFile(fileContent);
+    const currentPackages = parseDpkgFile(fileContent, osRelease);
     analyzedPackages.push(...currentPackages);
   }
 
@@ -42,19 +45,36 @@ export function analyzeDistroless(
   });
 }
 
-function parseDpkgFile(text: string): AnalyzedPackageWithVersion[] {
+function parseDpkgFile(
+  text: string,
+  osRelease?: OSRelease,
+): AnalyzedPackageWithVersion[] {
   const pkgs: AnalyzedPackageWithVersion[] = [];
   let curPkg: AnalyzedPackageWithVersion | null = null;
   for (const line of text.split("\n")) {
     curPkg = parseDpkgLine(line, curPkg!, pkgs);
     if (curPkg) {
-      curPkg.Purl = purl(curPkg);
+      curPkg.Purl = purl(curPkg, osRelease);
     }
   }
   return pkgs;
 }
 
-export function purl(curPkg: AnalyzedPackageWithVersion): string | undefined {
+const debianCodenames = new Map<string, string>([
+  ["8", "jessie"],
+  ["9", "stretch"],
+  ["10", "buster"],
+  ["11", "bullseye"],
+  ["12", "bookworm"],
+  ["13", "trixie"],
+  ["unstable", "sid"],
+]);
+
+export function purl(
+  curPkg: AnalyzedPackageWithVersion,
+  osRelease?: OSRelease,
+): string | undefined {
+  let vendor = "";
   if (!curPkg.Name || !curPkg.Version) {
     return undefined;
   }
@@ -66,9 +86,16 @@ export function purl(curPkg: AnalyzedPackageWithVersion): string | undefined {
     qualifiers.upstream = curPkg.Source;
   }
 
+  if (osRelease) {
+    const codenameOrVersion =
+      debianCodenames.get(osRelease.version) ?? osRelease.version;
+    qualifiers.distro = `${osRelease.name}-${codenameOrVersion}`;
+    vendor = osRelease.name;
+  }
+
   return new PackageURL(
     "deb",
-    "",
+    vendor,
     curPkg.Name,
     curPkg.Version,
     // make sure that we pass in undefined if there are no qualifiers, because

@@ -171,14 +171,15 @@ export async function analyze(
   try {
     results = await Promise.all([
       apkAnalyze(targetImage, apkDbFileContent),
-      aptAnalyze(targetImage, aptDbFileContent),
-      rpmAnalyze(targetImage, rpmDbFileContent, redHatRepositories),
+      aptAnalyze(targetImage, aptDbFileContent, osRelease),
+      rpmAnalyze(targetImage, rpmDbFileContent, redHatRepositories, osRelease),
       mapRpmSqlitePackages(
         targetImage,
         rpmSqliteDbFileContent,
         redHatRepositories,
+        osRelease,
       ),
-      aptDistrolessAnalyze(targetImage, distrolessAptFiles),
+      aptDistrolessAnalyze(targetImage, distrolessAptFiles, osRelease),
     ]);
   } catch (err) {
     debug(`Could not detect installed OS packages: ${err.message}`);

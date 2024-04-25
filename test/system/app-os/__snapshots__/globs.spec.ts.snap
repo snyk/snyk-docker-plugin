@@ -1214,7 +1214,7 @@ Object {
                 "id": "audit/libaudit-common@1:2.8.4-3",
                 "info": Object {
                   "name": "audit/libaudit-common",
-                  "purl": "pkg:deb/libaudit-common@1:2.8.4-3?upstream=audit",
+                  "purl": "pkg:deb/debian/libaudit-common@1:2.8.4-3?distro=debian-buster&upstream=audit",
                   "version": "1:2.8.4-3",
                 },
               },
@@ -1222,7 +1222,7 @@ Object {
                 "id": "libcap-ng/libcap-ng0@0.7.9-2",
                 "info": Object {
                   "name": "libcap-ng/libcap-ng0",
-                  "purl": "pkg:deb/libcap-ng0@0.7.9-2?upstream=libcap-ng",
+                  "purl": "pkg:deb/debian/libcap-ng0@0.7.9-2?distro=debian-buster&upstream=libcap-ng",
                   "version": "0.7.9-2",
                 },
               },
@@ -1230,7 +1230,7 @@ Object {
                 "id": "audit/libaudit1@1:2.8.4-3",
                 "info": Object {
                   "name": "audit/libaudit1",
-                  "purl": "pkg:deb/libaudit1@1:2.8.4-3?upstream=audit",
+                  "purl": "pkg:deb/debian/libaudit1@1:2.8.4-3?distro=debian-buster&upstream=audit",
                   "version": "1:2.8.4-3",
                 },
               },
@@ -1238,7 +1238,7 @@ Object {
                 "id": "libsemanage/libsemanage-common@2.8-2",
                 "info": Object {
                   "name": "libsemanage/libsemanage-common",
-                  "purl": "pkg:deb/libsemanage-common@2.8-2?upstream=libsemanage",
+                  "purl": "pkg:deb/debian/libsemanage-common@2.8-2?distro=debian-buster&upstream=libsemanage",
                   "version": "2.8-2",
                 },
               },
@@ -1246,7 +1246,7 @@ Object {
                 "id": "libsepol/libsepol1@2.8-1",
                 "info": Object {
                   "name": "libsepol/libsepol1",
-                  "purl": "pkg:deb/libsepol1@2.8-1?upstream=libsepol",
+                  "purl": "pkg:deb/debian/libsepol1@2.8-1?distro=debian-buster&upstream=libsepol",
                   "version": "2.8-1",
                 },
               },
@@ -1254,7 +1254,7 @@ Object {
                 "id": "libsemanage/libsemanage1@2.8-2",
                 "info": Object {
                   "name": "libsemanage/libsemanage1",
-                  "purl": "pkg:deb/libsemanage1@2.8-2?upstream=libsemanage",
+                  "purl": "pkg:deb/debian/libsemanage1@2.8-2?distro=debian-buster&upstream=libsemanage",
                   "version": "2.8-2",
                 },
               },
@@ -1262,7 +1262,7 @@ Object {
                 "id": "db5.3/libdb5.3@5.3.28+dfsg1-0.5",
                 "info": Object {
                   "name": "db5.3/libdb5.3",
-                  "purl": "pkg:deb/libdb5.3@5.3.28%2Bdfsg1-0.5?upstream=db5.3",
+                  "purl": "pkg:deb/debian/libdb5.3@5.3.28%2Bdfsg1-0.5?distro=debian-buster&upstream=db5.3",
                   "version": "5.3.28+dfsg1-0.5",
                 },
               },
@@ -1270,7 +1270,7 @@ Object {
                 "id": "pam/libpam0g@1.3.1-5",
                 "info": Object {
                   "name": "pam/libpam0g",
-                  "purl": "pkg:deb/libpam0g@1.3.1-5?upstream=pam",
+                  "purl": "pkg:deb/debian/libpam0g@1.3.1-5?distro=debian-buster&upstream=pam",
                   "version": "1.3.1-5",
                 },
               },
@@ -1278,7 +1278,7 @@ Object {
                 "id": "pam/libpam-modules-bin@1.3.1-5",
                 "info": Object {
                   "name": "pam/libpam-modules-bin",
-                  "purl": "pkg:deb/libpam-modules-bin@1.3.1-5?upstream=pam",
+                  "purl": "pkg:deb/debian/libpam-modules-bin@1.3.1-5?distro=debian-buster&upstream=pam",
                   "version": "1.3.1-5",
                 },
               },
@@ -1286,7 +1286,7 @@ Object {
                 "id": "pam/libpam-modules@1.3.1-5",
                 "info": Object {
                   "name": "pam/libpam-modules",
-                  "purl": "pkg:deb/libpam-modules@1.3.1-5?upstream=pam",
+                  "purl": "pkg:deb/debian/libpam-modules@1.3.1-5?distro=debian-buster&upstream=pam",
                   "version": "1.3.1-5",
                 },
               },
@@ -1294,7 +1294,7 @@ Object {
                 "id": "shadow/passwd@1:4.5-1.1",
                 "info": Object {
                   "name": "shadow/passwd",
-                  "purl": "pkg:deb/passwd@1:4.5-1.1?upstream=shadow",
+                  "purl": "pkg:deb/debian/passwd@1:4.5-1.1?distro=debian-buster&upstream=shadow",
                   "version": "1:4.5-1.1",
                 },
               },
@@ -1302,7 +1302,7 @@ Object {
                 "id": "adduser@3.118",
                 "info": Object {
                   "name": "adduser",
-                  "purl": "pkg:deb/adduser@3.118",
+                  "purl": "pkg:deb/debian/adduser@3.118?distro=debian-buster",
                   "version": "3.118",
                 },
               },
@@ -1310,7 +1310,7 @@ Object {
                 "id": "gcc-8/libstdc++6@8.3.0-6",
                 "info": Object {
                   "name": "gcc-8/libstdc++6",
-                  "purl": "pkg:deb/libstdc%2B%2B6@8.3.0-6?upstream=gcc-8",
+                  "purl": "pkg:deb/debian/libstdc%2B%2B6@8.3.0-6?distro=debian-buster&upstream=gcc-8",
                   "version": "8.3.0-6",
                 },
               },
@@ -1318,7 +1318,7 @@ Object {
                 "id": "libzstd/libzstd1@1.3.8+dfsg-3",
                 "info": Object {
                   "name": "libzstd/libzstd1",
-                  "purl": "pkg:deb/libzstd1@1.3.8%2Bdfsg-3?upstream=libzstd",
+                  "purl": "pkg:deb/debian/libzstd1@1.3.8%2Bdfsg-3?distro=debian-buster&upstream=libzstd",
                   "version": "1.3.8+dfsg-3",
                 },
               },
@@ -1326,7 +1326,7 @@ Object {
                 "id": "lz4/liblz4-1@1.8.3-1",
                 "info": Object {
                   "name": "lz4/liblz4-1",
-                  "purl": "pkg:deb/liblz4-1@1.8.3-1?upstream=lz4",
+                  "purl": "pkg:deb/debian/liblz4-1@1.8.3-1?distro=debian-buster&upstream=lz4",
                   "version": "1.8.3-1",
                 },
               },
@@ -1334,7 +1334,7 @@ Object {
                 "id": "libgcrypt20@1.8.4-5",
                 "info": Object {
                   "name": "libgcrypt20",
-                  "purl": "pkg:deb/libgcrypt20@1.8.4-5",
+                  "purl": "pkg:deb/debian/libgcrypt20@1.8.4-5?distro=debian-buster",
                   "version": "1.8.4-5",
                 },
               },
@@ -1342,7 +1342,7 @@ Object {
                 "id": "systemd/libsystemd0@241-7~deb10u4",
                 "info": Object {
                   "name": "systemd/libsystemd0",
-                  "purl": "pkg:deb/libsystemd0@241-7~deb10u4?upstream=systemd",
+                  "purl": "pkg:deb/debian/libsystemd0@241-7~deb10u4?distro=debian-buster&upstream=systemd",
                   "version": "241-7~deb10u4",
                 },
               },
@@ -1350,7 +1350,7 @@ Object {
                 "id": "systemd/libudev1@241-7~deb10u4",
                 "info": Object {
                   "name": "systemd/libudev1",
-                  "purl": "pkg:deb/libudev1@241-7~deb10u4?upstream=systemd",
+                  "purl": "pkg:deb/debian/libudev1@241-7~deb10u4?distro=debian-buster&upstream=systemd",
                   "version": "241-7~deb10u4",
                 },
               },
@@ -1358,7 +1358,7 @@ Object {
                 "id": "apt/libapt-pkg5.0@1.8.2.1",
                 "info": Object {
                   "name": "apt/libapt-pkg5.0",
-                  "purl": "pkg:deb/libapt-pkg5.0@1.8.2.1?upstream=apt",
+                  "purl": "pkg:deb/debian/libapt-pkg5.0@1.8.2.1?distro=debian-buster&upstream=apt",
                   "version": "1.8.2.1",
                 },
               },
@@ -1366,7 +1366,7 @@ Object {
                 "id": "debian-archive-keyring@2019.1",
                 "info": Object {
                   "name": "debian-archive-keyring",
-                  "purl": "pkg:deb/debian-archive-keyring@2019.1",
+                  "purl": "pkg:deb/debian/debian-archive-keyring@2019.1?distro=debian-buster",
                   "version": "2019.1",
                 },
               },
@@ -1374,7 +1374,7 @@ Object {
                 "id": "libgpg-error/libgpg-error0@1.35-1",
                 "info": Object {
                   "name": "libgpg-error/libgpg-error0",
-                  "purl": "pkg:deb/libgpg-error0@1.35-1?upstream=libgpg-error",
+                  "purl": "pkg:deb/debian/libgpg-error0@1.35-1?distro=debian-buster&upstream=libgpg-error",
                   "version": "1.35-1",
                 },
               },
@@ -1382,7 +1382,7 @@ Object {
                 "id": "gnupg2/gpgv@2.2.12-1+deb10u1",
                 "info": Object {
                   "name": "gnupg2/gpgv",
-                  "purl": "pkg:deb/gpgv@2.2.12-1%2Bdeb10u1?upstream=gnupg2",
+                  "purl": "pkg:deb/debian/gpgv@2.2.12-1%2Bdeb10u1?distro=debian-buster&upstream=gnupg2",
                   "version": "2.2.12-1+deb10u1",
                 },
               },
@@ -1390,7 +1390,7 @@ Object {
                 "id": "gmp/libgmp10@2:6.1.2+dfsg-4",
                 "info": Object {
                   "name": "gmp/libgmp10",
-                  "purl": "pkg:deb/libgmp10@2:6.1.2%2Bdfsg-4?upstream=gmp",
+                  "purl": "pkg:deb/debian/libgmp10@2:6.1.2%2Bdfsg-4?distro=debian-buster&upstream=gmp",
                   "version": "2:6.1.2+dfsg-4",
                 },
               },
@@ -1398,7 +1398,7 @@ Object {
                 "id": "libidn2/libidn2-0@2.0.5-1+deb10u1",
                 "info": Object {
                   "name": "libidn2/libidn2-0",
-                  "purl": "pkg:deb/libidn2-0@2.0.5-1%2Bdeb10u1?upstream=libidn2",
+                  "purl": "pkg:deb/debian/libidn2-0@2.0.5-1%2Bdeb10u1?distro=debian-buster&upstream=libidn2",
                   "version": "2.0.5-1+deb10u1",
                 },
               },
@@ -1406,7 +1406,7 @@ Object {
                 "id": "libtasn1-6@4.13-3",
                 "info": Object {
                   "name": "libtasn1-6",
-                  "purl": "pkg:deb/libtasn1-6@4.13-3",
+                  "purl": "pkg:deb/debian/libtasn1-6@4.13-3?distro=debian-buster",
                   "version": "4.13-3",
                 },
               },
@@ -1414,7 +1414,7 @@ Object {
                 "id": "libunistring/libunistring2@0.9.10-1",
                 "info": Object {
                   "name": "libunistring/libunistring2",
-                  "purl": "pkg:deb/libunistring2@0.9.10-1?upstream=libunistring",
+                  "purl": "pkg:deb/debian/libunistring2@0.9.10-1?distro=debian-buster&upstream=libunistring",
                   "version": "0.9.10-1",
                 },
               },
@@ -1422,7 +1422,7 @@ Object {
                 "id": "nettle/libnettle6@3.4.1-1",
                 "info": Object {
                   "name": "nettle/libnettle6",
-                  "purl": "pkg:deb/libnettle6@3.4.1-1?upstream=nettle",
+                  "purl": "pkg:deb/debian/libnettle6@3.4.1-1?distro=debian-buster&upstream=nettle",
                   "version": "3.4.1-1",
                 },
               },
@@ -1430,7 +1430,7 @@ Object {
                 "id": "nettle/libhogweed4@3.4.1-1",
                 "info": Object {
                   "name": "nettle/libhogweed4",
-                  "purl": "pkg:deb/libhogweed4@3.4.1-1?upstream=nettle",
+                  "purl": "pkg:deb/debian/libhogweed4@3.4.1-1?distro=debian-buster&upstream=nettle",
                   "version": "3.4.1-1",
                 },
               },
@@ -1438,7 +1438,7 @@ Object {
                 "id": "libffi/libffi6@3.2.1-9",
                 "info": Object {
                   "name": "libffi/libffi6",
-                  "purl": "pkg:deb/libffi6@3.2.1-9?upstream=libffi",
+                  "purl": "pkg:deb/debian/libffi6@3.2.1-9?distro=debian-buster&upstream=libffi",
                   "version": "3.2.1-9",
                 },
               },
@@ -1446,7 +1446,7 @@ Object {
                 "id": "p11-kit/libp11-kit0@0.23.15-2",
                 "info": Object {
                   "name": "p11-kit/libp11-kit0",
-                  "purl": "pkg:deb/libp11-kit0@0.23.15-2?upstream=p11-kit",
+                  "purl": "pkg:deb/debian/libp11-kit0@0.23.15-2?distro=debian-buster&upstream=p11-kit",
                   "version": "0.23.15-2",
                 },
               },
@@ -1454,7 +1454,7 @@ Object {
                 "id": "gnutls28/libgnutls30@3.6.7-4+deb10u5",
                 "info": Object {
                   "name": "gnutls28/libgnutls30",
-                  "purl": "pkg:deb/libgnutls30@3.6.7-4%2Bdeb10u5?upstream=gnutls28",
+                  "purl": "pkg:deb/debian/libgnutls30@3.6.7-4%2Bdeb10u5?distro=debian-buster&upstream=gnutls28",
                   "version": "3.6.7-4+deb10u5",
                 },
               },
@@ -1462,7 +1462,7 @@ Object {
                 "id": "libseccomp/libseccomp2@2.3.3-4",
                 "info": Object {
                   "name": "libseccomp/libseccomp2",
-                  "purl": "pkg:deb/libseccomp2@2.3.3-4?upstream=libseccomp",
+                  "purl": "pkg:deb/debian/libseccomp2@2.3.3-4?distro=debian-buster&upstream=libseccomp",
                   "version": "2.3.3-4",
                 },
               },
@@ -1470,7 +1470,7 @@ Object {
                 "id": "apt@1.8.2.1",
                 "info": Object {
                   "name": "apt",
-                  "purl": "pkg:deb/apt@1.8.2.1",
+                  "purl": "pkg:deb/debian/apt@1.8.2.1?distro=debian-buster",
                   "version": "1.8.2.1",
                 },
               },
@@ -1485,7 +1485,7 @@ Object {
                 "id": "mawk/mawk@1.3.3-17+b3",
                 "info": Object {
                   "name": "mawk/mawk",
-                  "purl": "pkg:deb/mawk@1.3.3-17%2Bb3?upstream=mawk%401.3.3-17",
+                  "purl": "pkg:deb/debian/mawk@1.3.3-17%2Bb3?distro=debian-buster&upstream=mawk%401.3.3-17",
                   "version": "1.3.3-17+b3",
                 },
               },
@@ -1493,7 +1493,7 @@ Object {
                 "id": "base-files@10.3+deb10u6",
                 "info": Object {
                   "name": "base-files",
-                  "purl": "pkg:deb/base-files@10.3%2Bdeb10u6",
+                  "purl": "pkg:deb/debian/base-files@10.3%2Bdeb10u6?distro=debian-buster",
                   "version": "10.3+deb10u6",
                 },
               },
@@ -1501,7 +1501,7 @@ Object {
                 "id": "cdebconf/libdebconfclient0@0.249",
                 "info": Object {
                   "name": "cdebconf/libdebconfclient0",
-                  "purl": "pkg:deb/libdebconfclient0@0.249?upstream=cdebconf",
+                  "purl": "pkg:deb/debian/libdebconfclient0@0.249?distro=debian-buster&upstream=cdebconf",
                   "version": "0.249",
                 },
               },
@@ -1509,7 +1509,7 @@ Object {
                 "id": "base-passwd@3.5.46",
                 "info": Object {
                   "name": "base-passwd",
-                  "purl": "pkg:deb/base-passwd@3.5.46",
+                  "purl": "pkg:deb/debian/base-passwd@3.5.46?distro=debian-buster",
                   "version": "3.5.46",
                 },
               },
@@ -1517,7 +1517,7 @@ Object {
                 "id": "debianutils@4.8.6.1",
                 "info": Object {
                   "name": "debianutils",
-                  "purl": "pkg:deb/debianutils@4.8.6.1",
+                  "purl": "pkg:deb/debian/debianutils@4.8.6.1?distro=debian-buster",
                   "version": "4.8.6.1",
                 },
               },
@@ -1525,7 +1525,7 @@ Object {
                 "id": "ncurses/libtinfo6@6.1+20181013-2+deb10u2",
                 "info": Object {
                   "name": "ncurses/libtinfo6",
-                  "purl": "pkg:deb/libtinfo6@6.1%2B20181013-2%2Bdeb10u2?upstream=ncurses",
+                  "purl": "pkg:deb/debian/libtinfo6@6.1%2B20181013-2%2Bdeb10u2?distro=debian-buster&upstream=ncurses",
                   "version": "6.1+20181013-2+deb10u2",
                 },
               },
@@ -1533,7 +1533,7 @@ Object {
                 "id": "bash@5.0-4",
                 "info": Object {
                   "name": "bash",
-                  "purl": "pkg:deb/bash@5.0-4",
+                  "purl": "pkg:deb/debian/bash@5.0-4?distro=debian-buster",
                   "version": "5.0-4",
                 },
               },
@@ -1548,7 +1548,7 @@ Object {
                 "id": "coreutils@8.30-3",
                 "info": Object {
                   "name": "coreutils",
-                  "purl": "pkg:deb/coreutils@8.30-3",
+                  "purl": "pkg:deb/debian/coreutils@8.30-3?distro=debian-buster",
                   "version": "8.30-3",
                 },
               },
@@ -1556,7 +1556,7 @@ Object {
                 "id": "dash@0.5.10.2-5",
                 "info": Object {
                   "name": "dash",
-                  "purl": "pkg:deb/dash@0.5.10.2-5",
+                  "purl": "pkg:deb/debian/dash@0.5.10.2-5?distro=debian-buster",
                   "version": "0.5.10.2-5",
                 },
               },
@@ -1571,7 +1571,7 @@ Object {
                 "id": "diffutils@1:3.7-3",
                 "info": Object {
                   "name": "diffutils",
-                  "purl": "pkg:deb/diffutils@1:3.7-3",
+                  "purl": "pkg:deb/debian/diffutils@1:3.7-3?distro=debian-buster",
                   "version": "1:3.7-3",
                 },
               },
@@ -1586,7 +1586,7 @@ Object {
                 "id": "e2fsprogs/libcom-err2@1.44.5-1+deb10u3",
                 "info": Object {
                   "name": "e2fsprogs/libcom-err2",
-                  "purl": "pkg:deb/libcom-err2@1.44.5-1%2Bdeb10u3?upstream=e2fsprogs",
+                  "purl": "pkg:deb/debian/libcom-err2@1.44.5-1%2Bdeb10u3?distro=debian-buster&upstream=e2fsprogs",
                   "version": "1.44.5-1+deb10u3",
                 },
               },
@@ -1594,7 +1594,7 @@ Object {
                 "id": "e2fsprogs/libext2fs2@1.44.5-1+deb10u3",
                 "info": Object {
                   "name": "e2fsprogs/libext2fs2",
-                  "purl": "pkg:deb/libext2fs2@1.44.5-1%2Bdeb10u3?upstream=e2fsprogs",
+                  "purl": "pkg:deb/debian/libext2fs2@1.44.5-1%2Bdeb10u3?distro=debian-buster&upstream=e2fsprogs",
                   "version": "1.44.5-1+deb10u3",
                 },
               },
@@ -1602,7 +1602,7 @@ Object {
                 "id": "e2fsprogs/libss2@1.44.5-1+deb10u3",
                 "info": Object {
                   "name": "e2fsprogs/libss2",
-                  "purl": "pkg:deb/libss2@1.44.5-1%2Bdeb10u3?upstream=e2fsprogs",
+                  "purl": "pkg:deb/debian/libss2@1.44.5-1%2Bdeb10u3?distro=debian-buster&upstream=e2fsprogs",
                   "version": "1.44.5-1+deb10u3",
                 },
               },
@@ -1610,7 +1610,7 @@ Object {
                 "id": "util-linux/libuuid1@2.33.1-0.1",
                 "info": Object {
                   "name": "util-linux/libuuid1",
-                  "purl": "pkg:deb/libuuid1@2.33.1-0.1?upstream=util-linux",
+                  "purl": "pkg:deb/debian/libuuid1@2.33.1-0.1?distro=debian-buster&upstream=util-linux",
                   "version": "2.33.1-0.1",
                 },
               },
@@ -1618,7 +1618,7 @@ Object {
                 "id": "util-linux/libblkid1@2.33.1-0.1",
                 "info": Object {
                   "name": "util-linux/libblkid1",
-                  "purl": "pkg:deb/libblkid1@2.33.1-0.1?upstream=util-linux",
+                  "purl": "pkg:deb/debian/libblkid1@2.33.1-0.1?distro=debian-buster&upstream=util-linux",
                   "version": "2.33.1-0.1",
                 },
               },
@@ -1626,7 +1626,7 @@ Object {
                 "id": "e2fsprogs@1.44.5-1+deb10u3",
                 "info": Object {
                   "name": "e2fsprogs",
-                  "purl": "pkg:deb/e2fsprogs@1.44.5-1%2Bdeb10u3",
+                  "purl": "pkg:deb/debian/e2fsprogs@1.44.5-1%2Bdeb10u3?distro=debian-buster",
                   "version": "1.44.5-1+deb10u3",
                 },
               },
@@ -1634,7 +1634,7 @@ Object {
                 "id": "findutils@4.6.0+git+20190209-2",
                 "info": Object {
                   "name": "findutils",
-                  "purl": "pkg:deb/findutils@4.6.0%2Bgit%2B20190209-2",
+                  "purl": "pkg:deb/debian/findutils@4.6.0%2Bgit%2B20190209-2?distro=debian-buster",
                   "version": "4.6.0+git+20190209-2",
                 },
               },
@@ -1656,7 +1656,7 @@ Object {
                 "id": "glibc/libc-bin@2.28-10",
                 "info": Object {
                   "name": "glibc/libc-bin",
-                  "purl": "pkg:deb/libc-bin@2.28-10?upstream=glibc",
+                  "purl": "pkg:deb/debian/libc-bin@2.28-10?distro=debian-buster&upstream=glibc",
                   "version": "2.28-10",
                 },
               },
@@ -1671,7 +1671,7 @@ Object {
                 "id": "grep@3.3-1",
                 "info": Object {
                   "name": "grep",
-                  "purl": "pkg:deb/grep@3.3-1",
+                  "purl": "pkg:deb/debian/grep@3.3-1?distro=debian-buster",
                   "version": "3.3-1",
                 },
               },
@@ -1679,7 +1679,7 @@ Object {
                 "id": "gzip@1.9-3",
                 "info": Object {
                   "name": "gzip",
-                  "purl": "pkg:deb/gzip@1.9-3",
+                  "purl": "pkg:deb/debian/gzip@1.9-3?distro=debian-buster",
                   "version": "1.9-3",
                 },
               },
@@ -1687,7 +1687,7 @@ Object {
                 "id": "hostname@3.21",
                 "info": Object {
                   "name": "hostname",
-                  "purl": "pkg:deb/hostname@3.21",
+                  "purl": "pkg:deb/debian/hostname@3.21?distro=debian-buster",
                   "version": "3.21",
                 },
               },
@@ -1695,7 +1695,7 @@ Object {
                 "id": "init-system-helpers@1.56+nmu1",
                 "info": Object {
                   "name": "init-system-helpers",
-                  "purl": "pkg:deb/init-system-helpers@1.56%2Bnmu1",
+                  "purl": "pkg:deb/debian/init-system-helpers@1.56%2Bnmu1?distro=debian-buster",
                   "version": "1.56+nmu1",
                 },
               },
@@ -1703,7 +1703,7 @@ Object {
                 "id": "elfutils/libelf1@0.176-1.1",
                 "info": Object {
                   "name": "elfutils/libelf1",
-                  "purl": "pkg:deb/libelf1@0.176-1.1?upstream=elfutils",
+                  "purl": "pkg:deb/debian/libelf1@0.176-1.1?distro=debian-buster&upstream=elfutils",
                   "version": "0.176-1.1",
                 },
               },
@@ -1711,7 +1711,7 @@ Object {
                 "id": "iptables/libxtables12@1.8.2-4",
                 "info": Object {
                   "name": "iptables/libxtables12",
-                  "purl": "pkg:deb/libxtables12@1.8.2-4?upstream=iptables",
+                  "purl": "pkg:deb/debian/libxtables12@1.8.2-4?distro=debian-buster&upstream=iptables",
                   "version": "1.8.2-4",
                 },
               },
@@ -1719,7 +1719,7 @@ Object {
                 "id": "libcap2@1:2.25-2",
                 "info": Object {
                   "name": "libcap2",
-                  "purl": "pkg:deb/libcap2@1:2.25-2",
+                  "purl": "pkg:deb/debian/libcap2@1:2.25-2?distro=debian-buster",
                   "version": "1:2.25-2",
                 },
               },
@@ -1727,7 +1727,7 @@ Object {
                 "id": "libcap2/libcap2-bin@1:2.25-2",
                 "info": Object {
                   "name": "libcap2/libcap2-bin",
-                  "purl": "pkg:deb/libcap2-bin@1:2.25-2?upstream=libcap2",
+                  "purl": "pkg:deb/debian/libcap2-bin@1:2.25-2?distro=debian-buster&upstream=libcap2",
                   "version": "1:2.25-2",
                 },
               },
@@ -1735,7 +1735,7 @@ Object {
                 "id": "libmnl/libmnl0@1.0.4-2",
                 "info": Object {
                   "name": "libmnl/libmnl0",
-                  "purl": "pkg:deb/libmnl0@1.0.4-2?upstream=libmnl",
+                  "purl": "pkg:deb/debian/libmnl0@1.0.4-2?distro=debian-buster&upstream=libmnl",
                   "version": "1.0.4-2",
                 },
               },
@@ -1743,7 +1743,7 @@ Object {
                 "id": "iproute2@4.20.0-2",
                 "info": Object {
                   "name": "iproute2",
-                  "purl": "pkg:deb/iproute2@4.20.0-2",
+                  "purl": "pkg:deb/debian/iproute2@4.20.0-2?distro=debian-buster",
                   "version": "4.20.0-2",
                 },
               },
@@ -1751,7 +1751,7 @@ Object {
                 "id": "iputils/iputils-ping@3:20180629-2+deb10u1",
                 "info": Object {
                   "name": "iputils/iputils-ping",
-                  "purl": "pkg:deb/iputils-ping@3:20180629-2%2Bdeb10u1?upstream=iputils",
+                  "purl": "pkg:deb/debian/iputils-ping@3:20180629-2%2Bdeb10u1?distro=debian-buster&upstream=iputils",
                   "version": "3:20180629-2+deb10u1",
                 },
               },
@@ -1766,7 +1766,7 @@ Object {
                 "id": "ncurses/libncursesw6@6.1+20181013-2+deb10u2",
                 "info": Object {
                   "name": "ncurses/libncursesw6",
-                  "purl": "pkg:deb/libncursesw6@6.1%2B20181013-2%2Bdeb10u2?upstream=ncurses",
+                  "purl": "pkg:deb/debian/libncursesw6@6.1%2B20181013-2%2Bdeb10u2?distro=debian-buster&upstream=ncurses",
                   "version": "6.1+20181013-2+deb10u2",
                 },
               },
@@ -1774,7 +1774,7 @@ Object {
                 "id": "ncurses/ncurses-base@6.1+20181013-2+deb10u2",
                 "info": Object {
                   "name": "ncurses/ncurses-base",
-                  "purl": "pkg:deb/ncurses-base@6.1%2B20181013-2%2Bdeb10u2?upstream=ncurses",
+                  "purl": "pkg:deb/debian/ncurses-base@6.1%2B20181013-2%2Bdeb10u2?distro=debian-buster&upstream=ncurses",
                   "version": "6.1+20181013-2+deb10u2",
                 },
               },
@@ -1782,7 +1782,7 @@ Object {
                 "id": "ncurses/ncurses-bin@6.1+20181013-2+deb10u2",
                 "info": Object {
                   "name": "ncurses/ncurses-bin",
-                  "purl": "pkg:deb/ncurses-bin@6.1%2B20181013-2%2Bdeb10u2?upstream=ncurses",
+                  "purl": "pkg:deb/debian/ncurses-bin@6.1%2B20181013-2%2Bdeb10u2?distro=debian-buster&upstream=ncurses",
                   "version": "6.1+20181013-2+deb10u2",
                 },
               },
@@ -1790,7 +1790,7 @@ Object {
                 "id": "pam/libpam-runtime@1.3.1-5",
                 "info": Object {
                   "name": "pam/libpam-runtime",
-                  "purl": "pkg:deb/libpam-runtime@1.3.1-5?upstream=pam",
+                  "purl": "pkg:deb/debian/libpam-runtime@1.3.1-5?distro=debian-buster&upstream=pam",
                   "version": "1.3.1-5",
                 },
               },
@@ -1812,7 +1812,7 @@ Object {
                 "id": "sed@4.7-1",
                 "info": Object {
                   "name": "sed",
-                  "purl": "pkg:deb/sed@4.7-1",
+                  "purl": "pkg:deb/debian/sed@4.7-1?distro=debian-buster",
                   "version": "4.7-1",
                 },
               },
@@ -1820,7 +1820,7 @@ Object {
                 "id": "shadow/login@1:4.5-1.1",
                 "info": Object {
                   "name": "shadow/login",
-                  "purl": "pkg:deb/login@1:4.5-1.1?upstream=shadow",
+                  "purl": "pkg:deb/debian/login@1:4.5-1.1?distro=debian-buster&upstream=shadow",
                   "version": "1:4.5-1.1",
                 },
               },
@@ -1828,7 +1828,7 @@ Object {
                 "id": "util-linux@2.33.1-0.1",
                 "info": Object {
                   "name": "util-linux",
-                  "purl": "pkg:deb/util-linux@2.33.1-0.1",
+                  "purl": "pkg:deb/debian/util-linux@2.33.1-0.1?distro=debian-buster",
                   "version": "2.33.1-0.1",
                 },
               },
@@ -1836,7 +1836,7 @@ Object {
                 "id": "sysvinit/sysvinit-utils@2.93-8",
                 "info": Object {
                   "name": "sysvinit/sysvinit-utils",
-                  "purl": "pkg:deb/sysvinit-utils@2.93-8?upstream=sysvinit",
+                  "purl": "pkg:deb/debian/sysvinit-utils@2.93-8?distro=debian-buster&upstream=sysvinit",
                   "version": "2.93-8",
                 },
               },
@@ -1851,7 +1851,7 @@ Object {
                 "id": "tzdata@2020d-0+deb10u1",
                 "info": Object {
                   "name": "tzdata",
-                  "purl": "pkg:deb/tzdata@2020d-0%2Bdeb10u1",
+                  "purl": "pkg:deb/debian/tzdata@2020d-0%2Bdeb10u1?distro=debian-buster",
                   "version": "2020d-0+deb10u1",
                 },
               },
@@ -1859,7 +1859,7 @@ Object {
                 "id": "util-linux/bsdutils@1:2.33.1-0.1",
                 "info": Object {
                   "name": "util-linux/bsdutils",
-                  "purl": "pkg:deb/bsdutils@1:2.33.1-0.1?upstream=util-linux%402.33.1-0.1",
+                  "purl": "pkg:deb/debian/bsdutils@1:2.33.1-0.1?distro=debian-buster&upstream=util-linux%402.33.1-0.1",
                   "version": "1:2.33.1-0.1",
                 },
               },
@@ -1867,7 +1867,7 @@ Object {
                 "id": "util-linux/libfdisk1@2.33.1-0.1",
                 "info": Object {
                   "name": "util-linux/libfdisk1",
-                  "purl": "pkg:deb/libfdisk1@2.33.1-0.1?upstream=util-linux",
+                  "purl": "pkg:deb/debian/libfdisk1@2.33.1-0.1?distro=debian-buster&upstream=util-linux",
                   "version": "2.33.1-0.1",
                 },
               },
@@ -1875,7 +1875,7 @@ Object {
                 "id": "util-linux/libmount1@2.33.1-0.1",
                 "info": Object {
                   "name": "util-linux/libmount1",
-                  "purl": "pkg:deb/libmount1@2.33.1-0.1?upstream=util-linux",
+                  "purl": "pkg:deb/debian/libmount1@2.33.1-0.1?distro=debian-buster&upstream=util-linux",
                   "version": "2.33.1-0.1",
                 },
               },
@@ -1883,7 +1883,7 @@ Object {
                 "id": "util-linux/libsmartcols1@2.33.1-0.1",
                 "info": Object {
                   "name": "util-linux/libsmartcols1",
-                  "purl": "pkg:deb/libsmartcols1@2.33.1-0.1?upstream=util-linux",
+                  "purl": "pkg:deb/debian/libsmartcols1@2.33.1-0.1?distro=debian-buster&upstream=util-linux",
                   "version": "2.33.1-0.1",
                 },
               },
@@ -1891,7 +1891,7 @@ Object {
                 "id": "util-linux/fdisk@2.33.1-0.1",
                 "info": Object {
                   "name": "util-linux/fdisk",
-                  "purl": "pkg:deb/fdisk@2.33.1-0.1?upstream=util-linux",
+                  "purl": "pkg:deb/debian/fdisk@2.33.1-0.1?distro=debian-buster&upstream=util-linux",
                   "version": "2.33.1-0.1",
                 },
               },
@@ -1899,7 +1899,7 @@ Object {
                 "id": "util-linux/mount@2.33.1-0.1",
                 "info": Object {
                   "name": "util-linux/mount",
-                  "purl": "pkg:deb/mount@2.33.1-0.1?upstream=util-linux",
+                  "purl": "pkg:deb/debian/mount@2.33.1-0.1?distro=debian-buster&upstream=util-linux",
                   "version": "2.33.1-0.1",
                 },
               },
