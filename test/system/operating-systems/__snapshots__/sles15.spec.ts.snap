@@ -1981,7 +1981,7 @@ Object {
         },
         Object {
           "data": Array [
-            "b115cf09caeb93846d75adc91e5a2fd3e433bd5fa63c8ad36097a6dbf564c66a/layer.tar",
+            "sha256:0f350a1ede685e83e2220dd2ad17b7b1247cfa80eb6a9f0bbfed83d1e544ed45",
           ],
           "type": "imageLayers",
         },

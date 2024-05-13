@@ -6035,11 +6035,11 @@ Object {
         },
         Object {
           "data": Array [
-            "7230f17da77234a3dfff88a15bff9000167b64e3990dd89438db1e982ea42144/layer.tar",
-            "67aead152fc0e4e68e455dfda942c994efc557da946a6d07a7e27858b708a981/layer.tar",
-            "7c3016ed3901e7e56a373af2971c3124df03297c01995a37e75a9553c73d4a33/layer.tar",
-            "e3c209a5cb40632b043955f4551b4a9bc2b1acf373e4f0fa64494eaab62e179a/layer.tar",
-            "c0c58c272eeaa4f02a5f1ed8aca1016315e51235bdf596da369325867c25d289/layer.tar",
+            "sha256:76e525e1b16d0a56473d529790d3f1696078799abf41357103298a09f744f0fe",
+            "sha256:7a1f8cd94aa1e8ef907cb7bb71cb968cb907a283947aa28440159f1564bb12b0",
+            "sha256:47cf2e444f5a66d9e1b16a55aca8880d5a3329f4e0ed3976b0ea625471116b70",
+            "sha256:9d4685268f61f7e07d355dba7e314ea6b596fe5c371863d9860861db0d282d94",
+            "sha256:06d2bfb4c255ce6202421662c358af167a7dfb1dd4b63278c73ddae4ebae007f",
           ],
           "type": "imageLayers",
         },
@@ -9025,8 +9025,8 @@ Object {
         },
         Object {
           "data": Array [
-            "1de76a962da9f1bf775dd311c39a5895878fb76df24ee89b2c7868c501f5a116/layer.tar",
-            "8ddbe8b9111dfaa75f3a9f8ec59cc9769fe264c3874e449dfc7e3b8010008374/layer.tar",
+            "sha256:ccf04fbd6e1943f648d1c2980e96038edc02b543c597556098ab2bcaa4fd1fa8",
+            "sha256:b7b591e3443f17f9d8272b8d118b6c031ca826deb09d4b44f296ba934f1b6e57",
           ],
           "type": "imageLayers",
         },

@@ -16,6 +16,7 @@ describe("PPC64 platform tests", () => {
     const image = "ppc64le/php:8.0.0rc1-fpm-alpine3.12";
     const pluginResult = await scan({
       path: image,
+      platform: "linux/ppc64le",
     });
 
     expect(pluginResult).toMatchSnapshot();

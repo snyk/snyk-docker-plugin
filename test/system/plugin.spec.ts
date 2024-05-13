@@ -85,11 +85,11 @@ describe("plugin", () => {
 
     //  layers are read correctly
     expect(imageLayers).toEqual([
-      "29a4ff5c2250ab72c60545ba67bd67d87daa05e4abd186e7d488d921287c893b/layer.tar",
-      "bd0f0d2dba229cb9005123b54a646fe612882343c06b68c4722f221fdc597d82/layer.tar",
-      "5a88377adcb6f00f0388d45a929fe1159916d7c9e733db78d6defb3fcd325a68/layer.tar",
-      "94f68a38cdeff495ef63de6533b7d7486312ff7bc184120a620ad738536f548d/layer.tar",
-      "44fc3f4af0d0f3587192b742d77b7c1c85cfd230bfb5474f6e1619da7962e3e3/layer.tar",
+      "sha256:13cb14c2acd34e45446a50af25cb05095a17624678dbafbcc9e26086547c1d74",
+      "sha256:d4cf327d8ef50eb2e31b646f17217a3baf455391bfd59bce47df50c770ff8c07",
+      "sha256:7c7d7f4461826dd22f9234a81f9bed9c0bdb0b70b3ce66228bfc87418a9b8313",
+      "sha256:9040af41bb6677b114134de15ddeb10b070eb1f940dbbe277574ee154d89f6b9",
+      "sha256:f978b9ed3f26a49b55cf4849e4cadb29335be45a633cbe95a2f4e445e70086bf",
     ]);
 
     //  correct platform detected
