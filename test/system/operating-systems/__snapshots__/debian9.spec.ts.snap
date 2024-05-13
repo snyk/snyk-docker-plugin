@@ -1696,7 +1696,7 @@ Object {
         },
         Object {
           "data": Array [
-            "1055bdb815777509eb503f8729b3ab549118c3f0931cc16a42a6712a74513e90/layer.tar",
+            "sha256:b323b70996e4f6d603c331669ac44cf6234a2e22002d3686e9c88398c6911c25",
           ],
           "type": "imageLayers",
         },

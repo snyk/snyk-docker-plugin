@@ -16,6 +16,7 @@ describe("ARM platform tests", () => {
     const image = "arm64v8/nginx:1.19.2-alpine";
     const pluginResult = await scan({
       path: image,
+      platform: "linux/arm64",
     });
 
     expect(pluginResult).toMatchSnapshot();

@@ -157,8 +157,8 @@ Object {
         },
         Object {
           "data": Array [
-            "cd28a18f08941d5f62d26d4612c17ce135fcbb3c33d86060d72c65e6186b61ad/layer.tar",
-            "795faa8b6bf2e2d15702e670d4e456b1c3fa86a1fff2def41e1d3298a483f565/layer.tar",
+            "sha256:79d541cda6cb9a0c0e4aaa62aaea1f85b6b56544b5ad25e1e3369525ec0bf670",
+            "sha256:236f427c513a1d6f359c493154ef41bb0d768e0d0396599e0625a5f6fee476d7",
           ],
           "type": "imageLayers",
         },

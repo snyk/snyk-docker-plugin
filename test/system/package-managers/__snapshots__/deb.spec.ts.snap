@@ -1810,7 +1810,7 @@ Object {
         },
         Object {
           "data": Array [
-            "c2fe749e1f868a9099c8a60ec52c64cc342d7469bcb6fe3f2e7e0348d71ebc21/layer.tar",
+            "sha256:69215f34c115201c526c8a6552b88e87d18e24d5387322154838f64ed6029683",
           ],
           "type": "imageLayers",
         },

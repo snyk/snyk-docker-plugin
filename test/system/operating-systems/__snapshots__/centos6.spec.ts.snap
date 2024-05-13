@@ -3181,11 +3181,11 @@ Object {
         },
         Object {
           "data": Array [
-            "e3d6e0a09adc552a4285778455f896da9d58fb8ce2d039c71242f7714f82b1bb/layer.tar",
-            "ccb2cf349299df18df3a19de063d771f45272473d5b95096a2a52b43f3e1fe92/layer.tar",
-            "f585de9f64390357561a1aa0429ec8574b881d9491fc4c679afa11a5a8e96345/layer.tar",
-            "7b230090ec7cd46b2314325b92e9ff14910994a497d59e607334441b1d72dccb/layer.tar",
-            "29328c690ed7d63a6b5423629b91d01ee9f28106208f98feaf8d93dda329e804/layer.tar",
+            "sha256:af6bf1987c2eb07d73f33836b0d8fd825d7c785273526b077e46780e8b4b2ae9",
+            "sha256:282064e8c74ac642a58047db969497eeae247fb78e8e9c7c7cd0452b3063a11b",
+            "sha256:91d67088c5c5c582ba1740d680281e579a6b79a11a722a1099cedbd6eacc90b4",
+            "sha256:33080feb7575643f4ba24fe41c38d4bed2c9507fb54eb80f49a65ed068cc37be",
+            "sha256:2b7c38b09edb3ce271c3f5d11560644cb8d153917529c1d28a2818fc8cc0d7aa",
           ],
           "type": "imageLayers",
         },
@@ -6421,11 +6421,11 @@ Object {
         },
         Object {
           "data": Array [
-            "e3d6e0a09adc552a4285778455f896da9d58fb8ce2d039c71242f7714f82b1bb/layer.tar",
-            "ccb2cf349299df18df3a19de063d771f45272473d5b95096a2a52b43f3e1fe92/layer.tar",
-            "f585de9f64390357561a1aa0429ec8574b881d9491fc4c679afa11a5a8e96345/layer.tar",
-            "7b230090ec7cd46b2314325b92e9ff14910994a497d59e607334441b1d72dccb/layer.tar",
-            "29328c690ed7d63a6b5423629b91d01ee9f28106208f98feaf8d93dda329e804/layer.tar",
+            "sha256:af6bf1987c2eb07d73f33836b0d8fd825d7c785273526b077e46780e8b4b2ae9",
+            "sha256:282064e8c74ac642a58047db969497eeae247fb78e8e9c7c7cd0452b3063a11b",
+            "sha256:91d67088c5c5c582ba1740d680281e579a6b79a11a722a1099cedbd6eacc90b4",
+            "sha256:33080feb7575643f4ba24fe41c38d4bed2c9507fb54eb80f49a65ed068cc37be",
+            "sha256:2b7c38b09edb3ce271c3f5d11560644cb8d153917529c1d28a2818fc8cc0d7aa",
           ],
           "type": "imageLayers",
         },
