@@ -7,4 +7,14 @@ ignore:
         reason: None Given
         expires: 2122-12-29T08:08:41.608Z
         created: 2022-11-29T08:08:41.611Z
+  SNYK-JS-BRACES-6838727:
+    - '*':
+        reason: No fix is available at the moment.
+        expires: 2024-08-13T15:00:00.000Z
+        created: 2024-05-13T15:00:00.000Z
+  SNYK-JS-MICROMATCH-6838728:
+    - '*':
+        reason: No fix is available at the moment.
+        expires: 2024-08-13T15:00:00.000Z
+        created: 2024-05-13T15:00:00.000Z
 patch: {}
