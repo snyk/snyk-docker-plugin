@@ -1,0 +1,71 @@
+{
+    "schemaVersion": "1.3.0",
+    "pkgManager": {
+        "name": "npm"
+    },
+    "pkgs": [
+        {
+            "id": "app@",
+            "info": {
+                "name": "app"
+            }
+        },
+        {
+            "id": "yaml@1.10.2",
+            "info": {
+                "name": "yaml",
+                "version": "1.10.2"
+            }
+        },
+        {
+            "id": "commander@2.20.3",
+            "info": {
+                "name": "commander",
+                "version": "2.20.3"
+            }
+        },
+        {
+            "id": "z-schema@3.25.1",
+            "info": {
+                "name": "z-schema",
+                "version": "3.25.1"
+            }
+        }
+    ],
+    "graph": {
+        "rootNodeId": "root-node",
+        "nodes": [
+            {
+                "nodeId": "root-node",
+                "pkgId": "app@",
+                "deps": [
+                    {
+                        "nodeId": "yaml@1.10.2"
+                    },
+                    {
+                        "nodeId": "z-schema@3.25.1"
+                    }
+                ]
+            },
+            {
+                "nodeId": "yaml@1.10.2",
+                "pkgId": "yaml@1.10.2",
+                "deps": []
+            },
+            {
+                "nodeId": "commander@2.20.3",
+                "pkgId": "commander@2.20.3",
+                "deps": []
+            },
+            {
+                "nodeId": "z-schema@3.25.1",
+                "pkgId": "z-schema@3.25.1",
+                "deps": [
+                    {
+                        "nodeId": "commander@2.20.3"
+                    }
+                ]
+            }
+        ]
+    }
+}
