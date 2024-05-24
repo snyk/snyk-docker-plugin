@@ -1,11 +1,17 @@
 import * as crypto from "crypto";
-import { createReadStream, existsSync, unlinkSync } from "fs";
+import {
+  createReadStream,
+  createWriteStream,
+  existsSync,
+  unlinkSync,
+} from "fs";
 import * as os from "os";
 import * as path from "path";
+import * as tar from "tar-stream";
+import * as tmp from "tmp";
+import { Docker } from "../../lib/docker";
 import { CmdOutput } from "../../lib/sub-process";
 import * as subProcess from "../../lib/sub-process";
-
-import { Docker } from "../../lib/docker";
 
 describe("docker", () => {
   describe("save from docker daemon", () => {
@@ -21,7 +27,8 @@ describe("docker", () => {
         "../fixtures/docker-archives",
         "docker-save/hello-world.tar",
       );
-      expectedChecksum = await getChecksum(loadImage);
+      const normalizedLoadImage = await normalizeImageTar(loadImage);
+      expectedChecksum = await calculateImageSHA256(normalizedLoadImage);
       await subProcess.execute("docker", ["load", "--input", loadImage]);
     });
 
@@ -31,6 +38,61 @@ describe("docker", () => {
       }
     });
 
+    async function calculateImageSHA256(tarFilePath: string): Promise<string> {
+      return new Promise((resolve, reject) => {
+        const hash = crypto.createHash("sha256");
+        const stream = createReadStream(tarFilePath);
+
+        stream.on("data", (data) => {
+          hash.update(data);
+        });
+
+        stream.on("end", () => {
+          resolve(hash.digest("hex"));
+        });
+
+        stream.on("error", (err) => {
+          reject(err);
+        });
+      });
+    }
+
+    async function normalizeImageTar(tarFilePath: string): Promise<string> {
+      return new Promise((resolve, reject) => {
+        const extract = tar.extract();
+        const pack = tar.pack();
+        const tempFile = tmp.fileSync();
+        const output = createWriteStream(tempFile.name);
+
+        extract.on("entry", (header, stream, next) => {
+          // Normalize the header
+          header.mtime = new Date(0); // Set modification time to the epoch
+          header.uid = 0; // Set user ID to 0
+          header.gid = 0; // Set group ID to 0
+
+          // Add entry to the new tar file
+          const entry = pack.entry(header, next);
+          stream.pipe(entry);
+        });
+
+        extract.on("finish", () => {
+          pack.finalize();
+        });
+
+        output.on("finish", () => {
+          resolve(tempFile.name);
+        });
+
+        extract.on("error", (err) => {
+          reject(err);
+        });
+
+        pack.pipe(output);
+
+        createReadStream(tarFilePath).pipe(extract);
+      });
+    }
+
     test("image saved to specified location", async () => {
       const targetImage = TEST_TARGET_IMAGE;
       const targetImageDestination = TEST_TARGET_IMAGE_DESTINATION;
@@ -38,12 +100,12 @@ describe("docker", () => {
       await docker.save(targetImage, targetImageDestination);
 
       expect(existsSync(targetImageDestination)).toBeTruthy();
+      const normalizedTargetImage = await normalizeImageTar(
+        targetImageDestination,
+      );
 
-      const checksum = await getChecksum(targetImageDestination);
-      //  exported tar checksum matched expected
-      // disabling this check for now as the checksum of the hello-world:latest is changing
-      // TODO(adrobuta) : Investigate the mismatch between the exported compressed images
-      // expect(checksum).toEqual(expectedChecksum);
+      const checksum = await calculateImageSHA256(normalizedTargetImage);
+      expect(checksum).toEqual(expectedChecksum);
     });
 
     test("promise rejects when image doesn't exist", async () => {
@@ -69,27 +131,7 @@ describe("docker", () => {
       );
       expect(existsSync(targetImageDestination)).toBeFalsy();
     });
-
-    function getChecksum(path: string): Promise<string> {
-      return new Promise((resolve, reject) => {
-        const hash = crypto.createHash("sha256");
-        const file = createReadStream(path);
-
-        file.on("error", (err) => {
-          reject(err);
-        });
-
-        file.on("data", (chunk) => {
-          hash.update(chunk);
-        });
-
-        file.on("close", () => {
-          resolve(hash.digest("hex"));
-        });
-      });
-    }
   });
-
   describe("pullCli", () => {
     const targetImage = "some:image";
 
