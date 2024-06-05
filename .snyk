@@ -12,9 +12,4 @@ ignore:
         reason: No fix is available at the moment.
         expires: 2024-08-13T15:00:00.000Z
         created: 2024-05-13T15:00:00.000Z
-  SNYK-JS-MICROMATCH-6838728:
-    - '*':
-        reason: No fix is available at the moment.
-        expires: 2024-08-13T15:00:00.000Z
-        created: 2024-05-13T15:00:00.000Z
 patch: {}
