@@ -4,7 +4,7 @@ orbs:
   win: circleci/windows@5.0.0
   node: circleci/node@5.1.0
   slack: circleci/slack@4
-  prodsec: snyk/prodsec-orb@1.0
+  prodsec: snyk/prodsec-orb@1
   snyk: snyk/snyk@1
 
 defaults: &defaults
@@ -109,6 +109,13 @@ commands:
           command: nvm list | awk '/<< parameters.node_version >>/ {print $1}' | xargs nvm use
 
 jobs:
+  security-scans:
+    <<: *defaults
+    steps:
+      - checkout
+      - prodsec/security_scans:
+          mode: auto
+          iac-scan: disabled
   install:
     <<: *defaults
     steps:
@@ -255,20 +262,9 @@ workflows:
             - Lint
           post-steps:
             - *slack-fail-notify
-      - scan_code:
-          name: Scan Code
-          context:
-            - snyk-bot-slack
-            - team-unify
-            - snyk-token-team-link
-          post-steps:
-            - *slack-fail-notify
-      - scan_deps:
-          name: Scan Dependencies
-          context:
-            - snyk-bot-slack
-            - team-unify
-            - snyk-token-team-link
+      - security-scans:
+          name: Security Scans
+          context: analysis_unify
           post-steps:
             - *slack-fail-notify
       - test:
@@ -326,8 +322,7 @@ workflows:
           requires:
             - Lint
             - Build
-            - Scan Code
-            - Scan Dependencies
+            - Security Scans
             - Test
             - Test Jest Windows with Docker
             - Test Jest Windows no Docker
