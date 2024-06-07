@@ -5,7 +5,6 @@ orbs:
   node: circleci/node@5.1.0
   slack: circleci/slack@4
   prodsec: snyk/prodsec-orb@1
-  snyk: snyk/snyk@1
 
 defaults: &defaults
   resource_class: small
@@ -113,8 +112,12 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+      - install_deps
+      - attach_workspace:
+          at: ~/snyk-docker-plugin
       - prodsec/security_scans:
           mode: auto
+          open-source-additional-arguments: --exclude=test
           iac-scan: disabled
   install:
     <<: *defaults
@@ -127,26 +130,6 @@ jobs:
       - attach_workspace:
           at: ~/snyk-docker-plugin
       - run: npm run lint
-  scan_code:
-    <<: *defaults
-    steps:
-      - checkout
-      - attach_workspace:
-          at: ~/snyk-docker-plugin
-      - snyk/scan:
-          command: code test
-          fail-on-issues: true
-          severity-threshold: high
-          monitor-on-build: false
-  scan_deps:
-    <<: *defaults
-    steps:
-      - checkout
-      - install_deps
-      - snyk/scan:
-          fail-on-issues: true
-          severity-threshold: high
-          monitor-on-build: false
   test:
     <<: *defaults
     steps:
@@ -235,7 +218,7 @@ workflows:
           name: Scan repository for secrets
           context:
             - snyk-bot-slack
-          channel: team-unify-pipeline-info
+          channel: team-unify-alerts
           filters:
             branches:
               ignore: main
