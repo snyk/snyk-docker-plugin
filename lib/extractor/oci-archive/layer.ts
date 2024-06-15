@@ -133,15 +133,16 @@ function getLayersContentAndArchiveManifest(
   manifest: OciArchiveManifest;
   imageConfig: ImageConfig;
 } {
-  const platform = options?.platform || "linux/amd64";
-  const platformInfo = getOciPlatformInfoFromOptionString(platform as string);
+  const optionalPlatformInfo = options?.platform
+    ? getOciPlatformInfoFromOptionString(options.platform)
+    : undefined;
 
   // get manifest file first
   const manifest = getManifest(
     imageIndex,
     manifestCollection,
     indexFiles,
-    platformInfo,
+    optionalPlatformInfo,
   );
 
   // filter empty layers
@@ -156,8 +157,7 @@ function getLayersContentAndArchiveManifest(
     throw new Error("We found no layers in the provided image");
   }
 
-  const imageConfig = getImageConfig(configs, platformInfo);
-
+  const imageConfig = getImageConfig(configs, optionalPlatformInfo);
   if (imageConfig === undefined) {
     throw new Error("Could not find the image config in the provided image");
   }
@@ -173,14 +173,17 @@ function getManifest(
   imageIndex: OciImageIndex | undefined,
   manifestCollection: Record<string, OciArchiveManifest>,
   indexFiles: Record<string, OciImageIndex>,
-  platformInfo: OciPlatformInfo,
+  optionalPlatformInfoString: OciPlatformInfo | undefined,
 ): OciArchiveManifest {
   if (!imageIndex) {
     return manifestCollection[Object.keys(manifestCollection)[0]];
   }
 
   const allManifests = getAllManifestsIndexItems(imageIndex, indexFiles);
-  const manifestInfo = getImageManifestInfo(allManifests, platformInfo);
+  const manifestInfo = getImageManifestInfo(
+    allManifests,
+    optionalPlatformInfoString,
+  );
 
   if (manifestInfo === undefined) {
     throw new Error(
@@ -253,7 +256,7 @@ function getOciPlatformInfoFromOptionString(platform: string): OciPlatformInfo {
 
 function getImageManifestInfo(
   manifests: OciManifestInfo[],
-  platformInfo: OciPlatformInfo,
+  optionalPlatformInfoString: OciPlatformInfo | undefined,
 ): OciManifestInfo | undefined {
   // manifests do not always have a plaform, this is the case for OCI
   // images built with Docker when no platform is specified
@@ -263,7 +266,7 @@ function getImageManifestInfo(
 
   return getBestMatchForPlatform(
     manifests,
-    platformInfo,
+    optionalPlatformInfoString,
     (target: OciManifestInfo): OciPlatformInfo => {
       return {
         os: target.platform?.os,
@@ -276,11 +279,11 @@ function getImageManifestInfo(
 
 function getImageConfig(
   manifests: ImageConfig[],
-  platformInfo: OciPlatformInfo,
+  optionalPlatformInfoString: OciPlatformInfo | undefined,
 ): ImageConfig | undefined {
   return getBestMatchForPlatform(
     manifests,
-    platformInfo,
+    optionalPlatformInfoString,
     (target: ImageConfig): OciPlatformInfo => {
       return {
         os: target.os,
@@ -292,20 +295,26 @@ function getImageConfig(
 
 function getBestMatchForPlatform<T>(
   manifests: T[],
-  platformInfo: OciPlatformInfo,
+  optionalPlatformInfo: OciPlatformInfo | undefined,
   extractPlatformInfoFromManifest: (target: T) => OciPlatformInfo,
 ): T | undefined {
   const matches = manifests.filter((item) => {
     const { os, architecture } = extractPlatformInfoFromManifest(item);
-
-    return os === platformInfo.os && architecture === platformInfo.architecture;
+    if (optionalPlatformInfo) {
+      return (
+        os === optionalPlatformInfo?.os &&
+        architecture === optionalPlatformInfo?.architecture
+      );
+    }
+    // if no platform info is provided, check if item has os and architecture defined
+    return os && architecture;
   });
 
   if (matches.length > 1) {
     return matches.find((item) => {
       const { variant } = extractPlatformInfoFromManifest(item);
 
-      return variant === platformInfo.variant;
+      return variant === optionalPlatformInfo?.variant;
     });
   }
 
