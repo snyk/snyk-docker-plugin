@@ -1,8 +1,12 @@
+import { log } from "console";
+import exp from "constants";
 import * as crypto from "crypto";
 import {
   createReadStream,
   createWriteStream,
   existsSync,
+  mkdirSync,
+  rmdirSync,
   unlinkSync,
 } from "fs";
 import * as os from "os";
@@ -14,6 +18,42 @@ import { CmdOutput } from "../../lib/sub-process";
 import * as subProcess from "../../lib/sub-process";
 
 describe("docker", () => {
+  describe("Pull from docker registry without docker binary", () => {
+    test("Pass platform argument when pulling from registry", async () => {
+      const docker = new Docker();
+      const imagePath = path.join(__dirname, "save");
+      await mkdirSync(imagePath, { recursive: true });
+      const resp = await docker.pull(
+        "registry-1.docker.io",
+        "library/debian",
+        "12.0",
+        imagePath,
+        "",
+        "",
+        "linux/arm64",
+      );
+
+      const tarPath = path.join(imagePath, "image.tar");
+
+      expect(existsSync(tarPath)).toBeTruthy();
+      const imageID = (
+        await subProcess.execute("docker", ["load", "--input", tarPath])
+      ).stdout
+        .split("Loaded image ID: ")[1]
+        .replace(/\n/g, "");
+      const stdout = (await subProcess.execute("docker", ["inspect", imageID]))
+        .stdout;
+      expect(imageID).toEqual(
+        "sha256:886d61a022482574344910f88e436ce64e9218cc8d62bea0cac035c4519ff93e",
+      );
+      const imageDetails = JSON.parse(stdout);
+      const architecture = imageDetails[0].Architecture;
+      expect(architecture).toEqual("arm64");
+      unlinkSync(tarPath);
+      rmdirSync(imagePath);
+    });
+  });
+
   describe("save from docker daemon", () => {
     const TEST_TARGET_IMAGE = "hello-world:latest";
     const TEST_TARGET_IMAGE_DESTINATION = path.join(os.tmpdir(), "image.tar");
@@ -92,7 +132,6 @@ describe("docker", () => {
         createReadStream(tarFilePath).pipe(extract);
       });
     }
-
     test("image saved to specified location", async () => {
       const targetImage = TEST_TARGET_IMAGE;
       const targetImageDestination = TEST_TARGET_IMAGE_DESTINATION;

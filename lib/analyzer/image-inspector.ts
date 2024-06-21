@@ -111,6 +111,7 @@ async function pullFromContainerRegistry(
   imageSavePath: string,
   username: string | undefined,
   password: string | undefined,
+  platform: string | undefined,
 ): Promise<DockerPullResult> {
   const { hostname, imageName, tag } = extractImageDetails(targetImage);
   debug(
@@ -124,6 +125,7 @@ async function pullFromContainerRegistry(
       imageSavePath,
       username,
       password,
+      platform,
     );
   } catch (err) {
     handleDockerPullError(err.message);
@@ -160,6 +162,7 @@ async function pullImage(
     imageSavePath,
     username,
     password,
+    platform,
   );
 
   const imageName = new ImageName(targetImage, {
