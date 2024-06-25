@@ -31,7 +31,7 @@
     "@snyk/composer-lockfile-parser": "^1.4.1",
     "@snyk/dep-graph": "^2.8.1",
     "@snyk/docker-registry-v2-client": "^2.11.0",
-    "@snyk/rpm-parser": "3.1.0",
+    "@snyk/rpm-parser": "3.1.1",
     "@snyk/snyk-docker-pull": "^3.11.0",
     "@swimlane/docker-reference": "^2.0.1",
     "adm-zip": "^0.5.5",
