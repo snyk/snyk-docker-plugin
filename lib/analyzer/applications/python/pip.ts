@@ -4,6 +4,7 @@ import { eventLoopSpinner } from "event-loop-spinner";
 import * as path from "path";
 import * as semver from "semver";
 import { DepGraphFact } from "../../../facts";
+import { compareVersions } from "../../../python-parser/common";
 import { getPackageInfo } from "../../../python-parser/metadata-parser";
 import { getRequirements } from "../../../python-parser/requirements-parser";
 import {
@@ -115,7 +116,7 @@ export async function pipFilesToScannedProjects(
   // pre-sort each package name by version, descending
   for (const name of Object.keys(metadataItems)) {
     metadataItems[name].sort((v1, v2) => {
-      return semver.rcompare(v1.version, v2.version);
+      return compareVersions(v1.version, v2.version);
     });
   }
 

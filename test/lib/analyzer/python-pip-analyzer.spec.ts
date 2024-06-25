@@ -98,6 +98,9 @@ describe("pip analyzer", () => {
     expect(packageList.find((p) => p.name === "rpc.py").version).toEqual(
       "0.4.2",
     );
+    expect(packageList.find((p) => p.name === "other.py").version).toEqual(
+      "7.4.2.15",
+    );
   });
 
   it("uses the latest versions when no version info is available", async () => {
