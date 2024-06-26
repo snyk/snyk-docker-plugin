@@ -41,12 +41,16 @@ class Docker {
     imageSavePath: string,
     username?: string,
     password?: string,
+    platform?: string,
   ): Promise<DockerPullResult> {
     const dockerPull = new DockerPull();
     const opt: DockerPullOptions = {
       username,
       password,
       loadImage: false,
+      platform: platform
+        ? { os: platform?.split("/")[0], architecture: platform?.split("/")[1] }
+        : undefined,
       imageSavePath,
       reqOptions: {
         acceptManifest: [
