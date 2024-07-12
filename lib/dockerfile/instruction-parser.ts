@@ -18,7 +18,7 @@ export {
 // Naive regex; see tests for cases
 // tslint:disable-next-line:max-line-length
 const installRegex =
-  /(rpm\s+-i|rpm\s+--install|apk\s+((--update|-u|--no-cache)\s+)*add(\s+(--update|-u|--no-cache))*|apt-get\s+((--assume-yes|--yes|-y)\s+)*install(\s+(--assume-yes|--yes|-y))*|apt\s+((--assume-yes|--yes|-y)\s+)*install|yum\s+install|aptitude\s+install)\s+/;
+  /(rpm\s+-i|rpm\s+--install|apk\s+((--update|-u|--no-cache)\s+)*add(\s+(--update|-u|--no-cache))*|apt-get\s+((--assume-yes|--yes|-y)\s+)*install(\s+(--assume-yes|--yes|-y))*|apt\s+((--assume-yes|--yes|-y)\s+)*install|yum\s+((--assume-yes|--yes|-y)\s+)*install|aptitude\s+install)\s+/;
 
 function getPackagesFromDockerfile(dockerfile: Dockerfile): DockerFilePackages {
   const runInstructions = getRunInstructionsFromDockerfile(dockerfile);
