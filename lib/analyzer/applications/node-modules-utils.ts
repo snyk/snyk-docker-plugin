@@ -2,29 +2,30 @@ import * as Debug from "debug";
 import { mkdir, mkdtemp, rm, stat, writeFile } from "fs/promises";
 import * as path from "path";
 
-import { FilePathToContent, FilesByDir } from "./types";
+import { FilePathToContent, FilesByDirMap } from "./types";
 const debug = Debug("snyk");
 
-export { persistAppNodeModules, cleanupAppNodeModules, groupFilesByDirectory };
+export { persistNodeModules, cleanupAppNodeModules, groupFilesByDirectory };
 
 interface ScanPaths {
   tempDir: string;
-  tempApplicationPath: string;
+  tempProjectPath: string;
   manifestPath?: string;
 }
 
-async function createTempAppDir(appParentDir: string): Promise<string[]> {
+async function createTempProjectDir(
+  projectDir: string,
+): Promise<{ tmpDir: string; tempProjectRoot: string }> {
   const tmpDir = await mkdtemp("snyk");
 
-  const appRootDir = appParentDir.includes("node_modules")
-    ? appParentDir.substring(0, appParentDir.indexOf("node_modules"))
-    : appParentDir;
+  const tempProjectRoot = path.join(tmpDir, projectDir);
 
-  const tempAppRootDirPath = path.join(tmpDir, appRootDir);
+  await mkdir(tempProjectRoot, { recursive: true });
 
-  await mkdir(tempAppRootDirPath, { recursive: true });
-
-  return [tmpDir, tempAppRootDirPath];
+  return {
+    tmpDir,
+    tempProjectRoot,
+  };
 }
 
 const manifestName: string = "package.json";
@@ -35,7 +36,7 @@ async function fileExists(path: string): Promise<boolean> {
     .catch(() => false);
 }
 
-async function createAppSyntheticManifest(
+async function createSyntheticManifest(
   tempRootManifestDir: string,
 ): Promise<void> {
   const tempRootManifestPath = path.join(tempRootManifestDir, manifestName);
@@ -43,70 +44,56 @@ async function createAppSyntheticManifest(
   await writeFile(tempRootManifestPath, "{}", "utf-8");
 }
 
-async function copyAppModulesManifestFiles(
-  appDirs: string[],
-  tempAppRootDirPath: string,
-  fileNamesGroupedByDirectory: FilesByDir,
+async function saveOnDisk(
+  tempDir: string,
+  modules: Set<string>,
   filePathToContent: FilePathToContent,
 ) {
-  for (const dependencyPath of appDirs) {
-    const filesInDirectory = fileNamesGroupedByDirectory[dependencyPath];
-    if (filesInDirectory.length === 0) {
-      continue;
-    }
+  for (const module of modules) {
+    const manifestContent = filePathToContent[module];
 
-    const manifestPath = path.join(dependencyPath, "package.json");
-    const manifestContent = filePathToContent[manifestPath];
-
-    await createFile(
-      path.join(tempAppRootDirPath, manifestPath),
-      manifestContent,
-    );
+    await createFile(path.join(tempDir, module), manifestContent);
   }
 }
 
-async function persistAppNodeModules(
+async function persistNodeModules(
+  project: string,
   filePathToContent: FilePathToContent,
-  fileNamesGroupedByDirectory: FilesByDir,
+  fileNamesGroupedByDirectory: FilesByDirMap,
 ): Promise<ScanPaths> {
-  const appDirs = Object.keys(fileNamesGroupedByDirectory);
-  let tmpDir: string = "";
-  let tempAppRootDirPath: string = "";
+  const modules = fileNamesGroupedByDirectory.get(project);
+  const tmpDir: string = "";
+  const tempProjectRoot: string = "";
 
-  if (appDirs.length === 0) {
+  if (!modules || modules.size === 0) {
     debug(`Empty application directory tree.`);
 
     return {
       tempDir: tmpDir,
-      tempApplicationPath: tempAppRootDirPath,
+      tempProjectPath: tempProjectRoot,
     };
   }
 
   try {
-    [tmpDir, tempAppRootDirPath] = await createTempAppDir(appDirs.sort()[0]);
+    const { tmpDir, tempProjectRoot } = await createTempProjectDir(project);
 
-    await copyAppModulesManifestFiles(
-      appDirs,
-      tmpDir,
-      fileNamesGroupedByDirectory,
-      filePathToContent,
-    );
+    await saveOnDisk(tmpDir, modules, filePathToContent);
 
     const result: ScanPaths = {
       tempDir: tmpDir,
-      tempApplicationPath: tempAppRootDirPath,
+      tempProjectPath: tempProjectRoot,
       manifestPath: path.join(
-        tempAppRootDirPath.substring(tmpDir.length),
+        tempProjectRoot.substring(tmpDir.length),
         manifestName,
       ),
     };
 
     const manifestFileExists = await fileExists(
-      path.join(tempAppRootDirPath, manifestName),
+      path.join(tempProjectRoot, manifestName),
     );
 
     if (!manifestFileExists) {
-      await createAppSyntheticManifest(tempAppRootDirPath);
+      await createSyntheticManifest(tempProjectRoot);
       delete result.manifestPath;
     }
     return result;
@@ -116,7 +103,7 @@ async function persistAppNodeModules(
     );
     return {
       tempDir: tmpDir,
-      tempApplicationPath: tempAppRootDirPath,
+      tempProjectPath: tempProjectRoot,
     };
   }
 }
@@ -128,17 +115,20 @@ async function createFile(filePath, fileContent) {
 
 function groupFilesByDirectory(
   filePathToContent: FilePathToContent,
-): FilesByDir {
-  const fileNamesGrouped: FilesByDir = {};
+): FilesByDirMap {
+  const filesByDir: FilesByDirMap = new Map();
   for (const filePath of Object.keys(filePathToContent)) {
-    const directory = path.dirname(filePath);
-    const fileName = path.basename(filePath);
-    if (!fileNamesGrouped[directory]) {
-      fileNamesGrouped[directory] = [];
+    const directory: string = filePath.includes("node_modules")
+      ? filePath.split("/node_modules")[0]
+      : path.dirname(filePath);
+
+    if (!filesByDir.has(directory)) {
+      filesByDir.set(directory, new Set());
     }
-    fileNamesGrouped[directory].push(fileName);
+
+    filesByDir.get(directory)?.add(filePath);
   }
-  return fileNamesGrouped;
+  return filesByDir;
 }
 
 async function cleanupAppNodeModules(appRootDir: string) {

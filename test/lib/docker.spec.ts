@@ -76,7 +76,7 @@ describe("docker", () => {
       const stdout = (await subProcess.execute("docker", ["inspect", imageID]))
         .stdout;
       expect(imageID).toEqual(
-        "sha256:948374285abd1b0da4cbd25be286095bd4a2e87b28234b4645bdcbe8fcdc388c",
+        "sha256:f800c324d2439563735dfc4de0da09a45b301687ded46936fcf2cf9256d4c6d3",
       );
       const imageDetails = JSON.parse(stdout);
       const architecture = imageDetails[0].Architecture;
@@ -113,7 +113,7 @@ describe("docker", () => {
       const stdout = (await subProcess.execute("docker", ["inspect", imageID]))
         .stdout;
       expect(imageID).toEqual(
-        "sha256:4162855bf127f33c36f3857212081bac16871b2b04eaef58920e2547b46d0782",
+        "sha256:bdbea07b48b33b5ffdd260fc11012b892651c4f0f84cc2b782103dd68989caa4",
       );
       const imageDetails = JSON.parse(stdout);
       const architecture = imageDetails[0].Architecture;
