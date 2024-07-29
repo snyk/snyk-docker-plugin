@@ -7,15 +7,16 @@ import { DepGraphFact, TestedFilesFact } from "../../facts";
 
 const debug = Debug("snyk");
 
+import { PkgTree } from "snyk-nodejs-lockfile-parser";
 import {
   cleanupAppNodeModules,
   groupFilesByDirectory,
-  persistAppNodeModules,
+  persistNodeModules,
 } from "./node-modules-utils";
 import {
   AppDepsScanResultWithoutTarget,
   FilePathToContent,
-  FilesByDir,
+  FilesByDirMap,
 } from "./types";
 
 interface ManifestLockPathPair {
@@ -27,6 +28,7 @@ interface ManifestLockPathPair {
 export async function nodeFilesToScannedProjects(
   filePathToContent: FilePathToContent,
 ): Promise<AppDepsScanResultWithoutTarget[]> {
+  const scanResults: AppDepsScanResultWithoutTarget[] = [];
   /**
    * TODO: Add support for Yarn workspaces!
    * https://github.com/snyk/nodejs-lockfile-parser/blob/af8ba81930e950156b539281ecf41c1bc63dacf4/test/lib/yarn-workflows.test.ts#L7-L17
@@ -42,65 +44,88 @@ export async function nodeFilesToScannedProjects(
   }
 
   const fileNamesGroupedByDirectory = groupFilesByDirectory(filePathToContent);
-  const manifestFilePairs = findManifestLockPairsInSameDirectory(
+  const [manifestFilePairs, nodeProjects] = findProjectsAndManifests(
     fileNamesGroupedByDirectory,
   );
 
-  return manifestFilePairs.length === 0
-    ? depGraphFromNodeModules(filePathToContent, fileNamesGroupedByDirectory)
-    : depGraphFromManifestFiles(filePathToContent, manifestFilePairs);
+  if (manifestFilePairs.length !== 0) {
+    scanResults.push(
+      ...(await depGraphFromManifestFiles(
+        filePathToContent,
+        manifestFilePairs,
+      )),
+    );
+  }
+  if (nodeProjects.length !== 0) {
+    scanResults.push(
+      ...(await depGraphFromNodeModules(
+        filePathToContent,
+        nodeProjects,
+        fileNamesGroupedByDirectory,
+      )),
+    );
+  }
+
+  return scanResults;
 }
 
 async function depGraphFromNodeModules(
   filePathToContent: FilePathToContent,
-  fileNamesGroupedByDirectory: FilesByDir,
+  nodeProjects: string[],
+  fileNamesGroupedByDirectory: FilesByDirMap,
 ): Promise<AppDepsScanResultWithoutTarget[]> {
-  const { tempDir, tempApplicationPath, manifestPath } =
-    await persistAppNodeModules(filePathToContent, fileNamesGroupedByDirectory);
-
-  if (!tempApplicationPath) {
-    return [];
-  }
-
   const scanResults: AppDepsScanResultWithoutTarget[] = [];
-
-  try {
-    const pkgTree: lockFileParser.PkgTree = await resolveDeps(
-      tempApplicationPath,
-      {
-        dev: false,
-        noFromArrays: true,
-      },
+  for (const project of nodeProjects) {
+    const { tempDir, tempProjectPath, manifestPath } = await persistNodeModules(
+      project,
+      filePathToContent,
+      fileNamesGroupedByDirectory,
     );
-
-    const depGraph = await legacy.depTreeToGraph(
-      pkgTree,
-      pkgTree.type || "npm",
-    );
-    scanResults.push({
-      facts: [
+    if (!tempProjectPath) {
+      await cleanupAppNodeModules(tempDir);
+      continue;
+    }
+    try {
+      const pkgTree: lockFileParser.PkgTree = await resolveDeps(
+        tempProjectPath,
         {
-          type: "depGraph",
-          data: depGraph,
+          dev: false,
+          noFromArrays: true,
         },
-        {
-          type: "testedFiles",
-          data: Object.keys(filePathToContent),
+      );
+
+      const depGraph = await legacy.depTreeToGraph(
+        pkgTree,
+        pkgTree.type || "npm",
+      );
+      scanResults.push({
+        facts: [
+          {
+            type: "depGraph",
+            data: depGraph,
+          },
+          {
+            type: "testedFiles",
+            data: manifestPath
+              ? manifestPath
+              : path.join(project, "node_modules"),
+          },
+        ],
+        identity: {
+          type: depGraph.pkgManager.name,
+          targetFile: manifestPath
+            ? manifestPath
+            : path.join(project, "node_modules"),
         },
-      ],
-      identity: {
-        type: depGraph.pkgManager.name,
-        targetFile: manifestPath,
-      },
-    });
-  } catch (error) {
-    debug(
-      `An error occurred while analysing node_modules dir: ${error.message}`,
-    );
-  } finally {
-    await cleanupAppNodeModules(tempDir);
+      });
+    } catch (error) {
+      debug(
+        `An error occurred while analysing node_modules dir: ${error.message}`,
+      );
+    } finally {
+      await cleanupAppNodeModules(tempDir);
+    }
   }
-
   return scanResults;
 }
 
@@ -114,14 +139,22 @@ async function depGraphFromManifestFiles(
 
   for (const pathPair of manifestFilePairs) {
     // TODO: initially generate as DepGraph
-    const parserResult = await lockFileParser.buildDepTree(
-      filePathToContent[pathPair.manifest],
-      filePathToContent[pathPair.lock],
-      shouldIncludeDevDependencies,
-      pathPair.lockType,
-      shouldBeStrictForManifestAndLockfileOutOfSync,
-      // Don't provide a default manifest file name, prefer the parser to infer it.
-    );
+    let parserResult: PkgTree;
+    try {
+      parserResult = await lockFileParser.buildDepTree(
+        filePathToContent[pathPair.manifest],
+        filePathToContent[pathPair.lock],
+        shouldIncludeDevDependencies,
+        pathPair.lockType,
+        shouldBeStrictForManifestAndLockfileOutOfSync,
+        // Don't provide a default manifest file name, prefer the parser to infer it.
+      );
+    } catch (err) {
+      debug(
+        `An error occurred while analysing a pair of manifest and lock files: ${err.message}`,
+      );
+      continue;
+    }
 
     const strippedLabelsParserResult = stripUndefinedLabels(parserResult);
     const depGraph = await legacy.depTreeToGraph(
@@ -148,45 +181,53 @@ async function depGraphFromManifestFiles(
   return scanResults;
 }
 
-function findManifestLockPairsInSameDirectory(
-  fileNamesGroupedByDirectory: FilesByDir,
-): ManifestLockPathPair[] {
+function findProjectsAndManifests(
+  fileNamesGroupedByDirectory: FilesByDirMap,
+): [ManifestLockPathPair[], string[]] {
   const manifestLockPathPairs: ManifestLockPathPair[] = [];
+  const nodeProjects: string[] = [];
 
-  for (const directoryPath of Object.keys(fileNamesGroupedByDirectory)) {
-    if (directoryPath.includes("node_modules")) {
-      continue;
-    }
-    const filesInDirectory = fileNamesGroupedByDirectory[directoryPath];
-    if (filesInDirectory.length !== 2) {
-      // either a missing file or too many files, ignore
-      continue;
-    }
-
-    const hasPackageJson = filesInDirectory.includes("package.json");
-    const hasPackageLockJson = filesInDirectory.includes("package-lock.json");
-    const hasYarnLock = filesInDirectory.includes("yarn.lock");
-
-    if (hasPackageJson && hasPackageLockJson) {
-      manifestLockPathPairs.push({
-        manifest: path.join(directoryPath, "package.json"),
-        lock: path.join(directoryPath, "package-lock.json"),
-        lockType: lockFileParser.LockfileType.npm,
-      });
+  for (const directoryPath of fileNamesGroupedByDirectory.keys()) {
+    const filesInDirectory = fileNamesGroupedByDirectory.get(directoryPath);
+    if (!filesInDirectory || filesInDirectory.size < 1) {
+      // missing manifest files
       continue;
     }
 
-    if (hasPackageJson && hasYarnLock) {
-      manifestLockPathPairs.push({
-        manifest: path.join(directoryPath, "package.json"),
-        lock: path.join(directoryPath, "yarn.lock"),
-        lockType: lockFileParser.LockfileType.yarn,
-      });
+    const expectedManifest = path.join(directoryPath, "package.json");
+    const expectedNpmLockFile = path.join(directoryPath, "package-lock.json");
+    const expectedYarnLockFile = path.join(directoryPath, "yarn.lock");
+
+    const hasManifestFileOnly =
+      filesInDirectory.has(expectedManifest) &&
+      !(
+        filesInDirectory.has(expectedNpmLockFile) ||
+        filesInDirectory.has(expectedYarnLockFile)
+      );
+    const hasNoManifestFile = !filesInDirectory.has(expectedManifest);
+
+    if (hasManifestFileOnly && filesInDirectory.size === 1) {
       continue;
     }
+
+    if (hasManifestFileOnly || hasNoManifestFile) {
+      nodeProjects.push(directoryPath);
+      continue;
+    }
+
+    manifestLockPathPairs.push({
+      manifest: expectedManifest,
+      // TODO: correlate filtering action with expected lockfile types
+      lock: filesInDirectory.has(expectedNpmLockFile)
+        ? expectedNpmLockFile
+        : expectedYarnLockFile,
+      lockType: filesInDirectory.has(expectedNpmLockFile)
+        ? lockFileParser.LockfileType.npm
+        : lockFileParser.LockfileType.yarn,
+    });
   }
 
-  return manifestLockPathPairs;
+  return [manifestLockPathPairs, nodeProjects];
 }
 
 function stripUndefinedLabels(

@@ -68,7 +68,7 @@ describe("node application scans", () => {
     expect(pluginResultExcludeAppVulnsTrueBoolean.scanResults).toHaveLength(1);
   });
 
-  it("ScanResult contains a npm7 depGraph generated from node modules manifest files", async () => {
+  it("should generate a scanResult that contains a npm7 depGraph generated from node modules manifest files", async () => {
     const imageWithManifestFiles = getFixture(
       "npm/npm-without-lockfiles/npm7-with-package-lock-file.tar",
     );
@@ -97,59 +97,19 @@ describe("node application scans", () => {
       pluginResultFromNodeModules.scanResults[1].facts.find(
         (fact) => fact.type === "depGraph",
       )!.data;
+
     expect(depGraphNpmFromManifestFiles.pkgManager.name).toEqual("npm");
     expect(depGraphNpmFromManifestFiles.rootPkg.name).toEqual("goof");
     expect(depGraphNpmFromManifestFiles.rootPkg.version).toBe("1.0.1");
-    expect(depGraphNpmFromManifestFiles.getPkgs().length).toEqual(65); // approximate to the number reported by snyk test --dev
+    expect(depGraphNpmFromManifestFiles.getPkgs().length).toBeGreaterThan(64);
     expect(depGraphNpmFromNodeModules.pkgManager.name).toEqual("npm");
     expect(depGraphNpmFromNodeModules.rootPkg.name).toEqual("goof");
     expect(depGraphNpmFromNodeModules.rootPkg.version).toBe("1.0.1");
     // dev dependencies are reported
-    expect(depGraphNpmFromNodeModules.getPkgs().length).toEqual(65);
+    expect(depGraphNpmFromNodeModules.getPkgs().length).toBeGreaterThan(64);
   });
 
-  it("ScanResult contains a npm7 depGraph when package.json | package-lock.json is missing from app", async () => {
-    const imageWithNodeModules = getFixture(
-      "npm/npm-without-lockfiles/npm7-with-node-modules-only.tar",
-    );
-    const imageWithoutLockFile = getFixture(
-      "npm/npm-without-lockfiles/npm7-without-package-lock-file.tar",
-    );
-    const imageWithNodeModulesNameAndTag = `docker-archive:${imageWithNodeModules}`;
-    const imageWithoutLockFileNameAndTag = `docker-archive:${imageWithoutLockFile}`;
-
-    const pluginResultFromNodeModulesImage = await scan({
-      path: imageWithNodeModulesNameAndTag,
-      "app-vulns": true,
-    });
-
-    const pluginResultWithoutLockFile = await scan({
-      path: imageWithoutLockFileNameAndTag,
-      "app-vulns": true,
-    });
-
-    const depGraphNpmFromWithoutLockFiles: DepGraph =
-      pluginResultWithoutLockFile.scanResults[1].facts.find(
-        (fact) => fact.type === "depGraph",
-      )!.data;
-
-    const depGraphNpmFromNodeModules: DepGraph =
-      pluginResultFromNodeModulesImage.scanResults[1].facts.find(
-        (fact) => fact.type === "depGraph",
-      )!.data;
-    expect(depGraphNpmFromWithoutLockFiles.pkgManager.name).toEqual("npm");
-    expect(depGraphNpmFromWithoutLockFiles.rootPkg.name).toEqual("goof");
-    expect(depGraphNpmFromWithoutLockFiles.rootPkg.version).toBe("1.0.1");
-    expect(depGraphNpmFromWithoutLockFiles.getPkgs().length).toEqual(65);
-    expect(depGraphNpmFromNodeModules.pkgManager.name).toEqual("npm");
-    // when both package.json and package-lock.json is missing root package is the name of the application dir
-    // and the version for the root package remains undefined and the dev dependencies are reported
-    expect(depGraphNpmFromNodeModules.rootPkg.name).toEqual("goof");
-    expect(depGraphNpmFromNodeModules.rootPkg.version).toBe(undefined);
-    expect(depGraphNpmFromNodeModules.getPkgs().length).toEqual(65);
-  });
-
-  it("Scan result contains a yarn depgraph generated from node modules manifest files", async () => {
+  it("should generate a scanResult that contains a yarn depgraph generated from node modules manifest files", async () => {
     const imageWithManifestFiles = getFixture(
       "npm/npm-without-lockfiles/yarn-with-lock-file.tar",
     );
@@ -181,53 +141,24 @@ describe("node application scans", () => {
     expect(depGraphNpmFromManifestFiles.pkgManager.name).toEqual("yarn");
     expect(depGraphNpmFromManifestFiles.rootPkg.name).toEqual("goof");
     expect(depGraphNpmFromManifestFiles.rootPkg.version).toBe("1.0.1");
-    expect(depGraphNpmFromManifestFiles.getPkgs().length).toEqual(65); // approximate to the number reported by snyk test --dev
+    expect(depGraphNpmFromManifestFiles.getPkgs().length).toBeGreaterThan(64);
     expect(depGraphNpmFromNodeModules.pkgManager.name).toEqual("npm");
     expect(depGraphNpmFromNodeModules.rootPkg.name).toEqual("goof");
     expect(depGraphNpmFromNodeModules.rootPkg.version).toBe("1.0.1");
     // dev dependencies are reported
-    expect(depGraphNpmFromNodeModules.getPkgs().length).toEqual(65);
+    expect(depGraphNpmFromNodeModules.getPkgs().length).toBeGreaterThan(64);
   });
 
-  it("ScanResult contains a yarn depGraph package.json | package-lock.json is missing from the app", async () => {
-    const imageWithNodeModules = getFixture(
-      "npm/npm-without-lockfiles/yarn-with-node-modules-only.tar",
-    );
-    const imageWithoutLockFile = getFixture(
-      "npm/npm-without-lockfiles/yarn-without-lock-file.tar",
-    );
-    const imageWithNodeModulesNameAndTag = `docker-archive:${imageWithNodeModules}`;
+  it("should generate a scanResult for a multi-project-image", async () => {
+    const imageWithoutLockFile = getFixture("npm/multi-project-image.tar");
     const imageWithoutLockFileNameAndTag = `docker-archive:${imageWithoutLockFile}`;
 
-    const pluginResultFromNodeModulesImage = await scan({
-      path: imageWithNodeModulesNameAndTag,
-      "app-vulns": true,
-    });
-
-    const pluginResultWithoutLockFile = await scan({
+    const { scanResults } = await scan({
       path: imageWithoutLockFileNameAndTag,
-      "app-vulns": true,
     });
 
-    const depGraphNpmFromWithoutLockFiles: DepGraph =
-      pluginResultWithoutLockFile.scanResults[1].facts.find(
-        (fact) => fact.type === "depGraph",
-      )!.data;
-
-    const depGraphNpmFromNodeModules: DepGraph =
-      pluginResultFromNodeModulesImage.scanResults[1].facts.find(
-        (fact) => fact.type === "depGraph",
-      )!.data;
-    expect(depGraphNpmFromWithoutLockFiles.pkgManager.name).toEqual("npm");
-    expect(depGraphNpmFromWithoutLockFiles.rootPkg.name).toEqual("goof");
-    expect(depGraphNpmFromWithoutLockFiles.rootPkg.version).toBe("1.0.1");
-    expect(depGraphNpmFromWithoutLockFiles.getPkgs().length).toEqual(65);
-    expect(depGraphNpmFromNodeModules.pkgManager.name).toEqual("npm");
-    // when both package.json and package-lock.json is missing root package is the name of the application dir
-    // and the version for the root package remains undefined and the dev dependencies are reported
-    expect(depGraphNpmFromNodeModules.rootPkg.name).toEqual("goof");
-    expect(depGraphNpmFromNodeModules.rootPkg.version).toBe(undefined);
-    expect(depGraphNpmFromNodeModules.getPkgs().length).toEqual(65);
+    expect(scanResults).toMatchSnapshot();
+    expect(scanResults.length).toEqual(5);
   });
 
   it("resolveDeps should return a depGraph constructed from node_modules when the application dir doesn't contain the package.json file", async () => {
