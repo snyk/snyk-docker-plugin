@@ -115,6 +115,7 @@ function unpackJar({
   const nestedJars: JarBuffer[] = [];
   let coords: JarCoords | null = null;
 
+  // TODO: consider switching to node-stream-zip that supports streaming
   let zip: admzip;
   let zipEntries: admzip.IZipEntry[];
 
