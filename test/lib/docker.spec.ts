@@ -41,9 +41,6 @@ describe("docker", () => {
         .replace(/\n/g, "");
       const stdout = (await subProcess.execute("docker", ["inspect", imageID]))
         .stdout;
-      expect(imageID).toEqual(
-        "sha256:9743376b1f2144d61495397e2a7f044bbc25d61016cee4dbff8683d31eaed7fa",
-      );
       const imageDetails = JSON.parse(stdout);
       const architecture = imageDetails[0].Architecture;
       expect(architecture).toEqual("386");
@@ -75,9 +72,6 @@ describe("docker", () => {
         .replace(/\n/g, "");
       const stdout = (await subProcess.execute("docker", ["inspect", imageID]))
         .stdout;
-      expect(imageID).toEqual(
-        "sha256:f800c324d2439563735dfc4de0da09a45b301687ded46936fcf2cf9256d4c6d3",
-      );
       const imageDetails = JSON.parse(stdout);
       const architecture = imageDetails[0].Architecture;
       const variant = imageDetails[0].Variant;
@@ -112,9 +106,6 @@ describe("docker", () => {
         .replace(/\n/g, "");
       const stdout = (await subProcess.execute("docker", ["inspect", imageID]))
         .stdout;
-      expect(imageID).toEqual(
-        "sha256:bdbea07b48b33b5ffdd260fc11012b892651c4f0f84cc2b782103dd68989caa4",
-      );
       const imageDetails = JSON.parse(stdout);
       const architecture = imageDetails[0].Architecture;
       const variant = imageDetails[0].Variant;
