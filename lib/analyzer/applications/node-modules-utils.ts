@@ -1,9 +1,10 @@
 import * as Debug from "debug";
 import { mkdir, mkdtemp, rm, stat, writeFile } from "fs/promises";
 import * as path from "path";
-
 import { FilePathToContent, FilesByDirMap } from "./types";
 const debug = Debug("snyk");
+
+const nodeModulesRegex = /^(.*?)(?:[\\\/]node_modules)/;
 
 export { persistNodeModules, cleanupAppNodeModules, groupFilesByDirectory };
 
@@ -113,19 +114,81 @@ async function createFile(filePath, fileContent) {
   await writeFile(filePath, fileContent, "utf-8");
 }
 
+function isYarnCacheDependency(filePath: string): boolean {
+  if (
+    filePath.includes(".yarn/cache") ||
+    filePath.includes(".cache/yarn") ||
+    filePath.includes("yarn\\cache") ||
+    filePath.includes("cache\\yarn") ||
+    filePath.includes("Cache\\Yarn") ||
+    filePath.includes("Yarn\\Cache")
+  ) {
+    return true;
+  }
+  return false;
+}
+
+function isNpmCacheDependency(filePath: string): boolean {
+  if (filePath.includes(".npm/") || filePath.includes("\\npm-cache")) {
+    return true;
+  }
+  return false;
+}
+
+function isPnpmCacheDependency(filePath: string): boolean {
+  if (
+    filePath.includes("pnpm-store") ||
+    filePath.includes("pnpm/store") ||
+    filePath.includes("pnpm\\store")
+  ) {
+    return true;
+  }
+  return false;
+}
+
+function getNodeModulesParentDir(filePath: string): string | null {
+  const nodeModulesParentDirMatch = nodeModulesRegex.exec(filePath);
+
+  if (nodeModulesParentDirMatch) {
+    const nodeModulesParentDir = nodeModulesParentDirMatch[1];
+    if (nodeModulesParentDir === "") {
+      return "/"; // ensuring the same behavior of path.dirname for '/' dir
+    }
+    return nodeModulesParentDir;
+  }
+  return null;
+}
+
+function getGroupingDir(filePath: string): string {
+  const nodeModulesParentDir = getNodeModulesParentDir(filePath);
+
+  if (nodeModulesParentDir) {
+    return nodeModulesParentDir;
+  }
+  return path.dirname(filePath);
+}
+
 function groupFilesByDirectory(
   filePathToContent: FilePathToContent,
 ): FilesByDirMap {
   const filesByDir: FilesByDirMap = new Map();
-  for (const filePath of Object.keys(filePathToContent)) {
-    const directory: string = filePath.includes("node_modules")
-      ? filePath.split("/node_modules")[0]
-      : path.dirname(filePath);
+  const filePaths = Object.keys(filePathToContent);
+
+  for (const filePath of filePaths) {
+    if (isNpmCacheDependency(filePath)) {
+      continue;
+    }
+    if (isYarnCacheDependency(filePath)) {
+      continue;
+    }
+    if (isPnpmCacheDependency(filePath)) {
+      continue;
+    }
+    const directory = getGroupingDir(filePath);
 
     if (!filesByDir.has(directory)) {
       filesByDir.set(directory, new Set());
     }
-
     filesByDir.get(directory)?.add(filePath);
   }
   return filesByDir;

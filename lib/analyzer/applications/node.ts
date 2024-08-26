@@ -8,6 +8,7 @@ import { DepGraphFact, TestedFilesFact } from "../../facts";
 const debug = Debug("snyk");
 
 import { PkgTree } from "snyk-nodejs-lockfile-parser";
+import { LogicalRoot } from "snyk-resolve-deps/dist/types";
 import {
   cleanupAppNodeModules,
   groupFilesByDirectory,
@@ -94,10 +95,16 @@ async function depGraphFromNodeModules(
         },
       );
 
+      if ((pkgTree as LogicalRoot).numDependencies === 0) {
+        await cleanupAppNodeModules(tempDir);
+        continue;
+      }
+
       const depGraph = await legacy.depTreeToGraph(
         pkgTree,
         pkgTree.type || "npm",
       );
+
       scanResults.push({
         facts: [
           {
@@ -198,33 +205,25 @@ function findProjectsAndManifests(
     const expectedNpmLockFile = path.join(directoryPath, "package-lock.json");
     const expectedYarnLockFile = path.join(directoryPath, "yarn.lock");
 
-    const hasManifestFileOnly =
-      filesInDirectory.has(expectedManifest) &&
-      !(
-        filesInDirectory.has(expectedNpmLockFile) ||
-        filesInDirectory.has(expectedYarnLockFile)
-      );
-    const hasNoManifestFile = !filesInDirectory.has(expectedManifest);
+    const hasManifestFile = filesInDirectory.has(expectedManifest);
+    const hasLockFile =
+      filesInDirectory.has(expectedNpmLockFile) ||
+      filesInDirectory.has(expectedYarnLockFile);
 
-    if (hasManifestFileOnly && filesInDirectory.size === 1) {
+    if (hasManifestFile && hasLockFile) {
+      manifestLockPathPairs.push({
+        manifest: expectedManifest,
+        // TODO: correlate filtering action with expected lockfile types
+        lock: filesInDirectory.has(expectedNpmLockFile)
+          ? expectedNpmLockFile
+          : expectedYarnLockFile,
+        lockType: filesInDirectory.has(expectedNpmLockFile)
+          ? lockFileParser.LockfileType.npm
+          : lockFileParser.LockfileType.yarn,
+      });
       continue;
     }
-
-    if (hasManifestFileOnly || hasNoManifestFile) {
-      nodeProjects.push(directoryPath);
-      continue;
-    }
-
-    manifestLockPathPairs.push({
-      manifest: expectedManifest,
-      // TODO: correlate filtering action with expected lockfile types
-      lock: filesInDirectory.has(expectedNpmLockFile)
-        ? expectedNpmLockFile
-        : expectedYarnLockFile,
-      lockType: filesInDirectory.has(expectedNpmLockFile)
-        ? lockFileParser.LockfileType.npm
-        : lockFileParser.LockfileType.yarn,
-    });
+    nodeProjects.push(directoryPath);
   }
 
   return [manifestLockPathPairs, nodeProjects];
