@@ -4,7 +4,7 @@ import * as gunzip from "gunzip-maybe";
 import { normalize as normalizePath, sep as pathSeparator } from "path";
 import { PassThrough } from "stream";
 import { extract, Extract } from "tar-stream";
-import { InvalidArchiveError } from "..";
+import { getPlatformFromConfig, InvalidArchiveError } from "..";
 import { streamToJson } from "../../stream-utils";
 import { PluginOptions } from "../../types";
 import { extractImageLayer } from "../layer";
@@ -133,7 +133,9 @@ function getLayersContentAndArchiveManifest(
   manifest: OciArchiveManifest;
   imageConfig: ImageConfig;
 } {
-  const platform = options?.platform || "linux/amd64";
+  const platform =
+    options?.platform ||
+    (configs.length === 1 ? getPlatformFromConfig(configs[0]) : "linux/amd64");
   const platformInfo = getOciPlatformInfoFromOptionString(platform as string);
 
   // get manifest file first

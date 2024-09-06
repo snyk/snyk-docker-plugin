@@ -153,7 +153,7 @@ export function getRootFsLayersFromConfig(imageConfig: ImageConfig): string[] {
 export function getPlatformFromConfig(
   imageConfig: ImageConfig,
 ): string | undefined {
-  return imageConfig.os && imageConfig.architecture
+  return imageConfig?.os && imageConfig?.architecture
     ? `${imageConfig.os}/${imageConfig.architecture}`
     : undefined;
 }
