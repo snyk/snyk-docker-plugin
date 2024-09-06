@@ -3,7 +3,7 @@ import * as gunzip from "gunzip-maybe";
 import * as path from "path";
 import { Readable } from "stream";
 import { extract, Extract } from "tar-stream";
-import { isDeletedFile } from ".";
+import { isWhitedOutFile } from ".";
 import { applyCallbacks, isResultEmpty } from "./callbacks";
 import { ExtractAction, ExtractedLayers } from "./types";
 
@@ -39,7 +39,7 @@ export async function extractImageLayer(
 
             if (
               !isResultEmpty(callbackResult) ||
-              isDeletedFile(absoluteFileName)
+              isWhitedOutFile(absoluteFileName)
             ) {
               result[absoluteFileName] = callbackResult;
             }
@@ -50,7 +50,7 @@ export async function extractImageLayer(
             );
             reject(error);
           }
-        } else if (isDeletedFile(absoluteFileName)) {
+        } else if (isWhitedOutFile(absoluteFileName)) {
           result[absoluteFileName] = {};
         }
       }
