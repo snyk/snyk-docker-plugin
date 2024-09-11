@@ -64,6 +64,30 @@ describe("deleted files", () => {
         .length,
     ).toEqual(1);
   });
+
+  /*
+    The following refers to the case where in several layers the exact same files are added in the same exact path.
+    The image in the example below was built with the following Dockerfile:
+
+    FROM alpine:latest
+    WORKDIR /app
+    RUN mkdir -p /app/tmp/jar_folder
+    RUN mkdir jar_folder && wget https://repo1.maven.org/maven2/commons-collections/commons-collections/3.2.1/commons-collections-3.2.1.jar && mv commons-collections-3.2.1.jar jar_folder
+    RUN wget https://repo1.maven.org/maven2/commons-collections/commons-collections/3.2.1/commons-collections-3.2.1.jar -P /app/tmp/jar_folder
+    RUN mv /app/tmp/jar_folder/commons-collections-3.2.1.jar /app/jar_folder/
+    RUN rm -rf /app/jar_folder/commons-collections-3.2.1.jar
+  */
+  it("should exclude removed files added multiple times before a removal", async () => {
+    const fixturePath = getFixture("docker-save/two-adds-one-file-rm.tar");
+    const imagePath = `docker-archive:${fixturePath}`;
+
+    const pluginResult = await plugin.scan({
+      path: imagePath,
+    });
+
+    // There should only be the distro scan result. The maven scan result should not exist.
+    expect(pluginResult.scanResults.length).toEqual(1);
+  });
 });
 
 describe("Deleted Folders", () => {
@@ -81,6 +105,30 @@ describe("Deleted Folders", () => {
   */
   it("commons-collections should be excluded from dependency tree", async () => {
     const fixturePath = getFixture("docker-save/deleted-folder.tar");
+    const imagePath = `docker-archive:${fixturePath}`;
+
+    const pluginResult = await plugin.scan({
+      path: imagePath,
+    });
+
+    // There should only be the distro scan result. The maven scan result should not exist.
+    expect(pluginResult.scanResults.length).toEqual(1);
+  });
+
+  /*
+    The following refers to the case where in several layers the exact same packages are added in the same exact path.
+    The image in the example below was built with the following Dockerfile:
+
+    FROM alpine:latest
+    WORKDIR /app
+    RUN mkdir -p /app/tmp/jar_folder
+    RUN mkdir jar_folder && wget https://repo1.maven.org/maven2/commons-collections/commons-collections/3.2.1/commons-collections-3.2.1.jar && mv commons-collections-3.2.1.jar jar_folder
+    RUN wget https://repo1.maven.org/maven2/commons-collections/commons-collections/3.2.1/commons-collections-3.2.1.jar -P /app/tmp/jar_folder
+    RUN mv /app/tmp/jar_folder/commons-collections-3.2.1.jar /app/jar_folder/
+    RUN rm -rf /app/*
+  */
+  it("should exclude removed packages added multiple times before a removal on the parent folder", async () => {
+    const fixturePath = getFixture("docker-save/two-adds-one-rm.tar");
     const imagePath = `docker-archive:${fixturePath}`;
 
     const pluginResult = await plugin.scan({
