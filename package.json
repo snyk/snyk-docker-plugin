@@ -40,7 +40,7 @@
     "docker-modem": "3.0.8",
     "dockerfile-ast": "0.6.1",
     "elfy": "^1.0.0",
-    "event-loop-spinner": "^2.0.0",
+    "event-loop-spinner": "^2.3.2",
     "gunzip-maybe": "^1.4.2",
     "mkdirp": "^1.0.4",
     "packageurl-js": "1.2.0",
