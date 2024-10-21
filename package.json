@@ -50,7 +50,7 @@
     "snyk-poetry-lockfile-parser": "^1.4.0",
     "snyk-resolve-deps": "^4.7.1",
     "tar-stream": "^2.1.0",
-    "tmp": "^0.2.1",
+    "tmp": "^0.2.2",
     "tslib": "^1",
     "uuid": "^8.2.0",
     "varint": "^6.0.0"
