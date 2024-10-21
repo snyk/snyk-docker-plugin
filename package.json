@@ -34,7 +34,7 @@
     "@snyk/rpm-parser": "3.1.0",
     "@snyk/snyk-docker-pull": "3.13.0",
     "@swimlane/docker-reference": "^2.0.1",
-    "adm-zip": "^0.5.5",
+    "adm-zip": "^0.5.12",
     "chalk": "^2.4.2",
     "debug": "^4.1.1",
     "docker-modem": "3.0.8",
