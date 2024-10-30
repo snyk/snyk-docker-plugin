@@ -12,7 +12,7 @@ function execute(
   args: string[],
   options?,
 ): Promise<CmdOutput> {
-  const spawnOptions: any = { shell: true, env: process.env };
+  const spawnOptions: any = { shell: true, env: { ...process.env } };
   if (options && options.cwd) {
     spawnOptions.cwd = options.cwd;
   }
