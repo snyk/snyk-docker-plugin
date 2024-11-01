@@ -42,17 +42,25 @@ async function createSyntheticManifest(
 ): Promise<void> {
   const tempRootManifestPath = path.join(tempRootManifestDir, manifestName);
   debug(`Creating an empty synthetic manifest file: ${tempRootManifestPath}`);
-  await writeFile(tempRootManifestPath, "{}", "utf-8");
+  try {
+    await writeFile(tempRootManifestPath, "{}", "utf-8");
+  } catch (error) {
+    debug(
+      `Error while writing file ${tempRootManifestPath} : ${error.message}`,
+    );
+  }
 }
 
 async function saveOnDisk(
   tempDir: string,
   modules: Set<string>,
   filePathToContent: FilePathToContent,
-) {
+): Promise<void> {
   for (const module of modules) {
     const manifestContent = filePathToContent[module];
-
+    if (!manifestContent) {
+      continue;
+    }
     await createFile(path.join(tempDir, module), manifestContent);
   }
 }
@@ -109,9 +117,13 @@ async function persistNodeModules(
   }
 }
 
-async function createFile(filePath, fileContent) {
-  await mkdir(path.dirname(filePath), { recursive: true });
-  await writeFile(filePath, fileContent, "utf-8");
+async function createFile(filePath, fileContent): Promise<void> {
+  try {
+    await mkdir(path.dirname(filePath), { recursive: true });
+    await writeFile(filePath, fileContent, "utf-8");
+  } catch (error) {
+    debug(`Error while creating file ${filePath} : ${error.message}`);
+  }
 }
 
 function isYarnCacheDependency(filePath: string): boolean {
@@ -149,7 +161,7 @@ function isPnpmCacheDependency(filePath: string): boolean {
 function getNodeModulesParentDir(filePath: string): string | null {
   const nodeModulesParentDirMatch = nodeModulesRegex.exec(filePath);
 
-  if (nodeModulesParentDirMatch) {
+  if (nodeModulesParentDirMatch && nodeModulesParentDirMatch.length > 1) {
     const nodeModulesParentDir = nodeModulesParentDirMatch[1];
     if (nodeModulesParentDir === "") {
       return "/"; // ensuring the same behavior of path.dirname for '/' dir
@@ -194,9 +206,13 @@ function groupFilesByDirectory(
   return filesByDir;
 }
 
-async function cleanupAppNodeModules(appRootDir: string) {
+async function cleanupAppNodeModules(appRootDir: string): Promise<void> {
+  if (!appRootDir) {
+    return;
+  }
+
   try {
-    rm(appRootDir, { recursive: true });
+    await rm(appRootDir, { recursive: true });
   } catch (error) {
     debug(`Error while removing ${appRootDir} : ${error.message}`);
   }

@@ -375,3 +375,25 @@ describe("node application files grouping", () => {
     ]);
   });
 });
+
+describe("Edge testing of node modules scan utils functions", () => {
+  it("Exceptions should be handled", async () => {
+    expect(() => nodeUtils.cleanupAppNodeModules("")).not.toThrow();
+
+    expect(() => nodeUtils.groupFilesByDirectory({ "": "" })).not.toThrow();
+    expect(() =>
+      nodeUtils.persistNodeModules(
+        "",
+        { "": "" },
+        new Map<string, Set<string>>(),
+      ),
+    ).not.toThrow();
+    expect(
+      await nodeUtils.persistNodeModules(
+        "",
+        { "": "" },
+        new Map<string, Set<string>>(),
+      ),
+    ).toEqual({ tempDir: "", tempProjectPath: "" });
+  });
+});
