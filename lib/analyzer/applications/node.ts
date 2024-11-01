@@ -82,10 +82,16 @@ async function depGraphFromNodeModules(
       filePathToContent,
       fileNamesGroupedByDirectory,
     );
+
+    if (!tempDir) {
+      continue;
+    }
+
     if (!tempProjectPath) {
       await cleanupAppNodeModules(tempDir);
       continue;
     }
+
     try {
       const pkgTree: lockFileParser.PkgTree = await resolveDeps(
         tempProjectPath,
