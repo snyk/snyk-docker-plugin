@@ -58,7 +58,7 @@ describe("docker", () => {
       const resp = await docker.pull(
         "registry-1.docker.io",
         "library/debian",
-        "unstable-slim",
+        "12.0",
         imagePath,
         "",
         "",
@@ -95,7 +95,7 @@ describe("docker", () => {
       const resp = await docker.pull(
         "registry-1.docker.io",
         "library/debian",
-        "unstable-slim",
+        "12.0",
         imagePath,
         "",
         "",
