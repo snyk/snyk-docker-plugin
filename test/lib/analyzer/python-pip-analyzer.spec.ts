@@ -1,8 +1,9 @@
+import { createFromJSON } from "@snyk/dep-graph";
 import { readdirSync, readFileSync } from "fs";
 import * as path from "path";
 import { pipFilesToScannedProjects } from "../../../lib/analyzer/applications";
 import { FilePathToContent } from "../../../lib/analyzer/applications/types";
-import { getFixture } from "../../util";
+import { getFixture, getObjFromFixture } from "../../util";
 
 function prepareFiles(testPath: string): FilePathToContent {
   const basePath = getFixture(`/python/${testPath}`);
@@ -35,6 +36,24 @@ describe("pip analyzer", () => {
       targetFile: "/app/requirements.txt",
     });
     expect(res[0].facts[0].data._depPkgsList).toHaveLength(8);
+  });
+
+  it("correctly creates a dep graph from a requirements using extras", async () => {
+    const filePathToContent = prepareFiles("extras");
+    const res = await pipFilesToScannedProjects(filePathToContent);
+    expect(res[0].identity).toMatchObject({
+      type: "pip",
+      targetFile: "/app/requirements.txt",
+    });
+    const json = getObjFromFixture("python/extras/expected-dep-graph.json");
+    const expected = createFromJSON(json);
+    // uncomment below to see the diff
+    // expect(JSON.stringify(res[0].facts[0].data.toJSON(), null, 2)).toBe(
+    //   JSON.stringify(expected.toJSON(), null, 2),
+    // );
+    expect(res[0].facts[0].data.equals(expected, { compareRoot: false })).toBe(
+      true,
+    );
   });
 
   it("correctly creates a dep graph when metadata files are in a different location", async () => {

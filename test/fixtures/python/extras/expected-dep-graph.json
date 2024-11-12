@@ -1,0 +1,497 @@
+{
+  "schemaVersion": "1.3.0",
+  "pkgManager": {
+    "name": "pip"
+  },
+  "pkgs": [
+    {
+      "id": "/app/requirements.txt@",
+      "info": {
+        "name": "/app/requirements.txt"
+      }
+    },
+    {
+      "id": "fastapi@0.115.4",
+      "info": {
+        "name": "fastapi",
+        "version": "0.115.4"
+      }
+    },
+    {
+      "id": "starlette@0.41.2",
+      "info": {
+        "name": "starlette",
+        "version": "0.41.2"
+      }
+    },
+    {
+      "id": "anyio@4.6.2",
+      "info": {
+        "name": "anyio",
+        "version": "4.6.2"
+      }
+    },
+    {
+      "id": "idna@3.10.0",
+      "info": {
+        "name": "idna",
+        "version": "3.10.0"
+      }
+    },
+    {
+      "id": "sniffio@1.3.1",
+      "info": {
+        "name": "sniffio",
+        "version": "1.3.1"
+      }
+    },
+    {
+      "id": "pydantic@2.9.2",
+      "info": {
+        "name": "pydantic",
+        "version": "2.9.2"
+      }
+    },
+    {
+      "id": "annotated-types@0.7.0",
+      "info": {
+        "name": "annotated-types",
+        "version": "0.7.0"
+      }
+    },
+    {
+      "id": "fastapi-cli@0.0.5",
+      "info": {
+        "name": "fastapi-cli",
+        "version": "0.0.5"
+      }
+    },
+    {
+      "id": "typer@0.13.0",
+      "info": {
+        "name": "typer",
+        "version": "0.13.0"
+      }
+    },
+    {
+      "id": "click@8.1.7",
+      "info": {
+        "name": "click",
+        "version": "8.1.7"
+      }
+    },
+    {
+      "id": "shellingham@1.5.4",
+      "info": {
+        "name": "shellingham",
+        "version": "1.5.4"
+      }
+    },
+    {
+      "id": "rich@13.9.4",
+      "info": {
+        "name": "rich",
+        "version": "13.9.4"
+      }
+    },
+    {
+      "id": "markdown-it-py@3.0.0",
+      "info": {
+        "name": "markdown-it-py",
+        "version": "3.0.0"
+      }
+    },
+    {
+      "id": "mdurl@0.1.2",
+      "info": {
+        "name": "mdurl",
+        "version": "0.1.2"
+      }
+    },
+    {
+      "id": "pygments@2.18.0",
+      "info": {
+        "name": "pygments",
+        "version": "2.18.0"
+      }
+    },
+    {
+      "id": "uvicorn@0.32.0",
+      "info": {
+        "name": "uvicorn",
+        "version": "0.32.0"
+      }
+    },
+    {
+      "id": "h11@0.14.0",
+      "info": {
+        "name": "h11",
+        "version": "0.14.0"
+      }
+    },
+    {
+      "id": "httptools@0.6.4",
+      "info": {
+        "name": "httptools",
+        "version": "0.6.4"
+      }
+    },
+    {
+      "id": "python-dotenv@1.0.1",
+      "info": {
+        "name": "python-dotenv",
+        "version": "1.0.1"
+      }
+    },
+    {
+      "id": "pyyaml@6.0.2",
+      "info": {
+        "name": "pyyaml",
+        "version": "6.0.2"
+      }
+    },
+    {
+      "id": "uvloop@0.21.0",
+      "info": {
+        "name": "uvloop",
+        "version": "0.21.0"
+      }
+    },
+    {
+      "id": "watchfiles@0.24.0",
+      "info": {
+        "name": "watchfiles",
+        "version": "0.24.0"
+      }
+    },
+    {
+      "id": "websockets@14.1.0",
+      "info": {
+        "name": "websockets",
+        "version": "14.1.0"
+      }
+    },
+    {
+      "id": "httpx@0.27.2",
+      "info": {
+        "name": "httpx",
+        "version": "0.27.2"
+      }
+    },
+    {
+      "id": "certifi@2024.8.30",
+      "info": {
+        "name": "certifi",
+        "version": "2024.8.30"
+      }
+    },
+    {
+      "id": "httpcore@1.0.6",
+      "info": {
+        "name": "httpcore",
+        "version": "1.0.6"
+      }
+    },
+    {
+      "id": "jinja2@3.1.4",
+      "info": {
+        "name": "jinja2",
+        "version": "3.1.4"
+      }
+    },
+    {
+      "id": "markupsafe@3.0.2",
+      "info": {
+        "name": "markupsafe",
+        "version": "3.0.2"
+      }
+    },
+    {
+      "id": "python-multipart@0.0.17",
+      "info": {
+        "name": "python-multipart",
+        "version": "0.0.17"
+      }
+    }
+  ],
+  "graph": {
+    "rootNodeId": "root-node",
+    "nodes": [
+      {
+        "nodeId": "root-node",
+        "pkgId": "/app/requirements.txt@",
+        "deps": [
+          {
+            "nodeId": "fastapi@0.115.4:standard"
+          }
+        ]
+      },
+      {
+        "nodeId": "fastapi@0.115.4:standard",
+        "pkgId": "fastapi@0.115.4",
+        "deps": [
+          {
+            "nodeId": "starlette@0.41.2"
+          },
+          {
+            "nodeId": "pydantic@2.9.2"
+          },
+          {
+            "nodeId": "fastapi-cli@0.0.5:standard"
+          },
+          {
+            "nodeId": "httpx@0.27.2"
+          },
+          {
+            "nodeId": "jinja2@3.1.4"
+          },
+          {
+            "nodeId": "python-multipart@0.0.17"
+          },
+          {
+            "nodeId": "uvicorn@0.32.0:standard"
+          }
+        ]
+      },
+      {
+        "nodeId": "starlette@0.41.2",
+        "pkgId": "starlette@0.41.2",
+        "deps": [
+          {
+            "nodeId": "anyio@4.6.2"
+          }
+        ]
+      },
+      {
+        "nodeId": "anyio@4.6.2",
+        "pkgId": "anyio@4.6.2",
+        "deps": [
+          {
+            "nodeId": "idna@3.10.0"
+          },
+          {
+            "nodeId": "sniffio@1.3.1"
+          }
+        ]
+      },
+      {
+        "nodeId": "idna@3.10.0",
+        "pkgId": "idna@3.10.0",
+        "deps": []
+      },
+      {
+        "nodeId": "sniffio@1.3.1",
+        "pkgId": "sniffio@1.3.1",
+        "deps": []
+      },
+      {
+        "nodeId": "pydantic@2.9.2",
+        "pkgId": "pydantic@2.9.2",
+        "deps": [
+          {
+            "nodeId": "annotated-types@0.7.0"
+          }
+        ]
+      },
+      {
+        "nodeId": "annotated-types@0.7.0",
+        "pkgId": "annotated-types@0.7.0",
+        "deps": []
+      },
+      {
+        "nodeId": "fastapi-cli@0.0.5:standard",
+        "pkgId": "fastapi-cli@0.0.5",
+        "deps": [
+          {
+            "nodeId": "typer@0.13.0"
+          },
+          {
+            "nodeId": "uvicorn@0.32.0:standard"
+          }
+        ]
+      },
+      {
+        "nodeId": "typer@0.13.0",
+        "pkgId": "typer@0.13.0",
+        "deps": [
+          {
+            "nodeId": "click@8.1.7"
+          },
+          {
+            "nodeId": "shellingham@1.5.4"
+          },
+          {
+            "nodeId": "rich@13.9.4"
+          }
+        ]
+      },
+      {
+        "nodeId": "click@8.1.7",
+        "pkgId": "click@8.1.7",
+        "deps": []
+      },
+      {
+        "nodeId": "shellingham@1.5.4",
+        "pkgId": "shellingham@1.5.4",
+        "deps": []
+      },
+      {
+        "nodeId": "rich@13.9.4",
+        "pkgId": "rich@13.9.4",
+        "deps": [
+          {
+            "nodeId": "markdown-it-py@3.0.0"
+          },
+          {
+            "nodeId": "pygments@2.18.0"
+          }
+        ]
+      },
+      {
+        "nodeId": "markdown-it-py@3.0.0",
+        "pkgId": "markdown-it-py@3.0.0",
+        "deps": [
+          {
+            "nodeId": "mdurl@0.1.2"
+          }
+        ]
+      },
+      {
+        "nodeId": "mdurl@0.1.2",
+        "pkgId": "mdurl@0.1.2",
+        "deps": []
+      },
+      {
+        "nodeId": "pygments@2.18.0",
+        "pkgId": "pygments@2.18.0",
+        "deps": []
+      },
+      {
+        "nodeId": "uvicorn@0.32.0:standard",
+        "pkgId": "uvicorn@0.32.0",
+        "deps": [
+          {
+            "nodeId": "click@8.1.7"
+          },
+          {
+            "nodeId": "h11@0.14.0"
+          },
+          {
+            "nodeId": "httptools@0.6.4"
+          },
+          {
+            "nodeId": "python-dotenv@1.0.1"
+          },
+          {
+            "nodeId": "pyyaml@6.0.2"
+          },
+          {
+            "nodeId": "uvloop@0.21.0"
+          },
+          {
+            "nodeId": "watchfiles@0.24.0"
+          },
+          {
+            "nodeId": "websockets@14.1.0"
+          }
+        ]
+      },
+      {
+        "nodeId": "h11@0.14.0",
+        "pkgId": "h11@0.14.0",
+        "deps": []
+      },
+      {
+        "nodeId": "httptools@0.6.4",
+        "pkgId": "httptools@0.6.4",
+        "deps": []
+      },
+      {
+        "nodeId": "python-dotenv@1.0.1",
+        "pkgId": "python-dotenv@1.0.1",
+        "deps": []
+      },
+      {
+        "nodeId": "pyyaml@6.0.2",
+        "pkgId": "pyyaml@6.0.2",
+        "deps": []
+      },
+      {
+        "nodeId": "uvloop@0.21.0",
+        "pkgId": "uvloop@0.21.0",
+        "deps": []
+      },
+      {
+        "nodeId": "watchfiles@0.24.0",
+        "pkgId": "watchfiles@0.24.0",
+        "deps": [
+          {
+            "nodeId": "anyio@4.6.2"
+          }
+        ]
+      },
+      {
+        "nodeId": "websockets@14.1.0",
+        "pkgId": "websockets@14.1.0",
+        "deps": []
+      },
+      {
+        "nodeId": "httpx@0.27.2",
+        "pkgId": "httpx@0.27.2",
+        "deps": [
+          {
+            "nodeId": "anyio@4.6.2"
+          },
+          {
+            "nodeId": "certifi@2024.8.30"
+          },
+          {
+            "nodeId": "httpcore@1.0.6"
+          },
+          {
+            "nodeId": "idna@3.10.0"
+          },
+          {
+            "nodeId": "sniffio@1.3.1"
+          }
+        ]
+      },
+      {
+        "nodeId": "certifi@2024.8.30",
+        "pkgId": "certifi@2024.8.30",
+        "deps": []
+      },
+      {
+        "nodeId": "httpcore@1.0.6",
+        "pkgId": "httpcore@1.0.6",
+        "deps": [
+          {
+            "nodeId": "certifi@2024.8.30"
+          },
+          {
+            "nodeId": "h11@0.14.0"
+          }
+        ]
+      },
+      {
+        "nodeId": "jinja2@3.1.4",
+        "pkgId": "jinja2@3.1.4",
+        "deps": [
+          {
+            "nodeId": "markupsafe@3.0.2"
+          }
+        ]
+      },
+      {
+        "nodeId": "markupsafe@3.0.2",
+        "pkgId": "markupsafe@3.0.2",
+        "deps": []
+      },
+      {
+        "nodeId": "python-multipart@0.0.17",
+        "pkgId": "python-multipart@0.0.17",
+        "deps": []
+      }
+    ]
+  }
+}
