@@ -55,3 +55,22 @@ export function compareVersions(version1: string, version2: string) {
 
   return compareArrays(v1, v2);
 }
+
+/**
+ * Parse extra names inside extras_list
+ * there can be multiple extras separated by comma
+ * see https://peps.python.org/pep-0508
+ *
+ * @param extras the contents of an extra list, inside (but not including) the square brackets
+ * @returns string array of names
+ */
+export function parseExtraNames(extras = ""): string[] {
+  const extraNames = new Set<string>();
+  for (const extra of extras.split(",")) {
+    const name = extra.trim();
+    if (name) {
+      extraNames.add(name);
+    }
+  }
+  return Array.from(extraNames);
+}
