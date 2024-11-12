@@ -50,7 +50,8 @@ class PythonDepGraphBuilder {
     if (!metadata) {
       return;
     }
-    const nodeId = `${metadata.name}@${metadata.version}`;
+    const extrasId = req.extras?.length ? `:${req.extras}` : "";
+    const nodeId = `${metadata.name}@${metadata.version}${extrasId}`;
     if (!this.visitedMap.has(nodeId)) {
       this.visitedMap.add(nodeId);
       this.builder.addPkgNode(
@@ -58,10 +59,36 @@ class PythonDepGraphBuilder {
         nodeId,
       );
       for (const dep of metadata.dependencies) {
-        await this.addDependenciesToDepGraph(nodeId, dep);
+        if (this.shouldTraverse(req, dep)) {
+          await this.addDependenciesToDepGraph(nodeId, dep);
+        }
       }
     }
     this.builder.connectDep(root, nodeId);
+  }
+
+  // test extras and environment markers to determine whether a dependency is optional
+  // if it is optional only traverse if the requirement asked for those optionals
+  private shouldTraverse(
+    req: PythonRequirement,
+    dep: PythonRequirement,
+  ): boolean {
+    // always traverse deps with no extra environment markers (they're non-optional)
+    if (!dep.extraEnvMarkers || dep.extraEnvMarkers.length === 0) {
+      return true;
+    }
+
+    // determine if dep was required with extras, and those extras match the deps env markers
+    const intersection = req.extras?.filter((i) =>
+      dep.extraEnvMarkers?.includes(i),
+    );
+
+    // yes! this is an optional dependency that was asked for
+    if (intersection && intersection.length > 0) {
+      return true;
+    }
+
+    return false; // no! stop here we don't want to traverse optional dependencies
   }
 
   // find the best match for a dependency in found metadata files
