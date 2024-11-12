@@ -1,5 +1,6 @@
 import {
   compareVersions,
+  parseExtraNames,
   specifierValidRange,
   VERSION_EXTRACTION_REGEX,
 } from "../../lib/python-parser/common";
@@ -69,5 +70,26 @@ describe("compareVersions should support multiple compare groups", () => {
       "1.4",
       "1",
     ]);
+  });
+});
+
+describe("python extras parsing", () => {
+  it("parses single extra", () => {
+    expect(parseExtraNames("one")).toEqual(["one"]);
+  });
+  it("parses multiple extras", () => {
+    expect(parseExtraNames("one,two,three")).toEqual(["one", "two", "three"]);
+  });
+  it("handles whitespace when parsing single extra", () => {
+    expect(parseExtraNames(" one ")).toEqual(["one"]);
+  });
+  it("handles whitespace when parsing multiple extras", () => {
+    expect(parseExtraNames(" one ,two ,")).toEqual(["one", "two"]);
+  });
+  it("no extras when empty", () => {
+    expect(parseExtraNames("")).toEqual([]);
+  });
+  it("no extras when only whitespace", () => {
+    expect(parseExtraNames(" ,  ")).toEqual([]);
   });
 });

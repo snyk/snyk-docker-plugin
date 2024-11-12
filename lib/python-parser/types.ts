@@ -2,6 +2,8 @@ export interface PythonRequirement {
   name: string;
   version?: string;
   specifier?: string;
+  extras?: string[];
+  extraEnvMarkers?: string[];
 }
 
 export interface PythonPackage {
