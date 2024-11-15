@@ -1,14 +1,17 @@
 import * as semver from "semver";
-import { specifierValidRange } from "./common";
-import { PythonPackage, PythonRequirement } from "./types";
+import { parseExtraNames, specifierValidRange } from "./common";
+import { findProvidesExtras } from "./provides-extra";
+import type { PythonPackage, PythonRequirement } from "./types";
 
 const PACKAGE_NAME = "Name: ";
 const PACKAGE_VERSION = "Version: ";
 const PACKAGE_DEPS = "Requires-Dist: ";
 const DEP_PARSE_REGEX =
-  /^(?<name>[\w.-]+)(\s?\(?(?<specifier><|<=|!=|==|>=|>|~=|===)(?<version>[\w.]+)\)?)?/;
+  /^(?<name>[\w.-]+)((\[(?<extras>.*)\])?)(\s?\(?(?<specifier><|<=|!=|==|>=|>|~=|===)(?<version>[\w.]+)\)?)?/;
+
 export function getPackageInfo(fileContent: string): PythonPackage {
   const lines = fileContent.split("\n");
+  const providesExtras = findProvidesExtras(lines);
   let name = "";
   let version = "";
   const dependencies: PythonRequirement[] = [];
@@ -24,6 +27,7 @@ export function getPackageInfo(fileContent: string): PythonPackage {
     } else if (line.startsWith(PACKAGE_DEPS)) {
       const pythonPackage = parseDependency(
         line.substring(PACKAGE_DEPS.length),
+        providesExtras,
       );
       if (pythonPackage) {
         dependencies.push(pythonPackage);
@@ -38,20 +42,49 @@ export function getPackageInfo(fileContent: string): PythonPackage {
   } as PythonPackage;
 }
 
-// parse a line containing a dependency package name and (optional) specifier + version
-function parseDependency(packageDependency: string): PythonRequirement | null {
+// parse a line containing a dependency package name & extras and (optional) specifier + version
+export function parseDependency(
+  packageDependency: string,
+  providesExtras: string[],
+): PythonRequirement | null {
   packageDependency = packageDependency.trim();
+
   const parsedDep = DEP_PARSE_REGEX.exec(packageDependency);
   if (!parsedDep?.groups) {
     return null;
   }
-  const { name, version, specifier } = parsedDep.groups;
-  const correctedSpecifier = specifierValidRange(specifier, version);
+  const { name, extras, version, specifier } = parsedDep.groups;
+
   return {
     name: name.toLowerCase(),
     version,
-    specifier: correctedSpecifier,
+    specifier: specifierValidRange(specifier, version),
+    extras: parseExtraNames(extras),
+    extraEnvMarkers: parseExtraEnvMarkers(providesExtras, packageDependency),
   } as PythonRequirement;
+}
+
+// parse extra environment markers located after the quoted marker
+// see https://peps.python.org/pep-0508
+function parseExtraEnvMarkers(
+  providesExtras: string[],
+  requiresDist?: string,
+): string[] {
+  const extraNames = new Set<string>();
+
+  // search string after quoted_marker ;
+  const quotedMarker = requiresDist?.split(";");
+  if (quotedMarker && quotedMarker.length > 1) {
+    for (const extra of providesExtras) {
+      // search for extra env markers for given provides extras
+      const re = new RegExp(`.*extra.*("|')(?<extra>${extra})("|').*`);
+      if (re.exec(quotedMarker[1])) {
+        extraNames.add(extra);
+      }
+    }
+  }
+
+  return Array.from(extraNames);
 }
 
 function getParseableVersion(versionString: string): string {
