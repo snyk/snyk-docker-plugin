@@ -16,6 +16,9 @@ export function getRedHatRepositoriesFromExtractedLayers(
       const contentManifest = extractedLayers[filePath][
         "redhat-content-manifests"
       ] as any;
+      if (!contentManifest || !contentManifest.content_sets) {
+        continue;
+      }
       repositories.push(...contentManifest?.content_sets);
     }
   }
