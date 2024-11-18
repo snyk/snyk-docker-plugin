@@ -46,7 +46,7 @@
     "packageurl-js": "1.2.0",
     "semver": "^7.6.3",
     "shescape": "^1.7.4",
-    "snyk-nodejs-lockfile-parser": "^1.57.0",
+    "snyk-nodejs-lockfile-parser": "^1.58.14",
     "snyk-poetry-lockfile-parser": "^1.4.0",
     "snyk-resolve-deps": "^4.7.1",
     "tar-stream": "^2.1.0",
@@ -54,6 +54,9 @@
     "tslib": "^1",
     "uuid": "^8.2.0",
     "varint": "^6.0.0"
+  },
+  "overrides": {
+    "micromatch": "4.0.8"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.0.2",

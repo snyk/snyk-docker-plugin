@@ -12,11 +12,6 @@ ignore:
         reason: No fix is available at the moment.
         expires: 2024-12-13T15:00:00.000Z
         created: 2024-05-13T15:00:00.000Z
-  SNYK-JS-MICROMATCH-6838728:
-    - '*':
-        reason: No fix is available at the moment.
-        expires: 2024-12-13T15:00:00.000Z
-        created: 2024-05-13T15:00:00.000Z
   SNYK-JS-CROSSSPAWN-8303230:
     - '*':
         reason: Ignoring for a short interval since it is a high.
