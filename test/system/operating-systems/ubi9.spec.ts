@@ -3,17 +3,15 @@ import { execute } from "../../../lib/sub-process";
 
 describe("redhat ubi9 tests", () => {
   afterAll(async () => {
-    await execute("docker", [
-      "image",
-      "rm",
-      "registry.access.redhat.com/ubi9-micro",
-    ]).catch(() => {
-      console.error(`tests teardown failed to remove docker image`);
-    });
+    await execute("docker", ["image", "rm", "redhat/ubi9-micro:9.3"]).catch(
+      () => {
+        console.error(`tests teardown failed to remove docker image`);
+      },
+    );
   });
 
   it("should correctly analyze an ubi9 image by tag", async () => {
-    const image = "registry.access.redhat.com/ubi9-micro";
+    const image = "redhat/ubi9-micro:9.3";
     const pluginResult = await scan({
       path: image,
       platform: "linux/amd64",
