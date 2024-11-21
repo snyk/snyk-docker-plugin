@@ -20,7 +20,7 @@
     "lint:commit": "commitlint --from=HEAD~5",
     "format": "prettier --loglevel warn --write '{lib,test}/**/*.ts' && tslint --fix --format stylish '{lib,test}/**/*.ts'",
     "test": "npm run test-jest",
-    "test-jest": "jest --ci --maxWorkers=3 --logHeapUsage",
+    "test-jest": "jest --ci --maxWorkers=3 --logHeapUsage --colors",
     "test-jest-windows": "jest --ci --maxWorkers=3 --config test/windows/jest.config.js --logHeapUsage",
     "prepare": "npm run build"
   },
