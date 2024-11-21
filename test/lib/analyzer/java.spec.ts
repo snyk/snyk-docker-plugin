@@ -29,8 +29,47 @@ describe("jarFilesToScannedResults function", () => {
       "/lib/test/fixture-1.0.0.jar",
     );
     expect(result[0].facts[0].data.fingerprints[0].digest).toBeNull();
+    expect(result[0].facts[0].data.fingerprints[0].classFiles).toEqual([
+      "io/snyk/test/App.class",
+    ]);
     expect(result[0].identity.type).toEqual("maven");
     expect(result[0].identity.targetFile).toEqual("/lib/test");
+  });
+
+  it("should extract only top level class files", async () => {
+    // Arrange
+    const buffered = readFileSync(
+      "test/fixtures/maven/nested-jars-fixture.jar",
+    );
+    const filePathToContent = {
+      "/lib/test/nested-jars-fixture.jar": buffered,
+    };
+
+    // Act
+    const result = await jarFilesToScannedResults(
+      filePathToContent,
+      "image-name",
+      10, // we don't want to include any nested JARs
+    );
+
+    // Assert
+    const jarFilesCount = result[0].facts[0].data.fingerprints;
+    expect(jarFilesCount.length).toEqual(35);
+    expect(result[0].facts[0].type).toEqual("jarFingerprints");
+    expect(result[0].facts[0].data.fingerprints[0].location).toEqual(
+      "/lib/test/nested-jars-fixture.jar",
+    );
+    expect(result[0].facts[0].data.fingerprints[0].classFiles.length).toEqual(
+      55,
+    );
+    expect(result[0].identity.type).toEqual("maven");
+    expect(result[0].identity.targetFile).toEqual("/lib/test");
+
+    for (let i = 1; i < result[0].facts[0].data.fingerprints.length; i++) {
+      expect(result[0].facts[0].data.fingerprints[i].classFiles.length).toEqual(
+        0,
+      );
+    }
   });
 
   it("should catch errors with admzip and continue", async () => {

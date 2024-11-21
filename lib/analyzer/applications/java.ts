@@ -22,6 +22,7 @@ function groupJarFingerprintsByPath(fileNameToBuffer: {
       coords: null,
       dependencies: [],
       nestedJars: [],
+      classFiles: [],
     };
     resultAggregatedByPath[location] = resultAggregatedByPath[location] || [];
     resultAggregatedByPath[location].push(jarFingerprint);
@@ -113,6 +114,7 @@ function unpackJar({
 }): JarInfo {
   const dependencies: JarCoords[] = [];
   const nestedJars: JarBuffer[] = [];
+  const classFiles: string[] = [];
   let coords: JarCoords | null = null;
 
   let zip: admzip;
@@ -128,6 +130,7 @@ function unpackJar({
       coords: null,
       dependencies,
       nestedJars,
+      classFiles,
     };
   }
 
@@ -150,6 +153,9 @@ function unpackJar({
           dependencies.push(entryCoords);
         }
       }
+    } else if (unpackedLevels <= 1 && zipEntry.entryName.endsWith(".class")) {
+      // Don't collect for nested jars
+      classFiles.push(zipEntry.entryName);
     }
 
     // We only want to include JARs found at this level if the user asked for
@@ -176,6 +182,7 @@ function unpackJar({
     coords,
     dependencies,
     nestedJars,
+    classFiles,
   };
 }
 
@@ -231,6 +238,7 @@ async function unpackJars(
         location: jarInfo.location,
         digest: jarInfo.coords ? null : await bufferToSha1(jarInfo.buffer),
         dependencies: jarInfo.dependencies,
+        classFiles: jarInfo.classFiles,
         ...jarInfo.coords,
       });
     }

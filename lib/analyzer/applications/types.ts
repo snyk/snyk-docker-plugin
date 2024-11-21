@@ -15,6 +15,7 @@ export interface JarInfo extends JarBuffer {
   coords: JarCoords | null;
   dependencies: JarCoords[];
   nestedJars: JarBuffer[];
+  classFiles: string[];
 }
 export interface JarBuffer {
   location: string;

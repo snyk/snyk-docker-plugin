@@ -71,6 +71,7 @@ export interface JarFingerprint {
   parentName?: string;
   name?: string;
   version?: string;
+  classFiles?: string[];
   dependencies: JarCoords[];
 }
 export interface StaticAnalysis {
