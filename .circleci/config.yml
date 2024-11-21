@@ -137,7 +137,10 @@ jobs:
       - setup_remote_docker
       - attach_workspace:
           at: ~/snyk-docker-plugin
-      - run: npm run test-jest
+      - run: npm run test-jest > test-logs.txt 2>&1
+      - store_artifacts:
+          path: test-logs.txt
+          destination: test-logs
   test_jest_windows_with_docker:
     <<: *windows_big
     steps:
