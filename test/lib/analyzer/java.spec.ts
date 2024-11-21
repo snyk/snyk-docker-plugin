@@ -66,9 +66,9 @@ describe("jarFilesToScannedResults function", () => {
     expect(result[0].identity.targetFile).toEqual("/lib/test");
 
     for (let i = 1; i < result[0].facts[0].data.fingerprints.length; i++) {
-      expect(result[0].facts[0].data.fingerprints[i].classFiles.length).toEqual(
-        0,
-      );
+      expect(
+        result[0].facts[0].data.fingerprints[i].classFiles,
+      ).toBeUndefined();
     }
   });
 

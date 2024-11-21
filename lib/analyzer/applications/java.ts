@@ -116,6 +116,8 @@ function unpackJar({
   const nestedJars: JarBuffer[] = [];
   const classFiles: string[] = [];
   let coords: JarCoords | null = null;
+  // Don't collect for nested jars
+  const shouldCollectClassFiles = unpackedLevels <= 1;
 
   let zip: admzip;
   let zipEntries: admzip.IZipEntry[];
@@ -130,7 +132,6 @@ function unpackJar({
       coords: null,
       dependencies,
       nestedJars,
-      classFiles,
     };
   }
 
@@ -153,8 +154,10 @@ function unpackJar({
           dependencies.push(entryCoords);
         }
       }
-    } else if (unpackedLevels <= 1 && zipEntry.entryName.endsWith(".class")) {
-      // Don't collect for nested jars
+    } else if (
+      shouldCollectClassFiles &&
+      zipEntry.entryName.endsWith(".class")
+    ) {
       classFiles.push(zipEntry.entryName);
     }
 
@@ -176,14 +179,19 @@ function unpackJar({
     }
   }
 
-  return {
+  const result: JarInfo = {
     location: jarPath,
     buffer: jarBuffer,
     coords,
     dependencies,
     nestedJars,
-    classFiles,
   };
+
+  if (shouldCollectClassFiles) {
+    result.classFiles = classFiles;
+  }
+
+  return result;
 }
 
 /**
