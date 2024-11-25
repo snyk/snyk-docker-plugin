@@ -3,7 +3,13 @@ import * as path from "path";
 import { bufferToSha1 } from "../../buffer-utils";
 import { JarFingerprintsFact } from "../../facts";
 import { JarFingerprint } from "../types";
-import { AggregatedJars, JarBuffer, JarCoords, JarInfo } from "./types";
+import {
+  AggregatedJars,
+  ClassFileInfo,
+  JarBuffer,
+  JarCoords,
+  JarInfo,
+} from "./types";
 import { AppDepsScanResultWithoutTarget, FilePathToBuffer } from "./types";
 
 /**
@@ -114,7 +120,7 @@ function unpackJar({
 }): JarInfo {
   const dependencies: JarCoords[] = [];
   const nestedJars: JarBuffer[] = [];
-  const classFiles: string[] = [];
+  const classFiles: ClassFileInfo[] = [];
   let coords: JarCoords | null = null;
   // Don't collect for nested jars
   const shouldCollectClassFiles = unpackedLevels <= 1;
@@ -158,7 +164,7 @@ function unpackJar({
       shouldCollectClassFiles &&
       zipEntry.entryName.endsWith(".class")
     ) {
-      classFiles.push(zipEntry.entryName);
+      classFiles.push({ path: zipEntry.entryName });
     }
 
     // We only want to include JARs found at this level if the user asked for

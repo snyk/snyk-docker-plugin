@@ -2,6 +2,7 @@ import { ImageName } from "../extractor/image";
 import { AutoDetectedUserInstructions, ManifestFile } from "../types";
 import {
   AppDepsScanResultWithoutTarget,
+  ClassFileInfo,
   JarCoords,
 } from "./applications/types";
 
@@ -71,7 +72,7 @@ export interface JarFingerprint {
   parentName?: string;
   name?: string;
   version?: string;
-  classFiles?: string[];
+  classFiles?: ClassFileInfo[];
   dependencies: JarCoords[];
 }
 export interface StaticAnalysis {

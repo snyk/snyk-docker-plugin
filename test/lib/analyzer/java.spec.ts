@@ -30,7 +30,7 @@ describe("jarFilesToScannedResults function", () => {
     );
     expect(result[0].facts[0].data.fingerprints[0].digest).toBeNull();
     expect(result[0].facts[0].data.fingerprints[0].classFiles).toEqual([
-      "io/snyk/test/App.class",
+      { path: "io/snyk/test/App.class" },
     ]);
     expect(result[0].identity.type).toEqual("maven");
     expect(result[0].identity.targetFile).toEqual("/lib/test");

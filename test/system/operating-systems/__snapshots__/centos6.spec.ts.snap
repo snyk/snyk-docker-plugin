@@ -6483,7 +6483,9 @@ Object {
             "fingerprints": Array [
               Object {
                 "classFiles": Array [
-                  "gnu/gettext/GettextResource.class",
+                  Object {
+                    "path": "gnu/gettext/GettextResource.class",
+                  },
                 ],
                 "dependencies": Array [],
                 "digest": "dd62cae9d95c824f90a442822cb0e205d82fda92",
