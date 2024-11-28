@@ -22,8 +22,8 @@ import {
 import { LogicalRoot } from "snyk-resolve-deps/dist/types";
 import {
   cleanupAppNodeModules,
-  groupFilesByDirectory,
   filterAppFiles,
+  groupFilesByDirectory,
   persistNodeModules,
 } from "./node-modules-utils";
 import {

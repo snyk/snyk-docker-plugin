@@ -10,9 +10,7 @@ import {
   shouldBuildDepTree,
 } from "../../../lib/analyzer/applications/node";
 import * as nodeUtils from "../../../lib/analyzer/applications/node-modules-utils";
-import { FilePathToContent } from "../../../lib/analyzer/applications/types";
 import { getFixture, getObjFromFixture } from "../../util";
-import { ApplicationFilesFact } from "../../../lib/facts";
 
 describe("node application scans", () => {
   it("should correctly return applications as multiple scan results", async () => {
