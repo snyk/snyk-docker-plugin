@@ -3,7 +3,11 @@ import * as Debug from "debug";
 import * as path from "path";
 import * as lockFileParser from "snyk-nodejs-lockfile-parser";
 import * as resolveDeps from "snyk-resolve-deps";
-import { DepGraphFact, TestedFilesFact } from "../../facts";
+import {
+  ApplicationFilesFact,
+  DepGraphFact,
+  TestedFilesFact,
+} from "../../facts";
 
 const debug = Debug("snyk");
 
@@ -36,6 +40,7 @@ interface ManifestLockPathPair {
 
 export async function nodeFilesToScannedProjects(
   filePathToContent: FilePathToContent,
+  applicationFilesFlag: boolean,
 ): Promise<AppDepsScanResultWithoutTarget[]> {
   const scanResults: AppDepsScanResultWithoutTarget[] = [];
   /**
@@ -54,9 +59,6 @@ export async function nodeFilesToScannedProjects(
   }
 
   const fileNamesGroupedByDirectory = groupFilesByDirectory(filePaths);
-  const [appFilesRootDir, appFiles] = filterAppFiles(
-    fileNamesGroupedByDirectory,
-  );
   const [manifestFilePairs, nodeProjects] = findProjectsAndManifests(
     fileNamesGroupedByDirectory,
   );
@@ -78,19 +80,25 @@ export async function nodeFilesToScannedProjects(
       )),
     );
   }
-  if (appFiles.length !== 0) {
-    scanResults.push({
-      facts: [
-        {
-          type: "applicationFiles",
-          data: appFiles,
+
+  if (applicationFilesFlag) {
+    const [appFilesRootDir, appFiles] = filterAppFiles(
+      fileNamesGroupedByDirectory,
+    );
+    if (appFiles.length !== 0) {
+      scanResults.push({
+        facts: [
+          {
+            type: "applicationFiles",
+            data: appFiles,
+          } as ApplicationFilesFact,
+        ],
+        identity: {
+          type: "npm",
+          targetFile: appFilesRootDir,
         },
-      ],
-      identity: {
-        type: "npm",
-        targetFile: appFilesRootDir,
-      },
-    });
+      });
+    }
   }
 
   return scanResults;

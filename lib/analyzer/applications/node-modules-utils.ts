@@ -232,7 +232,7 @@ function filterAppFiles(
   if (appFiles.length > 0) {
     rootDir = Array.from(directories).reduce((commonDir, dir) => {
       // Find the common path
-      while (commonDir && commonDir != "." && !dir.startsWith(commonDir)) {
+      while (commonDir && commonDir !== "." && !dir.startsWith(commonDir)) {
         commonDir = commonDir.substring(0, commonDir.lastIndexOf(path.sep));
       }
       return commonDir;

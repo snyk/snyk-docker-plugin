@@ -12,6 +12,7 @@ import {
 import * as nodeUtils from "../../../lib/analyzer/applications/node-modules-utils";
 import { FilePathToContent } from "../../../lib/analyzer/applications/types";
 import { getFixture, getObjFromFixture } from "../../util";
+import { ApplicationFilesFact } from "../../../lib/facts";
 
 describe("node application scans", () => {
   it("should correctly return applications as multiple scan results", async () => {
@@ -150,6 +151,32 @@ describe("node application scans", () => {
 
     expect(pluginResultExcludeAppVulnsTrueString.scanResults).toHaveLength(1);
     expect(pluginResultExcludeAppVulnsTrueBoolean.scanResults).toHaveLength(1);
+  });
+
+  it("should handle --application-files", async () => {
+    const fixturePath = getFixture("npm/multi-project-image.tar");
+    const imageNameAndTag = `docker-archive:${fixturePath}`;
+
+    const resultWithoutApplicationFilesFlag = await scan({
+      path: imageNameAndTag,
+    });
+    const resultWithApplicationFilesFlagSetToTrue = await scan({
+      path: imageNameAndTag,
+      "application-files": "true",
+    });
+
+    expect(resultWithoutApplicationFilesFlag.scanResults).toHaveLength(5);
+    expect(resultWithApplicationFilesFlagSetToTrue.scanResults).toHaveLength(6);
+
+    const appFiles =
+      resultWithApplicationFilesFlagSetToTrue.scanResults[5].facts.find(
+        (fact) => fact.type === "applicationFiles",
+      )!.data;
+    expect(appFiles).toStrictEqual([
+      "/opt/yarn-v1.22.4/bin/yarn.js",
+      "/opt/yarn-v1.22.4/lib/cli.js",
+      "/opt/yarn-v1.22.4/lib/v8-compile-cache.js",
+    ]);
   });
 
   it("should not create scan results for the npm/yarn cache directories", async () => {

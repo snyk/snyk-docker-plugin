@@ -219,6 +219,9 @@ export interface PluginOptions {
 
   /** The default is "false". */
   "exclude-base-image-vulns": boolean | string;
+
+  /** The default is "false". */
+  "application-files": boolean | string;
 }
 
 export interface DepTreeDep {
