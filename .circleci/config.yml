@@ -4,8 +4,7 @@ orbs:
   win: circleci/windows@5.0.0
   node: circleci/node@5.1.0
   slack: circleci/slack@4
-  prodsec: snyk/prodsec-orb@1.0
-  snyk: snyk/snyk@1
+  prodsec: snyk/prodsec-orb@1
 
 defaults: &defaults
   resource_class: small
@@ -58,7 +57,7 @@ release_defaults: &release_defaults
     - image: node:14
   working_directory: ~/snyk-docker-plugin
 
-define: &windows_node_version "14"
+define: &windows_node_version "18"
 
 commands:
   install_deps:
@@ -109,6 +108,17 @@ commands:
           command: nvm list | awk '/<< parameters.node_version >>/ {print $1}' | xargs nvm use
 
 jobs:
+  security-scans:
+    <<: *defaults
+    steps:
+      - checkout
+      - install_deps
+      - attach_workspace:
+          at: ~/snyk-docker-plugin
+      - prodsec/security_scans:
+          mode: auto
+          open-source-additional-arguments: --exclude=test
+          iac-scan: disabled
   install:
     <<: *defaults
     steps:
@@ -120,26 +130,6 @@ jobs:
       - attach_workspace:
           at: ~/snyk-docker-plugin
       - run: npm run lint
-  scan_code:
-    <<: *defaults
-    steps:
-      - checkout
-      - attach_workspace:
-          at: ~/snyk-docker-plugin
-      - snyk/scan:
-          command: code test
-          fail-on-issues: true
-          severity-threshold: high
-          monitor-on-build: false
-  scan_deps:
-    <<: *defaults
-    steps:
-      - checkout
-      - install_deps
-      - snyk/scan:
-          fail-on-issues: true
-          severity-threshold: high
-          monitor-on-build: false
   test:
     <<: *defaults
     steps:
@@ -147,7 +137,10 @@ jobs:
       - setup_remote_docker
       - attach_workspace:
           at: ~/snyk-docker-plugin
-      - run: npm run test-jest
+      - run: npm run test-jest > test-logs.txt 2>&1
+      - store_artifacts:
+          path: test-logs.txt
+          destination: test-logs
   test_jest_windows_with_docker:
     <<: *windows_big
     steps:
@@ -228,7 +221,7 @@ workflows:
           name: Scan repository for secrets
           context:
             - snyk-bot-slack
-          channel: team-unify-pipeline-info
+          channel: team-unify-alerts
           filters:
             branches:
               ignore: main
@@ -255,20 +248,9 @@ workflows:
             - Lint
           post-steps:
             - *slack-fail-notify
-      - scan_code:
-          name: Scan Code
-          context:
-            - snyk-bot-slack
-            - team-unify
-            - snyk-token-team-link
-          post-steps:
-            - *slack-fail-notify
-      - scan_deps:
-          name: Scan Dependencies
-          context:
-            - snyk-bot-slack
-            - team-unify
-            - snyk-token-team-link
+      - security-scans:
+          name: Security Scans
+          context: analysis_unify
           post-steps:
             - *slack-fail-notify
       - test:
@@ -326,8 +308,7 @@ workflows:
           requires:
             - Lint
             - Build
-            - Scan Code
-            - Scan Dependencies
+            - Security Scans
             - Test
             - Test Jest Windows with Docker
             - Test Jest Windows no Docker

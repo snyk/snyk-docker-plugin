@@ -16,3 +16,61 @@ export function specifierValidRange(
   const versionPartsLength = version.split(".").length;
   return versionPartsLength === 2 ? "^" : "~";
 }
+
+// This regex is used to extract the "semver" part from the version string.
+// See the tests for a better understanding (Also the reason why this is exported)
+export const VERSION_EXTRACTION_REGEX = /(?<VERSION>(\d+\.)*\d+).*/;
+
+function compareArrays(v1: number[], v2: number[]) {
+  const max = v1.length > v2.length ? v1.length : v2.length;
+  for (let i = 0; i < max; i++) {
+    if ((v1[i] || 0) < (v2[i] || 0)) {
+      return 1;
+    }
+    if ((v1[i] || 0) > (v2[i] || 0)) {
+      return -1;
+    }
+  }
+  return 0;
+}
+
+/**
+ * This function was taken from a different semver library and slightly modified.
+ * If passed to Array.prototype.sort, versions will be sorted in descending order.
+ */
+export function compareVersions(version1: string, version2: string) {
+  const v1Match = VERSION_EXTRACTION_REGEX.exec(version1);
+  const v2Match = VERSION_EXTRACTION_REGEX.exec(version2);
+
+  if (v1Match === null || v2Match === null) {
+    return 0;
+  }
+
+  const v1 = v1Match
+    .groups!.VERSION.split(".")
+    .map((part) => Number.parseInt(part, 10));
+  const v2 = v2Match
+    .groups!.VERSION.split(".")
+    .map((part) => Number.parseInt(part, 10));
+
+  return compareArrays(v1, v2);
+}
+
+/**
+ * Parse extra names inside extras_list
+ * there can be multiple extras separated by comma
+ * see https://peps.python.org/pep-0508
+ *
+ * @param extras the contents of an extra list, inside (but not including) the square brackets
+ * @returns string array of names
+ */
+export function parseExtraNames(extras = ""): string[] {
+  const extraNames = new Set<string>();
+  for (const extra of extras.split(",")) {
+    const name = extra.trim();
+    if (name) {
+      extraNames.add(name);
+    }
+  }
+  return Array.from(extraNames);
+}

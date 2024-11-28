@@ -151,4 +151,220 @@ describe("python metadata parser", () => {
     expect(packageResult.name).toEqual("opencv-python");
     expect(packageResult.version).toEqual("4.8.1.78");
   });
+
+  it("parses extra names when present", () => {
+    const fileContent = `
+      Metadata-Version: 2.1
+      Name: fastapi
+      Version: 0.115.4
+      Summary: FastAPI framework, high performance, easy to learn, fast to code, ready for production
+      Author-Email: =?utf-8?q?Sebasti=C3=A1n_Ram=C3=ADrez?= <tiangolo@gmail.com>
+      Classifier: Intended Audience :: Information Technology
+      Classifier: Intended Audience :: System Administrators
+      Classifier: Operating System :: OS Independent
+      Classifier: Programming Language :: Python :: 3
+      Classifier: Programming Language :: Python
+      Classifier: Topic :: Internet
+      Classifier: Topic :: Software Development :: Libraries :: Application Frameworks
+      Classifier: Topic :: Software Development :: Libraries :: Python Modules
+      Classifier: Topic :: Software Development :: Libraries
+      Classifier: Topic :: Software Development
+      Classifier: Typing :: Typed
+      Classifier: Development Status :: 4 - Beta
+      Classifier: Environment :: Web Environment
+      Classifier: Framework :: AsyncIO
+      Classifier: Framework :: FastAPI
+      Classifier: Framework :: Pydantic
+      Classifier: Framework :: Pydantic :: 1
+      Classifier: Intended Audience :: Developers
+      Classifier: License :: OSI Approved :: MIT License
+      Classifier: Programming Language :: Python :: 3 :: Only
+      Classifier: Programming Language :: Python :: 3.8
+      Classifier: Programming Language :: Python :: 3.9
+      Classifier: Programming Language :: Python :: 3.10
+      Classifier: Programming Language :: Python :: 3.11
+      Classifier: Programming Language :: Python :: 3.12
+      Classifier: Topic :: Internet :: WWW/HTTP :: HTTP Servers
+      Classifier: Topic :: Internet :: WWW/HTTP
+      Project-URL: Homepage, https://github.com/fastapi/fastapi
+      Project-URL: Documentation, https://fastapi.tiangolo.com/
+      Project-URL: Repository, https://github.com/fastapi/fastapi
+      Project-URL: Issues, https://github.com/fastapi/fastapi/issues
+      Project-URL: Changelog, https://fastapi.tiangolo.com/release-notes/
+      Requires-Python: >=3.8
+      Requires-Dist: starlette<0.42.0,>=0.40.0
+      Requires-Dist: pydantic!=1.8,!=1.8.1,!=2.0.0,!=2.0.1,!=2.1.0,<3.0.0,>=1.7.4
+      Requires-Dist: typing-extensions>=4.8.0
+      Provides-Extra: standard
+      Requires-Dist: fastapi-cli[standard]>=0.0.5; extra == "standard"
+      Requires-Dist: httpx>=0.23.0; extra == "standard"
+      Requires-Dist: jinja2>=2.11.2; extra == "standard"
+      Requires-Dist: python-multipart>=0.0.7; extra == "standard"
+      Requires-Dist: email-validator>=2.0.0; extra == "standard"
+      Requires-Dist: uvicorn[standard]>=0.12.0; extra == "standard"
+      Provides-Extra: all
+      Requires-Dist: fastapi-cli[standard]>=0.0.5; extra == "all"
+      Requires-Dist: httpx>=0.23.0; extra == "all"
+      Requires-Dist: jinja2>=2.11.2; extra == "all"
+      Requires-Dist: python-multipart>=0.0.7; extra == "all"
+      Requires-Dist: itsdangerous>=1.1.0; extra == "all"
+      Requires-Dist: pyyaml>=5.3.1; extra == "all"
+      Requires-Dist: ujson!=4.0.2,!=4.1.0,!=4.2.0,!=4.3.0,!=5.0.0,!=5.1.0,>=4.0.1; extra == "all"
+      Requires-Dist: orjson>=3.2.1; extra == "all"
+      Requires-Dist: email-validator>=2.0.0; extra == "all"
+      Requires-Dist: uvicorn[standard]>=0.12.0; extra == "all"
+      Requires-Dist: pydantic-settings>=2.0.0; extra == "all"
+      Requires-Dist: pydantic-extra-types>=2.0.0; extra == "all"
+      Description-Content-Type: text/markdown`;
+    const packageResult = getPackageInfo(fileContent);
+    expect(packageResult.dependencies).toEqual([
+      {
+        extras: [],
+        extraEnvMarkers: [],
+        name: "starlette",
+        specifier: "<",
+        version: "0.42.0",
+      },
+      {
+        extras: [],
+        extraEnvMarkers: [],
+        name: "pydantic",
+        specifier: "!=",
+        version: "1.8",
+      },
+      {
+        extras: [],
+        extraEnvMarkers: [],
+        name: "typing-extensions",
+        specifier: ">=",
+        version: "4.8.0",
+      },
+      {
+        extras: ["standard"],
+        extraEnvMarkers: ["standard"],
+        name: "fastapi-cli",
+        specifier: ">=",
+        version: "0.0.5",
+      },
+      {
+        extras: [],
+        extraEnvMarkers: ["standard"],
+        name: "httpx",
+        specifier: ">=",
+        version: "0.23.0",
+      },
+      {
+        extras: [],
+        extraEnvMarkers: ["standard"],
+        name: "jinja2",
+        specifier: ">=",
+        version: "2.11.2",
+      },
+      {
+        extras: [],
+        extraEnvMarkers: ["standard"],
+        name: "python-multipart",
+        specifier: ">=",
+        version: "0.0.7",
+      },
+      {
+        extras: [],
+        extraEnvMarkers: ["standard"],
+        name: "email-validator",
+        specifier: ">=",
+        version: "2.0.0",
+      },
+      {
+        extras: ["standard"],
+        extraEnvMarkers: ["standard"],
+        name: "uvicorn",
+        specifier: ">=",
+        version: "0.12.0",
+      },
+      {
+        extras: ["standard"],
+        extraEnvMarkers: ["all"],
+        name: "fastapi-cli",
+        specifier: ">=",
+        version: "0.0.5",
+      },
+      {
+        extras: [],
+        extraEnvMarkers: ["all"],
+        name: "httpx",
+        specifier: ">=",
+        version: "0.23.0",
+      },
+      {
+        extras: [],
+        extraEnvMarkers: ["all"],
+        name: "jinja2",
+        specifier: ">=",
+        version: "2.11.2",
+      },
+      {
+        extras: [],
+        extraEnvMarkers: ["all"],
+        name: "python-multipart",
+        specifier: ">=",
+        version: "0.0.7",
+      },
+      {
+        extras: [],
+        extraEnvMarkers: ["all"],
+        name: "itsdangerous",
+        specifier: ">=",
+        version: "1.1.0",
+      },
+      {
+        extras: [],
+        extraEnvMarkers: ["all"],
+        name: "pyyaml",
+        specifier: ">=",
+        version: "5.3.1",
+      },
+      {
+        extras: [],
+        extraEnvMarkers: ["all"],
+        name: "ujson",
+        specifier: "!=",
+        version: "4.0.2",
+      },
+      {
+        extras: [],
+        extraEnvMarkers: ["all"],
+        name: "orjson",
+        specifier: ">=",
+        version: "3.2.1",
+      },
+      {
+        extras: [],
+        extraEnvMarkers: ["all"],
+        name: "email-validator",
+        specifier: ">=",
+        version: "2.0.0",
+      },
+      {
+        extras: ["standard"],
+        extraEnvMarkers: ["all"],
+        name: "uvicorn",
+        specifier: ">=",
+        version: "0.12.0",
+      },
+      {
+        extras: [],
+        extraEnvMarkers: ["all"],
+        name: "pydantic-settings",
+        specifier: ">=",
+        version: "2.0.0",
+      },
+      {
+        extras: [],
+        extraEnvMarkers: ["all"],
+        name: "pydantic-extra-types",
+        specifier: ">=",
+        version: "2.0.0",
+      },
+    ]);
+  });
 });

@@ -153,7 +153,7 @@ export function getRootFsLayersFromConfig(imageConfig: ImageConfig): string[] {
 export function getPlatformFromConfig(
   imageConfig: ImageConfig,
 ): string | undefined {
-  return imageConfig.os && imageConfig.architecture
+  return imageConfig?.os && imageConfig?.architecture
     ? `${imageConfig.os}/${imageConfig.architecture}`
     : undefined;
 }
@@ -203,28 +203,21 @@ function layersWithLatestFileModifications(
     // go over extracted files products found in this layer
     for (const filename of Object.keys(layer)) {
       // if finding a deleted file - trimming to its original file name for excluding it from extractedLayers
-      if (isDeletedFile(filename)) {
+      // + not adding this file
+      if (isWhitedOutFile(filename)) {
         removedFilesToIgnore.add(filename.replace(/.wh./, ""));
+        continue;
       }
-
-      // not adding the original file to extractedLayers
-      // and removing it from the set since it can be found in consecutive layers
+      // not adding previously found to be whited out files to extractedLayers
       if (removedFilesToIgnore.has(filename)) {
-        removedFilesToIgnore.delete(filename);
         continue;
       }
-      if (
-        Array.from(removedFilesToIgnore).some((removedFile) =>
-          isFileInFolder(removedFile, filename),
-        )
-      ) {
+      // not adding path that has removed path as parent
+      if (isFileInARemovedFolder(filename, removedFilesToIgnore)) {
         continue;
       }
-      if (
-        // file was not found + avoid adding deleted files with .wh.
-        !Reflect.has(extractedLayers, filename) &&
-        !isDeletedFile(filename)
-      ) {
+      // file not already in extractedLayers
+      if (!Reflect.has(extractedLayers, filename)) {
         extractedLayers[filename] = layer[filename];
       }
     }
@@ -232,7 +225,7 @@ function layersWithLatestFileModifications(
   return extractedLayers;
 }
 
-export function isDeletedFile(filename: string) {
+export function isWhitedOutFile(filename: string) {
   return filename.match(/.wh./gm);
 }
 
@@ -278,9 +271,18 @@ function getContent(
     : undefined;
 }
 
-function isFileInFolder(folder: string, file: string): boolean {
+function isFileInFolder(file: string, folder: string): boolean {
   const folderPath = path.normalize(folder);
   const filePath = path.normalize(file);
 
   return filePath.startsWith(path.join(folderPath, path.sep));
+}
+
+function isFileInARemovedFolder(
+  filename: string,
+  removedFilesToIgnore: Set<string>,
+): boolean {
+  return Array.from(removedFilesToIgnore).some((removedFile) =>
+    isFileInFolder(filename, removedFile),
+  );
 }

@@ -36,6 +36,4 @@ export interface AggregatedJars {
   [path: string]: JarBuffer[];
 }
 
-export interface FilesByDir {
-  [directoryName: string]: string[];
-}
+export type FilesByDirMap = Map<string, Set<string>>;

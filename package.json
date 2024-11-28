@@ -20,7 +20,7 @@
     "lint:commit": "commitlint --from=HEAD~5",
     "format": "prettier --loglevel warn --write '{lib,test}/**/*.ts' && tslint --fix --format stylish '{lib,test}/**/*.ts'",
     "test": "npm run test-jest",
-    "test-jest": "jest --ci --maxWorkers=3 --logHeapUsage",
+    "test-jest": "jest --ci --maxWorkers=3 --logHeapUsage --colors",
     "test-jest-windows": "jest --ci --maxWorkers=3 --config test/windows/jest.config.js --logHeapUsage",
     "prepare": "npm run build"
   },
@@ -30,26 +30,27 @@
   "dependencies": {
     "@snyk/composer-lockfile-parser": "^1.4.1",
     "@snyk/dep-graph": "^2.8.1",
-    "@snyk/docker-registry-v2-client": "^2.11.0",
+    "@snyk/docker-registry-v2-client": "2.15.0",
     "@snyk/rpm-parser": "3.1.0",
-    "@snyk/snyk-docker-pull": "^3.11.0",
+    "@snyk/snyk-docker-pull": "3.13.0",
     "@swimlane/docker-reference": "^2.0.1",
-    "adm-zip": "^0.5.5",
+    "adm-zip": "^0.5.16",
     "chalk": "^2.4.2",
-    "debug": "^4.1.1",
+    "debug": "^4.3.7",
     "docker-modem": "3.0.8",
     "dockerfile-ast": "0.6.1",
     "elfy": "^1.0.0",
-    "event-loop-spinner": "^2.0.0",
+    "event-loop-spinner": "^2.3.2",
     "gunzip-maybe": "^1.4.2",
     "mkdirp": "^1.0.4",
     "packageurl-js": "1.2.0",
-    "semver": "^7.6.0",
+    "semver": "^7.6.3",
     "shescape": "^1.7.4",
-    "snyk-nodejs-lockfile-parser": "^1.53.0",
+    "snyk-nodejs-lockfile-parser": "^1.58.14",
     "snyk-poetry-lockfile-parser": "^1.4.0",
+    "snyk-resolve-deps": "^4.7.1",
     "tar-stream": "^2.1.0",
-    "tmp": "^0.2.1",
+    "tmp": "^0.2.2",
     "tslib": "^1",
     "uuid": "^8.2.0",
     "varint": "^6.0.0"
@@ -71,8 +72,15 @@
     "tsc-watch": "^4.2.8",
     "tslint": "^5.16.0",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "~4.7.3",
-    "snyk-resolve-deps": "^4.7.1"
+    "typescript": "~4.7.3"
+  },
+  "overrides": {
+    "snyk-nodejs-lockfile-parser": {
+      "micromatch": "^4.0.8"
+    },
+    "@yarnpkg/core": {
+      "cross-spawn": "^7.0.5"
+    }
   },
   "release": {
     "branches": [

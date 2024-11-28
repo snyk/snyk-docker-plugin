@@ -362,6 +362,7 @@ describe("getImageArchive", () => {
         imageSavePath,
         username,
         password,
+        undefined,
       );
       expect(archiveLocation.path).toEqual(
         path.join(imageSavePath, "image.tar"),

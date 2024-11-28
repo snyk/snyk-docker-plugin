@@ -41,12 +41,30 @@ class Docker {
     imageSavePath: string,
     username?: string,
     password?: string,
+    platform?: string,
   ): Promise<DockerPullResult> {
     const dockerPull = new DockerPull();
+    const platformTokens = platform ? platform.split("/") : undefined;
+    let os: string = "linux";
+    let architecture: string = "amd64";
+    let variant: string | undefined;
+
+    if (platformTokens) {
+      const platformTokensLen = platformTokens.length;
+      if (platformTokensLen <= 1) {
+        throw Error(
+          "Invalid platform string. Please provide a platform name that follows os/arch[/variant] format.",
+        );
+      }
+      os = platformTokens[0];
+      architecture = platformTokens[1];
+      variant = platformTokens[2];
+    }
     const opt: DockerPullOptions = {
       username,
       password,
       loadImage: false,
+      platform: platformTokens ? { os, architecture, variant } : undefined,
       imageSavePath,
       reqOptions: {
         acceptManifest: [

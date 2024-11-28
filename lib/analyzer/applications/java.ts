@@ -125,6 +125,7 @@ function unpackJar({
   // Don't collect for nested jars
   const shouldCollectClassFiles = unpackedLevels <= 1;
 
+  // TODO: consider switching to node-stream-zip that supports streaming
   let zip: admzip;
   let zipEntries: admzip.IZipEntry[];
 

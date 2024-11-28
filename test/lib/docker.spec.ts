@@ -3,6 +3,8 @@ import {
   createReadStream,
   createWriteStream,
   existsSync,
+  mkdirSync,
+  rmdirSync,
   unlinkSync,
 } from "fs";
 import * as os from "os";
@@ -14,6 +16,107 @@ import { CmdOutput } from "../../lib/sub-process";
 import * as subProcess from "../../lib/sub-process";
 
 describe("docker", () => {
+  describe("Pull from docker registry without docker binary", () => {
+    test("Pass platform argument when pulling from registry", async () => {
+      const docker = new Docker();
+      const imagePath = path.join(__dirname, "save");
+      await mkdirSync(imagePath, { recursive: true });
+      const resp = await docker.pull(
+        "registry-1.docker.io",
+        "library/debian",
+        "12.0",
+        imagePath,
+        "",
+        "",
+        "linux/386",
+      );
+
+      const tarPath = path.join(imagePath, "image.tar");
+
+      expect(existsSync(tarPath)).toBeTruthy();
+      const imageID = (
+        await subProcess.execute("docker", ["load", "--input", tarPath])
+      ).stdout
+        .split("Loaded image ID: ")[1]
+        .replace(/\n/g, "");
+      const stdout = (await subProcess.execute("docker", ["inspect", imageID]))
+        .stdout;
+      const imageDetails = JSON.parse(stdout);
+      const architecture = imageDetails[0].Architecture;
+      expect(architecture).toEqual("386");
+      unlinkSync(tarPath);
+      rmdirSync(imagePath);
+    });
+
+    test("Pull arm64/v8 debian image from docker hub registry", async () => {
+      const docker = new Docker();
+      const imagePath = path.join(__dirname, "save");
+      await mkdirSync(imagePath, { recursive: true });
+      const resp = await docker.pull(
+        "registry-1.docker.io",
+        "library/debian",
+        "12.0",
+        imagePath,
+        "",
+        "",
+        "linux/arm64/v8",
+      );
+
+      const tarPath = path.join(imagePath, "image.tar");
+
+      expect(existsSync(tarPath)).toBeTruthy();
+      const imageID = (
+        await subProcess.execute("docker", ["load", "--input", tarPath])
+      ).stdout
+        .split("Loaded image ID: ")[1]
+        .replace(/\n/g, "");
+      const stdout = (await subProcess.execute("docker", ["inspect", imageID]))
+        .stdout;
+      const imageDetails = JSON.parse(stdout);
+      const architecture = imageDetails[0].Architecture;
+      const variant = imageDetails[0].Variant;
+
+      expect(architecture).toEqual("arm64");
+      expect(variant).toEqual("v8");
+      unlinkSync(tarPath);
+      rmdirSync(imagePath);
+    });
+
+    test("Pull arm/v5 debian image from docker hub registry", async () => {
+      const docker = new Docker();
+      const imagePath = path.join(__dirname, "save");
+      await mkdirSync(imagePath, { recursive: true });
+      const resp = await docker.pull(
+        "registry-1.docker.io",
+        "library/debian",
+        "12.0",
+        imagePath,
+        "",
+        "",
+        "linux/arm/v5",
+      );
+
+      const tarPath = path.join(imagePath, "image.tar");
+
+      expect(existsSync(tarPath)).toBeTruthy();
+      const imageID = (
+        await subProcess.execute("docker", ["load", "--input", tarPath])
+      ).stdout
+        .split("Loaded image ID: ")[1]
+        .replace(/\n/g, "");
+      const stdout = (await subProcess.execute("docker", ["inspect", imageID]))
+        .stdout;
+      const imageDetails = JSON.parse(stdout);
+      const architecture = imageDetails[0].Architecture;
+      const variant = imageDetails[0].Variant;
+
+      expect(architecture).toEqual("arm");
+      expect(variant).toEqual("v5");
+      unlinkSync(tarPath);
+      rmdirSync(imagePath);
+    });
+  });
+
   describe("save from docker daemon", () => {
     const TEST_TARGET_IMAGE = "hello-world:latest";
     const TEST_TARGET_IMAGE_DESTINATION = path.join(os.tmpdir(), "image.tar");
@@ -92,7 +195,6 @@ describe("docker", () => {
         createReadStream(tarFilePath).pipe(extract);
       });
     }
-
     test("image saved to specified location", async () => {
       const targetImage = TEST_TARGET_IMAGE;
       const targetImageDestination = TEST_TARGET_IMAGE_DESTINATION;

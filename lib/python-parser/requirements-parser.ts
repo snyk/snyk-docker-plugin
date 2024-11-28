@@ -1,11 +1,11 @@
-import { specifierValidRange } from "./common";
+import { parseExtraNames, specifierValidRange } from "./common";
 import { PythonRequirement } from "./types";
 
 // This looks like a crazy regex, but it's long because of the named capture groups
 // which make the result easier to read. It essentially breaks each line into name,
 // specifier and version, where only the name is mandatory
 const VERSION_PARSE_REGEX =
-  /^(?<name>[\w.-]+)((?<specifier><|<=|!=|==|>=|>|~=|===)(?<version>[\w.]*))?/;
+  /^(?<name>[\w.-]+)((\[(?<extras>.*)\])?)((?<specifier><|<=|!=|==|>=|>|~=|===)(?<version>[\w.]*))?/;
 
 export function getRequirements(fileContent: string): PythonRequirement[] {
   const lines = fileContent.split("\n");
@@ -22,11 +22,12 @@ function parseLine(line: string): PythonRequirement | null {
   if (!parsedLine?.groups) {
     return null;
   }
-  const { name, specifier, version } = parsedLine.groups;
+  const { name, extras, specifier, version } = parsedLine.groups;
   const correctedSpecifier = specifierValidRange(specifier, version);
   return {
     name: name.toLowerCase(),
     specifier: correctedSpecifier,
     version,
+    extras: parseExtraNames(extras),
   } as PythonRequirement;
 }

@@ -1,5 +1,6 @@
 import { scan } from "../../../lib/index";
 import { execute } from "../../../lib/sub-process";
+import { getFixture } from "../../util";
 
 describe("ARM platform tests", () => {
   afterAll(async () => {
@@ -20,6 +21,18 @@ describe("ARM platform tests", () => {
     });
 
     expect(pluginResult).toMatchSnapshot();
+  });
+  test("should correctly scan an arm64 image when platform flag is missing", async () => {
+    const fixturePath = getFixture("docker-archives/alpine-arm64.tar");
+    const imageNameAndTag = `docker-archive:${fixturePath}`;
+    try {
+      const result = await scan({
+        path: imageNameAndTag,
+      });
+      expect(result).toBeDefined();
+    } catch (error) {
+      expect(error.message).not.toBe("Invalid OCI Archive");
+    }
   });
 
   it.todo(

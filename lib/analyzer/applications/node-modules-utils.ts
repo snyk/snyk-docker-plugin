@@ -1,30 +1,32 @@
 import * as Debug from "debug";
 import { mkdir, mkdtemp, rm, stat, writeFile } from "fs/promises";
 import * as path from "path";
-
-import { FilePathToContent, FilesByDir } from "./types";
+import { FilePathToContent, FilesByDirMap } from "./types";
 const debug = Debug("snyk");
 
-export { persistAppNodeModules, cleanupAppNodeModules, groupFilesByDirectory };
+const nodeModulesRegex = /^(.*?)(?:[\\\/]node_modules)/;
+
+export { persistNodeModules, cleanupAppNodeModules, groupFilesByDirectory };
 
 interface ScanPaths {
   tempDir: string;
-  tempApplicationPath: string;
+  tempProjectPath: string;
   manifestPath?: string;
 }
 
-async function createTempAppDir(appParentDir: string): Promise<string[]> {
+async function createTempProjectDir(
+  projectDir: string,
+): Promise<{ tmpDir: string; tempProjectRoot: string }> {
   const tmpDir = await mkdtemp("snyk");
 
-  const appRootDir = appParentDir.includes("node_modules")
-    ? appParentDir.substring(0, appParentDir.indexOf("node_modules"))
-    : appParentDir;
+  const tempProjectRoot = path.join(tmpDir, projectDir);
 
-  const tempAppRootDirPath = path.join(tmpDir, appRootDir);
+  await mkdir(tempProjectRoot, { recursive: true });
 
-  await mkdir(tempAppRootDirPath, { recursive: true });
-
-  return [tmpDir, tempAppRootDirPath];
+  return {
+    tmpDir,
+    tempProjectRoot,
+  };
 }
 
 const manifestName: string = "package.json";
@@ -35,78 +37,72 @@ async function fileExists(path: string): Promise<boolean> {
     .catch(() => false);
 }
 
-async function createAppSyntheticManifest(
+async function createSyntheticManifest(
   tempRootManifestDir: string,
 ): Promise<void> {
   const tempRootManifestPath = path.join(tempRootManifestDir, manifestName);
   debug(`Creating an empty synthetic manifest file: ${tempRootManifestPath}`);
-  await writeFile(tempRootManifestPath, "{}", "utf-8");
-}
-
-async function copyAppModulesManifestFiles(
-  appDirs: string[],
-  tempAppRootDirPath: string,
-  fileNamesGroupedByDirectory: FilesByDir,
-  filePathToContent: FilePathToContent,
-) {
-  for (const dependencyPath of appDirs) {
-    const filesInDirectory = fileNamesGroupedByDirectory[dependencyPath];
-    if (filesInDirectory.length === 0) {
-      continue;
-    }
-
-    const manifestPath = path.join(dependencyPath, "package.json");
-    const manifestContent = filePathToContent[manifestPath];
-
-    await createFile(
-      path.join(tempAppRootDirPath, manifestPath),
-      manifestContent,
+  try {
+    await writeFile(tempRootManifestPath, "{}", "utf-8");
+  } catch (error) {
+    debug(
+      `Error while writing file ${tempRootManifestPath} : ${error.message}`,
     );
   }
 }
 
-async function persistAppNodeModules(
+async function saveOnDisk(
+  tempDir: string,
+  modules: Set<string>,
   filePathToContent: FilePathToContent,
-  fileNamesGroupedByDirectory: FilesByDir,
-): Promise<ScanPaths> {
-  const appDirs = Object.keys(fileNamesGroupedByDirectory);
-  let tmpDir: string = "";
-  let tempAppRootDirPath: string = "";
+): Promise<void> {
+  for (const module of modules) {
+    const manifestContent = filePathToContent[module];
+    if (!manifestContent) {
+      continue;
+    }
+    await createFile(path.join(tempDir, module), manifestContent);
+  }
+}
 
-  if (appDirs.length === 0) {
+async function persistNodeModules(
+  project: string,
+  filePathToContent: FilePathToContent,
+  fileNamesGroupedByDirectory: FilesByDirMap,
+): Promise<ScanPaths> {
+  const modules = fileNamesGroupedByDirectory.get(project);
+  const tmpDir: string = "";
+  const tempProjectRoot: string = "";
+
+  if (!modules || modules.size === 0) {
     debug(`Empty application directory tree.`);
 
     return {
       tempDir: tmpDir,
-      tempApplicationPath: tempAppRootDirPath,
+      tempProjectPath: tempProjectRoot,
     };
   }
 
   try {
-    [tmpDir, tempAppRootDirPath] = await createTempAppDir(appDirs.sort()[0]);
+    const { tmpDir, tempProjectRoot } = await createTempProjectDir(project);
 
-    await copyAppModulesManifestFiles(
-      appDirs,
-      tmpDir,
-      fileNamesGroupedByDirectory,
-      filePathToContent,
-    );
+    await saveOnDisk(tmpDir, modules, filePathToContent);
 
     const result: ScanPaths = {
       tempDir: tmpDir,
-      tempApplicationPath: tempAppRootDirPath,
+      tempProjectPath: tempProjectRoot,
       manifestPath: path.join(
-        tempAppRootDirPath.substring(tmpDir.length),
+        tempProjectRoot.substring(tmpDir.length),
         manifestName,
       ),
     };
 
     const manifestFileExists = await fileExists(
-      path.join(tempAppRootDirPath, manifestName),
+      path.join(tempProjectRoot, manifestName),
     );
 
     if (!manifestFileExists) {
-      await createAppSyntheticManifest(tempAppRootDirPath);
+      await createSyntheticManifest(tempProjectRoot);
       delete result.manifestPath;
     }
     return result;
@@ -116,34 +112,107 @@ async function persistAppNodeModules(
     );
     return {
       tempDir: tmpDir,
-      tempApplicationPath: tempAppRootDirPath,
+      tempProjectPath: tempProjectRoot,
     };
   }
 }
 
-async function createFile(filePath, fileContent) {
-  await mkdir(path.dirname(filePath), { recursive: true });
-  await writeFile(filePath, fileContent, "utf-8");
+async function createFile(filePath, fileContent): Promise<void> {
+  try {
+    await mkdir(path.dirname(filePath), { recursive: true });
+    await writeFile(filePath, fileContent, "utf-8");
+  } catch (error) {
+    debug(`Error while creating file ${filePath} : ${error.message}`);
+  }
+}
+
+function isYarnCacheDependency(filePath: string): boolean {
+  if (
+    filePath.includes(".yarn/cache") ||
+    filePath.includes(".cache/yarn") ||
+    filePath.includes("yarn\\cache") ||
+    filePath.includes("cache\\yarn") ||
+    filePath.includes("Cache\\Yarn") ||
+    filePath.includes("Yarn\\Cache")
+  ) {
+    return true;
+  }
+  return false;
+}
+
+function isNpmCacheDependency(filePath: string): boolean {
+  if (filePath.includes(".npm/") || filePath.includes("\\npm-cache")) {
+    return true;
+  }
+  return false;
+}
+
+function isPnpmCacheDependency(filePath: string): boolean {
+  if (
+    filePath.includes("pnpm-store") ||
+    filePath.includes("pnpm/store") ||
+    filePath.includes("pnpm\\store")
+  ) {
+    return true;
+  }
+  return false;
+}
+
+function getNodeModulesParentDir(filePath: string): string | null {
+  const nodeModulesParentDirMatch = nodeModulesRegex.exec(filePath);
+
+  if (nodeModulesParentDirMatch && nodeModulesParentDirMatch.length > 1) {
+    const nodeModulesParentDir = nodeModulesParentDirMatch[1];
+    if (nodeModulesParentDir === "") {
+      return "/"; // ensuring the same behavior of path.dirname for '/' dir
+    }
+    return nodeModulesParentDir;
+  }
+  return null;
+}
+
+function getGroupingDir(filePath: string): string {
+  const nodeModulesParentDir = getNodeModulesParentDir(filePath);
+
+  if (nodeModulesParentDir) {
+    return nodeModulesParentDir;
+  }
+  return path.dirname(filePath);
 }
 
 function groupFilesByDirectory(
   filePathToContent: FilePathToContent,
-): FilesByDir {
-  const fileNamesGrouped: FilesByDir = {};
-  for (const filePath of Object.keys(filePathToContent)) {
-    const directory = path.dirname(filePath);
-    const fileName = path.basename(filePath);
-    if (!fileNamesGrouped[directory]) {
-      fileNamesGrouped[directory] = [];
+): FilesByDirMap {
+  const filesByDir: FilesByDirMap = new Map();
+  const filePaths = Object.keys(filePathToContent);
+
+  for (const filePath of filePaths) {
+    if (isNpmCacheDependency(filePath)) {
+      continue;
     }
-    fileNamesGrouped[directory].push(fileName);
+    if (isYarnCacheDependency(filePath)) {
+      continue;
+    }
+    if (isPnpmCacheDependency(filePath)) {
+      continue;
+    }
+    const directory = getGroupingDir(filePath);
+
+    if (!filesByDir.has(directory)) {
+      filesByDir.set(directory, new Set());
+    }
+    filesByDir.get(directory)?.add(filePath);
   }
-  return fileNamesGrouped;
+  return filesByDir;
 }
 
-async function cleanupAppNodeModules(appRootDir: string) {
+async function cleanupAppNodeModules(appRootDir: string): Promise<void> {
+  if (!appRootDir) {
+    return;
+  }
+
   try {
-    rm(appRootDir, { recursive: true });
+    await rm(appRootDir, { recursive: true });
   } catch (error) {
     debug(`Error while removing ${appRootDir} : ${error.message}`);
   }
