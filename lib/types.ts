@@ -71,7 +71,9 @@ export type FactType =
   | "ociDistributionMetadata"
   | "rootFs"
   // Used for application dependencies scanning; shows which files were used in the analysis of the dependencies.
-  | "testedFiles";
+  | "testedFiles"
+  // Application files observed in the image
+  | "applicationFiles";
 
 export interface PluginResponse {
   /** The first result is guaranteed to be the OS dependencies scan result. */

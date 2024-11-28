@@ -6,7 +6,12 @@ const debug = Debug("snyk");
 
 const nodeModulesRegex = /^(.*?)(?:[\\\/]node_modules)/;
 
-export { persistNodeModules, cleanupAppNodeModules, groupFilesByDirectory };
+export {
+  persistNodeModules,
+  cleanupAppNodeModules,
+  groupFilesByDirectory,
+  filterAppFiles,
+};
 
 interface ScanPaths {
   tempDir: string;
@@ -180,11 +185,8 @@ function getGroupingDir(filePath: string): string {
   return path.dirname(filePath);
 }
 
-function groupFilesByDirectory(
-  filePathToContent: FilePathToContent,
-): FilesByDirMap {
+function groupFilesByDirectory(filePaths: string[]): FilesByDirMap {
   const filesByDir: FilesByDirMap = new Map();
-  const filePaths = Object.keys(filePathToContent);
 
   for (const filePath of filePaths) {
     if (isNpmCacheDependency(filePath)) {
@@ -204,6 +206,40 @@ function groupFilesByDirectory(
     filesByDir.get(directory)?.add(filePath);
   }
   return filesByDir;
+}
+
+function filterAppFiles(
+  fileNamesGroupedByDirectory: FilesByDirMap,
+): [string, string[]] {
+  const appFiles: string[] = [];
+  let rootDir: string = "."; // Default to "." if no common root directory is found
+  const directories: Set<string> = new Set();
+
+  for (const [directory, filePaths] of fileNamesGroupedByDirectory) {
+    for (const filePath of filePaths) {
+      if (
+        !filePath.includes("node_modules/") &&
+        (filePath.endsWith(".js") ||
+          (filePath.endsWith(".ts") && !filePath.endsWith(".d.ts")))
+      ) {
+        appFiles.push(filePath);
+        directories.add(directory); // Collect directories of app files
+      }
+    }
+  }
+
+  // Determine the common directory
+  if (appFiles.length > 0) {
+    rootDir = Array.from(directories).reduce((commonDir, dir) => {
+      // Find the common path
+      while (commonDir && commonDir != "." && !dir.startsWith(commonDir)) {
+        commonDir = commonDir.substring(0, commonDir.lastIndexOf(path.sep));
+      }
+      return commonDir;
+    }, directories.values().next().value);
+  }
+
+  return [rootDir, appFiles];
 }
 
 async function cleanupAppNodeModules(appRootDir: string): Promise<void> {
