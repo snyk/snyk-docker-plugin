@@ -21,6 +21,7 @@ describe("jarFilesToScannedResults function", () => {
       filePathToContent,
       "image-name",
       0, // we don't want to include any nested JARs
+      false, // no application-files wanted
     );
 
     // Assert
@@ -29,9 +30,6 @@ describe("jarFilesToScannedResults function", () => {
       "/lib/test/fixture-1.0.0.jar",
     );
     expect(result[0].facts[0].data.fingerprints[0].digest).toBeNull();
-    expect(result[0].facts[0].data.fingerprints[0].classFiles).toEqual([
-      { path: "io/snyk/test/App.class" },
-    ]);
     expect(result[0].identity.type).toEqual("maven");
     expect(result[0].identity.targetFile).toEqual("/lib/test");
   });
@@ -50,26 +48,20 @@ describe("jarFilesToScannedResults function", () => {
       filePathToContent,
       "image-name",
       10, // we don't want to include any nested JARs
+      true, // application-files wanted
     );
 
     // Assert
+    expect(result.length).toEqual(2);
     const jarFilesCount = result[0].facts[0].data.fingerprints;
     expect(jarFilesCount.length).toEqual(35);
     expect(result[0].facts[0].type).toEqual("jarFingerprints");
     expect(result[0].facts[0].data.fingerprints[0].location).toEqual(
       "/lib/test/nested-jars-fixture.jar",
     );
-    expect(result[0].facts[0].data.fingerprints[0].classFiles.length).toEqual(
-      55,
-    );
-    expect(result[0].identity.type).toEqual("maven");
-    expect(result[0].identity.targetFile).toEqual("/lib/test");
-
-    for (let i = 1; i < result[0].facts[0].data.fingerprints.length; i++) {
-      expect(
-        result[0].facts[0].data.fingerprints[i].classFiles,
-      ).toBeUndefined();
-    }
+    expect(result[1].facts[0].data.length).toEqual(55);
+    expect(result[1].identity.type).toEqual("maven");
+    expect(result[1].identity.targetFile).toEqual("/lib/test");
   });
 
   it("should catch errors with admzip and continue", async () => {
@@ -92,6 +84,7 @@ describe("jarFilesToScannedResults function", () => {
       filePathToContent,
       "image-name",
       0, // we always unpack so will still "trip" admzip
+      false, // no application-files wanted
     );
 
     // Assert

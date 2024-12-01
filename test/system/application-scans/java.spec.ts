@@ -23,7 +23,6 @@ describe("jar binaries scanning", () => {
       location: "/uberjar.jar",
       digest: expect.any(String),
       dependencies: expect.any(Array),
-      classFiles: expect.any(Array),
     };
     const nestedJar = {
       location: "/uberjar.jar/lib/guava-30.1-jre.jar",
@@ -80,7 +79,6 @@ describe("jar binaries scanning", () => {
               location: "/j2objc-annotations-1.3.jar",
               digest: null,
               dependencies: expect.any(Array),
-              classFiles: expect.any(Array),
               artifactId: "j2objc-annotations",
               groupId: "com.google.j2objc",
               version: "1.3",
@@ -374,7 +372,6 @@ describe("jar binaries scanning", () => {
               location: "/C-j2objc-annotations-1.3.jar",
               digest: null,
               dependencies: expect.any(Array),
-              classFiles: expect.any(Array),
               artifactId: "j2objc-annotations",
               groupId: "com.google.j2objc",
               version: "1.3",
