@@ -9,13 +9,17 @@ const nodeAppFilePatterns = [
   /\.js$/,
   /^(?!.*\.d\.ts$).*\.ts$/,
 ];
-const deletedAppFiles = nodeAppFilePatterns.map((file) => ".wh." + file);
+const deletedAppFiles = [
+  ".wh.package.json",
+  ".wh.package-lock.json",
+  ".wh.yarn.lock",
+];
 
 function filePathMatches(filePath: string): boolean {
   const fileName = basename(filePath);
-  return nodeAppFilePatterns.some(
-    (pattern) =>
-      new RegExp(pattern).test(fileName) || deletedAppFiles.includes(fileName),
+  return (
+    nodeAppFilePatterns.some((pattern) => new RegExp(pattern).test(fileName)) ||
+    deletedAppFiles.some((pattern) => new RegExp(pattern).test(fileName))
   );
 }
 
