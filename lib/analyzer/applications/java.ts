@@ -2,10 +2,10 @@ import * as admzip from "adm-zip";
 import * as path from "path";
 import { bufferToSha1 } from "../../buffer-utils";
 import { ApplicationFilesFact, JarFingerprintsFact } from "../../facts";
+import { Identity } from "../../types";
 import { JarFingerprint } from "../types";
 import { AggregatedJars, JarBuffer, JarCoords, JarInfo } from "./types";
 import { AppDepsScanResultWithoutTarget, FilePathToBuffer } from "./types";
-import { Identity } from "../../types";
 
 /**
  * @param {{[fileName: string]: Buffer}} fileNameToBuffer fileName
