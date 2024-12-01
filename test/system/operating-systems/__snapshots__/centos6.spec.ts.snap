@@ -6482,11 +6482,6 @@ Object {
           "data": Object {
             "fingerprints": Array [
               Object {
-                "classFiles": Array [
-                  Object {
-                    "path": "gnu/gettext/GettextResource.class",
-                  },
-                ],
                 "dependencies": Array [],
                 "digest": "dd62cae9d95c824f90a442822cb0e205d82fda92",
                 "location": "/usr/share/gettext/libintl.jar",

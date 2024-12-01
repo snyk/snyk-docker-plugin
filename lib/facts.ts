@@ -62,6 +62,11 @@ export interface TestedFilesFact {
   data: string[];
 }
 
+export interface ApplicationFilesFact {
+  type: "applicationFiles";
+  data: string[];
+}
+
 export interface JarFingerprintsFact {
   type: "jarFingerprints";
   data: {

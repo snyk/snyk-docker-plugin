@@ -471,4 +471,44 @@ describe("jar binaries scanning", () => {
       },
     );
   });
+
+  it("should handle --application-files", async () => {
+    const fixturePath = getFixture(
+      "docker-archives/docker-save/java-uberjar.tar",
+    );
+    const imageNameAndTag = `docker-archive:${fixturePath}`;
+
+    const resultWithoutApplicationFilesFlag = await scan({
+      path: imageNameAndTag,
+      "app-vulns": true,
+    });
+    const resultWithApplicationFilesFlagSetToTrue = await scan({
+      path: imageNameAndTag,
+      "app-vulns": true,
+      "application-files": "true",
+    });
+
+    expect(resultWithoutApplicationFilesFlag.scanResults).toHaveLength(2);
+    expect(resultWithApplicationFilesFlagSetToTrue.scanResults).toHaveLength(3);
+
+    const appFiles =
+      resultWithApplicationFilesFlagSetToTrue.scanResults[2].facts.find(
+        (fact) => fact.type === "applicationFiles",
+      )!.data;
+    expect(appFiles).toStrictEqual([
+      "org/slf4j/bridge/SLF4JBridgeHandler.class",
+      "com/google/j2objc/annotations/AutoreleasePool.class",
+      "com/google/j2objc/annotations/J2ObjCIncompatible.class",
+      "com/google/j2objc/annotations/LoopTranslation$LoopStyle.class",
+      "com/google/j2objc/annotations/LoopTranslation.class",
+      "com/google/j2objc/annotations/ObjectiveCName.class",
+      "com/google/j2objc/annotations/Property.class",
+      "com/google/j2objc/annotations/ReflectionSupport$Level.class",
+      "com/google/j2objc/annotations/ReflectionSupport.class",
+      "com/google/j2objc/annotations/RetainedLocalRef.class",
+      "com/google/j2objc/annotations/RetainedWith.class",
+      "com/google/j2objc/annotations/Weak.class",
+      "com/google/j2objc/annotations/WeakOuter.class",
+    ]);
+  });
 });

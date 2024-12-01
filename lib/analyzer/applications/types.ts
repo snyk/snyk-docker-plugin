@@ -15,7 +15,7 @@ export interface JarInfo extends JarBuffer {
   coords: JarCoords | null;
   dependencies: JarCoords[];
   nestedJars: JarBuffer[];
-  classFiles?: ClassFileInfo[];
+  classFiles?: string[];
 }
 export interface JarBuffer {
   location: string;
@@ -25,9 +25,6 @@ export interface JarCoords {
   artifactId?: string;
   groupId?: string;
   version?: string;
-}
-export interface ClassFileInfo {
-  path: string;
 }
 export interface FilePathToElfContent {
   [filePath: string]: Elf;

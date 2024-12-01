@@ -192,6 +192,8 @@ export async function analyze(
     [];
 
   if (appScan) {
+    const applicationFilesFlag = isTrue(options["application-files"]);
+
     const nodeDependenciesScanResults = await nodeFilesToScannedProjects(
       getFileContent(extractedLayers, getNodeAppFileContentAction.actionName),
     );
@@ -212,6 +214,7 @@ export async function analyze(
       getBufferContent(extractedLayers, getJarFileContentAction.actionName),
       targetImage,
       desiredLevelsOfUnpacking,
+      applicationFilesFlag,
     );
     const goModulesScanResult = await goModulesToScannedProjects(
       getElfFileContent(extractedLayers, getGoModulesContentAction.actionName),
