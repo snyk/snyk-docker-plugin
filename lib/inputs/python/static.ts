@@ -3,18 +3,20 @@ import { basename } from "path";
 import { ExtractAction } from "../../extractor/types";
 import { streamToString } from "../../stream-utils";
 
-const poetryManifestFiles = ["pyproject.toml", "poetry.lock"];
-const pipManifestFiles = ["requirements.txt"];
+const poetryFilePatterns = [/^pyproject\.toml$/, /^poetry\.lock$/, /\.py$/];
+const pipFilePatterns = [/^requirements\.txt$/, /\.py$/];
 const pythonMetadataFilesRegex =
   /\/lib\/python.*?\/(?:dist|site)-packages\/.*?\.dist-info\/METADATA/;
-const deletedPoetryAppFiles = poetryManifestFiles.map((file) => ".wh." + file);
-const deletedPipAppFiles = pipManifestFiles.map((file) => ".wh." + file);
+const deletedPoetryAppFilesPatterns = [".wh.pyproject.toml", ".wh.poetry.lock"];
+const deletedPipAppFilesPatterns = [".wh.requirements.txt"];
 
 function poetryFilePathMatches(filePath: string): boolean {
   const fileName = basename(filePath);
   return (
-    poetryManifestFiles.includes(fileName) ||
-    deletedPoetryAppFiles.includes(fileName)
+    poetryFilePatterns.some((pattern) => new RegExp(pattern).test(fileName)) ||
+    deletedPoetryAppFilesPatterns.some((pattern) =>
+      new RegExp(pattern).test(fileName),
+    )
   );
 }
 
@@ -27,9 +29,11 @@ export const getPoetryAppFileContentAction: ExtractAction = {
 function pipFilePathMatches(filePath: string): boolean {
   const fileName = basename(filePath);
   return (
-    pipManifestFiles.includes(fileName) ||
+    pipFilePatterns.some((pattern) => new RegExp(pattern).test(fileName)) ||
     pythonMetadataFilesRegex.test(filePath) ||
-    deletedPipAppFiles.includes(fileName)
+    deletedPipAppFilesPatterns.some((pattern) =>
+      new RegExp(pattern).test(fileName),
+    )
   );
 }
 

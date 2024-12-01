@@ -1,8 +1,13 @@
 import { DepGraph } from "@snyk/dep-graph";
 import * as path from "path";
 import * as lockFileParser from "snyk-poetry-lockfile-parser";
-import { DepGraphFact, TestedFilesFact } from "../../../facts";
+import {
+  ApplicationFilesFact,
+  DepGraphFact,
+  TestedFilesFact,
+} from "../../../facts";
 import { AppDepsScanResultWithoutTarget, FilePathToContent } from "../types";
+import { filterAppFiles } from "./common";
 
 interface ManifestLockPathPair {
   manifest: string;
@@ -11,6 +16,7 @@ interface ManifestLockPathPair {
 
 export async function poetryFilesToScannedProjects(
   filePathToContent: FilePathToContent,
+  applicationFilesFlag: boolean,
 ): Promise<AppDepsScanResultWithoutTarget[]> {
   const scanResults: AppDepsScanResultWithoutTarget[] = [];
 
@@ -43,6 +49,26 @@ export async function poetryFilesToScannedProjects(
         targetFile: pathPair.manifest,
       },
     });
+  }
+
+  if (applicationFilesFlag) {
+    const [appFilesRootDir, appFiles] = filterAppFiles(
+      Object.keys(filePathToContent),
+    );
+    if (appFiles.length !== 0) {
+      scanResults.push({
+        facts: [
+          {
+            type: "applicationFiles",
+            data: appFiles,
+          } as ApplicationFilesFact,
+        ],
+        identity: {
+          type: "python",
+          targetFile: appFilesRootDir,
+        },
+      });
+    }
   }
 
   return scanResults;

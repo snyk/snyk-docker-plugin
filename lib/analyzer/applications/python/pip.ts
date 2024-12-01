@@ -3,7 +3,7 @@ import * as Debug from "debug";
 import { eventLoopSpinner } from "event-loop-spinner";
 import * as path from "path";
 import * as semver from "semver";
-import { DepGraphFact } from "../../../facts";
+import { ApplicationFilesFact, DepGraphFact } from "../../../facts";
 import { compareVersions } from "../../../python-parser/common";
 import { getPackageInfo } from "../../../python-parser/metadata-parser";
 import { getRequirements } from "../../../python-parser/requirements-parser";
@@ -12,6 +12,7 @@ import {
   PythonPackage,
   PythonRequirement,
 } from "../../../python-parser/types";
+import { filterAppFiles } from "./common";
 import { AppDepsScanResultWithoutTarget, FilePathToContent } from "../types";
 
 const debug = Debug("snyk");
@@ -117,11 +118,14 @@ class PythonDepGraphBuilder {
  */
 export async function pipFilesToScannedProjects(
   filePathToContent: FilePathToContent,
+  applicationFilesFlag: boolean,
 ): Promise<AppDepsScanResultWithoutTarget[]> {
   const scanResults: AppDepsScanResultWithoutTarget[] = [];
   const requirements = {};
   const metadataItems: PythonMetadataFiles = {};
-  for (const filepath of Object.keys(filePathToContent)) {
+
+  const filePaths = Object.keys(filePathToContent);
+  for (const filepath of filePaths) {
     const fileBaseName = path.basename(filepath);
     if (fileBaseName === "requirements.txt") {
       requirements[filepath] = getRequirements(filePathToContent[filepath]);
@@ -172,6 +176,24 @@ export async function pipFilesToScannedProjects(
         targetFile: requirementsFile,
       },
     });
+  }
+
+  if (applicationFilesFlag) {
+    const [appFilesRootDir, appFiles] = filterAppFiles(filePaths);
+    if (appFiles.length !== 0) {
+      scanResults.push({
+        facts: [
+          {
+            type: "applicationFiles",
+            data: appFiles,
+          } as ApplicationFilesFact,
+        ],
+        identity: {
+          type: "python",
+          targetFile: appFilesRootDir,
+        },
+      });
+    }
   }
   return scanResults;
 }
