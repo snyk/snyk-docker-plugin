@@ -1,4 +1,5 @@
 import { DepGraph } from "@snyk/dep-graph";
+import { ApplicationFiles } from "./analyzer/applications/types";
 import { JarFingerprint } from "./analyzer/types";
 import { DockerFileAnalysis } from "./dockerfile/types";
 import { OCIDistributionMetadata } from "./extractor/oci-distribution-metadata";
@@ -7,7 +8,6 @@ import {
   ImageNameInfo,
   ManifestFile,
 } from "./types";
-import { ApplicationFiles } from "./analyzer/applications/types";
 
 export interface DepGraphFact {
   type: "depGraph";
