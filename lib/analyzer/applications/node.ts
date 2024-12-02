@@ -3,7 +3,11 @@ import * as Debug from "debug";
 import * as path from "path";
 import * as lockFileParser from "snyk-nodejs-lockfile-parser";
 import * as resolveDeps from "snyk-resolve-deps";
-import { DepGraphFact, TestedFilesFact } from "../../facts";
+import {
+  ApplicationFilesFact,
+  DepGraphFact,
+  TestedFilesFact,
+} from "../../facts";
 
 const debug = Debug("snyk");
 
@@ -18,6 +22,7 @@ import {
 import { LogicalRoot } from "snyk-resolve-deps/dist/types";
 import {
   cleanupAppNodeModules,
+  filterAppFiles,
   groupFilesByDirectory,
   persistNodeModules,
 } from "./node-modules-utils";
@@ -35,6 +40,7 @@ interface ManifestLockPathPair {
 
 export async function nodeFilesToScannedProjects(
   filePathToContent: FilePathToContent,
+  collectApplicationFiles: boolean,
 ): Promise<AppDepsScanResultWithoutTarget[]> {
   const scanResults: AppDepsScanResultWithoutTarget[] = [];
   /**
@@ -47,11 +53,12 @@ export async function nodeFilesToScannedProjects(
    * };
    */
 
-  if (Object.keys(filePathToContent).length === 0) {
+  const filePaths = Object.keys(filePathToContent);
+  if (filePaths.length === 0) {
     return [];
   }
 
-  const fileNamesGroupedByDirectory = groupFilesByDirectory(filePathToContent);
+  const fileNamesGroupedByDirectory = groupFilesByDirectory(filePaths);
   const [manifestFilePairs, nodeProjects] = findProjectsAndManifests(
     fileNamesGroupedByDirectory,
   );
@@ -72,6 +79,31 @@ export async function nodeFilesToScannedProjects(
         fileNamesGroupedByDirectory,
       )),
     );
+  }
+
+  if (collectApplicationFiles) {
+    const [appFilesRootDir, appFiles] = filterAppFiles(
+      fileNamesGroupedByDirectory,
+    );
+    if (appFiles.length !== 0) {
+      scanResults.push({
+        facts: [
+          {
+            type: "applicationFiles",
+            data: [
+              {
+                language: "node",
+                fileHierarchy: appFiles,
+              },
+            ],
+          } as ApplicationFilesFact,
+        ],
+        identity: {
+          type: "npm",
+          targetFile: appFilesRootDir,
+        },
+      });
+    }
   }
 
   return scanResults;

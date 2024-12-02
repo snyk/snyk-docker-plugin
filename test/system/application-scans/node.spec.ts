@@ -10,7 +10,6 @@ import {
   shouldBuildDepTree,
 } from "../../../lib/analyzer/applications/node";
 import * as nodeUtils from "../../../lib/analyzer/applications/node-modules-utils";
-import { FilePathToContent } from "../../../lib/analyzer/applications/types";
 import { getFixture, getObjFromFixture } from "../../util";
 
 describe("node application scans", () => {
@@ -150,6 +149,39 @@ describe("node application scans", () => {
 
     expect(pluginResultExcludeAppVulnsTrueString.scanResults).toHaveLength(1);
     expect(pluginResultExcludeAppVulnsTrueBoolean.scanResults).toHaveLength(1);
+  });
+
+  it("should handle --application-files", async () => {
+    const fixturePath = getFixture("npm/multi-project-image.tar");
+    const imageNameAndTag = `docker-archive:${fixturePath}`;
+
+    const resultWithoutApplicationFilesFlag = await scan({
+      path: imageNameAndTag,
+    });
+    const resultWithApplicationFilesFlagSetToTrue = await scan({
+      path: imageNameAndTag,
+      "application-files": "true",
+    });
+
+    expect(resultWithoutApplicationFilesFlag.scanResults).toHaveLength(5);
+    expect(resultWithApplicationFilesFlagSetToTrue.scanResults).toHaveLength(6);
+
+    const appFiles =
+      resultWithApplicationFilesFlagSetToTrue.scanResults[5].facts.find(
+        (fact) => fact.type === "applicationFiles",
+      )!.data;
+    expect(appFiles.length).toEqual(1);
+    expect(appFiles[0].fileHierarchy.length).toEqual(7);
+    expect(appFiles[0].language).toEqual("node");
+    expect(appFiles[0].fileHierarchy).toStrictEqual([
+      { path: "usr/goof2/package.json" },
+      { path: "usr/goof2/package-lock.json" },
+      { path: "usr/goof/package.json" },
+      { path: "opt/yarn-v1.22.4/bin/yarn.js" },
+      { path: "opt/yarn-v1.22.4/lib/cli.js" },
+      { path: "opt/yarn-v1.22.4/lib/v8-compile-cache.js" },
+      { path: "opt/yarn-v1.22.4/package.json" },
+    ]);
   });
 
   it("should not create scan results for the npm/yarn cache directories", async () => {
@@ -460,21 +492,17 @@ describe("getLockFileVersion", () => {
 
 describe("node application files grouping", () => {
   it("should correctly filter unix yarn/npm cache manifest files", async () => {
-    const yarnCacheFilesToContent: FilePathToContent = {
-      "/usr/local/share/.cache/yarn/v6/npm-@dep-compat-data-7.23.5/package.json":
-        "",
-      "/usr/local/share/.yarn/cache/v6/npm-@dep-compat-data-7.23.5/package.json":
-        "",
-      "/usr/local/share/.cache/yarn/v6/npm-@dep-compat-data-7.21.5/package.json":
-        "",
-      "/usr/local/share/.yarn/cache/v6/npm-deep-is-0.1.4/package.json": "",
-      "/home/user/.cache/yarn/v1/package.json": "",
-      "/home/user/.cache/yarn/v1/package-lock.json": "",
-      "/home/user/.cache/yarn/v2/yarn.lock": "",
-      "/home/user/.cache/yarn/v2/package.json": "",
-      "/usr/local/share/.cache/yarn/v6/npm-@babel-helper-create-class-features-plugin-7.23.6/package.json":
-        "",
-    };
+    const yarnCacheFilesToContent: string[] = [
+      "/usr/local/share/.cache/yarn/v6/npm-@dep-compat-data-7.23.5/package.json",
+      "/usr/local/share/.yarn/cache/v6/npm-@dep-compat-data-7.23.5/package.json",
+      "/usr/local/share/.cache/yarn/v6/npm-@dep-compat-data-7.21.5/package.json",
+      "/usr/local/share/.yarn/cache/v6/npm-deep-is-0.1.4/package.json",
+      "/home/user/.cache/yarn/v1/package.json",
+      "/home/user/.cache/yarn/v1/package-lock.json",
+      "/home/user/.cache/yarn/v2/yarn.lock",
+      "/home/user/.cache/yarn/v2/package.json",
+      "/usr/local/share/.cache/yarn/v6/npm-@babel-helper-create-class-features-plugin-7.23.6/package.json",
+    ];
 
     const yarnCacheFilesGroupedByDir = nodeUtils.groupFilesByDirectory(
       yarnCacheFilesToContent,
@@ -482,76 +510,63 @@ describe("node application files grouping", () => {
 
     expect(yarnCacheFilesGroupedByDir.size).toBe(0);
 
-    const npmCacheFilesToContent: FilePathToContent = {
-      "/home/user/.npm/_cacache/content-v2/package-lock.json": "",
-      "/home/user/.npm/_cacache/content-v2/package.json": "",
-      "/home/user/.npm/_cacache/content-v3/package.json": "",
-      "/home/user/.npm/_cacache/content-v3/node_modules/tmp/package.json": "",
-      "/home/user/.npm/_cache/package-lock.json": "",
-      "/home/user/.npm/_cache/package.json": "",
-      "/.cache/package.json/.npm/_cache/registry.npm/@scope/package-name@1.0.0/package-lock.json":
-        "",
-    };
-    const npmCacheFilesGroupedByDir = nodeUtils.groupFilesByDirectory(
-      npmCacheFilesToContent,
-    );
+    const npmCacheFilesPaths = [
+      "/home/user/.npm/_cacache/content-v2/package-lock.json",
+      "/home/user/.npm/_cacache/content-v2/package.json",
+      "/home/user/.npm/_cacache/content-v3/package.json",
+      "/home/user/.npm/_cacache/content-v3/node_modules/tmp/package.json",
+      "/home/user/.npm/_cache/package-lock.json",
+      "/home/user/.npm/_cache/package.json",
+      "/.cache/package.json/.npm/_cache/registry.npm/@scope/package-name@1.0.0/package-lock.json",
+    ];
+    const npmCacheFilesGroupedByDir =
+      nodeUtils.groupFilesByDirectory(npmCacheFilesPaths);
 
     expect(npmCacheFilesGroupedByDir.size).toBe(0);
   });
 
   it("should correctly filter unix cache files by default cache directory", async () => {
-    const yarnNpmCacheFilesToContent: FilePathToContent = {
-      "/home/user/.npm/_cache/registry.npm/@babel/core@7.20.0/node_modules/@babel/helper-function-name@7.18.3/node_modules/@babel/types@7.20.0/package.json":
-        "",
-      "/.yarn/cache/v6/@scope/package-name@1.0.0/8765432109876543210987654321098765432109876543210987654321098765/node_modules/react-router-dom@6.4.3/node_modules/history@5.3.0/package.json":
-        "",
-    };
+    const yarnNpmCacheFilesPaths = [
+      "/home/user/.npm/_cache/registry.npm/@babel/core@7.20.0/node_modules/@babel/helper-function-name@7.18.3/node_modules/@babel/types@7.20.0/package.json",
+      "/.yarn/cache/v6/@scope/package-name@1.0.0/8765432109876543210987654321098765432109876543210987654321098765/node_modules/react-router-dom@6.4.3/node_modules/history@5.3.0/package.json",
+    ];
 
     const yarnCacheFilesGroupedByDir = nodeUtils.groupFilesByDirectory(
-      yarnNpmCacheFilesToContent,
+      yarnNpmCacheFilesPaths,
     );
 
     expect(yarnCacheFilesGroupedByDir.size).toBe(0);
   });
 
   it("should correctly filter Windows cache files by default cache directory", async () => {
-    const yarnNpmCacheFilesToContent: FilePathToContent = {
-      "C:\\Users\\JohnDoe\\AppData\\Roaming\\npm-cache\\registry.npm\\react-router-dom@6.4.3\\node_modules\\history@5.3.0\\node_modules\\prop-types@15.8.1\\package.json":
-        "",
-      "C:\\Users\\JaneDoe\\AppData\\Roaming\\yarn\\cache\\v7\\@babel\\core@7.20.0\\node_modules\\@babel\\helper-function-name@7.18.3\\node_modules\\@babel\\types@7.20.0\\package.json":
-        "",
-    };
+    const yarnNpmCacheFilesPaths = [
+      "C:\\Users\\JohnDoe\\AppData\\Roaming\\npm-cache\\registry.npm\\react-router-dom@6.4.3\\node_modules\\history@5.3.0\\node_modules\\prop-types@15.8.1\\package.json",
+      "C:\\Users\\JaneDoe\\AppData\\Roaming\\yarn\\cache\\v7\\@babel\\core@7.20.0\\node_modules\\@babel\\helper-function-name@7.18.3\\node_modules\\@babel\\types@7.20.0\\package.json",
+    ];
 
     const yarnCacheFilesGroupedByDir = nodeUtils.groupFilesByDirectory(
-      yarnNpmCacheFilesToContent,
+      yarnNpmCacheFilesPaths,
     );
 
     expect(yarnCacheFilesGroupedByDir.size).toBe(0);
   });
 
   it("should correctly filter Windows yarn/npm cache manifest files by default cache directory", async () => {
-    const yarnCacheFilePathstoContent = {
-      "C:\\Users\\YourUsername\\AppData\\Roaming\\yarn\\cache\\v6\\@scope\\package-name@1.0.0\\package.json":
-        "",
-      "C:\\Users\\YourUsername\\AppData\\Roaming\\yarn\\cache\\v3\\@scope\\package-name@1.0.0\\package-lock.json":
-        "",
-      "C:\\Users\\YourUsername\\AppData\\Roaming\\yarn\\cache\\v9\\registry.npm\\lodash@4.17.21\\package-lock.json":
-        "",
-    };
+    const yarnCacheFilePaths = [
+      "C:\\Users\\YourUsername\\AppData\\Roaming\\yarn\\cache\\v6\\@scope\\package-name@1.0.0\\package.json",
+      "C:\\Users\\YourUsername\\AppData\\Roaming\\yarn\\cache\\v3\\@scope\\package-name@1.0.0\\package-lock.json",
+      "C:\\Users\\YourUsername\\AppData\\Roaming\\yarn\\cache\\v9\\registry.npm\\lodash@4.17.21\\package-lock.json",
+    ];
 
-    const yarnManifestsGrouped = nodeUtils.groupFilesByDirectory(
-      yarnCacheFilePathstoContent,
-    );
+    const yarnManifestsGrouped =
+      nodeUtils.groupFilesByDirectory(yarnCacheFilePaths);
 
     expect(yarnManifestsGrouped.size).toBe(0);
-    const npmCacheFilePaths = {
-      "C:\\Users\\YourUsername\\AppData\\Roaming\\npm-cache\\registry.npm\\@scope\\package-name@1.0.0\\package-lock.json":
-        "",
-      "C:\\Users\\YourUsername\\AppData\\Roaming\\npm-cache\\registry.npm\\@scope\\package-name@1.0.0\\package.tgz":
-        "",
-      "C:\\Users\\YourUsername\\AppData\\Roaming\\npm-cache\\registry.npm\\@scope\\package-name@1.0.0\\package.json":
-        "",
-    };
+    const npmCacheFilePaths = [
+      "C:\\Users\\YourUsername\\AppData\\Roaming\\npm-cache\\registry.npm\\@scope\\package-name@1.0.0\\package-lock.json",
+      "C:\\Users\\YourUsername\\AppData\\Roaming\\npm-cache\\registry.npm\\@scope\\package-name@1.0.0\\package.tgz",
+      "C:\\Users\\YourUsername\\AppData\\Roaming\\npm-cache\\registry.npm\\@scope\\package-name@1.0.0\\package.json",
+    ];
 
     const npmManifestsGrouped =
       nodeUtils.groupFilesByDirectory(npmCacheFilePaths);
@@ -559,20 +574,14 @@ describe("node application files grouping", () => {
   });
 
   it("should correctly filter pnpm cache manifest files by default cache directory", async () => {
-    const pnpmCacheFilePathstoContent = {
-      " ~/.pnpm-store/54321098765432109876543210987654321098765432109876543210987654321/workspace-root/package.json":
-        "",
-      " ~/pnpm/store/54321098765432109876543210987654321098765432109876543210987654321/workspace-root/package.json":
-        "",
-      "~/.pnpm-store/54321098765432109876543210987654321098765432109876543210987654321/package.json":
-        "",
-      "~/.pnpm-store/54321098765432109876543210987654321098765432109876543210987654321/node_modules/@scope/package-a@1.2.3/package.json":
-        "",
-      "C:\\Users\\username\\AppData\\Roaming\\pnpm-store\\54321098765432109876543210987654321098765432109876543210987654321\\package.json":
-        "",
-      "C:\\Users\\username\\AppData\\Roaming\\pnpm\\store\\54321098765432109876543210987654321098765432109876543210987654321\\package.json":
-        "",
-    };
+    const pnpmCacheFilePathstoContent = [
+      " ~/.pnpm-store/54321098765432109876543210987654321098765432109876543210987654321/workspace-root/package.json",
+      " ~/pnpm/store/54321098765432109876543210987654321098765432109876543210987654321/workspace-root/package.json",
+      "~/.pnpm-store/54321098765432109876543210987654321098765432109876543210987654321/package.json",
+      "~/.pnpm-store/54321098765432109876543210987654321098765432109876543210987654321/node_modules/@scope/package-a@1.2.3/package.json",
+      "C:\\Users\\username\\AppData\\Roaming\\pnpm-store\\54321098765432109876543210987654321098765432109876543210987654321\\package.json",
+      "C:\\Users\\username\\AppData\\Roaming\\pnpm\\store\\54321098765432109876543210987654321098765432109876543210987654321\\package.json",
+    ];
 
     const pnpmManifestsGrouped = nodeUtils.groupFilesByDirectory(
       pnpmCacheFilePathstoContent,
@@ -582,35 +591,35 @@ describe("node application files grouping", () => {
   });
 
   it("should correctly group npm/yarn manifest files by parent directory", async () => {
-    const nodeAppFiles: FilePathToContent = {
-      "/package.json": "", // project manifest mounted in root dir
-      "/package-lock.json": "", // project lock  mounted in root dir
-      "/node_modules/gopd/package.json": "", // project node_modules  mounted in root dir
-      "/node_modules/gopd/node_modules/package.json": "",
+    const nodeManifestFiles = [
+      "/package.json", // project manifest mounted in root dir
+      "/package-lock.json", // project lock  mounted in root dir
+      "/node_modules/gopd/package.json", // project node_modules  mounted in root dir
+      "/node_modules/gopd/node_modules/package.json",
 
-      "/goof/package.json": "",
-      "/goof/package-lock.json": "",
-      "/goof/node_modules/gopd/package.json": "",
-      "/goof/node_modules/gopd/node_modules/package.json": "",
+      "/goof/package.json",
+      "/goof/package-lock.json",
+      "/goof/node_modules/gopd/package.json",
+      "/goof/node_modules/gopd/node_modules/package.json",
 
-      "/goof1/node_modules/gopd/package.json": "",
-      "/goof1/node_modules/gopd/node_modules/package.json": "",
-      "/goof1/package.json": "",
+      "/goof1/node_modules/gopd/package.json",
+      "/goof1/node_modules/gopd/node_modules/package.json",
+      "/goof1/package.json",
 
-      "/goof2/node_modules/gopd/package.json": "",
-      "/goof2/node_modules/gopd/node_modules/package.json": "",
+      "/goof2/node_modules/gopd/package.json",
+      "/goof2/node_modules/gopd/node_modules/package.json",
 
-      "/usr/local/lib/node_modules/tmp/package.json": "",
-      "/usr/local/lib/package.json": "",
+      "/usr/local/lib/node_modules/tmp/package.json",
+      "/usr/local/lib/package.json",
 
-      "/opt/local/lib/node_modules/tmp/package.json": "",
-      "/opt/local/lib/package.json": "",
-    };
+      "/opt/local/lib/node_modules/tmp/package.json",
+      "/opt/local/lib/package.json",
+    ];
 
-    const filebyDirGroups = nodeUtils.groupFilesByDirectory(nodeAppFiles);
+    const fileByDirGroups = nodeUtils.groupFilesByDirectory(nodeManifestFiles);
 
-    expect(filebyDirGroups.size).toBe(6);
-    expect(Array.from(filebyDirGroups.keys())).toEqual([
+    expect(fileByDirGroups.size).toBe(6);
+    expect(Array.from(fileByDirGroups.keys())).toEqual([
       "/",
       "/goof",
       "/goof1",
@@ -619,13 +628,50 @@ describe("node application files grouping", () => {
       "/opt/local/lib",
     ]);
   });
+
+  it("should correctly group js ts files with root dir", async () => {
+    const nodeAppFiles = [
+      "/srv/dist/index.js",
+      "/srv/dist/src/app.js",
+      "/srv/dist/src/utils/helpers.js",
+      "/srv/dist/src/components/header.ts",
+      "/srv/dist/src/components/footer.js",
+      "/srv/dist/src/services/api.js",
+      "/srv/dist/src/models/user.js",
+      "/srv/dist/src/config/config.ts",
+      "/srv/dist/package.json",
+      "/srv/dist/package-lock.json",
+      "/srv/dist/tsconfig.json",
+      "/srv/dist/Dockerfile",
+      "/srv/dist/README.md",
+    ];
+    const fileByDirGroups = nodeUtils.groupFilesByDirectory(nodeAppFiles);
+
+    const [appFilesRootDir, appFiles] =
+      nodeUtils.filterAppFiles(fileByDirGroups);
+
+    expect(appFilesRootDir).toBe("/srv/dist");
+    expect(appFiles.length).toBe(10);
+    expect(appFiles).toEqual([
+      { path: "index.js" },
+      { path: "package.json" },
+      { path: "package-lock.json" },
+      { path: "src/app.js" },
+      { path: "src/utils/helpers.js" },
+      { path: "src/components/header.ts" },
+      { path: "src/components/footer.js" },
+      { path: "src/services/api.js" },
+      { path: "src/models/user.js" },
+      { path: "src/config/config.ts" },
+    ]);
+  });
 });
 
 describe("Edge testing of node modules scan utils functions", () => {
   it("Exceptions should be handled", async () => {
     expect(() => nodeUtils.cleanupAppNodeModules("")).not.toThrow();
 
-    expect(() => nodeUtils.groupFilesByDirectory({ "": "" })).not.toThrow();
+    expect(() => nodeUtils.groupFilesByDirectory([])).not.toThrow();
     expect(() =>
       nodeUtils.persistNodeModules(
         "",
