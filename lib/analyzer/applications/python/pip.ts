@@ -12,8 +12,8 @@ import {
   PythonPackage,
   PythonRequirement,
 } from "../../../python-parser/types";
-import { filterAppFiles } from "./common";
 import { AppDepsScanResultWithoutTarget, FilePathToContent } from "../types";
+import { filterAppFiles } from "./common";
 
 const debug = Debug("snyk");
 class PythonDepGraphBuilder {
