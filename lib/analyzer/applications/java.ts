@@ -4,7 +4,13 @@ import { bufferToSha1 } from "../../buffer-utils";
 import { ApplicationFilesFact, JarFingerprintsFact } from "../../facts";
 import { Identity } from "../../types";
 import { JarFingerprint } from "../types";
-import { AggregatedJars, JarBuffer, JarCoords, JarInfo } from "./types";
+import {
+  AggregatedJars,
+  ApplicationFiles,
+  JarBuffer,
+  JarCoords,
+  JarInfo,
+} from "./types";
 import { AppDepsScanResultWithoutTarget, FilePathToBuffer } from "./types";
 
 /**
@@ -23,7 +29,6 @@ function groupJarFingerprintsByPath(fileNameToBuffer: {
       coords: null,
       dependencies: [],
       nestedJars: [],
-      classFiles: [],
     };
     resultAggregatedByPath[location] = resultAggregatedByPath[location] || [];
     resultAggregatedByPath[location].push(jarFingerprint);
@@ -89,7 +94,7 @@ async function getFingerprints(
   desiredLevelsOfUnpacking: number,
   jarBuffers: JarBuffer[],
   applicationFilesFlag: boolean,
-): Promise<[JarFingerprint[], string[]]> {
+): Promise<[JarFingerprint[], ApplicationFiles[]]> {
   const [fingerprints, classFiles] = await unpackJars(
     jarBuffers,
     desiredLevelsOfUnpacking,
@@ -134,7 +139,11 @@ function unpackJar({
 }): JarInfo {
   const dependencies: JarCoords[] = [];
   const nestedJars: JarBuffer[] = [];
-  const classFiles: string[] = [];
+  const classFiles: ApplicationFiles = {
+    language: "java",
+    jarPath,
+    fileHierarchy: [],
+  };
   let coords: JarCoords | null = null;
   // Don't collect for nested jars
   const shouldCollectClassFiles = applicationFilesFlag && unpackedLevels <= 1;
@@ -179,7 +188,7 @@ function unpackJar({
       shouldCollectClassFiles &&
       zipEntry.entryName.endsWith(".class")
     ) {
-      classFiles.push(zipEntry.entryName);
+      classFiles.fileHierarchy.push({ path: zipEntry.entryName });
     }
 
     // We only want to include JARs found at this level if the user asked for
@@ -230,7 +239,7 @@ async function unpackJars(
   desiredLevelsOfUnpacking: number,
   applicationFilesFlag: boolean,
   unpackedLevels: number = 0,
-): Promise<[JarFingerprint[], string[]]> {
+): Promise<[JarFingerprint[], ApplicationFiles[]]> {
   // We have to unpack jars to get the pom.properties manifest which
   // we use to support shaded jars and get the package coords (if exists)
   // to reduce the dependency on maven search and support private jars.
@@ -242,7 +251,7 @@ async function unpackJars(
   // requiredLevelsOfUnpacking = implementation control variable
   const requiredLevelsOfUnpacking = desiredLevelsOfUnpacking + 1;
   const fingerprints: JarFingerprint[] = [];
-  const classFiles: string[] = [];
+  const classFiles: ApplicationFiles[] = [];
 
   // jarBuffers is the array of JARS found in the image layers;
   // this represents the 1st "level" which we will unpack by
@@ -289,8 +298,8 @@ async function unpackJars(
       }
     }
 
-    if (applicationFilesFlag && jarInfo.classFiles?.length) {
-      classFiles.push(...jarInfo.classFiles);
+    if (applicationFilesFlag && jarInfo.classFiles) {
+      classFiles.push(jarInfo.classFiles);
     }
   }
 

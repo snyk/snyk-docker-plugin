@@ -492,20 +492,12 @@ describe("jar binaries scanning", () => {
       resultWithApplicationFilesFlagSetToTrue.scanResults[2].facts.find(
         (fact) => fact.type === "applicationFiles",
       )!.data;
-    expect(appFiles).toStrictEqual([
-      "org/slf4j/bridge/SLF4JBridgeHandler.class",
-      "com/google/j2objc/annotations/AutoreleasePool.class",
-      "com/google/j2objc/annotations/J2ObjCIncompatible.class",
-      "com/google/j2objc/annotations/LoopTranslation$LoopStyle.class",
-      "com/google/j2objc/annotations/LoopTranslation.class",
-      "com/google/j2objc/annotations/ObjectiveCName.class",
-      "com/google/j2objc/annotations/Property.class",
-      "com/google/j2objc/annotations/ReflectionSupport$Level.class",
-      "com/google/j2objc/annotations/ReflectionSupport.class",
-      "com/google/j2objc/annotations/RetainedLocalRef.class",
-      "com/google/j2objc/annotations/RetainedWith.class",
-      "com/google/j2objc/annotations/Weak.class",
-      "com/google/j2objc/annotations/WeakOuter.class",
-    ]);
+    expect(appFiles.length).toEqual(2);
+    expect(appFiles[0].fileHierarchy.length).toEqual(1);
+    expect(appFiles[0].jarPath).toEqual("/uberjar.jar");
+    expect(appFiles[0].language).toEqual("java");
+    expect(appFiles[1].fileHierarchy.length).toEqual(12);
+    expect(appFiles[1].jarPath).toEqual("/j2objc-annotations-1.3.jar");
+    expect(appFiles[1].language).toEqual("java");
   });
 });

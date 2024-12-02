@@ -15,7 +15,7 @@ export interface JarInfo extends JarBuffer {
   coords: JarCoords | null;
   dependencies: JarCoords[];
   nestedJars: JarBuffer[];
-  classFiles?: string[];
+  classFiles?: ApplicationFiles;
 }
 export interface JarBuffer {
   location: string;
@@ -31,6 +31,15 @@ export interface FilePathToElfContent {
 }
 export interface AggregatedJars {
   [path: string]: JarBuffer[];
+}
+export interface ApplicationFileInfo {
+  path: string;
+}
+export interface ApplicationFiles {
+  fileHierarchy: ApplicationFileInfo[];
+  moduleName?: string;
+  jarPath?: string;
+  language: string;
 }
 
 export type FilesByDirMap = Map<string, Set<string>>;

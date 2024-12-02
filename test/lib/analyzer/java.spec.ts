@@ -59,7 +59,12 @@ describe("jarFilesToScannedResults function", () => {
     expect(result[0].facts[0].data.fingerprints[0].location).toEqual(
       "/lib/test/nested-jars-fixture.jar",
     );
-    expect(result[1].facts[0].data.length).toEqual(55);
+    expect(result[1].facts[0].data.length).toEqual(1);
+    expect(result[1].facts[0].data[0].fileHierarchy.length).toEqual(55);
+    expect(result[1].facts[0].data[0].jarPath).toEqual(
+      "/lib/test/nested-jars-fixture.jar",
+    );
+    expect(result[1].facts[0].data[0].language).toEqual("java");
     expect(result[1].identity.type).toEqual("maven");
     expect(result[1].identity.targetFile).toEqual("/lib/test");
   });
