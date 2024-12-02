@@ -21,7 +21,7 @@ describe("jarFilesToScannedResults function", () => {
       filePathToContent,
       "image-name",
       0, // we don't want to include any nested JARs
-      false, // no application-files wanted
+      false, // no collect-application-files wanted
     );
 
     // Assert
@@ -48,7 +48,7 @@ describe("jarFilesToScannedResults function", () => {
       filePathToContent,
       "image-name",
       10, // we don't want to include any nested JARs
-      true, // application-files wanted
+      true, // collect-application-files wanted
     );
 
     // Assert
@@ -89,7 +89,7 @@ describe("jarFilesToScannedResults function", () => {
       filePathToContent,
       "image-name",
       0, // we always unpack so will still "trip" admzip
-      false, // no application-files wanted
+      false, // no collect-application-files wanted
     );
 
     // Assert

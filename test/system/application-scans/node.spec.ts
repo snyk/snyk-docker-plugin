@@ -151,7 +151,7 @@ describe("node application scans", () => {
     expect(pluginResultExcludeAppVulnsTrueBoolean.scanResults).toHaveLength(1);
   });
 
-  it("should handle --application-files", async () => {
+  it("should handle --collect-application-files", async () => {
     const fixturePath = getFixture("npm/multi-project-image.tar");
     const imageNameAndTag = `docker-archive:${fixturePath}`;
 
@@ -160,7 +160,7 @@ describe("node application scans", () => {
     });
     const resultWithApplicationFilesFlagSetToTrue = await scan({
       path: imageNameAndTag,
-      "application-files": "true",
+      "collect-application-files": "true",
     });
 
     expect(resultWithoutApplicationFilesFlag.scanResults).toHaveLength(5);

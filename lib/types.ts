@@ -221,7 +221,7 @@ export interface PluginOptions {
   "exclude-base-image-vulns": boolean | string;
 
   /** The default is "false". */
-  "application-files": boolean | string;
+  "collect-application-files": boolean | string;
 }
 
 export interface DepTreeDep {

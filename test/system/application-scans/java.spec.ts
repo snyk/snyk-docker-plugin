@@ -469,7 +469,7 @@ describe("jar binaries scanning", () => {
     );
   });
 
-  it("should handle --application-files", async () => {
+  it("should handle --collect-application-files", async () => {
     const fixturePath = getFixture(
       "docker-archives/docker-save/java-uberjar.tar",
     );
@@ -482,7 +482,7 @@ describe("jar binaries scanning", () => {
     const resultWithApplicationFilesFlagSetToTrue = await scan({
       path: imageNameAndTag,
       "app-vulns": true,
-      "application-files": "true",
+      "collect-application-files": "true",
     });
 
     expect(resultWithoutApplicationFilesFlag.scanResults).toHaveLength(2);
