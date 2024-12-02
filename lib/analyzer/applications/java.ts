@@ -233,7 +233,7 @@ function unpackJar({
  * @param {JarBuffer[]} jarBuffers
  * @param {number} desiredLevelsOfUnpacking
  * @param {number} unpackedLevels
- * @returns [JarFingerprint[], string[]]
+ * @returns [JarFingerprint[], ApplicationFiles[]]
  */
 async function unpackJars(
   jarBuffers: JarBuffer[],
