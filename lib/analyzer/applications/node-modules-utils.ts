@@ -242,6 +242,13 @@ function filterAppFiles(
     }, directories.values().next().value);
   }
 
+  // Remove the common path prefix from each appFile
+  if (rootDir !== ".") {
+    appFiles.forEach((file) => {
+      file.path = file.path.replace(`${rootDir}${path.sep}`, ""); // Remove rootDir from path
+    });
+  }
+
   return [rootDir, appFiles];
 }
 

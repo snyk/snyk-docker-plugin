@@ -3,9 +3,9 @@ import { ExtractAction } from "../../extractor/types";
 import { streamToString } from "../../stream-utils";
 
 const nodeAppFilePatterns = [
-  /^package\.json$/,
-  /^package-lock\.json$/,
-  /^yarn\.lock$/,
+  "package.json",
+  "package-lock.json",
+  "yarn.lock",
   /\.js$/,
   /^(?!.*\.d\.ts$).*\.ts$/,
 ];

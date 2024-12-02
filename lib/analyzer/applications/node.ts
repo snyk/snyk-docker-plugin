@@ -40,7 +40,7 @@ interface ManifestLockPathPair {
 
 export async function nodeFilesToScannedProjects(
   filePathToContent: FilePathToContent,
-  applicationFilesFlag: boolean,
+  collectApplicationFiles: boolean,
 ): Promise<AppDepsScanResultWithoutTarget[]> {
   const scanResults: AppDepsScanResultWithoutTarget[] = [];
   /**
@@ -81,7 +81,7 @@ export async function nodeFilesToScannedProjects(
     );
   }
 
-  if (applicationFilesFlag) {
+  if (collectApplicationFiles) {
     const [appFilesRootDir, appFiles] = filterAppFiles(
       fileNamesGroupedByDirectory,
     );

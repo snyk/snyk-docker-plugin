@@ -192,11 +192,11 @@ export async function analyze(
     [];
 
   if (appScan) {
-    const applicationFilesFlag = isTrue(options["application-files"]);
+    const collectApplicationFiles = isTrue(options["application-files"]);
 
     const nodeDependenciesScanResults = await nodeFilesToScannedProjects(
       getFileContent(extractedLayers, getNodeAppFileContentAction.actionName),
-      applicationFilesFlag,
+      collectApplicationFiles,
     );
     const phpDependenciesScanResults = await phpFilesToScannedProjects(
       getFileContent(extractedLayers, getPhpAppFileContentAction.actionName),
