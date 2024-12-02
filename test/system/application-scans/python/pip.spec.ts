@@ -59,10 +59,8 @@ describe("pip application scan", () => {
     expect(pluginResultExcludeAppVulnsTrueBoolean.scanResults).toHaveLength(1);
   });
 
-  it("should handle --application-files", async () => {
-    const fixturePath = getFixture(
-      "docker-archives/docker-save/pip-dist-packages.tar",
-    );
+  it("should handle --collect-application-files", async () => {
+    const fixturePath = getFixture("docker-archives/docker-save/pip-flask.tar");
     const imageNameAndTag = `docker-archive:${fixturePath}`;
 
     const resultWithoutApplicationFilesFlag = await scan({
@@ -70,20 +68,19 @@ describe("pip application scan", () => {
     });
     const resultWithApplicationFilesFlagSetToTrue = await scan({
       path: imageNameAndTag,
-      "application-files": "true",
+      "collect-application-files": "true",
     });
 
-    expect(resultWithoutApplicationFilesFlag.scanResults).toHaveLength(5);
-    expect(resultWithApplicationFilesFlagSetToTrue.scanResults).toHaveLength(6);
+    expect(resultWithoutApplicationFilesFlag.scanResults).toHaveLength(2);
+    expect(resultWithApplicationFilesFlagSetToTrue.scanResults).toHaveLength(3);
 
     const appFiles =
-      resultWithApplicationFilesFlagSetToTrue.scanResults[5].facts.find(
+      resultWithApplicationFilesFlagSetToTrue.scanResults[2].facts.find(
         (fact) => fact.type === "applicationFiles",
       )!.data;
-    expect(appFiles).toStrictEqual([
-      "/opt/yarn-v1.22.4/bin/yarn.js",
-      "/opt/yarn-v1.22.4/lib/cli.js",
-      "/opt/yarn-v1.22.4/lib/v8-compile-cache.js",
+    expect(appFiles[0].language).toStrictEqual("python");
+    expect(appFiles[0].fileHierarchy).toStrictEqual([
+      { path: "/app/server.py" },
     ]);
   });
 });

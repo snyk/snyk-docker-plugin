@@ -16,7 +16,7 @@ interface ManifestLockPathPair {
 
 export async function poetryFilesToScannedProjects(
   filePathToContent: FilePathToContent,
-  applicationFilesFlag: boolean,
+  collectApplicationFiles: boolean,
 ): Promise<AppDepsScanResultWithoutTarget[]> {
   const scanResults: AppDepsScanResultWithoutTarget[] = [];
 
@@ -51,7 +51,8 @@ export async function poetryFilesToScannedProjects(
     });
   }
 
-  if (applicationFilesFlag) {
+  // if no filePairs are available the project is not a poetry and the app files should not be collected here
+  if (collectApplicationFiles && filePairs.length) {
     const [appFilesRootDir, appFiles] = filterAppFiles(
       Object.keys(filePathToContent),
     );
@@ -60,7 +61,12 @@ export async function poetryFilesToScannedProjects(
         facts: [
           {
             type: "applicationFiles",
-            data: appFiles,
+            data: [
+              {
+                language: "python",
+                fileHierarchy: appFiles,
+              },
+            ],
           } as ApplicationFilesFact,
         ],
         identity: {
@@ -82,7 +88,7 @@ function findManifestLockPairsInSameDirectory(
 
   for (const directoryPath of Object.keys(fileNamesGroupedByDirectory)) {
     const filesInDirectory = fileNamesGroupedByDirectory[directoryPath];
-    if (filesInDirectory.length !== 2) {
+    if (filesInDirectory.length < 2) {
       // either a missing file or too many files, ignore
       continue;
     }

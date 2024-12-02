@@ -3,8 +3,8 @@ import { basename } from "path";
 import { ExtractAction } from "../../extractor/types";
 import { streamToString } from "../../stream-utils";
 
-const poetryFilePatterns = [/^pyproject\.toml$/, /^poetry\.lock$/, /\.py$/];
-const pipFilePatterns = [/^requirements\.txt$/, /\.py$/];
+const poetryFilePatterns = ["pyproject.toml", "poetry.lock", /\.py$/];
+const pipFilePatterns = ["requirements.txt", /\.py$/];
 const pythonMetadataFilesRegex =
   /\/lib\/python.*?\/(?:dist|site)-packages\/.*?\.dist-info\/METADATA/;
 const deletedPoetryAppFilesPatterns = [".wh.pyproject.toml", ".wh.poetry.lock"];

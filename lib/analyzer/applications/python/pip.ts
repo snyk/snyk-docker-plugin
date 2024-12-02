@@ -118,7 +118,7 @@ class PythonDepGraphBuilder {
  */
 export async function pipFilesToScannedProjects(
   filePathToContent: FilePathToContent,
-  applicationFilesFlag: boolean,
+  collectApplicationFiles: boolean,
 ): Promise<AppDepsScanResultWithoutTarget[]> {
   const scanResults: AppDepsScanResultWithoutTarget[] = [];
   const requirements = {};
@@ -151,7 +151,8 @@ export async function pipFilesToScannedProjects(
     });
   }
 
-  for (const requirementsFile of Object.keys(requirements)) {
+  const requirementsFiles = Object.keys(requirements);
+  for (const requirementsFile of requirementsFiles) {
     if (requirements[requirementsFile].length === 0) {
       continue;
     }
@@ -178,14 +179,20 @@ export async function pipFilesToScannedProjects(
     });
   }
 
-  if (applicationFilesFlag) {
+  // if no requirements files are available the project is not a poetry and the app files should not be collected here
+  if (collectApplicationFiles && requirementsFiles.length) {
     const [appFilesRootDir, appFiles] = filterAppFiles(filePaths);
     if (appFiles.length !== 0) {
       scanResults.push({
         facts: [
           {
             type: "applicationFiles",
-            data: appFiles,
+            data: [
+              {
+                language: "python",
+                fileHierarchy: appFiles,
+              },
+            ],
           } as ApplicationFilesFact,
         ],
         identity: {

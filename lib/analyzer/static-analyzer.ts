@@ -192,7 +192,9 @@ export async function analyze(
     [];
 
   if (appScan) {
-    const applicationFilesFlag = isTrue(options["application-files"]);
+    const collectApplicationFiles = isTrue(
+      options["collect-application-files"],
+    );
 
     const nodeDependenciesScanResults = await nodeFilesToScannedProjects(
       getFileContent(extractedLayers, getNodeAppFileContentAction.actionName),
@@ -202,11 +204,11 @@ export async function analyze(
     );
     const poetryDependenciesScanResults = await poetryFilesToScannedProjects(
       getFileContent(extractedLayers, getPoetryAppFileContentAction.actionName),
-      applicationFilesFlag,
+      collectApplicationFiles,
     );
     const pipDependenciesScanResults = await pipFilesToScannedProjects(
       getFileContent(extractedLayers, getPipAppFileContentAction.actionName),
-      applicationFilesFlag,
+      collectApplicationFiles,
     );
 
     const desiredLevelsOfUnpacking = getNestedJarsDesiredDepth(options);
