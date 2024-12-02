@@ -7,6 +7,7 @@ import {
   ImageNameInfo,
   ManifestFile,
 } from "./types";
+import { ApplicationFiles } from "./analyzer/applications/types";
 
 export interface DepGraphFact {
   type: "depGraph";
@@ -64,7 +65,7 @@ export interface TestedFilesFact {
 
 export interface ApplicationFilesFact {
   type: "applicationFiles";
-  data: string[];
+  data: ApplicationFiles[];
 }
 
 export interface JarFingerprintsFact {

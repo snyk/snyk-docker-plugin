@@ -170,10 +170,17 @@ describe("node application scans", () => {
       resultWithApplicationFilesFlagSetToTrue.scanResults[5].facts.find(
         (fact) => fact.type === "applicationFiles",
       )!.data;
-    expect(appFiles).toStrictEqual([
-      "/opt/yarn-v1.22.4/bin/yarn.js",
-      "/opt/yarn-v1.22.4/lib/cli.js",
-      "/opt/yarn-v1.22.4/lib/v8-compile-cache.js",
+    expect(appFiles.length).toEqual(1);
+    expect(appFiles[0].fileHierarchy.length).toEqual(7);
+    expect(appFiles[0].language).toEqual("node");
+    expect(appFiles[0].fileHierarchy).toStrictEqual([
+      { path: "/usr/goof2/package.json" },
+      { path: "/usr/goof2/package-lock.json" },
+      { path: "/usr/goof/package.json" },
+      { path: "/opt/yarn-v1.22.4/bin/yarn.js" },
+      { path: "/opt/yarn-v1.22.4/lib/cli.js" },
+      { path: "/opt/yarn-v1.22.4/lib/v8-compile-cache.js" },
+      { path: "/opt/yarn-v1.22.4/package.json" },
     ]);
   });
 
@@ -644,16 +651,18 @@ describe("node application files grouping", () => {
       nodeUtils.filterAppFiles(fileByDirGroups);
 
     expect(appFilesRootDir).toBe("/srv/dist");
-    expect(appFiles.length).toBe(8);
+    expect(appFiles.length).toBe(10);
     expect(appFiles).toEqual([
-      "/srv/dist/index.js",
-      "/srv/dist/src/app.js",
-      "/srv/dist/src/utils/helpers.js",
-      "/srv/dist/src/components/header.ts",
-      "/srv/dist/src/components/footer.js",
-      "/srv/dist/src/services/api.js",
-      "/srv/dist/src/models/user.js",
-      "/srv/dist/src/config/config.ts",
+      { path: "/srv/dist/index.js" },
+      { path: "/srv/dist/package.json" },
+      { path: "/srv/dist/package-lock.json" },
+      { path: "/srv/dist/src/app.js" },
+      { path: "/srv/dist/src/utils/helpers.js" },
+      { path: "/srv/dist/src/components/header.ts" },
+      { path: "/srv/dist/src/components/footer.js" },
+      { path: "/srv/dist/src/services/api.js" },
+      { path: "/srv/dist/src/models/user.js" },
+      { path: "/srv/dist/src/config/config.ts" },
     ]);
   });
 });

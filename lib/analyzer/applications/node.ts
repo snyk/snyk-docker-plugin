@@ -90,7 +90,12 @@ export async function nodeFilesToScannedProjects(
         facts: [
           {
             type: "applicationFiles",
-            data: appFiles,
+            data: [
+              {
+                language: "node",
+                fileHierarchy: appFiles,
+              },
+            ],
           } as ApplicationFilesFact,
         ],
         identity: {

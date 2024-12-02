@@ -1,7 +1,7 @@
 import * as Debug from "debug";
 import { mkdir, mkdtemp, rm, stat, writeFile } from "fs/promises";
 import * as path from "path";
-import { FilePathToContent, FilesByDirMap } from "./types";
+import { ApplicationFileInfo, FilePathToContent, FilesByDirMap } from "./types";
 const debug = Debug("snyk");
 
 const nodeModulesRegex = /^(.*?)(?:[\\\/]node_modules)/;
@@ -210,19 +210,22 @@ function groupFilesByDirectory(filePaths: string[]): FilesByDirMap {
 
 function filterAppFiles(
   fileNamesGroupedByDirectory: FilesByDirMap,
-): [string, string[]] {
-  const appFiles: string[] = [];
+): [string, ApplicationFileInfo[]] {
+  const appFiles: ApplicationFileInfo[] = [];
   let rootDir: string = "."; // Default to "." if no common root directory is found
   const directories: Set<string> = new Set();
 
   for (const [directory, filePaths] of fileNamesGroupedByDirectory) {
     for (const filePath of filePaths) {
+      const fileBase = path.basename(filePath);
       if (
         !filePath.includes("node_modules/") &&
         (filePath.endsWith(".js") ||
-          (filePath.endsWith(".ts") && !filePath.endsWith(".d.ts")))
+          (filePath.endsWith(".ts") && !filePath.endsWith(".d.ts")) ||
+          fileBase === "package.json" ||
+          fileBase === "package-lock.json")
       ) {
-        appFiles.push(filePath);
+        appFiles.push({ path: filePath });
         directories.add(directory); // Collect directories of app files
       }
     }
