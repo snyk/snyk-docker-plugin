@@ -1,6 +1,6 @@
 import { DepGraph } from "@snyk/dep-graph";
-import { JarFingerprint } from "./analyzer/types";
 import { ApplicationFiles } from "./analyzer/applications/types";
+import { JarFingerprint } from "./analyzer/types";
 import { DockerFileAnalysis } from "./dockerfile/types";
 import { OCIDistributionMetadata } from "./extractor/oci-distribution-metadata";
 import {
