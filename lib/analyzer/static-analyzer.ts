@@ -32,6 +32,7 @@ import { getPhpAppFileContentAction } from "../inputs/php/static";
 import {
   getPipAppFileContentAction,
   getPoetryAppFileContentAction,
+  getPythonAppFileContentAction,
 } from "../inputs/python/static";
 import {
   getRedHatRepositoriesContentAction,
@@ -114,6 +115,7 @@ export async function analyze(
         getPhpAppFileContentAction,
         getPoetryAppFileContentAction,
         getPipAppFileContentAction,
+        getPythonAppFileContentAction,
         getJarFileContentAction,
         getGoModulesContentAction,
       ],
@@ -207,35 +209,23 @@ export async function analyze(
       getFileContent(extractedLayers, getPhpAppFileContentAction.actionName),
     );
 
-    const poetryFilePathToContent = getFileContent(
-      extractedLayers,
-      getPoetryAppFileContentAction.actionName,
-    );
     const poetryDependenciesScanResults = await poetryFilesToScannedProjects(
-      poetryFilePathToContent,
-      collectApplicationFiles,
+      getFileContent(extractedLayers, getPoetryAppFileContentAction.actionName),
     );
 
-    const pipFilePathToContent = getFileContent(
-      extractedLayers,
-      getPipAppFileContentAction.actionName,
-    );
     const pipDependenciesScanResults = await pipFilesToScannedProjects(
-      pipFilePathToContent,
-      collectApplicationFiles,
+      getFileContent(extractedLayers, getPipAppFileContentAction.actionName),
     );
 
     let pythonApplicationFilesScanResults: AppDepsScanResultWithoutTarget[] =
       [];
     if (collectApplicationFiles) {
-      if (poetryDependenciesScanResults.length) {
-        pythonApplicationFilesScanResults = getPythonApplicationFiles(
-          poetryFilePathToContent,
-        );
-      } else if (pipDependenciesScanResults.length) {
-        pythonApplicationFilesScanResults =
-          getPythonApplicationFiles(pipFilePathToContent);
-      }
+      pythonApplicationFilesScanResults = getPythonApplicationFiles(
+        getFileContent(
+          extractedLayers,
+          getPythonAppFileContentAction.actionName,
+        ),
+      );
     }
 
     const desiredLevelsOfUnpacking = getNestedJarsDesiredDepth(options);

@@ -3,20 +3,19 @@ import { basename } from "path";
 import { ExtractAction } from "../../extractor/types";
 import { streamToString } from "../../stream-utils";
 
-const poetryFilePatterns = ["pyproject.toml", "poetry.lock", /\.py$/];
-const pipFilePatterns = ["requirements.txt", /\.py$/];
+const poetryManifestFiles = ["pyproject.toml", "poetry.lock"];
+const pipManifestFiles = ["requirements.txt"];
 const pythonMetadataFilesRegex =
   /\/lib\/python.*?\/(?:dist|site)-packages\/.*?\.dist-info\/METADATA/;
-const deletedPoetryAppFilesPatterns = [".wh.pyproject.toml", ".wh.poetry.lock"];
-const deletedPipAppFilesPatterns = [".wh.requirements.txt"];
+const deletedPoetryAppFiles = poetryManifestFiles.map((file) => ".wh." + file);
+const deletedPipAppFiles = pipManifestFiles.map((file) => ".wh." + file);
+const pythonApplicationFileSuffix = ".py";
 
 function poetryFilePathMatches(filePath: string): boolean {
   const fileName = basename(filePath);
   return (
-    poetryFilePatterns.some((pattern) => new RegExp(pattern).test(fileName)) ||
-    deletedPoetryAppFilesPatterns.some((pattern) =>
-      new RegExp(pattern).test(fileName),
-    )
+    poetryManifestFiles.includes(fileName) ||
+    deletedPoetryAppFiles.includes(fileName)
   );
 }
 
@@ -29,16 +28,24 @@ export const getPoetryAppFileContentAction: ExtractAction = {
 function pipFilePathMatches(filePath: string): boolean {
   const fileName = basename(filePath);
   return (
-    pipFilePatterns.some((pattern) => new RegExp(pattern).test(fileName)) ||
+    pipManifestFiles.includes(fileName) ||
     pythonMetadataFilesRegex.test(filePath) ||
-    deletedPipAppFilesPatterns.some((pattern) =>
-      new RegExp(pattern).test(fileName),
-    )
+    deletedPipAppFiles.includes(fileName)
   );
 }
 
 export const getPipAppFileContentAction: ExtractAction = {
   actionName: "pip-app-files",
   filePathMatches: pipFilePathMatches,
+  callback: streamToString,
+};
+
+function pythonApplicationFilePathMatches(filePath: string): boolean {
+  return filePath.endsWith(pythonApplicationFileSuffix);
+}
+
+export const getPythonAppFileContentAction: ExtractAction = {
+  actionName: "python-app-files",
+  filePathMatches: pythonApplicationFilePathMatches,
   callback: streamToString,
 };

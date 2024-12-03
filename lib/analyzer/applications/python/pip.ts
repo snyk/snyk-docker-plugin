@@ -117,14 +117,11 @@ class PythonDepGraphBuilder {
  */
 export async function pipFilesToScannedProjects(
   filePathToContent: FilePathToContent,
-  collectApplicationFiles: boolean,
 ): Promise<AppDepsScanResultWithoutTarget[]> {
   const scanResults: AppDepsScanResultWithoutTarget[] = [];
   const requirements = {};
   const metadataItems: PythonMetadataFiles = {};
-
-  const filePaths = Object.keys(filePathToContent);
-  for (const filepath of filePaths) {
+  for (const filepath of Object.keys(filePathToContent)) {
     const fileBaseName = path.basename(filepath);
     if (fileBaseName === "requirements.txt") {
       requirements[filepath] = getRequirements(filePathToContent[filepath]);
@@ -150,8 +147,7 @@ export async function pipFilesToScannedProjects(
     });
   }
 
-  const requirementsFiles = Object.keys(requirements);
-  for (const requirementsFile of requirementsFiles) {
+  for (const requirementsFile of Object.keys(requirements)) {
     if (requirements[requirementsFile].length === 0) {
       continue;
     }
@@ -177,6 +173,5 @@ export async function pipFilesToScannedProjects(
       },
     });
   }
-
   return scanResults;
 }

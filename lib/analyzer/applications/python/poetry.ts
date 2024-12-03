@@ -11,7 +11,6 @@ interface ManifestLockPathPair {
 
 export async function poetryFilesToScannedProjects(
   filePathToContent: FilePathToContent,
-  collectApplicationFiles: boolean,
 ): Promise<AppDepsScanResultWithoutTarget[]> {
   const scanResults: AppDepsScanResultWithoutTarget[] = [];
 
@@ -57,7 +56,7 @@ function findManifestLockPairsInSameDirectory(
 
   for (const directoryPath of Object.keys(fileNamesGroupedByDirectory)) {
     const filesInDirectory = fileNamesGroupedByDirectory[directoryPath];
-    if (filesInDirectory.length < 2) {
+    if (filesInDirectory.length !== 2) {
       // either a missing file or too many files, ignore
       continue;
     }
