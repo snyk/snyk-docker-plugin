@@ -15,7 +15,7 @@ export function getPythonApplicationFiles(
     Object.keys(filePathToContent),
   );
 
-  if (appFiles.length !== 0) {
+  if (appFiles.length) {
     scanResults.push({
       facts: [
         {
