@@ -1,5 +1,6 @@
 import { scan } from "../../../../lib";
 import { getFixture } from "../../../util";
+import { filterAppFiles } from "../../../../lib/analyzer/applications/python/common";
 
 describe("pip application scan", () => {
   it("should correctly return applications as multiple scan results", async () => {
@@ -79,8 +80,38 @@ describe("pip application scan", () => {
         (fact) => fact.type === "applicationFiles",
       )!.data;
     expect(appFiles[0].language).toStrictEqual("python");
-    expect(appFiles[0].fileHierarchy).toStrictEqual([
-      { path: "/app/server.py" },
+    expect(appFiles[0].fileHierarchy).toStrictEqual([{ path: "server.py" }]);
+  });
+});
+
+describe("python application files filtering", () => {
+  it("should correctly filter python application files", async () => {
+    const pythonProjectFiles = [
+      "/app/index.py",
+      "/app/src/app.py",
+      "/app/src/utils/helpers.py",
+      "/app/src/components/header.py",
+      "/app/src/components/footer.py",
+      "/app/src/services/api.py",
+      "/app/src/models/user.py",
+      "/app/src/config/config.py",
+      "/requirements.txt",
+      "/Dockerfile",
+      "/README.md",
+    ];
+    const [appFilesRootDir, appFiles] = filterAppFiles(pythonProjectFiles);
+
+    expect(appFilesRootDir).toBe("/app");
+    expect(appFiles.length).toBe(8);
+    expect(appFiles).toEqual([
+      { path: "index.py" },
+      { path: "src/app.py" },
+      { path: "src/utils/helpers.py" },
+      { path: "src/components/header.py" },
+      { path: "src/components/footer.py" },
+      { path: "src/services/api.py" },
+      { path: "src/models/user.py" },
+      { path: "src/config/config.py" },
     ]);
   });
 });

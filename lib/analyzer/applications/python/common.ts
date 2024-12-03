@@ -10,9 +10,9 @@ export function filterAppFiles(
 
   for (const filePath of filePaths) {
     if (
-      !filePath.includes("site-packages/") &&
-      !filePath.includes("dist-packages/") &&
-      // installed eternal packages are installed in `usr/` dir and should not be collected as app files
+      !filePath.includes("/site-packages/") &&
+      !filePath.includes("/dist-packages/") &&
+      // "/usr/"" should not include 1st party code
       !filePath.startsWith("/usr/") &&
       filePath.endsWith(".py")
     ) {
@@ -31,6 +31,11 @@ export function filterAppFiles(
       return commonDir;
     }, directories.values().next().value);
   }
+
+  // Remove the common path prefix from each appFile
+  appFiles.forEach((file) => {
+    file.path = file.path.replace(`${rootDir}${path.sep}`, ""); // Remove rootDir from path
+  });
 
   return [rootDir, appFiles];
 }
