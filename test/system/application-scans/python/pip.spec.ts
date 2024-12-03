@@ -1,5 +1,6 @@
 import { scan } from "../../../../lib";
-import { filterAppFiles } from "../../../../lib/analyzer/applications/python/common";
+import { filterAppFiles } from "../../../../lib/analyzer/applications/common";
+import { isPythonAppFile } from "../../../../lib/analyzer/applications/python/common";
 import { getFixture } from "../../../util";
 
 describe("pip application scan", () => {
@@ -99,7 +100,10 @@ describe("python application files filtering", () => {
       "/Dockerfile",
       "/README.md",
     ];
-    const [appFilesRootDir, appFiles] = filterAppFiles(pythonProjectFiles);
+    const [appFilesRootDir, appFiles] = filterAppFiles(
+      pythonProjectFiles,
+      isPythonAppFile,
+    );
 
     expect(appFilesRootDir).toBe("/app");
     expect(appFiles.length).toBe(8);

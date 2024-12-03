@@ -1,7 +1,7 @@
 import * as Debug from "debug";
 import { mkdir, mkdtemp, rm, stat, writeFile } from "fs/promises";
 import * as path from "path";
-import { ApplicationFileInfo, FilePathToContent, FilesByDirMap } from "./types";
+import { FilePathToContent, FilesByDirMap } from "./types";
 const debug = Debug("snyk");
 
 const nodeModulesRegex = /^(.*?)(?:[\\\/]node_modules)/;
@@ -10,7 +10,7 @@ export {
   persistNodeModules,
   cleanupAppNodeModules,
   groupFilesByDirectory,
-  filterAppFiles,
+  isNodeAppFile,
 };
 
 interface ScanPaths {
@@ -208,46 +208,15 @@ function groupFilesByDirectory(filePaths: string[]): FilesByDirMap {
   return filesByDir;
 }
 
-function filterAppFiles(
-  fileNamesGroupedByDirectory: FilesByDirMap,
-): [string, ApplicationFileInfo[]] {
-  const appFiles: ApplicationFileInfo[] = [];
-  let rootDir: string = "";
-  const directories: Set<string> = new Set();
-
-  for (const [directory, filePaths] of fileNamesGroupedByDirectory) {
-    for (const filePath of filePaths) {
-      const fileBase = path.basename(filePath);
-      if (
-        !filePath.includes("node_modules/") &&
-        (filePath.endsWith(".js") ||
-          (filePath.endsWith(".ts") && !filePath.endsWith(".d.ts")) ||
-          fileBase === "package.json" ||
-          fileBase === "package-lock.json")
-      ) {
-        appFiles.push({ path: filePath });
-        directories.add(directory); // Collect directories of app files
-      }
-    }
-  }
-
-  // Determine the common directory
-  if (appFiles.length > 0) {
-    rootDir = Array.from(directories).reduce((commonDir, dir) => {
-      // Find the common path
-      while (commonDir && commonDir !== "" && !dir.startsWith(commonDir)) {
-        commonDir = commonDir.substring(0, commonDir.lastIndexOf(path.sep));
-      }
-      return commonDir;
-    }, directories.values().next().value);
-  }
-
-  // Remove the common path prefix from each appFile
-  appFiles.forEach((file) => {
-    file.path = file.path.replace(`${rootDir}${path.sep}`, ""); // Remove rootDir from path
-  });
-
-  return [rootDir, appFiles];
+function isNodeAppFile(filepath: string): boolean {
+  const fileBase = path.basename(filepath);
+  return (
+    !filepath.includes("node_modules/") &&
+    (filepath.endsWith(".js") ||
+      (filepath.endsWith(".ts") && !filepath.endsWith(".d.ts")) ||
+      fileBase === "package.json" ||
+      fileBase === "package-lock.json")
+  );
 }
 
 async function cleanupAppNodeModules(appRootDir: string): Promise<void> {

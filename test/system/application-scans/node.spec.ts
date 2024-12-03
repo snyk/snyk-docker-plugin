@@ -5,6 +5,7 @@ import * as lockFileParser from "snyk-nodejs-lockfile-parser";
 import { NodeLockfileVersion } from "snyk-nodejs-lockfile-parser";
 import * as resolveDeps from "snyk-resolve-deps";
 import { scan } from "../../../lib";
+import { filterAppFiles } from "../../../lib/analyzer/applications/common";
 import {
   getLockFileVersion,
   shouldBuildDepTree,
@@ -630,7 +631,7 @@ describe("node application files grouping", () => {
   });
 
   it("should correctly group js ts files with root dir", async () => {
-    const nodeAppFiles = [
+    const nodeProjectFiles = [
       "/srv/dist/index.js",
       "/srv/dist/src/app.js",
       "/srv/dist/src/utils/helpers.js",
@@ -645,17 +646,16 @@ describe("node application files grouping", () => {
       "/srv/dist/Dockerfile",
       "/srv/dist/README.md",
     ];
-    const fileByDirGroups = nodeUtils.groupFilesByDirectory(nodeAppFiles);
 
-    const [appFilesRootDir, appFiles] =
-      nodeUtils.filterAppFiles(fileByDirGroups);
+    const [appFilesRootDir, appFiles] = filterAppFiles(
+      nodeProjectFiles,
+      nodeUtils.isNodeAppFile,
+    );
 
     expect(appFilesRootDir).toBe("/srv/dist");
     expect(appFiles.length).toBe(10);
     expect(appFiles).toEqual([
       { path: "index.js" },
-      { path: "package.json" },
-      { path: "package-lock.json" },
       { path: "src/app.js" },
       { path: "src/utils/helpers.js" },
       { path: "src/components/header.ts" },
@@ -663,6 +663,8 @@ describe("node application files grouping", () => {
       { path: "src/services/api.js" },
       { path: "src/models/user.js" },
       { path: "src/config/config.ts" },
+      { path: "package.json" },
+      { path: "package-lock.json" },
     ]);
   });
 });

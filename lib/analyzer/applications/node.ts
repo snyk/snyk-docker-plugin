@@ -20,10 +20,11 @@ import {
   NodeLockfileVersion,
 } from "snyk-nodejs-lockfile-parser";
 import { LogicalRoot } from "snyk-resolve-deps/dist/types";
+import { filterAppFiles } from "./common";
 import {
   cleanupAppNodeModules,
-  filterAppFiles,
   groupFilesByDirectory,
+  isNodeAppFile,
   persistNodeModules,
 } from "./node-modules-utils";
 import {
@@ -40,7 +41,6 @@ interface ManifestLockPathPair {
 
 export async function nodeFilesToScannedProjects(
   filePathToContent: FilePathToContent,
-  collectApplicationFiles: boolean,
 ): Promise<AppDepsScanResultWithoutTarget[]> {
   const scanResults: AppDepsScanResultWithoutTarget[] = [];
   /**
@@ -79,31 +79,6 @@ export async function nodeFilesToScannedProjects(
         fileNamesGroupedByDirectory,
       )),
     );
-  }
-
-  if (collectApplicationFiles) {
-    const [appFilesRootDir, appFiles] = filterAppFiles(
-      fileNamesGroupedByDirectory,
-    );
-    if (appFiles.length !== 0) {
-      scanResults.push({
-        facts: [
-          {
-            type: "applicationFiles",
-            data: [
-              {
-                language: "node",
-                fileHierarchy: appFiles,
-              },
-            ],
-          } as ApplicationFilesFact,
-        ],
-        identity: {
-          type: "npm",
-          targetFile: appFilesRootDir,
-        },
-      });
-    }
   }
 
   return scanResults;
@@ -387,4 +362,36 @@ export function shouldBuildDepTree(lockfileVersion: NodeLockfileVersion) {
     lockfileVersion === NodeLockfileVersion.NpmLockV2 ||
     lockfileVersion === NodeLockfileVersion.NpmLockV3
   );
+}
+
+export function getNodeJsTsApplicationFiles(
+  filePathToContent: FilePathToContent,
+): AppDepsScanResultWithoutTarget[] {
+  const scanResults: AppDepsScanResultWithoutTarget[] = [];
+
+  const [appFilesRootDir, appFiles] = filterAppFiles(
+    Object.keys(filePathToContent),
+    isNodeAppFile,
+  );
+  if (appFiles.length !== 0) {
+    scanResults.push({
+      facts: [
+        {
+          type: "applicationFiles",
+          data: [
+            {
+              language: "node",
+              fileHierarchy: appFiles,
+            },
+          ],
+        } as ApplicationFilesFact,
+      ],
+      identity: {
+        type: "npm",
+        targetFile: appFilesRootDir,
+      },
+    });
+  }
+
+  return scanResults;
 }

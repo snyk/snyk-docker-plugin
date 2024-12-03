@@ -26,7 +26,10 @@ import {
 } from "../inputs/distroless/static";
 import * as filePatternStatic from "../inputs/file-pattern/static";
 import { getJarFileContentAction } from "../inputs/java/static";
-import { getNodeAppFileContentAction } from "../inputs/node/static";
+import {
+  getNodeAppFileContentAction,
+  getNodeJsTsAppFileContentAction,
+} from "../inputs/node/static";
 import { getOsReleaseActions } from "../inputs/os-release/static";
 import { getPhpAppFileContentAction } from "../inputs/php/static";
 import {
@@ -52,6 +55,7 @@ import {
   poetryFilesToScannedProjects,
 } from "./applications";
 import { jarFilesToScannedResults } from "./applications/java";
+import { getNodeJsTsApplicationFiles } from "./applications/node";
 import {
   getPythonApplicationFiles,
   pipFilesToScannedProjects,
@@ -112,6 +116,7 @@ export async function analyze(
     staticAnalysisActions.push(
       ...[
         getNodeAppFileContentAction,
+        getNodeJsTsAppFileContentAction,
         getPhpAppFileContentAction,
         getPoetryAppFileContentAction,
         getPipAppFileContentAction,
@@ -203,8 +208,16 @@ export async function analyze(
 
     const nodeDependenciesScanResults = await nodeFilesToScannedProjects(
       getFileContent(extractedLayers, getNodeAppFileContentAction.actionName),
-      collectApplicationFiles,
     );
+    let nodeApplicationFilesScanResults: AppDepsScanResultWithoutTarget[] = [];
+    if (collectApplicationFiles) {
+      nodeApplicationFilesScanResults = getNodeJsTsApplicationFiles(
+        getFileContent(
+          extractedLayers,
+          getNodeJsTsAppFileContentAction.actionName,
+        ),
+      );
+    }
 
     const phpDependenciesScanResults = await phpFilesToScannedProjects(
       getFileContent(extractedLayers, getPhpAppFileContentAction.actionName),
@@ -231,18 +244,21 @@ export async function analyze(
 
     const desiredLevelsOfUnpacking = getNestedJarsDesiredDepth(options);
 
+    // Java application files are part of the jarFingerprintScanResults since the jars are unpacked as part of the logic
     const jarFingerprintScanResults = await jarFilesToScannedResults(
       getBufferContent(extractedLayers, getJarFileContentAction.actionName),
       targetImage,
       desiredLevelsOfUnpacking,
       collectApplicationFiles,
     );
+
     const goModulesScanResult = await goModulesToScannedProjects(
       getElfFileContent(extractedLayers, getGoModulesContentAction.actionName),
     );
 
     applicationDependenciesScanResults.push(
       ...nodeDependenciesScanResults,
+      ...nodeApplicationFilesScanResults,
       ...phpDependenciesScanResults,
       ...poetryDependenciesScanResults,
       ...pipDependenciesScanResults,
