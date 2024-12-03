@@ -55,11 +55,7 @@ import {
   poetryFilesToScannedProjects,
 } from "./applications";
 import { jarFilesToScannedResults } from "./applications/java";
-import { getNodeJsTsApplicationFiles } from "./applications/node";
-import {
-  getPythonApplicationFiles,
-  pipFilesToScannedProjects,
-} from "./applications/python";
+import { pipFilesToScannedProjects } from "./applications/python";
 import { AppDepsScanResultWithoutTarget } from "./applications/types";
 import * as osReleaseDetector from "./os-release";
 import { analyze as apkAnalyze } from "./package-managers/apk";
@@ -76,6 +72,9 @@ import {
   OSRelease,
   StaticPackagesAnalysis,
 } from "./types";
+import { getApplicationFiles } from "./applications/common";
+import { isNodeAppFile } from "./applications/node-modules-utils";
+import { isPythonAppFile } from "./applications/python/common";
 
 const debug = Debug("snyk");
 
@@ -211,11 +210,14 @@ export async function analyze(
     );
     let nodeApplicationFilesScanResults: AppDepsScanResultWithoutTarget[] = [];
     if (collectApplicationFiles) {
-      nodeApplicationFilesScanResults = getNodeJsTsApplicationFiles(
+      nodeApplicationFilesScanResults = getApplicationFiles(
         getFileContent(
           extractedLayers,
           getNodeJsTsAppFileContentAction.actionName,
         ),
+        "node",
+        "npm",
+        isNodeAppFile,
       );
     }
 
@@ -234,11 +236,14 @@ export async function analyze(
     let pythonApplicationFilesScanResults: AppDepsScanResultWithoutTarget[] =
       [];
     if (collectApplicationFiles) {
-      pythonApplicationFilesScanResults = getPythonApplicationFiles(
+      pythonApplicationFilesScanResults = getApplicationFiles(
         getFileContent(
           extractedLayers,
           getPythonAppFileContentAction.actionName,
         ),
+        "python",
+        "python",
+        isPythonAppFile,
       );
     }
 

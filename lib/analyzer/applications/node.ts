@@ -3,11 +3,7 @@ import * as Debug from "debug";
 import * as path from "path";
 import * as lockFileParser from "snyk-nodejs-lockfile-parser";
 import * as resolveDeps from "snyk-resolve-deps";
-import {
-  ApplicationFilesFact,
-  DepGraphFact,
-  TestedFilesFact,
-} from "../../facts";
+import { DepGraphFact, TestedFilesFact } from "../../facts";
 
 const debug = Debug("snyk");
 
@@ -20,11 +16,9 @@ import {
   NodeLockfileVersion,
 } from "snyk-nodejs-lockfile-parser";
 import { LogicalRoot } from "snyk-resolve-deps/dist/types";
-import { filterAppFiles } from "./common";
 import {
   cleanupAppNodeModules,
   groupFilesByDirectory,
-  isNodeAppFile,
   persistNodeModules,
 } from "./node-modules-utils";
 import {
@@ -362,36 +356,4 @@ export function shouldBuildDepTree(lockfileVersion: NodeLockfileVersion) {
     lockfileVersion === NodeLockfileVersion.NpmLockV2 ||
     lockfileVersion === NodeLockfileVersion.NpmLockV3
   );
-}
-
-export function getNodeJsTsApplicationFiles(
-  filePathToContent: FilePathToContent,
-): AppDepsScanResultWithoutTarget[] {
-  const scanResults: AppDepsScanResultWithoutTarget[] = [];
-
-  const [appFilesRootDir, appFiles] = filterAppFiles(
-    Object.keys(filePathToContent),
-    isNodeAppFile,
-  );
-  if (appFiles.length !== 0) {
-    scanResults.push({
-      facts: [
-        {
-          type: "applicationFiles",
-          data: [
-            {
-              language: "node",
-              fileHierarchy: appFiles,
-            },
-          ],
-        } as ApplicationFilesFact,
-      ],
-      identity: {
-        type: "npm",
-        targetFile: appFilesRootDir,
-      },
-    });
-  }
-
-  return scanResults;
 }

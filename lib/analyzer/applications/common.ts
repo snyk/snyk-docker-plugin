@@ -1,5 +1,10 @@
 import * as path from "path";
-import { ApplicationFileInfo } from "./types";
+import {
+  AppDepsScanResultWithoutTarget,
+  ApplicationFileInfo,
+  FilePathToContent,
+} from "./types";
+import { ApplicationFilesFact } from "../../facts";
 
 export function filterAppFiles(
   filePaths: string[],
@@ -33,4 +38,39 @@ export function filterAppFiles(
   });
 
   return [rootDir, appFiles];
+}
+
+export function getApplicationFiles(
+  filePathToContent: FilePathToContent,
+  language: string,
+  identityType: string,
+  languageFileValidator: (filePath: string) => boolean,
+): AppDepsScanResultWithoutTarget[] {
+  const scanResults: AppDepsScanResultWithoutTarget[] = [];
+
+  const [appFilesRootDir, appFiles] = filterAppFiles(
+    Object.keys(filePathToContent),
+    languageFileValidator,
+  );
+  if (appFiles.length !== 0) {
+    scanResults.push({
+      facts: [
+        {
+          type: "applicationFiles",
+          data: [
+            {
+              language: language,
+              fileHierarchy: appFiles,
+            },
+          ],
+        } as ApplicationFilesFact,
+      ],
+      identity: {
+        type: identityType,
+        targetFile: appFilesRootDir,
+      },
+    });
+  }
+
+  return scanResults;
 }
