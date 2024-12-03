@@ -1,10 +1,10 @@
 import * as path from "path";
+import { ApplicationFilesFact } from "../../../facts";
 import {
-  ApplicationFileInfo,
   AppDepsScanResultWithoutTarget,
+  ApplicationFileInfo,
   FilePathToContent,
 } from "../types";
-import { ApplicationFilesFact } from "../../../facts";
 
 export function getPythonApplicationFiles(
   filePathToContent: FilePathToContent,

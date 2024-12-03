@@ -1,6 +1,6 @@
 import { scan } from "../../../../lib";
-import { getFixture } from "../../../util";
 import { filterAppFiles } from "../../../../lib/analyzer/applications/python/common";
+import { getFixture } from "../../../util";
 
 describe("pip application scan", () => {
   it("should correctly return applications as multiple scan results", async () => {
