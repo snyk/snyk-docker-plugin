@@ -9,6 +9,7 @@ const pythonMetadataFilesRegex =
   /\/lib\/python.*?\/(?:dist|site)-packages\/.*?\.dist-info\/METADATA/;
 const deletedPoetryAppFiles = poetryManifestFiles.map((file) => ".wh." + file);
 const deletedPipAppFiles = pipManifestFiles.map((file) => ".wh." + file);
+const pythonApplicationFileSuffix = ".py";
 
 function poetryFilePathMatches(filePath: string): boolean {
   const fileName = basename(filePath);
@@ -36,5 +37,15 @@ function pipFilePathMatches(filePath: string): boolean {
 export const getPipAppFileContentAction: ExtractAction = {
   actionName: "pip-app-files",
   filePathMatches: pipFilePathMatches,
+  callback: streamToString,
+};
+
+function pythonApplicationFilePathMatches(filePath: string): boolean {
+  return filePath.endsWith(pythonApplicationFileSuffix);
+}
+
+export const getPythonAppFileContentAction: ExtractAction = {
+  actionName: "python-app-files",
+  filePathMatches: pythonApplicationFilePathMatches,
   callback: streamToString,
 };

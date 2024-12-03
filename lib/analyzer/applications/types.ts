@@ -43,3 +43,13 @@ export interface ApplicationFiles {
 }
 
 export type FilesByDirMap = Map<string, Set<string>>;
+
+export interface ApplicationFileInfo {
+  path: string;
+}
+export interface ApplicationFiles {
+  fileHierarchy: ApplicationFileInfo[];
+  moduleName?: string;
+  jarPath?: string;
+  language: string;
+}

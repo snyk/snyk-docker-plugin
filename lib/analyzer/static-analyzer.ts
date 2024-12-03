@@ -32,6 +32,7 @@ import { getPhpAppFileContentAction } from "../inputs/php/static";
 import {
   getPipAppFileContentAction,
   getPoetryAppFileContentAction,
+  getPythonAppFileContentAction,
 } from "../inputs/python/static";
 import {
   getRedHatRepositoriesContentAction,
@@ -51,7 +52,10 @@ import {
   poetryFilesToScannedProjects,
 } from "./applications";
 import { jarFilesToScannedResults } from "./applications/java";
-import { pipFilesToScannedProjects } from "./applications/python";
+import {
+  getPythonApplicationFiles,
+  pipFilesToScannedProjects,
+} from "./applications/python";
 import { AppDepsScanResultWithoutTarget } from "./applications/types";
 import * as osReleaseDetector from "./os-release";
 import { analyze as apkAnalyze } from "./package-managers/apk";
@@ -111,6 +115,7 @@ export async function analyze(
         getPhpAppFileContentAction,
         getPoetryAppFileContentAction,
         getPipAppFileContentAction,
+        getPythonAppFileContentAction,
         getJarFileContentAction,
         getGoModulesContentAction,
       ],
@@ -200,9 +205,11 @@ export async function analyze(
       getFileContent(extractedLayers, getNodeAppFileContentAction.actionName),
       collectApplicationFiles,
     );
+
     const phpDependenciesScanResults = await phpFilesToScannedProjects(
       getFileContent(extractedLayers, getPhpAppFileContentAction.actionName),
     );
+
     const poetryDependenciesScanResults = await poetryFilesToScannedProjects(
       getFileContent(extractedLayers, getPoetryAppFileContentAction.actionName),
     );
@@ -210,6 +217,17 @@ export async function analyze(
     const pipDependenciesScanResults = await pipFilesToScannedProjects(
       getFileContent(extractedLayers, getPipAppFileContentAction.actionName),
     );
+
+    let pythonApplicationFilesScanResults: AppDepsScanResultWithoutTarget[] =
+      [];
+    if (collectApplicationFiles) {
+      pythonApplicationFilesScanResults = getPythonApplicationFiles(
+        getFileContent(
+          extractedLayers,
+          getPythonAppFileContentAction.actionName,
+        ),
+      );
+    }
 
     const desiredLevelsOfUnpacking = getNestedJarsDesiredDepth(options);
 
@@ -228,6 +246,7 @@ export async function analyze(
       ...phpDependenciesScanResults,
       ...poetryDependenciesScanResults,
       ...pipDependenciesScanResults,
+      ...pythonApplicationFilesScanResults,
       ...jarFingerprintScanResults,
       ...goModulesScanResult,
     );

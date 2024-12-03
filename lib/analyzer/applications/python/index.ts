@@ -1,4 +1,9 @@
+import { getPythonApplicationFiles } from "./common";
 import { pipFilesToScannedProjects } from "./pip";
 import { poetryFilesToScannedProjects } from "./poetry";
 
-export { pipFilesToScannedProjects, poetryFilesToScannedProjects };
+export {
+  getPythonApplicationFiles,
+  pipFilesToScannedProjects,
+  poetryFilesToScannedProjects,
+};
