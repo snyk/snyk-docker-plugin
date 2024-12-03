@@ -51,7 +51,10 @@ import {
   poetryFilesToScannedProjects,
 } from "./applications";
 import { jarFilesToScannedResults } from "./applications/java";
-import { pipFilesToScannedProjects } from "./applications/python";
+import {
+  getPythonApplicationFiles,
+  pipFilesToScannedProjects,
+} from "./applications/python";
 import { AppDepsScanResultWithoutTarget } from "./applications/types";
 import * as osReleaseDetector from "./os-release";
 import { analyze as apkAnalyze } from "./package-managers/apk";
@@ -199,17 +202,41 @@ export async function analyze(
     const nodeDependenciesScanResults = await nodeFilesToScannedProjects(
       getFileContent(extractedLayers, getNodeAppFileContentAction.actionName),
     );
+
     const phpDependenciesScanResults = await phpFilesToScannedProjects(
       getFileContent(extractedLayers, getPhpAppFileContentAction.actionName),
     );
+
+    const poetryFilePathToContent = getFileContent(
+      extractedLayers,
+      getPoetryAppFileContentAction.actionName,
+    );
     const poetryDependenciesScanResults = await poetryFilesToScannedProjects(
-      getFileContent(extractedLayers, getPoetryAppFileContentAction.actionName),
+      poetryFilePathToContent,
       collectApplicationFiles,
+    );
+
+    const pipFilePathToContent = getFileContent(
+      extractedLayers,
+      getPipAppFileContentAction.actionName,
     );
     const pipDependenciesScanResults = await pipFilesToScannedProjects(
-      getFileContent(extractedLayers, getPipAppFileContentAction.actionName),
+      pipFilePathToContent,
       collectApplicationFiles,
     );
+
+    let pythonApplicationFilesScanResults: AppDepsScanResultWithoutTarget[] =
+      [];
+    if (collectApplicationFiles) {
+      if (poetryDependenciesScanResults.length) {
+        pythonApplicationFilesScanResults = getPythonApplicationFiles(
+          poetryFilePathToContent,
+        );
+      } else if (pipDependenciesScanResults.length) {
+        pythonApplicationFilesScanResults =
+          getPythonApplicationFiles(pipFilePathToContent);
+      }
+    }
 
     const desiredLevelsOfUnpacking = getNestedJarsDesiredDepth(options);
 
@@ -227,6 +254,7 @@ export async function analyze(
       ...phpDependenciesScanResults,
       ...poetryDependenciesScanResults,
       ...pipDependenciesScanResults,
+      ...pythonApplicationFilesScanResults,
       ...jarFingerprintScanResults,
       ...goModulesScanResult,
     );

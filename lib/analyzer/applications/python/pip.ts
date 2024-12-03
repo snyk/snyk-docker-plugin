@@ -3,7 +3,7 @@ import * as Debug from "debug";
 import { eventLoopSpinner } from "event-loop-spinner";
 import * as path from "path";
 import * as semver from "semver";
-import { ApplicationFilesFact, DepGraphFact } from "../../../facts";
+import { DepGraphFact } from "../../../facts";
 import { compareVersions } from "../../../python-parser/common";
 import { getPackageInfo } from "../../../python-parser/metadata-parser";
 import { getRequirements } from "../../../python-parser/requirements-parser";
@@ -13,7 +13,6 @@ import {
   PythonRequirement,
 } from "../../../python-parser/types";
 import { AppDepsScanResultWithoutTarget, FilePathToContent } from "../types";
-import { filterAppFiles } from "./common";
 
 const debug = Debug("snyk");
 class PythonDepGraphBuilder {
@@ -179,28 +178,5 @@ export async function pipFilesToScannedProjects(
     });
   }
 
-  // if no requirements files are available the project is not a poetry and the app files should not be collected here
-  if (collectApplicationFiles && requirementsFiles.length) {
-    const [appFilesRootDir, appFiles] = filterAppFiles(filePaths);
-    if (appFiles.length !== 0) {
-      scanResults.push({
-        facts: [
-          {
-            type: "applicationFiles",
-            data: [
-              {
-                language: "python",
-                fileHierarchy: appFiles,
-              },
-            ],
-          } as ApplicationFilesFact,
-        ],
-        identity: {
-          type: "python",
-          targetFile: appFilesRootDir,
-        },
-      });
-    }
-  }
   return scanResults;
 }

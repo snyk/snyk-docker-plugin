@@ -67,8 +67,6 @@ describe("poetry application scan", () => {
         (fact) => fact.type === "applicationFiles",
       )!.data;
     expect(appFiles[0].language).toStrictEqual("python");
-    expect(appFiles[0].fileHierarchy).toStrictEqual([
-      { path: "/app/server.py" },
-    ]);
+    expect(appFiles[0].fileHierarchy).toStrictEqual([{ path: "server.py" }]);
   });
 });

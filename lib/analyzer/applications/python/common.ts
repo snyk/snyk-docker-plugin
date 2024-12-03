@@ -1,5 +1,42 @@
 import * as path from "path";
-import { ApplicationFileInfo } from "../types";
+import {
+  ApplicationFileInfo,
+  AppDepsScanResultWithoutTarget,
+  FilePathToContent,
+} from "../types";
+import { ApplicationFilesFact } from "../../../facts";
+
+export function getPythonApplicationFiles(
+  filePathToContent: FilePathToContent,
+) {
+  const scanResults: AppDepsScanResultWithoutTarget[] = [];
+
+  const [appFilesRootDir, appFiles] = filterAppFiles(
+    Object.keys(filePathToContent),
+  );
+
+  if (appFiles.length !== 0) {
+    scanResults.push({
+      facts: [
+        {
+          type: "applicationFiles",
+          data: [
+            {
+              language: "python",
+              fileHierarchy: appFiles,
+            },
+          ],
+        } as ApplicationFilesFact,
+      ],
+      identity: {
+        type: "python",
+        targetFile: appFilesRootDir,
+      },
+    });
+  }
+
+  return scanResults;
+}
 
 export function filterAppFiles(
   filePaths: string[],
