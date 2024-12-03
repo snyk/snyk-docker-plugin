@@ -1,10 +1,10 @@
 import * as path from "path";
+import { ApplicationFilesFact } from "../../facts";
 import {
   AppDepsScanResultWithoutTarget,
   ApplicationFileInfo,
   FilePathToContent,
 } from "./types";
-import { ApplicationFilesFact } from "../../facts";
 
 export function filterAppFiles(
   filePaths: string[],
@@ -59,7 +59,7 @@ export function getApplicationFiles(
           type: "applicationFiles",
           data: [
             {
-              language: language,
+              language,
               fileHierarchy: appFiles,
             },
           ],

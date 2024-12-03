@@ -54,8 +54,11 @@ import {
   phpFilesToScannedProjects,
   poetryFilesToScannedProjects,
 } from "./applications";
+import { getApplicationFiles } from "./applications/common";
 import { jarFilesToScannedResults } from "./applications/java";
+import { isNodeAppFile } from "./applications/node-modules-utils";
 import { pipFilesToScannedProjects } from "./applications/python";
+import { isPythonAppFile } from "./applications/python/common";
 import { AppDepsScanResultWithoutTarget } from "./applications/types";
 import * as osReleaseDetector from "./os-release";
 import { analyze as apkAnalyze } from "./package-managers/apk";
@@ -72,9 +75,6 @@ import {
   OSRelease,
   StaticPackagesAnalysis,
 } from "./types";
-import { getApplicationFiles } from "./applications/common";
-import { isNodeAppFile } from "./applications/node-modules-utils";
-import { isPythonAppFile } from "./applications/python/common";
 
 const debug = Debug("snyk");
 
