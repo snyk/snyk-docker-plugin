@@ -212,7 +212,7 @@ function filterAppFiles(
   fileNamesGroupedByDirectory: FilesByDirMap,
 ): [string, ApplicationFileInfo[]] {
   const appFiles: ApplicationFileInfo[] = [];
-  let rootDir: string = "."; // Default to "." if no common root directory is found
+  let rootDir: string = "";
   const directories: Set<string> = new Set();
 
   for (const [directory, filePaths] of fileNamesGroupedByDirectory) {
@@ -235,7 +235,7 @@ function filterAppFiles(
   if (appFiles.length > 0) {
     rootDir = Array.from(directories).reduce((commonDir, dir) => {
       // Find the common path
-      while (commonDir && commonDir !== "." && !dir.startsWith(commonDir)) {
+      while (commonDir && commonDir !== "" && !dir.startsWith(commonDir)) {
         commonDir = commonDir.substring(0, commonDir.lastIndexOf(path.sep));
       }
       return commonDir;
@@ -243,11 +243,9 @@ function filterAppFiles(
   }
 
   // Remove the common path prefix from each appFile
-  if (rootDir !== ".") {
-    appFiles.forEach((file) => {
-      file.path = file.path.replace(`${rootDir}${path.sep}`, ""); // Remove rootDir from path
-    });
-  }
+  appFiles.forEach((file) => {
+    file.path = file.path.replace(`${rootDir}${path.sep}`, ""); // Remove rootDir from path
+  });
 
   return [rootDir, appFiles];
 }
