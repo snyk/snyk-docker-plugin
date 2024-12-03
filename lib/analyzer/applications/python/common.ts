@@ -12,7 +12,7 @@ export function filterAppFiles(
     if (
       !filePath.includes("/site-packages/") &&
       !filePath.includes("/dist-packages/") &&
-      // "/usr/"" should not include 1st party code
+      // "/usr/" should not include 1st party code
       !filePath.startsWith("/usr/") &&
       filePath.endsWith(".py")
     ) {
