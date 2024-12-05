@@ -48,7 +48,7 @@ export async function nodeFilesToScannedProjects(
    */
 
   const filePaths = Object.keys(filePathToContent);
-  if (filePaths.length === 0) {
+  if (!filePaths.length) {
     return [];
   }
 

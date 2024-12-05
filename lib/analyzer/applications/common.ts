@@ -8,14 +8,14 @@ import {
 
 export function filterAppFiles(
   filePaths: string[],
-  languageFileValidator: (filePath: string) => boolean,
+  languageFileFilter: (filePath: string) => boolean,
 ): [string, ApplicationFileInfo[]] {
   const appFiles: ApplicationFileInfo[] = [];
   let rootDir: string = "";
   const directories: Set<string> = new Set();
 
   for (const filePath of filePaths) {
-    if (languageFileValidator(filePath)) {
+    if (languageFileFilter(filePath)) {
       appFiles.push({ path: filePath });
       directories.add(path.dirname(filePath)); // Collect directories of app files
     }
@@ -44,15 +44,15 @@ export function getApplicationFiles(
   filePathToContent: FilePathToContent,
   language: string,
   identityType: string,
-  languageFileValidator: (filePath: string) => boolean,
+  languageFileFilter: (filePath: string) => boolean,
 ): AppDepsScanResultWithoutTarget[] {
   const scanResults: AppDepsScanResultWithoutTarget[] = [];
 
   const [appFilesRootDir, appFiles] = filterAppFiles(
     Object.keys(filePathToContent),
-    languageFileValidator,
+    languageFileFilter,
   );
-  if (appFiles.length !== 0) {
+  if (appFiles.length) {
     scanResults.push({
       facts: [
         {

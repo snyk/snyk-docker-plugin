@@ -75,7 +75,7 @@ export async function jarFilesToScannedResults(
       identity,
     });
 
-    if (collectApplicationFiles && classFiles.length > 0) {
+    if (collectApplicationFiles && classFiles.length) {
       const applicationFilesFact: ApplicationFilesFact = {
         type: "applicationFiles",
         data: classFiles,
