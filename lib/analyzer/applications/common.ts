@@ -34,7 +34,9 @@ export function filterAppFiles(
 
   // Remove the common path prefix from each appFile
   appFiles.forEach((file) => {
-    file.path = file.path.replace(`${rootDir}${path.sep}`, ""); // Remove rootDir from path
+    if (file.path.startsWith(`${rootDir}${path.sep}`)) {
+      file.path = file.path.substring(`${rootDir}${path.sep}`.length); // Remove rootDir from path
+    }
   });
 
   return [rootDir, appFiles];
