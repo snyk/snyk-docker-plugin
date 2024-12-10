@@ -18,7 +18,8 @@ import {
 import { LogicalRoot } from "snyk-resolve-deps/dist/types";
 import {
   cleanupAppNodeModules,
-  groupFilesByDirectory,
+  groupNodeAppFilesByDirectory,
+  groupNodeModulesFilesByDirectory,
   persistNodeModules,
 } from "./node-modules-utils";
 import {
@@ -35,6 +36,7 @@ interface ManifestLockPathPair {
 
 export async function nodeFilesToScannedProjects(
   filePathToContent: FilePathToContent,
+  shouldIncludeNodeModules: boolean,
 ): Promise<AppDepsScanResultWithoutTarget[]> {
   const scanResults: AppDepsScanResultWithoutTarget[] = [];
   /**
@@ -51,8 +53,9 @@ export async function nodeFilesToScannedProjects(
     return [];
   }
 
-  const fileNamesGroupedByDirectory = groupFilesByDirectory(filePathToContent);
-  const [manifestFilePairs, nodeProjects] = findProjectsAndManifests(
+  const fileNamesGroupedByDirectory =
+    groupNodeAppFilesByDirectory(filePathToContent);
+  const manifestFilePairs = findManifestLockPairsInSameDirectory(
     fileNamesGroupedByDirectory,
   );
 
@@ -64,14 +67,22 @@ export async function nodeFilesToScannedProjects(
       )),
     );
   }
-  if (nodeProjects.length !== 0) {
-    scanResults.push(
-      ...(await depGraphFromNodeModules(
-        filePathToContent,
-        nodeProjects,
-        fileNamesGroupedByDirectory,
-      )),
+
+  if (shouldIncludeNodeModules) {
+    const appNodeModulesGroupedByDirectory =
+      groupNodeModulesFilesByDirectory(filePathToContent);
+    const nodeProjects = findManifestNodeModulesFilesInSameDirectory(
+      appNodeModulesGroupedByDirectory,
     );
+    if (nodeProjects.length !== 0) {
+      scanResults.push(
+        ...(await depGraphFromNodeModules(
+          filePathToContent,
+          nodeProjects,
+          appNodeModulesGroupedByDirectory,
+        )),
+      );
+    }
   }
 
   return scanResults;
@@ -109,7 +120,6 @@ async function depGraphFromNodeModules(
       );
 
       if ((pkgTree as LogicalRoot).numDependencies === 0) {
-        await cleanupAppNodeModules(tempDir);
         continue;
       }
 
@@ -197,13 +207,15 @@ async function depGraphFromManifestFiles(
   return scanResults;
 }
 
-function findProjectsAndManifests(
+function findManifestLockPairsInSameDirectory(
   fileNamesGroupedByDirectory: FilesByDirMap,
-): [ManifestLockPathPair[], string[]] {
+): ManifestLockPathPair[] {
   const manifestLockPathPairs: ManifestLockPathPair[] = [];
-  const nodeProjects: string[] = [];
 
   for (const directoryPath of fileNamesGroupedByDirectory.keys()) {
+    if (directoryPath.includes("node_modules")) {
+      continue;
+    }
     const filesInDirectory = fileNamesGroupedByDirectory.get(directoryPath);
     if (!filesInDirectory || filesInDirectory.size < 1) {
       // missing manifest files
@@ -230,12 +242,40 @@ function findProjectsAndManifests(
           ? lockFileParser.LockfileType.npm
           : lockFileParser.LockfileType.yarn,
       });
+    }
+  }
+
+  return manifestLockPathPairs;
+}
+
+function findManifestNodeModulesFilesInSameDirectory(
+  fileNamesGroupedByDirectory: FilesByDirMap,
+): string[] {
+  const nodeProjects: string[] = [];
+
+  for (const directoryPath of fileNamesGroupedByDirectory.keys()) {
+    const filesInDirectory = fileNamesGroupedByDirectory.get(directoryPath);
+    if (!filesInDirectory || filesInDirectory.size < 1) {
+      // missing manifest files
+      continue;
+    }
+
+    const expectedManifest = path.join(directoryPath, "package.json");
+    const expectedNpmLockFile = path.join(directoryPath, "package-lock.json");
+    const expectedYarnLockFile = path.join(directoryPath, "yarn.lock");
+
+    const hasManifestFile = filesInDirectory.has(expectedManifest);
+    const hasLockFile =
+      filesInDirectory.has(expectedNpmLockFile) ||
+      filesInDirectory.has(expectedYarnLockFile);
+
+    if (hasManifestFile && hasLockFile) {
       continue;
     }
     nodeProjects.push(directoryPath);
   }
 
-  return [manifestLockPathPairs, nodeProjects];
+  return nodeProjects;
 }
 
 function stripUndefinedLabels(

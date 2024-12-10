@@ -265,16 +265,31 @@ describe("node application scans", () => {
     expect(depGraphNpmFromNodeModules.getPkgs().length).toBeGreaterThan(64);
   });
 
-  it("should generate a scanResult for a multi-project-image", async () => {
+  it("should generate a scanResult from multiple node.js projects inside a multi-project-image", async () => {
     const imageWithoutLockFile = getFixture("npm/multi-project-image.tar");
     const imageWithoutLockFileNameAndTag = `docker-archive:${imageWithoutLockFile}`;
 
     const { scanResults } = await scan({
       path: imageWithoutLockFileNameAndTag,
+      platform: "linux/amd64",
     });
 
     expect(scanResults).toMatchSnapshot();
     expect(scanResults.length).toEqual(5);
+  });
+
+  it("should exclude scanning of node_modules projects from a node.js container image", async () => {
+    const imageWithoutLockFile = getFixture("npm/multi-project-image.tar");
+    const imageWithoutLockFileNameAndTag = `docker-archive:${imageWithoutLockFile}`;
+
+    const { scanResults } = await scan({
+      path: imageWithoutLockFileNameAndTag,
+      platform: "linux/amd64",
+      "exclude-node-modules": true,
+    });
+
+    expect(scanResults).toMatchSnapshot();
+    expect(scanResults.length).toEqual(2);
   });
 
   it("resolveDeps should return a depGraph constructed from node_modules when the application dir doesn't contain the package.json file", async () => {
@@ -476,9 +491,8 @@ describe("node application files grouping", () => {
         "",
     };
 
-    const yarnCacheFilesGroupedByDir = nodeUtils.groupFilesByDirectory(
-      yarnCacheFilesToContent,
-    );
+    const yarnCacheFilesGroupedByDir =
+      nodeUtils.groupNodeModulesFilesByDirectory(yarnCacheFilesToContent);
 
     expect(yarnCacheFilesGroupedByDir.size).toBe(0);
 
@@ -492,9 +506,8 @@ describe("node application files grouping", () => {
       "/.cache/package.json/.npm/_cache/registry.npm/@scope/package-name@1.0.0/package-lock.json":
         "",
     };
-    const npmCacheFilesGroupedByDir = nodeUtils.groupFilesByDirectory(
-      npmCacheFilesToContent,
-    );
+    const npmCacheFilesGroupedByDir =
+      nodeUtils.groupNodeModulesFilesByDirectory(npmCacheFilesToContent);
 
     expect(npmCacheFilesGroupedByDir.size).toBe(0);
   });
@@ -507,9 +520,8 @@ describe("node application files grouping", () => {
         "",
     };
 
-    const yarnCacheFilesGroupedByDir = nodeUtils.groupFilesByDirectory(
-      yarnNpmCacheFilesToContent,
-    );
+    const yarnCacheFilesGroupedByDir =
+      nodeUtils.groupNodeModulesFilesByDirectory(yarnNpmCacheFilesToContent);
 
     expect(yarnCacheFilesGroupedByDir.size).toBe(0);
   });
@@ -522,9 +534,8 @@ describe("node application files grouping", () => {
         "",
     };
 
-    const yarnCacheFilesGroupedByDir = nodeUtils.groupFilesByDirectory(
-      yarnNpmCacheFilesToContent,
-    );
+    const yarnCacheFilesGroupedByDir =
+      nodeUtils.groupNodeModulesFilesByDirectory(yarnNpmCacheFilesToContent);
 
     expect(yarnCacheFilesGroupedByDir.size).toBe(0);
   });
@@ -539,7 +550,7 @@ describe("node application files grouping", () => {
         "",
     };
 
-    const yarnManifestsGrouped = nodeUtils.groupFilesByDirectory(
+    const yarnManifestsGrouped = nodeUtils.groupNodeModulesFilesByDirectory(
       yarnCacheFilePathstoContent,
     );
 
@@ -554,7 +565,7 @@ describe("node application files grouping", () => {
     };
 
     const npmManifestsGrouped =
-      nodeUtils.groupFilesByDirectory(npmCacheFilePaths);
+      nodeUtils.groupNodeModulesFilesByDirectory(npmCacheFilePaths);
     expect(npmManifestsGrouped.size).toBe(0);
   });
 
@@ -574,7 +585,7 @@ describe("node application files grouping", () => {
         "",
     };
 
-    const pnpmManifestsGrouped = nodeUtils.groupFilesByDirectory(
+    const pnpmManifestsGrouped = nodeUtils.groupNodeModulesFilesByDirectory(
       pnpmCacheFilePathstoContent,
     );
 
@@ -607,8 +618,8 @@ describe("node application files grouping", () => {
       "/opt/local/lib/package.json": "",
     };
 
-    const filebyDirGroups = nodeUtils.groupFilesByDirectory(nodeAppFiles);
-
+    const filebyDirGroups =
+      nodeUtils.groupNodeModulesFilesByDirectory(nodeAppFiles);
     expect(filebyDirGroups.size).toBe(6);
     expect(Array.from(filebyDirGroups.keys())).toEqual([
       "/",
@@ -625,7 +636,9 @@ describe("Edge testing of node modules scan utils functions", () => {
   it("Exceptions should be handled", async () => {
     expect(() => nodeUtils.cleanupAppNodeModules("")).not.toThrow();
 
-    expect(() => nodeUtils.groupFilesByDirectory({ "": "" })).not.toThrow();
+    expect(() =>
+      nodeUtils.groupNodeModulesFilesByDirectory({ "": "" }),
+    ).not.toThrow();
     expect(() =>
       nodeUtils.persistNodeModules(
         "",

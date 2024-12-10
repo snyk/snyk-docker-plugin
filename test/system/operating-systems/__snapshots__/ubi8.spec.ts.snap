@@ -6228,271 +6228,9 @@ Object {
                   "pkgId": "repeat-element@1.1.2",
                 },
                 Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "isobject@3.0.1",
-                    },
-                  ],
-                  "nodeId": "object-visit@1.0.1",
-                  "pkgId": "object-visit@1.0.1",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "object-visit@1.0.1",
-                    },
-                  ],
-                  "nodeId": "map-visit@1.0.0",
-                  "pkgId": "map-visit@1.0.0",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "map-visit@1.0.0",
-                    },
-                    Object {
-                      "nodeId": "object-visit@1.0.1",
-                    },
-                  ],
-                  "nodeId": "collection-visit@1.0.0",
-                  "pkgId": "collection-visit@1.0.0",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "component-emitter@1.2.1",
-                  "pkgId": "component-emitter@1.2.1",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "get-value@2.0.6",
-                  "pkgId": "get-value@2.0.6",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "is-buffer@1.1.6",
-                    },
-                  ],
-                  "nodeId": "kind-of@4.0.0",
-                  "pkgId": "kind-of@4.0.0",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "is-number@3.0.0",
-                    },
-                    Object {
-                      "nodeId": "kind-of@4.0.0",
-                    },
-                  ],
-                  "nodeId": "has-values@1.0.0",
-                  "pkgId": "has-values@1.0.0",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "get-value@2.0.6",
-                    },
-                    Object {
-                      "nodeId": "has-values@1.0.0",
-                    },
-                    Object {
-                      "nodeId": "isobject@3.0.1",
-                    },
-                  ],
-                  "nodeId": "has-value@1.0.0",
-                  "pkgId": "has-value@1.0.0",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "isobject@3.0.1",
-                    },
-                  ],
-                  "nodeId": "is-plain-object@2.0.4",
-                  "pkgId": "is-plain-object@2.0.4",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "assign-symbols@1.0.0",
-                  "pkgId": "assign-symbols@1.0.0",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "is-plain-object@2.0.4",
-                    },
-                  ],
-                  "nodeId": "is-extendable@1.0.1",
-                  "pkgId": "is-extendable@1.0.1",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "assign-symbols@1.0.0",
-                    },
-                    Object {
-                      "nodeId": "is-extendable@1.0.1",
-                    },
-                  ],
-                  "nodeId": "extend-shallow@3.0.2",
-                  "pkgId": "extend-shallow@3.0.2",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "extend-shallow@3.0.2",
-                    },
-                  ],
-                  "nodeId": "split-string@3.1.0",
-                  "pkgId": "split-string@3.1.0",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "extend-shallow@2.0.1",
-                    },
-                    Object {
-                      "nodeId": "is-extendable@0.1.1",
-                    },
-                    Object {
-                      "nodeId": "is-plain-object@2.0.4",
-                    },
-                    Object {
-                      "nodeId": "split-string@3.1.0",
-                    },
-                  ],
-                  "nodeId": "set-value@2.0.0",
-                  "pkgId": "set-value@2.0.0",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "kind-of@3.2.2",
-                    },
-                  ],
-                  "nodeId": "to-object-path@0.3.0",
-                  "pkgId": "to-object-path@0.3.0",
-                },
-                Object {
                   "deps": Array [],
                   "nodeId": "arr-union@3.1.0",
                   "pkgId": "arr-union@3.1.0",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "extend-shallow@2.0.1",
-                    },
-                    Object {
-                      "nodeId": "is-extendable@0.1.1",
-                    },
-                    Object {
-                      "nodeId": "is-plain-object@2.0.4",
-                    },
-                    Object {
-                      "nodeId": "to-object-path@0.3.0",
-                    },
-                  ],
-                  "nodeId": "set-value@0.4.3",
-                  "pkgId": "set-value@0.4.3",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "arr-union@3.1.0",
-                    },
-                    Object {
-                      "nodeId": "get-value@2.0.6",
-                    },
-                    Object {
-                      "nodeId": "is-extendable@0.1.1",
-                    },
-                    Object {
-                      "nodeId": "set-value@0.4.3",
-                    },
-                  ],
-                  "nodeId": "union-value@1.0.0",
-                  "pkgId": "union-value@1.0.0",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "has-values@0.1.4",
-                  "pkgId": "has-values@0.1.4",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "isarray@1.0.0",
-                  "pkgId": "isarray@1.0.0",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "isarray@1.0.0",
-                    },
-                  ],
-                  "nodeId": "isobject@2.1.0",
-                  "pkgId": "isobject@2.1.0",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "get-value@2.0.6",
-                    },
-                    Object {
-                      "nodeId": "has-values@0.1.4",
-                    },
-                    Object {
-                      "nodeId": "isobject@2.1.0",
-                    },
-                  ],
-                  "nodeId": "has-value@0.3.1",
-                  "pkgId": "has-value@0.3.1",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "has-value@0.3.1",
-                    },
-                    Object {
-                      "nodeId": "isobject@3.0.1",
-                    },
-                  ],
-                  "nodeId": "unset-value@1.0.0",
-                  "pkgId": "unset-value@1.0.0",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "collection-visit@1.0.0",
-                    },
-                    Object {
-                      "nodeId": "component-emitter@1.2.1",
-                    },
-                    Object {
-                      "nodeId": "get-value@2.0.6",
-                    },
-                    Object {
-                      "nodeId": "has-value@1.0.0",
-                    },
-                    Object {
-                      "nodeId": "isobject@3.0.1",
-                    },
-                    Object {
-                      "nodeId": "set-value@2.0.0",
-                    },
-                    Object {
-                      "nodeId": "to-object-path@0.3.0",
-                    },
-                    Object {
-                      "nodeId": "union-value@1.0.0",
-                    },
-                    Object {
-                      "nodeId": "unset-value@1.0.0",
-                    },
-                  ],
-                  "nodeId": "cache-base@1.0.1",
-                  "pkgId": "cache-base@1.0.1",
                 },
                 Object {
                   "deps": Array [
@@ -6593,6 +6331,11 @@ Object {
                 },
                 Object {
                   "deps": Array [],
+                  "nodeId": "component-emitter@1.2.1",
+                  "pkgId": "component-emitter@1.2.1",
+                },
+                Object {
+                  "deps": Array [],
                   "nodeId": "kind-of@6.0.2",
                   "pkgId": "kind-of@6.0.2",
                 },
@@ -6646,6 +6389,24 @@ Object {
                 Object {
                   "deps": Array [
                     Object {
+                      "nodeId": "isobject@3.0.1",
+                    },
+                  ],
+                  "nodeId": "is-plain-object@2.0.4",
+                  "pkgId": "is-plain-object@2.0.4",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "is-plain-object@2.0.4",
+                    },
+                  ],
+                  "nodeId": "is-extendable@1.0.1",
+                  "pkgId": "is-extendable@1.0.1",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
                       "nodeId": "for-in@1.0.2",
                     },
                     Object {
@@ -6662,9 +6423,6 @@ Object {
                 },
                 Object {
                   "deps": Array [
-                    Object {
-                      "nodeId": "cache-base@1.0.1",
-                    },
                     Object {
                       "nodeId": "class-utils@0.3.6",
                     },
@@ -6700,11 +6458,6 @@ Object {
                   ],
                   "nodeId": "debug@2.6.9",
                   "pkgId": "debug@2.6.9",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "map-cache@0.2.2",
-                  "pkgId": "map-cache@0.2.2",
                 },
                 Object {
                   "deps": Array [],
@@ -6781,9 +6534,6 @@ Object {
                       "nodeId": "extend-shallow@2.0.1",
                     },
                     Object {
-                      "nodeId": "map-cache@0.2.2",
-                    },
-                    Object {
                       "nodeId": "source-map@0.5.7",
                     },
                     Object {
@@ -6819,6 +6569,32 @@ Object {
                   ],
                   "nodeId": "snapdragon-node@2.1.1",
                   "pkgId": "snapdragon-node@2.1.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "assign-symbols@1.0.0",
+                  "pkgId": "assign-symbols@1.0.0",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "assign-symbols@1.0.0",
+                    },
+                    Object {
+                      "nodeId": "is-extendable@1.0.1",
+                    },
+                  ],
+                  "nodeId": "extend-shallow@3.0.2",
+                  "pkgId": "extend-shallow@3.0.2",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "extend-shallow@3.0.2",
+                    },
+                  ],
+                  "nodeId": "split-string@3.1.0",
+                  "pkgId": "split-string@3.1.0",
                 },
                 Object {
                   "deps": Array [
@@ -6947,15 +6723,6 @@ Object {
                 Object {
                   "deps": Array [
                     Object {
-                      "nodeId": "map-cache@0.2.2",
-                    },
-                  ],
-                  "nodeId": "fragment-cache@0.2.1",
-                  "pkgId": "fragment-cache@0.2.1",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
                       "nodeId": "array-unique@0.3.2",
                     },
                     Object {
@@ -6966,9 +6733,6 @@ Object {
                     },
                     Object {
                       "nodeId": "extend-shallow@2.0.1",
-                    },
-                    Object {
-                      "nodeId": "fragment-cache@0.2.1",
                     },
                     Object {
                       "nodeId": "regex-not@1.0.2",
@@ -7026,9 +6790,6 @@ Object {
                       "nodeId": "extend-shallow@3.0.2",
                     },
                     Object {
-                      "nodeId": "fragment-cache@0.2.1",
-                    },
-                    Object {
                       "nodeId": "is-odd@2.0.0",
                     },
                     Object {
@@ -7072,9 +6833,6 @@ Object {
                     },
                     Object {
                       "nodeId": "extglob@2.0.4",
-                    },
-                    Object {
-                      "nodeId": "fragment-cache@0.2.1",
                     },
                     Object {
                       "nodeId": "kind-of@6.0.2",
@@ -7245,6 +7003,11 @@ Object {
                 },
                 Object {
                   "deps": Array [],
+                  "nodeId": "isarray@1.0.0",
+                  "pkgId": "isarray@1.0.0",
+                },
+                Object {
+                  "deps": Array [],
                   "nodeId": "process-nextick-args@1.0.7",
                   "pkgId": "process-nextick-args@1.0.7",
                 },
@@ -7364,11 +7127,82 @@ Object {
                 Object {
                   "deps": Array [
                     Object {
+                      "nodeId": "isobject@3.0.1",
+                    },
+                  ],
+                  "nodeId": "object-visit@1.0.1",
+                  "pkgId": "object-visit@1.0.1",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "object-visit@1.0.1",
+                    },
+                  ],
+                  "nodeId": "map-visit@1.0.0",
+                  "pkgId": "map-visit@1.0.0",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "map-visit@1.0.0",
+                    },
+                    Object {
+                      "nodeId": "object-visit@1.0.1",
+                    },
+                  ],
+                  "nodeId": "collection-visit@1.0.0",
+                  "pkgId": "collection-visit@1.0.0",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
                       "nodeId": "ms@2.0.0",
                     },
                   ],
                   "nodeId": "debug@3.1.0",
                   "pkgId": "debug@3.1.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "get-value@2.0.6",
+                  "pkgId": "get-value@2.0.6",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "is-buffer@1.1.6",
+                    },
+                  ],
+                  "nodeId": "kind-of@4.0.0",
+                  "pkgId": "kind-of@4.0.0",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "is-number@3.0.0",
+                    },
+                    Object {
+                      "nodeId": "kind-of@4.0.0",
+                    },
+                  ],
+                  "nodeId": "has-values@1.0.0",
+                  "pkgId": "has-values@1.0.0",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "get-value@2.0.6",
+                    },
+                    Object {
+                      "nodeId": "has-values@1.0.0",
+                    },
+                    Object {
+                      "nodeId": "isobject@3.0.1",
+                    },
+                  ],
+                  "nodeId": "has-value@1.0.0",
+                  "pkgId": "has-value@1.0.0",
                 },
                 Object {
                   "deps": Array [],
@@ -7379,6 +7213,11 @@ Object {
                   "deps": Array [],
                   "nodeId": "isexe@2.0.0",
                   "pkgId": "isexe@2.0.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pseudomap@1.0.2",
+                  "pkgId": "pseudomap@1.0.2",
                 },
                 Object {
                   "deps": Array [],
@@ -7478,6 +7317,24 @@ Object {
                   "pkgId": "semver@5.5.0",
                 },
                 Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "extend-shallow@2.0.1",
+                    },
+                    Object {
+                      "nodeId": "is-extendable@0.1.1",
+                    },
+                    Object {
+                      "nodeId": "is-plain-object@2.0.4",
+                    },
+                    Object {
+                      "nodeId": "split-string@3.1.0",
+                    },
+                  ],
+                  "nodeId": "set-value@2.0.0",
+                  "pkgId": "set-value@2.0.0",
+                },
+                Object {
                   "deps": Array [],
                   "nodeId": "has-flag@3.0.0",
                   "pkgId": "has-flag@3.0.0",
@@ -7490,6 +7347,15 @@ Object {
                   ],
                   "nodeId": "supports-color@5.2.0",
                   "pkgId": "supports-color@5.2.0",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "kind-of@3.2.2",
+                    },
+                  ],
+                  "nodeId": "to-object-path@0.3.0",
+                  "pkgId": "to-object-path@0.3.0",
                 },
                 Object {
                   "deps": Array [],
@@ -7522,6 +7388,83 @@ Object {
                   ],
                   "nodeId": "undefsafe@2.0.2",
                   "pkgId": "undefsafe@2.0.2",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "extend-shallow@2.0.1",
+                    },
+                    Object {
+                      "nodeId": "is-extendable@0.1.1",
+                    },
+                    Object {
+                      "nodeId": "is-plain-object@2.0.4",
+                    },
+                    Object {
+                      "nodeId": "to-object-path@0.3.0",
+                    },
+                  ],
+                  "nodeId": "set-value@0.4.3",
+                  "pkgId": "set-value@0.4.3",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "arr-union@3.1.0",
+                    },
+                    Object {
+                      "nodeId": "get-value@2.0.6",
+                    },
+                    Object {
+                      "nodeId": "is-extendable@0.1.1",
+                    },
+                    Object {
+                      "nodeId": "set-value@0.4.3",
+                    },
+                  ],
+                  "nodeId": "union-value@1.0.0",
+                  "pkgId": "union-value@1.0.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "has-values@0.1.4",
+                  "pkgId": "has-values@0.1.4",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "isarray@1.0.0",
+                    },
+                  ],
+                  "nodeId": "isobject@2.1.0",
+                  "pkgId": "isobject@2.1.0",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "get-value@2.0.6",
+                    },
+                    Object {
+                      "nodeId": "has-values@0.1.4",
+                    },
+                    Object {
+                      "nodeId": "isobject@2.1.0",
+                    },
+                  ],
+                  "nodeId": "has-value@0.3.1",
+                  "pkgId": "has-value@0.3.1",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "has-value@0.3.1",
+                    },
+                    Object {
+                      "nodeId": "isobject@3.0.1",
+                    },
+                  ],
+                  "nodeId": "unset-value@1.0.0",
+                  "pkgId": "unset-value@1.0.0",
                 },
                 Object {
                   "deps": Array [],
@@ -7632,28 +7575,6 @@ Object {
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "pseudomap@1.0.2",
-                  "pkgId": "pseudomap@1.0.2",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "yallist@2.1.2",
-                  "pkgId": "yallist@2.1.2",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "pseudomap@1.0.2",
-                    },
-                    Object {
-                      "nodeId": "yallist@2.1.2",
-                    },
-                  ],
-                  "nodeId": "lru-cache@4.1.1",
-                  "pkgId": "lru-cache@4.1.1",
-                },
-                Object {
-                  "deps": Array [],
                   "nodeId": "shebang-regex@1.0.0",
                   "pkgId": "shebang-regex@1.0.0",
                 },
@@ -7669,25 +7590,10 @@ Object {
                 Object {
                   "deps": Array [
                     Object {
-                      "nodeId": "lru-cache@4.1.1",
-                    },
-                    Object {
                       "nodeId": "shebang-command@1.2.0",
                     },
                   ],
-                  "nodeId": "cross-spawn@5.1.0|1",
-                  "pkgId": "cross-spawn@5.1.0",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "lru-cache@4.1.5",
-                    },
-                    Object {
-                      "nodeId": "shebang-command@1.2.0",
-                    },
-                  ],
-                  "nodeId": "cross-spawn@5.1.0|2",
+                  "nodeId": "cross-spawn@5.1.0",
                   "pkgId": "cross-spawn@5.1.0",
                 },
                 Object {
@@ -7732,7 +7638,7 @@ Object {
                 Object {
                   "deps": Array [
                     Object {
-                      "nodeId": "cross-spawn@5.1.0|1",
+                      "nodeId": "cross-spawn@5.1.0",
                     },
                     Object {
                       "nodeId": "get-stream@3.0.0",
@@ -7753,52 +7659,16 @@ Object {
                       "nodeId": "strip-eof@1.0.0",
                     },
                   ],
-                  "nodeId": "execa@0.7.0|1",
+                  "nodeId": "execa@0.7.0",
                   "pkgId": "execa@0.7.0",
                 },
                 Object {
                   "deps": Array [
                     Object {
-                      "nodeId": "cross-spawn@5.1.0|2",
-                    },
-                    Object {
-                      "nodeId": "get-stream@3.0.0",
-                    },
-                    Object {
-                      "nodeId": "is-stream@1.1.0",
-                    },
-                    Object {
-                      "nodeId": "npm-run-path@2.0.2",
-                    },
-                    Object {
-                      "nodeId": "p-finally@1.0.0",
-                    },
-                    Object {
-                      "nodeId": "signal-exit@3.0.2",
-                    },
-                    Object {
-                      "nodeId": "strip-eof@1.0.0",
+                      "nodeId": "execa@0.7.0",
                     },
                   ],
-                  "nodeId": "execa@0.7.0|2",
-                  "pkgId": "execa@0.7.0",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "execa@0.7.0|1",
-                    },
-                  ],
-                  "nodeId": "term-size@1.2.0|1",
-                  "pkgId": "term-size@1.2.0",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "execa@0.7.0|2",
-                    },
-                  ],
-                  "nodeId": "term-size@1.2.0|2",
+                  "nodeId": "term-size@1.2.0",
                   "pkgId": "term-size@1.2.0",
                 },
                 Object {
@@ -7828,7 +7698,7 @@ Object {
                       "nodeId": "string-width@2.1.1",
                     },
                     Object {
-                      "nodeId": "term-size@1.2.0|1",
+                      "nodeId": "term-size@1.2.0",
                     },
                     Object {
                       "nodeId": "widest-line@2.0.0",
@@ -7855,7 +7725,7 @@ Object {
                       "nodeId": "string-width@2.1.1",
                     },
                     Object {
-                      "nodeId": "term-size@1.2.0|2",
+                      "nodeId": "term-size@1.2.0",
                     },
                     Object {
                       "nodeId": "widest-line@2.0.1",
@@ -8310,12 +8180,26 @@ Object {
                   "pkgId": "update-notifier@2.3.0",
                 },
                 Object {
+                  "deps": Array [],
+                  "nodeId": "yallist@2.1.2",
+                  "pkgId": "yallist@2.1.2",
+                },
+                Object {
                   "deps": Array [
                     Object {
                       "nodeId": "chokidar@2.0.2",
                     },
                     Object {
+                      "nodeId": "collection-visit@1.0.0",
+                    },
+                    Object {
                       "nodeId": "debug@3.1.0",
+                    },
+                    Object {
+                      "nodeId": "get-value@2.0.6",
+                    },
+                    Object {
+                      "nodeId": "has-value@1.0.0",
                     },
                     Object {
                       "nodeId": "ignore-by-default@1.0.1",
@@ -8327,13 +8211,22 @@ Object {
                       "nodeId": "minimatch@3.0.4|1",
                     },
                     Object {
+                      "nodeId": "pseudomap@1.0.2",
+                    },
+                    Object {
                       "nodeId": "pstree.remy@1.1.0",
                     },
                     Object {
                       "nodeId": "semver@5.5.0",
                     },
                     Object {
+                      "nodeId": "set-value@2.0.0",
+                    },
+                    Object {
                       "nodeId": "supports-color@5.2.0",
+                    },
+                    Object {
+                      "nodeId": "to-object-path@0.3.0",
                     },
                     Object {
                       "nodeId": "touch@3.1.0",
@@ -8342,7 +8235,16 @@ Object {
                       "nodeId": "undefsafe@2.0.2",
                     },
                     Object {
+                      "nodeId": "union-value@1.0.0",
+                    },
+                    Object {
+                      "nodeId": "unset-value@1.0.0",
+                    },
+                    Object {
                       "nodeId": "update-notifier@2.3.0",
+                    },
+                    Object {
+                      "nodeId": "yallist@2.1.2",
                     },
                   ],
                   "nodeId": "nodemon@0.0.0-development",
@@ -8641,442 +8543,6 @@ Object {
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "figgy-pudding@3.5.1",
-                  "pkgId": "figgy-pudding@3.5.1",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "yallist@3.0.3",
-                  "pkgId": "yallist@3.0.3",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "yallist@3.0.3",
-                    },
-                  ],
-                  "nodeId": "lru-cache@5.1.1",
-                  "pkgId": "lru-cache@5.1.1",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "buffer-from@1.0.0",
-                  "pkgId": "buffer-from@1.0.0",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "process-nextick-args@2.0.0",
-                  "pkgId": "process-nextick-args@2.0.0",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "safe-buffer@5.1.2",
-                  "pkgId": "safe-buffer@5.1.2",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "safe-buffer@5.1.2",
-                    },
-                  ],
-                  "nodeId": "string_decoder@1.1.1",
-                  "pkgId": "string_decoder@1.1.1",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "core-util-is@1.0.2",
-                    },
-                    Object {
-                      "nodeId": "inherits@2.0.4",
-                    },
-                    Object {
-                      "nodeId": "isarray@1.0.0",
-                    },
-                    Object {
-                      "nodeId": "process-nextick-args@2.0.0",
-                    },
-                    Object {
-                      "nodeId": "safe-buffer@5.1.2",
-                    },
-                    Object {
-                      "nodeId": "string_decoder@1.1.1",
-                    },
-                    Object {
-                      "nodeId": "util-deprecate@1.0.2",
-                    },
-                  ],
-                  "nodeId": "readable-stream@2.3.6",
-                  "pkgId": "readable-stream@2.3.6",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "typedarray@0.0.6",
-                  "pkgId": "typedarray@0.0.6",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "buffer-from@1.0.0",
-                    },
-                    Object {
-                      "nodeId": "inherits@2.0.4",
-                    },
-                    Object {
-                      "nodeId": "readable-stream@2.3.6",
-                    },
-                    Object {
-                      "nodeId": "typedarray@0.0.6",
-                    },
-                  ],
-                  "nodeId": "concat-stream@1.6.2",
-                  "pkgId": "concat-stream@1.6.2",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "once@1.4.0",
-                    },
-                  ],
-                  "nodeId": "end-of-stream@1.4.1",
-                  "pkgId": "end-of-stream@1.4.1",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "stream-shift@1.0.0",
-                  "pkgId": "stream-shift@1.0.0",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "end-of-stream@1.4.1",
-                    },
-                    Object {
-                      "nodeId": "inherits@2.0.4",
-                    },
-                    Object {
-                      "nodeId": "readable-stream@2.3.6",
-                    },
-                    Object {
-                      "nodeId": "stream-shift@1.0.0",
-                    },
-                  ],
-                  "nodeId": "duplexify@3.6.0",
-                  "pkgId": "duplexify@3.6.0",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "inherits@2.0.4",
-                    },
-                    Object {
-                      "nodeId": "readable-stream@2.3.6",
-                    },
-                  ],
-                  "nodeId": "flush-write-stream@1.0.3",
-                  "pkgId": "flush-write-stream@1.0.3",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "inherits@2.0.4",
-                    },
-                    Object {
-                      "nodeId": "readable-stream@2.3.6",
-                    },
-                  ],
-                  "nodeId": "from2@2.3.0",
-                  "pkgId": "from2@2.3.0",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "cyclist@0.2.2",
-                  "pkgId": "cyclist@0.2.2",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "cyclist@0.2.2",
-                    },
-                    Object {
-                      "nodeId": "inherits@2.0.4",
-                    },
-                    Object {
-                      "nodeId": "readable-stream@2.3.6",
-                    },
-                  ],
-                  "nodeId": "parallel-transform@1.1.0",
-                  "pkgId": "parallel-transform@1.1.0",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "end-of-stream@1.4.1",
-                    },
-                    Object {
-                      "nodeId": "once@1.4.0",
-                    },
-                  ],
-                  "nodeId": "pump@3.0.0",
-                  "pkgId": "pump@3.0.0",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "end-of-stream@1.4.1",
-                    },
-                    Object {
-                      "nodeId": "once@1.4.0",
-                    },
-                  ],
-                  "nodeId": "pump@2.0.1",
-                  "pkgId": "pump@2.0.1",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "duplexify@3.6.0",
-                    },
-                    Object {
-                      "nodeId": "inherits@2.0.4",
-                    },
-                    Object {
-                      "nodeId": "pump@2.0.1",
-                    },
-                  ],
-                  "nodeId": "pumpify@1.5.1",
-                  "pkgId": "pumpify@1.5.1",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "end-of-stream@1.4.1",
-                    },
-                    Object {
-                      "nodeId": "stream-shift@1.0.0",
-                    },
-                  ],
-                  "nodeId": "stream-each@1.2.2",
-                  "pkgId": "stream-each@1.2.2",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "xtend@4.0.1",
-                  "pkgId": "xtend@4.0.1",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "readable-stream@2.3.6",
-                    },
-                    Object {
-                      "nodeId": "xtend@4.0.1",
-                    },
-                  ],
-                  "nodeId": "through2@2.0.3",
-                  "pkgId": "through2@2.0.3",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "concat-stream@1.6.2",
-                    },
-                    Object {
-                      "nodeId": "duplexify@3.6.0",
-                    },
-                    Object {
-                      "nodeId": "end-of-stream@1.4.1",
-                    },
-                    Object {
-                      "nodeId": "flush-write-stream@1.0.3",
-                    },
-                    Object {
-                      "nodeId": "from2@2.3.0",
-                    },
-                    Object {
-                      "nodeId": "parallel-transform@1.1.0",
-                    },
-                    Object {
-                      "nodeId": "pump@3.0.0",
-                    },
-                    Object {
-                      "nodeId": "pumpify@1.5.1",
-                    },
-                    Object {
-                      "nodeId": "stream-each@1.2.2",
-                    },
-                    Object {
-                      "nodeId": "through2@2.0.3",
-                    },
-                  ],
-                  "nodeId": "mississippi@3.0.0",
-                  "pkgId": "mississippi@3.0.0",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "graceful-fs@4.2.3",
-                    },
-                    Object {
-                      "nodeId": "iferr@0.1.5",
-                    },
-                    Object {
-                      "nodeId": "imurmurhash@0.1.4",
-                    },
-                    Object {
-                      "nodeId": "readable-stream@2.3.6",
-                    },
-                  ],
-                  "nodeId": "fs-write-stream-atomic@1.0.10",
-                  "pkgId": "fs-write-stream-atomic@1.0.10",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "aproba@1.2.0",
-                    },
-                  ],
-                  "nodeId": "run-queue@1.0.3",
-                  "pkgId": "run-queue@1.0.3",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "aproba@1.2.0",
-                    },
-                    Object {
-                      "nodeId": "fs-write-stream-atomic@1.0.10",
-                    },
-                    Object {
-                      "nodeId": "iferr@0.1.5",
-                    },
-                    Object {
-                      "nodeId": "mkdirp@0.5.4",
-                    },
-                    Object {
-                      "nodeId": "rimraf@2.7.1",
-                    },
-                    Object {
-                      "nodeId": "run-queue@1.0.3",
-                    },
-                  ],
-                  "nodeId": "copy-concurrently@1.0.5",
-                  "pkgId": "copy-concurrently@1.0.5",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "aproba@1.2.0",
-                    },
-                    Object {
-                      "nodeId": "copy-concurrently@1.0.5",
-                    },
-                    Object {
-                      "nodeId": "fs-write-stream-atomic@1.0.10",
-                    },
-                    Object {
-                      "nodeId": "mkdirp@0.5.4",
-                    },
-                    Object {
-                      "nodeId": "rimraf@2.7.1",
-                    },
-                    Object {
-                      "nodeId": "run-queue@1.0.3",
-                    },
-                  ],
-                  "nodeId": "move-concurrently@1.0.1",
-                  "pkgId": "move-concurrently@1.0.1",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "promise-inflight@1.0.1",
-                  "pkgId": "promise-inflight@1.0.1",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "figgy-pudding@3.5.1",
-                    },
-                  ],
-                  "nodeId": "ssri@6.0.1",
-                  "pkgId": "ssri@6.0.1",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "imurmurhash@0.1.4",
-                    },
-                  ],
-                  "nodeId": "unique-slug@2.0.0",
-                  "pkgId": "unique-slug@2.0.0",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "unique-slug@2.0.0",
-                    },
-                  ],
-                  "nodeId": "unique-filename@1.1.1",
-                  "pkgId": "unique-filename@1.1.1",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "y18n@4.0.0",
-                  "pkgId": "y18n@4.0.0",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "bluebird@3.5.5",
-                    },
-                    Object {
-                      "nodeId": "chownr@1.1.4",
-                    },
-                    Object {
-                      "nodeId": "figgy-pudding@3.5.1",
-                    },
-                    Object {
-                      "nodeId": "glob@7.1.6",
-                    },
-                    Object {
-                      "nodeId": "graceful-fs@4.2.3",
-                    },
-                    Object {
-                      "nodeId": "infer-owner@1.0.4",
-                    },
-                    Object {
-                      "nodeId": "lru-cache@5.1.1",
-                    },
-                    Object {
-                      "nodeId": "mississippi@3.0.0",
-                    },
-                    Object {
-                      "nodeId": "mkdirp@0.5.4",
-                    },
-                    Object {
-                      "nodeId": "move-concurrently@1.0.1",
-                    },
-                    Object {
-                      "nodeId": "promise-inflight@1.0.1",
-                    },
-                    Object {
-                      "nodeId": "rimraf@2.7.1",
-                    },
-                    Object {
-                      "nodeId": "ssri@6.0.1",
-                    },
-                    Object {
-                      "nodeId": "unique-filename@1.1.1",
-                    },
-                    Object {
-                      "nodeId": "y18n@4.0.0",
-                    },
-                  ],
-                  "nodeId": "cacache@12.0.3",
-                  "pkgId": "cacache@12.0.3",
-                },
-                Object {
-                  "deps": Array [],
                   "nodeId": "call-limit@1.1.1",
                   "pkgId": "call-limit@1.1.1",
                 },
@@ -9222,8 +8688,77 @@ Object {
                 },
                 Object {
                   "deps": Array [],
+                  "nodeId": "figgy-pudding@3.5.1",
+                  "pkgId": "figgy-pudding@3.5.1",
+                },
+                Object {
+                  "deps": Array [],
                   "nodeId": "find-npm-prefix@1.0.2",
                   "pkgId": "find-npm-prefix@1.0.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "process-nextick-args@2.0.0",
+                  "pkgId": "process-nextick-args@2.0.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "safe-buffer@5.1.2",
+                  "pkgId": "safe-buffer@5.1.2",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "safe-buffer@5.1.2",
+                    },
+                  ],
+                  "nodeId": "string_decoder@1.1.1",
+                  "pkgId": "string_decoder@1.1.1",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "core-util-is@1.0.2",
+                    },
+                    Object {
+                      "nodeId": "inherits@2.0.4",
+                    },
+                    Object {
+                      "nodeId": "isarray@1.0.0",
+                    },
+                    Object {
+                      "nodeId": "process-nextick-args@2.0.0",
+                    },
+                    Object {
+                      "nodeId": "safe-buffer@5.1.2",
+                    },
+                    Object {
+                      "nodeId": "string_decoder@1.1.1",
+                    },
+                    Object {
+                      "nodeId": "util-deprecate@1.0.2",
+                    },
+                  ],
+                  "nodeId": "readable-stream@2.3.6",
+                  "pkgId": "readable-stream@2.3.6",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "graceful-fs@4.2.3",
+                    },
+                    Object {
+                      "nodeId": "iferr@0.1.5",
+                    },
+                    Object {
+                      "nodeId": "imurmurhash@0.1.4",
+                    },
+                    Object {
+                      "nodeId": "readable-stream@2.3.6",
+                    },
+                  ],
+                  "nodeId": "fs-write-stream-atomic@1.0.10",
+                  "pkgId": "fs-write-stream-atomic@1.0.10",
                 },
                 Object {
                   "deps": Array [],
@@ -10056,6 +9591,11 @@ Object {
                   "pkgId": "request@2.88.0",
                 },
                 Object {
+                  "deps": Array [],
+                  "nodeId": "yallist@3.0.3",
+                  "pkgId": "yallist@3.0.3",
+                },
+                Object {
                   "deps": Array [
                     Object {
                       "nodeId": "safe-buffer@5.1.2",
@@ -10198,6 +9738,27 @@ Object {
                 Object {
                   "deps": Array [
                     Object {
+                      "nodeId": "once@1.4.0",
+                    },
+                  ],
+                  "nodeId": "end-of-stream@1.4.1",
+                  "pkgId": "end-of-stream@1.4.1",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "end-of-stream@1.4.1",
+                    },
+                    Object {
+                      "nodeId": "once@1.4.0",
+                    },
+                  ],
+                  "nodeId": "pump@3.0.0",
+                  "pkgId": "pump@3.0.0",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
                       "nodeId": "pump@3.0.0",
                     },
                   ],
@@ -10226,11 +9787,6 @@ Object {
                   ],
                   "nodeId": "agentkeepalive@3.5.2",
                   "pkgId": "agentkeepalive@3.5.2",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "http-cache-semantics@3.8.1",
-                  "pkgId": "http-cache-semantics@3.8.1",
                 },
                 Object {
                   "deps": Array [],
@@ -10278,6 +9834,193 @@ Object {
                   ],
                   "nodeId": "https-proxy-agent@2.2.4",
                   "pkgId": "https-proxy-agent@2.2.4",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "buffer-from@1.0.0",
+                  "pkgId": "buffer-from@1.0.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "typedarray@0.0.6",
+                  "pkgId": "typedarray@0.0.6",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "buffer-from@1.0.0",
+                    },
+                    Object {
+                      "nodeId": "inherits@2.0.4",
+                    },
+                    Object {
+                      "nodeId": "readable-stream@2.3.6",
+                    },
+                    Object {
+                      "nodeId": "typedarray@0.0.6",
+                    },
+                  ],
+                  "nodeId": "concat-stream@1.6.2",
+                  "pkgId": "concat-stream@1.6.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "stream-shift@1.0.0",
+                  "pkgId": "stream-shift@1.0.0",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "end-of-stream@1.4.1",
+                    },
+                    Object {
+                      "nodeId": "inherits@2.0.4",
+                    },
+                    Object {
+                      "nodeId": "readable-stream@2.3.6",
+                    },
+                    Object {
+                      "nodeId": "stream-shift@1.0.0",
+                    },
+                  ],
+                  "nodeId": "duplexify@3.6.0",
+                  "pkgId": "duplexify@3.6.0",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "inherits@2.0.4",
+                    },
+                    Object {
+                      "nodeId": "readable-stream@2.3.6",
+                    },
+                  ],
+                  "nodeId": "flush-write-stream@1.0.3",
+                  "pkgId": "flush-write-stream@1.0.3",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "inherits@2.0.4",
+                    },
+                    Object {
+                      "nodeId": "readable-stream@2.3.6",
+                    },
+                  ],
+                  "nodeId": "from2@2.3.0",
+                  "pkgId": "from2@2.3.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "cyclist@0.2.2",
+                  "pkgId": "cyclist@0.2.2",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "cyclist@0.2.2",
+                    },
+                    Object {
+                      "nodeId": "inherits@2.0.4",
+                    },
+                    Object {
+                      "nodeId": "readable-stream@2.3.6",
+                    },
+                  ],
+                  "nodeId": "parallel-transform@1.1.0",
+                  "pkgId": "parallel-transform@1.1.0",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "end-of-stream@1.4.1",
+                    },
+                    Object {
+                      "nodeId": "once@1.4.0",
+                    },
+                  ],
+                  "nodeId": "pump@2.0.1",
+                  "pkgId": "pump@2.0.1",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "duplexify@3.6.0",
+                    },
+                    Object {
+                      "nodeId": "inherits@2.0.4",
+                    },
+                    Object {
+                      "nodeId": "pump@2.0.1",
+                    },
+                  ],
+                  "nodeId": "pumpify@1.5.1",
+                  "pkgId": "pumpify@1.5.1",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "end-of-stream@1.4.1",
+                    },
+                    Object {
+                      "nodeId": "stream-shift@1.0.0",
+                    },
+                  ],
+                  "nodeId": "stream-each@1.2.2",
+                  "pkgId": "stream-each@1.2.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "xtend@4.0.1",
+                  "pkgId": "xtend@4.0.1",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "readable-stream@2.3.6",
+                    },
+                    Object {
+                      "nodeId": "xtend@4.0.1",
+                    },
+                  ],
+                  "nodeId": "through2@2.0.3",
+                  "pkgId": "through2@2.0.3",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "concat-stream@1.6.2",
+                    },
+                    Object {
+                      "nodeId": "duplexify@3.6.0",
+                    },
+                    Object {
+                      "nodeId": "end-of-stream@1.4.1",
+                    },
+                    Object {
+                      "nodeId": "flush-write-stream@1.0.3",
+                    },
+                    Object {
+                      "nodeId": "from2@2.3.0",
+                    },
+                    Object {
+                      "nodeId": "parallel-transform@1.1.0",
+                    },
+                    Object {
+                      "nodeId": "pump@3.0.0",
+                    },
+                    Object {
+                      "nodeId": "pumpify@1.5.1",
+                    },
+                    Object {
+                      "nodeId": "stream-each@1.2.2",
+                    },
+                    Object {
+                      "nodeId": "through2@2.0.3",
+                    },
+                  ],
+                  "nodeId": "mississippi@3.0.0",
+                  "pkgId": "mississippi@3.0.0",
                 },
                 Object {
                   "deps": Array [
@@ -10380,22 +10123,22 @@ Object {
                 Object {
                   "deps": Array [
                     Object {
+                      "nodeId": "figgy-pudding@3.5.1",
+                    },
+                  ],
+                  "nodeId": "ssri@6.0.1",
+                  "pkgId": "ssri@6.0.1",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
                       "nodeId": "agentkeepalive@3.5.2",
-                    },
-                    Object {
-                      "nodeId": "cacache@12.0.3",
-                    },
-                    Object {
-                      "nodeId": "http-cache-semantics@3.8.1",
                     },
                     Object {
                       "nodeId": "http-proxy-agent@2.1.0",
                     },
                     Object {
                       "nodeId": "https-proxy-agent@2.2.4",
-                    },
-                    Object {
-                      "nodeId": "lru-cache@5.1.1",
                     },
                     Object {
                       "nodeId": "mississippi@3.0.0",
@@ -10481,9 +10224,6 @@ Object {
                       "nodeId": "figgy-pudding@3.5.1",
                     },
                     Object {
-                      "nodeId": "lru-cache@5.1.1",
-                    },
-                    Object {
                       "nodeId": "make-fetch-happen@5.0.2",
                     },
                     Object {
@@ -10495,6 +10235,11 @@ Object {
                   ],
                   "nodeId": "npm-registry-fetch@4.0.3",
                   "pkgId": "npm-registry-fetch@4.0.3",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "promise-inflight@1.0.1",
+                  "pkgId": "promise-inflight@1.0.1",
                 },
                 Object {
                   "deps": Array [],
@@ -10513,10 +10258,25 @@ Object {
                 Object {
                   "deps": Array [
                     Object {
-                      "nodeId": "bluebird@3.5.5",
+                      "nodeId": "imurmurhash@0.1.4",
                     },
+                  ],
+                  "nodeId": "unique-slug@2.0.0",
+                  "pkgId": "unique-slug@2.0.0",
+                },
+                Object {
+                  "deps": Array [
                     Object {
-                      "nodeId": "cacache@12.0.3",
+                      "nodeId": "unique-slug@2.0.0",
+                    },
+                  ],
+                  "nodeId": "unique-filename@1.1.1",
+                  "pkgId": "unique-filename@1.1.1",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "bluebird@3.5.5",
                     },
                     Object {
                       "nodeId": "chownr@1.1.4",
@@ -10532,9 +10292,6 @@ Object {
                     },
                     Object {
                       "nodeId": "infer-owner@1.0.4",
-                    },
-                    Object {
-                      "nodeId": "lru-cache@5.1.1",
                     },
                     Object {
                       "nodeId": "make-fetch-happen@5.0.2",
@@ -10993,18 +10750,6 @@ Object {
                 Object {
                   "deps": Array [
                     Object {
-                      "nodeId": "pseudomap@1.0.2",
-                    },
-                    Object {
-                      "nodeId": "yallist@2.1.2",
-                    },
-                  ],
-                  "nodeId": "lru-cache@4.1.5",
-                  "pkgId": "lru-cache@4.1.5",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
                       "nodeId": "string-width@2.1.1",
                     },
                   ],
@@ -11138,6 +10883,11 @@ Object {
                   ],
                   "nodeId": "update-notifier@2.5.0",
                   "pkgId": "update-notifier@2.5.0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "y18n@4.0.0",
+                  "pkgId": "y18n@4.0.0",
                 },
                 Object {
                   "deps": Array [
@@ -11471,22 +11221,8 @@ Object {
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "lodash._cacheindexof@3.0.2",
-                  "pkgId": "lodash._cacheindexof@3.0.2",
-                },
-                Object {
-                  "deps": Array [],
                   "nodeId": "lodash._getnative@3.9.1",
                   "pkgId": "lodash._getnative@3.9.1",
-                },
-                Object {
-                  "deps": Array [
-                    Object {
-                      "nodeId": "lodash._getnative@3.9.1",
-                    },
-                  ],
-                  "nodeId": "lodash._createcache@3.1.2",
-                  "pkgId": "lodash._createcache@3.1.2",
                 },
                 Object {
                   "deps": Array [],
@@ -11516,6 +11252,63 @@ Object {
                 Object {
                   "deps": Array [
                     Object {
+                      "nodeId": "aproba@1.2.0",
+                    },
+                  ],
+                  "nodeId": "run-queue@1.0.3",
+                  "pkgId": "run-queue@1.0.3",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "aproba@1.2.0",
+                    },
+                    Object {
+                      "nodeId": "fs-write-stream-atomic@1.0.10",
+                    },
+                    Object {
+                      "nodeId": "iferr@0.1.5",
+                    },
+                    Object {
+                      "nodeId": "mkdirp@0.5.4",
+                    },
+                    Object {
+                      "nodeId": "rimraf@2.7.1",
+                    },
+                    Object {
+                      "nodeId": "run-queue@1.0.3",
+                    },
+                  ],
+                  "nodeId": "copy-concurrently@1.0.5",
+                  "pkgId": "copy-concurrently@1.0.5",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "aproba@1.2.0",
+                    },
+                    Object {
+                      "nodeId": "copy-concurrently@1.0.5",
+                    },
+                    Object {
+                      "nodeId": "fs-write-stream-atomic@1.0.10",
+                    },
+                    Object {
+                      "nodeId": "mkdirp@0.5.4",
+                    },
+                    Object {
+                      "nodeId": "rimraf@2.7.1",
+                    },
+                    Object {
+                      "nodeId": "run-queue@1.0.3",
+                    },
+                  ],
+                  "nodeId": "move-concurrently@1.0.1",
+                  "pkgId": "move-concurrently@1.0.1",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
                       "nodeId": "cli-table3@0.5.1",
                     },
                     Object {
@@ -11524,11 +11317,6 @@ Object {
                   ],
                   "nodeId": "npm-audit-report@1.3.2",
                   "pkgId": "npm-audit-report@1.3.2",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "npm-cache-filename@1.0.2",
-                  "pkgId": "npm-cache-filename@1.0.2",
                 },
                 Object {
                   "deps": Array [
@@ -11924,9 +11712,6 @@ Object {
                       "nodeId": "byte-size@5.0.1",
                     },
                     Object {
-                      "nodeId": "cacache@12.0.3",
-                    },
-                    Object {
                       "nodeId": "call-limit@1.1.1",
                     },
                     Object {
@@ -12059,10 +11844,7 @@ Object {
                       "nodeId": "lodash._bindcallback@3.0.1",
                     },
                     Object {
-                      "nodeId": "lodash._cacheindexof@3.0.2",
-                    },
-                    Object {
-                      "nodeId": "lodash._createcache@3.1.2",
+                      "nodeId": "lodash._getnative@3.9.1",
                     },
                     Object {
                       "nodeId": "lodash.clonedeep@4.5.0",
@@ -12078,9 +11860,6 @@ Object {
                     },
                     Object {
                       "nodeId": "lodash.without@4.4.0",
-                    },
-                    Object {
-                      "nodeId": "lru-cache@5.1.1",
                     },
                     Object {
                       "nodeId": "meant@1.0.1",
@@ -12105,9 +11884,6 @@ Object {
                     },
                     Object {
                       "nodeId": "npm-audit-report@1.3.2",
-                    },
-                    Object {
-                      "nodeId": "npm-cache-filename@1.0.2",
                     },
                     Object {
                       "nodeId": "npm-install-checks@3.0.2",
@@ -12153,6 +11929,9 @@ Object {
                     },
                     Object {
                       "nodeId": "promise-inflight@1.0.1",
+                    },
+                    Object {
+                      "nodeId": "pseudomap@1.0.2",
                     },
                     Object {
                       "nodeId": "qrcode-terminal@0.12.0",
@@ -12255,6 +12034,9 @@ Object {
                     },
                     Object {
                       "nodeId": "write-file-atomic@2.4.3",
+                    },
+                    Object {
+                      "nodeId": "yallist@2.1.2",
                     },
                   ],
                   "nodeId": "npm@6.14.4",
@@ -12366,171 +12148,10 @@ Object {
                 },
               },
               Object {
-                "id": "object-visit@1.0.1",
-                "info": Object {
-                  "name": "object-visit",
-                  "version": "1.0.1",
-                },
-              },
-              Object {
-                "id": "map-visit@1.0.0",
-                "info": Object {
-                  "name": "map-visit",
-                  "version": "1.0.0",
-                },
-              },
-              Object {
-                "id": "collection-visit@1.0.0",
-                "info": Object {
-                  "name": "collection-visit",
-                  "version": "1.0.0",
-                },
-              },
-              Object {
-                "id": "component-emitter@1.2.1",
-                "info": Object {
-                  "name": "component-emitter",
-                  "version": "1.2.1",
-                },
-              },
-              Object {
-                "id": "get-value@2.0.6",
-                "info": Object {
-                  "name": "get-value",
-                  "version": "2.0.6",
-                },
-              },
-              Object {
-                "id": "kind-of@4.0.0",
-                "info": Object {
-                  "name": "kind-of",
-                  "version": "4.0.0",
-                },
-              },
-              Object {
-                "id": "has-values@1.0.0",
-                "info": Object {
-                  "name": "has-values",
-                  "version": "1.0.0",
-                },
-              },
-              Object {
-                "id": "has-value@1.0.0",
-                "info": Object {
-                  "name": "has-value",
-                  "version": "1.0.0",
-                },
-              },
-              Object {
-                "id": "is-plain-object@2.0.4",
-                "info": Object {
-                  "name": "is-plain-object",
-                  "version": "2.0.4",
-                },
-              },
-              Object {
-                "id": "assign-symbols@1.0.0",
-                "info": Object {
-                  "name": "assign-symbols",
-                  "version": "1.0.0",
-                },
-              },
-              Object {
-                "id": "is-extendable@1.0.1",
-                "info": Object {
-                  "name": "is-extendable",
-                  "version": "1.0.1",
-                },
-              },
-              Object {
-                "id": "extend-shallow@3.0.2",
-                "info": Object {
-                  "name": "extend-shallow",
-                  "version": "3.0.2",
-                },
-              },
-              Object {
-                "id": "split-string@3.1.0",
-                "info": Object {
-                  "name": "split-string",
-                  "version": "3.1.0",
-                },
-              },
-              Object {
-                "id": "set-value@2.0.0",
-                "info": Object {
-                  "name": "set-value",
-                  "version": "2.0.0",
-                },
-              },
-              Object {
-                "id": "to-object-path@0.3.0",
-                "info": Object {
-                  "name": "to-object-path",
-                  "version": "0.3.0",
-                },
-              },
-              Object {
                 "id": "arr-union@3.1.0",
                 "info": Object {
                   "name": "arr-union",
                   "version": "3.1.0",
-                },
-              },
-              Object {
-                "id": "set-value@0.4.3",
-                "info": Object {
-                  "name": "set-value",
-                  "version": "0.4.3",
-                },
-              },
-              Object {
-                "id": "union-value@1.0.0",
-                "info": Object {
-                  "name": "union-value",
-                  "version": "1.0.0",
-                },
-              },
-              Object {
-                "id": "has-values@0.1.4",
-                "info": Object {
-                  "name": "has-values",
-                  "version": "0.1.4",
-                },
-              },
-              Object {
-                "id": "isarray@1.0.0",
-                "info": Object {
-                  "name": "isarray",
-                  "version": "1.0.0",
-                },
-              },
-              Object {
-                "id": "isobject@2.1.0",
-                "info": Object {
-                  "name": "isobject",
-                  "version": "2.1.0",
-                },
-              },
-              Object {
-                "id": "has-value@0.3.1",
-                "info": Object {
-                  "name": "has-value",
-                  "version": "0.3.1",
-                },
-              },
-              Object {
-                "id": "unset-value@1.0.0",
-                "info": Object {
-                  "name": "unset-value",
-                  "version": "1.0.0",
-                },
-              },
-              Object {
-                "id": "cache-base@1.0.1",
-                "info": Object {
-                  "name": "cache-base",
-                  "version": "1.0.1",
                 },
               },
               Object {
@@ -12597,6 +12218,13 @@ Object {
                 },
               },
               Object {
+                "id": "component-emitter@1.2.1",
+                "info": Object {
+                  "name": "component-emitter",
+                  "version": "1.2.1",
+                },
+              },
+              Object {
                 "id": "kind-of@6.0.2",
                 "info": Object {
                   "name": "kind-of",
@@ -12639,6 +12267,20 @@ Object {
                 },
               },
               Object {
+                "id": "is-plain-object@2.0.4",
+                "info": Object {
+                  "name": "is-plain-object",
+                  "version": "2.0.4",
+                },
+              },
+              Object {
+                "id": "is-extendable@1.0.1",
+                "info": Object {
+                  "name": "is-extendable",
+                  "version": "1.0.1",
+                },
+              },
+              Object {
                 "id": "mixin-deep@1.3.1",
                 "info": Object {
                   "name": "mixin-deep",
@@ -12671,13 +12313,6 @@ Object {
                 "info": Object {
                   "name": "debug",
                   "version": "2.6.9",
-                },
-              },
-              Object {
-                "id": "map-cache@0.2.2",
-                "info": Object {
-                  "name": "map-cache",
-                  "version": "0.2.2",
                 },
               },
               Object {
@@ -12758,6 +12393,27 @@ Object {
                 },
               },
               Object {
+                "id": "assign-symbols@1.0.0",
+                "info": Object {
+                  "name": "assign-symbols",
+                  "version": "1.0.0",
+                },
+              },
+              Object {
+                "id": "extend-shallow@3.0.2",
+                "info": Object {
+                  "name": "extend-shallow",
+                  "version": "3.0.2",
+                },
+              },
+              Object {
+                "id": "split-string@3.1.0",
+                "info": Object {
+                  "name": "split-string",
+                  "version": "3.1.0",
+                },
+              },
+              Object {
                 "id": "define-property@2.0.2",
                 "info": Object {
                   "name": "define-property",
@@ -12811,13 +12467,6 @@ Object {
                 "info": Object {
                   "name": "expand-brackets",
                   "version": "2.1.4",
-                },
-              },
-              Object {
-                "id": "fragment-cache@0.2.1",
-                "info": Object {
-                  "name": "fragment-cache",
-                  "version": "0.2.1",
                 },
               },
               Object {
@@ -13003,6 +12652,13 @@ Object {
                 },
               },
               Object {
+                "id": "isarray@1.0.0",
+                "info": Object {
+                  "name": "isarray",
+                  "version": "1.0.0",
+                },
+              },
+              Object {
                 "id": "process-nextick-args@1.0.7",
                 "info": Object {
                   "name": "process-nextick-args",
@@ -13066,10 +12722,59 @@ Object {
                 },
               },
               Object {
+                "id": "object-visit@1.0.1",
+                "info": Object {
+                  "name": "object-visit",
+                  "version": "1.0.1",
+                },
+              },
+              Object {
+                "id": "map-visit@1.0.0",
+                "info": Object {
+                  "name": "map-visit",
+                  "version": "1.0.0",
+                },
+              },
+              Object {
+                "id": "collection-visit@1.0.0",
+                "info": Object {
+                  "name": "collection-visit",
+                  "version": "1.0.0",
+                },
+              },
+              Object {
                 "id": "debug@3.1.0",
                 "info": Object {
                   "name": "debug",
                   "version": "3.1.0",
+                },
+              },
+              Object {
+                "id": "get-value@2.0.6",
+                "info": Object {
+                  "name": "get-value",
+                  "version": "2.0.6",
+                },
+              },
+              Object {
+                "id": "kind-of@4.0.0",
+                "info": Object {
+                  "name": "kind-of",
+                  "version": "4.0.0",
+                },
+              },
+              Object {
+                "id": "has-values@1.0.0",
+                "info": Object {
+                  "name": "has-values",
+                  "version": "1.0.0",
+                },
+              },
+              Object {
+                "id": "has-value@1.0.0",
+                "info": Object {
+                  "name": "has-value",
+                  "version": "1.0.0",
                 },
               },
               Object {
@@ -13084,6 +12789,13 @@ Object {
                 "info": Object {
                   "name": "isexe",
                   "version": "2.0.0",
+                },
+              },
+              Object {
+                "id": "pseudomap@1.0.2",
+                "info": Object {
+                  "name": "pseudomap",
+                  "version": "1.0.2",
                 },
               },
               Object {
@@ -13164,6 +12876,13 @@ Object {
                 },
               },
               Object {
+                "id": "set-value@2.0.0",
+                "info": Object {
+                  "name": "set-value",
+                  "version": "2.0.0",
+                },
+              },
+              Object {
                 "id": "has-flag@3.0.0",
                 "info": Object {
                   "name": "has-flag",
@@ -13175,6 +12894,13 @@ Object {
                 "info": Object {
                   "name": "supports-color",
                   "version": "5.2.0",
+                },
+              },
+              Object {
+                "id": "to-object-path@0.3.0",
+                "info": Object {
+                  "name": "to-object-path",
+                  "version": "0.3.0",
                 },
               },
               Object {
@@ -13203,6 +12929,48 @@ Object {
                 "info": Object {
                   "name": "undefsafe",
                   "version": "2.0.2",
+                },
+              },
+              Object {
+                "id": "set-value@0.4.3",
+                "info": Object {
+                  "name": "set-value",
+                  "version": "0.4.3",
+                },
+              },
+              Object {
+                "id": "union-value@1.0.0",
+                "info": Object {
+                  "name": "union-value",
+                  "version": "1.0.0",
+                },
+              },
+              Object {
+                "id": "has-values@0.1.4",
+                "info": Object {
+                  "name": "has-values",
+                  "version": "0.1.4",
+                },
+              },
+              Object {
+                "id": "isobject@2.1.0",
+                "info": Object {
+                  "name": "isobject",
+                  "version": "2.1.0",
+                },
+              },
+              Object {
+                "id": "has-value@0.3.1",
+                "info": Object {
+                  "name": "has-value",
+                  "version": "0.3.1",
+                },
+              },
+              Object {
+                "id": "unset-value@1.0.0",
+                "info": Object {
+                  "name": "unset-value",
+                  "version": "1.0.0",
                 },
               },
               Object {
@@ -13301,27 +13069,6 @@ Object {
                 "info": Object {
                   "name": "cli-boxes",
                   "version": "1.0.0",
-                },
-              },
-              Object {
-                "id": "pseudomap@1.0.2",
-                "info": Object {
-                  "name": "pseudomap",
-                  "version": "1.0.2",
-                },
-              },
-              Object {
-                "id": "yallist@2.1.2",
-                "info": Object {
-                  "name": "yallist",
-                  "version": "2.1.2",
-                },
-              },
-              Object {
-                "id": "lru-cache@4.1.1",
-                "info": Object {
-                  "name": "lru-cache",
-                  "version": "4.1.1",
                 },
               },
               Object {
@@ -13689,6 +13436,13 @@ Object {
                 },
               },
               Object {
+                "id": "yallist@2.1.2",
+                "info": Object {
+                  "name": "yallist",
+                  "version": "2.1.2",
+                },
+              },
+              Object {
                 "id": "nodemon@0.0.0-development",
                 "info": Object {
                   "name": "nodemon",
@@ -13913,244 +13667,6 @@ Object {
                 },
               },
               Object {
-                "id": "figgy-pudding@3.5.1",
-                "info": Object {
-                  "name": "figgy-pudding",
-                  "version": "3.5.1",
-                },
-              },
-              Object {
-                "id": "yallist@3.0.3",
-                "info": Object {
-                  "name": "yallist",
-                  "version": "3.0.3",
-                },
-              },
-              Object {
-                "id": "lru-cache@5.1.1",
-                "info": Object {
-                  "name": "lru-cache",
-                  "version": "5.1.1",
-                },
-              },
-              Object {
-                "id": "buffer-from@1.0.0",
-                "info": Object {
-                  "name": "buffer-from",
-                  "version": "1.0.0",
-                },
-              },
-              Object {
-                "id": "process-nextick-args@2.0.0",
-                "info": Object {
-                  "name": "process-nextick-args",
-                  "version": "2.0.0",
-                },
-              },
-              Object {
-                "id": "safe-buffer@5.1.2",
-                "info": Object {
-                  "name": "safe-buffer",
-                  "version": "5.1.2",
-                },
-              },
-              Object {
-                "id": "string_decoder@1.1.1",
-                "info": Object {
-                  "name": "string_decoder",
-                  "version": "1.1.1",
-                },
-              },
-              Object {
-                "id": "readable-stream@2.3.6",
-                "info": Object {
-                  "name": "readable-stream",
-                  "version": "2.3.6",
-                },
-              },
-              Object {
-                "id": "typedarray@0.0.6",
-                "info": Object {
-                  "name": "typedarray",
-                  "version": "0.0.6",
-                },
-              },
-              Object {
-                "id": "concat-stream@1.6.2",
-                "info": Object {
-                  "name": "concat-stream",
-                  "version": "1.6.2",
-                },
-              },
-              Object {
-                "id": "end-of-stream@1.4.1",
-                "info": Object {
-                  "name": "end-of-stream",
-                  "version": "1.4.1",
-                },
-              },
-              Object {
-                "id": "stream-shift@1.0.0",
-                "info": Object {
-                  "name": "stream-shift",
-                  "version": "1.0.0",
-                },
-              },
-              Object {
-                "id": "duplexify@3.6.0",
-                "info": Object {
-                  "name": "duplexify",
-                  "version": "3.6.0",
-                },
-              },
-              Object {
-                "id": "flush-write-stream@1.0.3",
-                "info": Object {
-                  "name": "flush-write-stream",
-                  "version": "1.0.3",
-                },
-              },
-              Object {
-                "id": "from2@2.3.0",
-                "info": Object {
-                  "name": "from2",
-                  "version": "2.3.0",
-                },
-              },
-              Object {
-                "id": "cyclist@0.2.2",
-                "info": Object {
-                  "name": "cyclist",
-                  "version": "0.2.2",
-                },
-              },
-              Object {
-                "id": "parallel-transform@1.1.0",
-                "info": Object {
-                  "name": "parallel-transform",
-                  "version": "1.1.0",
-                },
-              },
-              Object {
-                "id": "pump@3.0.0",
-                "info": Object {
-                  "name": "pump",
-                  "version": "3.0.0",
-                },
-              },
-              Object {
-                "id": "pump@2.0.1",
-                "info": Object {
-                  "name": "pump",
-                  "version": "2.0.1",
-                },
-              },
-              Object {
-                "id": "pumpify@1.5.1",
-                "info": Object {
-                  "name": "pumpify",
-                  "version": "1.5.1",
-                },
-              },
-              Object {
-                "id": "stream-each@1.2.2",
-                "info": Object {
-                  "name": "stream-each",
-                  "version": "1.2.2",
-                },
-              },
-              Object {
-                "id": "xtend@4.0.1",
-                "info": Object {
-                  "name": "xtend",
-                  "version": "4.0.1",
-                },
-              },
-              Object {
-                "id": "through2@2.0.3",
-                "info": Object {
-                  "name": "through2",
-                  "version": "2.0.3",
-                },
-              },
-              Object {
-                "id": "mississippi@3.0.0",
-                "info": Object {
-                  "name": "mississippi",
-                  "version": "3.0.0",
-                },
-              },
-              Object {
-                "id": "fs-write-stream-atomic@1.0.10",
-                "info": Object {
-                  "name": "fs-write-stream-atomic",
-                  "version": "1.0.10",
-                },
-              },
-              Object {
-                "id": "run-queue@1.0.3",
-                "info": Object {
-                  "name": "run-queue",
-                  "version": "1.0.3",
-                },
-              },
-              Object {
-                "id": "copy-concurrently@1.0.5",
-                "info": Object {
-                  "name": "copy-concurrently",
-                  "version": "1.0.5",
-                },
-              },
-              Object {
-                "id": "move-concurrently@1.0.1",
-                "info": Object {
-                  "name": "move-concurrently",
-                  "version": "1.0.1",
-                },
-              },
-              Object {
-                "id": "promise-inflight@1.0.1",
-                "info": Object {
-                  "name": "promise-inflight",
-                  "version": "1.0.1",
-                },
-              },
-              Object {
-                "id": "ssri@6.0.1",
-                "info": Object {
-                  "name": "ssri",
-                  "version": "6.0.1",
-                },
-              },
-              Object {
-                "id": "unique-slug@2.0.0",
-                "info": Object {
-                  "name": "unique-slug",
-                  "version": "2.0.0",
-                },
-              },
-              Object {
-                "id": "unique-filename@1.1.1",
-                "info": Object {
-                  "name": "unique-filename",
-                  "version": "1.1.1",
-                },
-              },
-              Object {
-                "id": "y18n@4.0.0",
-                "info": Object {
-                  "name": "y18n",
-                  "version": "4.0.0",
-                },
-              },
-              Object {
-                "id": "cacache@12.0.3",
-                "info": Object {
-                  "name": "cacache",
-                  "version": "12.0.3",
-                },
-              },
-              Object {
                 "id": "call-limit@1.1.1",
                 "info": Object {
                   "name": "call-limit",
@@ -14284,10 +13800,52 @@ Object {
                 },
               },
               Object {
+                "id": "figgy-pudding@3.5.1",
+                "info": Object {
+                  "name": "figgy-pudding",
+                  "version": "3.5.1",
+                },
+              },
+              Object {
                 "id": "find-npm-prefix@1.0.2",
                 "info": Object {
                   "name": "find-npm-prefix",
                   "version": "1.0.2",
+                },
+              },
+              Object {
+                "id": "process-nextick-args@2.0.0",
+                "info": Object {
+                  "name": "process-nextick-args",
+                  "version": "2.0.0",
+                },
+              },
+              Object {
+                "id": "safe-buffer@5.1.2",
+                "info": Object {
+                  "name": "safe-buffer",
+                  "version": "5.1.2",
+                },
+              },
+              Object {
+                "id": "string_decoder@1.1.1",
+                "info": Object {
+                  "name": "string_decoder",
+                  "version": "1.1.1",
+                },
+              },
+              Object {
+                "id": "readable-stream@2.3.6",
+                "info": Object {
+                  "name": "readable-stream",
+                  "version": "2.3.6",
+                },
+              },
+              Object {
+                "id": "fs-write-stream-atomic@1.0.10",
+                "info": Object {
+                  "name": "fs-write-stream-atomic",
+                  "version": "1.0.10",
                 },
               },
               Object {
@@ -14907,6 +14465,13 @@ Object {
                 },
               },
               Object {
+                "id": "yallist@3.0.3",
+                "info": Object {
+                  "name": "yallist",
+                  "version": "3.0.3",
+                },
+              },
+              Object {
                 "id": "minipass@2.9.0",
                 "info": Object {
                   "name": "minipass",
@@ -14977,6 +14542,20 @@ Object {
                 },
               },
               Object {
+                "id": "end-of-stream@1.4.1",
+                "info": Object {
+                  "name": "end-of-stream",
+                  "version": "1.4.1",
+                },
+              },
+              Object {
+                "id": "pump@3.0.0",
+                "info": Object {
+                  "name": "pump",
+                  "version": "3.0.0",
+                },
+              },
+              Object {
                 "id": "get-stream@4.1.0",
                 "info": Object {
                   "name": "get-stream",
@@ -15002,13 +14581,6 @@ Object {
                 "info": Object {
                   "name": "agentkeepalive",
                   "version": "3.5.2",
-                },
-              },
-              Object {
-                "id": "http-cache-semantics@3.8.1",
-                "info": Object {
-                  "name": "http-cache-semantics",
-                  "version": "3.8.1",
                 },
               },
               Object {
@@ -15044,6 +14616,111 @@ Object {
                 "info": Object {
                   "name": "https-proxy-agent",
                   "version": "2.2.4",
+                },
+              },
+              Object {
+                "id": "buffer-from@1.0.0",
+                "info": Object {
+                  "name": "buffer-from",
+                  "version": "1.0.0",
+                },
+              },
+              Object {
+                "id": "typedarray@0.0.6",
+                "info": Object {
+                  "name": "typedarray",
+                  "version": "0.0.6",
+                },
+              },
+              Object {
+                "id": "concat-stream@1.6.2",
+                "info": Object {
+                  "name": "concat-stream",
+                  "version": "1.6.2",
+                },
+              },
+              Object {
+                "id": "stream-shift@1.0.0",
+                "info": Object {
+                  "name": "stream-shift",
+                  "version": "1.0.0",
+                },
+              },
+              Object {
+                "id": "duplexify@3.6.0",
+                "info": Object {
+                  "name": "duplexify",
+                  "version": "3.6.0",
+                },
+              },
+              Object {
+                "id": "flush-write-stream@1.0.3",
+                "info": Object {
+                  "name": "flush-write-stream",
+                  "version": "1.0.3",
+                },
+              },
+              Object {
+                "id": "from2@2.3.0",
+                "info": Object {
+                  "name": "from2",
+                  "version": "2.3.0",
+                },
+              },
+              Object {
+                "id": "cyclist@0.2.2",
+                "info": Object {
+                  "name": "cyclist",
+                  "version": "0.2.2",
+                },
+              },
+              Object {
+                "id": "parallel-transform@1.1.0",
+                "info": Object {
+                  "name": "parallel-transform",
+                  "version": "1.1.0",
+                },
+              },
+              Object {
+                "id": "pump@2.0.1",
+                "info": Object {
+                  "name": "pump",
+                  "version": "2.0.1",
+                },
+              },
+              Object {
+                "id": "pumpify@1.5.1",
+                "info": Object {
+                  "name": "pumpify",
+                  "version": "1.5.1",
+                },
+              },
+              Object {
+                "id": "stream-each@1.2.2",
+                "info": Object {
+                  "name": "stream-each",
+                  "version": "1.2.2",
+                },
+              },
+              Object {
+                "id": "xtend@4.0.1",
+                "info": Object {
+                  "name": "xtend",
+                  "version": "4.0.1",
+                },
+              },
+              Object {
+                "id": "through2@2.0.3",
+                "info": Object {
+                  "name": "through2",
+                  "version": "2.0.3",
+                },
+              },
+              Object {
+                "id": "mississippi@3.0.0",
+                "info": Object {
+                  "name": "mississippi",
+                  "version": "3.0.0",
                 },
               },
               Object {
@@ -15124,6 +14801,13 @@ Object {
                 },
               },
               Object {
+                "id": "ssri@6.0.1",
+                "info": Object {
+                  "name": "ssri",
+                  "version": "6.0.1",
+                },
+              },
+              Object {
                 "id": "make-fetch-happen@5.0.2",
                 "info": Object {
                   "name": "make-fetch-happen",
@@ -15173,6 +14857,13 @@ Object {
                 },
               },
               Object {
+                "id": "promise-inflight@1.0.1",
+                "info": Object {
+                  "name": "promise-inflight",
+                  "version": "1.0.1",
+                },
+              },
+              Object {
                 "id": "genfun@5.0.0",
                 "info": Object {
                   "name": "genfun",
@@ -15184,6 +14875,20 @@ Object {
                 "info": Object {
                   "name": "protoduck",
                   "version": "5.0.1",
+                },
+              },
+              Object {
+                "id": "unique-slug@2.0.0",
+                "info": Object {
+                  "name": "unique-slug",
+                  "version": "2.0.0",
+                },
+              },
+              Object {
+                "id": "unique-filename@1.1.1",
+                "info": Object {
+                  "name": "unique-filename",
+                  "version": "1.1.1",
                 },
               },
               Object {
@@ -15369,13 +15074,6 @@ Object {
                 },
               },
               Object {
-                "id": "lru-cache@4.1.5",
-                "info": Object {
-                  "name": "lru-cache",
-                  "version": "4.1.5",
-                },
-              },
-              Object {
                 "id": "widest-line@2.0.1",
                 "info": Object {
                   "name": "widest-line",
@@ -15450,6 +15148,13 @@ Object {
                 "info": Object {
                   "name": "update-notifier",
                   "version": "2.5.0",
+                },
+              },
+              Object {
+                "id": "y18n@4.0.0",
+                "info": Object {
+                  "name": "y18n",
+                  "version": "4.0.0",
                 },
               },
               Object {
@@ -15677,24 +15382,10 @@ Object {
                 },
               },
               Object {
-                "id": "lodash._cacheindexof@3.0.2",
-                "info": Object {
-                  "name": "lodash._cacheindexof",
-                  "version": "3.0.2",
-                },
-              },
-              Object {
                 "id": "lodash._getnative@3.9.1",
                 "info": Object {
                   "name": "lodash._getnative",
                   "version": "3.9.1",
-                },
-              },
-              Object {
-                "id": "lodash._createcache@3.1.2",
-                "info": Object {
-                  "name": "lodash._createcache",
-                  "version": "3.1.2",
                 },
               },
               Object {
@@ -15733,17 +15424,31 @@ Object {
                 },
               },
               Object {
+                "id": "run-queue@1.0.3",
+                "info": Object {
+                  "name": "run-queue",
+                  "version": "1.0.3",
+                },
+              },
+              Object {
+                "id": "copy-concurrently@1.0.5",
+                "info": Object {
+                  "name": "copy-concurrently",
+                  "version": "1.0.5",
+                },
+              },
+              Object {
+                "id": "move-concurrently@1.0.1",
+                "info": Object {
+                  "name": "move-concurrently",
+                  "version": "1.0.1",
+                },
+              },
+              Object {
                 "id": "npm-audit-report@1.3.2",
                 "info": Object {
                   "name": "npm-audit-report",
                   "version": "1.3.2",
-                },
-              },
-              Object {
-                "id": "npm-cache-filename@1.0.2",
-                "info": Object {
-                  "name": "npm-cache-filename",
-                  "version": "1.0.2",
                 },
               },
               Object {
