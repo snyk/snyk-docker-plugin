@@ -47,11 +47,12 @@ export async function nodeFilesToScannedProjects(
    * };
    */
 
-  if (Object.keys(filePathToContent).length === 0) {
+  const filePaths = Object.keys(filePathToContent);
+  if (!filePaths.length) {
     return [];
   }
 
-  const fileNamesGroupedByDirectory = groupFilesByDirectory(filePathToContent);
+  const fileNamesGroupedByDirectory = groupFilesByDirectory(filePaths);
   const [manifestFilePairs, nodeProjects] = findProjectsAndManifests(
     fileNamesGroupedByDirectory,
   );

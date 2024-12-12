@@ -1,4 +1,5 @@
 import { DepGraph } from "@snyk/dep-graph";
+import { ApplicationFiles } from "./analyzer/applications/types";
 import { JarFingerprint } from "./analyzer/types";
 import { DockerFileAnalysis } from "./dockerfile/types";
 import { OCIDistributionMetadata } from "./extractor/oci-distribution-metadata";
@@ -60,6 +61,11 @@ export interface ImageManifestFilesFact {
 export interface TestedFilesFact {
   type: "testedFiles";
   data: string[];
+}
+
+export interface ApplicationFilesFact {
+  type: "applicationFiles";
+  data: ApplicationFiles[];
 }
 
 export interface JarFingerprintsFact {

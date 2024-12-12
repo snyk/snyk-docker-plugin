@@ -6,7 +6,12 @@ const debug = Debug("snyk");
 
 const nodeModulesRegex = /^(.*?)(?:[\\\/]node_modules)/;
 
-export { persistNodeModules, cleanupAppNodeModules, groupFilesByDirectory };
+export {
+  persistNodeModules,
+  cleanupAppNodeModules,
+  groupFilesByDirectory,
+  isNodeAppFile,
+};
 
 interface ScanPaths {
   tempDir: string;
@@ -180,11 +185,8 @@ function getGroupingDir(filePath: string): string {
   return path.dirname(filePath);
 }
 
-function groupFilesByDirectory(
-  filePathToContent: FilePathToContent,
-): FilesByDirMap {
+function groupFilesByDirectory(filePaths: string[]): FilesByDirMap {
   const filesByDir: FilesByDirMap = new Map();
-  const filePaths = Object.keys(filePathToContent);
 
   for (const filePath of filePaths) {
     if (isNpmCacheDependency(filePath)) {
@@ -204,6 +206,17 @@ function groupFilesByDirectory(
     filesByDir.get(directory)?.add(filePath);
   }
   return filesByDir;
+}
+
+function isNodeAppFile(filepath: string): boolean {
+  const fileBase = path.basename(filepath);
+  return (
+    !filepath.includes("node_modules/") &&
+    (filepath.endsWith(".js") ||
+      (filepath.endsWith(".ts") && !filepath.endsWith(".d.ts")) ||
+      fileBase === "package.json" ||
+      fileBase === "package-lock.json")
+  );
 }
 
 async function cleanupAppNodeModules(appRootDir: string): Promise<void> {

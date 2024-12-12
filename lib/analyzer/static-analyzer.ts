@@ -26,12 +26,16 @@ import {
 } from "../inputs/distroless/static";
 import * as filePatternStatic from "../inputs/file-pattern/static";
 import { getJarFileContentAction } from "../inputs/java/static";
-import { getNodeAppFileContentAction } from "../inputs/node/static";
+import {
+  getNodeAppFileContentAction,
+  getNodeJsTsAppFileContentAction,
+} from "../inputs/node/static";
 import { getOsReleaseActions } from "../inputs/os-release/static";
 import { getPhpAppFileContentAction } from "../inputs/php/static";
 import {
   getPipAppFileContentAction,
   getPoetryAppFileContentAction,
+  getPythonAppFileContentAction,
 } from "../inputs/python/static";
 import {
   getRedHatRepositoriesContentAction,
@@ -50,8 +54,11 @@ import {
   phpFilesToScannedProjects,
   poetryFilesToScannedProjects,
 } from "./applications";
+import { getApplicationFiles } from "./applications/common";
 import { jarFilesToScannedResults } from "./applications/java";
+import { isNodeAppFile } from "./applications/node-modules-utils";
 import { pipFilesToScannedProjects } from "./applications/python";
+import { isPythonAppFile } from "./applications/python/common";
 import { AppDepsScanResultWithoutTarget } from "./applications/types";
 import * as osReleaseDetector from "./os-release";
 import { analyze as apkAnalyze } from "./package-managers/apk";
@@ -108,9 +115,11 @@ export async function analyze(
     staticAnalysisActions.push(
       ...[
         getNodeAppFileContentAction,
+        getNodeJsTsAppFileContentAction,
         getPhpAppFileContentAction,
         getPoetryAppFileContentAction,
         getPipAppFileContentAction,
+        getPythonAppFileContentAction,
         getJarFileContentAction,
         getGoModulesContentAction,
       ],
@@ -192,12 +201,30 @@ export async function analyze(
     [];
 
   if (appScan) {
+    const collectApplicationFiles = isTrue(
+      options["collect-application-files"],
+    );
+
     const nodeDependenciesScanResults = await nodeFilesToScannedProjects(
       getFileContent(extractedLayers, getNodeAppFileContentAction.actionName),
     );
+    let nodeApplicationFilesScanResults: AppDepsScanResultWithoutTarget[] = [];
+    if (collectApplicationFiles) {
+      nodeApplicationFilesScanResults = getApplicationFiles(
+        getFileContent(
+          extractedLayers,
+          getNodeJsTsAppFileContentAction.actionName,
+        ),
+        "node",
+        "npm",
+        isNodeAppFile,
+      );
+    }
+
     const phpDependenciesScanResults = await phpFilesToScannedProjects(
       getFileContent(extractedLayers, getPhpAppFileContentAction.actionName),
     );
+
     const poetryDependenciesScanResults = await poetryFilesToScannedProjects(
       getFileContent(extractedLayers, getPoetryAppFileContentAction.actionName),
     );
@@ -206,22 +233,41 @@ export async function analyze(
       getFileContent(extractedLayers, getPipAppFileContentAction.actionName),
     );
 
+    let pythonApplicationFilesScanResults: AppDepsScanResultWithoutTarget[] =
+      [];
+    if (collectApplicationFiles) {
+      pythonApplicationFilesScanResults = getApplicationFiles(
+        getFileContent(
+          extractedLayers,
+          getPythonAppFileContentAction.actionName,
+        ),
+        "python",
+        "python",
+        isPythonAppFile,
+      );
+    }
+
     const desiredLevelsOfUnpacking = getNestedJarsDesiredDepth(options);
 
+    // Java application files are part of the jarFingerprintScanResults since the jars are unpacked as part of the logic
     const jarFingerprintScanResults = await jarFilesToScannedResults(
       getBufferContent(extractedLayers, getJarFileContentAction.actionName),
       targetImage,
       desiredLevelsOfUnpacking,
+      collectApplicationFiles,
     );
+
     const goModulesScanResult = await goModulesToScannedProjects(
       getElfFileContent(extractedLayers, getGoModulesContentAction.actionName),
     );
 
     applicationDependenciesScanResults.push(
       ...nodeDependenciesScanResults,
+      ...nodeApplicationFilesScanResults,
       ...phpDependenciesScanResults,
       ...poetryDependenciesScanResults,
       ...pipDependenciesScanResults,
+      ...pythonApplicationFilesScanResults,
       ...jarFingerprintScanResults,
       ...goModulesScanResult,
     );

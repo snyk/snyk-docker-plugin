@@ -1,9 +1,16 @@
 import * as admzip from "adm-zip";
 import * as path from "path";
 import { bufferToSha1 } from "../../buffer-utils";
-import { JarFingerprintsFact } from "../../facts";
+import { ApplicationFilesFact, JarFingerprintsFact } from "../../facts";
+import { Identity } from "../../types";
 import { JarFingerprint } from "../types";
-import { AggregatedJars, JarBuffer, JarCoords, JarInfo } from "./types";
+import {
+  AggregatedJars,
+  ApplicationFiles,
+  JarBuffer,
+  JarCoords,
+  JarInfo,
+} from "./types";
 import { AppDepsScanResultWithoutTarget, FilePathToBuffer } from "./types";
 
 /**
@@ -34,6 +41,7 @@ export async function jarFilesToScannedResults(
   filePathToContent: FilePathToBuffer,
   targetImage: string,
   desiredLevelsOfUnpacking: number,
+  collectApplicationFiles: boolean,
 ): Promise<AppDepsScanResultWithoutTarget[]> {
   const mappedResult = groupJarFingerprintsByPath(filePathToContent);
   const scanResults: AppDepsScanResultWithoutTarget[] = [];
@@ -43,10 +51,16 @@ export async function jarFilesToScannedResults(
       continue;
     }
 
-    const fingerprints = await getFingerprints(
+    const [fingerprints, classFiles] = await getFingerprints(
       desiredLevelsOfUnpacking,
       mappedResult[path],
+      collectApplicationFiles,
     );
+
+    const identity: Identity = {
+      type: "maven",
+      targetFile: path,
+    };
 
     const jarFingerprintsFact: JarFingerprintsFact = {
       type: "jarFingerprints",
@@ -58,11 +72,19 @@ export async function jarFilesToScannedResults(
     };
     scanResults.push({
       facts: [jarFingerprintsFact],
-      identity: {
-        type: "maven",
-        targetFile: path,
-      },
+      identity,
     });
+
+    if (collectApplicationFiles && classFiles.length) {
+      const applicationFilesFact: ApplicationFilesFact = {
+        type: "applicationFiles",
+        data: classFiles,
+      };
+      scanResults.push({
+        facts: [applicationFilesFact],
+        identity,
+      });
+    }
   }
 
   return scanResults;
@@ -71,12 +93,14 @@ export async function jarFilesToScannedResults(
 async function getFingerprints(
   desiredLevelsOfUnpacking: number,
   jarBuffers: JarBuffer[],
-): Promise<JarFingerprint[]> {
-  const fingerprints: JarFingerprint[] = await unpackJars(
+  collectApplicationFiles: boolean,
+): Promise<[JarFingerprint[], ApplicationFiles[]]> {
+  const [fingerprints, classFiles] = await unpackJars(
     jarBuffers,
     desiredLevelsOfUnpacking,
+    collectApplicationFiles,
   );
-  return Array.from(new Set(fingerprints));
+  return [Array.from(new Set(fingerprints)), Array.from(new Set(classFiles))];
 }
 
 /**
@@ -104,16 +128,26 @@ function unpackJar({
   desiredLevelsOfUnpacking,
   requiredLevelsOfUnpacking,
   unpackedLevels,
+  collectApplicationFiles,
 }: {
   jarBuffer: Buffer;
   jarPath: string;
   desiredLevelsOfUnpacking: number;
   requiredLevelsOfUnpacking: number;
   unpackedLevels: number;
+  collectApplicationFiles: boolean;
 }): JarInfo {
   const dependencies: JarCoords[] = [];
   const nestedJars: JarBuffer[] = [];
+  const classFiles: ApplicationFiles = {
+    language: "java",
+    jarPath,
+    fileHierarchy: [],
+  };
   let coords: JarCoords | null = null;
+  // Don't collect for nested jars
+  const shouldCollectClassFiles =
+    collectApplicationFiles && unpackedLevels <= 1;
 
   // TODO: consider switching to node-stream-zip that supports streaming
   let zip: admzip;
@@ -151,6 +185,11 @@ function unpackJar({
           dependencies.push(entryCoords);
         }
       }
+    } else if (
+      shouldCollectClassFiles &&
+      zipEntry.entryName.endsWith(".class")
+    ) {
+      classFiles.fileHierarchy.push({ path: zipEntry.entryName });
     }
 
     // We only want to include JARs found at this level if the user asked for
@@ -171,30 +210,37 @@ function unpackJar({
     }
   }
 
-  return {
+  const result: JarInfo = {
     location: jarPath,
     buffer: jarBuffer,
     coords,
     dependencies,
     nestedJars,
   };
+
+  if (shouldCollectClassFiles) {
+    result.classFiles = classFiles;
+  }
+
+  return result;
 }
 
 /**
  * Manages the unpacking an array of JarBuffer objects and returns the resulting
- * fingerprints. Recursion to required depth is handled here when the returned
+ * fingerprints and classFiles (if requested). Recursion to required depth is handled here when the returned
  * info from each JAR that is unpacked has nestedJars.
  *
  * @param {JarBuffer[]} jarBuffers
  * @param {number} desiredLevelsOfUnpacking
  * @param {number} unpackedLevels
- * @returns JarFingerprint[]
+ * @returns [JarFingerprint[], ApplicationFiles[]]
  */
 async function unpackJars(
   jarBuffers: JarBuffer[],
   desiredLevelsOfUnpacking: number,
+  collectApplicationFiles: boolean,
   unpackedLevels: number = 0,
-): Promise<JarFingerprint[]> {
+): Promise<[JarFingerprint[], ApplicationFiles[]]> {
   // We have to unpack jars to get the pom.properties manifest which
   // we use to support shaded jars and get the package coords (if exists)
   // to reduce the dependency on maven search and support private jars.
@@ -206,6 +252,7 @@ async function unpackJars(
   // requiredLevelsOfUnpacking = implementation control variable
   const requiredLevelsOfUnpacking = desiredLevelsOfUnpacking + 1;
   const fingerprints: JarFingerprint[] = [];
+  const classFiles: ApplicationFiles[] = [];
 
   // jarBuffers is the array of JARS found in the image layers;
   // this represents the 1st "level" which we will unpack by
@@ -219,6 +266,7 @@ async function unpackJars(
       unpackedLevels: unpackedLevels + 1,
       desiredLevelsOfUnpacking,
       requiredLevelsOfUnpacking,
+      collectApplicationFiles,
     });
 
     // we only care about JAR fingerprints. Other Java archive files are not
@@ -239,16 +287,24 @@ async function unpackJars(
     if (jarInfo.nestedJars.length > 0) {
       // this is an uber/fat JAR so we need to unpack the nested JARs to
       // analyze them for coords and further nested JARs (depth flag allowing)
-      const nestedJarFingerprints = await unpackJars(
+      const [nestedJarFingerprints, newClassFiles] = await unpackJars(
         jarInfo.nestedJars,
         desiredLevelsOfUnpacking,
+        collectApplicationFiles,
         unpackedLevels + 1,
       );
       fingerprints.push(...nestedJarFingerprints);
+      if (collectApplicationFiles && newClassFiles?.length) {
+        classFiles.push(...newClassFiles);
+      }
+    }
+
+    if (collectApplicationFiles && jarInfo.classFiles) {
+      classFiles.push(jarInfo.classFiles);
     }
   }
 
-  return fingerprints;
+  return [fingerprints, classFiles];
 }
 
 /**
