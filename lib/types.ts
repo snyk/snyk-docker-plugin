@@ -195,7 +195,8 @@ export interface PluginOptions {
 
   /** Whether to disable application dependencies scanning. The default is "false" */
   "exclude-app-vulns": boolean | string;
-
+  /** Whether to disable node modules dependencies scanning. The default is "false" */
+  "exclude-node-modules": boolean | string;
   /**
    * How many levels of (nested) JARs we should unpack
    * If a JAR contains other JARs (AKA JAR of JARs), we send back only the children JARs, and don't look for vulns in the parent.

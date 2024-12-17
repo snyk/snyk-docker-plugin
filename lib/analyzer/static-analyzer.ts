@@ -103,6 +103,7 @@ export async function analyze(
   }
 
   const appScan = !isTrue(options["exclude-app-vulns"]);
+  const nodeModulesScan = !isTrue(options["exclude-node-modules"]);
 
   if (appScan) {
     staticAnalysisActions.push(
@@ -194,6 +195,7 @@ export async function analyze(
   if (appScan) {
     const nodeDependenciesScanResults = await nodeFilesToScannedProjects(
       getFileContent(extractedLayers, getNodeAppFileContentAction.actionName),
+      nodeModulesScan,
     );
     const phpDependenciesScanResults = await phpFilesToScannedProjects(
       getFileContent(extractedLayers, getPhpAppFileContentAction.actionName),
