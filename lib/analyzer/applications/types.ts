@@ -31,5 +31,13 @@ export interface FilePathToElfContent {
 export interface AggregatedJars {
   [path: string]: JarBuffer[];
 }
+export interface ApplicationFileInfo {
+  path: string;
+}
+export interface ApplicationFiles {
+  fileHierarchy: ApplicationFileInfo[];
+  moduleName?: string;
+  language: string;
+}
 
 export type FilesByDirMap = Map<string, Set<string>>;

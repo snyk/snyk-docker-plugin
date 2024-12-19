@@ -11,6 +11,7 @@ export {
   cleanupAppNodeModules,
   groupNodeAppFilesByDirectory,
   groupNodeModulesFilesByDirectory,
+  isNodeAppFile,
 };
 
 interface ScanPaths {
@@ -231,6 +232,17 @@ function groupNodeModulesFilesByDirectory(
     filesByDir.get(directory)?.add(filePath);
   }
   return filesByDir;
+}
+
+function isNodeAppFile(filepath: string): boolean {
+  const fileBase = path.basename(filepath);
+  return (
+    !filepath.includes("node_modules/") &&
+    (fileBase.endsWith(".js") ||
+      (fileBase.endsWith(".ts") && !fileBase.endsWith(".d.ts")) ||
+      fileBase === "package.json" ||
+      fileBase === "package-lock.json")
+  );
 }
 
 async function cleanupAppNodeModules(appRootDir: string): Promise<void> {
