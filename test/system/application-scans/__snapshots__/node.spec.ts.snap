@@ -47940,7 +47940,1984 @@ Object {
 }
 `;
 
-exports[`node application scans should generate a scanResult for a multi-project-image 1`] = `
+exports[`node application scans should exclude scanning of node_modules projects from a node.js container image 1`] = `
+Array [
+  Object {
+    "facts": Array [
+      Object {
+        "data": Object {
+          "graph": Object {
+            "nodes": Array [
+              Object {
+                "deps": Array [
+                  Object {
+                    "nodeId": "alpine-baselayout/alpine-baselayout@3.2.0-r3",
+                  },
+                  Object {
+                    "nodeId": "alpine-keys/alpine-keys@2.1-r2",
+                  },
+                  Object {
+                    "nodeId": "apk-tools/apk-tools@2.10.5-r0",
+                  },
+                  Object {
+                    "nodeId": "busybox/busybox@1.31.1-r9|2",
+                  },
+                  Object {
+                    "nodeId": "busybox/ssl_client@1.31.1-r9",
+                  },
+                  Object {
+                    "nodeId": "ca-certificates/ca-certificates-cacert@20191127-r1",
+                  },
+                  Object {
+                    "nodeId": "gcc/libgcc@9.2.0-r4",
+                  },
+                  Object {
+                    "nodeId": "gcc/libstdc++@9.2.0-r4|2",
+                  },
+                  Object {
+                    "nodeId": "libc-dev/libc-utils@0.7.2-r0",
+                  },
+                  Object {
+                    "nodeId": "libtls-standalone/libtls-standalone@2.9.1-r0|2",
+                  },
+                  Object {
+                    "nodeId": "musl/musl@1.1.24-r2",
+                  },
+                  Object {
+                    "nodeId": "musl/musl-utils@1.1.24-r2|2",
+                  },
+                  Object {
+                    "nodeId": "openssl/libcrypto1.1@1.1.1g-r0|2",
+                  },
+                  Object {
+                    "nodeId": "openssl/libssl1.1@1.1.1g-r0|2",
+                  },
+                  Object {
+                    "nodeId": "pax-utils/scanelf@1.2.4-r0|2",
+                  },
+                  Object {
+                    "nodeId": "zlib/zlib@1.2.11-r3|2",
+                  },
+                ],
+                "nodeId": "root-node",
+                "pkgId": "docker-image|multi-project-image.tar@",
+              },
+              Object {
+                "deps": Array [],
+                "nodeId": "busybox/busybox@1.31.1-r9|1",
+                "pkgId": "busybox/busybox@1.31.1-r9",
+              },
+              Object {
+                "deps": Array [
+                  Object {
+                    "nodeId": "musl/musl@1.1.24-r2",
+                  },
+                ],
+                "nodeId": "busybox/busybox@1.31.1-r9|2",
+                "pkgId": "busybox/busybox@1.31.1-r9",
+              },
+              Object {
+                "deps": Array [],
+                "nodeId": "musl/musl@1.1.24-r2",
+                "pkgId": "musl/musl@1.1.24-r2",
+              },
+              Object {
+                "deps": Array [
+                  Object {
+                    "nodeId": "busybox/busybox@1.31.1-r9|1",
+                  },
+                  Object {
+                    "nodeId": "musl/musl@1.1.24-r2",
+                  },
+                ],
+                "nodeId": "alpine-baselayout/alpine-baselayout@3.2.0-r3",
+                "pkgId": "alpine-baselayout/alpine-baselayout@3.2.0-r3",
+              },
+              Object {
+                "deps": Array [],
+                "nodeId": "alpine-keys/alpine-keys@2.1-r2",
+                "pkgId": "alpine-keys/alpine-keys@2.1-r2",
+              },
+              Object {
+                "deps": Array [],
+                "nodeId": "openssl/libcrypto1.1@1.1.1g-r0|1",
+                "pkgId": "openssl/libcrypto1.1@1.1.1g-r0",
+              },
+              Object {
+                "deps": Array [
+                  Object {
+                    "nodeId": "musl/musl@1.1.24-r2",
+                  },
+                ],
+                "nodeId": "openssl/libcrypto1.1@1.1.1g-r0|2",
+                "pkgId": "openssl/libcrypto1.1@1.1.1g-r0",
+              },
+              Object {
+                "deps": Array [],
+                "nodeId": "openssl/libssl1.1@1.1.1g-r0|1",
+                "pkgId": "openssl/libssl1.1@1.1.1g-r0",
+              },
+              Object {
+                "deps": Array [
+                  Object {
+                    "nodeId": "musl/musl@1.1.24-r2",
+                  },
+                  Object {
+                    "nodeId": "openssl/libcrypto1.1@1.1.1g-r0|1",
+                  },
+                ],
+                "nodeId": "openssl/libssl1.1@1.1.1g-r0|2",
+                "pkgId": "openssl/libssl1.1@1.1.1g-r0",
+              },
+              Object {
+                "deps": Array [],
+                "nodeId": "zlib/zlib@1.2.11-r3|1",
+                "pkgId": "zlib/zlib@1.2.11-r3",
+              },
+              Object {
+                "deps": Array [
+                  Object {
+                    "nodeId": "musl/musl@1.1.24-r2",
+                  },
+                ],
+                "nodeId": "zlib/zlib@1.2.11-r3|2",
+                "pkgId": "zlib/zlib@1.2.11-r3",
+              },
+              Object {
+                "deps": Array [
+                  Object {
+                    "nodeId": "musl/musl@1.1.24-r2",
+                  },
+                  Object {
+                    "nodeId": "openssl/libcrypto1.1@1.1.1g-r0|1",
+                  },
+                  Object {
+                    "nodeId": "openssl/libssl1.1@1.1.1g-r0|1",
+                  },
+                  Object {
+                    "nodeId": "zlib/zlib@1.2.11-r3|1",
+                  },
+                ],
+                "nodeId": "apk-tools/apk-tools@2.10.5-r0",
+                "pkgId": "apk-tools/apk-tools@2.10.5-r0",
+              },
+              Object {
+                "deps": Array [],
+                "nodeId": "libtls-standalone/libtls-standalone@2.9.1-r0|1",
+                "pkgId": "libtls-standalone/libtls-standalone@2.9.1-r0",
+              },
+              Object {
+                "deps": Array [
+                  Object {
+                    "nodeId": "ca-certificates/ca-certificates-cacert@20191127-r1",
+                  },
+                  Object {
+                    "nodeId": "musl/musl@1.1.24-r2",
+                  },
+                  Object {
+                    "nodeId": "openssl/libcrypto1.1@1.1.1g-r0|1",
+                  },
+                  Object {
+                    "nodeId": "openssl/libssl1.1@1.1.1g-r0|1",
+                  },
+                ],
+                "nodeId": "libtls-standalone/libtls-standalone@2.9.1-r0|2",
+                "pkgId": "libtls-standalone/libtls-standalone@2.9.1-r0",
+              },
+              Object {
+                "deps": Array [
+                  Object {
+                    "nodeId": "libtls-standalone/libtls-standalone@2.9.1-r0|1",
+                  },
+                  Object {
+                    "nodeId": "musl/musl@1.1.24-r2",
+                  },
+                ],
+                "nodeId": "busybox/ssl_client@1.31.1-r9",
+                "pkgId": "busybox/ssl_client@1.31.1-r9",
+              },
+              Object {
+                "deps": Array [],
+                "nodeId": "ca-certificates/ca-certificates-cacert@20191127-r1",
+                "pkgId": "ca-certificates/ca-certificates-cacert@20191127-r1",
+              },
+              Object {
+                "deps": Array [
+                  Object {
+                    "nodeId": "musl/musl@1.1.24-r2",
+                  },
+                ],
+                "nodeId": "gcc/libstdc++@9.2.0-r4|1",
+                "pkgId": "gcc/libstdc++@9.2.0-r4",
+              },
+              Object {
+                "deps": Array [],
+                "nodeId": "gcc/libstdc++@9.2.0-r4|2",
+                "pkgId": "gcc/libstdc++@9.2.0-r4",
+              },
+              Object {
+                "deps": Array [
+                  Object {
+                    "nodeId": "gcc/libstdc++@9.2.0-r4|1",
+                  },
+                  Object {
+                    "nodeId": "musl/musl@1.1.24-r2",
+                  },
+                ],
+                "nodeId": "gcc/libgcc@9.2.0-r4",
+                "pkgId": "gcc/libgcc@9.2.0-r4",
+              },
+              Object {
+                "deps": Array [],
+                "nodeId": "musl/musl-utils@1.1.24-r2|1",
+                "pkgId": "musl/musl-utils@1.1.24-r2",
+              },
+              Object {
+                "deps": Array [
+                  Object {
+                    "nodeId": "musl/musl@1.1.24-r2",
+                  },
+                  Object {
+                    "nodeId": "pax-utils/scanelf@1.2.4-r0|1",
+                  },
+                ],
+                "nodeId": "musl/musl-utils@1.1.24-r2|2",
+                "pkgId": "musl/musl-utils@1.1.24-r2",
+              },
+              Object {
+                "deps": Array [
+                  Object {
+                    "nodeId": "musl/musl-utils@1.1.24-r2|1",
+                  },
+                ],
+                "nodeId": "libc-dev/libc-utils@0.7.2-r0",
+                "pkgId": "libc-dev/libc-utils@0.7.2-r0",
+              },
+              Object {
+                "deps": Array [],
+                "nodeId": "pax-utils/scanelf@1.2.4-r0|1",
+                "pkgId": "pax-utils/scanelf@1.2.4-r0",
+              },
+              Object {
+                "deps": Array [
+                  Object {
+                    "nodeId": "musl/musl@1.1.24-r2",
+                  },
+                ],
+                "nodeId": "pax-utils/scanelf@1.2.4-r0|2",
+                "pkgId": "pax-utils/scanelf@1.2.4-r0",
+              },
+            ],
+            "rootNodeId": "root-node",
+          },
+          "pkgManager": Object {
+            "name": "apk",
+            "repositories": Array [
+              Object {
+                "alias": "alpine:3.11.6",
+              },
+            ],
+          },
+          "pkgs": Array [
+            Object {
+              "id": "docker-image|multi-project-image.tar@",
+              "info": Object {
+                "name": "docker-image|multi-project-image.tar",
+                "version": undefined,
+              },
+            },
+            Object {
+              "id": "busybox/busybox@1.31.1-r9",
+              "info": Object {
+                "name": "busybox/busybox",
+                "version": "1.31.1-r9",
+              },
+            },
+            Object {
+              "id": "musl/musl@1.1.24-r2",
+              "info": Object {
+                "name": "musl/musl",
+                "version": "1.1.24-r2",
+              },
+            },
+            Object {
+              "id": "alpine-baselayout/alpine-baselayout@3.2.0-r3",
+              "info": Object {
+                "name": "alpine-baselayout/alpine-baselayout",
+                "version": "3.2.0-r3",
+              },
+            },
+            Object {
+              "id": "alpine-keys/alpine-keys@2.1-r2",
+              "info": Object {
+                "name": "alpine-keys/alpine-keys",
+                "version": "2.1-r2",
+              },
+            },
+            Object {
+              "id": "openssl/libcrypto1.1@1.1.1g-r0",
+              "info": Object {
+                "name": "openssl/libcrypto1.1",
+                "version": "1.1.1g-r0",
+              },
+            },
+            Object {
+              "id": "openssl/libssl1.1@1.1.1g-r0",
+              "info": Object {
+                "name": "openssl/libssl1.1",
+                "version": "1.1.1g-r0",
+              },
+            },
+            Object {
+              "id": "zlib/zlib@1.2.11-r3",
+              "info": Object {
+                "name": "zlib/zlib",
+                "version": "1.2.11-r3",
+              },
+            },
+            Object {
+              "id": "apk-tools/apk-tools@2.10.5-r0",
+              "info": Object {
+                "name": "apk-tools/apk-tools",
+                "version": "2.10.5-r0",
+              },
+            },
+            Object {
+              "id": "libtls-standalone/libtls-standalone@2.9.1-r0",
+              "info": Object {
+                "name": "libtls-standalone/libtls-standalone",
+                "version": "2.9.1-r0",
+              },
+            },
+            Object {
+              "id": "busybox/ssl_client@1.31.1-r9",
+              "info": Object {
+                "name": "busybox/ssl_client",
+                "version": "1.31.1-r9",
+              },
+            },
+            Object {
+              "id": "ca-certificates/ca-certificates-cacert@20191127-r1",
+              "info": Object {
+                "name": "ca-certificates/ca-certificates-cacert",
+                "version": "20191127-r1",
+              },
+            },
+            Object {
+              "id": "gcc/libstdc++@9.2.0-r4",
+              "info": Object {
+                "name": "gcc/libstdc++",
+                "version": "9.2.0-r4",
+              },
+            },
+            Object {
+              "id": "gcc/libgcc@9.2.0-r4",
+              "info": Object {
+                "name": "gcc/libgcc",
+                "version": "9.2.0-r4",
+              },
+            },
+            Object {
+              "id": "musl/musl-utils@1.1.24-r2",
+              "info": Object {
+                "name": "musl/musl-utils",
+                "version": "1.1.24-r2",
+              },
+            },
+            Object {
+              "id": "libc-dev/libc-utils@0.7.2-r0",
+              "info": Object {
+                "name": "libc-dev/libc-utils",
+                "version": "0.7.2-r0",
+              },
+            },
+            Object {
+              "id": "pax-utils/scanelf@1.2.4-r0",
+              "info": Object {
+                "name": "pax-utils/scanelf",
+                "version": "1.2.4-r0",
+              },
+            },
+          ],
+          "schemaVersion": "1.3.0",
+        },
+        "type": "depGraph",
+      },
+      Object {
+        "data": Array [
+          "c4498072cc4b8387944b987c04759d4bee7dcee8a0f710758faf68bddd03e61b",
+        ],
+        "type": "keyBinariesHashes",
+      },
+      Object {
+        "data": "sha256:d60c3644cc5048e48a45c9de94fec3f17ee2eb72eb835434dc13ec5b9d3c532b",
+        "type": "imageId",
+      },
+      Object {
+        "data": Array [
+          "sha256:3e207b409db364b595ba862cdc12be96dcdad8e36c59a03b7b3b61c946a5741a",
+          "sha256:9fb10d90048747932e482419d8c5089004573493f66b2c260289360b62b7e0ce",
+          "sha256:c4491b3ee70970a087ec1f32e424f08ccf014978acad19c09405222c21ea70ae",
+          "sha256:a1915d7a111100643f8bf07c38e43ae96c92f3763fdb925b75e05f4c0c23d476",
+          "sha256:fbda8a69857cff80df48e4ad4a53f7b3059b3365cdb955cfb90eb18cda07e014",
+          "sha256:eaa9918ba3f7c4e2af1d47ee2924c2004f416958014e48ab12ae280704257023",
+          "sha256:56e43adaa71af64c63fdaf4ec8e093fe625ff51b6a708d813f140e30159a682b",
+          "sha256:363af1a9de027fb35a2a8289042e419c00d7807f8e3d37b1b299fb9670dc4a44",
+          "sha256:0167d935f5a41e98bdb62050718387a540ddf4692b14e6e3fe51499dd8ca9bcd",
+          "sha256:7748240a53259e2229669b7570c6aa7aaff9c317f5cc790dfb7e8d2b94209d9b",
+        ],
+        "type": "imageLayers",
+      },
+      Object {
+        "data": "2024-07-22T14:05:29.829059334Z",
+        "type": "imageCreationTime",
+      },
+      Object {
+        "data": Array [
+          "sha256:3e207b409db364b595ba862cdc12be96dcdad8e36c59a03b7b3b61c946a5741a",
+          "sha256:9fb10d90048747932e482419d8c5089004573493f66b2c260289360b62b7e0ce",
+          "sha256:c4491b3ee70970a087ec1f32e424f08ccf014978acad19c09405222c21ea70ae",
+          "sha256:a1915d7a111100643f8bf07c38e43ae96c92f3763fdb925b75e05f4c0c23d476",
+          "sha256:fbda8a69857cff80df48e4ad4a53f7b3059b3365cdb955cfb90eb18cda07e014",
+          "sha256:eaa9918ba3f7c4e2af1d47ee2924c2004f416958014e48ab12ae280704257023",
+          "sha256:56e43adaa71af64c63fdaf4ec8e093fe625ff51b6a708d813f140e30159a682b",
+          "sha256:363af1a9de027fb35a2a8289042e419c00d7807f8e3d37b1b299fb9670dc4a44",
+          "sha256:0167d935f5a41e98bdb62050718387a540ddf4692b14e6e3fe51499dd8ca9bcd",
+          "sha256:7748240a53259e2229669b7570c6aa7aaff9c317f5cc790dfb7e8d2b94209d9b",
+        ],
+        "type": "rootFs",
+      },
+      Object {
+        "data": "Alpine Linux v3.11",
+        "type": "imageOsReleasePrettyName",
+      },
+    ],
+    "identity": Object {
+      "args": Object {
+        "platform": "linux/amd64",
+      },
+      "type": "apk",
+    },
+    "target": Object {
+      "image": "docker-image|multi-project-image.tar",
+    },
+  },
+  Object {
+    "facts": Array [
+      Object {
+        "data": Object {
+          "graph": Object {
+            "nodes": Array [
+              Object {
+                "deps": Array [
+                  Object {
+                    "nodeId": "express@4.19.2",
+                  },
+                ],
+                "nodeId": "root-node",
+                "pkgId": "goof@1.0.1",
+              },
+              Object {
+                "deps": Array [
+                  Object {
+                    "nodeId": "accepts@1.3.8",
+                  },
+                  Object {
+                    "nodeId": "array-flatten@1.1.1",
+                  },
+                  Object {
+                    "nodeId": "body-parser@1.20.2",
+                  },
+                  Object {
+                    "nodeId": "content-disposition@0.5.4",
+                  },
+                  Object {
+                    "nodeId": "content-type@1.0.5",
+                  },
+                  Object {
+                    "nodeId": "cookie@0.6.0",
+                  },
+                  Object {
+                    "nodeId": "cookie-signature@1.0.6",
+                  },
+                  Object {
+                    "nodeId": "debug@2.6.9",
+                  },
+                  Object {
+                    "nodeId": "depd@2.0.0",
+                  },
+                  Object {
+                    "nodeId": "encodeurl@1.0.2",
+                  },
+                  Object {
+                    "nodeId": "escape-html@1.0.3",
+                  },
+                  Object {
+                    "nodeId": "etag@1.8.1",
+                  },
+                  Object {
+                    "nodeId": "finalhandler@1.2.0",
+                  },
+                  Object {
+                    "nodeId": "fresh@0.5.2",
+                  },
+                  Object {
+                    "nodeId": "http-errors@2.0.0",
+                  },
+                  Object {
+                    "nodeId": "merge-descriptors@1.0.1",
+                  },
+                  Object {
+                    "nodeId": "methods@1.1.2",
+                  },
+                  Object {
+                    "nodeId": "on-finished@2.4.1",
+                  },
+                  Object {
+                    "nodeId": "parseurl@1.3.3",
+                  },
+                  Object {
+                    "nodeId": "path-to-regexp@0.1.7",
+                  },
+                  Object {
+                    "nodeId": "proxy-addr@2.0.7",
+                  },
+                  Object {
+                    "nodeId": "qs@6.11.0",
+                  },
+                  Object {
+                    "nodeId": "range-parser@1.2.1",
+                  },
+                  Object {
+                    "nodeId": "safe-buffer@5.2.1",
+                  },
+                  Object {
+                    "nodeId": "send@0.18.0",
+                  },
+                  Object {
+                    "nodeId": "serve-static@1.15.0",
+                  },
+                  Object {
+                    "nodeId": "setprototypeof@1.2.0",
+                  },
+                  Object {
+                    "nodeId": "statuses@2.0.1",
+                  },
+                  Object {
+                    "nodeId": "type-is@1.6.18",
+                  },
+                  Object {
+                    "nodeId": "utils-merge@1.0.1",
+                  },
+                  Object {
+                    "nodeId": "vary@1.1.2",
+                  },
+                ],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "express@4.19.2",
+                "pkgId": "express@4.19.2",
+              },
+              Object {
+                "deps": Array [
+                  Object {
+                    "nodeId": "mime-types@2.1.35",
+                  },
+                  Object {
+                    "nodeId": "negotiator@0.6.3",
+                  },
+                ],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "accepts@1.3.8",
+                "pkgId": "accepts@1.3.8",
+              },
+              Object {
+                "deps": Array [
+                  Object {
+                    "nodeId": "mime-db@1.52.0",
+                  },
+                ],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "mime-types@2.1.35",
+                "pkgId": "mime-types@2.1.35",
+              },
+              Object {
+                "deps": Array [],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "mime-db@1.52.0",
+                "pkgId": "mime-db@1.52.0",
+              },
+              Object {
+                "deps": Array [],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "negotiator@0.6.3",
+                "pkgId": "negotiator@0.6.3",
+              },
+              Object {
+                "deps": Array [],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "array-flatten@1.1.1",
+                "pkgId": "array-flatten@1.1.1",
+              },
+              Object {
+                "deps": Array [
+                  Object {
+                    "nodeId": "bytes@3.1.2",
+                  },
+                  Object {
+                    "nodeId": "content-type@1.0.5",
+                  },
+                  Object {
+                    "nodeId": "debug@2.6.9",
+                  },
+                  Object {
+                    "nodeId": "depd@2.0.0",
+                  },
+                  Object {
+                    "nodeId": "destroy@1.2.0",
+                  },
+                  Object {
+                    "nodeId": "http-errors@2.0.0",
+                  },
+                  Object {
+                    "nodeId": "iconv-lite@0.4.24",
+                  },
+                  Object {
+                    "nodeId": "on-finished@2.4.1",
+                  },
+                  Object {
+                    "nodeId": "qs@6.11.0",
+                  },
+                  Object {
+                    "nodeId": "raw-body@2.5.2",
+                  },
+                  Object {
+                    "nodeId": "type-is@1.6.18",
+                  },
+                  Object {
+                    "nodeId": "unpipe@1.0.0",
+                  },
+                ],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "body-parser@1.20.2",
+                "pkgId": "body-parser@1.20.2",
+              },
+              Object {
+                "deps": Array [],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "bytes@3.1.2",
+                "pkgId": "bytes@3.1.2",
+              },
+              Object {
+                "deps": Array [],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "content-type@1.0.5",
+                "pkgId": "content-type@1.0.5",
+              },
+              Object {
+                "deps": Array [
+                  Object {
+                    "nodeId": "ms@2.0.0",
+                  },
+                ],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "debug@2.6.9",
+                "pkgId": "debug@2.6.9",
+              },
+              Object {
+                "deps": Array [],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "ms@2.0.0",
+                "pkgId": "ms@2.0.0",
+              },
+              Object {
+                "deps": Array [],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "depd@2.0.0",
+                "pkgId": "depd@2.0.0",
+              },
+              Object {
+                "deps": Array [],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "destroy@1.2.0",
+                "pkgId": "destroy@1.2.0",
+              },
+              Object {
+                "deps": Array [
+                  Object {
+                    "nodeId": "depd@2.0.0",
+                  },
+                  Object {
+                    "nodeId": "inherits@2.0.4",
+                  },
+                  Object {
+                    "nodeId": "setprototypeof@1.2.0",
+                  },
+                  Object {
+                    "nodeId": "statuses@2.0.1",
+                  },
+                  Object {
+                    "nodeId": "toidentifier@1.0.1",
+                  },
+                ],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "http-errors@2.0.0",
+                "pkgId": "http-errors@2.0.0",
+              },
+              Object {
+                "deps": Array [],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "inherits@2.0.4",
+                "pkgId": "inherits@2.0.4",
+              },
+              Object {
+                "deps": Array [],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "setprototypeof@1.2.0",
+                "pkgId": "setprototypeof@1.2.0",
+              },
+              Object {
+                "deps": Array [],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "statuses@2.0.1",
+                "pkgId": "statuses@2.0.1",
+              },
+              Object {
+                "deps": Array [],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "toidentifier@1.0.1",
+                "pkgId": "toidentifier@1.0.1",
+              },
+              Object {
+                "deps": Array [
+                  Object {
+                    "nodeId": "safer-buffer@2.1.2",
+                  },
+                ],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "iconv-lite@0.4.24",
+                "pkgId": "iconv-lite@0.4.24",
+              },
+              Object {
+                "deps": Array [],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "safer-buffer@2.1.2",
+                "pkgId": "safer-buffer@2.1.2",
+              },
+              Object {
+                "deps": Array [
+                  Object {
+                    "nodeId": "ee-first@1.1.1",
+                  },
+                ],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "on-finished@2.4.1",
+                "pkgId": "on-finished@2.4.1",
+              },
+              Object {
+                "deps": Array [],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "ee-first@1.1.1",
+                "pkgId": "ee-first@1.1.1",
+              },
+              Object {
+                "deps": Array [
+                  Object {
+                    "nodeId": "side-channel@1.0.6",
+                  },
+                ],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "qs@6.11.0",
+                "pkgId": "qs@6.11.0",
+              },
+              Object {
+                "deps": Array [
+                  Object {
+                    "nodeId": "call-bind@1.0.7",
+                  },
+                  Object {
+                    "nodeId": "es-errors@1.3.0",
+                  },
+                  Object {
+                    "nodeId": "get-intrinsic@1.2.4",
+                  },
+                  Object {
+                    "nodeId": "object-inspect@1.13.1",
+                  },
+                ],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "side-channel@1.0.6",
+                "pkgId": "side-channel@1.0.6",
+              },
+              Object {
+                "deps": Array [
+                  Object {
+                    "nodeId": "es-define-property@1.0.0",
+                  },
+                  Object {
+                    "nodeId": "es-errors@1.3.0",
+                  },
+                  Object {
+                    "nodeId": "function-bind@1.1.2",
+                  },
+                  Object {
+                    "nodeId": "get-intrinsic@1.2.4",
+                  },
+                  Object {
+                    "nodeId": "set-function-length@1.2.2",
+                  },
+                ],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "call-bind@1.0.7",
+                "pkgId": "call-bind@1.0.7",
+              },
+              Object {
+                "deps": Array [
+                  Object {
+                    "nodeId": "get-intrinsic@1.2.4",
+                  },
+                ],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "es-define-property@1.0.0",
+                "pkgId": "es-define-property@1.0.0",
+              },
+              Object {
+                "deps": Array [
+                  Object {
+                    "nodeId": "es-errors@1.3.0",
+                  },
+                  Object {
+                    "nodeId": "function-bind@1.1.2",
+                  },
+                  Object {
+                    "nodeId": "has-proto@1.0.3",
+                  },
+                  Object {
+                    "nodeId": "has-symbols@1.0.3",
+                  },
+                  Object {
+                    "nodeId": "hasown@2.0.2",
+                  },
+                ],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "get-intrinsic@1.2.4",
+                "pkgId": "get-intrinsic@1.2.4",
+              },
+              Object {
+                "deps": Array [],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "es-errors@1.3.0",
+                "pkgId": "es-errors@1.3.0",
+              },
+              Object {
+                "deps": Array [],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "function-bind@1.1.2",
+                "pkgId": "function-bind@1.1.2",
+              },
+              Object {
+                "deps": Array [],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "has-proto@1.0.3",
+                "pkgId": "has-proto@1.0.3",
+              },
+              Object {
+                "deps": Array [],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "has-symbols@1.0.3",
+                "pkgId": "has-symbols@1.0.3",
+              },
+              Object {
+                "deps": Array [
+                  Object {
+                    "nodeId": "function-bind@1.1.2",
+                  },
+                ],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "hasown@2.0.2",
+                "pkgId": "hasown@2.0.2",
+              },
+              Object {
+                "deps": Array [
+                  Object {
+                    "nodeId": "define-data-property@1.1.4",
+                  },
+                  Object {
+                    "nodeId": "es-errors@1.3.0",
+                  },
+                  Object {
+                    "nodeId": "function-bind@1.1.2",
+                  },
+                  Object {
+                    "nodeId": "get-intrinsic@1.2.4",
+                  },
+                  Object {
+                    "nodeId": "gopd@1.0.1",
+                  },
+                  Object {
+                    "nodeId": "has-property-descriptors@1.0.2",
+                  },
+                ],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "set-function-length@1.2.2",
+                "pkgId": "set-function-length@1.2.2",
+              },
+              Object {
+                "deps": Array [
+                  Object {
+                    "nodeId": "es-define-property@1.0.0",
+                  },
+                  Object {
+                    "nodeId": "es-errors@1.3.0",
+                  },
+                  Object {
+                    "nodeId": "gopd@1.0.1",
+                  },
+                ],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "define-data-property@1.1.4",
+                "pkgId": "define-data-property@1.1.4",
+              },
+              Object {
+                "deps": Array [
+                  Object {
+                    "nodeId": "get-intrinsic@1.2.4",
+                  },
+                ],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "gopd@1.0.1",
+                "pkgId": "gopd@1.0.1",
+              },
+              Object {
+                "deps": Array [
+                  Object {
+                    "nodeId": "es-define-property@1.0.0",
+                  },
+                ],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "has-property-descriptors@1.0.2",
+                "pkgId": "has-property-descriptors@1.0.2",
+              },
+              Object {
+                "deps": Array [],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "object-inspect@1.13.1",
+                "pkgId": "object-inspect@1.13.1",
+              },
+              Object {
+                "deps": Array [
+                  Object {
+                    "nodeId": "bytes@3.1.2",
+                  },
+                  Object {
+                    "nodeId": "http-errors@2.0.0",
+                  },
+                  Object {
+                    "nodeId": "iconv-lite@0.4.24",
+                  },
+                  Object {
+                    "nodeId": "unpipe@1.0.0",
+                  },
+                ],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "raw-body@2.5.2",
+                "pkgId": "raw-body@2.5.2",
+              },
+              Object {
+                "deps": Array [],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "unpipe@1.0.0",
+                "pkgId": "unpipe@1.0.0",
+              },
+              Object {
+                "deps": Array [
+                  Object {
+                    "nodeId": "media-typer@0.3.0",
+                  },
+                  Object {
+                    "nodeId": "mime-types@2.1.35",
+                  },
+                ],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "type-is@1.6.18",
+                "pkgId": "type-is@1.6.18",
+              },
+              Object {
+                "deps": Array [],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "media-typer@0.3.0",
+                "pkgId": "media-typer@0.3.0",
+              },
+              Object {
+                "deps": Array [
+                  Object {
+                    "nodeId": "safe-buffer@5.2.1",
+                  },
+                ],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "content-disposition@0.5.4",
+                "pkgId": "content-disposition@0.5.4",
+              },
+              Object {
+                "deps": Array [],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "safe-buffer@5.2.1",
+                "pkgId": "safe-buffer@5.2.1",
+              },
+              Object {
+                "deps": Array [],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "cookie@0.6.0",
+                "pkgId": "cookie@0.6.0",
+              },
+              Object {
+                "deps": Array [],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "cookie-signature@1.0.6",
+                "pkgId": "cookie-signature@1.0.6",
+              },
+              Object {
+                "deps": Array [],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "encodeurl@1.0.2",
+                "pkgId": "encodeurl@1.0.2",
+              },
+              Object {
+                "deps": Array [],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "escape-html@1.0.3",
+                "pkgId": "escape-html@1.0.3",
+              },
+              Object {
+                "deps": Array [],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "etag@1.8.1",
+                "pkgId": "etag@1.8.1",
+              },
+              Object {
+                "deps": Array [
+                  Object {
+                    "nodeId": "debug@2.6.9",
+                  },
+                  Object {
+                    "nodeId": "encodeurl@1.0.2",
+                  },
+                  Object {
+                    "nodeId": "escape-html@1.0.3",
+                  },
+                  Object {
+                    "nodeId": "on-finished@2.4.1",
+                  },
+                  Object {
+                    "nodeId": "parseurl@1.3.3",
+                  },
+                  Object {
+                    "nodeId": "statuses@2.0.1",
+                  },
+                  Object {
+                    "nodeId": "unpipe@1.0.0",
+                  },
+                ],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "finalhandler@1.2.0",
+                "pkgId": "finalhandler@1.2.0",
+              },
+              Object {
+                "deps": Array [],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "parseurl@1.3.3",
+                "pkgId": "parseurl@1.3.3",
+              },
+              Object {
+                "deps": Array [],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "fresh@0.5.2",
+                "pkgId": "fresh@0.5.2",
+              },
+              Object {
+                "deps": Array [],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "merge-descriptors@1.0.1",
+                "pkgId": "merge-descriptors@1.0.1",
+              },
+              Object {
+                "deps": Array [],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "methods@1.1.2",
+                "pkgId": "methods@1.1.2",
+              },
+              Object {
+                "deps": Array [],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "path-to-regexp@0.1.7",
+                "pkgId": "path-to-regexp@0.1.7",
+              },
+              Object {
+                "deps": Array [
+                  Object {
+                    "nodeId": "forwarded@0.2.0",
+                  },
+                  Object {
+                    "nodeId": "ipaddr.js@1.9.1",
+                  },
+                ],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "proxy-addr@2.0.7",
+                "pkgId": "proxy-addr@2.0.7",
+              },
+              Object {
+                "deps": Array [],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "forwarded@0.2.0",
+                "pkgId": "forwarded@0.2.0",
+              },
+              Object {
+                "deps": Array [],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "ipaddr.js@1.9.1",
+                "pkgId": "ipaddr.js@1.9.1",
+              },
+              Object {
+                "deps": Array [],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "range-parser@1.2.1",
+                "pkgId": "range-parser@1.2.1",
+              },
+              Object {
+                "deps": Array [
+                  Object {
+                    "nodeId": "debug@2.6.9",
+                  },
+                  Object {
+                    "nodeId": "depd@2.0.0",
+                  },
+                  Object {
+                    "nodeId": "destroy@1.2.0",
+                  },
+                  Object {
+                    "nodeId": "encodeurl@1.0.2",
+                  },
+                  Object {
+                    "nodeId": "escape-html@1.0.3",
+                  },
+                  Object {
+                    "nodeId": "etag@1.8.1",
+                  },
+                  Object {
+                    "nodeId": "fresh@0.5.2",
+                  },
+                  Object {
+                    "nodeId": "http-errors@2.0.0",
+                  },
+                  Object {
+                    "nodeId": "mime@1.6.0",
+                  },
+                  Object {
+                    "nodeId": "ms@2.1.3",
+                  },
+                  Object {
+                    "nodeId": "on-finished@2.4.1",
+                  },
+                  Object {
+                    "nodeId": "range-parser@1.2.1",
+                  },
+                  Object {
+                    "nodeId": "statuses@2.0.1",
+                  },
+                ],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "send@0.18.0",
+                "pkgId": "send@0.18.0",
+              },
+              Object {
+                "deps": Array [],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "mime@1.6.0",
+                "pkgId": "mime@1.6.0",
+              },
+              Object {
+                "deps": Array [],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "ms@2.1.3",
+                "pkgId": "ms@2.1.3",
+              },
+              Object {
+                "deps": Array [
+                  Object {
+                    "nodeId": "encodeurl@1.0.2",
+                  },
+                  Object {
+                    "nodeId": "escape-html@1.0.3",
+                  },
+                  Object {
+                    "nodeId": "parseurl@1.3.3",
+                  },
+                  Object {
+                    "nodeId": "send@0.18.0",
+                  },
+                ],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "serve-static@1.15.0",
+                "pkgId": "serve-static@1.15.0",
+              },
+              Object {
+                "deps": Array [],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "utils-merge@1.0.1",
+                "pkgId": "utils-merge@1.0.1",
+              },
+              Object {
+                "deps": Array [],
+                "info": Object {
+                  "labels": Object {
+                    "scope": "prod",
+                  },
+                },
+                "nodeId": "vary@1.1.2",
+                "pkgId": "vary@1.1.2",
+              },
+            ],
+            "rootNodeId": "root-node",
+          },
+          "pkgManager": Object {
+            "name": "npm",
+          },
+          "pkgs": Array [
+            Object {
+              "id": "goof@1.0.1",
+              "info": Object {
+                "name": "goof",
+                "version": "1.0.1",
+              },
+            },
+            Object {
+              "id": "express@4.19.2",
+              "info": Object {
+                "name": "express",
+                "version": "4.19.2",
+              },
+            },
+            Object {
+              "id": "accepts@1.3.8",
+              "info": Object {
+                "name": "accepts",
+                "version": "1.3.8",
+              },
+            },
+            Object {
+              "id": "mime-types@2.1.35",
+              "info": Object {
+                "name": "mime-types",
+                "version": "2.1.35",
+              },
+            },
+            Object {
+              "id": "mime-db@1.52.0",
+              "info": Object {
+                "name": "mime-db",
+                "version": "1.52.0",
+              },
+            },
+            Object {
+              "id": "negotiator@0.6.3",
+              "info": Object {
+                "name": "negotiator",
+                "version": "0.6.3",
+              },
+            },
+            Object {
+              "id": "array-flatten@1.1.1",
+              "info": Object {
+                "name": "array-flatten",
+                "version": "1.1.1",
+              },
+            },
+            Object {
+              "id": "body-parser@1.20.2",
+              "info": Object {
+                "name": "body-parser",
+                "version": "1.20.2",
+              },
+            },
+            Object {
+              "id": "bytes@3.1.2",
+              "info": Object {
+                "name": "bytes",
+                "version": "3.1.2",
+              },
+            },
+            Object {
+              "id": "content-type@1.0.5",
+              "info": Object {
+                "name": "content-type",
+                "version": "1.0.5",
+              },
+            },
+            Object {
+              "id": "debug@2.6.9",
+              "info": Object {
+                "name": "debug",
+                "version": "2.6.9",
+              },
+            },
+            Object {
+              "id": "ms@2.0.0",
+              "info": Object {
+                "name": "ms",
+                "version": "2.0.0",
+              },
+            },
+            Object {
+              "id": "depd@2.0.0",
+              "info": Object {
+                "name": "depd",
+                "version": "2.0.0",
+              },
+            },
+            Object {
+              "id": "destroy@1.2.0",
+              "info": Object {
+                "name": "destroy",
+                "version": "1.2.0",
+              },
+            },
+            Object {
+              "id": "http-errors@2.0.0",
+              "info": Object {
+                "name": "http-errors",
+                "version": "2.0.0",
+              },
+            },
+            Object {
+              "id": "inherits@2.0.4",
+              "info": Object {
+                "name": "inherits",
+                "version": "2.0.4",
+              },
+            },
+            Object {
+              "id": "setprototypeof@1.2.0",
+              "info": Object {
+                "name": "setprototypeof",
+                "version": "1.2.0",
+              },
+            },
+            Object {
+              "id": "statuses@2.0.1",
+              "info": Object {
+                "name": "statuses",
+                "version": "2.0.1",
+              },
+            },
+            Object {
+              "id": "toidentifier@1.0.1",
+              "info": Object {
+                "name": "toidentifier",
+                "version": "1.0.1",
+              },
+            },
+            Object {
+              "id": "iconv-lite@0.4.24",
+              "info": Object {
+                "name": "iconv-lite",
+                "version": "0.4.24",
+              },
+            },
+            Object {
+              "id": "safer-buffer@2.1.2",
+              "info": Object {
+                "name": "safer-buffer",
+                "version": "2.1.2",
+              },
+            },
+            Object {
+              "id": "on-finished@2.4.1",
+              "info": Object {
+                "name": "on-finished",
+                "version": "2.4.1",
+              },
+            },
+            Object {
+              "id": "ee-first@1.1.1",
+              "info": Object {
+                "name": "ee-first",
+                "version": "1.1.1",
+              },
+            },
+            Object {
+              "id": "qs@6.11.0",
+              "info": Object {
+                "name": "qs",
+                "version": "6.11.0",
+              },
+            },
+            Object {
+              "id": "side-channel@1.0.6",
+              "info": Object {
+                "name": "side-channel",
+                "version": "1.0.6",
+              },
+            },
+            Object {
+              "id": "call-bind@1.0.7",
+              "info": Object {
+                "name": "call-bind",
+                "version": "1.0.7",
+              },
+            },
+            Object {
+              "id": "es-define-property@1.0.0",
+              "info": Object {
+                "name": "es-define-property",
+                "version": "1.0.0",
+              },
+            },
+            Object {
+              "id": "get-intrinsic@1.2.4",
+              "info": Object {
+                "name": "get-intrinsic",
+                "version": "1.2.4",
+              },
+            },
+            Object {
+              "id": "es-errors@1.3.0",
+              "info": Object {
+                "name": "es-errors",
+                "version": "1.3.0",
+              },
+            },
+            Object {
+              "id": "function-bind@1.1.2",
+              "info": Object {
+                "name": "function-bind",
+                "version": "1.1.2",
+              },
+            },
+            Object {
+              "id": "has-proto@1.0.3",
+              "info": Object {
+                "name": "has-proto",
+                "version": "1.0.3",
+              },
+            },
+            Object {
+              "id": "has-symbols@1.0.3",
+              "info": Object {
+                "name": "has-symbols",
+                "version": "1.0.3",
+              },
+            },
+            Object {
+              "id": "hasown@2.0.2",
+              "info": Object {
+                "name": "hasown",
+                "version": "2.0.2",
+              },
+            },
+            Object {
+              "id": "set-function-length@1.2.2",
+              "info": Object {
+                "name": "set-function-length",
+                "version": "1.2.2",
+              },
+            },
+            Object {
+              "id": "define-data-property@1.1.4",
+              "info": Object {
+                "name": "define-data-property",
+                "version": "1.1.4",
+              },
+            },
+            Object {
+              "id": "gopd@1.0.1",
+              "info": Object {
+                "name": "gopd",
+                "version": "1.0.1",
+              },
+            },
+            Object {
+              "id": "has-property-descriptors@1.0.2",
+              "info": Object {
+                "name": "has-property-descriptors",
+                "version": "1.0.2",
+              },
+            },
+            Object {
+              "id": "object-inspect@1.13.1",
+              "info": Object {
+                "name": "object-inspect",
+                "version": "1.13.1",
+              },
+            },
+            Object {
+              "id": "raw-body@2.5.2",
+              "info": Object {
+                "name": "raw-body",
+                "version": "2.5.2",
+              },
+            },
+            Object {
+              "id": "unpipe@1.0.0",
+              "info": Object {
+                "name": "unpipe",
+                "version": "1.0.0",
+              },
+            },
+            Object {
+              "id": "type-is@1.6.18",
+              "info": Object {
+                "name": "type-is",
+                "version": "1.6.18",
+              },
+            },
+            Object {
+              "id": "media-typer@0.3.0",
+              "info": Object {
+                "name": "media-typer",
+                "version": "0.3.0",
+              },
+            },
+            Object {
+              "id": "content-disposition@0.5.4",
+              "info": Object {
+                "name": "content-disposition",
+                "version": "0.5.4",
+              },
+            },
+            Object {
+              "id": "safe-buffer@5.2.1",
+              "info": Object {
+                "name": "safe-buffer",
+                "version": "5.2.1",
+              },
+            },
+            Object {
+              "id": "cookie@0.6.0",
+              "info": Object {
+                "name": "cookie",
+                "version": "0.6.0",
+              },
+            },
+            Object {
+              "id": "cookie-signature@1.0.6",
+              "info": Object {
+                "name": "cookie-signature",
+                "version": "1.0.6",
+              },
+            },
+            Object {
+              "id": "encodeurl@1.0.2",
+              "info": Object {
+                "name": "encodeurl",
+                "version": "1.0.2",
+              },
+            },
+            Object {
+              "id": "escape-html@1.0.3",
+              "info": Object {
+                "name": "escape-html",
+                "version": "1.0.3",
+              },
+            },
+            Object {
+              "id": "etag@1.8.1",
+              "info": Object {
+                "name": "etag",
+                "version": "1.8.1",
+              },
+            },
+            Object {
+              "id": "finalhandler@1.2.0",
+              "info": Object {
+                "name": "finalhandler",
+                "version": "1.2.0",
+              },
+            },
+            Object {
+              "id": "parseurl@1.3.3",
+              "info": Object {
+                "name": "parseurl",
+                "version": "1.3.3",
+              },
+            },
+            Object {
+              "id": "fresh@0.5.2",
+              "info": Object {
+                "name": "fresh",
+                "version": "0.5.2",
+              },
+            },
+            Object {
+              "id": "merge-descriptors@1.0.1",
+              "info": Object {
+                "name": "merge-descriptors",
+                "version": "1.0.1",
+              },
+            },
+            Object {
+              "id": "methods@1.1.2",
+              "info": Object {
+                "name": "methods",
+                "version": "1.1.2",
+              },
+            },
+            Object {
+              "id": "path-to-regexp@0.1.7",
+              "info": Object {
+                "name": "path-to-regexp",
+                "version": "0.1.7",
+              },
+            },
+            Object {
+              "id": "proxy-addr@2.0.7",
+              "info": Object {
+                "name": "proxy-addr",
+                "version": "2.0.7",
+              },
+            },
+            Object {
+              "id": "forwarded@0.2.0",
+              "info": Object {
+                "name": "forwarded",
+                "version": "0.2.0",
+              },
+            },
+            Object {
+              "id": "ipaddr.js@1.9.1",
+              "info": Object {
+                "name": "ipaddr.js",
+                "version": "1.9.1",
+              },
+            },
+            Object {
+              "id": "range-parser@1.2.1",
+              "info": Object {
+                "name": "range-parser",
+                "version": "1.2.1",
+              },
+            },
+            Object {
+              "id": "send@0.18.0",
+              "info": Object {
+                "name": "send",
+                "version": "0.18.0",
+              },
+            },
+            Object {
+              "id": "mime@1.6.0",
+              "info": Object {
+                "name": "mime",
+                "version": "1.6.0",
+              },
+            },
+            Object {
+              "id": "ms@2.1.3",
+              "info": Object {
+                "name": "ms",
+                "version": "2.1.3",
+              },
+            },
+            Object {
+              "id": "serve-static@1.15.0",
+              "info": Object {
+                "name": "serve-static",
+                "version": "1.15.0",
+              },
+            },
+            Object {
+              "id": "utils-merge@1.0.1",
+              "info": Object {
+                "name": "utils-merge",
+                "version": "1.0.1",
+              },
+            },
+            Object {
+              "id": "vary@1.1.2",
+              "info": Object {
+                "name": "vary",
+                "version": "1.1.2",
+              },
+            },
+          ],
+          "schemaVersion": "1.3.0",
+        },
+        "type": "depGraph",
+      },
+      Object {
+        "data": Array [
+          "package.json",
+          "package-lock.json",
+        ],
+        "type": "testedFiles",
+      },
+      Object {
+        "data": "sha256:d60c3644cc5048e48a45c9de94fec3f17ee2eb72eb835434dc13ec5b9d3c532b",
+        "type": "imageId",
+      },
+    ],
+    "identity": Object {
+      "targetFile": "/usr/goof2/package.json",
+      "type": "npm",
+    },
+    "target": Object {
+      "image": "docker-image|multi-project-image.tar",
+    },
+  },
+]
+`;
+
+exports[`node application scans should generate a scanResult from multiple node.js projects inside a multi-project-image 1`] = `
 Array [
   Object {
     "facts": Array [

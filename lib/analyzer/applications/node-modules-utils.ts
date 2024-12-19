@@ -6,7 +6,12 @@ const debug = Debug("snyk");
 
 const nodeModulesRegex = /^(.*?)(?:[\\\/]node_modules)/;
 
-export { persistNodeModules, cleanupAppNodeModules, groupFilesByDirectory };
+export {
+  persistNodeModules,
+  cleanupAppNodeModules,
+  groupNodeAppFilesByDirectory,
+  groupNodeModulesFilesByDirectory,
+};
 
 interface ScanPaths {
   tempDir: string;
@@ -147,6 +152,11 @@ function isNpmCacheDependency(filePath: string): boolean {
   return false;
 }
 
+// TODO: Enable custom cache filtering if needed
+// function isCustomCache(filePath: string): boolean {
+//   return (filePath.includes("cache") || filePath.includes("Cache"));
+// }
+
 function isPnpmCacheDependency(filePath: string): boolean {
   if (
     filePath.includes("pnpm-store") ||
@@ -171,6 +181,23 @@ function getNodeModulesParentDir(filePath: string): string | null {
   return null;
 }
 
+function groupNodeAppFilesByDirectory(
+  filePathToContent: FilePathToContent,
+): FilesByDirMap {
+  const filesByDir: FilesByDirMap = new Map();
+  const filePaths = Object.keys(filePathToContent);
+
+  for (const filePath of filePaths) {
+    const directory = path.dirname(filePath);
+
+    if (!filesByDir.has(directory)) {
+      filesByDir.set(directory, new Set());
+    }
+    filesByDir.get(directory)?.add(filePath);
+  }
+  return filesByDir;
+}
+
 function getGroupingDir(filePath: string): string {
   const nodeModulesParentDir = getNodeModulesParentDir(filePath);
 
@@ -180,7 +207,7 @@ function getGroupingDir(filePath: string): string {
   return path.dirname(filePath);
 }
 
-function groupFilesByDirectory(
+function groupNodeModulesFilesByDirectory(
   filePathToContent: FilePathToContent,
 ): FilesByDirMap {
   const filesByDir: FilesByDirMap = new Map();
