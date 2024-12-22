@@ -20,3 +20,6 @@ c9159ce0a99f771b491567e41d92a6ec7995cb3a:test/fixtures/dockerfiles/library/nginx
 c4377377c58325b00d95fa80ea3bc740cb1f96e7:test/fixtures/ls-output/ghost-app.txt:generic-api-key:152078
 c4377377c58325b00d95fa80ea3bc740cb1f96e7:test/fixtures/ls-output/ghost-app.txt:generic-api-key:152121
 c4377377c58325b00d95fa80ea3bc740cb1f96e7:test/fixtures/ls-output/ghost-app.txt:generic-api-key:152146
+a4b61d40e8328741f1b83f0042d21eaaa70da262:test/lib/scan.spec.ts:hashicorp-tf-password:7
+a4b61d40e8328741f1b83f0042d21eaaa70da262:test/lib/scan.spec.ts:hashicorp-tf-password:8
+85338da536723a63d9f187190b2dbca03e7a9e2c:test/lib/analyzer/image-inspector.spec.ts:hashicorp-tf-password:225
