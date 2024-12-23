@@ -10,6 +10,7 @@ import {
   shouldBuildDepTree,
 } from "../../../lib/analyzer/applications/node";
 import * as nodeUtils from "../../../lib/analyzer/applications/node-modules-utils";
+import { getAppFilesRootDir } from "../../../lib/analyzer/applications/runtime-common";
 import { FilePathToContent } from "../../../lib/analyzer/applications/types";
 import { getFixture, getObjFromFixture } from "../../util";
 
@@ -150,6 +151,39 @@ describe("node application scans", () => {
 
     expect(pluginResultExcludeAppVulnsTrueString.scanResults).toHaveLength(1);
     expect(pluginResultExcludeAppVulnsTrueBoolean.scanResults).toHaveLength(1);
+  });
+
+  it("should handle --collect-application-files", async () => {
+    const fixturePath = getFixture("npm/multi-project-image.tar");
+    const imageNameAndTag = `docker-archive:${fixturePath}`;
+
+    const resultWithoutApplicationFilesFlag = await scan({
+      path: imageNameAndTag,
+    });
+    const resultWithApplicationFilesFlagSetToTrue = await scan({
+      path: imageNameAndTag,
+      "collect-application-files": "true",
+    });
+
+    expect(resultWithoutApplicationFilesFlag.scanResults).toHaveLength(5);
+    expect(resultWithApplicationFilesFlagSetToTrue.scanResults).toHaveLength(6);
+
+    const appFiles =
+      resultWithApplicationFilesFlagSetToTrue.scanResults[5].facts.find(
+        (fact) => fact.type === "applicationFiles",
+      )!.data;
+    expect(appFiles.length).toEqual(1);
+    expect(appFiles[0].fileHierarchy.length).toEqual(7);
+    expect(appFiles[0].language).toEqual("node");
+    expect(appFiles[0].fileHierarchy).toStrictEqual([
+      { path: "usr/goof2/package.json" },
+      { path: "usr/goof2/package-lock.json" },
+      { path: "usr/goof/package.json" },
+      { path: "opt/yarn-v1.22.4/bin/yarn.js" },
+      { path: "opt/yarn-v1.22.4/lib/cli.js" },
+      { path: "opt/yarn-v1.22.4/lib/v8-compile-cache.js" },
+      { path: "opt/yarn-v1.22.4/package.json" },
+    ]);
   });
 
   it("should not create scan results for the npm/yarn cache directories", async () => {
@@ -628,6 +662,38 @@ describe("node application files grouping", () => {
       "/goof2",
       "/usr/local/lib",
       "/opt/local/lib",
+    ]);
+  });
+
+  it("should correctly group js ts files with root dir", async () => {
+    const nodeProjectFiles = [
+      "/srv/dist/index.js",
+      "/srv/dist/src/app.js",
+      "/srv/dist/src/utils/helpers.js",
+      "/srv/dist/src/components/header.ts",
+      "/srv/dist/src/components/footer.js",
+      "/srv/dist/src/services/api.js",
+      "/srv/dist/src/models/user.js",
+      "/srv/dist/src/config/config.ts",
+      "/srv/dist/package.json",
+      "/srv/dist/package-lock.json",
+    ];
+
+    const [appFilesRootDir, appFiles] = getAppFilesRootDir(nodeProjectFiles);
+
+    expect(appFilesRootDir).toBe("/srv/dist");
+    expect(appFiles.length).toBe(10);
+    expect(appFiles).toEqual([
+      { path: "index.js" },
+      { path: "src/app.js" },
+      { path: "src/utils/helpers.js" },
+      { path: "src/components/header.ts" },
+      { path: "src/components/footer.js" },
+      { path: "src/services/api.js" },
+      { path: "src/models/user.js" },
+      { path: "src/config/config.ts" },
+      { path: "package.json" },
+      { path: "package-lock.json" },
     ]);
   });
 });
