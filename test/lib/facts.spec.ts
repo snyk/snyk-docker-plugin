@@ -43,6 +43,10 @@ describe("Facts", () => {
       type: "testedFiles",
       data: [],
     };
+    const applicationFilesFact: facts.ApplicationFilesFact = {
+      type: "applicationFiles",
+      data: [],
+    };
     const autoDetectedUserInstructionsFact: facts.AutoDetectedUserInstructionsFact =
       {
         type: "autoDetectedUserInstructions",
@@ -69,6 +73,7 @@ describe("Facts", () => {
       keyBinariesHashesFact,
       rootFsFact,
       testedFilesFact,
+      applicationFilesFact,
       autoDetectedUserInstructionsFact,
       imageCreationTimeFact,
       loadedPackagesFact,
