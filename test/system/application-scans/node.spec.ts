@@ -173,16 +173,13 @@ describe("node application scans", () => {
         (fact) => fact.type === "applicationFiles",
       )!.data;
     expect(appFiles.length).toEqual(1);
-    expect(appFiles[0].fileHierarchy.length).toEqual(7);
+    expect(appFiles[0].fileHierarchy.length).toEqual(4);
     expect(appFiles[0].language).toEqual("node");
     expect(appFiles[0].fileHierarchy).toStrictEqual([
-      { path: "usr/goof2/package.json" },
-      { path: "usr/goof2/package-lock.json" },
-      { path: "usr/goof/package.json" },
-      { path: "opt/yarn-v1.22.4/bin/yarn.js" },
-      { path: "opt/yarn-v1.22.4/lib/cli.js" },
-      { path: "opt/yarn-v1.22.4/lib/v8-compile-cache.js" },
-      { path: "opt/yarn-v1.22.4/package.json" },
+      { path: "bin/yarn.js" },
+      { path: "lib/cli.js" },
+      { path: "lib/v8-compile-cache.js" },
+      { path: "package.json" },
     ]);
   });
 

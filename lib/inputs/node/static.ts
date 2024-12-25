@@ -27,6 +27,8 @@ export const getNodeAppFileContentAction: ExtractAction = {
 function nodeJsTsAppFilePathMatches(filePath: string): boolean {
   return (
     !filePath.includes("node_modules/") &&
+    // "/usr/" should not include 1st party code
+    !filePath.startsWith("/usr/") &&
     nodeJsTsAppFileSuffixes.some((suffix) => filePath.endsWith(suffix)) &&
     !excludedNodeJsTsAppFileSuffixes.some((excludedSuffix) =>
       filePath.endsWith(excludedSuffix),
