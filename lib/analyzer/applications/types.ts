@@ -33,6 +33,7 @@ export interface AggregatedJars {
 }
 export interface ApplicationFileInfo {
   path: string;
+  moduleName?: string;
 }
 export interface ApplicationFiles {
   fileHierarchy: ApplicationFileInfo[];

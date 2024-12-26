@@ -179,7 +179,7 @@ describe("node application scans", () => {
       { path: "bin/yarn.js" },
       { path: "lib/cli.js" },
       { path: "lib/v8-compile-cache.js" },
-      { path: "package.json" },
+      { path: "package.json", moduleName: "yarn" },
     ]);
   });
 

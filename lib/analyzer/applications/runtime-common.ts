@@ -1,3 +1,4 @@
+import * as Debug from "debug";
 import * as path from "path";
 import { ApplicationFilesFact } from "../../facts";
 import {
@@ -5,6 +6,8 @@ import {
   ApplicationFileInfo,
   FilePathToContent,
 } from "./types";
+
+const debug = Debug("snyk");
 
 export function getAppFilesRootDir(
   filePaths: string[],
@@ -40,6 +43,27 @@ export function getAppFilesRootDir(
   return [rootDir, appFiles];
 }
 
+function collectNodeModuleNames(
+  filePathToContent: FilePathToContent,
+  appFilesRootDir: string,
+  appFiles: ApplicationFileInfo[],
+) {
+  appFiles.forEach((file) => {
+    if (path.basename(file.path) === "package.json") {
+      const fullPath = path.join(appFilesRootDir, file.path);
+      try {
+        const content = filePathToContent[fullPath];
+        const parsed = JSON.parse(content);
+        if (parsed.name) {
+          file.moduleName = parsed.name;
+        }
+      } catch (error) {
+        debug(`Unable to extract node.js module name: ${fullPath}`);
+      }
+    }
+  });
+}
+
 export function getApplicationFiles(
   filePathToContent: FilePathToContent,
   language: string,
@@ -50,6 +74,11 @@ export function getApplicationFiles(
   const [appFilesRootDir, appFiles] = getAppFilesRootDir(
     Object.keys(filePathToContent),
   );
+
+  if (language === "node") {
+    collectNodeModuleNames(filePathToContent, appFilesRootDir, appFiles);
+  }
+
   if (appFiles.length) {
     scanResults.push({
       facts: [
