@@ -15,6 +15,7 @@ export interface JarInfo extends JarBuffer {
   coords: JarCoords | null;
   dependencies: JarCoords[];
   nestedJars: JarBuffer[];
+  classFiles?: ApplicationFiles;
 }
 export interface JarBuffer {
   location: string;
@@ -37,6 +38,7 @@ export interface ApplicationFileInfo {
 export interface ApplicationFiles {
   fileHierarchy: ApplicationFileInfo[];
   moduleName?: string;
+  jarPath?: string;
   language: string;
 }
 
