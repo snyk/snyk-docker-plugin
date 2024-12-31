@@ -468,4 +468,36 @@ describe("jar binaries scanning", () => {
       },
     );
   });
+
+  it("should handle --collect-application-files", async () => {
+    const fixturePath = getFixture(
+      "docker-archives/docker-save/java-uberjar.tar",
+    );
+    const imageNameAndTag = `docker-archive:${fixturePath}`;
+
+    const resultWithoutApplicationFilesFlag = await scan({
+      path: imageNameAndTag,
+      "app-vulns": true,
+    });
+    const resultWithApplicationFilesFlagSetToTrue = await scan({
+      path: imageNameAndTag,
+      "app-vulns": true,
+      "collect-application-files": "true",
+    });
+
+    expect(resultWithoutApplicationFilesFlag.scanResults).toHaveLength(2);
+    expect(resultWithApplicationFilesFlagSetToTrue.scanResults).toHaveLength(3);
+
+    const appFiles =
+      resultWithApplicationFilesFlagSetToTrue.scanResults[2].facts.find(
+        (fact) => fact.type === "applicationFiles",
+      )!.data;
+    expect(appFiles.length).toEqual(2);
+    expect(appFiles[0].fileHierarchy.length).toEqual(1);
+    expect(appFiles[0].jarPath).toEqual("/uberjar.jar");
+    expect(appFiles[0].language).toEqual("java");
+    expect(appFiles[1].fileHierarchy.length).toEqual(12);
+    expect(appFiles[1].jarPath).toEqual("/j2objc-annotations-1.3.jar");
+    expect(appFiles[1].language).toEqual("java");
+  });
 });

@@ -21,6 +21,7 @@ describe("jarFilesToScannedResults function", () => {
       filePathToContent,
       "image-name",
       0, // we don't want to include any nested JARs
+      false, // no collect-application-files wanted
     );
 
     // Assert
@@ -31,6 +32,41 @@ describe("jarFilesToScannedResults function", () => {
     expect(result[0].facts[0].data.fingerprints[0].digest).toBeNull();
     expect(result[0].identity.type).toEqual("maven");
     expect(result[0].identity.targetFile).toEqual("/lib/test");
+  });
+
+  it("should extract only top level class files", async () => {
+    // Arrange
+    const buffered = readFileSync(
+      "test/fixtures/maven/nested-jars-fixture.jar",
+    );
+    const filePathToContent = {
+      "/lib/test/nested-jars-fixture.jar": buffered,
+    };
+
+    // Act
+    const result = await jarFilesToScannedResults(
+      filePathToContent,
+      "image-name",
+      10, // we don't want to include any nested JARs
+      true, // collect-application-files wanted
+    );
+
+    // Assert
+    expect(result.length).toEqual(2);
+    const jarFilesCount = result[0].facts[0].data.fingerprints;
+    expect(jarFilesCount.length).toEqual(35);
+    expect(result[0].facts[0].type).toEqual("jarFingerprints");
+    expect(result[0].facts[0].data.fingerprints[0].location).toEqual(
+      "/lib/test/nested-jars-fixture.jar",
+    );
+    expect(result[1].facts[0].data.length).toEqual(1);
+    expect(result[1].facts[0].data[0].fileHierarchy.length).toEqual(55);
+    expect(result[1].facts[0].data[0].jarPath).toEqual(
+      "/lib/test/nested-jars-fixture.jar",
+    );
+    expect(result[1].facts[0].data[0].language).toEqual("java");
+    expect(result[1].identity.type).toEqual("maven");
+    expect(result[1].identity.targetFile).toEqual("/lib/test");
   });
 
   it("should catch errors with admzip and continue", async () => {
@@ -53,6 +89,7 @@ describe("jarFilesToScannedResults function", () => {
       filePathToContent,
       "image-name",
       0, // we always unpack so will still "trip" admzip
+      false, // no collect-application-files wanted
     );
 
     // Assert

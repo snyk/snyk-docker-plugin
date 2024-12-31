@@ -254,6 +254,7 @@ export async function analyze(
       getBufferContent(extractedLayers, getJarFileContentAction.actionName),
       targetImage,
       desiredLevelsOfUnpacking,
+      collectApplicationFiles,
     );
 
     const goModulesScanResult = await goModulesToScannedProjects(
