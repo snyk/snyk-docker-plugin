@@ -663,7 +663,18 @@ describe("node application files grouping", () => {
   });
 
   it("should correctly group js ts files with root dir", async () => {
-    const nodeProjectFiles = [
+    let nodeProjectFiles = [
+      "/aaa/bbb/ccc/y.js",
+      "/aaa/bbb/ccc/z.js",
+      "/aaa/x.js",
+    ];
+
+    let [appFilesRootDir, appFiles] = getAppFilesRootDir(nodeProjectFiles);
+
+    expect(appFilesRootDir).toBe("/aaa");
+    expect(appFiles.length).toBe(3);
+
+    nodeProjectFiles = [
       "/srv/dist/index.js",
       "/srv/dist/src/app.js",
       "/srv/dist/src/utils/helpers.js",
@@ -676,7 +687,7 @@ describe("node application files grouping", () => {
       "/srv/dist/package-lock.json",
     ];
 
-    const [appFilesRootDir, appFiles] = getAppFilesRootDir(nodeProjectFiles);
+    [appFilesRootDir, appFiles] = getAppFilesRootDir(nodeProjectFiles);
 
     expect(appFilesRootDir).toBe("/srv/dist");
     expect(appFiles.length).toBe(10);
@@ -691,6 +702,30 @@ describe("node application files grouping", () => {
       { path: "src/config/config.ts" },
       { path: "package.json" },
       { path: "package-lock.json" },
+    ]);
+  });
+
+  it("should return / as the root dir in case nothing's found", async () => {
+    const nodeProjectFiles = ["/srv/dist/index.js", "/opt/app.js"];
+
+    const [appFilesRootDir, appFiles] = getAppFilesRootDir(nodeProjectFiles);
+    expect(appFilesRootDir).toBe("/");
+    expect(appFiles.length).toBe(2);
+    expect(appFiles).toEqual([
+      { path: "srv/dist/index.js" },
+      { path: "opt/app.js" },
+    ]);
+  });
+
+  it("should only consider full path segments for common prefix", async () => {
+    const nodeProjectFiles = ["/srv/dist/index.js", "/srv2/app.js"];
+
+    const [appFilesRootDir, appFiles] = getAppFilesRootDir(nodeProjectFiles);
+    expect(appFilesRootDir).toBe("/");
+    expect(appFiles.length).toBe(2);
+    expect(appFiles).toEqual([
+      { path: "srv/dist/index.js" },
+      { path: "srv2/app.js" },
     ]);
   });
 });
