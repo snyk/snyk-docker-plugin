@@ -10,34 +10,43 @@ export function getAppFilesRootDir(
   filePaths: string[],
 ): [string, ApplicationFileInfo[]] {
   const appFiles: ApplicationFileInfo[] = [];
-  let rootDir: string = "";
-  const directories: Set<string> = new Set();
+  const splitPaths: string[][] = [];
+
+  if (!filePaths.length) {
+    return [path.sep, appFiles];
+  }
 
   for (const filePath of filePaths) {
     appFiles.push({ path: filePath });
-    directories.add(path.dirname(filePath)); // Collect directories of app files
+    splitPaths.push(filePath.split("/").filter(Boolean));
   }
 
-  // Determine the common directory
-  if (appFiles.length > 0) {
-    rootDir = Array.from(directories).reduce((commonDir, dir) => {
-      // Find the common path
-      while (commonDir && commonDir !== "" && !dir.startsWith(commonDir)) {
-        commonDir = commonDir.substring(0, commonDir.lastIndexOf(path.sep));
-      }
-      return commonDir;
-    }, directories.values().next().value);
+  // Find the shortest path length to prevent out-of-bounds access
+  const minLength = Math.min(...splitPaths.map((path) => path.length));
+
+  // Find the common parts of the paths
+  const commonParts: string[] = [];
+  for (let i = 0; i < minLength - 1; i++) {
+    const currentPart = splitPaths[0][i];
+    if (splitPaths.every((path) => path[i] === currentPart)) {
+      commonParts.push(currentPart);
+    } else {
+      break;
+    }
   }
+
+  // Join the common parts to form the common directory
+  const rootDir = "/" + commonParts.join("/");
 
   // Remove the common path prefix from each appFile
   appFiles.forEach((file) => {
-    const prefix = `${rootDir}${path.sep}`;
+    const prefix = rootDir === path.sep ? rootDir : `${rootDir}${path.sep}`;
     if (file.path.startsWith(prefix)) {
       file.path = file.path.substring(prefix.length); // Remove rootDir from path
     }
   });
 
-  return [rootDir, appFiles];
+  return [rootDir || path.sep, appFiles];
 }
 
 export function getApplicationFiles(
