@@ -2,11 +2,14 @@ import { basename } from "path";
 import { ExtractAction } from "../../extractor/types";
 import { streamToString } from "../../stream-utils";
 
-const nodeAppFiles = ["package.json", "package-lock.json", "yarn.lock"];
-const deletedAppFiles = nodeAppFiles.map((file) => ".wh." + file);
+const nodeManifestFiles = ["package.json", "package-lock.json", "yarn.lock"];
+const deletedNodeManifestFiles = nodeManifestFiles.map((file) => ".wh." + file);
+
+export const jsMapExtension = ".js.map";
+const jsAndJsMapExtensions = [".js", jsMapExtension];
 
 const nodeJsTsAppFileSuffixes = [
-  ".js",
+  ...jsAndJsMapExtensions,
   ".ts",
   "package.json",
   "package-lock.json",
@@ -15,7 +18,10 @@ const excludedNodeJsTsAppFileSuffixes = [".d.ts"];
 
 function filePathMatches(filePath: string): boolean {
   const fileName = basename(filePath);
-  return nodeAppFiles.includes(fileName) || deletedAppFiles.includes(fileName);
+  return (
+    nodeManifestFiles.includes(fileName) ||
+    deletedNodeManifestFiles.includes(fileName)
+  );
 }
 
 export const getNodeAppFileContentAction: ExtractAction = {

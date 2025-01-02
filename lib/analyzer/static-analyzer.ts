@@ -1,6 +1,8 @@
 import * as Debug from "debug";
 import { DockerFileAnalysis } from "../dockerfile";
 import * as archiveExtractor from "../extractor";
+import { ExtractedLayers } from "../extractor/types";
+import { ApplicationFilesFact } from "../facts";
 import {
   getGoModulesContentAction,
   goModulesToScannedProjects,
@@ -29,6 +31,7 @@ import { getJarFileContentAction } from "../inputs/java/static";
 import {
   getNodeAppFileContentAction,
   getNodeJsTsAppFileContentAction,
+  jsMapExtension,
 } from "../inputs/node/static";
 import { getOsReleaseActions } from "../inputs/os-release/static";
 import { getPhpAppFileContentAction } from "../inputs/php/static";
@@ -213,14 +216,8 @@ export async function analyze(
     );
     let nodeApplicationFilesScanResults: AppDepsScanResultWithoutTarget[] = [];
     if (collectApplicationFiles) {
-      nodeApplicationFilesScanResults = getApplicationFiles(
-        getFileContent(
-          extractedLayers,
-          getNodeJsTsAppFileContentAction.actionName,
-        ),
-        "node",
-        "npm",
-      );
+      nodeApplicationFilesScanResults =
+        getNodeApplicationFilesScanResults(extractedLayers);
     }
 
     const phpDependenciesScanResults = await phpFilesToScannedProjects(
@@ -304,4 +301,60 @@ function shouldCheckForGlobs(globsToFind: {
   exclude: string[];
 }): boolean {
   return globsToFind.include.length > 0;
+}
+
+function getNodeApplicationFilesScanResults(
+  extractedLayers: ExtractedLayers,
+): AppDepsScanResultWithoutTarget[] {
+  const nodeAppFilesContents = getFileContent(
+    extractedLayers,
+    getNodeJsTsAppFileContentAction.actionName,
+  );
+
+  const language = "node";
+  const identityType = "npm";
+  const result = getApplicationFiles(
+    nodeAppFilesContents,
+    language,
+    identityType,
+  );
+
+  const nodeAppFiles = Object.keys(nodeAppFilesContents);
+  const jsMapFiles = nodeAppFiles.filter((file) =>
+    file.endsWith(jsMapExtension),
+  );
+  if (jsMapFiles.length === 1) {
+    // In case of webpack / esbuilt minimization we expect a single js.map file
+    const jsMapFile = jsMapFiles[0];
+    const matchingJsFile = jsMapFile.substring(0, jsMapFile.length - 4); // Remove .map suffix
+    if (nodeAppFiles.find((file) => file === matchingJsFile)) {
+      const jsMapContent = nodeAppFilesContents[jsMapFile];
+      try {
+        const parsedJsMap = JSON.parse(jsMapContent);
+        if (Array.isArray(parsedJsMap.sources)) {
+          result.push({
+            facts: [
+              {
+                type: "applicationFiles",
+                data: [
+                  {
+                    language,
+                    fileHierarchy: parsedJsMap.sources,
+                  },
+                ],
+              } as ApplicationFilesFact,
+            ],
+            identity: {
+              type: identityType,
+              targetFile: jsMapFile,
+            },
+          });
+        }
+      } catch (err) {
+        debug("Failed parsing js.map file", err);
+      }
+    }
+  }
+
+  return result;
 }

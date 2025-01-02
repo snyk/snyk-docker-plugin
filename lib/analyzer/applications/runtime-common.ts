@@ -59,6 +59,7 @@ export function getApplicationFiles(
             {
               language,
               fileHierarchy: appFiles,
+              minimized: true,
             },
           ],
         } as ApplicationFilesFact,
