@@ -28,6 +28,7 @@ import * as filePatternStatic from "../inputs/file-pattern/static";
 import { getJarFileContentAction } from "../inputs/java/static";
 import {
   getNodeAppFileContentAction,
+  getNodeApplicationFilesScanResults,
   getNodeJsTsAppFileContentAction,
 } from "../inputs/node/static";
 import { getOsReleaseActions } from "../inputs/os-release/static";
@@ -213,14 +214,13 @@ export async function analyze(
     );
     let nodeApplicationFilesScanResults: AppDepsScanResultWithoutTarget[] = [];
     if (collectApplicationFiles) {
-      nodeApplicationFilesScanResults = getApplicationFiles(
-        getFileContent(
-          extractedLayers,
-          getNodeJsTsAppFileContentAction.actionName,
-        ),
-        "node",
-        "npm",
+      const nodeAppFilesContents = getFileContent(
+        extractedLayers,
+        getNodeJsTsAppFileContentAction.actionName,
       );
+
+      nodeApplicationFilesScanResults =
+        getNodeApplicationFilesScanResults(nodeAppFilesContents);
     }
 
     const phpDependenciesScanResults = await phpFilesToScannedProjects(

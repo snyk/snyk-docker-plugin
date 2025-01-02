@@ -12,6 +12,7 @@ import {
 import * as nodeUtils from "../../../lib/analyzer/applications/node-modules-utils";
 import { getAppFilesRootDir } from "../../../lib/analyzer/applications/runtime-common";
 import { FilePathToContent } from "../../../lib/analyzer/applications/types";
+import { getNodeApplicationFilesScanResults } from "../../../lib/inputs/node/static";
 import { getFixture, getObjFromFixture } from "../../util";
 
 describe("node application scans", () => {
@@ -181,6 +182,38 @@ describe("node application scans", () => {
       { path: "lib/v8-compile-cache.js" },
       { path: "package.json" },
     ]);
+  });
+
+  it("should collect minimized file hierarchy", async () => {
+    const jsMapContent = {
+      sources: ["/src/app.js", "/src/config.js", "/src/route.js"],
+    };
+    const prefix = "/srv/app/";
+    const fileContents = {
+      [`${prefix}index.js.map`]: JSON.stringify(jsMapContent),
+      [`${prefix}index.js`]: "doesn't matter",
+      [`${prefix}package.json`]: "doesn't matter",
+    };
+    const scanResults = getNodeApplicationFilesScanResults(fileContents);
+    expect(scanResults.length).toEqual(2);
+
+    // Validate non-minimized hierarchy
+    expect(scanResults[0].facts[0].type).toEqual("applicationFiles");
+    expect(scanResults[0].facts[0].data[0].minimized).toBeUndefined();
+    const fileHierarchy = scanResults[0].facts[0].data[0].fileHierarchy.map(
+      (t) => t.path,
+    );
+    const expectedFileHierarchy = Object.keys(fileContents).map((t) =>
+      t.substring(prefix.length),
+    );
+    expect(fileHierarchy).toEqual(expectedFileHierarchy);
+
+    // Validate minimized hierarchy
+    expect(scanResults[1].facts[0].type).toEqual("applicationFiles");
+    expect(scanResults[1].facts[0].data[0].minimized).toBeTruthy();
+    const minimizedFileHierarchy =
+      scanResults[1].facts[0].data[0].fileHierarchy.map((t) => t.path);
+    expect(minimizedFileHierarchy).toEqual(jsMapContent.sources);
   });
 
   it("should not create scan results for the npm/yarn cache directories", async () => {

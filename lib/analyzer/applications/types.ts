@@ -38,6 +38,7 @@ export interface ApplicationFiles {
   fileHierarchy: ApplicationFileInfo[];
   moduleName?: string;
   language: string;
+  minimized: boolean;
 }
 
 export type FilesByDirMap = Map<string, Set<string>>;
