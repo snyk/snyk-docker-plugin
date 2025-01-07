@@ -1,4 +1,5 @@
 import * as path from "path";
+import { parsePkgJson } from "snyk-nodejs-lockfile-parser";
 import { ApplicationFilesFact } from "../../facts";
 import {
   AppDepsScanResultWithoutTarget,
@@ -6,18 +7,76 @@ import {
   FilePathToContent,
 } from "./types";
 
-export function getAppFilesRootDir(
-  filePaths: string[],
-): [string, ApplicationFileInfo[]] {
-  const appFiles: ApplicationFileInfo[] = [];
-  const splitPaths: string[][] = [];
+interface AppFileMetadataExtractor {
+  manifestFiles: string[];
+  metadataExtractor: (fileContent: string) => Record<string, string>;
+}
 
+export const filesMetadataExtractorPerLanguage: Record<
+  string,
+  AppFileMetadataExtractor
+> = {
+  node: {
+    manifestFiles: ["package.json", "package-lock.json", "yarn.lock"],
+    metadataExtractor: (fileContent: string) => {
+      const pkgJson = parsePkgJson(fileContent);
+      const repoUrl = (pkgJson as any).repository?.url;
+      return {
+        moduleName: pkgJson.name,
+        repoUrl,
+      };
+    },
+  },
+};
+
+export function getAppFileInfos(
+  filePathToContent: FilePathToContent,
+  rootDir: string,
+  manifestMetadataExtractor?: AppFileMetadataExtractor,
+): ApplicationFileInfo[] {
+  const appFiles: ApplicationFileInfo[] = [];
+
+  const filePaths = Object.keys(filePathToContent);
   if (!filePaths.length) {
-    return [path.sep, appFiles];
+    return appFiles;
   }
 
   for (const filePath of filePaths) {
-    appFiles.push({ path: filePath });
+    const appFile: ApplicationFileInfo = { path: filePath };
+    if (manifestMetadataExtractor) {
+      const { manifestFiles, metadataExtractor } = manifestMetadataExtractor;
+      if (
+        manifestFiles.length &&
+        manifestFiles.some((mf) => filePath.endsWith("/" + mf))
+      ) {
+        appFile.type = "Manifest";
+        const manifestContent = filePathToContent[filePath];
+
+        appFile.metadata = metadataExtractor(manifestContent);
+      }
+    }
+
+    appFiles.push(appFile);
+  }
+
+  // Remove the common path prefix from each appFile
+  appFiles.forEach((file) => {
+    const prefix = rootDir === path.sep ? rootDir : `${rootDir}${path.sep}`;
+    if (file.path.startsWith(prefix)) {
+      file.path = file.path.substring(prefix.length); // Remove rootDir from path
+    }
+  });
+
+  return appFiles;
+}
+
+export function getRootDir(filePaths: string[]): string {
+  if (!filePaths.length) {
+    return path.sep;
+  }
+
+  const splitPaths: string[][] = [];
+  for (const filePath of filePaths) {
     splitPaths.push(filePath.split("/").filter(Boolean));
   }
 
@@ -37,16 +96,7 @@ export function getAppFilesRootDir(
 
   // Join the common parts to form the common directory
   const rootDir = "/" + commonParts.join("/");
-
-  // Remove the common path prefix from each appFile
-  appFiles.forEach((file) => {
-    const prefix = rootDir === path.sep ? rootDir : `${rootDir}${path.sep}`;
-    if (file.path.startsWith(prefix)) {
-      file.path = file.path.substring(prefix.length); // Remove rootDir from path
-    }
-  });
-
-  return [rootDir || path.sep, appFiles];
+  return rootDir || path.sep;
 }
 
 export function getApplicationFiles(
@@ -56,9 +106,14 @@ export function getApplicationFiles(
 ): AppDepsScanResultWithoutTarget[] {
   const scanResults: AppDepsScanResultWithoutTarget[] = [];
 
-  const [appFilesRootDir, appFiles] = getAppFilesRootDir(
-    Object.keys(filePathToContent),
+  const manifestMetadataExtractor = filesMetadataExtractorPerLanguage[language];
+  const appFilesRootDir = getRootDir(Object.keys(filePathToContent));
+  const appFiles = getAppFileInfos(
+    filePathToContent,
+    appFilesRootDir,
+    manifestMetadataExtractor,
   );
+
   if (appFiles.length) {
     scanResults.push({
       facts: [

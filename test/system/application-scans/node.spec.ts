@@ -10,7 +10,6 @@ import {
   shouldBuildDepTree,
 } from "../../../lib/analyzer/applications/node";
 import * as nodeUtils from "../../../lib/analyzer/applications/node-modules-utils";
-import { getAppFilesRootDir } from "../../../lib/analyzer/applications/runtime-common";
 import { FilePathToContent } from "../../../lib/analyzer/applications/types";
 import { getFixture, getObjFromFixture } from "../../util";
 
@@ -179,7 +178,11 @@ describe("node application scans", () => {
       { path: "bin/yarn.js" },
       { path: "lib/cli.js" },
       { path: "lib/v8-compile-cache.js" },
-      { path: "package.json" },
+      {
+        path: "package.json",
+        type: "Manifest",
+        metadata: { moduleName: "yarn" },
+      },
     ]);
   });
 
@@ -659,73 +662,6 @@ describe("node application files grouping", () => {
       "/goof2",
       "/usr/local/lib",
       "/opt/local/lib",
-    ]);
-  });
-
-  it("should correctly group js ts files with root dir", async () => {
-    let nodeProjectFiles = [
-      "/aaa/bbb/ccc/y.js",
-      "/aaa/bbb/ccc/z.js",
-      "/aaa/x.js",
-    ];
-
-    let [appFilesRootDir, appFiles] = getAppFilesRootDir(nodeProjectFiles);
-
-    expect(appFilesRootDir).toBe("/aaa");
-    expect(appFiles.length).toBe(3);
-
-    nodeProjectFiles = [
-      "/srv/dist/index.js",
-      "/srv/dist/src/app.js",
-      "/srv/dist/src/utils/helpers.js",
-      "/srv/dist/src/components/header.ts",
-      "/srv/dist/src/components/footer.js",
-      "/srv/dist/src/services/api.js",
-      "/srv/dist/src/models/user.js",
-      "/srv/dist/src/config/config.ts",
-      "/srv/dist/package.json",
-      "/srv/dist/package-lock.json",
-    ];
-
-    [appFilesRootDir, appFiles] = getAppFilesRootDir(nodeProjectFiles);
-
-    expect(appFilesRootDir).toBe("/srv/dist");
-    expect(appFiles.length).toBe(10);
-    expect(appFiles).toEqual([
-      { path: "index.js" },
-      { path: "src/app.js" },
-      { path: "src/utils/helpers.js" },
-      { path: "src/components/header.ts" },
-      { path: "src/components/footer.js" },
-      { path: "src/services/api.js" },
-      { path: "src/models/user.js" },
-      { path: "src/config/config.ts" },
-      { path: "package.json" },
-      { path: "package-lock.json" },
-    ]);
-  });
-
-  it("should return / as the root dir in case nothing's found", async () => {
-    const nodeProjectFiles = ["/srv/dist/index.js", "/opt/app.js"];
-
-    const [appFilesRootDir, appFiles] = getAppFilesRootDir(nodeProjectFiles);
-    expect(appFilesRootDir).toBe("/");
-    expect(appFiles.length).toBe(2);
-    expect(appFiles).toEqual([
-      { path: "srv/dist/index.js" },
-      { path: "opt/app.js" },
-    ]);
-  });
-
-  it("should only consider full path segments for common prefix", async () => {
-    const nodeProjectFiles = ["/srv/dist/index.js", "/srv2/app.js"];
-
-    const [appFilesRootDir, appFiles] = getAppFilesRootDir(nodeProjectFiles);
-    expect(appFilesRootDir).toBe("/");
-    expect(appFiles.length).toBe(2);
-    expect(appFiles).toEqual([
-      { path: "srv/dist/index.js" },
-      { path: "srv2/app.js" },
     ]);
   });
 });

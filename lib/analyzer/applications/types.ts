@@ -33,10 +33,14 @@ export interface AggregatedJars {
 }
 export interface ApplicationFileInfo {
   path: string;
+  type?: "Manifest" | "Code";
+  metadata?: {
+    repoUrl?: string;
+    moduleName?: string;
+  };
 }
 export interface ApplicationFiles {
   fileHierarchy: ApplicationFileInfo[];
-  moduleName?: string;
   language: string;
 }
 

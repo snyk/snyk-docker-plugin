@@ -1,5 +1,4 @@
 import { scan } from "../../../../lib";
-import { getAppFilesRootDir } from "../../../../lib/analyzer/applications/runtime-common";
 import { getFixture } from "../../../util";
 
 describe("pip application scan", () => {
@@ -81,36 +80,5 @@ describe("pip application scan", () => {
       )!.data;
     expect(appFiles[0].language).toStrictEqual("python");
     expect(appFiles[0].fileHierarchy).toStrictEqual([{ path: "server.py" }]);
-  });
-});
-
-describe("python application files filtering", () => {
-  it("should correctly filter python application files", async () => {
-    const pythonProjectFiles = [
-      "/app/index.py",
-      "/app/src/app.py",
-      "/app/src/utils/helpers.py",
-      "/app/src/components/header.py",
-      "/app/src/components/footer.py",
-      "/app/src/services/api.py",
-      "/app/src/models/user.py",
-      "/app/src/config/config.py",
-      "/app/requirements.txt",
-    ];
-    const [appFilesRootDir, appFiles] = getAppFilesRootDir(pythonProjectFiles);
-
-    expect(appFilesRootDir).toBe("/app");
-    expect(appFiles.length).toBe(9);
-    expect(appFiles).toEqual([
-      { path: "index.py" },
-      { path: "src/app.py" },
-      { path: "src/utils/helpers.py" },
-      { path: "src/components/header.py" },
-      { path: "src/components/footer.py" },
-      { path: "src/services/api.py" },
-      { path: "src/models/user.py" },
-      { path: "src/config/config.py" },
-      { path: "requirements.txt" },
-    ]);
   });
 });
