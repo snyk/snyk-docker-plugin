@@ -3,13 +3,16 @@ import { parsePkgJson } from "snyk-nodejs-lockfile-parser";
 import { ApplicationFilesFact } from "../../facts";
 import {
   AppDepsScanResultWithoutTarget,
+  AppFileType,
   ApplicationFileInfo,
   FilePathToContent,
+  ManifestMetadata,
 } from "./types";
+import { bool } from "aws-sdk/clients/signer";
 
 interface AppFileMetadataExtractor {
-  manifestFiles: string[];
-  metadataExtractor: (fileContent: string) => Record<string, string>;
+  manifestFileMatcher: (filePath: string) => bool;
+  metadataExtractor: (fileContent: string) => ManifestMetadata | undefined;
 }
 
 export const filesMetadataExtractorPerLanguage: Record<
@@ -17,14 +20,25 @@ export const filesMetadataExtractorPerLanguage: Record<
   AppFileMetadataExtractor
 > = {
   node: {
-    manifestFiles: ["package.json", "package-lock.json", "yarn.lock"],
+    manifestFileMatcher: (filePath: string) => {
+      return ["package.json", "package-lock.json", "yarn.lock"].some(
+        (mf) => path.basename(filePath) === mf,
+      );
+    },
     metadataExtractor: (fileContent: string) => {
-      const pkgJson = parsePkgJson(fileContent);
-      const repoUrl = (pkgJson as any).repository?.url;
-      return {
-        moduleName: pkgJson.name,
-        repoUrl,
-      };
+      try {
+        const pkgJson = parsePkgJson(fileContent);
+        const metadata: ManifestMetadata = {
+          moduleName: pkgJson.name,
+        };
+        const repoUrl = (pkgJson as any).repository?.url;
+        if (repoUrl) {
+          metadata.repoUrl = repoUrl;
+        }
+        return metadata;
+      } catch (err) {
+        return undefined;
+      }
     },
   },
 };
@@ -44,14 +58,11 @@ export function getAppFileInfos(
   for (const filePath of filePaths) {
     const appFile: ApplicationFileInfo = { path: filePath };
     if (manifestMetadataExtractor) {
-      const { manifestFiles, metadataExtractor } = manifestMetadataExtractor;
-      if (
-        manifestFiles.length &&
-        manifestFiles.some((mf) => filePath.endsWith("/" + mf))
-      ) {
-        appFile.type = "Manifest";
+      const { manifestFileMatcher, metadataExtractor } =
+        manifestMetadataExtractor;
+      if (manifestFileMatcher(filePath)) {
+        appFile.type = AppFileType.Manifest;
         const manifestContent = filePathToContent[filePath];
-
         appFile.metadata = metadataExtractor(manifestContent);
       }
     }
@@ -61,7 +72,9 @@ export function getAppFileInfos(
 
   // Remove the common path prefix from each appFile
   appFiles.forEach((file) => {
-    const prefix = rootDir === path.sep ? rootDir : `${rootDir}${path.sep}`;
+    const prefix = rootDir.endsWith(path.sep)
+      ? rootDir
+      : `${rootDir}${path.sep}`;
     if (file.path.startsWith(prefix)) {
       file.path = file.path.substring(prefix.length); // Remove rootDir from path
     }

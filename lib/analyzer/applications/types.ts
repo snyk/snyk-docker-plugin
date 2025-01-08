@@ -31,13 +31,21 @@ export interface FilePathToElfContent {
 export interface AggregatedJars {
   [path: string]: JarBuffer[];
 }
+
+export interface ManifestMetadata {
+  repoUrl?: string;
+  moduleName?: string;
+}
+
+export enum AppFileType {
+  Manifest = "manifest",
+  Code = "code",
+}
+
 export interface ApplicationFileInfo {
   path: string;
-  type?: "Manifest" | "Code";
-  metadata?: {
-    repoUrl?: string;
-    moduleName?: string;
-  };
+  type?: AppFileType;
+  metadata?: ManifestMetadata;
 }
 export interface ApplicationFiles {
   fileHierarchy: ApplicationFileInfo[];

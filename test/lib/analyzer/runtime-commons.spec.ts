@@ -3,6 +3,7 @@ import {
   getAppFileInfos,
   getRootDir,
 } from "../../../lib/analyzer/applications/runtime-common";
+import { AppFileType } from "../../../lib/analyzer/applications/types";
 
 describe("application files root dir extraction", () => {
   it("should correctly get root dir for js ts files", async () => {
@@ -88,7 +89,7 @@ describe("application files info extraction", () => {
       "/srv/dist/src/models/user.js": "",
       "/srv/dist/src/config/config.ts": "",
       "/srv/dist/package.json": "{}",
-      "/srv/dist/package-lock.json": "{}",
+      "/srv/dist/package-lock.json": "{", // check that we do not fail bad formatted files.
     };
 
     const appFiles = getAppFileInfos(
@@ -108,13 +109,12 @@ describe("application files info extraction", () => {
       { path: "src/config/config.ts" },
       {
         path: "package.json",
-        type: "Manifest",
+        type: AppFileType.Manifest,
         metadata: { moduleName: "package.json" },
       },
       {
         path: "package-lock.json",
-        type: "Manifest",
-        metadata: { moduleName: "package.json" },
+        type: AppFileType.Manifest,
       },
     ]);
   });

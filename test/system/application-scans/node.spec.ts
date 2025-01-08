@@ -10,7 +10,10 @@ import {
   shouldBuildDepTree,
 } from "../../../lib/analyzer/applications/node";
 import * as nodeUtils from "../../../lib/analyzer/applications/node-modules-utils";
-import { FilePathToContent } from "../../../lib/analyzer/applications/types";
+import {
+  AppFileType,
+  FilePathToContent,
+} from "../../../lib/analyzer/applications/types";
 import { getFixture, getObjFromFixture } from "../../util";
 
 describe("node application scans", () => {
@@ -180,7 +183,7 @@ describe("node application scans", () => {
       { path: "lib/v8-compile-cache.js" },
       {
         path: "package.json",
-        type: "Manifest",
+        type: AppFileType.Manifest,
         metadata: { moduleName: "yarn" },
       },
     ]);
