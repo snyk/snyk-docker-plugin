@@ -34,7 +34,8 @@ async function createTempProjectDir(
   };
 }
 
-const manifestName: string = "package.json";
+export const manifestName: string = "package.json";
+export const manifestLockName: string = "package-lock.json";
 
 async function fileExists(path: string): Promise<boolean> {
   return await stat(path)

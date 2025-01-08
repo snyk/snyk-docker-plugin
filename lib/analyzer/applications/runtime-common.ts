@@ -8,6 +8,10 @@ import {
   FilePathToContent,
   ManifestMetadata,
 } from "./types";
+import {
+  manifestLockName as nodeManifestLockName,
+  manifestName as nodeManifestName,
+} from "./node-modules-utils";
 
 interface AppFileMetadataExtractor {
   manifestFileMatcher: (filePath: string) => boolean;
@@ -20,17 +24,22 @@ export const filesMetadataExtractorPerLanguage: Record<
 > = {
   node: {
     manifestFileMatcher: (filePath: string) => {
-      return ["package.json", "package-lock.json", "yarn.lock"].some(
+      return [nodeManifestName, nodeManifestLockName].some(
         (mf) => path.basename(filePath) === mf,
       );
     },
     metadataExtractor: (fileContent: string) => {
       try {
         const pkgJson = parsePkgJson(fileContent);
+        const moduleName = pkgJson.name;
+        const repoUrl = (pkgJson as any).repository?.url;
+
+        if (!repoUrl && !moduleName) {
+          return undefined;
+        }
         const metadata: ManifestMetadata = {
           moduleName: pkgJson.name,
         };
-        const repoUrl = (pkgJson as any).repository?.url;
         if (repoUrl) {
           metadata.repoUrl = repoUrl;
         }
