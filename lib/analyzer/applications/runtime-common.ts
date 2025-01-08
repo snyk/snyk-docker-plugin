@@ -8,10 +8,9 @@ import {
   FilePathToContent,
   ManifestMetadata,
 } from "./types";
-import { bool } from "aws-sdk/clients/signer";
 
 interface AppFileMetadataExtractor {
-  manifestFileMatcher: (filePath: string) => bool;
+  manifestFileMatcher: (filePath: string) => boolean;
   metadataExtractor: (fileContent: string) => ManifestMetadata | undefined;
 }
 
