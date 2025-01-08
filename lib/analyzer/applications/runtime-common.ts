@@ -2,16 +2,16 @@ import * as path from "path";
 import { parsePkgJson } from "snyk-nodejs-lockfile-parser";
 import { ApplicationFilesFact } from "../../facts";
 import {
+  manifestLockName as nodeManifestLockName,
+  manifestName as nodeManifestName,
+} from "./node-modules-utils";
+import {
   AppDepsScanResultWithoutTarget,
   AppFileType,
   ApplicationFileInfo,
   FilePathToContent,
   ManifestMetadata,
 } from "./types";
-import {
-  manifestLockName as nodeManifestLockName,
-  manifestName as nodeManifestName,
-} from "./node-modules-utils";
 
 interface AppFileMetadataExtractor {
   manifestFileMatcher: (filePath: string) => boolean;
