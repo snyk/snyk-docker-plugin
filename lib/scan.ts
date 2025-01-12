@@ -4,7 +4,9 @@ import * as path from "path";
 import { getImageArchive } from "./analyzer/image-inspector";
 import { readDockerfileAndAnalyse } from "./dockerfile";
 import { DockerFileAnalysis } from "./dockerfile/types";
+import { extractImageContent } from "./extractor";
 import { ImageName } from "./extractor/image";
+import { ExtractAction, ExtractionResult } from "./extractor/types";
 import { fullImageSavePath } from "./image-save-path";
 import { getArchivePath, getImageType } from "./image-type";
 import { isNumber, isTrue } from "./option-utils";
@@ -19,9 +21,14 @@ export function mergeEnvVarsIntoCredentials(
   options.password = options.password || process.env.SNYK_REGISTRY_PASSWORD;
 }
 
-export async function scan(
+async function getAnalysisParameters(
   options?: Partial<PluginOptions>,
-): Promise<PluginResponse> {
+): Promise<{
+  targetImage: string;
+  imageType: ImageType;
+  dockerfileAnalysis: DockerFileAnalysis | undefined;
+  options: Partial<PluginOptions>;
+}> {
   if (!options) {
     throw new Error("No plugin options provided");
   }
@@ -67,6 +74,23 @@ export async function scan(
   const dockerfileAnalysis = await readDockerfileAndAnalyse(dockerfilePath);
 
   const imageType = getImageType(targetImage);
+  return {
+    targetImage,
+    imageType,
+    dockerfileAnalysis,
+    options,
+  };
+}
+
+export async function scan(
+  options?: Partial<PluginOptions>,
+): Promise<PluginResponse> {
+  const {
+    targetImage,
+    imageType,
+    dockerfileAnalysis,
+    options: updatedOptions,
+  } = await getAnalysisParameters(options);
   switch (imageType) {
     case ImageType.DockerArchive:
     case ImageType.OciArchive:
@@ -74,19 +98,33 @@ export async function scan(
         targetImage,
         imageType,
         dockerfileAnalysis,
-        options,
+        updatedOptions,
       );
     case ImageType.Identifier:
       return imageIdentifierAnalysis(
         targetImage,
         imageType,
         dockerfileAnalysis,
-        options,
+        updatedOptions,
       );
 
     default:
       throw new Error("Unhandled image type for image " + targetImage);
   }
+}
+
+function getAndValidateArchivePath(targetImage: string) {
+  const archivePath = getArchivePath(targetImage);
+  if (!fs.existsSync(archivePath)) {
+    throw new Error(
+      "The provided archive path does not exist on the filesystem",
+    );
+  }
+  if (!fs.lstatSync(archivePath).isFile()) {
+    throw new Error("The provided archive path is not a file");
+  }
+
+  return archivePath;
 }
 
 async function localArchiveAnalysis(
@@ -100,16 +138,7 @@ async function localArchiveAnalysis(
     exclude: options.globsToFind?.exclude || [],
   };
 
-  const archivePath = getArchivePath(targetImage);
-  if (!fs.existsSync(archivePath)) {
-    throw new Error(
-      "The provided archive path does not exist on the filesystem",
-    );
-  }
-  if (!fs.lstatSync(archivePath).isFile()) {
-    throw new Error("The provided archive path is not a file");
-  }
-
+  const archivePath = getAndValidateArchivePath(targetImage);
   const imageIdentifier =
     options.imageNameAndTag ||
     // The target image becomes the base of the path, e.g. "archive.tar" for "/var/tmp/archive.tar"
@@ -182,4 +211,44 @@ export function appendLatestTagIfMissing(targetImage: string): string {
     return `${targetImage}:latest`;
   }
   return targetImage;
+}
+
+export async function extractContent(
+  extractActions: ExtractAction[],
+  options?: Partial<PluginOptions>,
+): Promise<ExtractionResult> {
+  const {
+    targetImage,
+    imageType,
+    options: updatedOptions,
+  } = await getAnalysisParameters(options);
+
+  const { username, password, platform, imageSavePath } = updatedOptions;
+  let imagePath: string;
+  switch (imageType) {
+    case ImageType.DockerArchive:
+    case ImageType.OciArchive:
+      imagePath = getAndValidateArchivePath(targetImage);
+      break;
+    case ImageType.Identifier:
+      const imageSavePathFull = fullImageSavePath(imageSavePath);
+      const archiveResult = await getImageArchive(
+        targetImage,
+        imageSavePathFull,
+        username,
+        password,
+        platform,
+      );
+      imagePath = archiveResult.path;
+      break;
+    default:
+      throw new Error("Unhandled image type for image " + targetImage);
+  }
+
+  return extractImageContent(
+    imageType,
+    imagePath,
+    extractActions,
+    updatedOptions,
+  );
 }

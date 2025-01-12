@@ -4,7 +4,7 @@ import { legacy } from "@snyk/dep-graph";
 import * as lockFileParser from "snyk-nodejs-lockfile-parser";
 import { NodeLockfileVersion } from "snyk-nodejs-lockfile-parser";
 import * as resolveDeps from "snyk-resolve-deps";
-import { scan } from "../../../lib";
+import { extractContent, scan } from "../../../lib";
 import {
   getLockFileVersion,
   shouldBuildDepTree,
@@ -12,6 +12,7 @@ import {
 import * as nodeUtils from "../../../lib/analyzer/applications/node-modules-utils";
 import { getAppFilesRootDir } from "../../../lib/analyzer/applications/runtime-common";
 import { FilePathToContent } from "../../../lib/analyzer/applications/types";
+import { getNodeAppFileContentAction } from "../../../lib/inputs/node/static";
 import { getFixture, getObjFromFixture } from "../../util";
 
 describe("node application scans", () => {
@@ -213,6 +214,23 @@ describe("node application scans", () => {
     );
     expect(depGraphNpmFromGoofNodeModules.rootPkg.name).toEqual("goof");
     expect(depGraphNpmFromGlobalNodeModules.rootPkg.name).toEqual("lib");
+  });
+
+  it("should extract image content successfully", async () => {
+    const fixturePath = getFixture("npm/multi-project-image.tar");
+    const imageNameAndTag = `docker-archive:${fixturePath}`;
+    const result = await extractContent([getNodeAppFileContentAction], {
+      path: imageNameAndTag,
+    });
+    expect(Object.keys(result.extractedLayers).length).toEqual(608);
+    Object.keys(result.extractedLayers).forEach((fileName) => {
+      expect(
+        fileName.endsWith("/package.json") ||
+          fileName.endsWith("/package-lock.json") ||
+          fileName.endsWith("/yarn.lock"),
+      ).toBeTruthy();
+      expect("node-app-files" in result.extractedLayers[fileName]).toBeTruthy();
+    });
   });
 
   it("should generate a scanResult that contains a npm7 depGraph generated from node modules manifest files", async () => {

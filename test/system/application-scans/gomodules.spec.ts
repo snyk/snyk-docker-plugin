@@ -1,6 +1,7 @@
 import * as elf from "elfy";
 
-import { scan } from "../../../lib";
+import { extractContent, scan } from "../../../lib";
+import { getGoModulesContentAction } from "../../../lib/go-parser";
 import { getFixture } from "../../util";
 
 describe("gomodules binaries scanning", () => {
@@ -21,6 +22,19 @@ describe("gomodules binaries scanning", () => {
 
     // Assert
     expect(pluginResult).toMatchSnapshot();
+  });
+
+  it("should extract image content successfully", async () => {
+    const fixturePath = getFixture(
+      "docker-archives/docker-save/testgo-1.17.tar",
+    );
+    const imageNameAndTag = `docker-archive:${fixturePath}`;
+    const result = await extractContent([getGoModulesContentAction], {
+      path: imageNameAndTag,
+    });
+    const testgoBinary = result.extractedLayers["/testgo"];
+    expect(testgoBinary).toBeTruthy();
+    expect("gomodules" in testgoBinary).toBeTruthy();
   });
 
   it("return plugin result when Go binary cannot be parsed do not break layer iterator", async () => {
