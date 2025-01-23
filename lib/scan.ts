@@ -1,17 +1,22 @@
 import * as fs from "fs";
 import * as path from "path";
 
+import { getApplicationFiles } from "./analyzer/applications/runtime-common";
 import { getImageArchive } from "./analyzer/image-inspector";
 import { readDockerfileAndAnalyse } from "./dockerfile";
 import { DockerFileAnalysis } from "./dockerfile/types";
 import { extractImageContent } from "./extractor";
 import { ImageName } from "./extractor/image";
-import { ExtractAction, ExtractionResult } from "./extractor/types";
+import { ImageIdFact } from "./facts";
 import { fullImageSavePath } from "./image-save-path";
 import { getArchivePath, getImageType } from "./image-type";
+import { getFileContent } from "./inputs";
+import { getNodeJsTsAppFileContentAction } from "./inputs/node/static";
+import { getPythonAppFileContentAction } from "./inputs/python/static";
 import { isNumber, isTrue } from "./option-utils";
 import * as staticModule from "./static";
-import { ImageType, PluginOptions, PluginResponse } from "./types";
+
+import { ImageType, PluginOptions, PluginResponse, ScanResult } from "./types";
 
 // Registry credentials may also be provided by env vars. When both are set, flags take precedence.
 export function mergeEnvVarsIntoCredentials(
@@ -213,10 +218,9 @@ export function appendLatestTagIfMissing(targetImage: string): string {
   return targetImage;
 }
 
-export async function extractContent(
-  extractActions: ExtractAction[],
+export async function collectApplicationFiles(
   options?: Partial<PluginOptions>,
-): Promise<ExtractionResult> {
+): Promise<PluginResponse> {
   const {
     targetImage,
     imageType,
@@ -245,10 +249,56 @@ export async function extractContent(
       throw new Error("Unhandled image type for image " + targetImage);
   }
 
-  return extractImageContent(
+  const extractActions = [
+    getNodeJsTsAppFileContentAction,
+    getPythonAppFileContentAction,
+  ];
+
+  const content = await extractImageContent(
     imageType,
     imagePath,
     extractActions,
     updatedOptions,
   );
+
+  const nodeApplicationFilesScanResults = getApplicationFiles(
+    getFileContent(
+      content.extractedLayers,
+      getNodeJsTsAppFileContentAction.actionName,
+    ),
+    "node",
+    "npm",
+  );
+
+  const pythonApplicationFilesScanResults = getApplicationFiles(
+    getFileContent(
+      content.extractedLayers,
+      getPythonAppFileContentAction.actionName,
+    ),
+    "python",
+    "python",
+  );
+
+  const imageIdFact: ImageIdFact = {
+    type: "imageId",
+    data: content.imageId,
+  };
+
+  const applicationDependenciesScanResults: ScanResult[] = [
+    ...nodeApplicationFilesScanResults,
+    ...pythonApplicationFilesScanResults,
+  ].map((appDepsScanResult) => {
+    appDepsScanResult.facts.push(imageIdFact);
+
+    return {
+      ...appDepsScanResult,
+      target: {
+        image: targetImage,
+      },
+    };
+  });
+
+  return {
+    scanResults: applicationDependenciesScanResults,
+  };
 }
