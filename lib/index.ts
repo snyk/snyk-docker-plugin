@@ -12,7 +12,7 @@ import {
   UpdateDockerfileBaseImageNameErrorCode,
 } from "./dockerfile/types";
 import * as facts from "./facts";
-import { scan } from "./scan";
+import { extractContent, scan } from "./scan";
 import {
   AutoDetectedUserInstructions,
   ContainerTarget,
@@ -28,6 +28,7 @@ export {
   scan,
   display,
   dockerFile,
+  extractContent,
   facts,
   ScanResult,
   PluginResponse,

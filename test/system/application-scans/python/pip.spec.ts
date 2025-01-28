@@ -1,5 +1,6 @@
-import { scan } from "../../../../lib";
+import { extractContent, scan } from "../../../../lib";
 import { getAppFilesRootDir } from "../../../../lib/analyzer/applications/runtime-common";
+import { getPythonAppFileContentAction } from "../../../../lib/inputs/python/static";
 import { getFixture } from "../../../util";
 
 describe("pip application scan", () => {
@@ -58,6 +59,17 @@ describe("pip application scan", () => {
 
     expect(pluginResultExcludeAppVulnsTrueString.scanResults).toHaveLength(1);
     expect(pluginResultExcludeAppVulnsTrueBoolean.scanResults).toHaveLength(1);
+  });
+
+  it("should extract image content successfully", async () => {
+    const fixturePath = getFixture("docker-archives/docker-save/pip-flask.tar");
+    const imageNameAndTag = `docker-archive:${fixturePath}`;
+    const result = await extractContent([getPythonAppFileContentAction], {
+      path: imageNameAndTag,
+    });
+    const serverPyFile = result.extractedLayers["/app/server.py"];
+    expect(serverPyFile).toBeTruthy();
+    expect("python-app-files" in serverPyFile).toBeTruthy();
   });
 
   it("should handle --collect-application-files", async () => {
