@@ -1,0 +1,74 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`kaniko archive scanning should correctly scan a kaniko archive 1`] = `
+Object {
+  "scanResults": Array [
+    Object {
+      "facts": Array [
+        Object {
+          "data": Object {
+            "graph": Object {
+              "nodes": Array [
+                Object {
+                  "deps": Array [],
+                  "nodeId": "root-node",
+                  "pkgId": "docker-image|kaniko-busybox.tar@",
+                },
+              ],
+              "rootNodeId": "root-node",
+            },
+            "pkgManager": Object {
+              "name": "linux",
+              "repositories": Array [
+                Object {
+                  "alias": "unknown:0.0",
+                },
+              ],
+            },
+            "pkgs": Array [
+              Object {
+                "id": "docker-image|kaniko-busybox.tar@",
+                "info": Object {
+                  "name": "docker-image|kaniko-busybox.tar",
+                  "version": undefined,
+                },
+              },
+            ],
+            "schemaVersion": "1.3.0",
+          },
+          "type": "depGraph",
+        },
+        Object {
+          "data": "sha256:c5003bd0bae2d0bcb5419307c9cf54264a9e5783626caf218f8aa177173b7cf4",
+          "type": "imageId",
+        },
+        Object {
+          "data": Array [
+            "3a8623bc3269ca3a4a66522ced0d4c0052cc57cd1fa7f437e9678f547a5a8e4f.tar.gz",
+          ],
+          "type": "imageLayers",
+        },
+        Object {
+          "data": "2025-02-01T18:19:26.85532607Z",
+          "type": "imageCreationTime",
+        },
+        Object {
+          "data": Array [
+            "sha256:2b299159176aca1d1237ec4955d09d1449646bef17befd28b3090e7450ddf6bc",
+          ],
+          "type": "rootFs",
+        },
+      ],
+      "identity": Object {
+        "args": Object {
+          "platform": "linux/amd64",
+        },
+        "type": "linux",
+      },
+      "target": Object {
+        "image": "docker-image|kaniko-busybox.tar",
+      },
+    },
+  ],
+}
+`;

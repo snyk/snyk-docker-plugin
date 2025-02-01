@@ -94,6 +94,7 @@ export async function scan(
   switch (imageType) {
     case ImageType.DockerArchive:
     case ImageType.OciArchive:
+    case ImageType.KanikoArchive:
       return localArchiveAnalysis(
         targetImage,
         imageType,

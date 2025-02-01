@@ -6,6 +6,7 @@ import {
 import { AutoDetectedUserInstructions, ImageType } from "../types";
 import { PluginOptions } from "../types";
 import * as dockerExtractor from "./docker-archive";
+import * as kanikoExtractor from "./kaniko-archive";
 import * as ociExtractor from "./oci-archive";
 import {
   DockerArchiveManifest,
@@ -96,6 +97,15 @@ export async function extractImageContent(
       ImageType.OciArchive,
       new ArchiveExtractor(
         ociExtractor as unknown as Extractor,
+        fileSystemPath,
+        extractActions,
+        options,
+      ),
+    ],
+    [
+      ImageType.KanikoArchive,
+      new ArchiveExtractor(
+        kanikoExtractor as unknown as Extractor,
         fileSystemPath,
         extractActions,
         options,

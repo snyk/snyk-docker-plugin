@@ -10,6 +10,7 @@ export enum ImageType {
   Identifier, // e.g. "nginx:latest"
   DockerArchive = "docker-archive", // e.g. "docker-archive:/tmp/nginx.tar"
   OciArchive = "oci-archive", // e.g. "oci-archive:/tmp/nginx.tar"
+  KanikoArchive = "kaniko-archive",
 }
 
 export enum OsReleaseFilePath {
