@@ -90,6 +90,35 @@ export interface OciImageIndex {
   manifests: OciManifestInfo[];
 }
 
+export interface KanikoArchiveManifest {
+  // Usually points to the JSON file in the archive that describes how the image was built.
+  Config: string;
+  RepoTags: string[];
+  // The names of the layers in this archive, usually in the format "<sha256>.tar" or "<sha256>/layer.tar".
+  Layers: string[];
+}
+
+export interface KanikoExtractionResult {
+  imageId: string;
+  manifestLayers: string[];
+  extractedLayers: KanikoExtractedLayers;
+  rootFsLayers?: string[];
+  autoDetectedUserInstructions?: AutoDetectedUserInstructions;
+  platform?: string;
+  imageLabels?: { [key: string]: string };
+  imageCreationTime?: string;
+}
+
+export interface KanikoExtractedLayers {
+  [layerName: string]: FileNameAndContent;
+}
+
+export interface KanikoExtractedLayersAndManifest {
+  layers: KanikoExtractedLayers[];
+  manifest: KanikoArchiveManifest;
+  imageConfig: ImageConfig;
+}
+
 export interface ExtractAction {
   // This name should be unique across all actions used.
   actionName: string;

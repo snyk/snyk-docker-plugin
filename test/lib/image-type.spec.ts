@@ -29,6 +29,15 @@ describe("image-type", () => {
 
       expect(result).toEqual(expectedImageType);
     });
+
+    test("should return oci-archive type given oci-archive image", () => {
+      const image = "kaniko-archive:/tmp/nginx.tar";
+      const expectedImageType = ImageType.KanikoArchive;
+
+      const result = getImageType(image);
+
+      expect(result).toEqual(expectedImageType);
+    });
   });
 
   describe("getArchivePath", () => {
@@ -53,7 +62,7 @@ describe("image-type", () => {
     test("should throws error given bad path provided", () => {
       const targetImage = "bad-pathr";
       const expectedErrorMessage =
-        'The provided archive path is missing a prefix, for example "docker-archive:" or "oci-archive:"';
+        'The provided archive path is missing a prefix, for example "docker-archive:", "oci-archive:" or "kaniko-archive"';
 
       expect(() => {
         getArchivePath(targetImage);
