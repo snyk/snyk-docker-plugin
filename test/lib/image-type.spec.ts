@@ -30,7 +30,7 @@ describe("image-type", () => {
       expect(result).toEqual(expectedImageType);
     });
 
-    test("should return oci-archive type given oci-archive image", () => {
+    test("should return kaniko-archive type given kaniko-archive image", () => {
       const image = "kaniko-archive:/tmp/nginx.tar";
       const expectedImageType = ImageType.KanikoArchive;
 

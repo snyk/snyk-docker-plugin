@@ -80,7 +80,7 @@ describe("extractImageContent", () => {
     });
   });
 
-  describe("Kaniko Image Archives (expected to fall back to DockerExtractor)", () => {
+  describe("Kaniko Image Archives", () => {
     const fixture = getFixture("kaniko-archives/kaniko-busybox.tar");
     const opts = { platform: "linux/amd64" };
 
