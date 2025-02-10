@@ -80,6 +80,27 @@ describe("extractImageContent", () => {
     });
   });
 
+  describe("Kaniko Image Archives", () => {
+    const fixture = getFixture("kaniko-archives/kaniko-busybox.tar");
+    const opts = { platform: "linux/amd64" };
+
+    it("successfully extracts the archive when image type is set to kaniko-archive", async () => {
+      await expect(
+        extractImageContent(ImageType.KanikoArchive, fixture, [], opts),
+      ).resolves.not.toThrow();
+    });
+
+    it("fails to extract the archive when image type is not set", async () => {
+      await expect(extractImageContent(0, fixture, [], opts)).rejects.toThrow();
+    });
+
+    it("fails to extract the archive when image type is set to docker-archive", async () => {
+      await expect(
+        extractImageContent(ImageType.DockerArchive, fixture, [], opts),
+      ).rejects.toThrow();
+    });
+  });
+
   describe("Images pulled & saved with Docker Engine >= 25.x", () => {
     const type = ImageType.OciArchive;
 

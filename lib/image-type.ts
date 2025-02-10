@@ -10,22 +10,27 @@ export function getImageType(targetImage: string): ImageType {
     case "oci-archive":
       return ImageType.OciArchive;
 
+    case "kaniko-archive":
+      return ImageType.KanikoArchive;
+
     default:
       return ImageType.Identifier;
   }
 }
 
 export function getArchivePath(targetImage: string): string {
-  if (
-    !targetImage.startsWith("docker-archive:") &&
-    !targetImage.startsWith("oci-archive:")
-  ) {
-    throw new Error(
-      'The provided archive path is missing a prefix, for example "docker-archive:" or "oci-archive:"',
-    );
+  const possibleArchiveTypes = [
+    "docker-archive",
+    "oci-archive",
+    "kaniko-archive",
+  ];
+  for (const archiveType of possibleArchiveTypes) {
+    if (targetImage.startsWith(archiveType)) {
+      return normalizePath(targetImage.substring(`${archiveType}:`.length));
+    }
   }
 
-  return targetImage.indexOf("docker-archive:") !== -1
-    ? normalizePath(targetImage.substring("docker-archive:".length))
-    : normalizePath(targetImage.substring("oci-archive:".length));
+  throw new Error(
+    'The provided archive path is missing a prefix, for example "docker-archive:", "oci-archive:" or "kaniko-archive"',
+  );
 }
