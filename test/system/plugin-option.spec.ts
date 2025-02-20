@@ -60,3 +60,18 @@ it("provides imageName fact with imageNameAndDigest and imageNameAndTag scan opt
     ]),
   );
 });
+
+it("remoteUrl is set in ContainerTarget when remote-repo-url scan option is provided", async () => {
+  const fixturePath = getFixture(["/docker-archives", "alpine-arm64.tar"]);
+  const imagePath = `docker-archive:${fixturePath}`;
+
+  const pluginResponse = await plugin.scan({
+    path: imagePath,
+    "remote-repo-url": "https://github.com/org/my-repo-test",
+  });
+  pluginResponse.scanResults.forEach((scanResult) => {
+    expect(scanResult.target.remoteUrl).toEqual(
+      "https://github.com/org/my-repo-test",
+    );
+  });
+});
