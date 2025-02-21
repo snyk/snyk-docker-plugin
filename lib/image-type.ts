@@ -14,7 +14,11 @@ export function getImageType(targetImage: string): ImageType {
       return ImageType.KanikoArchive;
 
     default:
-      return ImageType.Identifier;
+      if (imageIdentifier.endsWith(".tar")) {
+        return ImageType.UnspecifiedArchiveType;
+      } else {
+        return ImageType.Identifier;
+      }
   }
 }
 
@@ -24,6 +28,10 @@ export function getArchivePath(targetImage: string): string {
     "oci-archive",
     "kaniko-archive",
   ];
+
+  if (targetImage.endsWith(".tar")) {
+    return normalizePath(targetImage);
+  }
   for (const archiveType of possibleArchiveTypes) {
     if (targetImage.startsWith(archiveType)) {
       return normalizePath(targetImage.substring(`${archiveType}:`.length));
