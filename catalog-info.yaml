@@ -6,6 +6,6 @@ metadata:
     github.com/project-slug: snyk/snyk-docker-plugin
     github.com/team-slug: snyk/unify
 spec:
-  type: external-library
+  type: snyk-cli-plugin
   lifecycle: "-"
   owner: unify
