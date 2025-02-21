@@ -7,6 +7,7 @@ import {
 } from "./dockerfile/types";
 
 export enum ImageType {
+  UnspecifiedArchiveType, // "e.g /path/nginx.tar"
   Identifier, // e.g. "nginx:latest"
   DockerArchive = "docker-archive", // e.g. "docker-archive:/tmp/nginx.tar"
   OciArchive = "oci-archive", // e.g. "oci-archive:/tmp/nginx.tar"
