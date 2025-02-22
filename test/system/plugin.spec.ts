@@ -1,7 +1,25 @@
 import { DepGraph } from "@snyk/dep-graph";
 import * as plugin from "../../lib";
+import { getFixture } from "../util";
 
 describe("plugin", () => {
+  describe("image is scanned when no image type is specifief", () => {
+    it("image.tar is scanned successfully when docker-archive or oci-archive prefix is not set", async () => {
+      const fixturePath = getFixture([
+        "../fixtures/docker-archives",
+        "alpine-arm64.tar",
+      ]);
+      const imagePath = `${fixturePath}`;
+
+      const pluginResult = await plugin.scan({
+        path: imagePath,
+      });
+      const depGraph: DepGraph = pluginResult.scanResults[0].facts.find(
+        (fact) => fact.type === "depGraph",
+      )!.data;
+    });
+  });
+
   describe("docker-archive image type throws on bad files", () => {
     test("throws when a file does not exists", async () => {
       const path = "docker-archive:missing-path";
