@@ -127,12 +127,9 @@ export async function extractImageContent(
   } catch (err) {
     if (err instanceof InvalidArchiveError) {
       // fallback to the other extractor if layer extraction failed
-      if (imageType === ImageType.DockerArchive) {
-        extractor = extractors.get(ImageType.OciArchive) as ArchiveExtractor;
-      } else {
-        extractor = extractors.get(ImageType.DockerArchive) as ArchiveExtractor;
-      }
-      archiveContent = await extractor.getLayersAndManifest();
+      [archiveContent, extractor] = await extractArchiveContentFallback(
+        extractors,
+      );
     } else {
       throw err;
     }
@@ -150,6 +147,23 @@ export async function extractImageContent(
     platform: getPlatformFromConfig(archiveContent.imageConfig),
     imageLabels: archiveContent.imageConfig.config.Labels,
   };
+}
+
+async function extractArchiveContentFallback(
+  extractors: Map<ImageType, ArchiveExtractor>,
+): Promise<[ExtractedLayersAndManifest, ArchiveExtractor]> {
+  const errorQueue: string[] = [];
+  for (const [imageType, extractor] of extractors.entries()) {
+    try {
+      return [await extractor.getLayersAndManifest(), extractor];
+    } catch (error) {
+      errorQueue.push(
+        `Fallback extraction failed using ${imageType} extractor`,
+      );
+    }
+  }
+
+  throw new InvalidArchiveError(`Error Queue:\n - ${errorQueue.join("\n - ")}`);
 }
 
 export function getRootFsLayersFromConfig(imageConfig: ImageConfig): string[] {

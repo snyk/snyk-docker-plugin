@@ -29,13 +29,13 @@ export function getArchivePath(targetImage: string): string {
     "kaniko-archive",
   ];
 
-  if (targetImage.endsWith(".tar")) {
-    return normalizePath(targetImage);
-  }
   for (const archiveType of possibleArchiveTypes) {
     if (targetImage.startsWith(archiveType)) {
       return normalizePath(targetImage.substring(`${archiveType}:`.length));
     }
+  }
+  if (targetImage.endsWith(".tar")) {
+    return normalizePath(targetImage);
   }
 
   throw new Error(

@@ -20,7 +20,7 @@ describe("pip application scan", () => {
     const fixturePath = getFixture(
       "docker-archives/docker-save/pip-dist-packages.tar",
     );
-    const imageNameAndTag = `docker-archive:${fixturePath}`;
+    const imageNameAndTag = `${fixturePath}`;
 
     const pluginResult = await scan({
       path: imageNameAndTag,
@@ -74,7 +74,7 @@ describe("pip application scan", () => {
 
   it("should handle --collect-application-files", async () => {
     const fixturePath = getFixture("docker-archives/docker-save/pip-flask.tar");
-    const imageNameAndTag = `docker-archive:${fixturePath}`;
+    const imageNameAndTag = `${fixturePath}`;
 
     const resultWithoutApplicationFilesFlag = await scan({
       path: imageNameAndTag,
