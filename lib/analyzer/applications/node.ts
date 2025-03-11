@@ -168,25 +168,33 @@ async function depGraphFromManifestFiles(
   const shouldBeStrictForManifestAndLockfileOutOfSync = false;
 
   for (const pathPair of manifestFilePairs) {
-    const lockfileVersion = getLockFileVersion(
-      pathPair.lock,
-      filePathToContent[pathPair.lock],
-    );
-    const depGraph: DepGraph = shouldBuildDepTree(lockfileVersion)
-      ? await buildDepGraphFromDepTree(
-          filePathToContent[pathPair.manifest],
-          filePathToContent[pathPair.lock],
-          pathPair.lockType,
-          shouldIncludeDevDependencies,
-          shouldBeStrictForManifestAndLockfileOutOfSync,
-        )
-      : await buildDepGraph(
-          filePathToContent[pathPair.manifest],
-          filePathToContent[pathPair.lock],
-          lockfileVersion,
-          shouldIncludeDevDependencies,
-          shouldBeStrictForManifestAndLockfileOutOfSync,
-        );
+    let depGraph: DepGraph;
+    try {
+      const lockfileVersion = getLockFileVersion(
+        pathPair.lock,
+        filePathToContent[pathPair.lock],
+      );
+      depGraph = shouldBuildDepTree(lockfileVersion)
+        ? await buildDepGraphFromDepTree(
+            filePathToContent[pathPair.manifest],
+            filePathToContent[pathPair.lock],
+            pathPair.lockType,
+            shouldIncludeDevDependencies,
+            shouldBeStrictForManifestAndLockfileOutOfSync,
+          )
+        : await buildDepGraph(
+            filePathToContent[pathPair.manifest],
+            filePathToContent[pathPair.lock],
+            lockfileVersion,
+            shouldIncludeDevDependencies,
+            shouldBeStrictForManifestAndLockfileOutOfSync,
+          );
+    } catch (err) {
+      debug(
+        `An error occurred while analysing a pair of manifest and lock files: ${err.message}`,
+      );
+      continue;
+    }
 
     const depGraphFact: DepGraphFact = {
       type: "depGraph",

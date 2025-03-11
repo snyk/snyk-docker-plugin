@@ -47940,6 +47940,422 @@ Object {
 }
 `;
 
+exports[`node application scans should correctly return depgraph when container contains an invalid manifest 1`] = `
+Object {
+  "scanResults": Array [
+    Object {
+      "facts": Array [
+        Object {
+          "data": Object {
+            "graph": Object {
+              "nodes": Array [
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "alpine-base/alpine-release@3.21.2-r0",
+                    },
+                    Object {
+                      "nodeId": "alpine-baselayout/alpine-baselayout@3.6.8-r1|2",
+                    },
+                    Object {
+                      "nodeId": "alpine-baselayout/alpine-baselayout-data@3.6.8-r1",
+                    },
+                    Object {
+                      "nodeId": "alpine-keys/alpine-keys@2.5-r0",
+                    },
+                    Object {
+                      "nodeId": "apk-tools/apk-tools@2.14.6-r2",
+                    },
+                    Object {
+                      "nodeId": "busybox/busybox@1.37.0-r9|2",
+                    },
+                    Object {
+                      "nodeId": "busybox/busybox-binsh@1.37.0-r9|2",
+                    },
+                    Object {
+                      "nodeId": "busybox/ssl_client@1.37.0-r9",
+                    },
+                    Object {
+                      "nodeId": "ca-certificates/ca-certificates-bundle@20241121-r1",
+                    },
+                    Object {
+                      "nodeId": "musl/musl@1.2.5-r8",
+                    },
+                    Object {
+                      "nodeId": "musl/musl-utils@1.2.5-r8",
+                    },
+                    Object {
+                      "nodeId": "openssl/libcrypto3@3.3.2-r4|2",
+                    },
+                    Object {
+                      "nodeId": "openssl/libssl3@3.3.2-r4|2",
+                    },
+                    Object {
+                      "nodeId": "pax-utils/scanelf@1.3.8-r1|2",
+                    },
+                    Object {
+                      "nodeId": "zlib/zlib@1.3.1-r2|2",
+                    },
+                  ],
+                  "nodeId": "root-node",
+                  "pkgId": "docker-image|invalid_manifest.tar@",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "alpine-baselayout/alpine-baselayout@3.6.8-r1|1",
+                  "pkgId": "alpine-baselayout/alpine-baselayout@3.6.8-r1",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "alpine-baselayout/alpine-baselayout-data@3.6.8-r1",
+                    },
+                    Object {
+                      "nodeId": "busybox/busybox-binsh@1.37.0-r9|1",
+                    },
+                  ],
+                  "nodeId": "alpine-baselayout/alpine-baselayout@3.6.8-r1|2",
+                  "pkgId": "alpine-baselayout/alpine-baselayout@3.6.8-r1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "alpine-keys/alpine-keys@2.5-r0",
+                  "pkgId": "alpine-keys/alpine-keys@2.5-r0",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "alpine-baselayout/alpine-baselayout@3.6.8-r1|1",
+                    },
+                    Object {
+                      "nodeId": "alpine-keys/alpine-keys@2.5-r0",
+                    },
+                  ],
+                  "nodeId": "alpine-base/alpine-release@3.21.2-r0",
+                  "pkgId": "alpine-base/alpine-release@3.21.2-r0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "alpine-baselayout/alpine-baselayout-data@3.6.8-r1",
+                  "pkgId": "alpine-baselayout/alpine-baselayout-data@3.6.8-r1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "musl/musl@1.2.5-r8",
+                  "pkgId": "musl/musl@1.2.5-r8",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "musl/musl@1.2.5-r8",
+                    },
+                  ],
+                  "nodeId": "busybox/busybox@1.37.0-r9|1",
+                  "pkgId": "busybox/busybox@1.37.0-r9",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "busybox/busybox@1.37.0-r9|2",
+                  "pkgId": "busybox/busybox@1.37.0-r9",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "busybox/busybox@1.37.0-r9|1",
+                    },
+                  ],
+                  "nodeId": "busybox/busybox-binsh@1.37.0-r9|1",
+                  "pkgId": "busybox/busybox-binsh@1.37.0-r9",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "busybox/busybox-binsh@1.37.0-r9|2",
+                  "pkgId": "busybox/busybox-binsh@1.37.0-r9",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "ca-certificates/ca-certificates-bundle@20241121-r1",
+                  "pkgId": "ca-certificates/ca-certificates-bundle@20241121-r1",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "musl/musl@1.2.5-r8",
+                    },
+                  ],
+                  "nodeId": "openssl/libcrypto3@3.3.2-r4|1",
+                  "pkgId": "openssl/libcrypto3@3.3.2-r4",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "openssl/libcrypto3@3.3.2-r4|2",
+                  "pkgId": "openssl/libcrypto3@3.3.2-r4",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "musl/musl@1.2.5-r8",
+                    },
+                    Object {
+                      "nodeId": "openssl/libcrypto3@3.3.2-r4|2",
+                    },
+                  ],
+                  "nodeId": "openssl/libssl3@3.3.2-r4|1",
+                  "pkgId": "openssl/libssl3@3.3.2-r4",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "openssl/libssl3@3.3.2-r4|2",
+                  "pkgId": "openssl/libssl3@3.3.2-r4",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "musl/musl@1.2.5-r8",
+                    },
+                  ],
+                  "nodeId": "zlib/zlib@1.3.1-r2|1",
+                  "pkgId": "zlib/zlib@1.3.1-r2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "zlib/zlib@1.3.1-r2|2",
+                  "pkgId": "zlib/zlib@1.3.1-r2",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "ca-certificates/ca-certificates-bundle@20241121-r1",
+                    },
+                    Object {
+                      "nodeId": "musl/musl@1.2.5-r8",
+                    },
+                    Object {
+                      "nodeId": "openssl/libcrypto3@3.3.2-r4|1",
+                    },
+                    Object {
+                      "nodeId": "openssl/libssl3@3.3.2-r4|1",
+                    },
+                    Object {
+                      "nodeId": "zlib/zlib@1.3.1-r2|1",
+                    },
+                  ],
+                  "nodeId": "apk-tools/apk-tools@2.14.6-r2",
+                  "pkgId": "apk-tools/apk-tools@2.14.6-r2",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "musl/musl@1.2.5-r8",
+                    },
+                    Object {
+                      "nodeId": "openssl/libcrypto3@3.3.2-r4|2",
+                    },
+                    Object {
+                      "nodeId": "openssl/libssl3@3.3.2-r4|2",
+                    },
+                  ],
+                  "nodeId": "busybox/ssl_client@1.37.0-r9",
+                  "pkgId": "busybox/ssl_client@1.37.0-r9",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "musl/musl@1.2.5-r8",
+                    },
+                  ],
+                  "nodeId": "pax-utils/scanelf@1.3.8-r1|1",
+                  "pkgId": "pax-utils/scanelf@1.3.8-r1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pax-utils/scanelf@1.3.8-r1|2",
+                  "pkgId": "pax-utils/scanelf@1.3.8-r1",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "musl/musl@1.2.5-r8",
+                    },
+                    Object {
+                      "nodeId": "pax-utils/scanelf@1.3.8-r1|1",
+                    },
+                  ],
+                  "nodeId": "musl/musl-utils@1.2.5-r8",
+                  "pkgId": "musl/musl-utils@1.2.5-r8",
+                },
+              ],
+              "rootNodeId": "root-node",
+            },
+            "pkgManager": Object {
+              "name": "apk",
+              "repositories": Array [
+                Object {
+                  "alias": "alpine:3.21.2",
+                },
+              ],
+            },
+            "pkgs": Array [
+              Object {
+                "id": "docker-image|invalid_manifest.tar@",
+                "info": Object {
+                  "name": "docker-image|invalid_manifest.tar",
+                  "version": undefined,
+                },
+              },
+              Object {
+                "id": "alpine-baselayout/alpine-baselayout@3.6.8-r1",
+                "info": Object {
+                  "name": "alpine-baselayout/alpine-baselayout",
+                  "version": "3.6.8-r1",
+                },
+              },
+              Object {
+                "id": "alpine-keys/alpine-keys@2.5-r0",
+                "info": Object {
+                  "name": "alpine-keys/alpine-keys",
+                  "version": "2.5-r0",
+                },
+              },
+              Object {
+                "id": "alpine-base/alpine-release@3.21.2-r0",
+                "info": Object {
+                  "name": "alpine-base/alpine-release",
+                  "version": "3.21.2-r0",
+                },
+              },
+              Object {
+                "id": "alpine-baselayout/alpine-baselayout-data@3.6.8-r1",
+                "info": Object {
+                  "name": "alpine-baselayout/alpine-baselayout-data",
+                  "version": "3.6.8-r1",
+                },
+              },
+              Object {
+                "id": "musl/musl@1.2.5-r8",
+                "info": Object {
+                  "name": "musl/musl",
+                  "version": "1.2.5-r8",
+                },
+              },
+              Object {
+                "id": "busybox/busybox@1.37.0-r9",
+                "info": Object {
+                  "name": "busybox/busybox",
+                  "version": "1.37.0-r9",
+                },
+              },
+              Object {
+                "id": "busybox/busybox-binsh@1.37.0-r9",
+                "info": Object {
+                  "name": "busybox/busybox-binsh",
+                  "version": "1.37.0-r9",
+                },
+              },
+              Object {
+                "id": "ca-certificates/ca-certificates-bundle@20241121-r1",
+                "info": Object {
+                  "name": "ca-certificates/ca-certificates-bundle",
+                  "version": "20241121-r1",
+                },
+              },
+              Object {
+                "id": "openssl/libcrypto3@3.3.2-r4",
+                "info": Object {
+                  "name": "openssl/libcrypto3",
+                  "version": "3.3.2-r4",
+                },
+              },
+              Object {
+                "id": "openssl/libssl3@3.3.2-r4",
+                "info": Object {
+                  "name": "openssl/libssl3",
+                  "version": "3.3.2-r4",
+                },
+              },
+              Object {
+                "id": "zlib/zlib@1.3.1-r2",
+                "info": Object {
+                  "name": "zlib/zlib",
+                  "version": "1.3.1-r2",
+                },
+              },
+              Object {
+                "id": "apk-tools/apk-tools@2.14.6-r2",
+                "info": Object {
+                  "name": "apk-tools/apk-tools",
+                  "version": "2.14.6-r2",
+                },
+              },
+              Object {
+                "id": "busybox/ssl_client@1.37.0-r9",
+                "info": Object {
+                  "name": "busybox/ssl_client",
+                  "version": "1.37.0-r9",
+                },
+              },
+              Object {
+                "id": "pax-utils/scanelf@1.3.8-r1",
+                "info": Object {
+                  "name": "pax-utils/scanelf",
+                  "version": "1.3.8-r1",
+                },
+              },
+              Object {
+                "id": "musl/musl-utils@1.2.5-r8",
+                "info": Object {
+                  "name": "musl/musl-utils",
+                  "version": "1.2.5-r8",
+                },
+              },
+            ],
+            "schemaVersion": "1.3.0",
+          },
+          "type": "depGraph",
+        },
+        Object {
+          "data": "sha256:547dcb46a4ed0f4dbd0a3dbf900e578a98108174381a8ce4435b9f4ef0379879",
+          "type": "imageId",
+        },
+        Object {
+          "data": Array [
+            "sha256:89b59b1b7cb3f80a0c11656016099d1de77e8e2beed2a106ffda752615dfa3d8",
+            "sha256:81d53030f6b630ad5ab81da1f6ad31a84784f9d146019433aba21ad4986ce526",
+            "sha256:6098e8f95fd6c47fc1f6efbca44a488e4f692618f6e1d7bd7cb8a2feee16edae",
+          ],
+          "type": "imageLayers",
+        },
+        Object {
+          "data": "2025-03-10T13:58:04.047883095Z",
+          "type": "imageCreationTime",
+        },
+        Object {
+          "data": Array [
+            "sha256:89b59b1b7cb3f80a0c11656016099d1de77e8e2beed2a106ffda752615dfa3d8",
+            "sha256:81d53030f6b630ad5ab81da1f6ad31a84784f9d146019433aba21ad4986ce526",
+            "sha256:6098e8f95fd6c47fc1f6efbca44a488e4f692618f6e1d7bd7cb8a2feee16edae",
+          ],
+          "type": "rootFs",
+        },
+        Object {
+          "data": "Alpine Linux v3.21",
+          "type": "imageOsReleasePrettyName",
+        },
+      ],
+      "identity": Object {
+        "args": Object {
+          "platform": "linux/arm64",
+        },
+        "type": "apk",
+      },
+      "target": Object {
+        "image": "docker-image|invalid_manifest.tar",
+      },
+    },
+  ],
+}
+`;
+
 exports[`node application scans should exclude scanning of node_modules projects from a node.js container image 1`] = `
 Array [
   Object {
