@@ -20,6 +20,7 @@ async function buildResponse(
   excludeBaseImageVulns: boolean,
   names?: string[],
   ociDistributionMetadata?: OCIDistributionMetadata,
+  options?: Partial<types.PluginOptions>,
 ): Promise<types.PluginResponse> {
   const deps = depsAnalysis.depTree.dependencies;
   const dockerfilePkgs = collectDockerfilePkgs(dockerfileAnalysis, deps);
@@ -204,6 +205,10 @@ async function buildResponse(
         type: depGraph.pkgManager.name,
         args,
       },
+      ...(options &&
+        options["target-reference"] && {
+          targetReference: options["target-reference"],
+        }),
     },
     ...applicationDependenciesScanResults,
   ];
