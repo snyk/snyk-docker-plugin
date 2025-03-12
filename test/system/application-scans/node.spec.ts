@@ -107,6 +107,18 @@ describe("node application scans", () => {
     expect(pluginResultNpmV3).toMatchSnapshot();
   });
 
+  it("should correctly return depgraph when container contains an invalid manifest", async () => {
+    const fixturePath = getFixture("/npm/invalid_manifest.tar");
+    const imageNameAndTag = `docker-archive:${fixturePath}`;
+
+    const pluginResult = await scan({
+      path: imageNameAndTag,
+    });
+
+    expect(pluginResult).toMatchSnapshot();
+    expect(pluginResult.scanResults).toHaveLength(1);
+  });
+
   it("should correctly return applications as multiple scan results without the app-vulns option", async () => {
     const fixturePath = getFixture(
       "docker-archives/skopeo-copy/rpm-npm-yarn.tar",
