@@ -20,6 +20,7 @@ async function buildResponse(
   excludeBaseImageVulns: boolean,
   names?: string[],
   ociDistributionMetadata?: OCIDistributionMetadata,
+  remoteUrl?: string | undefined,
 ): Promise<types.PluginResponse> {
   const deps = depsAnalysis.depTree.dependencies;
   const dockerfilePkgs = collectDockerfilePkgs(dockerfileAnalysis, deps);
@@ -207,6 +208,12 @@ async function buildResponse(
     },
     ...applicationDependenciesScanResults,
   ];
+
+  if (remoteUrl) {
+    scanResults.forEach((scanResult) => {
+      scanResult.target.remoteUrl = remoteUrl;
+    });
+  }
 
   return {
     scanResults,
