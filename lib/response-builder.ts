@@ -207,7 +207,7 @@ async function buildResponse(
       },
       ...(options &&
         options["target-reference"] && {
-          targetReference: options["target-reference"],
+          targetReference: options["target-reference"] ?? depGraph.rootPkg.name,
         }),
     },
     ...applicationDependenciesScanResults,
