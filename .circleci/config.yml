@@ -221,7 +221,7 @@ workflows:
           name: Scan repository for secrets
           context:
             - snyk-bot-slack
-          channel: team-unify-alerts
+          channel: snyk-vuln-alerts-container
           filters:
             branches:
               ignore: main
@@ -250,7 +250,7 @@ workflows:
             - *slack-fail-notify
       - security-scans:
           name: Security Scans
-          context: analysis_unify
+          context: infrasec_container
           post-steps:
             - *slack-fail-notify
       - test:
