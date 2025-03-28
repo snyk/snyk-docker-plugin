@@ -72,5 +72,6 @@ export async function analyzeStatically(
     excludeBaseImageVulns,
     names,
     ociDistributionMetadata,
+    options,
   );
 }
