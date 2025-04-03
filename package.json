@@ -32,7 +32,7 @@
     "@snyk/dep-graph": "^2.8.1",
     "@snyk/docker-registry-v2-client": "2.15.0",
     "@snyk/rpm-parser": "3.1.0",
-    "@snyk/snyk-docker-pull": "3.13.0",
+    "@snyk/snyk-docker-pull": "3.14.0",
     "@swimlane/docker-reference": "^2.0.1",
     "adm-zip": "^0.5.16",
     "chalk": "^2.4.2",
