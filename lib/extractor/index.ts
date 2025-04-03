@@ -127,12 +127,9 @@ export async function extractImageContent(
   } catch (err) {
     if (err instanceof InvalidArchiveError) {
       // fallback to the other extractor if layer extraction failed
-      if (imageType === ImageType.DockerArchive) {
-        extractor = extractors.get(ImageType.OciArchive) as ArchiveExtractor;
-      } else {
-        extractor = extractors.get(ImageType.DockerArchive) as ArchiveExtractor;
-      }
-      archiveContent = await extractor.getLayersAndManifest();
+      [archiveContent, extractor] = await extractArchiveContentFallback(
+        extractors,
+      );
     } else {
       throw err;
     }
@@ -150,6 +147,22 @@ export async function extractImageContent(
     platform: getPlatformFromConfig(archiveContent.imageConfig),
     imageLabels: archiveContent.imageConfig.config.Labels,
   };
+}
+
+async function extractArchiveContentFallback(
+  extractors: Map<ImageType, ArchiveExtractor>,
+): Promise<[ExtractedLayersAndManifest, ArchiveExtractor]> {
+  for (const extractor of extractors.values()) {
+    try {
+      return [await extractor.getLayersAndManifest(), extractor];
+    } catch (error) {
+      continue;
+    }
+  }
+
+  throw new InvalidArchiveError(
+    `Unsupported archive type. Please use a Docker archive, OCI image layout, or Kaniko-compatible tarball.`,
+  );
 }
 
 export function getRootFsLayersFromConfig(imageConfig: ImageConfig): string[] {

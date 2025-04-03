@@ -1,7 +1,70 @@
 import { DepGraph } from "@snyk/dep-graph";
 import * as plugin from "../../lib";
+import { getFixture } from "../util";
 
 describe("plugin", () => {
+  describe("image is scanned when no image type is specified", () => {
+    it("docker image.tar is scanned successfully when image type is not specified", async () => {
+      const fixturePath = getFixture([
+        "../fixtures/docker-archives",
+        "alpine-arm64.tar",
+      ]);
+      const imagePath = `${fixturePath}`;
+
+      const pluginResult = await plugin.scan({
+        path: imagePath,
+      });
+      const depGraph: DepGraph = pluginResult.scanResults[0].facts.find(
+        (fact) => fact.type === "depGraph",
+      )!.data;
+    });
+
+    it("kaniko image.tar is scanned successfully when image type is not specified", async () => {
+      const fixturePath = getFixture([
+        "../fixtures/kaniko-archives",
+        "kaniko-busybox.tar",
+      ]);
+      const imagePath = `${fixturePath}`;
+
+      const pluginResult = await plugin.scan({
+        path: imagePath,
+      });
+      const depGraph: DepGraph = pluginResult.scanResults[0].facts.find(
+        (fact) => fact.type === "depGraph",
+      )!.data;
+    });
+    it("oci image.tar is scanned successfully when image type is not specified", async () => {
+      const fixturePath = getFixture([
+        "../fixtures/docker-oci-archives",
+        "busybox.amd64.tar",
+      ]);
+      const imagePath = `${fixturePath}`;
+
+      const pluginResult = await plugin.scan({
+        path: imagePath,
+      });
+      const depGraph: DepGraph = pluginResult.scanResults[0].facts.find(
+        (fact) => fact.type === "depGraph",
+      )!.data;
+    });
+
+    it("fails to extract the archive when the archive type is not supported", async () => {
+      const fixturePath = getFixture([
+        "../fixtures/docker-oci-archives",
+        "unsupported-image.tar",
+      ]);
+      const imagePath = `${fixturePath}`;
+
+      await expect(
+        plugin.scan({
+          path: imagePath,
+        }),
+      ).rejects.toThrow(
+        "Unsupported archive type. Please use a Docker archive, OCI image layout, or Kaniko-compatible tarball.",
+      );
+    });
+  });
+
   describe("docker-archive image type throws on bad files", () => {
     test("throws when a file does not exists", async () => {
       const path = "docker-archive:missing-path";
