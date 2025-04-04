@@ -93,6 +93,8 @@ export interface ScanResult {
   identity: Identity;
   /** Facts are the collection of things you found. */
   facts: Fact[];
+  /** A reference for differentiating project versions, e.g., branch names, versions, etc. */
+  targetReference?: string;
 }
 
 export interface AutoDetectedUserInstructions {
@@ -225,6 +227,7 @@ export interface PluginOptions {
 
   /** The default is "false". */
   "collect-application-files": boolean | string;
+  "target-reference": string;
 }
 
 export interface DepTreeDep {
