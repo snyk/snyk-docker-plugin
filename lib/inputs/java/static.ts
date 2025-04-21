@@ -8,7 +8,7 @@ const javaClassFileFormats = [".class"];
 
 function jarFilePathMatches(filePath: string): boolean {
   const dirName = path.dirname(filePath);
-  const fileExtension = filePath.slice(-4);
+  const fileExtension = filePath.slice(filePath.lastIndexOf("."));
   return (
     javaArchiveFileFormats.includes(fileExtension) &&
     !ignoredPaths.some((ignorePath) =>
@@ -25,7 +25,7 @@ export const getJarFileContentAction: ExtractAction = {
 
 function classFilePathMatches(filePath: string): boolean {
   const dirName = path.dirname(filePath);
-  const fileExtension = filePath.slice(-6);
+  const fileExtension = filePath.slice(filePath.lastIndexOf("."));
   return (
     javaClassFileFormats.includes(fileExtension) &&
     !ignoredPaths.some((ignorePath) =>
