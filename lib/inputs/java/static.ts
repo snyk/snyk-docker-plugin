@@ -2,7 +2,7 @@ import * as path from "path";
 import { ExtractAction } from "../../extractor/types";
 import { streamToBuffer } from "../../stream-utils";
 
-const ignoredPaths = ["/usr/lib", "gradle/cache"];
+const ignoredPaths = ["/usr/lib", "gradle/cache", ".m2"];
 const javaArchiveFileFormats = [".jar", ".war"];
 const javaClassFileFormats = [".class"];
 
@@ -25,7 +25,7 @@ export const getJarFileContentAction: ExtractAction = {
 
 function classFilePathMatches(filePath: string): boolean {
   const dirName = path.dirname(filePath);
-  const fileExtension = filePath.slice(-4);
+  const fileExtension = filePath.slice(-6);
   return (
     javaClassFileFormats.includes(fileExtension) &&
     !ignoredPaths.some((ignorePath) =>
