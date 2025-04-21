@@ -123,7 +123,6 @@ export async function analyze(
         getPoetryAppFileContentAction,
         getPipAppFileContentAction,
         getJarFileContentAction,
-        getClassFileContentAction,
         getGoModulesContentAction,
       ],
     );
@@ -132,6 +131,7 @@ export async function analyze(
       staticAnalysisActions.push(
         getNodeJsTsAppFileContentAction,
         getPythonAppFileContentAction,
+        getClassFileContentAction,
       );
     }
   }
