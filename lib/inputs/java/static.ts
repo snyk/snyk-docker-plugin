@@ -1,6 +1,6 @@
 import * as path from "path";
 import { ExtractAction } from "../../extractor/types";
-import { streamToBuffer } from "../../stream-utils";
+import { streamToBuffer, streamToSha1 } from "../../stream-utils";
 
 const ignoredPaths = ["/usr/lib", "gradle/cache", ".m2"];
 const javaArchiveFileFormats = [".jar", ".war"];
@@ -37,5 +37,5 @@ function classFilePathMatches(filePath: string): boolean {
 export const getClassFileContentAction: ExtractAction = {
   actionName: "class",
   filePathMatches: classFilePathMatches,
-  callback: streamToBuffer,
+  callback: streamToSha1,
 };
