@@ -25,7 +25,10 @@ import {
   getDpkgPackageFileContentAction,
 } from "../inputs/distroless/static";
 import * as filePatternStatic from "../inputs/file-pattern/static";
-import { getJarFileContentAction } from "../inputs/java/static";
+import {
+  getClassFileContentAction,
+  getJarFileContentAction,
+} from "../inputs/java/static";
 import {
   getNodeAppFileContentAction,
   getNodeJsTsAppFileContentAction,
@@ -120,6 +123,7 @@ export async function analyze(
         getPoetryAppFileContentAction,
         getPipAppFileContentAction,
         getJarFileContentAction,
+        getClassFileContentAction,
         getGoModulesContentAction,
       ],
     );
