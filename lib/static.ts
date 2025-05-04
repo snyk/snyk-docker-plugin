@@ -66,11 +66,14 @@ export async function analyzeStatically(
     });
   }
 
+  const remoteUrl = options["remote-repo-url"];
+
   return buildResponse(
     analysis,
     dockerfileAnalysis,
     excludeBaseImageVulns,
     names,
     ociDistributionMetadata,
+    remoteUrl,
   );
 }
