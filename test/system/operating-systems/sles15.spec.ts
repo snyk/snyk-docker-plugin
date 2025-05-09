@@ -21,4 +21,14 @@ describe("suse linux enterprise server tests", () => {
 
     expect(pluginResult).toMatchSnapshot();
   });
+
+  it("should correctly analyze an sle15:15.3 image", async () => {
+    const image = "registry.suse.com/suse/sle15:15.3";
+    const pluginResult = await scan({
+      path: image,
+      platform: "linux/amd64",
+    });
+
+    expect(pluginResult).toMatchSnapshot();
+  });
 });
