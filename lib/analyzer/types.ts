@@ -108,3 +108,10 @@ export interface DestinationDir {
   name: string;
   removeCallback: () => void;
 }
+
+export interface SourcePackage {
+  name: string;
+  version: string;
+  release: string;
+  arch: string;
+}
