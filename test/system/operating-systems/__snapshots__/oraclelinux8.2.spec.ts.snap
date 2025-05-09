@@ -1494,7 +1494,7 @@ Object {
                 "id": "acl@2.2.53-1.el8",
                 "info": Object {
                   "name": "acl",
-                  "purl": "pkg:rpm/oracle/acl@2.2.53-1.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/acl@2.2.53-1.el8?distro=oracle-8&upstream=acl%402.2.53",
                   "version": "2.2.53-1.el8",
                 },
               },
@@ -1502,7 +1502,7 @@ Object {
                 "id": "audit-libs@3.0-0.17.20191104git1c2f876.el8",
                 "info": Object {
                   "name": "audit-libs",
-                  "purl": "pkg:rpm/oracle/audit-libs@3.0-0.17.20191104git1c2f876.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/audit-libs@3.0-0.17.20191104git1c2f876.el8?distro=oracle-8&upstream=audit%403.0",
                   "version": "3.0-0.17.20191104git1c2f876.el8",
                 },
               },
@@ -1510,7 +1510,7 @@ Object {
                 "id": "basesystem@11-5.el8",
                 "info": Object {
                   "name": "basesystem",
-                  "purl": "pkg:rpm/oracle/basesystem@11-5.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/basesystem@11-5.el8?distro=oracle-8&upstream=basesystem%4011",
                   "version": "11-5.el8",
                 },
               },
@@ -1518,7 +1518,7 @@ Object {
                 "id": "bash@4.4.19-10.el8",
                 "info": Object {
                   "name": "bash",
-                  "purl": "pkg:rpm/oracle/bash@4.4.19-10.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/bash@4.4.19-10.el8?distro=oracle-8&upstream=bash%404.4.19",
                   "version": "4.4.19-10.el8",
                 },
               },
@@ -1526,7 +1526,7 @@ Object {
                 "id": "bind-export-libs@32:9.11.13-6.el8_2.1",
                 "info": Object {
                   "name": "bind-export-libs",
-                  "purl": "pkg:rpm/oracle/bind-export-libs@32:9.11.13-6.el8_2.1?distro=oracle-8&epoch=32",
+                  "purl": "pkg:rpm/oracle/bind-export-libs@32:9.11.13-6.el8_2.1?distro=oracle-8&epoch=32&upstream=bind%409.11.13",
                   "version": "32:9.11.13-6.el8_2.1",
                 },
               },
@@ -1534,7 +1534,7 @@ Object {
                 "id": "brotli@1.0.6-1.el8",
                 "info": Object {
                   "name": "brotli",
-                  "purl": "pkg:rpm/oracle/brotli@1.0.6-1.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/brotli@1.0.6-1.el8?distro=oracle-8&upstream=brotli%401.0.6",
                   "version": "1.0.6-1.el8",
                 },
               },
@@ -1542,7 +1542,7 @@ Object {
                 "id": "bzip2-libs@1.0.6-26.el8",
                 "info": Object {
                   "name": "bzip2-libs",
-                  "purl": "pkg:rpm/oracle/bzip2-libs@1.0.6-26.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/bzip2-libs@1.0.6-26.el8?distro=oracle-8&upstream=bzip2%401.0.6",
                   "version": "1.0.6-26.el8",
                 },
               },
@@ -1550,7 +1550,7 @@ Object {
                 "id": "ca-certificates@2020.2.41-80.0.el8_2",
                 "info": Object {
                   "name": "ca-certificates",
-                  "purl": "pkg:rpm/oracle/ca-certificates@2020.2.41-80.0.el8_2?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/ca-certificates@2020.2.41-80.0.el8_2?distro=oracle-8&upstream=ca-certificates%402020.2.41",
                   "version": "2020.2.41-80.0.el8_2",
                 },
               },
@@ -1558,7 +1558,7 @@ Object {
                 "id": "chkconfig@1.11-1.el8",
                 "info": Object {
                   "name": "chkconfig",
-                  "purl": "pkg:rpm/oracle/chkconfig@1.11-1.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/chkconfig@1.11-1.el8?distro=oracle-8&upstream=chkconfig%401.11",
                   "version": "1.11-1.el8",
                 },
               },
@@ -1566,7 +1566,7 @@ Object {
                 "id": "coreutils@8.30-7.0.1.el8_2.1",
                 "info": Object {
                   "name": "coreutils",
-                  "purl": "pkg:rpm/oracle/coreutils@8.30-7.0.1.el8_2.1?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/coreutils@8.30-7.0.1.el8_2.1?distro=oracle-8&upstream=coreutils%408.30",
                   "version": "8.30-7.0.1.el8_2.1",
                 },
               },
@@ -1574,7 +1574,7 @@ Object {
                 "id": "coreutils-common@8.30-7.0.1.el8_2.1",
                 "info": Object {
                   "name": "coreutils-common",
-                  "purl": "pkg:rpm/oracle/coreutils-common@8.30-7.0.1.el8_2.1?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/coreutils-common@8.30-7.0.1.el8_2.1?distro=oracle-8&upstream=coreutils%408.30",
                   "version": "8.30-7.0.1.el8_2.1",
                 },
               },
@@ -1582,7 +1582,7 @@ Object {
                 "id": "cracklib@2.9.6-15.el8",
                 "info": Object {
                   "name": "cracklib",
-                  "purl": "pkg:rpm/oracle/cracklib@2.9.6-15.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/cracklib@2.9.6-15.el8?distro=oracle-8&upstream=cracklib%402.9.6",
                   "version": "2.9.6-15.el8",
                 },
               },
@@ -1590,7 +1590,7 @@ Object {
                 "id": "crypto-policies@20191128-2.git23e1bf1.el8",
                 "info": Object {
                   "name": "crypto-policies",
-                  "purl": "pkg:rpm/oracle/crypto-policies@20191128-2.git23e1bf1.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/crypto-policies@20191128-2.git23e1bf1.el8?distro=oracle-8&upstream=crypto-policies%4020191128",
                   "version": "20191128-2.git23e1bf1.el8",
                 },
               },
@@ -1598,7 +1598,7 @@ Object {
                 "id": "cryptsetup-libs@2.2.2-1.el8",
                 "info": Object {
                   "name": "cryptsetup-libs",
-                  "purl": "pkg:rpm/oracle/cryptsetup-libs@2.2.2-1.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/cryptsetup-libs@2.2.2-1.el8?distro=oracle-8&upstream=cryptsetup%402.2.2",
                   "version": "2.2.2-1.el8",
                 },
               },
@@ -1606,7 +1606,7 @@ Object {
                 "id": "curl@7.61.1-12.el8",
                 "info": Object {
                   "name": "curl",
-                  "purl": "pkg:rpm/oracle/curl@7.61.1-12.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/curl@7.61.1-12.el8?distro=oracle-8&upstream=curl%407.61.1",
                   "version": "7.61.1-12.el8",
                 },
               },
@@ -1614,7 +1614,7 @@ Object {
                 "id": "cyrus-sasl-lib@2.1.27-1.el8",
                 "info": Object {
                   "name": "cyrus-sasl-lib",
-                  "purl": "pkg:rpm/oracle/cyrus-sasl-lib@2.1.27-1.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/cyrus-sasl-lib@2.1.27-1.el8?distro=oracle-8&upstream=cyrus-sasl%402.1.27",
                   "version": "2.1.27-1.el8",
                 },
               },
@@ -1622,7 +1622,7 @@ Object {
                 "id": "dbus@1:1.12.8-10.0.1.el8_2",
                 "info": Object {
                   "name": "dbus",
-                  "purl": "pkg:rpm/oracle/dbus@1:1.12.8-10.0.1.el8_2?distro=oracle-8&epoch=1",
+                  "purl": "pkg:rpm/oracle/dbus@1:1.12.8-10.0.1.el8_2?distro=oracle-8&epoch=1&upstream=dbus%401.12.8",
                   "version": "1:1.12.8-10.0.1.el8_2",
                 },
               },
@@ -1630,7 +1630,7 @@ Object {
                 "id": "dbus-common@1:1.12.8-10.0.1.el8_2",
                 "info": Object {
                   "name": "dbus-common",
-                  "purl": "pkg:rpm/oracle/dbus-common@1:1.12.8-10.0.1.el8_2?distro=oracle-8&epoch=1",
+                  "purl": "pkg:rpm/oracle/dbus-common@1:1.12.8-10.0.1.el8_2?distro=oracle-8&epoch=1&upstream=dbus%401.12.8",
                   "version": "1:1.12.8-10.0.1.el8_2",
                 },
               },
@@ -1638,7 +1638,7 @@ Object {
                 "id": "dbus-daemon@1:1.12.8-10.0.1.el8_2",
                 "info": Object {
                   "name": "dbus-daemon",
-                  "purl": "pkg:rpm/oracle/dbus-daemon@1:1.12.8-10.0.1.el8_2?distro=oracle-8&epoch=1",
+                  "purl": "pkg:rpm/oracle/dbus-daemon@1:1.12.8-10.0.1.el8_2?distro=oracle-8&epoch=1&upstream=dbus%401.12.8",
                   "version": "1:1.12.8-10.0.1.el8_2",
                 },
               },
@@ -1646,7 +1646,7 @@ Object {
                 "id": "dbus-libs@1:1.12.8-10.0.1.el8_2",
                 "info": Object {
                   "name": "dbus-libs",
-                  "purl": "pkg:rpm/oracle/dbus-libs@1:1.12.8-10.0.1.el8_2?distro=oracle-8&epoch=1",
+                  "purl": "pkg:rpm/oracle/dbus-libs@1:1.12.8-10.0.1.el8_2?distro=oracle-8&epoch=1&upstream=dbus%401.12.8",
                   "version": "1:1.12.8-10.0.1.el8_2",
                 },
               },
@@ -1654,7 +1654,7 @@ Object {
                 "id": "dbus-tools@1:1.12.8-10.0.1.el8_2",
                 "info": Object {
                   "name": "dbus-tools",
-                  "purl": "pkg:rpm/oracle/dbus-tools@1:1.12.8-10.0.1.el8_2?distro=oracle-8&epoch=1",
+                  "purl": "pkg:rpm/oracle/dbus-tools@1:1.12.8-10.0.1.el8_2?distro=oracle-8&epoch=1&upstream=dbus%401.12.8",
                   "version": "1:1.12.8-10.0.1.el8_2",
                 },
               },
@@ -1662,7 +1662,7 @@ Object {
                 "id": "device-mapper@8:1.02.169-3.el8",
                 "info": Object {
                   "name": "device-mapper",
-                  "purl": "pkg:rpm/oracle/device-mapper@8:1.02.169-3.el8?distro=oracle-8&epoch=8",
+                  "purl": "pkg:rpm/oracle/device-mapper@8:1.02.169-3.el8?distro=oracle-8&epoch=8&upstream=lvm2%402.03.08",
                   "version": "8:1.02.169-3.el8",
                 },
               },
@@ -1670,7 +1670,7 @@ Object {
                 "id": "device-mapper-libs@8:1.02.169-3.el8",
                 "info": Object {
                   "name": "device-mapper-libs",
-                  "purl": "pkg:rpm/oracle/device-mapper-libs@8:1.02.169-3.el8?distro=oracle-8&epoch=8",
+                  "purl": "pkg:rpm/oracle/device-mapper-libs@8:1.02.169-3.el8?distro=oracle-8&epoch=8&upstream=lvm2%402.03.08",
                   "version": "8:1.02.169-3.el8",
                 },
               },
@@ -1678,7 +1678,7 @@ Object {
                 "id": "dhcp-client@12:4.3.6-40.el8",
                 "info": Object {
                   "name": "dhcp-client",
-                  "purl": "pkg:rpm/oracle/dhcp-client@12:4.3.6-40.el8?distro=oracle-8&epoch=12",
+                  "purl": "pkg:rpm/oracle/dhcp-client@12:4.3.6-40.el8?distro=oracle-8&epoch=12&upstream=dhcp%404.3.6",
                   "version": "12:4.3.6-40.el8",
                 },
               },
@@ -1686,7 +1686,7 @@ Object {
                 "id": "dhcp-common@12:4.3.6-40.el8",
                 "info": Object {
                   "name": "dhcp-common",
-                  "purl": "pkg:rpm/oracle/dhcp-common@12:4.3.6-40.el8?distro=oracle-8&epoch=12",
+                  "purl": "pkg:rpm/oracle/dhcp-common@12:4.3.6-40.el8?distro=oracle-8&epoch=12&upstream=dhcp%404.3.6",
                   "version": "12:4.3.6-40.el8",
                 },
               },
@@ -1694,7 +1694,7 @@ Object {
                 "id": "dhcp-libs@12:4.3.6-40.el8",
                 "info": Object {
                   "name": "dhcp-libs",
-                  "purl": "pkg:rpm/oracle/dhcp-libs@12:4.3.6-40.el8?distro=oracle-8&epoch=12",
+                  "purl": "pkg:rpm/oracle/dhcp-libs@12:4.3.6-40.el8?distro=oracle-8&epoch=12&upstream=dhcp%404.3.6",
                   "version": "12:4.3.6-40.el8",
                 },
               },
@@ -1702,7 +1702,7 @@ Object {
                 "id": "diffutils@3.6-6.el8",
                 "info": Object {
                   "name": "diffutils",
-                  "purl": "pkg:rpm/oracle/diffutils@3.6-6.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/diffutils@3.6-6.el8?distro=oracle-8&upstream=diffutils%403.6",
                   "version": "3.6-6.el8",
                 },
               },
@@ -1710,7 +1710,7 @@ Object {
                 "id": "dnf@4.2.17-7.el8_2",
                 "info": Object {
                   "name": "dnf",
-                  "purl": "pkg:rpm/oracle/dnf@4.2.17-7.el8_2?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/dnf@4.2.17-7.el8_2?distro=oracle-8&upstream=dnf%404.2.17",
                   "version": "4.2.17-7.el8_2",
                 },
               },
@@ -1718,7 +1718,7 @@ Object {
                 "id": "dnf-data@4.2.17-7.el8_2",
                 "info": Object {
                   "name": "dnf-data",
-                  "purl": "pkg:rpm/oracle/dnf-data@4.2.17-7.el8_2?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/dnf-data@4.2.17-7.el8_2?distro=oracle-8&upstream=dnf%404.2.17",
                   "version": "4.2.17-7.el8_2",
                 },
               },
@@ -1726,7 +1726,7 @@ Object {
                 "id": "dnf-plugins-core@4.0.12-4.el8_2",
                 "info": Object {
                   "name": "dnf-plugins-core",
-                  "purl": "pkg:rpm/oracle/dnf-plugins-core@4.0.12-4.el8_2?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/dnf-plugins-core@4.0.12-4.el8_2?distro=oracle-8&upstream=dnf-plugins-core%404.0.12",
                   "version": "4.0.12-4.el8_2",
                 },
               },
@@ -1734,7 +1734,7 @@ Object {
                 "id": "elfutils-default-yama-scope@0.178-7.el8",
                 "info": Object {
                   "name": "elfutils-default-yama-scope",
-                  "purl": "pkg:rpm/oracle/elfutils-default-yama-scope@0.178-7.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/elfutils-default-yama-scope@0.178-7.el8?distro=oracle-8&upstream=elfutils%400.178",
                   "version": "0.178-7.el8",
                 },
               },
@@ -1742,7 +1742,7 @@ Object {
                 "id": "elfutils-libelf@0.178-7.el8",
                 "info": Object {
                   "name": "elfutils-libelf",
-                  "purl": "pkg:rpm/oracle/elfutils-libelf@0.178-7.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/elfutils-libelf@0.178-7.el8?distro=oracle-8&upstream=elfutils%400.178",
                   "version": "0.178-7.el8",
                 },
               },
@@ -1750,7 +1750,7 @@ Object {
                 "id": "elfutils-libs@0.178-7.el8",
                 "info": Object {
                   "name": "elfutils-libs",
-                  "purl": "pkg:rpm/oracle/elfutils-libs@0.178-7.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/elfutils-libs@0.178-7.el8?distro=oracle-8&upstream=elfutils%400.178",
                   "version": "0.178-7.el8",
                 },
               },
@@ -1758,7 +1758,7 @@ Object {
                 "id": "expat@2.2.5-3.el8",
                 "info": Object {
                   "name": "expat",
-                  "purl": "pkg:rpm/oracle/expat@2.2.5-3.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/expat@2.2.5-3.el8?distro=oracle-8&upstream=expat%402.2.5",
                   "version": "2.2.5-3.el8",
                 },
               },
@@ -1766,7 +1766,7 @@ Object {
                 "id": "file-libs@5.33-13.el8",
                 "info": Object {
                   "name": "file-libs",
-                  "purl": "pkg:rpm/oracle/file-libs@5.33-13.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/file-libs@5.33-13.el8?distro=oracle-8&upstream=file%405.33",
                   "version": "5.33-13.el8",
                 },
               },
@@ -1774,7 +1774,7 @@ Object {
                 "id": "filesystem@3.8-2.el8",
                 "info": Object {
                   "name": "filesystem",
-                  "purl": "pkg:rpm/oracle/filesystem@3.8-2.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/filesystem@3.8-2.el8?distro=oracle-8&upstream=filesystem%403.8",
                   "version": "3.8-2.el8",
                 },
               },
@@ -1782,7 +1782,7 @@ Object {
                 "id": "findutils@1:4.6.0-20.el8",
                 "info": Object {
                   "name": "findutils",
-                  "purl": "pkg:rpm/oracle/findutils@1:4.6.0-20.el8?distro=oracle-8&epoch=1",
+                  "purl": "pkg:rpm/oracle/findutils@1:4.6.0-20.el8?distro=oracle-8&epoch=1&upstream=findutils%404.6.0",
                   "version": "1:4.6.0-20.el8",
                 },
               },
@@ -1790,7 +1790,7 @@ Object {
                 "id": "fipscheck@1.5.0-4.el8",
                 "info": Object {
                   "name": "fipscheck",
-                  "purl": "pkg:rpm/oracle/fipscheck@1.5.0-4.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/fipscheck@1.5.0-4.el8?distro=oracle-8&upstream=fipscheck%401.5.0",
                   "version": "1.5.0-4.el8",
                 },
               },
@@ -1798,7 +1798,7 @@ Object {
                 "id": "fipscheck-lib@1.5.0-4.el8",
                 "info": Object {
                   "name": "fipscheck-lib",
-                  "purl": "pkg:rpm/oracle/fipscheck-lib@1.5.0-4.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/fipscheck-lib@1.5.0-4.el8?distro=oracle-8&upstream=fipscheck%401.5.0",
                   "version": "1.5.0-4.el8",
                 },
               },
@@ -1806,7 +1806,7 @@ Object {
                 "id": "gawk@4.2.1-1.el8",
                 "info": Object {
                   "name": "gawk",
-                  "purl": "pkg:rpm/oracle/gawk@4.2.1-1.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/gawk@4.2.1-1.el8?distro=oracle-8&upstream=gawk%404.2.1",
                   "version": "4.2.1-1.el8",
                 },
               },
@@ -1814,7 +1814,7 @@ Object {
                 "id": "gdbm@1:1.18-1.el8",
                 "info": Object {
                   "name": "gdbm",
-                  "purl": "pkg:rpm/oracle/gdbm@1:1.18-1.el8?distro=oracle-8&epoch=1",
+                  "purl": "pkg:rpm/oracle/gdbm@1:1.18-1.el8?distro=oracle-8&epoch=1&upstream=gdbm%401.18",
                   "version": "1:1.18-1.el8",
                 },
               },
@@ -1822,7 +1822,7 @@ Object {
                 "id": "gdbm-libs@1:1.18-1.el8",
                 "info": Object {
                   "name": "gdbm-libs",
-                  "purl": "pkg:rpm/oracle/gdbm-libs@1:1.18-1.el8?distro=oracle-8&epoch=1",
+                  "purl": "pkg:rpm/oracle/gdbm-libs@1:1.18-1.el8?distro=oracle-8&epoch=1&upstream=gdbm%401.18",
                   "version": "1:1.18-1.el8",
                 },
               },
@@ -1830,7 +1830,7 @@ Object {
                 "id": "glib2@2.56.4-8.el8",
                 "info": Object {
                   "name": "glib2",
-                  "purl": "pkg:rpm/oracle/glib2@2.56.4-8.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/glib2@2.56.4-8.el8?distro=oracle-8&upstream=glib2%402.56.4",
                   "version": "2.56.4-8.el8",
                 },
               },
@@ -1838,7 +1838,7 @@ Object {
                 "id": "glibc@2.28-101.0.1.el8",
                 "info": Object {
                   "name": "glibc",
-                  "purl": "pkg:rpm/oracle/glibc@2.28-101.0.1.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/glibc@2.28-101.0.1.el8?distro=oracle-8&upstream=glibc%402.28",
                   "version": "2.28-101.0.1.el8",
                 },
               },
@@ -1846,7 +1846,7 @@ Object {
                 "id": "glibc-all-langpacks@2.28-101.0.1.el8",
                 "info": Object {
                   "name": "glibc-all-langpacks",
-                  "purl": "pkg:rpm/oracle/glibc-all-langpacks@2.28-101.0.1.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/glibc-all-langpacks@2.28-101.0.1.el8?distro=oracle-8&upstream=glibc%402.28",
                   "version": "2.28-101.0.1.el8",
                 },
               },
@@ -1854,7 +1854,7 @@ Object {
                 "id": "glibc-common@2.28-101.0.1.el8",
                 "info": Object {
                   "name": "glibc-common",
-                  "purl": "pkg:rpm/oracle/glibc-common@2.28-101.0.1.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/glibc-common@2.28-101.0.1.el8?distro=oracle-8&upstream=glibc%402.28",
                   "version": "2.28-101.0.1.el8",
                 },
               },
@@ -1862,7 +1862,7 @@ Object {
                 "id": "gmp@1:6.1.2-10.el8",
                 "info": Object {
                   "name": "gmp",
-                  "purl": "pkg:rpm/oracle/gmp@1:6.1.2-10.el8?distro=oracle-8&epoch=1",
+                  "purl": "pkg:rpm/oracle/gmp@1:6.1.2-10.el8?distro=oracle-8&epoch=1&upstream=gmp%406.1.2",
                   "version": "1:6.1.2-10.el8",
                 },
               },
@@ -1870,7 +1870,7 @@ Object {
                 "id": "gnupg2@2.2.9-1.el8",
                 "info": Object {
                   "name": "gnupg2",
-                  "purl": "pkg:rpm/oracle/gnupg2@2.2.9-1.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/gnupg2@2.2.9-1.el8?distro=oracle-8&upstream=gnupg2%402.2.9",
                   "version": "2.2.9-1.el8",
                 },
               },
@@ -1878,7 +1878,7 @@ Object {
                 "id": "gnutls@3.6.8-11.el8_2",
                 "info": Object {
                   "name": "gnutls",
-                  "purl": "pkg:rpm/oracle/gnutls@3.6.8-11.el8_2?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/gnutls@3.6.8-11.el8_2?distro=oracle-8&upstream=gnutls%403.6.8",
                   "version": "3.6.8-11.el8_2",
                 },
               },
@@ -1894,7 +1894,7 @@ Object {
                 "id": "gpgme@1.10.0-6.0.1.el8",
                 "info": Object {
                   "name": "gpgme",
-                  "purl": "pkg:rpm/oracle/gpgme@1.10.0-6.0.1.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/gpgme@1.10.0-6.0.1.el8?distro=oracle-8&upstream=gpgme%401.10.0",
                   "version": "1.10.0-6.0.1.el8",
                 },
               },
@@ -1902,7 +1902,7 @@ Object {
                 "id": "grep@3.1-6.el8",
                 "info": Object {
                   "name": "grep",
-                  "purl": "pkg:rpm/oracle/grep@3.1-6.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/grep@3.1-6.el8?distro=oracle-8&upstream=grep%403.1",
                   "version": "3.1-6.el8",
                 },
               },
@@ -1910,7 +1910,7 @@ Object {
                 "id": "gzip@1.9-9.el8",
                 "info": Object {
                   "name": "gzip",
-                  "purl": "pkg:rpm/oracle/gzip@1.9-9.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/gzip@1.9-9.el8?distro=oracle-8&upstream=gzip%401.9",
                   "version": "1.9-9.el8",
                 },
               },
@@ -1918,7 +1918,7 @@ Object {
                 "id": "ima-evm-utils@1.1-5.el8",
                 "info": Object {
                   "name": "ima-evm-utils",
-                  "purl": "pkg:rpm/oracle/ima-evm-utils@1.1-5.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/ima-evm-utils@1.1-5.el8?distro=oracle-8&upstream=ima-evm-utils%401.1",
                   "version": "1.1-5.el8",
                 },
               },
@@ -1926,7 +1926,7 @@ Object {
                 "id": "info@6.5-6.el8",
                 "info": Object {
                   "name": "info",
-                  "purl": "pkg:rpm/oracle/info@6.5-6.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/info@6.5-6.el8?distro=oracle-8&upstream=texinfo%406.5",
                   "version": "6.5-6.el8",
                 },
               },
@@ -1934,7 +1934,7 @@ Object {
                 "id": "initscripts@10.00.6-1.0.1.el8_2.2",
                 "info": Object {
                   "name": "initscripts",
-                  "purl": "pkg:rpm/oracle/initscripts@10.00.6-1.0.1.el8_2.2?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/initscripts@10.00.6-1.0.1.el8_2.2?distro=oracle-8&upstream=initscripts%4010.00.6",
                   "version": "10.00.6-1.0.1.el8_2.2",
                 },
               },
@@ -1942,7 +1942,7 @@ Object {
                 "id": "ipcalc@0.2.4-4.el8",
                 "info": Object {
                   "name": "ipcalc",
-                  "purl": "pkg:rpm/oracle/ipcalc@0.2.4-4.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/ipcalc@0.2.4-4.el8?distro=oracle-8&upstream=ipcalc%400.2.4",
                   "version": "0.2.4-4.el8",
                 },
               },
@@ -1950,7 +1950,7 @@ Object {
                 "id": "iproute@5.3.0-1.el8",
                 "info": Object {
                   "name": "iproute",
-                  "purl": "pkg:rpm/oracle/iproute@5.3.0-1.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/iproute@5.3.0-1.el8?distro=oracle-8&upstream=iproute%405.3.0",
                   "version": "5.3.0-1.el8",
                 },
               },
@@ -1958,7 +1958,7 @@ Object {
                 "id": "iptables-libs@1.8.4-10.el8_2.1",
                 "info": Object {
                   "name": "iptables-libs",
-                  "purl": "pkg:rpm/oracle/iptables-libs@1.8.4-10.el8_2.1?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/iptables-libs@1.8.4-10.el8_2.1?distro=oracle-8&upstream=iptables%401.8.4",
                   "version": "1.8.4-10.el8_2.1",
                 },
               },
@@ -1966,7 +1966,7 @@ Object {
                 "id": "iputils@20180629-2.el8",
                 "info": Object {
                   "name": "iputils",
-                  "purl": "pkg:rpm/oracle/iputils@20180629-2.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/iputils@20180629-2.el8?distro=oracle-8&upstream=iputils%4020180629",
                   "version": "20180629-2.el8",
                 },
               },
@@ -1974,7 +1974,7 @@ Object {
                 "id": "json-c@0.13.1-0.2.el8",
                 "info": Object {
                   "name": "json-c",
-                  "purl": "pkg:rpm/oracle/json-c@0.13.1-0.2.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/json-c@0.13.1-0.2.el8?distro=oracle-8&upstream=json-c%400.13.1",
                   "version": "0.13.1-0.2.el8",
                 },
               },
@@ -1982,7 +1982,7 @@ Object {
                 "id": "keyutils-libs@1.5.10-6.el8",
                 "info": Object {
                   "name": "keyutils-libs",
-                  "purl": "pkg:rpm/oracle/keyutils-libs@1.5.10-6.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/keyutils-libs@1.5.10-6.el8?distro=oracle-8&upstream=keyutils%401.5.10",
                   "version": "1.5.10-6.el8",
                 },
               },
@@ -1990,7 +1990,7 @@ Object {
                 "id": "kmod-libs@25-16.0.1.el8",
                 "info": Object {
                   "name": "kmod-libs",
-                  "purl": "pkg:rpm/oracle/kmod-libs@25-16.0.1.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/kmod-libs@25-16.0.1.el8?distro=oracle-8&upstream=kmod%4025",
                   "version": "25-16.0.1.el8",
                 },
               },
@@ -1998,7 +1998,7 @@ Object {
                 "id": "krb5-libs@1.17-18.el8",
                 "info": Object {
                   "name": "krb5-libs",
-                  "purl": "pkg:rpm/oracle/krb5-libs@1.17-18.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/krb5-libs@1.17-18.el8?distro=oracle-8&upstream=krb5%401.17",
                   "version": "1.17-18.el8",
                 },
               },
@@ -2006,7 +2006,7 @@ Object {
                 "id": "libacl@2.2.53-1.el8",
                 "info": Object {
                   "name": "libacl",
-                  "purl": "pkg:rpm/oracle/libacl@2.2.53-1.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libacl@2.2.53-1.el8?distro=oracle-8&upstream=acl%402.2.53",
                   "version": "2.2.53-1.el8",
                 },
               },
@@ -2014,7 +2014,7 @@ Object {
                 "id": "libarchive@3.3.2-8.el8_1",
                 "info": Object {
                   "name": "libarchive",
-                  "purl": "pkg:rpm/oracle/libarchive@3.3.2-8.el8_1?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libarchive@3.3.2-8.el8_1?distro=oracle-8&upstream=libarchive%403.3.2",
                   "version": "3.3.2-8.el8_1",
                 },
               },
@@ -2022,7 +2022,7 @@ Object {
                 "id": "libassuan@2.5.1-3.el8",
                 "info": Object {
                   "name": "libassuan",
-                  "purl": "pkg:rpm/oracle/libassuan@2.5.1-3.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libassuan@2.5.1-3.el8?distro=oracle-8&upstream=libassuan%402.5.1",
                   "version": "2.5.1-3.el8",
                 },
               },
@@ -2030,7 +2030,7 @@ Object {
                 "id": "libattr@2.4.48-3.el8",
                 "info": Object {
                   "name": "libattr",
-                  "purl": "pkg:rpm/oracle/libattr@2.4.48-3.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libattr@2.4.48-3.el8?distro=oracle-8&upstream=attr%402.4.48",
                   "version": "2.4.48-3.el8",
                 },
               },
@@ -2038,7 +2038,7 @@ Object {
                 "id": "libblkid@2.32.1-22.el8",
                 "info": Object {
                   "name": "libblkid",
-                  "purl": "pkg:rpm/oracle/libblkid@2.32.1-22.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libblkid@2.32.1-22.el8?distro=oracle-8&upstream=util-linux%402.32.1",
                   "version": "2.32.1-22.el8",
                 },
               },
@@ -2046,7 +2046,7 @@ Object {
                 "id": "libcap@2.26-3.el8",
                 "info": Object {
                   "name": "libcap",
-                  "purl": "pkg:rpm/oracle/libcap@2.26-3.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libcap@2.26-3.el8?distro=oracle-8&upstream=libcap%402.26",
                   "version": "2.26-3.el8",
                 },
               },
@@ -2054,7 +2054,7 @@ Object {
                 "id": "libcap-ng@0.7.9-5.el8",
                 "info": Object {
                   "name": "libcap-ng",
-                  "purl": "pkg:rpm/oracle/libcap-ng@0.7.9-5.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libcap-ng@0.7.9-5.el8?distro=oracle-8&upstream=libcap-ng%400.7.9",
                   "version": "0.7.9-5.el8",
                 },
               },
@@ -2062,7 +2062,7 @@ Object {
                 "id": "libcom_err@1.45.4-3.el8",
                 "info": Object {
                   "name": "libcom_err",
-                  "purl": "pkg:rpm/oracle/libcom_err@1.45.4-3.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libcom_err@1.45.4-3.el8?distro=oracle-8&upstream=e2fsprogs%401.45.4",
                   "version": "1.45.4-3.el8",
                 },
               },
@@ -2070,7 +2070,7 @@ Object {
                 "id": "libcomps@0.1.11-4.el8",
                 "info": Object {
                   "name": "libcomps",
-                  "purl": "pkg:rpm/oracle/libcomps@0.1.11-4.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libcomps@0.1.11-4.el8?distro=oracle-8&upstream=libcomps%400.1.11",
                   "version": "0.1.11-4.el8",
                 },
               },
@@ -2078,7 +2078,7 @@ Object {
                 "id": "libcurl@7.61.1-12.el8",
                 "info": Object {
                   "name": "libcurl",
-                  "purl": "pkg:rpm/oracle/libcurl@7.61.1-12.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libcurl@7.61.1-12.el8?distro=oracle-8&upstream=curl%407.61.1",
                   "version": "7.61.1-12.el8",
                 },
               },
@@ -2086,7 +2086,7 @@ Object {
                 "id": "libdb@5.3.28-37.el8",
                 "info": Object {
                   "name": "libdb",
-                  "purl": "pkg:rpm/oracle/libdb@5.3.28-37.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libdb@5.3.28-37.el8?distro=oracle-8&upstream=libdb%405.3.28",
                   "version": "5.3.28-37.el8",
                 },
               },
@@ -2094,7 +2094,7 @@ Object {
                 "id": "libdb-utils@5.3.28-37.el8",
                 "info": Object {
                   "name": "libdb-utils",
-                  "purl": "pkg:rpm/oracle/libdb-utils@5.3.28-37.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libdb-utils@5.3.28-37.el8?distro=oracle-8&upstream=libdb%405.3.28",
                   "version": "5.3.28-37.el8",
                 },
               },
@@ -2102,7 +2102,7 @@ Object {
                 "id": "libdnf@0.39.1-6.0.1.el8_2",
                 "info": Object {
                   "name": "libdnf",
-                  "purl": "pkg:rpm/oracle/libdnf@0.39.1-6.0.1.el8_2?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libdnf@0.39.1-6.0.1.el8_2?distro=oracle-8&upstream=libdnf%400.39.1",
                   "version": "0.39.1-6.0.1.el8_2",
                 },
               },
@@ -2110,7 +2110,7 @@ Object {
                 "id": "libedit@3.1-23.20170329cvs.el8",
                 "info": Object {
                   "name": "libedit",
-                  "purl": "pkg:rpm/oracle/libedit@3.1-23.20170329cvs.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libedit@3.1-23.20170329cvs.el8?distro=oracle-8&upstream=libedit%403.1",
                   "version": "3.1-23.20170329cvs.el8",
                 },
               },
@@ -2118,7 +2118,7 @@ Object {
                 "id": "libestr@0.1.10-1.el8",
                 "info": Object {
                   "name": "libestr",
-                  "purl": "pkg:rpm/oracle/libestr@0.1.10-1.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libestr@0.1.10-1.el8?distro=oracle-8&upstream=libestr%400.1.10",
                   "version": "0.1.10-1.el8",
                 },
               },
@@ -2126,7 +2126,7 @@ Object {
                 "id": "libfastjson@0.99.8-2.el8",
                 "info": Object {
                   "name": "libfastjson",
-                  "purl": "pkg:rpm/oracle/libfastjson@0.99.8-2.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libfastjson@0.99.8-2.el8?distro=oracle-8&upstream=libfastjson%400.99.8",
                   "version": "0.99.8-2.el8",
                 },
               },
@@ -2134,7 +2134,7 @@ Object {
                 "id": "libfdisk@2.32.1-22.el8",
                 "info": Object {
                   "name": "libfdisk",
-                  "purl": "pkg:rpm/oracle/libfdisk@2.32.1-22.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libfdisk@2.32.1-22.el8?distro=oracle-8&upstream=util-linux%402.32.1",
                   "version": "2.32.1-22.el8",
                 },
               },
@@ -2142,7 +2142,7 @@ Object {
                 "id": "libffi@3.1-21.el8",
                 "info": Object {
                   "name": "libffi",
-                  "purl": "pkg:rpm/oracle/libffi@3.1-21.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libffi@3.1-21.el8?distro=oracle-8&upstream=libffi%403.1",
                   "version": "3.1-21.el8",
                 },
               },
@@ -2150,7 +2150,7 @@ Object {
                 "id": "libgcc@8.3.1-5.0.3.el8",
                 "info": Object {
                   "name": "libgcc",
-                  "purl": "pkg:rpm/oracle/libgcc@8.3.1-5.0.3.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libgcc@8.3.1-5.0.3.el8?distro=oracle-8&upstream=gcc%408.3.1",
                   "version": "8.3.1-5.0.3.el8",
                 },
               },
@@ -2158,7 +2158,7 @@ Object {
                 "id": "libgcrypt@1.8.3-4.el8",
                 "info": Object {
                   "name": "libgcrypt",
-                  "purl": "pkg:rpm/oracle/libgcrypt@1.8.3-4.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libgcrypt@1.8.3-4.el8?distro=oracle-8&upstream=libgcrypt%401.8.3",
                   "version": "1.8.3-4.el8",
                 },
               },
@@ -2166,7 +2166,7 @@ Object {
                 "id": "libgpg-error@1.31-1.el8",
                 "info": Object {
                   "name": "libgpg-error",
-                  "purl": "pkg:rpm/oracle/libgpg-error@1.31-1.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libgpg-error@1.31-1.el8?distro=oracle-8&upstream=libgpg-error%401.31",
                   "version": "1.31-1.el8",
                 },
               },
@@ -2174,7 +2174,7 @@ Object {
                 "id": "libidn2@2.2.0-1.el8",
                 "info": Object {
                   "name": "libidn2",
-                  "purl": "pkg:rpm/oracle/libidn2@2.2.0-1.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libidn2@2.2.0-1.el8?distro=oracle-8&upstream=libidn2%402.2.0",
                   "version": "2.2.0-1.el8",
                 },
               },
@@ -2182,7 +2182,7 @@ Object {
                 "id": "libksba@1.3.5-7.el8",
                 "info": Object {
                   "name": "libksba",
-                  "purl": "pkg:rpm/oracle/libksba@1.3.5-7.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libksba@1.3.5-7.el8?distro=oracle-8&upstream=libksba%401.3.5",
                   "version": "1.3.5-7.el8",
                 },
               },
@@ -2190,7 +2190,7 @@ Object {
                 "id": "libmetalink@0.1.3-7.el8",
                 "info": Object {
                   "name": "libmetalink",
-                  "purl": "pkg:rpm/oracle/libmetalink@0.1.3-7.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libmetalink@0.1.3-7.el8?distro=oracle-8&upstream=libmetalink%400.1.3",
                   "version": "0.1.3-7.el8",
                 },
               },
@@ -2198,7 +2198,7 @@ Object {
                 "id": "libmnl@1.0.4-6.el8",
                 "info": Object {
                   "name": "libmnl",
-                  "purl": "pkg:rpm/oracle/libmnl@1.0.4-6.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libmnl@1.0.4-6.el8?distro=oracle-8&upstream=libmnl%401.0.4",
                   "version": "1.0.4-6.el8",
                 },
               },
@@ -2206,7 +2206,7 @@ Object {
                 "id": "libmodulemd1@1.8.16-0.2.8.2.1",
                 "info": Object {
                   "name": "libmodulemd1",
-                  "purl": "pkg:rpm/oracle/libmodulemd1@1.8.16-0.2.8.2.1?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libmodulemd1@1.8.16-0.2.8.2.1?distro=oracle-8&upstream=libmodulemd%402.8.2",
                   "version": "1.8.16-0.2.8.2.1",
                 },
               },
@@ -2214,7 +2214,7 @@ Object {
                 "id": "libmount@2.32.1-22.el8",
                 "info": Object {
                   "name": "libmount",
-                  "purl": "pkg:rpm/oracle/libmount@2.32.1-22.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libmount@2.32.1-22.el8?distro=oracle-8&upstream=util-linux%402.32.1",
                   "version": "2.32.1-22.el8",
                 },
               },
@@ -2222,7 +2222,7 @@ Object {
                 "id": "libnghttp2@1.33.0-3.el8_2.1",
                 "info": Object {
                   "name": "libnghttp2",
-                  "purl": "pkg:rpm/oracle/libnghttp2@1.33.0-3.el8_2.1?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libnghttp2@1.33.0-3.el8_2.1?distro=oracle-8&upstream=nghttp2%401.33.0",
                   "version": "1.33.0-3.el8_2.1",
                 },
               },
@@ -2230,7 +2230,7 @@ Object {
                 "id": "libnsl2@1.2.0-2.20180605git4a062cf.el8",
                 "info": Object {
                   "name": "libnsl2",
-                  "purl": "pkg:rpm/oracle/libnsl2@1.2.0-2.20180605git4a062cf.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libnsl2@1.2.0-2.20180605git4a062cf.el8?distro=oracle-8&upstream=libnsl2%401.2.0",
                   "version": "1.2.0-2.20180605git4a062cf.el8",
                 },
               },
@@ -2238,7 +2238,7 @@ Object {
                 "id": "libpcap@14:1.9.0-3.el8",
                 "info": Object {
                   "name": "libpcap",
-                  "purl": "pkg:rpm/oracle/libpcap@14:1.9.0-3.el8?distro=oracle-8&epoch=14",
+                  "purl": "pkg:rpm/oracle/libpcap@14:1.9.0-3.el8?distro=oracle-8&epoch=14&upstream=libpcap%401.9.0",
                   "version": "14:1.9.0-3.el8",
                 },
               },
@@ -2246,7 +2246,7 @@ Object {
                 "id": "libpsl@0.20.2-5.el8",
                 "info": Object {
                   "name": "libpsl",
-                  "purl": "pkg:rpm/oracle/libpsl@0.20.2-5.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libpsl@0.20.2-5.el8?distro=oracle-8&upstream=libpsl%400.20.2",
                   "version": "0.20.2-5.el8",
                 },
               },
@@ -2254,7 +2254,7 @@ Object {
                 "id": "libpwquality@1.4.0-9.el8",
                 "info": Object {
                   "name": "libpwquality",
-                  "purl": "pkg:rpm/oracle/libpwquality@1.4.0-9.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libpwquality@1.4.0-9.el8?distro=oracle-8&upstream=libpwquality%401.4.0",
                   "version": "1.4.0-9.el8",
                 },
               },
@@ -2262,7 +2262,7 @@ Object {
                 "id": "librepo@1.11.0-3.el8_2",
                 "info": Object {
                   "name": "librepo",
-                  "purl": "pkg:rpm/oracle/librepo@1.11.0-3.el8_2?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/librepo@1.11.0-3.el8_2?distro=oracle-8&upstream=librepo%401.11.0",
                   "version": "1.11.0-3.el8_2",
                 },
               },
@@ -2270,7 +2270,7 @@ Object {
                 "id": "libreport-filesystem@2.9.5-10.0.1.el8",
                 "info": Object {
                   "name": "libreport-filesystem",
-                  "purl": "pkg:rpm/oracle/libreport-filesystem@2.9.5-10.0.1.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libreport-filesystem@2.9.5-10.0.1.el8?distro=oracle-8&upstream=libreport%402.9.5",
                   "version": "2.9.5-10.0.1.el8",
                 },
               },
@@ -2278,7 +2278,7 @@ Object {
                 "id": "libseccomp@2.4.1-1.el8",
                 "info": Object {
                   "name": "libseccomp",
-                  "purl": "pkg:rpm/oracle/libseccomp@2.4.1-1.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libseccomp@2.4.1-1.el8?distro=oracle-8&upstream=libseccomp%402.4.1",
                   "version": "2.4.1-1.el8",
                 },
               },
@@ -2286,7 +2286,7 @@ Object {
                 "id": "libselinux@2.9-3.el8",
                 "info": Object {
                   "name": "libselinux",
-                  "purl": "pkg:rpm/oracle/libselinux@2.9-3.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libselinux@2.9-3.el8?distro=oracle-8&upstream=libselinux%402.9",
                   "version": "2.9-3.el8",
                 },
               },
@@ -2294,7 +2294,7 @@ Object {
                 "id": "libselinux-utils@2.9-3.el8",
                 "info": Object {
                   "name": "libselinux-utils",
-                  "purl": "pkg:rpm/oracle/libselinux-utils@2.9-3.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libselinux-utils@2.9-3.el8?distro=oracle-8&upstream=libselinux%402.9",
                   "version": "2.9-3.el8",
                 },
               },
@@ -2302,7 +2302,7 @@ Object {
                 "id": "libsemanage@2.9-2.el8",
                 "info": Object {
                   "name": "libsemanage",
-                  "purl": "pkg:rpm/oracle/libsemanage@2.9-2.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libsemanage@2.9-2.el8?distro=oracle-8&upstream=libsemanage%402.9",
                   "version": "2.9-2.el8",
                 },
               },
@@ -2310,7 +2310,7 @@ Object {
                 "id": "libsepol@2.9-1.el8",
                 "info": Object {
                   "name": "libsepol",
-                  "purl": "pkg:rpm/oracle/libsepol@2.9-1.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libsepol@2.9-1.el8?distro=oracle-8&upstream=libsepol%402.9",
                   "version": "2.9-1.el8",
                 },
               },
@@ -2318,7 +2318,7 @@ Object {
                 "id": "libsigsegv@2.11-5.el8",
                 "info": Object {
                   "name": "libsigsegv",
-                  "purl": "pkg:rpm/oracle/libsigsegv@2.11-5.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libsigsegv@2.11-5.el8?distro=oracle-8&upstream=libsigsegv%402.11",
                   "version": "2.11-5.el8",
                 },
               },
@@ -2326,7 +2326,7 @@ Object {
                 "id": "libsmartcols@2.32.1-22.el8",
                 "info": Object {
                   "name": "libsmartcols",
-                  "purl": "pkg:rpm/oracle/libsmartcols@2.32.1-22.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libsmartcols@2.32.1-22.el8?distro=oracle-8&upstream=util-linux%402.32.1",
                   "version": "2.32.1-22.el8",
                 },
               },
@@ -2334,7 +2334,7 @@ Object {
                 "id": "libsolv@0.7.7-1.el8",
                 "info": Object {
                   "name": "libsolv",
-                  "purl": "pkg:rpm/oracle/libsolv@0.7.7-1.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libsolv@0.7.7-1.el8?distro=oracle-8&upstream=libsolv%400.7.7",
                   "version": "0.7.7-1.el8",
                 },
               },
@@ -2342,7 +2342,7 @@ Object {
                 "id": "libssh@0.9.0-4.el8",
                 "info": Object {
                   "name": "libssh",
-                  "purl": "pkg:rpm/oracle/libssh@0.9.0-4.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libssh@0.9.0-4.el8?distro=oracle-8&upstream=libssh%400.9.0",
                   "version": "0.9.0-4.el8",
                 },
               },
@@ -2350,7 +2350,7 @@ Object {
                 "id": "libssh-config@0.9.0-4.el8",
                 "info": Object {
                   "name": "libssh-config",
-                  "purl": "pkg:rpm/oracle/libssh-config@0.9.0-4.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libssh-config@0.9.0-4.el8?distro=oracle-8&upstream=libssh%400.9.0",
                   "version": "0.9.0-4.el8",
                 },
               },
@@ -2358,7 +2358,7 @@ Object {
                 "id": "libstdc++@8.3.1-5.0.3.el8",
                 "info": Object {
                   "name": "libstdc++",
-                  "purl": "pkg:rpm/oracle/libstdc%2B%2B@8.3.1-5.0.3.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libstdc%2B%2B@8.3.1-5.0.3.el8?distro=oracle-8&upstream=gcc%408.3.1",
                   "version": "8.3.1-5.0.3.el8",
                 },
               },
@@ -2366,7 +2366,7 @@ Object {
                 "id": "libtasn1@4.13-3.el8",
                 "info": Object {
                   "name": "libtasn1",
-                  "purl": "pkg:rpm/oracle/libtasn1@4.13-3.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libtasn1@4.13-3.el8?distro=oracle-8&upstream=libtasn1%404.13",
                   "version": "4.13-3.el8",
                 },
               },
@@ -2374,7 +2374,7 @@ Object {
                 "id": "libtirpc@1.1.4-4.el8",
                 "info": Object {
                   "name": "libtirpc",
-                  "purl": "pkg:rpm/oracle/libtirpc@1.1.4-4.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libtirpc@1.1.4-4.el8?distro=oracle-8&upstream=libtirpc%401.1.4",
                   "version": "1.1.4-4.el8",
                 },
               },
@@ -2382,7 +2382,7 @@ Object {
                 "id": "libunistring@0.9.9-3.el8",
                 "info": Object {
                   "name": "libunistring",
-                  "purl": "pkg:rpm/oracle/libunistring@0.9.9-3.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libunistring@0.9.9-3.el8?distro=oracle-8&upstream=libunistring%400.9.9",
                   "version": "0.9.9-3.el8",
                 },
               },
@@ -2390,7 +2390,7 @@ Object {
                 "id": "libusbx@1.0.22-1.el8",
                 "info": Object {
                   "name": "libusbx",
-                  "purl": "pkg:rpm/oracle/libusbx@1.0.22-1.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libusbx@1.0.22-1.el8?distro=oracle-8&upstream=libusbx%401.0.22",
                   "version": "1.0.22-1.el8",
                 },
               },
@@ -2398,7 +2398,7 @@ Object {
                 "id": "libuser@0.62-23.el8",
                 "info": Object {
                   "name": "libuser",
-                  "purl": "pkg:rpm/oracle/libuser@0.62-23.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libuser@0.62-23.el8?distro=oracle-8&upstream=libuser%400.62",
                   "version": "0.62-23.el8",
                 },
               },
@@ -2406,7 +2406,7 @@ Object {
                 "id": "libutempter@1.1.6-14.el8",
                 "info": Object {
                   "name": "libutempter",
-                  "purl": "pkg:rpm/oracle/libutempter@1.1.6-14.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libutempter@1.1.6-14.el8?distro=oracle-8&upstream=libutempter%401.1.6",
                   "version": "1.1.6-14.el8",
                 },
               },
@@ -2414,7 +2414,7 @@ Object {
                 "id": "libuuid@2.32.1-22.el8",
                 "info": Object {
                   "name": "libuuid",
-                  "purl": "pkg:rpm/oracle/libuuid@2.32.1-22.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libuuid@2.32.1-22.el8?distro=oracle-8&upstream=util-linux%402.32.1",
                   "version": "2.32.1-22.el8",
                 },
               },
@@ -2422,7 +2422,7 @@ Object {
                 "id": "libverto@0.3.0-5.el8",
                 "info": Object {
                   "name": "libverto",
-                  "purl": "pkg:rpm/oracle/libverto@0.3.0-5.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libverto@0.3.0-5.el8?distro=oracle-8&upstream=libverto%400.3.0",
                   "version": "0.3.0-5.el8",
                 },
               },
@@ -2430,7 +2430,7 @@ Object {
                 "id": "libxcrypt@4.1.1-4.el8",
                 "info": Object {
                   "name": "libxcrypt",
-                  "purl": "pkg:rpm/oracle/libxcrypt@4.1.1-4.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libxcrypt@4.1.1-4.el8?distro=oracle-8&upstream=libxcrypt%404.1.1",
                   "version": "4.1.1-4.el8",
                 },
               },
@@ -2438,7 +2438,7 @@ Object {
                 "id": "libxml2@2.9.7-7.0.1.el8",
                 "info": Object {
                   "name": "libxml2",
-                  "purl": "pkg:rpm/oracle/libxml2@2.9.7-7.0.1.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libxml2@2.9.7-7.0.1.el8?distro=oracle-8&upstream=libxml2%402.9.7",
                   "version": "2.9.7-7.0.1.el8",
                 },
               },
@@ -2446,7 +2446,7 @@ Object {
                 "id": "libyaml@0.1.7-5.el8",
                 "info": Object {
                   "name": "libyaml",
-                  "purl": "pkg:rpm/oracle/libyaml@0.1.7-5.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libyaml@0.1.7-5.el8?distro=oracle-8&upstream=libyaml%400.1.7",
                   "version": "0.1.7-5.el8",
                 },
               },
@@ -2454,7 +2454,7 @@ Object {
                 "id": "libzstd@1.4.2-2.el8",
                 "info": Object {
                   "name": "libzstd",
-                  "purl": "pkg:rpm/oracle/libzstd@1.4.2-2.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/libzstd@1.4.2-2.el8?distro=oracle-8&upstream=zstd%401.4.2",
                   "version": "1.4.2-2.el8",
                 },
               },
@@ -2462,7 +2462,7 @@ Object {
                 "id": "logrotate@3.14.0-3.el8",
                 "info": Object {
                   "name": "logrotate",
-                  "purl": "pkg:rpm/oracle/logrotate@3.14.0-3.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/logrotate@3.14.0-3.el8?distro=oracle-8&upstream=logrotate%403.14.0",
                   "version": "3.14.0-3.el8",
                 },
               },
@@ -2470,7 +2470,7 @@ Object {
                 "id": "lua-libs@5.3.4-11.el8",
                 "info": Object {
                   "name": "lua-libs",
-                  "purl": "pkg:rpm/oracle/lua-libs@5.3.4-11.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/lua-libs@5.3.4-11.el8?distro=oracle-8&upstream=lua%405.3.4",
                   "version": "5.3.4-11.el8",
                 },
               },
@@ -2478,7 +2478,7 @@ Object {
                 "id": "lz4-libs@1.8.1.2-4.el8",
                 "info": Object {
                   "name": "lz4-libs",
-                  "purl": "pkg:rpm/oracle/lz4-libs@1.8.1.2-4.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/lz4-libs@1.8.1.2-4.el8?distro=oracle-8&upstream=lz4%401.8.1.2",
                   "version": "1.8.1.2-4.el8",
                 },
               },
@@ -2486,7 +2486,7 @@ Object {
                 "id": "mpfr@3.1.6-1.el8",
                 "info": Object {
                   "name": "mpfr",
-                  "purl": "pkg:rpm/oracle/mpfr@3.1.6-1.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/mpfr@3.1.6-1.el8?distro=oracle-8&upstream=mpfr%403.1.6",
                   "version": "3.1.6-1.el8",
                 },
               },
@@ -2494,7 +2494,7 @@ Object {
                 "id": "ncurses@6.1-7.20180224.el8",
                 "info": Object {
                   "name": "ncurses",
-                  "purl": "pkg:rpm/oracle/ncurses@6.1-7.20180224.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/ncurses@6.1-7.20180224.el8?distro=oracle-8&upstream=ncurses%406.1",
                   "version": "6.1-7.20180224.el8",
                 },
               },
@@ -2502,7 +2502,7 @@ Object {
                 "id": "ncurses-base@6.1-7.20180224.el8",
                 "info": Object {
                   "name": "ncurses-base",
-                  "purl": "pkg:rpm/oracle/ncurses-base@6.1-7.20180224.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/ncurses-base@6.1-7.20180224.el8?distro=oracle-8&upstream=ncurses%406.1",
                   "version": "6.1-7.20180224.el8",
                 },
               },
@@ -2510,7 +2510,7 @@ Object {
                 "id": "ncurses-libs@6.1-7.20180224.el8",
                 "info": Object {
                   "name": "ncurses-libs",
-                  "purl": "pkg:rpm/oracle/ncurses-libs@6.1-7.20180224.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/ncurses-libs@6.1-7.20180224.el8?distro=oracle-8&upstream=ncurses%406.1",
                   "version": "6.1-7.20180224.el8",
                 },
               },
@@ -2518,7 +2518,7 @@ Object {
                 "id": "nettle@3.4.1-1.el8",
                 "info": Object {
                   "name": "nettle",
-                  "purl": "pkg:rpm/oracle/nettle@3.4.1-1.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/nettle@3.4.1-1.el8?distro=oracle-8&upstream=nettle%403.4.1",
                   "version": "3.4.1-1.el8",
                 },
               },
@@ -2526,7 +2526,7 @@ Object {
                 "id": "npth@1.5-4.el8",
                 "info": Object {
                   "name": "npth",
-                  "purl": "pkg:rpm/oracle/npth@1.5-4.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/npth@1.5-4.el8?distro=oracle-8&upstream=npth%401.5",
                   "version": "1.5-4.el8",
                 },
               },
@@ -2534,7 +2534,7 @@ Object {
                 "id": "openldap@2.4.46-11.el8_1",
                 "info": Object {
                   "name": "openldap",
-                  "purl": "pkg:rpm/oracle/openldap@2.4.46-11.el8_1?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/openldap@2.4.46-11.el8_1?distro=oracle-8&upstream=openldap%402.4.46",
                   "version": "2.4.46-11.el8_1",
                 },
               },
@@ -2542,7 +2542,7 @@ Object {
                 "id": "openssh@8.0p1-4.el8_1",
                 "info": Object {
                   "name": "openssh",
-                  "purl": "pkg:rpm/oracle/openssh@8.0p1-4.el8_1?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/openssh@8.0p1-4.el8_1?distro=oracle-8&upstream=openssh%408.0p1",
                   "version": "8.0p1-4.el8_1",
                 },
               },
@@ -2550,7 +2550,7 @@ Object {
                 "id": "openssh-clients@8.0p1-4.el8_1",
                 "info": Object {
                   "name": "openssh-clients",
-                  "purl": "pkg:rpm/oracle/openssh-clients@8.0p1-4.el8_1?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/openssh-clients@8.0p1-4.el8_1?distro=oracle-8&upstream=openssh%408.0p1",
                   "version": "8.0p1-4.el8_1",
                 },
               },
@@ -2558,7 +2558,7 @@ Object {
                 "id": "openssh-server@8.0p1-4.el8_1",
                 "info": Object {
                   "name": "openssh-server",
-                  "purl": "pkg:rpm/oracle/openssh-server@8.0p1-4.el8_1?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/openssh-server@8.0p1-4.el8_1?distro=oracle-8&upstream=openssh%408.0p1",
                   "version": "8.0p1-4.el8_1",
                 },
               },
@@ -2566,7 +2566,7 @@ Object {
                 "id": "openssl-libs@1:1.1.1c-15.el8",
                 "info": Object {
                   "name": "openssl-libs",
-                  "purl": "pkg:rpm/oracle/openssl-libs@1:1.1.1c-15.el8?distro=oracle-8&epoch=1",
+                  "purl": "pkg:rpm/oracle/openssl-libs@1:1.1.1c-15.el8?distro=oracle-8&epoch=1&upstream=openssl%401.1.1c",
                   "version": "1:1.1.1c-15.el8",
                 },
               },
@@ -2574,7 +2574,7 @@ Object {
                 "id": "oraclelinux-release@8:8.2-1.0.8.el8",
                 "info": Object {
                   "name": "oraclelinux-release",
-                  "purl": "pkg:rpm/oracle/oraclelinux-release@8:8.2-1.0.8.el8?distro=oracle-8&epoch=8",
+                  "purl": "pkg:rpm/oracle/oraclelinux-release@8:8.2-1.0.8.el8?distro=oracle-8&epoch=8&upstream=oraclelinux-release%408.2",
                   "version": "8:8.2-1.0.8.el8",
                 },
               },
@@ -2582,7 +2582,7 @@ Object {
                 "id": "oraclelinux-release-el8@1.0-12.el8",
                 "info": Object {
                   "name": "oraclelinux-release-el8",
-                  "purl": "pkg:rpm/oracle/oraclelinux-release-el8@1.0-12.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/oraclelinux-release-el8@1.0-12.el8?distro=oracle-8&upstream=oraclelinux-release-el8%401.0",
                   "version": "1.0-12.el8",
                 },
               },
@@ -2590,7 +2590,7 @@ Object {
                 "id": "p11-kit@0.23.14-5.el8_0",
                 "info": Object {
                   "name": "p11-kit",
-                  "purl": "pkg:rpm/oracle/p11-kit@0.23.14-5.el8_0?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/p11-kit@0.23.14-5.el8_0?distro=oracle-8&upstream=p11-kit%400.23.14",
                   "version": "0.23.14-5.el8_0",
                 },
               },
@@ -2598,7 +2598,7 @@ Object {
                 "id": "p11-kit-trust@0.23.14-5.el8_0",
                 "info": Object {
                   "name": "p11-kit-trust",
-                  "purl": "pkg:rpm/oracle/p11-kit-trust@0.23.14-5.el8_0?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/p11-kit-trust@0.23.14-5.el8_0?distro=oracle-8&upstream=p11-kit%400.23.14",
                   "version": "0.23.14-5.el8_0",
                 },
               },
@@ -2606,7 +2606,7 @@ Object {
                 "id": "pam@1.3.1-8.el8",
                 "info": Object {
                   "name": "pam",
-                  "purl": "pkg:rpm/oracle/pam@1.3.1-8.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/pam@1.3.1-8.el8?distro=oracle-8&upstream=pam%401.3.1",
                   "version": "1.3.1-8.el8",
                 },
               },
@@ -2614,7 +2614,7 @@ Object {
                 "id": "passwd@0.80-3.el8",
                 "info": Object {
                   "name": "passwd",
-                  "purl": "pkg:rpm/oracle/passwd@0.80-3.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/passwd@0.80-3.el8?distro=oracle-8&upstream=passwd%400.80",
                   "version": "0.80-3.el8",
                 },
               },
@@ -2622,7 +2622,7 @@ Object {
                 "id": "pcre@8.42-4.el8",
                 "info": Object {
                   "name": "pcre",
-                  "purl": "pkg:rpm/oracle/pcre@8.42-4.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/pcre@8.42-4.el8?distro=oracle-8&upstream=pcre%408.42",
                   "version": "8.42-4.el8",
                 },
               },
@@ -2630,7 +2630,7 @@ Object {
                 "id": "pcre2@10.32-1.el8",
                 "info": Object {
                   "name": "pcre2",
-                  "purl": "pkg:rpm/oracle/pcre2@10.32-1.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/pcre2@10.32-1.el8?distro=oracle-8&upstream=pcre2%4010.32",
                   "version": "10.32-1.el8",
                 },
               },
@@ -2638,7 +2638,7 @@ Object {
                 "id": "platform-python@3.6.8-23.0.1.el8",
                 "info": Object {
                   "name": "platform-python",
-                  "purl": "pkg:rpm/oracle/platform-python@3.6.8-23.0.1.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/platform-python@3.6.8-23.0.1.el8?distro=oracle-8&upstream=python3%403.6.8",
                   "version": "3.6.8-23.0.1.el8",
                 },
               },
@@ -2646,7 +2646,7 @@ Object {
                 "id": "platform-python-setuptools@39.2.0-5.el8",
                 "info": Object {
                   "name": "platform-python-setuptools",
-                  "purl": "pkg:rpm/oracle/platform-python-setuptools@39.2.0-5.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/platform-python-setuptools@39.2.0-5.el8?distro=oracle-8&upstream=python-setuptools%4039.2.0",
                   "version": "39.2.0-5.el8",
                 },
               },
@@ -2654,7 +2654,7 @@ Object {
                 "id": "policycoreutils@2.9-9.0.1.el8",
                 "info": Object {
                   "name": "policycoreutils",
-                  "purl": "pkg:rpm/oracle/policycoreutils@2.9-9.0.1.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/policycoreutils@2.9-9.0.1.el8?distro=oracle-8&upstream=policycoreutils%402.9",
                   "version": "2.9-9.0.1.el8",
                 },
               },
@@ -2662,7 +2662,7 @@ Object {
                 "id": "popt@1.16-14.el8",
                 "info": Object {
                   "name": "popt",
-                  "purl": "pkg:rpm/oracle/popt@1.16-14.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/popt@1.16-14.el8?distro=oracle-8&upstream=popt%401.16",
                   "version": "1.16-14.el8",
                 },
               },
@@ -2670,7 +2670,7 @@ Object {
                 "id": "procps-ng@3.3.15-1.el8",
                 "info": Object {
                   "name": "procps-ng",
-                  "purl": "pkg:rpm/oracle/procps-ng@3.3.15-1.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/procps-ng@3.3.15-1.el8?distro=oracle-8&upstream=procps-ng%403.3.15",
                   "version": "3.3.15-1.el8",
                 },
               },
@@ -2678,7 +2678,7 @@ Object {
                 "id": "publicsuffix-list-dafsa@20180723-1.el8",
                 "info": Object {
                   "name": "publicsuffix-list-dafsa",
-                  "purl": "pkg:rpm/oracle/publicsuffix-list-dafsa@20180723-1.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/publicsuffix-list-dafsa@20180723-1.el8?distro=oracle-8&upstream=publicsuffix-list%4020180723",
                   "version": "20180723-1.el8",
                 },
               },
@@ -2686,7 +2686,7 @@ Object {
                 "id": "python3-dateutil@1:2.6.1-6.el8",
                 "info": Object {
                   "name": "python3-dateutil",
-                  "purl": "pkg:rpm/oracle/python3-dateutil@1:2.6.1-6.el8?distro=oracle-8&epoch=1",
+                  "purl": "pkg:rpm/oracle/python3-dateutil@1:2.6.1-6.el8?distro=oracle-8&epoch=1&upstream=python-dateutil%402.6.1",
                   "version": "1:2.6.1-6.el8",
                 },
               },
@@ -2694,7 +2694,7 @@ Object {
                 "id": "python3-dnf@4.2.17-7.el8_2",
                 "info": Object {
                   "name": "python3-dnf",
-                  "purl": "pkg:rpm/oracle/python3-dnf@4.2.17-7.el8_2?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/python3-dnf@4.2.17-7.el8_2?distro=oracle-8&upstream=dnf%404.2.17",
                   "version": "4.2.17-7.el8_2",
                 },
               },
@@ -2702,7 +2702,7 @@ Object {
                 "id": "python3-dnf-plugins-core@4.0.12-4.el8_2",
                 "info": Object {
                   "name": "python3-dnf-plugins-core",
-                  "purl": "pkg:rpm/oracle/python3-dnf-plugins-core@4.0.12-4.el8_2?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/python3-dnf-plugins-core@4.0.12-4.el8_2?distro=oracle-8&upstream=dnf-plugins-core%404.0.12",
                   "version": "4.0.12-4.el8_2",
                 },
               },
@@ -2710,7 +2710,7 @@ Object {
                 "id": "python3-gpg@1.10.0-6.0.1.el8",
                 "info": Object {
                   "name": "python3-gpg",
-                  "purl": "pkg:rpm/oracle/python3-gpg@1.10.0-6.0.1.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/python3-gpg@1.10.0-6.0.1.el8?distro=oracle-8&upstream=gpgme%401.10.0",
                   "version": "1.10.0-6.0.1.el8",
                 },
               },
@@ -2718,7 +2718,7 @@ Object {
                 "id": "python3-hawkey@0.39.1-6.0.1.el8_2",
                 "info": Object {
                   "name": "python3-hawkey",
-                  "purl": "pkg:rpm/oracle/python3-hawkey@0.39.1-6.0.1.el8_2?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/python3-hawkey@0.39.1-6.0.1.el8_2?distro=oracle-8&upstream=libdnf%400.39.1",
                   "version": "0.39.1-6.0.1.el8_2",
                 },
               },
@@ -2726,7 +2726,7 @@ Object {
                 "id": "python3-libcomps@0.1.11-4.el8",
                 "info": Object {
                   "name": "python3-libcomps",
-                  "purl": "pkg:rpm/oracle/python3-libcomps@0.1.11-4.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/python3-libcomps@0.1.11-4.el8?distro=oracle-8&upstream=libcomps%400.1.11",
                   "version": "0.1.11-4.el8",
                 },
               },
@@ -2734,7 +2734,7 @@ Object {
                 "id": "python3-libdnf@0.39.1-6.0.1.el8_2",
                 "info": Object {
                   "name": "python3-libdnf",
-                  "purl": "pkg:rpm/oracle/python3-libdnf@0.39.1-6.0.1.el8_2?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/python3-libdnf@0.39.1-6.0.1.el8_2?distro=oracle-8&upstream=libdnf%400.39.1",
                   "version": "0.39.1-6.0.1.el8_2",
                 },
               },
@@ -2742,7 +2742,7 @@ Object {
                 "id": "python3-libs@3.6.8-23.0.1.el8",
                 "info": Object {
                   "name": "python3-libs",
-                  "purl": "pkg:rpm/oracle/python3-libs@3.6.8-23.0.1.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/python3-libs@3.6.8-23.0.1.el8?distro=oracle-8&upstream=python3%403.6.8",
                   "version": "3.6.8-23.0.1.el8",
                 },
               },
@@ -2750,7 +2750,7 @@ Object {
                 "id": "python3-pip-wheel@9.0.3-16.el8",
                 "info": Object {
                   "name": "python3-pip-wheel",
-                  "purl": "pkg:rpm/oracle/python3-pip-wheel@9.0.3-16.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/python3-pip-wheel@9.0.3-16.el8?distro=oracle-8&upstream=python-pip%409.0.3",
                   "version": "9.0.3-16.el8",
                 },
               },
@@ -2758,7 +2758,7 @@ Object {
                 "id": "python3-rpm@4.14.2-37.el8",
                 "info": Object {
                   "name": "python3-rpm",
-                  "purl": "pkg:rpm/oracle/python3-rpm@4.14.2-37.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/python3-rpm@4.14.2-37.el8?distro=oracle-8&upstream=rpm%404.14.2",
                   "version": "4.14.2-37.el8",
                 },
               },
@@ -2766,7 +2766,7 @@ Object {
                 "id": "python3-setuptools-wheel@39.2.0-5.el8",
                 "info": Object {
                   "name": "python3-setuptools-wheel",
-                  "purl": "pkg:rpm/oracle/python3-setuptools-wheel@39.2.0-5.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/python3-setuptools-wheel@39.2.0-5.el8?distro=oracle-8&upstream=python-setuptools%4039.2.0",
                   "version": "39.2.0-5.el8",
                 },
               },
@@ -2774,7 +2774,7 @@ Object {
                 "id": "python3-six@1.11.0-8.el8",
                 "info": Object {
                   "name": "python3-six",
-                  "purl": "pkg:rpm/oracle/python3-six@1.11.0-8.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/python3-six@1.11.0-8.el8?distro=oracle-8&upstream=python-six%401.11.0",
                   "version": "1.11.0-8.el8",
                 },
               },
@@ -2782,7 +2782,7 @@ Object {
                 "id": "readline@7.0-10.el8",
                 "info": Object {
                   "name": "readline",
-                  "purl": "pkg:rpm/oracle/readline@7.0-10.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/readline@7.0-10.el8?distro=oracle-8&upstream=readline%407.0",
                   "version": "7.0-10.el8",
                 },
               },
@@ -2790,7 +2790,7 @@ Object {
                 "id": "redhat-release@2:8.2-1.0.0.1.el8",
                 "info": Object {
                   "name": "redhat-release",
-                  "purl": "pkg:rpm/oracle/redhat-release@2:8.2-1.0.0.1.el8?distro=oracle-8&epoch=2",
+                  "purl": "pkg:rpm/oracle/redhat-release@2:8.2-1.0.0.1.el8?distro=oracle-8&epoch=2&upstream=redhat-release%408.2",
                   "version": "2:8.2-1.0.0.1.el8",
                 },
               },
@@ -2798,7 +2798,7 @@ Object {
                 "id": "rootfiles@8.1-22.el8",
                 "info": Object {
                   "name": "rootfiles",
-                  "purl": "pkg:rpm/oracle/rootfiles@8.1-22.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/rootfiles@8.1-22.el8?distro=oracle-8&upstream=rootfiles%408.1",
                   "version": "8.1-22.el8",
                 },
               },
@@ -2806,7 +2806,7 @@ Object {
                 "id": "rpm@4.14.2-37.el8",
                 "info": Object {
                   "name": "rpm",
-                  "purl": "pkg:rpm/oracle/rpm@4.14.2-37.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/rpm@4.14.2-37.el8?distro=oracle-8&upstream=rpm%404.14.2",
                   "version": "4.14.2-37.el8",
                 },
               },
@@ -2814,7 +2814,7 @@ Object {
                 "id": "rpm-build-libs@4.14.2-37.el8",
                 "info": Object {
                   "name": "rpm-build-libs",
-                  "purl": "pkg:rpm/oracle/rpm-build-libs@4.14.2-37.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/rpm-build-libs@4.14.2-37.el8?distro=oracle-8&upstream=rpm%404.14.2",
                   "version": "4.14.2-37.el8",
                 },
               },
@@ -2822,7 +2822,7 @@ Object {
                 "id": "rpm-libs@4.14.2-37.el8",
                 "info": Object {
                   "name": "rpm-libs",
-                  "purl": "pkg:rpm/oracle/rpm-libs@4.14.2-37.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/rpm-libs@4.14.2-37.el8?distro=oracle-8&upstream=rpm%404.14.2",
                   "version": "4.14.2-37.el8",
                 },
               },
@@ -2830,7 +2830,7 @@ Object {
                 "id": "rsyslog@8.1911.0-3.el8",
                 "info": Object {
                   "name": "rsyslog",
-                  "purl": "pkg:rpm/oracle/rsyslog@8.1911.0-3.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/rsyslog@8.1911.0-3.el8?distro=oracle-8&upstream=rsyslog%408.1911.0",
                   "version": "8.1911.0-3.el8",
                 },
               },
@@ -2838,7 +2838,7 @@ Object {
                 "id": "sed@4.5-1.el8",
                 "info": Object {
                   "name": "sed",
-                  "purl": "pkg:rpm/oracle/sed@4.5-1.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/sed@4.5-1.el8?distro=oracle-8&upstream=sed%404.5",
                   "version": "4.5-1.el8",
                 },
               },
@@ -2846,7 +2846,7 @@ Object {
                 "id": "setup@2.12.2-5.el8",
                 "info": Object {
                   "name": "setup",
-                  "purl": "pkg:rpm/oracle/setup@2.12.2-5.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/setup@2.12.2-5.el8?distro=oracle-8&upstream=setup%402.12.2",
                   "version": "2.12.2-5.el8",
                 },
               },
@@ -2854,7 +2854,7 @@ Object {
                 "id": "shadow-utils@2:4.6-8.el8",
                 "info": Object {
                   "name": "shadow-utils",
-                  "purl": "pkg:rpm/oracle/shadow-utils@2:4.6-8.el8?distro=oracle-8&epoch=2",
+                  "purl": "pkg:rpm/oracle/shadow-utils@2:4.6-8.el8?distro=oracle-8&epoch=2&upstream=shadow-utils%404.6",
                   "version": "2:4.6-8.el8",
                 },
               },
@@ -2862,7 +2862,7 @@ Object {
                 "id": "sqlite-libs@3.26.0-6.el8",
                 "info": Object {
                   "name": "sqlite-libs",
-                  "purl": "pkg:rpm/oracle/sqlite-libs@3.26.0-6.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/sqlite-libs@3.26.0-6.el8?distro=oracle-8&upstream=sqlite%403.26.0",
                   "version": "3.26.0-6.el8",
                 },
               },
@@ -2870,7 +2870,7 @@ Object {
                 "id": "systemd@239-31.0.1.el8_2.2",
                 "info": Object {
                   "name": "systemd",
-                  "purl": "pkg:rpm/oracle/systemd@239-31.0.1.el8_2.2?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/systemd@239-31.0.1.el8_2.2?distro=oracle-8&upstream=systemd%40239",
                   "version": "239-31.0.1.el8_2.2",
                 },
               },
@@ -2878,7 +2878,7 @@ Object {
                 "id": "systemd-libs@239-31.0.1.el8_2.2",
                 "info": Object {
                   "name": "systemd-libs",
-                  "purl": "pkg:rpm/oracle/systemd-libs@239-31.0.1.el8_2.2?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/systemd-libs@239-31.0.1.el8_2.2?distro=oracle-8&upstream=systemd%40239",
                   "version": "239-31.0.1.el8_2.2",
                 },
               },
@@ -2886,7 +2886,7 @@ Object {
                 "id": "systemd-pam@239-31.0.1.el8_2.2",
                 "info": Object {
                   "name": "systemd-pam",
-                  "purl": "pkg:rpm/oracle/systemd-pam@239-31.0.1.el8_2.2?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/systemd-pam@239-31.0.1.el8_2.2?distro=oracle-8&upstream=systemd%40239",
                   "version": "239-31.0.1.el8_2.2",
                 },
               },
@@ -2894,7 +2894,7 @@ Object {
                 "id": "tzdata@2020a-1.el8",
                 "info": Object {
                   "name": "tzdata",
-                  "purl": "pkg:rpm/oracle/tzdata@2020a-1.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/tzdata@2020a-1.el8?distro=oracle-8&upstream=tzdata%402020a",
                   "version": "2020a-1.el8",
                 },
               },
@@ -2902,7 +2902,7 @@ Object {
                 "id": "util-linux@2.32.1-22.el8",
                 "info": Object {
                   "name": "util-linux",
-                  "purl": "pkg:rpm/oracle/util-linux@2.32.1-22.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/util-linux@2.32.1-22.el8?distro=oracle-8&upstream=util-linux%402.32.1",
                   "version": "2.32.1-22.el8",
                 },
               },
@@ -2910,7 +2910,7 @@ Object {
                 "id": "vim-minimal@2:8.0.1763-13.0.1.el8",
                 "info": Object {
                   "name": "vim-minimal",
-                  "purl": "pkg:rpm/oracle/vim-minimal@2:8.0.1763-13.0.1.el8?distro=oracle-8&epoch=2",
+                  "purl": "pkg:rpm/oracle/vim-minimal@2:8.0.1763-13.0.1.el8?distro=oracle-8&epoch=2&upstream=vim%408.0.1763",
                   "version": "2:8.0.1763-13.0.1.el8",
                 },
               },
@@ -2918,7 +2918,7 @@ Object {
                 "id": "xz-libs@5.2.4-3.el8",
                 "info": Object {
                   "name": "xz-libs",
-                  "purl": "pkg:rpm/oracle/xz-libs@5.2.4-3.el8?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/xz-libs@5.2.4-3.el8?distro=oracle-8&upstream=xz%405.2.4",
                   "version": "5.2.4-3.el8",
                 },
               },
@@ -2926,7 +2926,7 @@ Object {
                 "id": "yum@4.2.17-7.el8_2",
                 "info": Object {
                   "name": "yum",
-                  "purl": "pkg:rpm/oracle/yum@4.2.17-7.el8_2?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/yum@4.2.17-7.el8_2?distro=oracle-8&upstream=dnf%404.2.17",
                   "version": "4.2.17-7.el8_2",
                 },
               },
@@ -2934,7 +2934,7 @@ Object {
                 "id": "yum-utils@4.0.12-4.el8_2",
                 "info": Object {
                   "name": "yum-utils",
-                  "purl": "pkg:rpm/oracle/yum-utils@4.0.12-4.el8_2?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/yum-utils@4.0.12-4.el8_2?distro=oracle-8&upstream=dnf-plugins-core%404.0.12",
                   "version": "4.0.12-4.el8_2",
                 },
               },
@@ -2942,7 +2942,7 @@ Object {
                 "id": "zlib@1.2.11-16.el8_2",
                 "info": Object {
                   "name": "zlib",
-                  "purl": "pkg:rpm/oracle/zlib@1.2.11-16.el8_2?distro=oracle-8",
+                  "purl": "pkg:rpm/oracle/zlib@1.2.11-16.el8_2?distro=oracle-8&upstream=zlib%401.2.11",
                   "version": "1.2.11-16.el8_2",
                 },
               },
