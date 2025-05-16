@@ -1,5 +1,2188 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`suse linux enterprise server tests should correctly analyze an sle15:15.3 image 1`] = `
+Object {
+  "scanResults": Array [
+    Object {
+      "facts": Array [
+        Object {
+          "data": Object {
+            "graph": Object {
+              "nodes": Array [
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "aaa_base@84.87+git20180409.04c9dae-150300.10.6.2",
+                    },
+                    Object {
+                      "nodeId": "bash@4.4-19.6.1",
+                    },
+                    Object {
+                      "nodeId": "boost-license1_66_0@1.66.0-12.3.1",
+                    },
+                    Object {
+                      "nodeId": "ca-certificates@2+git20210309.21162a6-2.1",
+                    },
+                    Object {
+                      "nodeId": "ca-certificates-mozilla@2.62-150200.30.1",
+                    },
+                    Object {
+                      "nodeId": "container-suseconnect@2.4.0-150000.4.46.1",
+                    },
+                    Object {
+                      "nodeId": "coreutils@8.32-150300.3.5.1",
+                    },
+                    Object {
+                      "nodeId": "cpio@2.12-3.9.1",
+                    },
+                    Object {
+                      "nodeId": "cracklib@2.9.7-11.6.1",
+                    },
+                    Object {
+                      "nodeId": "cracklib-dict-small@2.9.7-11.6.1",
+                    },
+                    Object {
+                      "nodeId": "curl@7.66.0-150200.4.66.1",
+                    },
+                    Object {
+                      "nodeId": "diffutils@3.6-4.3.1",
+                    },
+                    Object {
+                      "nodeId": "file-magic@5.32-7.14.1",
+                    },
+                    Object {
+                      "nodeId": "filesystem@15.0-11.8.1",
+                    },
+                    Object {
+                      "nodeId": "fillup@1.42-2.18",
+                    },
+                    Object {
+                      "nodeId": "findutils@4.8.0-1.20",
+                    },
+                    Object {
+                      "nodeId": "glibc@2.31-150300.63.1",
+                    },
+                    Object {
+                      "nodeId": "gpg-pubkey@d588dc46-63c939db",
+                    },
+                    Object {
+                      "nodeId": "gpg2@2.2.27-150300.3.8.1",
+                    },
+                    Object {
+                      "nodeId": "grep@3.1-150000.4.6.1",
+                    },
+                    Object {
+                      "nodeId": "info@6.5-4.17",
+                    },
+                    Object {
+                      "nodeId": "krb5@1.19.2-150300.13.1",
+                    },
+                    Object {
+                      "nodeId": "kubic-locale-archive@2.31-10.36",
+                    },
+                    Object {
+                      "nodeId": "libacl1@2.2.52-4.3.1",
+                    },
+                    Object {
+                      "nodeId": "libassuan0@2.5.5-150000.4.5.2",
+                    },
+                    Object {
+                      "nodeId": "libattr1@2.4.47-2.19",
+                    },
+                    Object {
+                      "nodeId": "libaudit1@2.8.5-3.43",
+                    },
+                    Object {
+                      "nodeId": "libaugeas0@1.10.1-150000.3.12.1",
+                    },
+                    Object {
+                      "nodeId": "libblkid1@2.36.2-150300.4.35.1",
+                    },
+                    Object {
+                      "nodeId": "libboost_system1_66_0@1.66.0-12.3.1",
+                    },
+                    Object {
+                      "nodeId": "libboost_thread1_66_0@1.66.0-12.3.1",
+                    },
+                    Object {
+                      "nodeId": "libbz2-1@1.0.6-5.11.1",
+                    },
+                    Object {
+                      "nodeId": "libcap-ng0@0.7.9-4.37",
+                    },
+                    Object {
+                      "nodeId": "libcap2@2.26-150000.4.9.1",
+                    },
+                    Object {
+                      "nodeId": "libcom_err2@1.43.8-150000.4.33.1",
+                    },
+                    Object {
+                      "nodeId": "libcrack2@2.9.7-11.6.1",
+                    },
+                    Object {
+                      "nodeId": "libcrypt1@4.4.15-150300.4.4.3",
+                    },
+                    Object {
+                      "nodeId": "libcurl4@7.66.0-150200.4.66.1",
+                    },
+                    Object {
+                      "nodeId": "libdw1@0.177-150300.11.6.1",
+                    },
+                    Object {
+                      "nodeId": "libebl-plugins@0.177-150300.11.6.1",
+                    },
+                    Object {
+                      "nodeId": "libeconf0@0.5.2-150300.3.11.1",
+                    },
+                    Object {
+                      "nodeId": "libelf1@0.177-150300.11.6.1",
+                    },
+                    Object {
+                      "nodeId": "libfdisk1@2.36.2-150300.4.35.1",
+                    },
+                    Object {
+                      "nodeId": "libffi7@3.2.1.git259-10.8",
+                    },
+                    Object {
+                      "nodeId": "libgcc_s1@13.2.1+git7813-150000.1.6.1",
+                    },
+                    Object {
+                      "nodeId": "libgcrypt20@1.8.2-8.42.1",
+                    },
+                    Object {
+                      "nodeId": "libgcrypt20-hmac@1.8.2-8.42.1",
+                    },
+                    Object {
+                      "nodeId": "libglib-2_0-0@2.62.6-150200.3.15.1",
+                    },
+                    Object {
+                      "nodeId": "libgmp10@6.1.2-4.9.1",
+                    },
+                    Object {
+                      "nodeId": "libgpg-error0@1.42-150300.9.3.1",
+                    },
+                    Object {
+                      "nodeId": "libgpgme11@1.13.1-4.3.1",
+                    },
+                    Object {
+                      "nodeId": "libidn2-0@2.2.0-3.6.1",
+                    },
+                    Object {
+                      "nodeId": "libkeyutils1@1.6.3-5.6.1",
+                    },
+                    Object {
+                      "nodeId": "libksba8@1.3.5-150000.4.6.1",
+                    },
+                    Object {
+                      "nodeId": "libldap-2_4-2@2.4.46-150200.14.17.1",
+                    },
+                    Object {
+                      "nodeId": "libldap-data@2.4.46-150200.14.17.1",
+                    },
+                    Object {
+                      "nodeId": "liblua5_3-5@5.3.6-3.6.1",
+                    },
+                    Object {
+                      "nodeId": "liblz4-1@1.9.2-3.3.1",
+                    },
+                    Object {
+                      "nodeId": "liblzma5@5.2.3-150000.4.7.1",
+                    },
+                    Object {
+                      "nodeId": "libmagic1@5.32-7.14.1",
+                    },
+                    Object {
+                      "nodeId": "libmodman1@2.0.1-1.27",
+                    },
+                    Object {
+                      "nodeId": "libmount1@2.36.2-150300.4.35.1",
+                    },
+                    Object {
+                      "nodeId": "libncurses6@6.1-150000.5.20.1",
+                    },
+                    Object {
+                      "nodeId": "libnghttp2-14@1.40.0-150200.12.1",
+                    },
+                    Object {
+                      "nodeId": "libnpth0@1.5-2.11",
+                    },
+                    Object {
+                      "nodeId": "libnsl2@1.2.0-2.44",
+                    },
+                    Object {
+                      "nodeId": "libopenssl1_1@1.1.1d-150200.11.82.1",
+                    },
+                    Object {
+                      "nodeId": "libopenssl1_1-hmac@1.1.1d-150200.11.82.1",
+                    },
+                    Object {
+                      "nodeId": "libp11-kit0@0.23.2-150000.4.16.1",
+                    },
+                    Object {
+                      "nodeId": "libpcre1@8.45-150000.20.13.1",
+                    },
+                    Object {
+                      "nodeId": "libpopt0@1.16-3.22",
+                    },
+                    Object {
+                      "nodeId": "libprocps8@3.3.17-150000.7.37.1",
+                    },
+                    Object {
+                      "nodeId": "libprotobuf-lite20@3.9.2-150200.4.21.1",
+                    },
+                    Object {
+                      "nodeId": "libproxy1@0.4.15-12.41",
+                    },
+                    Object {
+                      "nodeId": "libpsl5@0.20.1-150000.3.3.1",
+                    },
+                    Object {
+                      "nodeId": "libreadline7@7.0-19.6.1",
+                    },
+                    Object {
+                      "nodeId": "libsasl2-3@2.1.27-150300.4.6.1",
+                    },
+                    Object {
+                      "nodeId": "libselinux1@3.0-1.31",
+                    },
+                    Object {
+                      "nodeId": "libsemanage1@3.0-1.27",
+                    },
+                    Object {
+                      "nodeId": "libsepol1@3.0-1.31",
+                    },
+                    Object {
+                      "nodeId": "libsigc-2_0-0@2.10.2-1.18",
+                    },
+                    Object {
+                      "nodeId": "libsmartcols1@2.36.2-150300.4.35.1",
+                    },
+                    Object {
+                      "nodeId": "libsolv-tools@0.7.27-150200.23.2",
+                    },
+                    Object {
+                      "nodeId": "libsqlite3-0@3.44.0-150000.3.23.1",
+                    },
+                    Object {
+                      "nodeId": "libssh4@0.8.7-10.12.1",
+                    },
+                    Object {
+                      "nodeId": "libstdc++6@13.2.1+git7813-150000.1.6.1",
+                    },
+                    Object {
+                      "nodeId": "libsystemd0@246.16-150300.7.57.1",
+                    },
+                    Object {
+                      "nodeId": "libtasn1@4.13-150000.4.8.1",
+                    },
+                    Object {
+                      "nodeId": "libtasn1-6@4.13-150000.4.8.1",
+                    },
+                    Object {
+                      "nodeId": "libtirpc-netconfig@1.3.4-150300.3.23.1",
+                    },
+                    Object {
+                      "nodeId": "libtirpc3@1.3.4-150300.3.23.1",
+                    },
+                    Object {
+                      "nodeId": "libudev1@246.16-150300.7.57.1",
+                    },
+                    Object {
+                      "nodeId": "libunistring2@0.9.10-1.1",
+                    },
+                    Object {
+                      "nodeId": "libusb-1_0-0@1.0.21-150000.3.5.1",
+                    },
+                    Object {
+                      "nodeId": "libutempter0@1.1.6-3.42",
+                    },
+                    Object {
+                      "nodeId": "libuuid1@2.36.2-150300.4.35.1",
+                    },
+                    Object {
+                      "nodeId": "libverto1@0.2.6-3.20",
+                    },
+                    Object {
+                      "nodeId": "libxml2-2@2.9.7-150000.3.63.1",
+                    },
+                    Object {
+                      "nodeId": "libyaml-cpp0_6@0.6.1-4.5.1",
+                    },
+                    Object {
+                      "nodeId": "libz1@1.2.11-150000.3.48.1",
+                    },
+                    Object {
+                      "nodeId": "libzio1@1.06-2.20",
+                    },
+                    Object {
+                      "nodeId": "libzstd1@1.4.4-150000.1.9.1",
+                    },
+                    Object {
+                      "nodeId": "libzypp@17.31.27-150200.84.1",
+                    },
+                    Object {
+                      "nodeId": "login_defs@4.8.1-150300.4.12.1",
+                    },
+                    Object {
+                      "nodeId": "ncurses-utils@6.1-150000.5.20.1",
+                    },
+                    Object {
+                      "nodeId": "netcfg@11.6-3.3.1",
+                    },
+                    Object {
+                      "nodeId": "openssl-1_1@1.1.1d-150200.11.82.1",
+                    },
+                    Object {
+                      "nodeId": "p11-kit@0.23.2-150000.4.16.1",
+                    },
+                    Object {
+                      "nodeId": "p11-kit-tools@0.23.2-150000.4.16.1",
+                    },
+                    Object {
+                      "nodeId": "pam@1.3.0-150000.6.61.1",
+                    },
+                    Object {
+                      "nodeId": "patterns-base-fips@20200124-10.5.1",
+                    },
+                    Object {
+                      "nodeId": "perl-base@5.26.1-150300.17.14.1",
+                    },
+                    Object {
+                      "nodeId": "permissions@20181225-150200.23.23.1",
+                    },
+                    Object {
+                      "nodeId": "pinentry@1.1.0-4.3.1",
+                    },
+                    Object {
+                      "nodeId": "procps@3.3.17-150000.7.37.1",
+                    },
+                    Object {
+                      "nodeId": "rpm-config-SUSE@1-5.6.1",
+                    },
+                    Object {
+                      "nodeId": "rpm-ndb@4.14.3-150300.55.1",
+                    },
+                    Object {
+                      "nodeId": "sed@4.4-11.6",
+                    },
+                    Object {
+                      "nodeId": "shadow@4.8.1-150300.4.12.1",
+                    },
+                    Object {
+                      "nodeId": "skelcd-EULA-bci@2021.05.14-150300.4.8.1",
+                    },
+                    Object {
+                      "nodeId": "sles-release@15.3-55.4.1",
+                    },
+                    Object {
+                      "nodeId": "suse-build-key@12.0-150000.8.37.1",
+                    },
+                    Object {
+                      "nodeId": "system-group-hardware@20170617-17.3.1",
+                    },
+                    Object {
+                      "nodeId": "system-user-root@20190513-3.3.1",
+                    },
+                    Object {
+                      "nodeId": "sysuser-shadow@2.0-4.2.8",
+                    },
+                    Object {
+                      "nodeId": "terminfo-base@6.1-150000.5.20.1",
+                    },
+                    Object {
+                      "nodeId": "timezone@2023c-150000.75.23.1",
+                    },
+                    Object {
+                      "nodeId": "util-linux@2.36.2-150300.4.35.1",
+                    },
+                    Object {
+                      "nodeId": "zypper@1.14.68-150200.70.2",
+                    },
+                  ],
+                  "nodeId": "root-node",
+                  "pkgId": "docker-image|registry.suse.com/suse/sle15@15.3",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "aaa_base@84.87+git20180409.04c9dae-150300.10.6.2",
+                  "pkgId": "aaa_base@84.87+git20180409.04c9dae-150300.10.6.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "bash@4.4-19.6.1",
+                  "pkgId": "bash@4.4-19.6.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "boost-license1_66_0@1.66.0-12.3.1",
+                  "pkgId": "boost-license1_66_0@1.66.0-12.3.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "ca-certificates@2+git20210309.21162a6-2.1",
+                  "pkgId": "ca-certificates@2+git20210309.21162a6-2.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "ca-certificates-mozilla@2.62-150200.30.1",
+                  "pkgId": "ca-certificates-mozilla@2.62-150200.30.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "container-suseconnect@2.4.0-150000.4.46.1",
+                  "pkgId": "container-suseconnect@2.4.0-150000.4.46.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "coreutils@8.32-150300.3.5.1",
+                  "pkgId": "coreutils@8.32-150300.3.5.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "cpio@2.12-3.9.1",
+                  "pkgId": "cpio@2.12-3.9.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "cracklib@2.9.7-11.6.1",
+                  "pkgId": "cracklib@2.9.7-11.6.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "cracklib-dict-small@2.9.7-11.6.1",
+                  "pkgId": "cracklib-dict-small@2.9.7-11.6.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "curl@7.66.0-150200.4.66.1",
+                  "pkgId": "curl@7.66.0-150200.4.66.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "diffutils@3.6-4.3.1",
+                  "pkgId": "diffutils@3.6-4.3.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "file-magic@5.32-7.14.1",
+                  "pkgId": "file-magic@5.32-7.14.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "filesystem@15.0-11.8.1",
+                  "pkgId": "filesystem@15.0-11.8.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "fillup@1.42-2.18",
+                  "pkgId": "fillup@1.42-2.18",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "findutils@4.8.0-1.20",
+                  "pkgId": "findutils@4.8.0-1.20",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "glibc@2.31-150300.63.1",
+                  "pkgId": "glibc@2.31-150300.63.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gpg-pubkey@d588dc46-63c939db",
+                  "pkgId": "gpg-pubkey@d588dc46-63c939db",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gpg2@2.2.27-150300.3.8.1",
+                  "pkgId": "gpg2@2.2.27-150300.3.8.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "grep@3.1-150000.4.6.1",
+                  "pkgId": "grep@3.1-150000.4.6.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "info@6.5-4.17",
+                  "pkgId": "info@6.5-4.17",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "krb5@1.19.2-150300.13.1",
+                  "pkgId": "krb5@1.19.2-150300.13.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "kubic-locale-archive@2.31-10.36",
+                  "pkgId": "kubic-locale-archive@2.31-10.36",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libacl1@2.2.52-4.3.1",
+                  "pkgId": "libacl1@2.2.52-4.3.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libassuan0@2.5.5-150000.4.5.2",
+                  "pkgId": "libassuan0@2.5.5-150000.4.5.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libattr1@2.4.47-2.19",
+                  "pkgId": "libattr1@2.4.47-2.19",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libaudit1@2.8.5-3.43",
+                  "pkgId": "libaudit1@2.8.5-3.43",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libaugeas0@1.10.1-150000.3.12.1",
+                  "pkgId": "libaugeas0@1.10.1-150000.3.12.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libblkid1@2.36.2-150300.4.35.1",
+                  "pkgId": "libblkid1@2.36.2-150300.4.35.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libboost_system1_66_0@1.66.0-12.3.1",
+                  "pkgId": "libboost_system1_66_0@1.66.0-12.3.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libboost_thread1_66_0@1.66.0-12.3.1",
+                  "pkgId": "libboost_thread1_66_0@1.66.0-12.3.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libbz2-1@1.0.6-5.11.1",
+                  "pkgId": "libbz2-1@1.0.6-5.11.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libcap-ng0@0.7.9-4.37",
+                  "pkgId": "libcap-ng0@0.7.9-4.37",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libcap2@2.26-150000.4.9.1",
+                  "pkgId": "libcap2@2.26-150000.4.9.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libcom_err2@1.43.8-150000.4.33.1",
+                  "pkgId": "libcom_err2@1.43.8-150000.4.33.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libcrack2@2.9.7-11.6.1",
+                  "pkgId": "libcrack2@2.9.7-11.6.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libcrypt1@4.4.15-150300.4.4.3",
+                  "pkgId": "libcrypt1@4.4.15-150300.4.4.3",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libcurl4@7.66.0-150200.4.66.1",
+                  "pkgId": "libcurl4@7.66.0-150200.4.66.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libdw1@0.177-150300.11.6.1",
+                  "pkgId": "libdw1@0.177-150300.11.6.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libebl-plugins@0.177-150300.11.6.1",
+                  "pkgId": "libebl-plugins@0.177-150300.11.6.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libeconf0@0.5.2-150300.3.11.1",
+                  "pkgId": "libeconf0@0.5.2-150300.3.11.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libelf1@0.177-150300.11.6.1",
+                  "pkgId": "libelf1@0.177-150300.11.6.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libfdisk1@2.36.2-150300.4.35.1",
+                  "pkgId": "libfdisk1@2.36.2-150300.4.35.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libffi7@3.2.1.git259-10.8",
+                  "pkgId": "libffi7@3.2.1.git259-10.8",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libgcc_s1@13.2.1+git7813-150000.1.6.1",
+                  "pkgId": "libgcc_s1@13.2.1+git7813-150000.1.6.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libgcrypt20@1.8.2-8.42.1",
+                  "pkgId": "libgcrypt20@1.8.2-8.42.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libgcrypt20-hmac@1.8.2-8.42.1",
+                  "pkgId": "libgcrypt20-hmac@1.8.2-8.42.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libglib-2_0-0@2.62.6-150200.3.15.1",
+                  "pkgId": "libglib-2_0-0@2.62.6-150200.3.15.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libgmp10@6.1.2-4.9.1",
+                  "pkgId": "libgmp10@6.1.2-4.9.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libgpg-error0@1.42-150300.9.3.1",
+                  "pkgId": "libgpg-error0@1.42-150300.9.3.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libgpgme11@1.13.1-4.3.1",
+                  "pkgId": "libgpgme11@1.13.1-4.3.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libidn2-0@2.2.0-3.6.1",
+                  "pkgId": "libidn2-0@2.2.0-3.6.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libkeyutils1@1.6.3-5.6.1",
+                  "pkgId": "libkeyutils1@1.6.3-5.6.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libksba8@1.3.5-150000.4.6.1",
+                  "pkgId": "libksba8@1.3.5-150000.4.6.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libldap-2_4-2@2.4.46-150200.14.17.1",
+                  "pkgId": "libldap-2_4-2@2.4.46-150200.14.17.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libldap-data@2.4.46-150200.14.17.1",
+                  "pkgId": "libldap-data@2.4.46-150200.14.17.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "liblua5_3-5@5.3.6-3.6.1",
+                  "pkgId": "liblua5_3-5@5.3.6-3.6.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "liblz4-1@1.9.2-3.3.1",
+                  "pkgId": "liblz4-1@1.9.2-3.3.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "liblzma5@5.2.3-150000.4.7.1",
+                  "pkgId": "liblzma5@5.2.3-150000.4.7.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libmagic1@5.32-7.14.1",
+                  "pkgId": "libmagic1@5.32-7.14.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libmodman1@2.0.1-1.27",
+                  "pkgId": "libmodman1@2.0.1-1.27",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libmount1@2.36.2-150300.4.35.1",
+                  "pkgId": "libmount1@2.36.2-150300.4.35.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libncurses6@6.1-150000.5.20.1",
+                  "pkgId": "libncurses6@6.1-150000.5.20.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libnghttp2-14@1.40.0-150200.12.1",
+                  "pkgId": "libnghttp2-14@1.40.0-150200.12.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libnpth0@1.5-2.11",
+                  "pkgId": "libnpth0@1.5-2.11",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libnsl2@1.2.0-2.44",
+                  "pkgId": "libnsl2@1.2.0-2.44",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libopenssl1_1@1.1.1d-150200.11.82.1",
+                  "pkgId": "libopenssl1_1@1.1.1d-150200.11.82.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libopenssl1_1-hmac@1.1.1d-150200.11.82.1",
+                  "pkgId": "libopenssl1_1-hmac@1.1.1d-150200.11.82.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libp11-kit0@0.23.2-150000.4.16.1",
+                  "pkgId": "libp11-kit0@0.23.2-150000.4.16.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libpcre1@8.45-150000.20.13.1",
+                  "pkgId": "libpcre1@8.45-150000.20.13.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libpopt0@1.16-3.22",
+                  "pkgId": "libpopt0@1.16-3.22",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libprocps8@3.3.17-150000.7.37.1",
+                  "pkgId": "libprocps8@3.3.17-150000.7.37.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libprotobuf-lite20@3.9.2-150200.4.21.1",
+                  "pkgId": "libprotobuf-lite20@3.9.2-150200.4.21.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libproxy1@0.4.15-12.41",
+                  "pkgId": "libproxy1@0.4.15-12.41",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libpsl5@0.20.1-150000.3.3.1",
+                  "pkgId": "libpsl5@0.20.1-150000.3.3.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libreadline7@7.0-19.6.1",
+                  "pkgId": "libreadline7@7.0-19.6.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libsasl2-3@2.1.27-150300.4.6.1",
+                  "pkgId": "libsasl2-3@2.1.27-150300.4.6.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libselinux1@3.0-1.31",
+                  "pkgId": "libselinux1@3.0-1.31",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libsemanage1@3.0-1.27",
+                  "pkgId": "libsemanage1@3.0-1.27",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libsepol1@3.0-1.31",
+                  "pkgId": "libsepol1@3.0-1.31",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libsigc-2_0-0@2.10.2-1.18",
+                  "pkgId": "libsigc-2_0-0@2.10.2-1.18",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libsmartcols1@2.36.2-150300.4.35.1",
+                  "pkgId": "libsmartcols1@2.36.2-150300.4.35.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libsolv-tools@0.7.27-150200.23.2",
+                  "pkgId": "libsolv-tools@0.7.27-150200.23.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libsqlite3-0@3.44.0-150000.3.23.1",
+                  "pkgId": "libsqlite3-0@3.44.0-150000.3.23.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libssh4@0.8.7-10.12.1",
+                  "pkgId": "libssh4@0.8.7-10.12.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libstdc++6@13.2.1+git7813-150000.1.6.1",
+                  "pkgId": "libstdc++6@13.2.1+git7813-150000.1.6.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libsystemd0@246.16-150300.7.57.1",
+                  "pkgId": "libsystemd0@246.16-150300.7.57.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libtasn1@4.13-150000.4.8.1",
+                  "pkgId": "libtasn1@4.13-150000.4.8.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libtasn1-6@4.13-150000.4.8.1",
+                  "pkgId": "libtasn1-6@4.13-150000.4.8.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libtirpc-netconfig@1.3.4-150300.3.23.1",
+                  "pkgId": "libtirpc-netconfig@1.3.4-150300.3.23.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libtirpc3@1.3.4-150300.3.23.1",
+                  "pkgId": "libtirpc3@1.3.4-150300.3.23.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libudev1@246.16-150300.7.57.1",
+                  "pkgId": "libudev1@246.16-150300.7.57.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libunistring2@0.9.10-1.1",
+                  "pkgId": "libunistring2@0.9.10-1.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libusb-1_0-0@1.0.21-150000.3.5.1",
+                  "pkgId": "libusb-1_0-0@1.0.21-150000.3.5.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libutempter0@1.1.6-3.42",
+                  "pkgId": "libutempter0@1.1.6-3.42",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libuuid1@2.36.2-150300.4.35.1",
+                  "pkgId": "libuuid1@2.36.2-150300.4.35.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libverto1@0.2.6-3.20",
+                  "pkgId": "libverto1@0.2.6-3.20",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libxml2-2@2.9.7-150000.3.63.1",
+                  "pkgId": "libxml2-2@2.9.7-150000.3.63.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libyaml-cpp0_6@0.6.1-4.5.1",
+                  "pkgId": "libyaml-cpp0_6@0.6.1-4.5.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libz1@1.2.11-150000.3.48.1",
+                  "pkgId": "libz1@1.2.11-150000.3.48.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libzio1@1.06-2.20",
+                  "pkgId": "libzio1@1.06-2.20",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libzstd1@1.4.4-150000.1.9.1",
+                  "pkgId": "libzstd1@1.4.4-150000.1.9.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libzypp@17.31.27-150200.84.1",
+                  "pkgId": "libzypp@17.31.27-150200.84.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "login_defs@4.8.1-150300.4.12.1",
+                  "pkgId": "login_defs@4.8.1-150300.4.12.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "ncurses-utils@6.1-150000.5.20.1",
+                  "pkgId": "ncurses-utils@6.1-150000.5.20.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "netcfg@11.6-3.3.1",
+                  "pkgId": "netcfg@11.6-3.3.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "openssl-1_1@1.1.1d-150200.11.82.1",
+                  "pkgId": "openssl-1_1@1.1.1d-150200.11.82.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "p11-kit@0.23.2-150000.4.16.1",
+                  "pkgId": "p11-kit@0.23.2-150000.4.16.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "p11-kit-tools@0.23.2-150000.4.16.1",
+                  "pkgId": "p11-kit-tools@0.23.2-150000.4.16.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pam@1.3.0-150000.6.61.1",
+                  "pkgId": "pam@1.3.0-150000.6.61.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "patterns-base-fips@20200124-10.5.1",
+                  "pkgId": "patterns-base-fips@20200124-10.5.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "perl-base@5.26.1-150300.17.14.1",
+                  "pkgId": "perl-base@5.26.1-150300.17.14.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "permissions@20181225-150200.23.23.1",
+                  "pkgId": "permissions@20181225-150200.23.23.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pinentry@1.1.0-4.3.1",
+                  "pkgId": "pinentry@1.1.0-4.3.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "procps@3.3.17-150000.7.37.1",
+                  "pkgId": "procps@3.3.17-150000.7.37.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "rpm-config-SUSE@1-5.6.1",
+                  "pkgId": "rpm-config-SUSE@1-5.6.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "rpm-ndb@4.14.3-150300.55.1",
+                  "pkgId": "rpm-ndb@4.14.3-150300.55.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "sed@4.4-11.6",
+                  "pkgId": "sed@4.4-11.6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "shadow@4.8.1-150300.4.12.1",
+                  "pkgId": "shadow@4.8.1-150300.4.12.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "skelcd-EULA-bci@2021.05.14-150300.4.8.1",
+                  "pkgId": "skelcd-EULA-bci@2021.05.14-150300.4.8.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "sles-release@15.3-55.4.1",
+                  "pkgId": "sles-release@15.3-55.4.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "suse-build-key@12.0-150000.8.37.1",
+                  "pkgId": "suse-build-key@12.0-150000.8.37.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "system-group-hardware@20170617-17.3.1",
+                  "pkgId": "system-group-hardware@20170617-17.3.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "system-user-root@20190513-3.3.1",
+                  "pkgId": "system-user-root@20190513-3.3.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "sysuser-shadow@2.0-4.2.8",
+                  "pkgId": "sysuser-shadow@2.0-4.2.8",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "terminfo-base@6.1-150000.5.20.1",
+                  "pkgId": "terminfo-base@6.1-150000.5.20.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "timezone@2023c-150000.75.23.1",
+                  "pkgId": "timezone@2023c-150000.75.23.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "util-linux@2.36.2-150300.4.35.1",
+                  "pkgId": "util-linux@2.36.2-150300.4.35.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "zypper@1.14.68-150200.70.2",
+                  "pkgId": "zypper@1.14.68-150200.70.2",
+                },
+              ],
+              "rootNodeId": "root-node",
+            },
+            "pkgManager": Object {
+              "name": "rpm",
+              "repositories": Array [
+                Object {
+                  "alias": "sles:15.3",
+                },
+              ],
+            },
+            "pkgs": Array [
+              Object {
+                "id": "docker-image|registry.suse.com/suse/sle15@15.3",
+                "info": Object {
+                  "name": "docker-image|registry.suse.com/suse/sle15",
+                  "version": "15.3",
+                },
+              },
+              Object {
+                "id": "aaa_base@84.87+git20180409.04c9dae-150300.10.6.2",
+                "info": Object {
+                  "name": "aaa_base",
+                  "purl": "pkg:rpm/sles/aaa_base@84.87%2Bgit20180409.04c9dae-150300.10.6.2?distro=sles-15.3",
+                  "version": "84.87+git20180409.04c9dae-150300.10.6.2",
+                },
+              },
+              Object {
+                "id": "bash@4.4-19.6.1",
+                "info": Object {
+                  "name": "bash",
+                  "purl": "pkg:rpm/sles/bash@4.4-19.6.1?distro=sles-15.3",
+                  "version": "4.4-19.6.1",
+                },
+              },
+              Object {
+                "id": "boost-license1_66_0@1.66.0-12.3.1",
+                "info": Object {
+                  "name": "boost-license1_66_0",
+                  "purl": "pkg:rpm/sles/boost-license1_66_0@1.66.0-12.3.1?distro=sles-15.3",
+                  "version": "1.66.0-12.3.1",
+                },
+              },
+              Object {
+                "id": "ca-certificates@2+git20210309.21162a6-2.1",
+                "info": Object {
+                  "name": "ca-certificates",
+                  "purl": "pkg:rpm/sles/ca-certificates@2%2Bgit20210309.21162a6-2.1?distro=sles-15.3",
+                  "version": "2+git20210309.21162a6-2.1",
+                },
+              },
+              Object {
+                "id": "ca-certificates-mozilla@2.62-150200.30.1",
+                "info": Object {
+                  "name": "ca-certificates-mozilla",
+                  "purl": "pkg:rpm/sles/ca-certificates-mozilla@2.62-150200.30.1?distro=sles-15.3",
+                  "version": "2.62-150200.30.1",
+                },
+              },
+              Object {
+                "id": "container-suseconnect@2.4.0-150000.4.46.1",
+                "info": Object {
+                  "name": "container-suseconnect",
+                  "purl": "pkg:rpm/sles/container-suseconnect@2.4.0-150000.4.46.1?distro=sles-15.3",
+                  "version": "2.4.0-150000.4.46.1",
+                },
+              },
+              Object {
+                "id": "coreutils@8.32-150300.3.5.1",
+                "info": Object {
+                  "name": "coreutils",
+                  "purl": "pkg:rpm/sles/coreutils@8.32-150300.3.5.1?distro=sles-15.3",
+                  "version": "8.32-150300.3.5.1",
+                },
+              },
+              Object {
+                "id": "cpio@2.12-3.9.1",
+                "info": Object {
+                  "name": "cpio",
+                  "purl": "pkg:rpm/sles/cpio@2.12-3.9.1?distro=sles-15.3",
+                  "version": "2.12-3.9.1",
+                },
+              },
+              Object {
+                "id": "cracklib@2.9.7-11.6.1",
+                "info": Object {
+                  "name": "cracklib",
+                  "purl": "pkg:rpm/sles/cracklib@2.9.7-11.6.1?distro=sles-15.3",
+                  "version": "2.9.7-11.6.1",
+                },
+              },
+              Object {
+                "id": "cracklib-dict-small@2.9.7-11.6.1",
+                "info": Object {
+                  "name": "cracklib-dict-small",
+                  "purl": "pkg:rpm/sles/cracklib-dict-small@2.9.7-11.6.1?distro=sles-15.3",
+                  "version": "2.9.7-11.6.1",
+                },
+              },
+              Object {
+                "id": "curl@7.66.0-150200.4.66.1",
+                "info": Object {
+                  "name": "curl",
+                  "purl": "pkg:rpm/sles/curl@7.66.0-150200.4.66.1?distro=sles-15.3",
+                  "version": "7.66.0-150200.4.66.1",
+                },
+              },
+              Object {
+                "id": "diffutils@3.6-4.3.1",
+                "info": Object {
+                  "name": "diffutils",
+                  "purl": "pkg:rpm/sles/diffutils@3.6-4.3.1?distro=sles-15.3",
+                  "version": "3.6-4.3.1",
+                },
+              },
+              Object {
+                "id": "file-magic@5.32-7.14.1",
+                "info": Object {
+                  "name": "file-magic",
+                  "purl": "pkg:rpm/sles/file-magic@5.32-7.14.1?distro=sles-15.3",
+                  "version": "5.32-7.14.1",
+                },
+              },
+              Object {
+                "id": "filesystem@15.0-11.8.1",
+                "info": Object {
+                  "name": "filesystem",
+                  "purl": "pkg:rpm/sles/filesystem@15.0-11.8.1?distro=sles-15.3",
+                  "version": "15.0-11.8.1",
+                },
+              },
+              Object {
+                "id": "fillup@1.42-2.18",
+                "info": Object {
+                  "name": "fillup",
+                  "purl": "pkg:rpm/sles/fillup@1.42-2.18?distro=sles-15.3",
+                  "version": "1.42-2.18",
+                },
+              },
+              Object {
+                "id": "findutils@4.8.0-1.20",
+                "info": Object {
+                  "name": "findutils",
+                  "purl": "pkg:rpm/sles/findutils@4.8.0-1.20?distro=sles-15.3",
+                  "version": "4.8.0-1.20",
+                },
+              },
+              Object {
+                "id": "glibc@2.31-150300.63.1",
+                "info": Object {
+                  "name": "glibc",
+                  "purl": "pkg:rpm/sles/glibc@2.31-150300.63.1?distro=sles-15.3",
+                  "version": "2.31-150300.63.1",
+                },
+              },
+              Object {
+                "id": "gpg-pubkey@d588dc46-63c939db",
+                "info": Object {
+                  "name": "gpg-pubkey",
+                  "purl": "pkg:rpm/sles/gpg-pubkey@d588dc46-63c939db?distro=sles-15.3",
+                  "version": "d588dc46-63c939db",
+                },
+              },
+              Object {
+                "id": "gpg2@2.2.27-150300.3.8.1",
+                "info": Object {
+                  "name": "gpg2",
+                  "purl": "pkg:rpm/sles/gpg2@2.2.27-150300.3.8.1?distro=sles-15.3",
+                  "version": "2.2.27-150300.3.8.1",
+                },
+              },
+              Object {
+                "id": "grep@3.1-150000.4.6.1",
+                "info": Object {
+                  "name": "grep",
+                  "purl": "pkg:rpm/sles/grep@3.1-150000.4.6.1?distro=sles-15.3",
+                  "version": "3.1-150000.4.6.1",
+                },
+              },
+              Object {
+                "id": "info@6.5-4.17",
+                "info": Object {
+                  "name": "info",
+                  "purl": "pkg:rpm/sles/info@6.5-4.17?distro=sles-15.3",
+                  "version": "6.5-4.17",
+                },
+              },
+              Object {
+                "id": "krb5@1.19.2-150300.13.1",
+                "info": Object {
+                  "name": "krb5",
+                  "purl": "pkg:rpm/sles/krb5@1.19.2-150300.13.1?distro=sles-15.3",
+                  "version": "1.19.2-150300.13.1",
+                },
+              },
+              Object {
+                "id": "kubic-locale-archive@2.31-10.36",
+                "info": Object {
+                  "name": "kubic-locale-archive",
+                  "purl": "pkg:rpm/sles/kubic-locale-archive@2.31-10.36?distro=sles-15.3",
+                  "version": "2.31-10.36",
+                },
+              },
+              Object {
+                "id": "libacl1@2.2.52-4.3.1",
+                "info": Object {
+                  "name": "libacl1",
+                  "purl": "pkg:rpm/sles/libacl1@2.2.52-4.3.1?distro=sles-15.3",
+                  "version": "2.2.52-4.3.1",
+                },
+              },
+              Object {
+                "id": "libassuan0@2.5.5-150000.4.5.2",
+                "info": Object {
+                  "name": "libassuan0",
+                  "purl": "pkg:rpm/sles/libassuan0@2.5.5-150000.4.5.2?distro=sles-15.3",
+                  "version": "2.5.5-150000.4.5.2",
+                },
+              },
+              Object {
+                "id": "libattr1@2.4.47-2.19",
+                "info": Object {
+                  "name": "libattr1",
+                  "purl": "pkg:rpm/sles/libattr1@2.4.47-2.19?distro=sles-15.3",
+                  "version": "2.4.47-2.19",
+                },
+              },
+              Object {
+                "id": "libaudit1@2.8.5-3.43",
+                "info": Object {
+                  "name": "libaudit1",
+                  "purl": "pkg:rpm/sles/libaudit1@2.8.5-3.43?distro=sles-15.3",
+                  "version": "2.8.5-3.43",
+                },
+              },
+              Object {
+                "id": "libaugeas0@1.10.1-150000.3.12.1",
+                "info": Object {
+                  "name": "libaugeas0",
+                  "purl": "pkg:rpm/sles/libaugeas0@1.10.1-150000.3.12.1?distro=sles-15.3",
+                  "version": "1.10.1-150000.3.12.1",
+                },
+              },
+              Object {
+                "id": "libblkid1@2.36.2-150300.4.35.1",
+                "info": Object {
+                  "name": "libblkid1",
+                  "purl": "pkg:rpm/sles/libblkid1@2.36.2-150300.4.35.1?distro=sles-15.3",
+                  "version": "2.36.2-150300.4.35.1",
+                },
+              },
+              Object {
+                "id": "libboost_system1_66_0@1.66.0-12.3.1",
+                "info": Object {
+                  "name": "libboost_system1_66_0",
+                  "purl": "pkg:rpm/sles/libboost_system1_66_0@1.66.0-12.3.1?distro=sles-15.3",
+                  "version": "1.66.0-12.3.1",
+                },
+              },
+              Object {
+                "id": "libboost_thread1_66_0@1.66.0-12.3.1",
+                "info": Object {
+                  "name": "libboost_thread1_66_0",
+                  "purl": "pkg:rpm/sles/libboost_thread1_66_0@1.66.0-12.3.1?distro=sles-15.3",
+                  "version": "1.66.0-12.3.1",
+                },
+              },
+              Object {
+                "id": "libbz2-1@1.0.6-5.11.1",
+                "info": Object {
+                  "name": "libbz2-1",
+                  "purl": "pkg:rpm/sles/libbz2-1@1.0.6-5.11.1?distro=sles-15.3",
+                  "version": "1.0.6-5.11.1",
+                },
+              },
+              Object {
+                "id": "libcap-ng0@0.7.9-4.37",
+                "info": Object {
+                  "name": "libcap-ng0",
+                  "purl": "pkg:rpm/sles/libcap-ng0@0.7.9-4.37?distro=sles-15.3",
+                  "version": "0.7.9-4.37",
+                },
+              },
+              Object {
+                "id": "libcap2@2.26-150000.4.9.1",
+                "info": Object {
+                  "name": "libcap2",
+                  "purl": "pkg:rpm/sles/libcap2@2.26-150000.4.9.1?distro=sles-15.3",
+                  "version": "2.26-150000.4.9.1",
+                },
+              },
+              Object {
+                "id": "libcom_err2@1.43.8-150000.4.33.1",
+                "info": Object {
+                  "name": "libcom_err2",
+                  "purl": "pkg:rpm/sles/libcom_err2@1.43.8-150000.4.33.1?distro=sles-15.3",
+                  "version": "1.43.8-150000.4.33.1",
+                },
+              },
+              Object {
+                "id": "libcrack2@2.9.7-11.6.1",
+                "info": Object {
+                  "name": "libcrack2",
+                  "purl": "pkg:rpm/sles/libcrack2@2.9.7-11.6.1?distro=sles-15.3",
+                  "version": "2.9.7-11.6.1",
+                },
+              },
+              Object {
+                "id": "libcrypt1@4.4.15-150300.4.4.3",
+                "info": Object {
+                  "name": "libcrypt1",
+                  "purl": "pkg:rpm/sles/libcrypt1@4.4.15-150300.4.4.3?distro=sles-15.3",
+                  "version": "4.4.15-150300.4.4.3",
+                },
+              },
+              Object {
+                "id": "libcurl4@7.66.0-150200.4.66.1",
+                "info": Object {
+                  "name": "libcurl4",
+                  "purl": "pkg:rpm/sles/libcurl4@7.66.0-150200.4.66.1?distro=sles-15.3",
+                  "version": "7.66.0-150200.4.66.1",
+                },
+              },
+              Object {
+                "id": "libdw1@0.177-150300.11.6.1",
+                "info": Object {
+                  "name": "libdw1",
+                  "purl": "pkg:rpm/sles/libdw1@0.177-150300.11.6.1?distro=sles-15.3",
+                  "version": "0.177-150300.11.6.1",
+                },
+              },
+              Object {
+                "id": "libebl-plugins@0.177-150300.11.6.1",
+                "info": Object {
+                  "name": "libebl-plugins",
+                  "purl": "pkg:rpm/sles/libebl-plugins@0.177-150300.11.6.1?distro=sles-15.3",
+                  "version": "0.177-150300.11.6.1",
+                },
+              },
+              Object {
+                "id": "libeconf0@0.5.2-150300.3.11.1",
+                "info": Object {
+                  "name": "libeconf0",
+                  "purl": "pkg:rpm/sles/libeconf0@0.5.2-150300.3.11.1?distro=sles-15.3",
+                  "version": "0.5.2-150300.3.11.1",
+                },
+              },
+              Object {
+                "id": "libelf1@0.177-150300.11.6.1",
+                "info": Object {
+                  "name": "libelf1",
+                  "purl": "pkg:rpm/sles/libelf1@0.177-150300.11.6.1?distro=sles-15.3",
+                  "version": "0.177-150300.11.6.1",
+                },
+              },
+              Object {
+                "id": "libfdisk1@2.36.2-150300.4.35.1",
+                "info": Object {
+                  "name": "libfdisk1",
+                  "purl": "pkg:rpm/sles/libfdisk1@2.36.2-150300.4.35.1?distro=sles-15.3",
+                  "version": "2.36.2-150300.4.35.1",
+                },
+              },
+              Object {
+                "id": "libffi7@3.2.1.git259-10.8",
+                "info": Object {
+                  "name": "libffi7",
+                  "purl": "pkg:rpm/sles/libffi7@3.2.1.git259-10.8?distro=sles-15.3",
+                  "version": "3.2.1.git259-10.8",
+                },
+              },
+              Object {
+                "id": "libgcc_s1@13.2.1+git7813-150000.1.6.1",
+                "info": Object {
+                  "name": "libgcc_s1",
+                  "purl": "pkg:rpm/sles/libgcc_s1@13.2.1%2Bgit7813-150000.1.6.1?distro=sles-15.3",
+                  "version": "13.2.1+git7813-150000.1.6.1",
+                },
+              },
+              Object {
+                "id": "libgcrypt20@1.8.2-8.42.1",
+                "info": Object {
+                  "name": "libgcrypt20",
+                  "purl": "pkg:rpm/sles/libgcrypt20@1.8.2-8.42.1?distro=sles-15.3",
+                  "version": "1.8.2-8.42.1",
+                },
+              },
+              Object {
+                "id": "libgcrypt20-hmac@1.8.2-8.42.1",
+                "info": Object {
+                  "name": "libgcrypt20-hmac",
+                  "purl": "pkg:rpm/sles/libgcrypt20-hmac@1.8.2-8.42.1?distro=sles-15.3",
+                  "version": "1.8.2-8.42.1",
+                },
+              },
+              Object {
+                "id": "libglib-2_0-0@2.62.6-150200.3.15.1",
+                "info": Object {
+                  "name": "libglib-2_0-0",
+                  "purl": "pkg:rpm/sles/libglib-2_0-0@2.62.6-150200.3.15.1?distro=sles-15.3",
+                  "version": "2.62.6-150200.3.15.1",
+                },
+              },
+              Object {
+                "id": "libgmp10@6.1.2-4.9.1",
+                "info": Object {
+                  "name": "libgmp10",
+                  "purl": "pkg:rpm/sles/libgmp10@6.1.2-4.9.1?distro=sles-15.3",
+                  "version": "6.1.2-4.9.1",
+                },
+              },
+              Object {
+                "id": "libgpg-error0@1.42-150300.9.3.1",
+                "info": Object {
+                  "name": "libgpg-error0",
+                  "purl": "pkg:rpm/sles/libgpg-error0@1.42-150300.9.3.1?distro=sles-15.3",
+                  "version": "1.42-150300.9.3.1",
+                },
+              },
+              Object {
+                "id": "libgpgme11@1.13.1-4.3.1",
+                "info": Object {
+                  "name": "libgpgme11",
+                  "purl": "pkg:rpm/sles/libgpgme11@1.13.1-4.3.1?distro=sles-15.3",
+                  "version": "1.13.1-4.3.1",
+                },
+              },
+              Object {
+                "id": "libidn2-0@2.2.0-3.6.1",
+                "info": Object {
+                  "name": "libidn2-0",
+                  "purl": "pkg:rpm/sles/libidn2-0@2.2.0-3.6.1?distro=sles-15.3",
+                  "version": "2.2.0-3.6.1",
+                },
+              },
+              Object {
+                "id": "libkeyutils1@1.6.3-5.6.1",
+                "info": Object {
+                  "name": "libkeyutils1",
+                  "purl": "pkg:rpm/sles/libkeyutils1@1.6.3-5.6.1?distro=sles-15.3",
+                  "version": "1.6.3-5.6.1",
+                },
+              },
+              Object {
+                "id": "libksba8@1.3.5-150000.4.6.1",
+                "info": Object {
+                  "name": "libksba8",
+                  "purl": "pkg:rpm/sles/libksba8@1.3.5-150000.4.6.1?distro=sles-15.3",
+                  "version": "1.3.5-150000.4.6.1",
+                },
+              },
+              Object {
+                "id": "libldap-2_4-2@2.4.46-150200.14.17.1",
+                "info": Object {
+                  "name": "libldap-2_4-2",
+                  "purl": "pkg:rpm/sles/libldap-2_4-2@2.4.46-150200.14.17.1?distro=sles-15.3",
+                  "version": "2.4.46-150200.14.17.1",
+                },
+              },
+              Object {
+                "id": "libldap-data@2.4.46-150200.14.17.1",
+                "info": Object {
+                  "name": "libldap-data",
+                  "purl": "pkg:rpm/sles/libldap-data@2.4.46-150200.14.17.1?distro=sles-15.3",
+                  "version": "2.4.46-150200.14.17.1",
+                },
+              },
+              Object {
+                "id": "liblua5_3-5@5.3.6-3.6.1",
+                "info": Object {
+                  "name": "liblua5_3-5",
+                  "purl": "pkg:rpm/sles/liblua5_3-5@5.3.6-3.6.1?distro=sles-15.3",
+                  "version": "5.3.6-3.6.1",
+                },
+              },
+              Object {
+                "id": "liblz4-1@1.9.2-3.3.1",
+                "info": Object {
+                  "name": "liblz4-1",
+                  "purl": "pkg:rpm/sles/liblz4-1@1.9.2-3.3.1?distro=sles-15.3",
+                  "version": "1.9.2-3.3.1",
+                },
+              },
+              Object {
+                "id": "liblzma5@5.2.3-150000.4.7.1",
+                "info": Object {
+                  "name": "liblzma5",
+                  "purl": "pkg:rpm/sles/liblzma5@5.2.3-150000.4.7.1?distro=sles-15.3",
+                  "version": "5.2.3-150000.4.7.1",
+                },
+              },
+              Object {
+                "id": "libmagic1@5.32-7.14.1",
+                "info": Object {
+                  "name": "libmagic1",
+                  "purl": "pkg:rpm/sles/libmagic1@5.32-7.14.1?distro=sles-15.3",
+                  "version": "5.32-7.14.1",
+                },
+              },
+              Object {
+                "id": "libmodman1@2.0.1-1.27",
+                "info": Object {
+                  "name": "libmodman1",
+                  "purl": "pkg:rpm/sles/libmodman1@2.0.1-1.27?distro=sles-15.3",
+                  "version": "2.0.1-1.27",
+                },
+              },
+              Object {
+                "id": "libmount1@2.36.2-150300.4.35.1",
+                "info": Object {
+                  "name": "libmount1",
+                  "purl": "pkg:rpm/sles/libmount1@2.36.2-150300.4.35.1?distro=sles-15.3",
+                  "version": "2.36.2-150300.4.35.1",
+                },
+              },
+              Object {
+                "id": "libncurses6@6.1-150000.5.20.1",
+                "info": Object {
+                  "name": "libncurses6",
+                  "purl": "pkg:rpm/sles/libncurses6@6.1-150000.5.20.1?distro=sles-15.3",
+                  "version": "6.1-150000.5.20.1",
+                },
+              },
+              Object {
+                "id": "libnghttp2-14@1.40.0-150200.12.1",
+                "info": Object {
+                  "name": "libnghttp2-14",
+                  "purl": "pkg:rpm/sles/libnghttp2-14@1.40.0-150200.12.1?distro=sles-15.3",
+                  "version": "1.40.0-150200.12.1",
+                },
+              },
+              Object {
+                "id": "libnpth0@1.5-2.11",
+                "info": Object {
+                  "name": "libnpth0",
+                  "purl": "pkg:rpm/sles/libnpth0@1.5-2.11?distro=sles-15.3",
+                  "version": "1.5-2.11",
+                },
+              },
+              Object {
+                "id": "libnsl2@1.2.0-2.44",
+                "info": Object {
+                  "name": "libnsl2",
+                  "purl": "pkg:rpm/sles/libnsl2@1.2.0-2.44?distro=sles-15.3",
+                  "version": "1.2.0-2.44",
+                },
+              },
+              Object {
+                "id": "libopenssl1_1@1.1.1d-150200.11.82.1",
+                "info": Object {
+                  "name": "libopenssl1_1",
+                  "purl": "pkg:rpm/sles/libopenssl1_1@1.1.1d-150200.11.82.1?distro=sles-15.3",
+                  "version": "1.1.1d-150200.11.82.1",
+                },
+              },
+              Object {
+                "id": "libopenssl1_1-hmac@1.1.1d-150200.11.82.1",
+                "info": Object {
+                  "name": "libopenssl1_1-hmac",
+                  "purl": "pkg:rpm/sles/libopenssl1_1-hmac@1.1.1d-150200.11.82.1?distro=sles-15.3",
+                  "version": "1.1.1d-150200.11.82.1",
+                },
+              },
+              Object {
+                "id": "libp11-kit0@0.23.2-150000.4.16.1",
+                "info": Object {
+                  "name": "libp11-kit0",
+                  "purl": "pkg:rpm/sles/libp11-kit0@0.23.2-150000.4.16.1?distro=sles-15.3",
+                  "version": "0.23.2-150000.4.16.1",
+                },
+              },
+              Object {
+                "id": "libpcre1@8.45-150000.20.13.1",
+                "info": Object {
+                  "name": "libpcre1",
+                  "purl": "pkg:rpm/sles/libpcre1@8.45-150000.20.13.1?distro=sles-15.3",
+                  "version": "8.45-150000.20.13.1",
+                },
+              },
+              Object {
+                "id": "libpopt0@1.16-3.22",
+                "info": Object {
+                  "name": "libpopt0",
+                  "purl": "pkg:rpm/sles/libpopt0@1.16-3.22?distro=sles-15.3",
+                  "version": "1.16-3.22",
+                },
+              },
+              Object {
+                "id": "libprocps8@3.3.17-150000.7.37.1",
+                "info": Object {
+                  "name": "libprocps8",
+                  "purl": "pkg:rpm/sles/libprocps8@3.3.17-150000.7.37.1?distro=sles-15.3",
+                  "version": "3.3.17-150000.7.37.1",
+                },
+              },
+              Object {
+                "id": "libprotobuf-lite20@3.9.2-150200.4.21.1",
+                "info": Object {
+                  "name": "libprotobuf-lite20",
+                  "purl": "pkg:rpm/sles/libprotobuf-lite20@3.9.2-150200.4.21.1?distro=sles-15.3",
+                  "version": "3.9.2-150200.4.21.1",
+                },
+              },
+              Object {
+                "id": "libproxy1@0.4.15-12.41",
+                "info": Object {
+                  "name": "libproxy1",
+                  "purl": "pkg:rpm/sles/libproxy1@0.4.15-12.41?distro=sles-15.3",
+                  "version": "0.4.15-12.41",
+                },
+              },
+              Object {
+                "id": "libpsl5@0.20.1-150000.3.3.1",
+                "info": Object {
+                  "name": "libpsl5",
+                  "purl": "pkg:rpm/sles/libpsl5@0.20.1-150000.3.3.1?distro=sles-15.3",
+                  "version": "0.20.1-150000.3.3.1",
+                },
+              },
+              Object {
+                "id": "libreadline7@7.0-19.6.1",
+                "info": Object {
+                  "name": "libreadline7",
+                  "purl": "pkg:rpm/sles/libreadline7@7.0-19.6.1?distro=sles-15.3",
+                  "version": "7.0-19.6.1",
+                },
+              },
+              Object {
+                "id": "libsasl2-3@2.1.27-150300.4.6.1",
+                "info": Object {
+                  "name": "libsasl2-3",
+                  "purl": "pkg:rpm/sles/libsasl2-3@2.1.27-150300.4.6.1?distro=sles-15.3",
+                  "version": "2.1.27-150300.4.6.1",
+                },
+              },
+              Object {
+                "id": "libselinux1@3.0-1.31",
+                "info": Object {
+                  "name": "libselinux1",
+                  "purl": "pkg:rpm/sles/libselinux1@3.0-1.31?distro=sles-15.3",
+                  "version": "3.0-1.31",
+                },
+              },
+              Object {
+                "id": "libsemanage1@3.0-1.27",
+                "info": Object {
+                  "name": "libsemanage1",
+                  "purl": "pkg:rpm/sles/libsemanage1@3.0-1.27?distro=sles-15.3",
+                  "version": "3.0-1.27",
+                },
+              },
+              Object {
+                "id": "libsepol1@3.0-1.31",
+                "info": Object {
+                  "name": "libsepol1",
+                  "purl": "pkg:rpm/sles/libsepol1@3.0-1.31?distro=sles-15.3",
+                  "version": "3.0-1.31",
+                },
+              },
+              Object {
+                "id": "libsigc-2_0-0@2.10.2-1.18",
+                "info": Object {
+                  "name": "libsigc-2_0-0",
+                  "purl": "pkg:rpm/sles/libsigc-2_0-0@2.10.2-1.18?distro=sles-15.3",
+                  "version": "2.10.2-1.18",
+                },
+              },
+              Object {
+                "id": "libsmartcols1@2.36.2-150300.4.35.1",
+                "info": Object {
+                  "name": "libsmartcols1",
+                  "purl": "pkg:rpm/sles/libsmartcols1@2.36.2-150300.4.35.1?distro=sles-15.3",
+                  "version": "2.36.2-150300.4.35.1",
+                },
+              },
+              Object {
+                "id": "libsolv-tools@0.7.27-150200.23.2",
+                "info": Object {
+                  "name": "libsolv-tools",
+                  "purl": "pkg:rpm/sles/libsolv-tools@0.7.27-150200.23.2?distro=sles-15.3",
+                  "version": "0.7.27-150200.23.2",
+                },
+              },
+              Object {
+                "id": "libsqlite3-0@3.44.0-150000.3.23.1",
+                "info": Object {
+                  "name": "libsqlite3-0",
+                  "purl": "pkg:rpm/sles/libsqlite3-0@3.44.0-150000.3.23.1?distro=sles-15.3",
+                  "version": "3.44.0-150000.3.23.1",
+                },
+              },
+              Object {
+                "id": "libssh4@0.8.7-10.12.1",
+                "info": Object {
+                  "name": "libssh4",
+                  "purl": "pkg:rpm/sles/libssh4@0.8.7-10.12.1?distro=sles-15.3",
+                  "version": "0.8.7-10.12.1",
+                },
+              },
+              Object {
+                "id": "libstdc++6@13.2.1+git7813-150000.1.6.1",
+                "info": Object {
+                  "name": "libstdc++6",
+                  "purl": "pkg:rpm/sles/libstdc%2B%2B6@13.2.1%2Bgit7813-150000.1.6.1?distro=sles-15.3",
+                  "version": "13.2.1+git7813-150000.1.6.1",
+                },
+              },
+              Object {
+                "id": "libsystemd0@246.16-150300.7.57.1",
+                "info": Object {
+                  "name": "libsystemd0",
+                  "purl": "pkg:rpm/sles/libsystemd0@246.16-150300.7.57.1?distro=sles-15.3",
+                  "version": "246.16-150300.7.57.1",
+                },
+              },
+              Object {
+                "id": "libtasn1@4.13-150000.4.8.1",
+                "info": Object {
+                  "name": "libtasn1",
+                  "purl": "pkg:rpm/sles/libtasn1@4.13-150000.4.8.1?distro=sles-15.3",
+                  "version": "4.13-150000.4.8.1",
+                },
+              },
+              Object {
+                "id": "libtasn1-6@4.13-150000.4.8.1",
+                "info": Object {
+                  "name": "libtasn1-6",
+                  "purl": "pkg:rpm/sles/libtasn1-6@4.13-150000.4.8.1?distro=sles-15.3",
+                  "version": "4.13-150000.4.8.1",
+                },
+              },
+              Object {
+                "id": "libtirpc-netconfig@1.3.4-150300.3.23.1",
+                "info": Object {
+                  "name": "libtirpc-netconfig",
+                  "purl": "pkg:rpm/sles/libtirpc-netconfig@1.3.4-150300.3.23.1?distro=sles-15.3",
+                  "version": "1.3.4-150300.3.23.1",
+                },
+              },
+              Object {
+                "id": "libtirpc3@1.3.4-150300.3.23.1",
+                "info": Object {
+                  "name": "libtirpc3",
+                  "purl": "pkg:rpm/sles/libtirpc3@1.3.4-150300.3.23.1?distro=sles-15.3",
+                  "version": "1.3.4-150300.3.23.1",
+                },
+              },
+              Object {
+                "id": "libudev1@246.16-150300.7.57.1",
+                "info": Object {
+                  "name": "libudev1",
+                  "purl": "pkg:rpm/sles/libudev1@246.16-150300.7.57.1?distro=sles-15.3",
+                  "version": "246.16-150300.7.57.1",
+                },
+              },
+              Object {
+                "id": "libunistring2@0.9.10-1.1",
+                "info": Object {
+                  "name": "libunistring2",
+                  "purl": "pkg:rpm/sles/libunistring2@0.9.10-1.1?distro=sles-15.3",
+                  "version": "0.9.10-1.1",
+                },
+              },
+              Object {
+                "id": "libusb-1_0-0@1.0.21-150000.3.5.1",
+                "info": Object {
+                  "name": "libusb-1_0-0",
+                  "purl": "pkg:rpm/sles/libusb-1_0-0@1.0.21-150000.3.5.1?distro=sles-15.3",
+                  "version": "1.0.21-150000.3.5.1",
+                },
+              },
+              Object {
+                "id": "libutempter0@1.1.6-3.42",
+                "info": Object {
+                  "name": "libutempter0",
+                  "purl": "pkg:rpm/sles/libutempter0@1.1.6-3.42?distro=sles-15.3",
+                  "version": "1.1.6-3.42",
+                },
+              },
+              Object {
+                "id": "libuuid1@2.36.2-150300.4.35.1",
+                "info": Object {
+                  "name": "libuuid1",
+                  "purl": "pkg:rpm/sles/libuuid1@2.36.2-150300.4.35.1?distro=sles-15.3",
+                  "version": "2.36.2-150300.4.35.1",
+                },
+              },
+              Object {
+                "id": "libverto1@0.2.6-3.20",
+                "info": Object {
+                  "name": "libverto1",
+                  "purl": "pkg:rpm/sles/libverto1@0.2.6-3.20?distro=sles-15.3",
+                  "version": "0.2.6-3.20",
+                },
+              },
+              Object {
+                "id": "libxml2-2@2.9.7-150000.3.63.1",
+                "info": Object {
+                  "name": "libxml2-2",
+                  "purl": "pkg:rpm/sles/libxml2-2@2.9.7-150000.3.63.1?distro=sles-15.3",
+                  "version": "2.9.7-150000.3.63.1",
+                },
+              },
+              Object {
+                "id": "libyaml-cpp0_6@0.6.1-4.5.1",
+                "info": Object {
+                  "name": "libyaml-cpp0_6",
+                  "purl": "pkg:rpm/sles/libyaml-cpp0_6@0.6.1-4.5.1?distro=sles-15.3",
+                  "version": "0.6.1-4.5.1",
+                },
+              },
+              Object {
+                "id": "libz1@1.2.11-150000.3.48.1",
+                "info": Object {
+                  "name": "libz1",
+                  "purl": "pkg:rpm/sles/libz1@1.2.11-150000.3.48.1?distro=sles-15.3",
+                  "version": "1.2.11-150000.3.48.1",
+                },
+              },
+              Object {
+                "id": "libzio1@1.06-2.20",
+                "info": Object {
+                  "name": "libzio1",
+                  "purl": "pkg:rpm/sles/libzio1@1.06-2.20?distro=sles-15.3",
+                  "version": "1.06-2.20",
+                },
+              },
+              Object {
+                "id": "libzstd1@1.4.4-150000.1.9.1",
+                "info": Object {
+                  "name": "libzstd1",
+                  "purl": "pkg:rpm/sles/libzstd1@1.4.4-150000.1.9.1?distro=sles-15.3",
+                  "version": "1.4.4-150000.1.9.1",
+                },
+              },
+              Object {
+                "id": "libzypp@17.31.27-150200.84.1",
+                "info": Object {
+                  "name": "libzypp",
+                  "purl": "pkg:rpm/sles/libzypp@17.31.27-150200.84.1?distro=sles-15.3",
+                  "version": "17.31.27-150200.84.1",
+                },
+              },
+              Object {
+                "id": "login_defs@4.8.1-150300.4.12.1",
+                "info": Object {
+                  "name": "login_defs",
+                  "purl": "pkg:rpm/sles/login_defs@4.8.1-150300.4.12.1?distro=sles-15.3",
+                  "version": "4.8.1-150300.4.12.1",
+                },
+              },
+              Object {
+                "id": "ncurses-utils@6.1-150000.5.20.1",
+                "info": Object {
+                  "name": "ncurses-utils",
+                  "purl": "pkg:rpm/sles/ncurses-utils@6.1-150000.5.20.1?distro=sles-15.3",
+                  "version": "6.1-150000.5.20.1",
+                },
+              },
+              Object {
+                "id": "netcfg@11.6-3.3.1",
+                "info": Object {
+                  "name": "netcfg",
+                  "purl": "pkg:rpm/sles/netcfg@11.6-3.3.1?distro=sles-15.3",
+                  "version": "11.6-3.3.1",
+                },
+              },
+              Object {
+                "id": "openssl-1_1@1.1.1d-150200.11.82.1",
+                "info": Object {
+                  "name": "openssl-1_1",
+                  "purl": "pkg:rpm/sles/openssl-1_1@1.1.1d-150200.11.82.1?distro=sles-15.3",
+                  "version": "1.1.1d-150200.11.82.1",
+                },
+              },
+              Object {
+                "id": "p11-kit@0.23.2-150000.4.16.1",
+                "info": Object {
+                  "name": "p11-kit",
+                  "purl": "pkg:rpm/sles/p11-kit@0.23.2-150000.4.16.1?distro=sles-15.3",
+                  "version": "0.23.2-150000.4.16.1",
+                },
+              },
+              Object {
+                "id": "p11-kit-tools@0.23.2-150000.4.16.1",
+                "info": Object {
+                  "name": "p11-kit-tools",
+                  "purl": "pkg:rpm/sles/p11-kit-tools@0.23.2-150000.4.16.1?distro=sles-15.3",
+                  "version": "0.23.2-150000.4.16.1",
+                },
+              },
+              Object {
+                "id": "pam@1.3.0-150000.6.61.1",
+                "info": Object {
+                  "name": "pam",
+                  "purl": "pkg:rpm/sles/pam@1.3.0-150000.6.61.1?distro=sles-15.3",
+                  "version": "1.3.0-150000.6.61.1",
+                },
+              },
+              Object {
+                "id": "patterns-base-fips@20200124-10.5.1",
+                "info": Object {
+                  "name": "patterns-base-fips",
+                  "purl": "pkg:rpm/sles/patterns-base-fips@20200124-10.5.1?distro=sles-15.3",
+                  "version": "20200124-10.5.1",
+                },
+              },
+              Object {
+                "id": "perl-base@5.26.1-150300.17.14.1",
+                "info": Object {
+                  "name": "perl-base",
+                  "purl": "pkg:rpm/sles/perl-base@5.26.1-150300.17.14.1?distro=sles-15.3",
+                  "version": "5.26.1-150300.17.14.1",
+                },
+              },
+              Object {
+                "id": "permissions@20181225-150200.23.23.1",
+                "info": Object {
+                  "name": "permissions",
+                  "purl": "pkg:rpm/sles/permissions@20181225-150200.23.23.1?distro=sles-15.3",
+                  "version": "20181225-150200.23.23.1",
+                },
+              },
+              Object {
+                "id": "pinentry@1.1.0-4.3.1",
+                "info": Object {
+                  "name": "pinentry",
+                  "purl": "pkg:rpm/sles/pinentry@1.1.0-4.3.1?distro=sles-15.3",
+                  "version": "1.1.0-4.3.1",
+                },
+              },
+              Object {
+                "id": "procps@3.3.17-150000.7.37.1",
+                "info": Object {
+                  "name": "procps",
+                  "purl": "pkg:rpm/sles/procps@3.3.17-150000.7.37.1?distro=sles-15.3",
+                  "version": "3.3.17-150000.7.37.1",
+                },
+              },
+              Object {
+                "id": "rpm-config-SUSE@1-5.6.1",
+                "info": Object {
+                  "name": "rpm-config-SUSE",
+                  "purl": "pkg:rpm/sles/rpm-config-SUSE@1-5.6.1?distro=sles-15.3",
+                  "version": "1-5.6.1",
+                },
+              },
+              Object {
+                "id": "rpm-ndb@4.14.3-150300.55.1",
+                "info": Object {
+                  "name": "rpm-ndb",
+                  "purl": "pkg:rpm/sles/rpm-ndb@4.14.3-150300.55.1?distro=sles-15.3",
+                  "version": "4.14.3-150300.55.1",
+                },
+              },
+              Object {
+                "id": "sed@4.4-11.6",
+                "info": Object {
+                  "name": "sed",
+                  "purl": "pkg:rpm/sles/sed@4.4-11.6?distro=sles-15.3",
+                  "version": "4.4-11.6",
+                },
+              },
+              Object {
+                "id": "shadow@4.8.1-150300.4.12.1",
+                "info": Object {
+                  "name": "shadow",
+                  "purl": "pkg:rpm/sles/shadow@4.8.1-150300.4.12.1?distro=sles-15.3",
+                  "version": "4.8.1-150300.4.12.1",
+                },
+              },
+              Object {
+                "id": "skelcd-EULA-bci@2021.05.14-150300.4.8.1",
+                "info": Object {
+                  "name": "skelcd-EULA-bci",
+                  "purl": "pkg:rpm/sles/skelcd-EULA-bci@2021.05.14-150300.4.8.1?distro=sles-15.3",
+                  "version": "2021.05.14-150300.4.8.1",
+                },
+              },
+              Object {
+                "id": "sles-release@15.3-55.4.1",
+                "info": Object {
+                  "name": "sles-release",
+                  "purl": "pkg:rpm/sles/sles-release@15.3-55.4.1?distro=sles-15.3",
+                  "version": "15.3-55.4.1",
+                },
+              },
+              Object {
+                "id": "suse-build-key@12.0-150000.8.37.1",
+                "info": Object {
+                  "name": "suse-build-key",
+                  "purl": "pkg:rpm/sles/suse-build-key@12.0-150000.8.37.1?distro=sles-15.3",
+                  "version": "12.0-150000.8.37.1",
+                },
+              },
+              Object {
+                "id": "system-group-hardware@20170617-17.3.1",
+                "info": Object {
+                  "name": "system-group-hardware",
+                  "purl": "pkg:rpm/sles/system-group-hardware@20170617-17.3.1?distro=sles-15.3",
+                  "version": "20170617-17.3.1",
+                },
+              },
+              Object {
+                "id": "system-user-root@20190513-3.3.1",
+                "info": Object {
+                  "name": "system-user-root",
+                  "purl": "pkg:rpm/sles/system-user-root@20190513-3.3.1?distro=sles-15.3",
+                  "version": "20190513-3.3.1",
+                },
+              },
+              Object {
+                "id": "sysuser-shadow@2.0-4.2.8",
+                "info": Object {
+                  "name": "sysuser-shadow",
+                  "purl": "pkg:rpm/sles/sysuser-shadow@2.0-4.2.8?distro=sles-15.3",
+                  "version": "2.0-4.2.8",
+                },
+              },
+              Object {
+                "id": "terminfo-base@6.1-150000.5.20.1",
+                "info": Object {
+                  "name": "terminfo-base",
+                  "purl": "pkg:rpm/sles/terminfo-base@6.1-150000.5.20.1?distro=sles-15.3",
+                  "version": "6.1-150000.5.20.1",
+                },
+              },
+              Object {
+                "id": "timezone@2023c-150000.75.23.1",
+                "info": Object {
+                  "name": "timezone",
+                  "purl": "pkg:rpm/sles/timezone@2023c-150000.75.23.1?distro=sles-15.3",
+                  "version": "2023c-150000.75.23.1",
+                },
+              },
+              Object {
+                "id": "util-linux@2.36.2-150300.4.35.1",
+                "info": Object {
+                  "name": "util-linux",
+                  "purl": "pkg:rpm/sles/util-linux@2.36.2-150300.4.35.1?distro=sles-15.3",
+                  "version": "2.36.2-150300.4.35.1",
+                },
+              },
+              Object {
+                "id": "zypper@1.14.68-150200.70.2",
+                "info": Object {
+                  "name": "zypper",
+                  "purl": "pkg:rpm/sles/zypper@1.14.68-150200.70.2?distro=sles-15.3",
+                  "version": "1.14.68-150200.70.2",
+                },
+              },
+            ],
+            "schemaVersion": "1.3.0",
+          },
+          "type": "depGraph",
+        },
+        Object {
+          "data": "sha256:8c5d736566b6f5d7a92b48f4236678470ca48c9b6760a9ca87d0ae35f9a89b59",
+          "type": "imageId",
+        },
+        Object {
+          "data": Array [
+            "sha256:fc378ab30d60a2ec107ad2a83226050b29ca6dca2d93cd6220e902375bcf3813",
+          ],
+          "type": "imageLayers",
+        },
+        Object {
+          "data": Object {
+            "com.suse.eula": "sle-bci",
+            "com.suse.image-type": "sle-bci",
+            "com.suse.lifecycle-url": "https://www.suse.com/lifecycle",
+            "com.suse.release-stage": "released",
+            "com.suse.sle.base.created": "2024-01-05T14:28:48.994014460Z",
+            "com.suse.sle.base.description": "Image for containers based on SUSE Linux Enterprise Server 15 SP3.",
+            "com.suse.sle.base.disturl": "obs://build.suse.de/SUSE:SLE-15-SP3:Update:CR/images/af82ed160b0cbc22f6f9a8903aef66e8-sles15-image",
+            "com.suse.sle.base.eula": "sle-bci",
+            "com.suse.sle.base.image-type": "sle-bci",
+            "com.suse.sle.base.lifecycle-url": "https://www.suse.com/lifecycle",
+            "com.suse.sle.base.reference": "registry.suse.com/suse/sle15:15.3.17.20.233",
+            "com.suse.sle.base.release-stage": "released",
+            "com.suse.sle.base.source": "https://sources.suse.com/SUSE:SLE-15-SP3:Update:CR/sles15-image/af82ed160b0cbc22f6f9a8903aef66e8/",
+            "com.suse.sle.base.supportlevel": "l3",
+            "com.suse.sle.base.title": "SUSE Linux Enterprise Server 15 SP3 Base Container Image",
+            "com.suse.sle.base.url": "https://www.suse.com/products/server/",
+            "com.suse.sle.base.vendor": "SUSE LLC",
+            "com.suse.sle.base.version": "15.3.17.20.233",
+            "com.suse.supportlevel": "l3",
+            "org.openbuildservice.disturl": "obs://build.suse.de/SUSE:SLE-15-SP3:Update:CR/images/af82ed160b0cbc22f6f9a8903aef66e8-sles15-image",
+            "org.opencontainers.image.created": "2024-01-05T14:28:48.994014460Z",
+            "org.opencontainers.image.description": "Image for containers based on SUSE Linux Enterprise Server 15 SP3.",
+            "org.opencontainers.image.source": "https://sources.suse.com/SUSE:SLE-15-SP3:Update:CR/sles15-image/af82ed160b0cbc22f6f9a8903aef66e8/",
+            "org.opencontainers.image.title": "SUSE Linux Enterprise Server 15 SP3 Base Container Image",
+            "org.opencontainers.image.url": "https://www.suse.com/products/server/",
+            "org.opencontainers.image.vendor": "SUSE LLC",
+            "org.opencontainers.image.version": "15.3.17.20.233",
+            "org.opensuse.reference": "registry.suse.com/suse/sle15:15.3.17.20.233",
+          },
+          "type": "imageLabels",
+        },
+        Object {
+          "data": "2024-01-05T14:29:00Z",
+          "type": "imageCreationTime",
+        },
+        Object {
+          "data": Array [
+            "sha256:fc378ab30d60a2ec107ad2a83226050b29ca6dca2d93cd6220e902375bcf3813",
+          ],
+          "type": "rootFs",
+        },
+        Object {
+          "data": "SUSE Linux Enterprise Server 15 SP3",
+          "type": "imageOsReleasePrettyName",
+        },
+        Object {
+          "data": Object {
+            "names": Array [
+              "registry.suse.com/suse/sle15:15.3",
+            ],
+          },
+          "type": "imageNames",
+        },
+      ],
+      "identity": Object {
+        "args": Object {
+          "platform": "linux/amd64",
+        },
+        "type": "rpm",
+      },
+      "target": Object {
+        "image": "docker-image|registry.suse.com/suse/sle15",
+      },
+    },
+  ],
+}
+`;
+
 exports[`suse linux enterprise server tests should correctly analyze an sles image by tag 1`] = `
 Object {
   "scanResults": Array [
