@@ -200,6 +200,10 @@ async function buildResponse(
       facts: [depGraphFact, ...additionalFacts],
       target: {
         image: depGraph.rootPkg.name,
+        ...(options &&
+          options["remote-repo-url"] && {
+            remoteUrl: options["remote-repo-url"],
+          }),
       },
       identity: {
         type: depGraph.pkgManager.name,

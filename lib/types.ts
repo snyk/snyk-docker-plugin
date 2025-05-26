@@ -104,6 +104,8 @@ export interface AutoDetectedUserInstructions {
 
 export interface ContainerTarget {
   image: string;
+  /** Set the remote URL for a container image image. */
+  remoteUrl?: string;
 }
 
 /**
@@ -228,6 +230,8 @@ export interface PluginOptions {
   /** The default is "false". */
   "collect-application-files": boolean | string;
   "target-reference": string;
+
+  "remote-repo-url": string;
 }
 
 export interface DepTreeDep {
