@@ -1,5 +1,5 @@
 import * as childProcess from "child_process";
-import { quoteAll } from "shescape";
+import { quoteAll } from "shescape/stateless";
 
 export { execute, CmdOutput };
 interface CmdOutput {
@@ -16,7 +16,7 @@ function execute(
   if (options && options.cwd) {
     spawnOptions.cwd = options.cwd;
   }
-  args = quoteAll(args, spawnOptions);
+  args = quoteAll(args, { ...spawnOptions, flagProtection: false });
 
   // Before spawning an external process, we look if we need to restore the system proxy configuration,
   // which overrides the cli internal proxy configuration.
