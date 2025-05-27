@@ -4,8 +4,8 @@ metadata:
   name: snyk-docker-plugin
   annotations:
     github.com/project-slug: snyk/snyk-docker-plugin
-    github.com/team-slug: snyk/unify
+    github.com/team-slug: snyk/infrasec_container
 spec:
   type: snyk-cli-plugin
   lifecycle: "-"
-  owner: unify
+  owner: infrasec_container
