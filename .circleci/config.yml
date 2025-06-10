@@ -54,12 +54,16 @@ windows_big: &windows_big
 release_defaults: &release_defaults
   resource_class: small
   docker:
-    - image: node:20
+    - image: cimg/node:20.19
   working_directory: ~/snyk-docker-plugin
 
 define: &windows_node_version "20.19.1"
 
 commands:
+  setup_npm_user:
+    steps:
+       - run: 
+           command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
   install_deps:
     description: Install dependencies
     steps:
@@ -68,9 +72,7 @@ commands:
           keys:
             - v2-npm-cache-{{ checksum "package.json" }}
             - v2-npm-cache-
-      - run:
-          name: Use snyk-main npmjs user
-          command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
+      - setup_npm_user
       - run: npm ci
       - save_cache:
           key: v2-npm-cache-{{ checksum "package.json" }}
@@ -147,9 +149,7 @@ jobs:
       - checkout
       - install_node_npm:
           node_version: << parameters.node_version >>
-      - run:
-          name: Use snyk-main npmjs user
-          command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
+      - setup_npm_user
       - run: npm ci
       - run: docker version
       - run:
@@ -161,9 +161,7 @@ jobs:
       - checkout
       - install_node_npm:
           node_version: << parameters.node_version >>
-      - run:
-          name: Use snyk-main npmjs user
-          command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
+      - setup_npm_user
       - run: npm ci
         # make docker appear to be broken.
       - run: "function docker() { return 1; }"
@@ -174,9 +172,7 @@ jobs:
     <<: *defaults
     steps:
       - checkout_and_merge
-      - run:
-          name: Use snyk-main npmjs user
-          command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
+      - setup_npm_user
       - run: npm ci
       - run: npm run build
   build_cli:
@@ -184,6 +180,9 @@ jobs:
     resource_class: medium
     steps:
       - checkout_and_merge
+      - run:
+          name: Setup NPM credentials
+          command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> ../.npmrc
       - run:
           name: Build Snyk CLI with latest changes
           command: ./.circleci/build-cli.sh
@@ -203,6 +202,7 @@ jobs:
     <<: *release_defaults
     steps:
       - checkout
+      - setup_npm_user
       - run: npm ci
       - run: npm run build
       - run:
@@ -241,6 +241,7 @@ workflows:
       - build:
           name: Build
           context:
+            - nodejs-install
             - snyk-bot-slack
           requires:
             - Lint
