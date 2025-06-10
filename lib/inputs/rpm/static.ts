@@ -1,8 +1,4 @@
-import {
-  getPackages,
-  getPackagesNdb,
-  getPackagesSqlite,
-} from "@snyk/rpm-parser";
+import { getPackages, getPackagesSqlite } from "@snyk/rpm-parser";
 import { PackageInfo } from "@snyk/rpm-parser/lib/rpm/types";
 import { Response } from "@snyk/rpm-parser/lib/types";
 import * as Debug from "debug";
@@ -61,37 +57,6 @@ export async function getRpmSqliteDbFileContent(
     return results.response;
   } catch (error) {
     debug(`An error occurred while analysing RPM packages: ${error.message}`);
-    return [];
-  }
-}
-
-export const getRpmNdbFileContentAction: ExtractAction = {
-  actionName: "rpm-ndb",
-  filePathMatches: (filePath) =>
-    filePath === normalizePath("/usr/lib/sysimage/rpm/Packages.db"),
-  callback: streamToBuffer,
-};
-
-export async function getRpmNdbFileContent(
-  extractedLayers: ExtractedLayers,
-): Promise<PackageInfo[]> {
-  const rpmDb = getContentAsBuffer(extractedLayers, getRpmNdbFileContentAction);
-  if (!rpmDb) {
-    return [];
-  }
-
-  try {
-    const results: Response = await getPackagesNdb(rpmDb);
-
-    if (results.error) {
-      throw results.error;
-    }
-    return results.response;
-  } catch (error) {
-    debug(
-      `An error occurred while analysing RPM NDB packages:`,
-      error.stack || error,
-    );
     return [];
   }
 }
