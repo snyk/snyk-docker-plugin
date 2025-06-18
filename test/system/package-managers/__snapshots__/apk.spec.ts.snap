@@ -404,3 +404,834 @@ Object {
   ],
 }
 `;
+
+exports[`apk package manager tests should correctly analyze an apk image with newer wolfi/chainguard database location at /usr/lib/apk/ 1`] = `
+Object {
+  "scanResults": Array [
+    Object {
+      "facts": Array [
+        Object {
+          "data": Object {
+            "graph": Object {
+              "nodes": Array [
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "bash/bash@5.2.37-r33",
+                    },
+                    Object {
+                      "nodeId": "brotli/libbrotlicommon1@1.1.0-r5",
+                    },
+                    Object {
+                      "nodeId": "brotli/libbrotlidec1@1.1.0-r5|1",
+                    },
+                    Object {
+                      "nodeId": "busybox/busybox@1.37.0-r46",
+                    },
+                    Object {
+                      "nodeId": "ca-certificates/ca-certificates-bundle@20241121-r42",
+                    },
+                    Object {
+                      "nodeId": "curl/curl@8.14.1-r2",
+                    },
+                    Object {
+                      "nodeId": "curl/libcurl-openssl4@8.14.1-r2|2",
+                    },
+                    Object {
+                      "nodeId": "cyrus-sasl/cyrus-sasl@2.1.28-r42|1",
+                    },
+                    Object {
+                      "nodeId": "e2fsprogs/libcom_err@1.47.2-r22",
+                    },
+                    Object {
+                      "nodeId": "gcc/libgcc@15.1.0-r1",
+                    },
+                    Object {
+                      "nodeId": "gdbm/gdbm@1.25-r1",
+                    },
+                    Object {
+                      "nodeId": "glibc/glibc@2.41-r9",
+                    },
+                    Object {
+                      "nodeId": "glibc/glibc-locale-posix@2.41-r9",
+                    },
+                    Object {
+                      "nodeId": "glibc/ld-linux@2.41-r9",
+                    },
+                    Object {
+                      "nodeId": "glibc/libcrypt1@2.41-r9|2",
+                    },
+                    Object {
+                      "nodeId": "heimdal/heimdal-libs@7.8.0-r41|2",
+                    },
+                    Object {
+                      "nodeId": "keyutils/keyutils-libs@1.6.3-r35",
+                    },
+                    Object {
+                      "nodeId": "krb5-conf/krb5-conf@1.0-r6",
+                    },
+                    Object {
+                      "nodeId": "krb5/krb5-libs@1.21.3-r42|2",
+                    },
+                    Object {
+                      "nodeId": "libidn2/libidn2@2.3.8-r1|1",
+                    },
+                    Object {
+                      "nodeId": "libpsl/libpsl@0.21.5-r5|2",
+                    },
+                    Object {
+                      "nodeId": "libunistring/libunistring@1.3-r2",
+                    },
+                    Object {
+                      "nodeId": "libverto/libverto@0.3.2-r5",
+                    },
+                    Object {
+                      "nodeId": "libxcrypt/libxcrypt@4.4.38-r2|2",
+                    },
+                    Object {
+                      "nodeId": "ncurses/ncurses@6.5_p20241228-r2|2",
+                    },
+                    Object {
+                      "nodeId": "ncurses/ncurses-terminfo-base@6.5_p20241228-r2|2",
+                    },
+                    Object {
+                      "nodeId": "nghttp2/libnghttp2-14@1.66.0-r0",
+                    },
+                    Object {
+                      "nodeId": "openldap/libldap@2.6.10-r2|2",
+                    },
+                    Object {
+                      "nodeId": "openssl/libcrypto3@3.5.0-r2",
+                    },
+                    Object {
+                      "nodeId": "openssl/libssl3@3.5.0-r2|2",
+                    },
+                    Object {
+                      "nodeId": "readline/readline@8.2.13-r4|2",
+                    },
+                    Object {
+                      "nodeId": "sqlite/sqlite-libs@3.50.1-r0",
+                    },
+                    Object {
+                      "nodeId": "wolfi-baselayout/wolfi-baselayout@20230201-r20",
+                    },
+                    Object {
+                      "nodeId": "zlib/zlib@1.3.1-r7",
+                    },
+                  ],
+                  "nodeId": "root-node",
+                  "pkgId": "docker-image|chainguard/bash@",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "ncurses/ncurses@6.5_p20241228-r2|1",
+                  "pkgId": "ncurses/ncurses@6.5_p20241228-r2",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "ncurses/ncurses-terminfo-base@6.5_p20241228-r2|1",
+                    },
+                  ],
+                  "nodeId": "ncurses/ncurses@6.5_p20241228-r2|2",
+                  "pkgId": "ncurses/ncurses@6.5_p20241228-r2",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "ncurses/ncurses@6.5_p20241228-r2|1",
+                    },
+                  ],
+                  "nodeId": "bash/bash@5.2.37-r33",
+                  "pkgId": "bash/bash@5.2.37-r33",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "brotli/libbrotlicommon1@1.1.0-r5",
+                  "pkgId": "brotli/libbrotlicommon1@1.1.0-r5",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "brotli/libbrotlicommon1@1.1.0-r5",
+                    },
+                  ],
+                  "nodeId": "brotli/libbrotlidec1@1.1.0-r5|1",
+                  "pkgId": "brotli/libbrotlidec1@1.1.0-r5",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "brotli/libbrotlidec1@1.1.0-r5|2",
+                  "pkgId": "brotli/libbrotlidec1@1.1.0-r5",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "glibc/libcrypt1@2.41-r9|1",
+                  "pkgId": "glibc/libcrypt1@2.41-r9",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "libxcrypt/libxcrypt@4.4.38-r2|1",
+                    },
+                  ],
+                  "nodeId": "glibc/libcrypt1@2.41-r9|2",
+                  "pkgId": "glibc/libcrypt1@2.41-r9",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "glibc/libcrypt1@2.41-r9|1",
+                    },
+                  ],
+                  "nodeId": "busybox/busybox@1.37.0-r46",
+                  "pkgId": "busybox/busybox@1.37.0-r46",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "ca-certificates/ca-certificates-bundle@20241121-r42",
+                  "pkgId": "ca-certificates/ca-certificates-bundle@20241121-r42",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "curl/libcurl-openssl4@8.14.1-r2|1",
+                  "pkgId": "curl/libcurl-openssl4@8.14.1-r2",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "brotli/libbrotlidec1@1.1.0-r5|2",
+                    },
+                    Object {
+                      "nodeId": "krb5/krb5-libs@1.21.3-r42|1",
+                    },
+                    Object {
+                      "nodeId": "libpsl/libpsl@0.21.5-r5|1",
+                    },
+                    Object {
+                      "nodeId": "nghttp2/libnghttp2-14@1.66.0-r0",
+                    },
+                    Object {
+                      "nodeId": "openldap/libldap@2.6.10-r2|1",
+                    },
+                    Object {
+                      "nodeId": "openssl/libcrypto3@3.5.0-r2",
+                    },
+                    Object {
+                      "nodeId": "openssl/libssl3@3.5.0-r2|1",
+                    },
+                    Object {
+                      "nodeId": "zlib/zlib@1.3.1-r7",
+                    },
+                  ],
+                  "nodeId": "curl/libcurl-openssl4@8.14.1-r2|2",
+                  "pkgId": "curl/libcurl-openssl4@8.14.1-r2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "zlib/zlib@1.3.1-r7",
+                  "pkgId": "zlib/zlib@1.3.1-r7",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "curl/libcurl-openssl4@8.14.1-r2|1",
+                    },
+                    Object {
+                      "nodeId": "zlib/zlib@1.3.1-r7",
+                    },
+                  ],
+                  "nodeId": "curl/curl@8.14.1-r2",
+                  "pkgId": "curl/curl@8.14.1-r2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "krb5/krb5-libs@1.21.3-r42|1",
+                  "pkgId": "krb5/krb5-libs@1.21.3-r42",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "e2fsprogs/libcom_err@1.47.2-r22",
+                    },
+                    Object {
+                      "nodeId": "keyutils/keyutils-libs@1.6.3-r35",
+                    },
+                    Object {
+                      "nodeId": "krb5-conf/krb5-conf@1.0-r6",
+                    },
+                    Object {
+                      "nodeId": "libverto/libverto@0.3.2-r5",
+                    },
+                    Object {
+                      "nodeId": "openssl/libcrypto3@3.5.0-r2",
+                    },
+                    Object {
+                      "nodeId": "openssl/libssl3@3.5.0-r2|1",
+                    },
+                  ],
+                  "nodeId": "krb5/krb5-libs@1.21.3-r42|2",
+                  "pkgId": "krb5/krb5-libs@1.21.3-r42",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libpsl/libpsl@0.21.5-r5|1",
+                  "pkgId": "libpsl/libpsl@0.21.5-r5",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "libidn2/libidn2@2.3.8-r1|2",
+                    },
+                    Object {
+                      "nodeId": "libunistring/libunistring@1.3-r2",
+                    },
+                  ],
+                  "nodeId": "libpsl/libpsl@0.21.5-r5|2",
+                  "pkgId": "libpsl/libpsl@0.21.5-r5",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "nghttp2/libnghttp2-14@1.66.0-r0",
+                  "pkgId": "nghttp2/libnghttp2-14@1.66.0-r0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "openldap/libldap@2.6.10-r2|1",
+                  "pkgId": "openldap/libldap@2.6.10-r2",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "cyrus-sasl/cyrus-sasl@2.1.28-r42|2",
+                    },
+                    Object {
+                      "nodeId": "openssl/libcrypto3@3.5.0-r2",
+                    },
+                    Object {
+                      "nodeId": "openssl/libssl3@3.5.0-r2|1",
+                    },
+                  ],
+                  "nodeId": "openldap/libldap@2.6.10-r2|2",
+                  "pkgId": "openldap/libldap@2.6.10-r2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "openssl/libcrypto3@3.5.0-r2",
+                  "pkgId": "openssl/libcrypto3@3.5.0-r2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "openssl/libssl3@3.5.0-r2|1",
+                  "pkgId": "openssl/libssl3@3.5.0-r2",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "openssl/libcrypto3@3.5.0-r2",
+                    },
+                  ],
+                  "nodeId": "openssl/libssl3@3.5.0-r2|2",
+                  "pkgId": "openssl/libssl3@3.5.0-r2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gdbm/gdbm@1.25-r1",
+                  "pkgId": "gdbm/gdbm@1.25-r1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "heimdal/heimdal-libs@7.8.0-r41|1",
+                  "pkgId": "heimdal/heimdal-libs@7.8.0-r41",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "glibc/libcrypt1@2.41-r9|1",
+                    },
+                    Object {
+                      "nodeId": "readline/readline@8.2.13-r4|1",
+                    },
+                    Object {
+                      "nodeId": "sqlite/sqlite-libs@3.50.1-r0",
+                    },
+                  ],
+                  "nodeId": "heimdal/heimdal-libs@7.8.0-r41|2",
+                  "pkgId": "heimdal/heimdal-libs@7.8.0-r41",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "sqlite/sqlite-libs@3.50.1-r0",
+                  "pkgId": "sqlite/sqlite-libs@3.50.1-r0",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "gdbm/gdbm@1.25-r1",
+                    },
+                    Object {
+                      "nodeId": "glibc/libcrypt1@2.41-r9|1",
+                    },
+                    Object {
+                      "nodeId": "heimdal/heimdal-libs@7.8.0-r41|1",
+                    },
+                    Object {
+                      "nodeId": "openssl/libcrypto3@3.5.0-r2",
+                    },
+                    Object {
+                      "nodeId": "sqlite/sqlite-libs@3.50.1-r0",
+                    },
+                  ],
+                  "nodeId": "cyrus-sasl/cyrus-sasl@2.1.28-r42|1",
+                  "pkgId": "cyrus-sasl/cyrus-sasl@2.1.28-r42",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "cyrus-sasl/cyrus-sasl@2.1.28-r42|2",
+                  "pkgId": "cyrus-sasl/cyrus-sasl@2.1.28-r42",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "e2fsprogs/libcom_err@1.47.2-r22",
+                  "pkgId": "e2fsprogs/libcom_err@1.47.2-r22",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gcc/libgcc@15.1.0-r1",
+                  "pkgId": "gcc/libgcc@15.1.0-r1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "glibc/glibc@2.41-r9",
+                  "pkgId": "glibc/glibc@2.41-r9",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "glibc/glibc-locale-posix@2.41-r9",
+                  "pkgId": "glibc/glibc-locale-posix@2.41-r9",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "glibc/ld-linux@2.41-r9",
+                  "pkgId": "glibc/ld-linux@2.41-r9",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libxcrypt/libxcrypt@4.4.38-r2|1",
+                  "pkgId": "libxcrypt/libxcrypt@4.4.38-r2",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "krb5-conf/krb5-conf@1.0-r6",
+                    },
+                  ],
+                  "nodeId": "libxcrypt/libxcrypt@4.4.38-r2|2",
+                  "pkgId": "libxcrypt/libxcrypt@4.4.38-r2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "readline/readline@8.2.13-r4|1",
+                  "pkgId": "readline/readline@8.2.13-r4",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "ncurses/ncurses@6.5_p20241228-r2|1",
+                    },
+                  ],
+                  "nodeId": "readline/readline@8.2.13-r4|2",
+                  "pkgId": "readline/readline@8.2.13-r4",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "keyutils/keyutils-libs@1.6.3-r35",
+                  "pkgId": "keyutils/keyutils-libs@1.6.3-r35",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "krb5-conf/krb5-conf@1.0-r6",
+                  "pkgId": "krb5-conf/krb5-conf@1.0-r6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libverto/libverto@0.3.2-r5",
+                  "pkgId": "libverto/libverto@0.3.2-r5",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libunistring/libunistring@1.3-r2",
+                  "pkgId": "libunistring/libunistring@1.3-r2",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "libunistring/libunistring@1.3-r2",
+                    },
+                  ],
+                  "nodeId": "libidn2/libidn2@2.3.8-r1|1",
+                  "pkgId": "libidn2/libidn2@2.3.8-r1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libidn2/libidn2@2.3.8-r1|2",
+                  "pkgId": "libidn2/libidn2@2.3.8-r1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "ncurses/ncurses-terminfo-base@6.5_p20241228-r2|1",
+                  "pkgId": "ncurses/ncurses-terminfo-base@6.5_p20241228-r2",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "krb5-conf/krb5-conf@1.0-r6",
+                    },
+                  ],
+                  "nodeId": "ncurses/ncurses-terminfo-base@6.5_p20241228-r2|2",
+                  "pkgId": "ncurses/ncurses-terminfo-base@6.5_p20241228-r2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "wolfi-baselayout/wolfi-baselayout@20230201-r20",
+                  "pkgId": "wolfi-baselayout/wolfi-baselayout@20230201-r20",
+                },
+              ],
+              "rootNodeId": "root-node",
+            },
+            "pkgManager": Object {
+              "name": "apk",
+              "repositories": Array [
+                Object {
+                  "alias": "wolfi:20230201",
+                },
+              ],
+            },
+            "pkgs": Array [
+              Object {
+                "id": "docker-image|chainguard/bash@",
+                "info": Object {
+                  "name": "docker-image|chainguard/bash",
+                  "version": undefined,
+                },
+              },
+              Object {
+                "id": "ncurses/ncurses@6.5_p20241228-r2",
+                "info": Object {
+                  "name": "ncurses/ncurses",
+                  "version": "6.5_p20241228-r2",
+                },
+              },
+              Object {
+                "id": "bash/bash@5.2.37-r33",
+                "info": Object {
+                  "name": "bash/bash",
+                  "version": "5.2.37-r33",
+                },
+              },
+              Object {
+                "id": "brotli/libbrotlicommon1@1.1.0-r5",
+                "info": Object {
+                  "name": "brotli/libbrotlicommon1",
+                  "version": "1.1.0-r5",
+                },
+              },
+              Object {
+                "id": "brotli/libbrotlidec1@1.1.0-r5",
+                "info": Object {
+                  "name": "brotli/libbrotlidec1",
+                  "version": "1.1.0-r5",
+                },
+              },
+              Object {
+                "id": "glibc/libcrypt1@2.41-r9",
+                "info": Object {
+                  "name": "glibc/libcrypt1",
+                  "version": "2.41-r9",
+                },
+              },
+              Object {
+                "id": "busybox/busybox@1.37.0-r46",
+                "info": Object {
+                  "name": "busybox/busybox",
+                  "version": "1.37.0-r46",
+                },
+              },
+              Object {
+                "id": "ca-certificates/ca-certificates-bundle@20241121-r42",
+                "info": Object {
+                  "name": "ca-certificates/ca-certificates-bundle",
+                  "version": "20241121-r42",
+                },
+              },
+              Object {
+                "id": "curl/libcurl-openssl4@8.14.1-r2",
+                "info": Object {
+                  "name": "curl/libcurl-openssl4",
+                  "version": "8.14.1-r2",
+                },
+              },
+              Object {
+                "id": "zlib/zlib@1.3.1-r7",
+                "info": Object {
+                  "name": "zlib/zlib",
+                  "version": "1.3.1-r7",
+                },
+              },
+              Object {
+                "id": "curl/curl@8.14.1-r2",
+                "info": Object {
+                  "name": "curl/curl",
+                  "version": "8.14.1-r2",
+                },
+              },
+              Object {
+                "id": "krb5/krb5-libs@1.21.3-r42",
+                "info": Object {
+                  "name": "krb5/krb5-libs",
+                  "version": "1.21.3-r42",
+                },
+              },
+              Object {
+                "id": "libpsl/libpsl@0.21.5-r5",
+                "info": Object {
+                  "name": "libpsl/libpsl",
+                  "version": "0.21.5-r5",
+                },
+              },
+              Object {
+                "id": "nghttp2/libnghttp2-14@1.66.0-r0",
+                "info": Object {
+                  "name": "nghttp2/libnghttp2-14",
+                  "version": "1.66.0-r0",
+                },
+              },
+              Object {
+                "id": "openldap/libldap@2.6.10-r2",
+                "info": Object {
+                  "name": "openldap/libldap",
+                  "version": "2.6.10-r2",
+                },
+              },
+              Object {
+                "id": "openssl/libcrypto3@3.5.0-r2",
+                "info": Object {
+                  "name": "openssl/libcrypto3",
+                  "version": "3.5.0-r2",
+                },
+              },
+              Object {
+                "id": "openssl/libssl3@3.5.0-r2",
+                "info": Object {
+                  "name": "openssl/libssl3",
+                  "version": "3.5.0-r2",
+                },
+              },
+              Object {
+                "id": "gdbm/gdbm@1.25-r1",
+                "info": Object {
+                  "name": "gdbm/gdbm",
+                  "version": "1.25-r1",
+                },
+              },
+              Object {
+                "id": "heimdal/heimdal-libs@7.8.0-r41",
+                "info": Object {
+                  "name": "heimdal/heimdal-libs",
+                  "version": "7.8.0-r41",
+                },
+              },
+              Object {
+                "id": "sqlite/sqlite-libs@3.50.1-r0",
+                "info": Object {
+                  "name": "sqlite/sqlite-libs",
+                  "version": "3.50.1-r0",
+                },
+              },
+              Object {
+                "id": "cyrus-sasl/cyrus-sasl@2.1.28-r42",
+                "info": Object {
+                  "name": "cyrus-sasl/cyrus-sasl",
+                  "version": "2.1.28-r42",
+                },
+              },
+              Object {
+                "id": "e2fsprogs/libcom_err@1.47.2-r22",
+                "info": Object {
+                  "name": "e2fsprogs/libcom_err",
+                  "version": "1.47.2-r22",
+                },
+              },
+              Object {
+                "id": "gcc/libgcc@15.1.0-r1",
+                "info": Object {
+                  "name": "gcc/libgcc",
+                  "version": "15.1.0-r1",
+                },
+              },
+              Object {
+                "id": "glibc/glibc@2.41-r9",
+                "info": Object {
+                  "name": "glibc/glibc",
+                  "version": "2.41-r9",
+                },
+              },
+              Object {
+                "id": "glibc/glibc-locale-posix@2.41-r9",
+                "info": Object {
+                  "name": "glibc/glibc-locale-posix",
+                  "version": "2.41-r9",
+                },
+              },
+              Object {
+                "id": "glibc/ld-linux@2.41-r9",
+                "info": Object {
+                  "name": "glibc/ld-linux",
+                  "version": "2.41-r9",
+                },
+              },
+              Object {
+                "id": "libxcrypt/libxcrypt@4.4.38-r2",
+                "info": Object {
+                  "name": "libxcrypt/libxcrypt",
+                  "version": "4.4.38-r2",
+                },
+              },
+              Object {
+                "id": "readline/readline@8.2.13-r4",
+                "info": Object {
+                  "name": "readline/readline",
+                  "version": "8.2.13-r4",
+                },
+              },
+              Object {
+                "id": "keyutils/keyutils-libs@1.6.3-r35",
+                "info": Object {
+                  "name": "keyutils/keyutils-libs",
+                  "version": "1.6.3-r35",
+                },
+              },
+              Object {
+                "id": "krb5-conf/krb5-conf@1.0-r6",
+                "info": Object {
+                  "name": "krb5-conf/krb5-conf",
+                  "version": "1.0-r6",
+                },
+              },
+              Object {
+                "id": "libverto/libverto@0.3.2-r5",
+                "info": Object {
+                  "name": "libverto/libverto",
+                  "version": "0.3.2-r5",
+                },
+              },
+              Object {
+                "id": "libunistring/libunistring@1.3-r2",
+                "info": Object {
+                  "name": "libunistring/libunistring",
+                  "version": "1.3-r2",
+                },
+              },
+              Object {
+                "id": "libidn2/libidn2@2.3.8-r1",
+                "info": Object {
+                  "name": "libidn2/libidn2",
+                  "version": "2.3.8-r1",
+                },
+              },
+              Object {
+                "id": "ncurses/ncurses-terminfo-base@6.5_p20241228-r2",
+                "info": Object {
+                  "name": "ncurses/ncurses-terminfo-base",
+                  "version": "6.5_p20241228-r2",
+                },
+              },
+              Object {
+                "id": "wolfi-baselayout/wolfi-baselayout@20230201-r20",
+                "info": Object {
+                  "name": "wolfi-baselayout/wolfi-baselayout",
+                  "version": "20230201-r20",
+                },
+              },
+            ],
+            "schemaVersion": "1.3.0",
+          },
+          "type": "depGraph",
+        },
+        Object {
+          "data": "sha256:217ae7909154e49579538cb9d72ea85d840db71257f7ac4c34e1de6a456155c0",
+          "type": "imageId",
+        },
+        Object {
+          "data": Array [
+            "sha256:62c4934e5eb385ee358a5be9db09d577da7b69f693630964b6d4951f45fd48f6",
+            "sha256:a5f6da52dd2b6a924287e3c2005bf2e825c0e95226332fcba63bbc188392ac2d",
+            "sha256:4f399afdd814d166d5cb3c2d4ca4c3753047ecc5f5a5ba9109c95f6ce6831481",
+            "sha256:0630b0839bcfcd0808ffc4f92c9ef660b58710eed55492dd04fe98aea4639f9f",
+            "sha256:cf85318006d0c750f3336ef6c8cdb997bc36bb5a654e78b499e61485a0eb4b2d",
+            "sha256:a698ccf181e248fad4715fb089927614853e32b41b5c8f734d549aea626eaebd",
+            "sha256:3974f70b2b33dcaf636e092ec8b3793f99482acafa9199ccde34de03c334a7d5",
+            "sha256:c20be7ba028069931ca5cfd8760cfba74f63ac8154fb9e1ac91cc2c603747961",
+            "sha256:e082dc465d6818b184733427de33e9a8ef668db3dedca267da84edf9a371fc3d",
+            "sha256:eda34620677dd351ef90e4fa8f6351252759d9cdd328497c9230132b8cc628b5",
+            "sha256:0cbb60e4dc94da630bcf48f42035626de5235dee85d0a154513ecf0271ef2cfd",
+          ],
+          "type": "imageLayers",
+        },
+        Object {
+          "data": Object {
+            "dev.chainguard.package.main": "",
+            "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/",
+            "org.opencontainers.image.created": "2025-06-17T13:28:42Z",
+            "org.opencontainers.image.source": "https://github.com/chainguard-images/images/tree/main/images/bash",
+            "org.opencontainers.image.url": "https://images.chainguard.dev/directory/image/bash/overview",
+            "org.opencontainers.image.vendor": "Chainguard",
+          },
+          "type": "imageLabels",
+        },
+        Object {
+          "data": "2025-06-17T13:28:42Z",
+          "type": "imageCreationTime",
+        },
+        Object {
+          "data": Array [
+            "sha256:62c4934e5eb385ee358a5be9db09d577da7b69f693630964b6d4951f45fd48f6",
+            "sha256:a5f6da52dd2b6a924287e3c2005bf2e825c0e95226332fcba63bbc188392ac2d",
+            "sha256:4f399afdd814d166d5cb3c2d4ca4c3753047ecc5f5a5ba9109c95f6ce6831481",
+            "sha256:0630b0839bcfcd0808ffc4f92c9ef660b58710eed55492dd04fe98aea4639f9f",
+            "sha256:cf85318006d0c750f3336ef6c8cdb997bc36bb5a654e78b499e61485a0eb4b2d",
+            "sha256:a698ccf181e248fad4715fb089927614853e32b41b5c8f734d549aea626eaebd",
+            "sha256:3974f70b2b33dcaf636e092ec8b3793f99482acafa9199ccde34de03c334a7d5",
+            "sha256:c20be7ba028069931ca5cfd8760cfba74f63ac8154fb9e1ac91cc2c603747961",
+            "sha256:e082dc465d6818b184733427de33e9a8ef668db3dedca267da84edf9a371fc3d",
+            "sha256:eda34620677dd351ef90e4fa8f6351252759d9cdd328497c9230132b8cc628b5",
+            "sha256:0cbb60e4dc94da630bcf48f42035626de5235dee85d0a154513ecf0271ef2cfd",
+          ],
+          "type": "rootFs",
+        },
+        Object {
+          "data": "Wolfi",
+          "type": "imageOsReleasePrettyName",
+        },
+        Object {
+          "data": Object {
+            "names": Array [
+              "chainguard/bash@sha256:642933df66209814502599053ca3dfa97cccf847badc4219d2b1fd6565f6559a",
+            ],
+          },
+          "type": "imageNames",
+        },
+      ],
+      "identity": Object {
+        "args": Object {
+          "platform": "linux/amd64",
+        },
+        "type": "apk",
+      },
+      "target": Object {
+        "image": "docker-image|chainguard/bash",
+      },
+    },
+  ],
+}
+`;
