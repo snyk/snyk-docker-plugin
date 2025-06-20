@@ -17,7 +17,7 @@
     "lint": "run-p --max-parallel=${JOBS:-5} --aggregate-output lint:*",
     "lint:prettier": "prettier --check \"{lib,test}/**/*.ts\"",
     "lint:tslint": "tslint --format stylish \"{lib,test}/**/*.ts\"",
-    "lint:commit": "commitlint --from=HEAD~5",
+    "lint:commit": "commitlint --from=HEAD~1",
     "format": "prettier --loglevel warn --write '{lib,test}/**/*.ts' && tslint --fix --format stylish '{lib,test}/**/*.ts'",
     "test": "npm run test-jest",
     "test-jest": "jest --ci --maxWorkers=3 --logHeapUsage --colors",
