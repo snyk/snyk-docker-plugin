@@ -44,6 +44,8 @@ import {
 import {
   getRpmDbFileContent,
   getRpmDbFileContentAction,
+  getRpmNdbFileContent,
+  getRpmNdbFileContentAction,
   getRpmSqliteDbFileContent,
   getRpmSqliteDbFileContentAction,
 } from "../inputs/rpm/static";
@@ -90,6 +92,7 @@ export async function analyze(
     getExtFileContentAction,
     getRpmDbFileContentAction,
     getRpmSqliteDbFileContentAction,
+    getRpmNdbFileContentAction,
     ...getOsReleaseActions,
     getNodeBinariesFileContentAction,
     getOpenJDKBinariesFileContentAction,
@@ -153,11 +156,13 @@ export async function analyze(
     aptDbFileContent,
     rpmDbFileContent,
     rpmSqliteDbFileContent,
+    rpmNdbFileContent,
   ] = await Promise.all([
     getApkDbFileContent(extractedLayers),
     getAptDbFileContent(extractedLayers),
     getRpmDbFileContent(extractedLayers),
     getRpmSqliteDbFileContent(extractedLayers),
+    getRpmNdbFileContent(extractedLayers),
   ]);
 
   const distrolessAptFiles = getAptFiles(extractedLayers);
@@ -187,7 +192,12 @@ export async function analyze(
     results = await Promise.all([
       apkAnalyze(targetImage, apkDbFileContent),
       aptAnalyze(targetImage, aptDbFileContent, osRelease),
-      rpmAnalyze(targetImage, rpmDbFileContent, redHatRepositories, osRelease),
+      rpmAnalyze(
+        targetImage,
+        [...rpmDbFileContent, ...rpmNdbFileContent],
+        redHatRepositories,
+        osRelease,
+      ),
       mapRpmSqlitePackages(
         targetImage,
         rpmSqliteDbFileContent,
