@@ -8,4 +8,4 @@ metadata:
 spec:
   type: snyk-cli-plugin
   lifecycle: "-"
-  owner: infrasec_container
+  owner: container
