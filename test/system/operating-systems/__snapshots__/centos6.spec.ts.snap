@@ -1606,7 +1606,7 @@ Object {
                 "id": "MAKEDEV@3.24-6.el6",
                 "info": Object {
                   "name": "MAKEDEV",
-                  "purl": "pkg:rpm/centos/MAKEDEV@3.24-6.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/MAKEDEV@3.24-6.el6?distro=centos-6&upstream=MAKEDEV%403.24",
                   "version": "3.24-6.el6",
                 },
               },
@@ -1614,7 +1614,7 @@ Object {
                 "id": "at@3.1.10-49.el6",
                 "info": Object {
                   "name": "at",
-                  "purl": "pkg:rpm/centos/at@3.1.10-49.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/at@3.1.10-49.el6?distro=centos-6&upstream=at%403.1.10",
                   "version": "3.1.10-49.el6",
                 },
               },
@@ -1622,7 +1622,7 @@ Object {
                 "id": "audit-libs@2.4.5-6.el6",
                 "info": Object {
                   "name": "audit-libs",
-                  "purl": "pkg:rpm/centos/audit-libs@2.4.5-6.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/audit-libs@2.4.5-6.el6?distro=centos-6&upstream=audit%402.4.5",
                   "version": "2.4.5-6.el6",
                 },
               },
@@ -1630,7 +1630,7 @@ Object {
                 "id": "basesystem@10.0-4.el6",
                 "info": Object {
                   "name": "basesystem",
-                  "purl": "pkg:rpm/centos/basesystem@10.0-4.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/basesystem@10.0-4.el6?distro=centos-6&upstream=basesystem%4010.0",
                   "version": "10.0-4.el6",
                 },
               },
@@ -1638,7 +1638,7 @@ Object {
                 "id": "bash@4.1.2-48.el6",
                 "info": Object {
                   "name": "bash",
-                  "purl": "pkg:rpm/centos/bash@4.1.2-48.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/bash@4.1.2-48.el6?distro=centos-6&upstream=bash%404.1.2",
                   "version": "4.1.2-48.el6",
                 },
               },
@@ -1646,7 +1646,7 @@ Object {
                 "id": "bc@1.06.95-1.el6",
                 "info": Object {
                   "name": "bc",
-                  "purl": "pkg:rpm/centos/bc@1.06.95-1.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/bc@1.06.95-1.el6?distro=centos-6&upstream=bc%401.06.95",
                   "version": "1.06.95-1.el6",
                 },
               },
@@ -1654,7 +1654,7 @@ Object {
                 "id": "bind-libs@32:9.8.2-0.68.rc1.el6_10.1",
                 "info": Object {
                   "name": "bind-libs",
-                  "purl": "pkg:rpm/centos/bind-libs@32:9.8.2-0.68.rc1.el6_10.1?distro=centos-6&epoch=32",
+                  "purl": "pkg:rpm/centos/bind-libs@32:9.8.2-0.68.rc1.el6_10.1?distro=centos-6&epoch=32&upstream=bind%409.8.2",
                   "version": "32:9.8.2-0.68.rc1.el6_10.1",
                 },
               },
@@ -1662,7 +1662,7 @@ Object {
                 "id": "bind-utils@32:9.8.2-0.68.rc1.el6_10.1",
                 "info": Object {
                   "name": "bind-utils",
-                  "purl": "pkg:rpm/centos/bind-utils@32:9.8.2-0.68.rc1.el6_10.1?distro=centos-6&epoch=32",
+                  "purl": "pkg:rpm/centos/bind-utils@32:9.8.2-0.68.rc1.el6_10.1?distro=centos-6&epoch=32&upstream=bind%409.8.2",
                   "version": "32:9.8.2-0.68.rc1.el6_10.1",
                 },
               },
@@ -1670,7 +1670,7 @@ Object {
                 "id": "binutils@2.20.51.0.2-5.48.el6",
                 "info": Object {
                   "name": "binutils",
-                  "purl": "pkg:rpm/centos/binutils@2.20.51.0.2-5.48.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/binutils@2.20.51.0.2-5.48.el6?distro=centos-6&upstream=binutils%402.20.51.0.2",
                   "version": "2.20.51.0.2-5.48.el6",
                 },
               },
@@ -1678,7 +1678,7 @@ Object {
                 "id": "bzip2@1.0.5-7.el6_0",
                 "info": Object {
                   "name": "bzip2",
-                  "purl": "pkg:rpm/centos/bzip2@1.0.5-7.el6_0?distro=centos-6",
+                  "purl": "pkg:rpm/centos/bzip2@1.0.5-7.el6_0?distro=centos-6&upstream=bzip2%401.0.5",
                   "version": "1.0.5-7.el6_0",
                 },
               },
@@ -1686,7 +1686,7 @@ Object {
                 "id": "bzip2-libs@1.0.5-7.el6_0",
                 "info": Object {
                   "name": "bzip2-libs",
-                  "purl": "pkg:rpm/centos/bzip2-libs@1.0.5-7.el6_0?distro=centos-6",
+                  "purl": "pkg:rpm/centos/bzip2-libs@1.0.5-7.el6_0?distro=centos-6&upstream=bzip2%401.0.5",
                   "version": "1.0.5-7.el6_0",
                 },
               },
@@ -1694,7 +1694,7 @@ Object {
                 "id": "ca-certificates@2020.2.41-65.1.el6_10",
                 "info": Object {
                   "name": "ca-certificates",
-                  "purl": "pkg:rpm/centos/ca-certificates@2020.2.41-65.1.el6_10?distro=centos-6",
+                  "purl": "pkg:rpm/centos/ca-certificates@2020.2.41-65.1.el6_10?distro=centos-6&upstream=ca-certificates%402020.2.41",
                   "version": "2020.2.41-65.1.el6_10",
                 },
               },
@@ -1702,7 +1702,7 @@ Object {
                 "id": "centos-release@6-10.el6.centos.12.3",
                 "info": Object {
                   "name": "centos-release",
-                  "purl": "pkg:rpm/centos/centos-release@6-10.el6.centos.12.3?distro=centos-6",
+                  "purl": "pkg:rpm/centos/centos-release@6-10.el6.centos.12.3?distro=centos-6&upstream=centos-release%406",
                   "version": "6-10.el6.centos.12.3",
                 },
               },
@@ -1710,7 +1710,7 @@ Object {
                 "id": "checkpolicy@2.0.22-1.el6",
                 "info": Object {
                   "name": "checkpolicy",
-                  "purl": "pkg:rpm/centos/checkpolicy@2.0.22-1.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/checkpolicy@2.0.22-1.el6?distro=centos-6&upstream=checkpolicy%402.0.22",
                   "version": "2.0.22-1.el6",
                 },
               },
@@ -1718,7 +1718,7 @@ Object {
                 "id": "chkconfig@1.3.49.5-1.el6",
                 "info": Object {
                   "name": "chkconfig",
-                  "purl": "pkg:rpm/centos/chkconfig@1.3.49.5-1.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/chkconfig@1.3.49.5-1.el6?distro=centos-6&upstream=chkconfig%401.3.49.5",
                   "version": "1.3.49.5-1.el6",
                 },
               },
@@ -1726,7 +1726,7 @@ Object {
                 "id": "coreutils@8.4-47.el6",
                 "info": Object {
                   "name": "coreutils",
-                  "purl": "pkg:rpm/centos/coreutils@8.4-47.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/coreutils@8.4-47.el6?distro=centos-6&upstream=coreutils%408.4",
                   "version": "8.4-47.el6",
                 },
               },
@@ -1734,7 +1734,7 @@ Object {
                 "id": "coreutils-libs@8.4-47.el6",
                 "info": Object {
                   "name": "coreutils-libs",
-                  "purl": "pkg:rpm/centos/coreutils-libs@8.4-47.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/coreutils-libs@8.4-47.el6?distro=centos-6&upstream=coreutils%408.4",
                   "version": "8.4-47.el6",
                 },
               },
@@ -1742,7 +1742,7 @@ Object {
                 "id": "cpio@2.10-13.el6",
                 "info": Object {
                   "name": "cpio",
-                  "purl": "pkg:rpm/centos/cpio@2.10-13.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/cpio@2.10-13.el6?distro=centos-6&upstream=cpio%402.10",
                   "version": "2.10-13.el6",
                 },
               },
@@ -1750,7 +1750,7 @@ Object {
                 "id": "cracklib@2.8.16-4.el6",
                 "info": Object {
                   "name": "cracklib",
-                  "purl": "pkg:rpm/centos/cracklib@2.8.16-4.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/cracklib@2.8.16-4.el6?distro=centos-6&upstream=cracklib%402.8.16",
                   "version": "2.8.16-4.el6",
                 },
               },
@@ -1758,7 +1758,7 @@ Object {
                 "id": "cracklib-dicts@2.8.16-4.el6",
                 "info": Object {
                   "name": "cracklib-dicts",
-                  "purl": "pkg:rpm/centos/cracklib-dicts@2.8.16-4.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/cracklib-dicts@2.8.16-4.el6?distro=centos-6&upstream=cracklib%402.8.16",
                   "version": "2.8.16-4.el6",
                 },
               },
@@ -1766,7 +1766,7 @@ Object {
                 "id": "cronie@1.4.4-16.el6_8.2",
                 "info": Object {
                   "name": "cronie",
-                  "purl": "pkg:rpm/centos/cronie@1.4.4-16.el6_8.2?distro=centos-6",
+                  "purl": "pkg:rpm/centos/cronie@1.4.4-16.el6_8.2?distro=centos-6&upstream=cronie%401.4.4",
                   "version": "1.4.4-16.el6_8.2",
                 },
               },
@@ -1774,7 +1774,7 @@ Object {
                 "id": "cronie-anacron@1.4.4-16.el6_8.2",
                 "info": Object {
                   "name": "cronie-anacron",
-                  "purl": "pkg:rpm/centos/cronie-anacron@1.4.4-16.el6_8.2?distro=centos-6",
+                  "purl": "pkg:rpm/centos/cronie-anacron@1.4.4-16.el6_8.2?distro=centos-6&upstream=cronie%401.4.4",
                   "version": "1.4.4-16.el6_8.2",
                 },
               },
@@ -1782,7 +1782,7 @@ Object {
                 "id": "crontabs@1.10-33.el6",
                 "info": Object {
                   "name": "crontabs",
-                  "purl": "pkg:rpm/centos/crontabs@1.10-33.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/crontabs@1.10-33.el6?distro=centos-6&upstream=crontabs%401.10",
                   "version": "1.10-33.el6",
                 },
               },
@@ -1790,7 +1790,7 @@ Object {
                 "id": "curl@7.19.7-54.el6_10",
                 "info": Object {
                   "name": "curl",
-                  "purl": "pkg:rpm/centos/curl@7.19.7-54.el6_10?distro=centos-6",
+                  "purl": "pkg:rpm/centos/curl@7.19.7-54.el6_10?distro=centos-6&upstream=curl%407.19.7",
                   "version": "7.19.7-54.el6_10",
                 },
               },
@@ -1798,7 +1798,7 @@ Object {
                 "id": "cvs@1.11.23-16.el6",
                 "info": Object {
                   "name": "cvs",
-                  "purl": "pkg:rpm/centos/cvs@1.11.23-16.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/cvs@1.11.23-16.el6?distro=centos-6&upstream=cvs%401.11.23",
                   "version": "1.11.23-16.el6",
                 },
               },
@@ -1806,7 +1806,7 @@ Object {
                 "id": "cyrus-sasl@2.1.23-15.el6_6.2",
                 "info": Object {
                   "name": "cyrus-sasl",
-                  "purl": "pkg:rpm/centos/cyrus-sasl@2.1.23-15.el6_6.2?distro=centos-6",
+                  "purl": "pkg:rpm/centos/cyrus-sasl@2.1.23-15.el6_6.2?distro=centos-6&upstream=cyrus-sasl%402.1.23",
                   "version": "2.1.23-15.el6_6.2",
                 },
               },
@@ -1814,7 +1814,7 @@ Object {
                 "id": "cyrus-sasl-lib@2.1.23-15.el6_6.2",
                 "info": Object {
                   "name": "cyrus-sasl-lib",
-                  "purl": "pkg:rpm/centos/cyrus-sasl-lib@2.1.23-15.el6_6.2?distro=centos-6",
+                  "purl": "pkg:rpm/centos/cyrus-sasl-lib@2.1.23-15.el6_6.2?distro=centos-6&upstream=cyrus-sasl%402.1.23",
                   "version": "2.1.23-15.el6_6.2",
                 },
               },
@@ -1822,7 +1822,7 @@ Object {
                 "id": "dash@0.5.5.1-4.el6",
                 "info": Object {
                   "name": "dash",
-                  "purl": "pkg:rpm/centos/dash@0.5.5.1-4.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/dash@0.5.5.1-4.el6?distro=centos-6&upstream=dash%400.5.5.1",
                   "version": "0.5.5.1-4.el6",
                 },
               },
@@ -1830,7 +1830,7 @@ Object {
                 "id": "db4@4.7.25-22.el6",
                 "info": Object {
                   "name": "db4",
-                  "purl": "pkg:rpm/centos/db4@4.7.25-22.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/db4@4.7.25-22.el6?distro=centos-6&upstream=db4%404.7.25",
                   "version": "4.7.25-22.el6",
                 },
               },
@@ -1838,7 +1838,7 @@ Object {
                 "id": "db4-cxx@4.7.25-22.el6",
                 "info": Object {
                   "name": "db4-cxx",
-                  "purl": "pkg:rpm/centos/db4-cxx@4.7.25-22.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/db4-cxx@4.7.25-22.el6?distro=centos-6&upstream=db4%404.7.25",
                   "version": "4.7.25-22.el6",
                 },
               },
@@ -1846,7 +1846,7 @@ Object {
                 "id": "db4-devel@4.7.25-22.el6",
                 "info": Object {
                   "name": "db4-devel",
-                  "purl": "pkg:rpm/centos/db4-devel@4.7.25-22.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/db4-devel@4.7.25-22.el6?distro=centos-6&upstream=db4%404.7.25",
                   "version": "4.7.25-22.el6",
                 },
               },
@@ -1854,7 +1854,7 @@ Object {
                 "id": "db4-utils@4.7.25-22.el6",
                 "info": Object {
                   "name": "db4-utils",
-                  "purl": "pkg:rpm/centos/db4-utils@4.7.25-22.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/db4-utils@4.7.25-22.el6?distro=centos-6&upstream=db4%404.7.25",
                   "version": "4.7.25-22.el6",
                 },
               },
@@ -1862,7 +1862,7 @@ Object {
                 "id": "dbus-glib@0.86-6.el6",
                 "info": Object {
                   "name": "dbus-glib",
-                  "purl": "pkg:rpm/centos/dbus-glib@0.86-6.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/dbus-glib@0.86-6.el6?distro=centos-6&upstream=dbus-glib%400.86",
                   "version": "0.86-6.el6",
                 },
               },
@@ -1870,7 +1870,7 @@ Object {
                 "id": "dbus-libs@1:1.2.24-9.el6",
                 "info": Object {
                   "name": "dbus-libs",
-                  "purl": "pkg:rpm/centos/dbus-libs@1:1.2.24-9.el6?distro=centos-6&epoch=1",
+                  "purl": "pkg:rpm/centos/dbus-libs@1:1.2.24-9.el6?distro=centos-6&epoch=1&upstream=dbus%401.2.24",
                   "version": "1:1.2.24-9.el6",
                 },
               },
@@ -1878,7 +1878,7 @@ Object {
                 "id": "diffutils@2.8.1-28.el6",
                 "info": Object {
                   "name": "diffutils",
-                  "purl": "pkg:rpm/centos/diffutils@2.8.1-28.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/diffutils@2.8.1-28.el6?distro=centos-6&upstream=diffutils%402.8.1",
                   "version": "2.8.1-28.el6",
                 },
               },
@@ -1886,7 +1886,7 @@ Object {
                 "id": "dmidecode@1:2.12-7.el6",
                 "info": Object {
                   "name": "dmidecode",
-                  "purl": "pkg:rpm/centos/dmidecode@1:2.12-7.el6?distro=centos-6&epoch=1",
+                  "purl": "pkg:rpm/centos/dmidecode@1:2.12-7.el6?distro=centos-6&epoch=1&upstream=dmidecode%402.12",
                   "version": "1:2.12-7.el6",
                 },
               },
@@ -1894,7 +1894,7 @@ Object {
                 "id": "ed@1.1-3.3.el6",
                 "info": Object {
                   "name": "ed",
-                  "purl": "pkg:rpm/centos/ed@1.1-3.3.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/ed@1.1-3.3.el6?distro=centos-6&upstream=ed%401.1",
                   "version": "1.1-3.3.el6",
                 },
               },
@@ -1902,7 +1902,7 @@ Object {
                 "id": "elfutils-libelf@0.164-2.el6",
                 "info": Object {
                   "name": "elfutils-libelf",
-                  "purl": "pkg:rpm/centos/elfutils-libelf@0.164-2.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/elfutils-libelf@0.164-2.el6?distro=centos-6&upstream=elfutils%400.164",
                   "version": "0.164-2.el6",
                 },
               },
@@ -1910,7 +1910,7 @@ Object {
                 "id": "ethtool@2:3.5-6.el6",
                 "info": Object {
                   "name": "ethtool",
-                  "purl": "pkg:rpm/centos/ethtool@2:3.5-6.el6?distro=centos-6&epoch=2",
+                  "purl": "pkg:rpm/centos/ethtool@2:3.5-6.el6?distro=centos-6&epoch=2&upstream=ethtool%403.5",
                   "version": "2:3.5-6.el6",
                 },
               },
@@ -1918,7 +1918,7 @@ Object {
                 "id": "expat@2.0.1-13.el6_8",
                 "info": Object {
                   "name": "expat",
-                  "purl": "pkg:rpm/centos/expat@2.0.1-13.el6_8?distro=centos-6",
+                  "purl": "pkg:rpm/centos/expat@2.0.1-13.el6_8?distro=centos-6&upstream=expat%402.0.1",
                   "version": "2.0.1-13.el6_8",
                 },
               },
@@ -1926,7 +1926,7 @@ Object {
                 "id": "file@5.04-30.el6",
                 "info": Object {
                   "name": "file",
-                  "purl": "pkg:rpm/centos/file@5.04-30.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/file@5.04-30.el6?distro=centos-6&upstream=file%405.04",
                   "version": "5.04-30.el6",
                 },
               },
@@ -1934,7 +1934,7 @@ Object {
                 "id": "file-libs@5.04-30.el6",
                 "info": Object {
                   "name": "file-libs",
-                  "purl": "pkg:rpm/centos/file-libs@5.04-30.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/file-libs@5.04-30.el6?distro=centos-6&upstream=file%405.04",
                   "version": "5.04-30.el6",
                 },
               },
@@ -1942,7 +1942,7 @@ Object {
                 "id": "filesystem@2.4.30-3.el6",
                 "info": Object {
                   "name": "filesystem",
-                  "purl": "pkg:rpm/centos/filesystem@2.4.30-3.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/filesystem@2.4.30-3.el6?distro=centos-6&upstream=filesystem%402.4.30",
                   "version": "2.4.30-3.el6",
                 },
               },
@@ -1950,7 +1950,7 @@ Object {
                 "id": "findutils@1:4.4.2-9.el6",
                 "info": Object {
                   "name": "findutils",
-                  "purl": "pkg:rpm/centos/findutils@1:4.4.2-9.el6?distro=centos-6&epoch=1",
+                  "purl": "pkg:rpm/centos/findutils@1:4.4.2-9.el6?distro=centos-6&epoch=1&upstream=findutils%404.4.2",
                   "version": "1:4.4.2-9.el6",
                 },
               },
@@ -1958,7 +1958,7 @@ Object {
                 "id": "gamin@0.1.10-9.el6",
                 "info": Object {
                   "name": "gamin",
-                  "purl": "pkg:rpm/centos/gamin@0.1.10-9.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/gamin@0.1.10-9.el6?distro=centos-6&upstream=gamin%400.1.10",
                   "version": "0.1.10-9.el6",
                 },
               },
@@ -1966,7 +1966,7 @@ Object {
                 "id": "gawk@3.1.7-10.el6_7.3",
                 "info": Object {
                   "name": "gawk",
-                  "purl": "pkg:rpm/centos/gawk@3.1.7-10.el6_7.3?distro=centos-6",
+                  "purl": "pkg:rpm/centos/gawk@3.1.7-10.el6_7.3?distro=centos-6&upstream=gawk%403.1.7",
                   "version": "3.1.7-10.el6_7.3",
                 },
               },
@@ -1974,7 +1974,7 @@ Object {
                 "id": "gdbm@1.8.0-39.el6",
                 "info": Object {
                   "name": "gdbm",
-                  "purl": "pkg:rpm/centos/gdbm@1.8.0-39.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/gdbm@1.8.0-39.el6?distro=centos-6&upstream=gdbm%401.8.0",
                   "version": "1.8.0-39.el6",
                 },
               },
@@ -1982,7 +1982,7 @@ Object {
                 "id": "gdbm-devel@1.8.0-39.el6",
                 "info": Object {
                   "name": "gdbm-devel",
-                  "purl": "pkg:rpm/centos/gdbm-devel@1.8.0-39.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/gdbm-devel@1.8.0-39.el6?distro=centos-6&upstream=gdbm%401.8.0",
                   "version": "1.8.0-39.el6",
                 },
               },
@@ -1990,7 +1990,7 @@ Object {
                 "id": "gettext@0.17-18.el6",
                 "info": Object {
                   "name": "gettext",
-                  "purl": "pkg:rpm/centos/gettext@0.17-18.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/gettext@0.17-18.el6?distro=centos-6&upstream=gettext%400.17",
                   "version": "0.17-18.el6",
                 },
               },
@@ -1998,7 +1998,7 @@ Object {
                 "id": "glib2@2.28.8-10.el6",
                 "info": Object {
                   "name": "glib2",
-                  "purl": "pkg:rpm/centos/glib2@2.28.8-10.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/glib2@2.28.8-10.el6?distro=centos-6&upstream=glib2%402.28.8",
                   "version": "2.28.8-10.el6",
                 },
               },
@@ -2006,7 +2006,7 @@ Object {
                 "id": "glibc@2.12-1.212.el6_10.3",
                 "info": Object {
                   "name": "glibc",
-                  "purl": "pkg:rpm/centos/glibc@2.12-1.212.el6_10.3?distro=centos-6",
+                  "purl": "pkg:rpm/centos/glibc@2.12-1.212.el6_10.3?distro=centos-6&upstream=glibc%402.12",
                   "version": "2.12-1.212.el6_10.3",
                 },
               },
@@ -2014,7 +2014,7 @@ Object {
                 "id": "glibc-common@2.12-1.212.el6_10.3",
                 "info": Object {
                   "name": "glibc-common",
-                  "purl": "pkg:rpm/centos/glibc-common@2.12-1.212.el6_10.3?distro=centos-6",
+                  "purl": "pkg:rpm/centos/glibc-common@2.12-1.212.el6_10.3?distro=centos-6&upstream=glibc%402.12",
                   "version": "2.12-1.212.el6_10.3",
                 },
               },
@@ -2022,7 +2022,7 @@ Object {
                 "id": "glibc-devel@2.12-1.212.el6_10.3",
                 "info": Object {
                   "name": "glibc-devel",
-                  "purl": "pkg:rpm/centos/glibc-devel@2.12-1.212.el6_10.3?distro=centos-6",
+                  "purl": "pkg:rpm/centos/glibc-devel@2.12-1.212.el6_10.3?distro=centos-6&upstream=glibc%402.12",
                   "version": "2.12-1.212.el6_10.3",
                 },
               },
@@ -2030,7 +2030,7 @@ Object {
                 "id": "glibc-headers@2.12-1.212.el6_10.3",
                 "info": Object {
                   "name": "glibc-headers",
-                  "purl": "pkg:rpm/centos/glibc-headers@2.12-1.212.el6_10.3?distro=centos-6",
+                  "purl": "pkg:rpm/centos/glibc-headers@2.12-1.212.el6_10.3?distro=centos-6&upstream=glibc%402.12",
                   "version": "2.12-1.212.el6_10.3",
                 },
               },
@@ -2038,7 +2038,7 @@ Object {
                 "id": "gmp@4.3.1-13.el6",
                 "info": Object {
                   "name": "gmp",
-                  "purl": "pkg:rpm/centos/gmp@4.3.1-13.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/gmp@4.3.1-13.el6?distro=centos-6&upstream=gmp%404.3.1",
                   "version": "4.3.1-13.el6",
                 },
               },
@@ -2046,7 +2046,7 @@ Object {
                 "id": "gnupg2@2.0.14-9.el6_10",
                 "info": Object {
                   "name": "gnupg2",
-                  "purl": "pkg:rpm/centos/gnupg2@2.0.14-9.el6_10?distro=centos-6",
+                  "purl": "pkg:rpm/centos/gnupg2@2.0.14-9.el6_10?distro=centos-6&upstream=gnupg2%402.0.14",
                   "version": "2.0.14-9.el6_10",
                 },
               },
@@ -2062,7 +2062,7 @@ Object {
                 "id": "gpgme@1.1.8-3.el6",
                 "info": Object {
                   "name": "gpgme",
-                  "purl": "pkg:rpm/centos/gpgme@1.1.8-3.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/gpgme@1.1.8-3.el6?distro=centos-6&upstream=gpgme%401.1.8",
                   "version": "1.1.8-3.el6",
                 },
               },
@@ -2070,7 +2070,7 @@ Object {
                 "id": "grep@2.20-6.el6",
                 "info": Object {
                   "name": "grep",
-                  "purl": "pkg:rpm/centos/grep@2.20-6.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/grep@2.20-6.el6?distro=centos-6&upstream=grep%402.20",
                   "version": "2.20-6.el6",
                 },
               },
@@ -2078,7 +2078,7 @@ Object {
                 "id": "groff@1.18.1.4-21.el6",
                 "info": Object {
                   "name": "groff",
-                  "purl": "pkg:rpm/centos/groff@1.18.1.4-21.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/groff@1.18.1.4-21.el6?distro=centos-6&upstream=groff%401.18.1.4",
                   "version": "1.18.1.4-21.el6",
                 },
               },
@@ -2086,7 +2086,7 @@ Object {
                 "id": "gzip@1.3.12-24.el6",
                 "info": Object {
                   "name": "gzip",
-                  "purl": "pkg:rpm/centos/gzip@1.3.12-24.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/gzip@1.3.12-24.el6?distro=centos-6&upstream=gzip%401.3.12",
                   "version": "1.3.12-24.el6",
                 },
               },
@@ -2094,7 +2094,7 @@ Object {
                 "id": "hwdata@0.233-20.1.el6",
                 "info": Object {
                   "name": "hwdata",
-                  "purl": "pkg:rpm/centos/hwdata@0.233-20.1.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/hwdata@0.233-20.1.el6?distro=centos-6&upstream=hwdata%400.233",
                   "version": "0.233-20.1.el6",
                 },
               },
@@ -2102,7 +2102,7 @@ Object {
                 "id": "info@4.13a-8.el6",
                 "info": Object {
                   "name": "info",
-                  "purl": "pkg:rpm/centos/info@4.13a-8.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/info@4.13a-8.el6?distro=centos-6&upstream=texinfo%404.13a",
                   "version": "4.13a-8.el6",
                 },
               },
@@ -2110,7 +2110,7 @@ Object {
                 "id": "initscripts@9.03.61-1.el6.centos",
                 "info": Object {
                   "name": "initscripts",
-                  "purl": "pkg:rpm/centos/initscripts@9.03.61-1.el6.centos?distro=centos-6",
+                  "purl": "pkg:rpm/centos/initscripts@9.03.61-1.el6.centos?distro=centos-6&upstream=initscripts%409.03.61",
                   "version": "9.03.61-1.el6.centos",
                 },
               },
@@ -2118,7 +2118,7 @@ Object {
                 "id": "iproute@2.6.32-57.el6",
                 "info": Object {
                   "name": "iproute",
-                  "purl": "pkg:rpm/centos/iproute@2.6.32-57.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/iproute@2.6.32-57.el6?distro=centos-6&upstream=iproute%402.6.32",
                   "version": "2.6.32-57.el6",
                 },
               },
@@ -2126,7 +2126,7 @@ Object {
                 "id": "iptables@1.4.7-19.el6",
                 "info": Object {
                   "name": "iptables",
-                  "purl": "pkg:rpm/centos/iptables@1.4.7-19.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/iptables@1.4.7-19.el6?distro=centos-6&upstream=iptables%401.4.7",
                   "version": "1.4.7-19.el6",
                 },
               },
@@ -2134,7 +2134,7 @@ Object {
                 "id": "iputils@20071127-24.el6",
                 "info": Object {
                   "name": "iputils",
-                  "purl": "pkg:rpm/centos/iputils@20071127-24.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/iputils@20071127-24.el6?distro=centos-6&upstream=iputils%4020071127",
                   "version": "20071127-24.el6",
                 },
               },
@@ -2142,7 +2142,7 @@ Object {
                 "id": "kernel-headers@2.6.32-754.35.1.el6",
                 "info": Object {
                   "name": "kernel-headers",
-                  "purl": "pkg:rpm/centos/kernel-headers@2.6.32-754.35.1.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/kernel-headers@2.6.32-754.35.1.el6?distro=centos-6&upstream=kernel%402.6.32",
                   "version": "2.6.32-754.35.1.el6",
                 },
               },
@@ -2150,7 +2150,7 @@ Object {
                 "id": "keyutils-libs@1.4-5.el6",
                 "info": Object {
                   "name": "keyutils-libs",
-                  "purl": "pkg:rpm/centos/keyutils-libs@1.4-5.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/keyutils-libs@1.4-5.el6?distro=centos-6&upstream=keyutils%401.4",
                   "version": "1.4-5.el6",
                 },
               },
@@ -2158,7 +2158,7 @@ Object {
                 "id": "krb5-libs@1.10.3-65.el6",
                 "info": Object {
                   "name": "krb5-libs",
-                  "purl": "pkg:rpm/centos/krb5-libs@1.10.3-65.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/krb5-libs@1.10.3-65.el6?distro=centos-6&upstream=krb5%401.10.3",
                   "version": "1.10.3-65.el6",
                 },
               },
@@ -2166,7 +2166,7 @@ Object {
                 "id": "less@436-13.el6",
                 "info": Object {
                   "name": "less",
-                  "purl": "pkg:rpm/centos/less@436-13.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/less@436-13.el6?distro=centos-6&upstream=less%40436",
                   "version": "436-13.el6",
                 },
               },
@@ -2174,7 +2174,7 @@ Object {
                 "id": "libacl@2.2.49-7.el6_9.1",
                 "info": Object {
                   "name": "libacl",
-                  "purl": "pkg:rpm/centos/libacl@2.2.49-7.el6_9.1?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libacl@2.2.49-7.el6_9.1?distro=centos-6&upstream=acl%402.2.49",
                   "version": "2.2.49-7.el6_9.1",
                 },
               },
@@ -2182,7 +2182,7 @@ Object {
                 "id": "libattr@2.4.44-7.el6",
                 "info": Object {
                   "name": "libattr",
-                  "purl": "pkg:rpm/centos/libattr@2.4.44-7.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libattr@2.4.44-7.el6?distro=centos-6&upstream=attr%402.4.44",
                   "version": "2.4.44-7.el6",
                 },
               },
@@ -2190,7 +2190,7 @@ Object {
                 "id": "libblkid@2.17.2-12.28.el6_9.2",
                 "info": Object {
                   "name": "libblkid",
-                  "purl": "pkg:rpm/centos/libblkid@2.17.2-12.28.el6_9.2?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libblkid@2.17.2-12.28.el6_9.2?distro=centos-6&upstream=util-linux-ng%402.17.2",
                   "version": "2.17.2-12.28.el6_9.2",
                 },
               },
@@ -2198,7 +2198,7 @@ Object {
                 "id": "libcap@2.16-5.5.el6",
                 "info": Object {
                   "name": "libcap",
-                  "purl": "pkg:rpm/centos/libcap@2.16-5.5.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libcap@2.16-5.5.el6?distro=centos-6&upstream=libcap%402.16",
                   "version": "2.16-5.5.el6",
                 },
               },
@@ -2206,7 +2206,7 @@ Object {
                 "id": "libcom_err@1.41.12-24.el6",
                 "info": Object {
                   "name": "libcom_err",
-                  "purl": "pkg:rpm/centos/libcom_err@1.41.12-24.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libcom_err@1.41.12-24.el6?distro=centos-6&upstream=e2fsprogs%401.41.12",
                   "version": "1.41.12-24.el6",
                 },
               },
@@ -2214,7 +2214,7 @@ Object {
                 "id": "libcurl@7.19.7-54.el6_10",
                 "info": Object {
                   "name": "libcurl",
-                  "purl": "pkg:rpm/centos/libcurl@7.19.7-54.el6_10?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libcurl@7.19.7-54.el6_10?distro=centos-6&upstream=curl%407.19.7",
                   "version": "7.19.7-54.el6_10",
                 },
               },
@@ -2222,7 +2222,7 @@ Object {
                 "id": "libdrm@2.4.65-2.el6",
                 "info": Object {
                   "name": "libdrm",
-                  "purl": "pkg:rpm/centos/libdrm@2.4.65-2.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libdrm@2.4.65-2.el6?distro=centos-6&upstream=libdrm%402.4.65",
                   "version": "2.4.65-2.el6",
                 },
               },
@@ -2230,7 +2230,7 @@ Object {
                 "id": "libffi@3.0.5-3.2.el6",
                 "info": Object {
                   "name": "libffi",
-                  "purl": "pkg:rpm/centos/libffi@3.0.5-3.2.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libffi@3.0.5-3.2.el6?distro=centos-6&upstream=libffi%403.0.5",
                   "version": "3.0.5-3.2.el6",
                 },
               },
@@ -2238,7 +2238,7 @@ Object {
                 "id": "libgcc@4.4.7-23.el6",
                 "info": Object {
                   "name": "libgcc",
-                  "purl": "pkg:rpm/centos/libgcc@4.4.7-23.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libgcc@4.4.7-23.el6?distro=centos-6&upstream=gcc%404.4.7",
                   "version": "4.4.7-23.el6",
                 },
               },
@@ -2246,7 +2246,7 @@ Object {
                 "id": "libgcrypt@1.4.5-12.el6_8",
                 "info": Object {
                   "name": "libgcrypt",
-                  "purl": "pkg:rpm/centos/libgcrypt@1.4.5-12.el6_8?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libgcrypt@1.4.5-12.el6_8?distro=centos-6&upstream=libgcrypt%401.4.5",
                   "version": "1.4.5-12.el6_8",
                 },
               },
@@ -2254,7 +2254,7 @@ Object {
                 "id": "libgomp@4.4.7-23.el6",
                 "info": Object {
                   "name": "libgomp",
-                  "purl": "pkg:rpm/centos/libgomp@4.4.7-23.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libgomp@4.4.7-23.el6?distro=centos-6&upstream=gcc%404.4.7",
                   "version": "4.4.7-23.el6",
                 },
               },
@@ -2262,7 +2262,7 @@ Object {
                 "id": "libgpg-error@1.7-4.el6",
                 "info": Object {
                   "name": "libgpg-error",
-                  "purl": "pkg:rpm/centos/libgpg-error@1.7-4.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libgpg-error@1.7-4.el6?distro=centos-6&upstream=libgpg-error%401.7",
                   "version": "1.7-4.el6",
                 },
               },
@@ -2270,7 +2270,7 @@ Object {
                 "id": "libidn@1.18-2.el6",
                 "info": Object {
                   "name": "libidn",
-                  "purl": "pkg:rpm/centos/libidn@1.18-2.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libidn@1.18-2.el6?distro=centos-6&upstream=libidn%401.18",
                   "version": "1.18-2.el6",
                 },
               },
@@ -2278,7 +2278,7 @@ Object {
                 "id": "libnih@1.0.1-8.el6",
                 "info": Object {
                   "name": "libnih",
-                  "purl": "pkg:rpm/centos/libnih@1.0.1-8.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libnih@1.0.1-8.el6?distro=centos-6&upstream=libnih%401.0.1",
                   "version": "1.0.1-8.el6",
                 },
               },
@@ -2286,7 +2286,7 @@ Object {
                 "id": "libpcap@14:1.4.0-4.20130826git2dbcaa1.el6",
                 "info": Object {
                   "name": "libpcap",
-                  "purl": "pkg:rpm/centos/libpcap@14:1.4.0-4.20130826git2dbcaa1.el6?distro=centos-6&epoch=14",
+                  "purl": "pkg:rpm/centos/libpcap@14:1.4.0-4.20130826git2dbcaa1.el6?distro=centos-6&epoch=14&upstream=libpcap%401.4.0",
                   "version": "14:1.4.0-4.20130826git2dbcaa1.el6",
                 },
               },
@@ -2294,7 +2294,7 @@ Object {
                 "id": "libpciaccess@0.13.4-1.el6",
                 "info": Object {
                   "name": "libpciaccess",
-                  "purl": "pkg:rpm/centos/libpciaccess@0.13.4-1.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libpciaccess@0.13.4-1.el6?distro=centos-6&upstream=libpciaccess%400.13.4",
                   "version": "0.13.4-1.el6",
                 },
               },
@@ -2302,7 +2302,7 @@ Object {
                 "id": "libselinux@2.0.94-7.el6",
                 "info": Object {
                   "name": "libselinux",
-                  "purl": "pkg:rpm/centos/libselinux@2.0.94-7.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libselinux@2.0.94-7.el6?distro=centos-6&upstream=libselinux%402.0.94",
                   "version": "2.0.94-7.el6",
                 },
               },
@@ -2310,7 +2310,7 @@ Object {
                 "id": "libselinux-utils@2.0.94-7.el6",
                 "info": Object {
                   "name": "libselinux-utils",
-                  "purl": "pkg:rpm/centos/libselinux-utils@2.0.94-7.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libselinux-utils@2.0.94-7.el6?distro=centos-6&upstream=libselinux%402.0.94",
                   "version": "2.0.94-7.el6",
                 },
               },
@@ -2318,7 +2318,7 @@ Object {
                 "id": "libsemanage@2.0.43-5.1.el6",
                 "info": Object {
                   "name": "libsemanage",
-                  "purl": "pkg:rpm/centos/libsemanage@2.0.43-5.1.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libsemanage@2.0.43-5.1.el6?distro=centos-6&upstream=libsemanage%402.0.43",
                   "version": "2.0.43-5.1.el6",
                 },
               },
@@ -2326,7 +2326,7 @@ Object {
                 "id": "libsepol@2.0.41-4.el6",
                 "info": Object {
                   "name": "libsepol",
-                  "purl": "pkg:rpm/centos/libsepol@2.0.41-4.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libsepol@2.0.41-4.el6?distro=centos-6&upstream=libsepol%402.0.41",
                   "version": "2.0.41-4.el6",
                 },
               },
@@ -2334,7 +2334,7 @@ Object {
                 "id": "libssh2@1.4.2-2.el6_7.1",
                 "info": Object {
                   "name": "libssh2",
-                  "purl": "pkg:rpm/centos/libssh2@1.4.2-2.el6_7.1?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libssh2@1.4.2-2.el6_7.1?distro=centos-6&upstream=libssh2%401.4.2",
                   "version": "1.4.2-2.el6_7.1",
                 },
               },
@@ -2342,7 +2342,7 @@ Object {
                 "id": "libstdc++@4.4.7-23.el6",
                 "info": Object {
                   "name": "libstdc++",
-                  "purl": "pkg:rpm/centos/libstdc%2B%2B@4.4.7-23.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libstdc%2B%2B@4.4.7-23.el6?distro=centos-6&upstream=gcc%404.4.7",
                   "version": "4.4.7-23.el6",
                 },
               },
@@ -2350,7 +2350,7 @@ Object {
                 "id": "libtasn1@2.3-6.el6_5",
                 "info": Object {
                   "name": "libtasn1",
-                  "purl": "pkg:rpm/centos/libtasn1@2.3-6.el6_5?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libtasn1@2.3-6.el6_5?distro=centos-6&upstream=libtasn1%402.3",
                   "version": "2.3-6.el6_5",
                 },
               },
@@ -2358,7 +2358,7 @@ Object {
                 "id": "libusb@0.1.12-23.el6",
                 "info": Object {
                   "name": "libusb",
-                  "purl": "pkg:rpm/centos/libusb@0.1.12-23.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libusb@0.1.12-23.el6?distro=centos-6&upstream=libusb%400.1.12",
                   "version": "0.1.12-23.el6",
                 },
               },
@@ -2366,7 +2366,7 @@ Object {
                 "id": "libuser@0.56.13-8.el6_7",
                 "info": Object {
                   "name": "libuser",
-                  "purl": "pkg:rpm/centos/libuser@0.56.13-8.el6_7?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libuser@0.56.13-8.el6_7?distro=centos-6&upstream=libuser%400.56.13",
                   "version": "0.56.13-8.el6_7",
                 },
               },
@@ -2374,7 +2374,7 @@ Object {
                 "id": "libutempter@1.1.5-4.1.el6",
                 "info": Object {
                   "name": "libutempter",
-                  "purl": "pkg:rpm/centos/libutempter@1.1.5-4.1.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libutempter@1.1.5-4.1.el6?distro=centos-6&upstream=libutempter%401.1.5",
                   "version": "1.1.5-4.1.el6",
                 },
               },
@@ -2382,7 +2382,7 @@ Object {
                 "id": "libuuid@2.17.2-12.28.el6_9.2",
                 "info": Object {
                   "name": "libuuid",
-                  "purl": "pkg:rpm/centos/libuuid@2.17.2-12.28.el6_9.2?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libuuid@2.17.2-12.28.el6_9.2?distro=centos-6&upstream=util-linux-ng%402.17.2",
                   "version": "2.17.2-12.28.el6_9.2",
                 },
               },
@@ -2390,7 +2390,7 @@ Object {
                 "id": "libxml2@2.7.6-21.el6_8.1",
                 "info": Object {
                   "name": "libxml2",
-                  "purl": "pkg:rpm/centos/libxml2@2.7.6-21.el6_8.1?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libxml2@2.7.6-21.el6_8.1?distro=centos-6&upstream=libxml2%402.7.6",
                   "version": "2.7.6-21.el6_8.1",
                 },
               },
@@ -2398,7 +2398,7 @@ Object {
                 "id": "logrotate@3.7.8-28.el6",
                 "info": Object {
                   "name": "logrotate",
-                  "purl": "pkg:rpm/centos/logrotate@3.7.8-28.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/logrotate@3.7.8-28.el6?distro=centos-6&upstream=logrotate%403.7.8",
                   "version": "3.7.8-28.el6",
                 },
               },
@@ -2406,7 +2406,7 @@ Object {
                 "id": "lsof@4.82-5.el6",
                 "info": Object {
                   "name": "lsof",
-                  "purl": "pkg:rpm/centos/lsof@4.82-5.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/lsof@4.82-5.el6?distro=centos-6&upstream=lsof%404.82",
                   "version": "4.82-5.el6",
                 },
               },
@@ -2414,7 +2414,7 @@ Object {
                 "id": "lua@5.1.4-4.1.el6",
                 "info": Object {
                   "name": "lua",
-                  "purl": "pkg:rpm/centos/lua@5.1.4-4.1.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/lua@5.1.4-4.1.el6?distro=centos-6&upstream=lua%405.1.4",
                   "version": "5.1.4-4.1.el6",
                 },
               },
@@ -2422,7 +2422,7 @@ Object {
                 "id": "m4@1.4.13-5.el6",
                 "info": Object {
                   "name": "m4",
-                  "purl": "pkg:rpm/centos/m4@1.4.13-5.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/m4@1.4.13-5.el6?distro=centos-6&upstream=m4%401.4.13",
                   "version": "1.4.13-5.el6",
                 },
               },
@@ -2430,7 +2430,7 @@ Object {
                 "id": "mailx@12.4-10.el6_10",
                 "info": Object {
                   "name": "mailx",
-                  "purl": "pkg:rpm/centos/mailx@12.4-10.el6_10?distro=centos-6",
+                  "purl": "pkg:rpm/centos/mailx@12.4-10.el6_10?distro=centos-6&upstream=mailx%4012.4",
                   "version": "12.4-10.el6_10",
                 },
               },
@@ -2438,7 +2438,7 @@ Object {
                 "id": "make@1:3.81-23.el6",
                 "info": Object {
                   "name": "make",
-                  "purl": "pkg:rpm/centos/make@1:3.81-23.el6?distro=centos-6&epoch=1",
+                  "purl": "pkg:rpm/centos/make@1:3.81-23.el6?distro=centos-6&epoch=1&upstream=make%403.81",
                   "version": "1:3.81-23.el6",
                 },
               },
@@ -2446,7 +2446,7 @@ Object {
                 "id": "man@1.6f-39.el6",
                 "info": Object {
                   "name": "man",
-                  "purl": "pkg:rpm/centos/man@1.6f-39.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/man@1.6f-39.el6?distro=centos-6&upstream=man%401.6f",
                   "version": "1.6f-39.el6",
                 },
               },
@@ -2454,7 +2454,7 @@ Object {
                 "id": "mingetty@1.08-5.el6",
                 "info": Object {
                   "name": "mingetty",
-                  "purl": "pkg:rpm/centos/mingetty@1.08-5.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/mingetty@1.08-5.el6?distro=centos-6&upstream=mingetty%401.08",
                   "version": "1.08-5.el6",
                 },
               },
@@ -2462,7 +2462,7 @@ Object {
                 "id": "module-init-tools@3.9-26.el6",
                 "info": Object {
                   "name": "module-init-tools",
-                  "purl": "pkg:rpm/centos/module-init-tools@3.9-26.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/module-init-tools@3.9-26.el6?distro=centos-6&upstream=module-init-tools%403.9",
                   "version": "3.9-26.el6",
                 },
               },
@@ -2470,7 +2470,7 @@ Object {
                 "id": "mysql-libs@5.1.73-8.el6_8",
                 "info": Object {
                   "name": "mysql-libs",
-                  "purl": "pkg:rpm/centos/mysql-libs@5.1.73-8.el6_8?distro=centos-6",
+                  "purl": "pkg:rpm/centos/mysql-libs@5.1.73-8.el6_8?distro=centos-6&upstream=mysql%405.1.73",
                   "version": "5.1.73-8.el6_8",
                 },
               },
@@ -2478,7 +2478,7 @@ Object {
                 "id": "nc@1.84-24.el6",
                 "info": Object {
                   "name": "nc",
-                  "purl": "pkg:rpm/centos/nc@1.84-24.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/nc@1.84-24.el6?distro=centos-6&upstream=nc%401.84",
                   "version": "1.84-24.el6",
                 },
               },
@@ -2486,7 +2486,7 @@ Object {
                 "id": "ncurses@5.7-4.20090207.el6",
                 "info": Object {
                   "name": "ncurses",
-                  "purl": "pkg:rpm/centos/ncurses@5.7-4.20090207.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/ncurses@5.7-4.20090207.el6?distro=centos-6&upstream=ncurses%405.7",
                   "version": "5.7-4.20090207.el6",
                 },
               },
@@ -2494,7 +2494,7 @@ Object {
                 "id": "ncurses-base@5.7-4.20090207.el6",
                 "info": Object {
                   "name": "ncurses-base",
-                  "purl": "pkg:rpm/centos/ncurses-base@5.7-4.20090207.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/ncurses-base@5.7-4.20090207.el6?distro=centos-6&upstream=ncurses%405.7",
                   "version": "5.7-4.20090207.el6",
                 },
               },
@@ -2502,7 +2502,7 @@ Object {
                 "id": "ncurses-libs@5.7-4.20090207.el6",
                 "info": Object {
                   "name": "ncurses-libs",
-                  "purl": "pkg:rpm/centos/ncurses-libs@5.7-4.20090207.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/ncurses-libs@5.7-4.20090207.el6?distro=centos-6&upstream=ncurses%405.7",
                   "version": "5.7-4.20090207.el6",
                 },
               },
@@ -2510,7 +2510,7 @@ Object {
                 "id": "net-tools@1.60-114.el6",
                 "info": Object {
                   "name": "net-tools",
-                  "purl": "pkg:rpm/centos/net-tools@1.60-114.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/net-tools@1.60-114.el6?distro=centos-6&upstream=net-tools%401.60",
                   "version": "1.60-114.el6",
                 },
               },
@@ -2518,7 +2518,7 @@ Object {
                 "id": "nmap@2:5.51-6.el6",
                 "info": Object {
                   "name": "nmap",
-                  "purl": "pkg:rpm/centos/nmap@2:5.51-6.el6?distro=centos-6&epoch=2",
+                  "purl": "pkg:rpm/centos/nmap@2:5.51-6.el6?distro=centos-6&epoch=2&upstream=nmap%405.51",
                   "version": "2:5.51-6.el6",
                 },
               },
@@ -2526,7 +2526,7 @@ Object {
                 "id": "nspr@4.19.0-1.el6",
                 "info": Object {
                   "name": "nspr",
-                  "purl": "pkg:rpm/centos/nspr@4.19.0-1.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/nspr@4.19.0-1.el6?distro=centos-6&upstream=nspr%404.19.0",
                   "version": "4.19.0-1.el6",
                 },
               },
@@ -2534,7 +2534,7 @@ Object {
                 "id": "nss@3.36.0-8.el6",
                 "info": Object {
                   "name": "nss",
-                  "purl": "pkg:rpm/centos/nss@3.36.0-8.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/nss@3.36.0-8.el6?distro=centos-6&upstream=nss%403.36.0",
                   "version": "3.36.0-8.el6",
                 },
               },
@@ -2542,7 +2542,7 @@ Object {
                 "id": "nss-softokn@3.14.3-23.3.el6_8",
                 "info": Object {
                   "name": "nss-softokn",
-                  "purl": "pkg:rpm/centos/nss-softokn@3.14.3-23.3.el6_8?distro=centos-6",
+                  "purl": "pkg:rpm/centos/nss-softokn@3.14.3-23.3.el6_8?distro=centos-6&upstream=nss-softokn%403.14.3",
                   "version": "3.14.3-23.3.el6_8",
                 },
               },
@@ -2550,7 +2550,7 @@ Object {
                 "id": "nss-softokn-freebl@3.14.3-23.3.el6_8",
                 "info": Object {
                   "name": "nss-softokn-freebl",
-                  "purl": "pkg:rpm/centos/nss-softokn-freebl@3.14.3-23.3.el6_8?distro=centos-6",
+                  "purl": "pkg:rpm/centos/nss-softokn-freebl@3.14.3-23.3.el6_8?distro=centos-6&upstream=nss-softokn%403.14.3",
                   "version": "3.14.3-23.3.el6_8",
                 },
               },
@@ -2558,7 +2558,7 @@ Object {
                 "id": "nss-sysinit@3.36.0-8.el6",
                 "info": Object {
                   "name": "nss-sysinit",
-                  "purl": "pkg:rpm/centos/nss-sysinit@3.36.0-8.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/nss-sysinit@3.36.0-8.el6?distro=centos-6&upstream=nss%403.36.0",
                   "version": "3.36.0-8.el6",
                 },
               },
@@ -2566,7 +2566,7 @@ Object {
                 "id": "nss-tools@3.36.0-8.el6",
                 "info": Object {
                   "name": "nss-tools",
-                  "purl": "pkg:rpm/centos/nss-tools@3.36.0-8.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/nss-tools@3.36.0-8.el6?distro=centos-6&upstream=nss%403.36.0",
                   "version": "3.36.0-8.el6",
                 },
               },
@@ -2574,7 +2574,7 @@ Object {
                 "id": "nss-util@3.36.0-1.el6",
                 "info": Object {
                   "name": "nss-util",
-                  "purl": "pkg:rpm/centos/nss-util@3.36.0-1.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/nss-util@3.36.0-1.el6?distro=centos-6&upstream=nss-util%403.36.0",
                   "version": "3.36.0-1.el6",
                 },
               },
@@ -2582,7 +2582,7 @@ Object {
                 "id": "openldap@2.4.40-16.el6",
                 "info": Object {
                   "name": "openldap",
-                  "purl": "pkg:rpm/centos/openldap@2.4.40-16.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/openldap@2.4.40-16.el6?distro=centos-6&upstream=openldap%402.4.40",
                   "version": "2.4.40-16.el6",
                 },
               },
@@ -2590,7 +2590,7 @@ Object {
                 "id": "openssl@1.0.1e-58.el6_10",
                 "info": Object {
                   "name": "openssl",
-                  "purl": "pkg:rpm/centos/openssl@1.0.1e-58.el6_10?distro=centos-6",
+                  "purl": "pkg:rpm/centos/openssl@1.0.1e-58.el6_10?distro=centos-6&upstream=openssl%401.0.1e",
                   "version": "1.0.1e-58.el6_10",
                 },
               },
@@ -2598,7 +2598,7 @@ Object {
                 "id": "p11-kit@0.18.5-2.el6_5.2",
                 "info": Object {
                   "name": "p11-kit",
-                  "purl": "pkg:rpm/centos/p11-kit@0.18.5-2.el6_5.2?distro=centos-6",
+                  "purl": "pkg:rpm/centos/p11-kit@0.18.5-2.el6_5.2?distro=centos-6&upstream=p11-kit%400.18.5",
                   "version": "0.18.5-2.el6_5.2",
                 },
               },
@@ -2606,7 +2606,7 @@ Object {
                 "id": "p11-kit-trust@0.18.5-2.el6_5.2",
                 "info": Object {
                   "name": "p11-kit-trust",
-                  "purl": "pkg:rpm/centos/p11-kit-trust@0.18.5-2.el6_5.2?distro=centos-6",
+                  "purl": "pkg:rpm/centos/p11-kit-trust@0.18.5-2.el6_5.2?distro=centos-6&upstream=p11-kit%400.18.5",
                   "version": "0.18.5-2.el6_5.2",
                 },
               },
@@ -2614,7 +2614,7 @@ Object {
                 "id": "pam@1.1.1-24.el6",
                 "info": Object {
                   "name": "pam",
-                  "purl": "pkg:rpm/centos/pam@1.1.1-24.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/pam@1.1.1-24.el6?distro=centos-6&upstream=pam%401.1.1",
                   "version": "1.1.1-24.el6",
                 },
               },
@@ -2622,7 +2622,7 @@ Object {
                 "id": "passwd@0.77-7.el6",
                 "info": Object {
                   "name": "passwd",
-                  "purl": "pkg:rpm/centos/passwd@0.77-7.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/passwd@0.77-7.el6?distro=centos-6&upstream=passwd%400.77",
                   "version": "0.77-7.el6",
                 },
               },
@@ -2630,7 +2630,7 @@ Object {
                 "id": "patch@2.6-8.el6_9",
                 "info": Object {
                   "name": "patch",
-                  "purl": "pkg:rpm/centos/patch@2.6-8.el6_9?distro=centos-6",
+                  "purl": "pkg:rpm/centos/patch@2.6-8.el6_9?distro=centos-6&upstream=patch%402.6",
                   "version": "2.6-8.el6_9",
                 },
               },
@@ -2638,7 +2638,7 @@ Object {
                 "id": "pax@3.4-10.1.el6",
                 "info": Object {
                   "name": "pax",
-                  "purl": "pkg:rpm/centos/pax@3.4-10.1.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/pax@3.4-10.1.el6?distro=centos-6&upstream=pax%403.4",
                   "version": "3.4-10.1.el6",
                 },
               },
@@ -2646,7 +2646,7 @@ Object {
                 "id": "pcre@7.8-7.el6",
                 "info": Object {
                   "name": "pcre",
-                  "purl": "pkg:rpm/centos/pcre@7.8-7.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/pcre@7.8-7.el6?distro=centos-6&upstream=pcre%407.8",
                   "version": "7.8-7.el6",
                 },
               },
@@ -2654,7 +2654,7 @@ Object {
                 "id": "perl@4:5.10.1-144.el6",
                 "info": Object {
                   "name": "perl",
-                  "purl": "pkg:rpm/centos/perl@4:5.10.1-144.el6?distro=centos-6&epoch=4",
+                  "purl": "pkg:rpm/centos/perl@4:5.10.1-144.el6?distro=centos-6&epoch=4&upstream=perl%405.10.1",
                   "version": "4:5.10.1-144.el6",
                 },
               },
@@ -2662,7 +2662,7 @@ Object {
                 "id": "perl-CGI@3.51-144.el6",
                 "info": Object {
                   "name": "perl-CGI",
-                  "purl": "pkg:rpm/centos/perl-CGI@3.51-144.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/perl-CGI@3.51-144.el6?distro=centos-6&upstream=perl%405.10.1",
                   "version": "3.51-144.el6",
                 },
               },
@@ -2670,7 +2670,7 @@ Object {
                 "id": "perl-ExtUtils-MakeMaker@6.55-144.el6",
                 "info": Object {
                   "name": "perl-ExtUtils-MakeMaker",
-                  "purl": "pkg:rpm/centos/perl-ExtUtils-MakeMaker@6.55-144.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/perl-ExtUtils-MakeMaker@6.55-144.el6?distro=centos-6&upstream=perl%405.10.1",
                   "version": "6.55-144.el6",
                 },
               },
@@ -2678,7 +2678,7 @@ Object {
                 "id": "perl-ExtUtils-ParseXS@1:2.2003.0-144.el6",
                 "info": Object {
                   "name": "perl-ExtUtils-ParseXS",
-                  "purl": "pkg:rpm/centos/perl-ExtUtils-ParseXS@1:2.2003.0-144.el6?distro=centos-6&epoch=1",
+                  "purl": "pkg:rpm/centos/perl-ExtUtils-ParseXS@1:2.2003.0-144.el6?distro=centos-6&epoch=1&upstream=perl%405.10.1",
                   "version": "1:2.2003.0-144.el6",
                 },
               },
@@ -2686,7 +2686,7 @@ Object {
                 "id": "perl-Module-Pluggable@1:3.90-144.el6",
                 "info": Object {
                   "name": "perl-Module-Pluggable",
-                  "purl": "pkg:rpm/centos/perl-Module-Pluggable@1:3.90-144.el6?distro=centos-6&epoch=1",
+                  "purl": "pkg:rpm/centos/perl-Module-Pluggable@1:3.90-144.el6?distro=centos-6&epoch=1&upstream=perl%405.10.1",
                   "version": "1:3.90-144.el6",
                 },
               },
@@ -2694,7 +2694,7 @@ Object {
                 "id": "perl-Pod-Escapes@1:1.04-144.el6",
                 "info": Object {
                   "name": "perl-Pod-Escapes",
-                  "purl": "pkg:rpm/centos/perl-Pod-Escapes@1:1.04-144.el6?distro=centos-6&epoch=1",
+                  "purl": "pkg:rpm/centos/perl-Pod-Escapes@1:1.04-144.el6?distro=centos-6&epoch=1&upstream=perl%405.10.1",
                   "version": "1:1.04-144.el6",
                 },
               },
@@ -2702,7 +2702,7 @@ Object {
                 "id": "perl-Pod-Simple@1:3.13-144.el6",
                 "info": Object {
                   "name": "perl-Pod-Simple",
-                  "purl": "pkg:rpm/centos/perl-Pod-Simple@1:3.13-144.el6?distro=centos-6&epoch=1",
+                  "purl": "pkg:rpm/centos/perl-Pod-Simple@1:3.13-144.el6?distro=centos-6&epoch=1&upstream=perl%405.10.1",
                   "version": "1:3.13-144.el6",
                 },
               },
@@ -2710,7 +2710,7 @@ Object {
                 "id": "perl-Test-Harness@3.17-144.el6",
                 "info": Object {
                   "name": "perl-Test-Harness",
-                  "purl": "pkg:rpm/centos/perl-Test-Harness@3.17-144.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/perl-Test-Harness@3.17-144.el6?distro=centos-6&upstream=perl%405.10.1",
                   "version": "3.17-144.el6",
                 },
               },
@@ -2718,7 +2718,7 @@ Object {
                 "id": "perl-Test-Simple@0.92-144.el6",
                 "info": Object {
                   "name": "perl-Test-Simple",
-                  "purl": "pkg:rpm/centos/perl-Test-Simple@0.92-144.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/perl-Test-Simple@0.92-144.el6?distro=centos-6&upstream=perl%405.10.1",
                   "version": "0.92-144.el6",
                 },
               },
@@ -2726,7 +2726,7 @@ Object {
                 "id": "perl-devel@4:5.10.1-144.el6",
                 "info": Object {
                   "name": "perl-devel",
-                  "purl": "pkg:rpm/centos/perl-devel@4:5.10.1-144.el6?distro=centos-6&epoch=4",
+                  "purl": "pkg:rpm/centos/perl-devel@4:5.10.1-144.el6?distro=centos-6&epoch=4&upstream=perl%405.10.1",
                   "version": "4:5.10.1-144.el6",
                 },
               },
@@ -2734,7 +2734,7 @@ Object {
                 "id": "perl-libs@4:5.10.1-144.el6",
                 "info": Object {
                   "name": "perl-libs",
-                  "purl": "pkg:rpm/centos/perl-libs@4:5.10.1-144.el6?distro=centos-6&epoch=4",
+                  "purl": "pkg:rpm/centos/perl-libs@4:5.10.1-144.el6?distro=centos-6&epoch=4&upstream=perl%405.10.1",
                   "version": "4:5.10.1-144.el6",
                 },
               },
@@ -2742,7 +2742,7 @@ Object {
                 "id": "perl-version@3:0.77-144.el6",
                 "info": Object {
                   "name": "perl-version",
-                  "purl": "pkg:rpm/centos/perl-version@3:0.77-144.el6?distro=centos-6&epoch=3",
+                  "purl": "pkg:rpm/centos/perl-version@3:0.77-144.el6?distro=centos-6&epoch=3&upstream=perl%405.10.1",
                   "version": "3:0.77-144.el6",
                 },
               },
@@ -2750,7 +2750,7 @@ Object {
                 "id": "pinentry@0.7.6-8.el6",
                 "info": Object {
                   "name": "pinentry",
-                  "purl": "pkg:rpm/centos/pinentry@0.7.6-8.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/pinentry@0.7.6-8.el6?distro=centos-6&upstream=pinentry%400.7.6",
                   "version": "0.7.6-8.el6",
                 },
               },
@@ -2758,7 +2758,7 @@ Object {
                 "id": "pkgconfig@1:0.23-9.1.el6",
                 "info": Object {
                   "name": "pkgconfig",
-                  "purl": "pkg:rpm/centos/pkgconfig@1:0.23-9.1.el6?distro=centos-6&epoch=1",
+                  "purl": "pkg:rpm/centos/pkgconfig@1:0.23-9.1.el6?distro=centos-6&epoch=1&upstream=pkgconfig%400.23",
                   "version": "1:0.23-9.1.el6",
                 },
               },
@@ -2766,7 +2766,7 @@ Object {
                 "id": "plymouth@0.8.3-29.el6.centos",
                 "info": Object {
                   "name": "plymouth",
-                  "purl": "pkg:rpm/centos/plymouth@0.8.3-29.el6.centos?distro=centos-6",
+                  "purl": "pkg:rpm/centos/plymouth@0.8.3-29.el6.centos?distro=centos-6&upstream=plymouth%400.8.3",
                   "version": "0.8.3-29.el6.centos",
                 },
               },
@@ -2774,7 +2774,7 @@ Object {
                 "id": "plymouth-core-libs@0.8.3-29.el6.centos",
                 "info": Object {
                   "name": "plymouth-core-libs",
-                  "purl": "pkg:rpm/centos/plymouth-core-libs@0.8.3-29.el6.centos?distro=centos-6",
+                  "purl": "pkg:rpm/centos/plymouth-core-libs@0.8.3-29.el6.centos?distro=centos-6&upstream=plymouth%400.8.3",
                   "version": "0.8.3-29.el6.centos",
                 },
               },
@@ -2782,7 +2782,7 @@ Object {
                 "id": "plymouth-scripts@0.8.3-29.el6.centos",
                 "info": Object {
                   "name": "plymouth-scripts",
-                  "purl": "pkg:rpm/centos/plymouth-scripts@0.8.3-29.el6.centos?distro=centos-6",
+                  "purl": "pkg:rpm/centos/plymouth-scripts@0.8.3-29.el6.centos?distro=centos-6&upstream=plymouth%400.8.3",
                   "version": "0.8.3-29.el6.centos",
                 },
               },
@@ -2790,7 +2790,7 @@ Object {
                 "id": "policycoreutils@2.0.83-30.1.el6_8",
                 "info": Object {
                   "name": "policycoreutils",
-                  "purl": "pkg:rpm/centos/policycoreutils@2.0.83-30.1.el6_8?distro=centos-6",
+                  "purl": "pkg:rpm/centos/policycoreutils@2.0.83-30.1.el6_8?distro=centos-6&upstream=policycoreutils%402.0.83",
                   "version": "2.0.83-30.1.el6_8",
                 },
               },
@@ -2798,7 +2798,7 @@ Object {
                 "id": "popt@1.13-7.el6",
                 "info": Object {
                   "name": "popt",
-                  "purl": "pkg:rpm/centos/popt@1.13-7.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/popt@1.13-7.el6?distro=centos-6&upstream=popt%401.13",
                   "version": "1.13-7.el6",
                 },
               },
@@ -2806,7 +2806,7 @@ Object {
                 "id": "postfix@2:2.6.6-8.el6",
                 "info": Object {
                   "name": "postfix",
-                  "purl": "pkg:rpm/centos/postfix@2:2.6.6-8.el6?distro=centos-6&epoch=2",
+                  "purl": "pkg:rpm/centos/postfix@2:2.6.6-8.el6?distro=centos-6&epoch=2&upstream=postfix%402.6.6",
                   "version": "2:2.6.6-8.el6",
                 },
               },
@@ -2814,7 +2814,7 @@ Object {
                 "id": "procps@3.2.8-45.el6_9.3",
                 "info": Object {
                   "name": "procps",
-                  "purl": "pkg:rpm/centos/procps@3.2.8-45.el6_9.3?distro=centos-6",
+                  "purl": "pkg:rpm/centos/procps@3.2.8-45.el6_9.3?distro=centos-6&upstream=procps%403.2.8",
                   "version": "3.2.8-45.el6_9.3",
                 },
               },
@@ -2822,7 +2822,7 @@ Object {
                 "id": "psmisc@22.6-24.el6",
                 "info": Object {
                   "name": "psmisc",
-                  "purl": "pkg:rpm/centos/psmisc@22.6-24.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/psmisc@22.6-24.el6?distro=centos-6&upstream=psmisc%4022.6",
                   "version": "22.6-24.el6",
                 },
               },
@@ -2830,7 +2830,7 @@ Object {
                 "id": "pth@2.0.7-9.3.el6",
                 "info": Object {
                   "name": "pth",
-                  "purl": "pkg:rpm/centos/pth@2.0.7-9.3.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/pth@2.0.7-9.3.el6?distro=centos-6&upstream=pth%402.0.7",
                   "version": "2.0.7-9.3.el6",
                 },
               },
@@ -2838,7 +2838,7 @@ Object {
                 "id": "pygpgme@0.1-18.20090824bzr68.el6",
                 "info": Object {
                   "name": "pygpgme",
-                  "purl": "pkg:rpm/centos/pygpgme@0.1-18.20090824bzr68.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/pygpgme@0.1-18.20090824bzr68.el6?distro=centos-6&upstream=pygpgme%400.1",
                   "version": "0.1-18.20090824bzr68.el6",
                 },
               },
@@ -2846,7 +2846,7 @@ Object {
                 "id": "python@2.6.6-66.el6_8",
                 "info": Object {
                   "name": "python",
-                  "purl": "pkg:rpm/centos/python@2.6.6-66.el6_8?distro=centos-6",
+                  "purl": "pkg:rpm/centos/python@2.6.6-66.el6_8?distro=centos-6&upstream=python%402.6.6",
                   "version": "2.6.6-66.el6_8",
                 },
               },
@@ -2854,7 +2854,7 @@ Object {
                 "id": "python-iniparse@0.3.1-2.1.el6",
                 "info": Object {
                   "name": "python-iniparse",
-                  "purl": "pkg:rpm/centos/python-iniparse@0.3.1-2.1.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/python-iniparse@0.3.1-2.1.el6?distro=centos-6&upstream=python-iniparse%400.3.1",
                   "version": "0.3.1-2.1.el6",
                 },
               },
@@ -2862,7 +2862,7 @@ Object {
                 "id": "python-libs@2.6.6-66.el6_8",
                 "info": Object {
                   "name": "python-libs",
-                  "purl": "pkg:rpm/centos/python-libs@2.6.6-66.el6_8?distro=centos-6",
+                  "purl": "pkg:rpm/centos/python-libs@2.6.6-66.el6_8?distro=centos-6&upstream=python%402.6.6",
                   "version": "2.6.6-66.el6_8",
                 },
               },
@@ -2870,7 +2870,7 @@ Object {
                 "id": "python-pycurl@7.19.0-9.el6",
                 "info": Object {
                   "name": "python-pycurl",
-                  "purl": "pkg:rpm/centos/python-pycurl@7.19.0-9.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/python-pycurl@7.19.0-9.el6?distro=centos-6&upstream=python-pycurl%407.19.0",
                   "version": "7.19.0-9.el6",
                 },
               },
@@ -2878,7 +2878,7 @@ Object {
                 "id": "python-urlgrabber@3.9.1-11.el6",
                 "info": Object {
                   "name": "python-urlgrabber",
-                  "purl": "pkg:rpm/centos/python-urlgrabber@3.9.1-11.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/python-urlgrabber@3.9.1-11.el6?distro=centos-6&upstream=python-urlgrabber%403.9.1",
                   "version": "3.9.1-11.el6",
                 },
               },
@@ -2886,7 +2886,7 @@ Object {
                 "id": "readline@6.0-4.el6",
                 "info": Object {
                   "name": "readline",
-                  "purl": "pkg:rpm/centos/readline@6.0-4.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/readline@6.0-4.el6?distro=centos-6&upstream=readline%406.0",
                   "version": "6.0-4.el6",
                 },
               },
@@ -2894,7 +2894,7 @@ Object {
                 "id": "redhat-logos@60.0.14-12.el6.centos",
                 "info": Object {
                   "name": "redhat-logos",
-                  "purl": "pkg:rpm/centos/redhat-logos@60.0.14-12.el6.centos?distro=centos-6",
+                  "purl": "pkg:rpm/centos/redhat-logos@60.0.14-12.el6.centos?distro=centos-6&upstream=redhat-logos%4060.0.14",
                   "version": "60.0.14-12.el6.centos",
                 },
               },
@@ -2902,7 +2902,7 @@ Object {
                 "id": "redhat-lsb-core@4.0-7.el6.centos",
                 "info": Object {
                   "name": "redhat-lsb-core",
-                  "purl": "pkg:rpm/centos/redhat-lsb-core@4.0-7.el6.centos?distro=centos-6",
+                  "purl": "pkg:rpm/centos/redhat-lsb-core@4.0-7.el6.centos?distro=centos-6&upstream=redhat-lsb%404.0",
                   "version": "4.0-7.el6.centos",
                 },
               },
@@ -2910,7 +2910,7 @@ Object {
                 "id": "rootfiles@8.1-6.1.el6",
                 "info": Object {
                   "name": "rootfiles",
-                  "purl": "pkg:rpm/centos/rootfiles@8.1-6.1.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/rootfiles@8.1-6.1.el6?distro=centos-6&upstream=rootfiles%408.1",
                   "version": "8.1-6.1.el6",
                 },
               },
@@ -2918,7 +2918,7 @@ Object {
                 "id": "rpm@4.8.0-59.el6",
                 "info": Object {
                   "name": "rpm",
-                  "purl": "pkg:rpm/centos/rpm@4.8.0-59.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/rpm@4.8.0-59.el6?distro=centos-6&upstream=rpm%404.8.0",
                   "version": "4.8.0-59.el6",
                 },
               },
@@ -2926,7 +2926,7 @@ Object {
                 "id": "rpm-libs@4.8.0-59.el6",
                 "info": Object {
                   "name": "rpm-libs",
-                  "purl": "pkg:rpm/centos/rpm-libs@4.8.0-59.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/rpm-libs@4.8.0-59.el6?distro=centos-6&upstream=rpm%404.8.0",
                   "version": "4.8.0-59.el6",
                 },
               },
@@ -2934,7 +2934,7 @@ Object {
                 "id": "rpm-python@4.8.0-59.el6",
                 "info": Object {
                   "name": "rpm-python",
-                  "purl": "pkg:rpm/centos/rpm-python@4.8.0-59.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/rpm-python@4.8.0-59.el6?distro=centos-6&upstream=rpm%404.8.0",
                   "version": "4.8.0-59.el6",
                 },
               },
@@ -2942,7 +2942,7 @@ Object {
                 "id": "rsyslog@5.8.10-12.el6",
                 "info": Object {
                   "name": "rsyslog",
-                  "purl": "pkg:rpm/centos/rsyslog@5.8.10-12.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/rsyslog@5.8.10-12.el6?distro=centos-6&upstream=rsyslog%405.8.10",
                   "version": "5.8.10-12.el6",
                 },
               },
@@ -2950,7 +2950,7 @@ Object {
                 "id": "sed@4.2.1-10.el6",
                 "info": Object {
                   "name": "sed",
-                  "purl": "pkg:rpm/centos/sed@4.2.1-10.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/sed@4.2.1-10.el6?distro=centos-6&upstream=sed%404.2.1",
                   "version": "4.2.1-10.el6",
                 },
               },
@@ -2958,7 +2958,7 @@ Object {
                 "id": "setup@2.8.14-23.el6",
                 "info": Object {
                   "name": "setup",
-                  "purl": "pkg:rpm/centos/setup@2.8.14-23.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/setup@2.8.14-23.el6?distro=centos-6&upstream=setup%402.8.14",
                   "version": "2.8.14-23.el6",
                 },
               },
@@ -2966,7 +2966,7 @@ Object {
                 "id": "shadow-utils@2:4.1.5.1-5.el6",
                 "info": Object {
                   "name": "shadow-utils",
-                  "purl": "pkg:rpm/centos/shadow-utils@2:4.1.5.1-5.el6?distro=centos-6&epoch=2",
+                  "purl": "pkg:rpm/centos/shadow-utils@2:4.1.5.1-5.el6?distro=centos-6&epoch=2&upstream=shadow-utils%404.1.5.1",
                   "version": "2:4.1.5.1-5.el6",
                 },
               },
@@ -2974,7 +2974,7 @@ Object {
                 "id": "shared-mime-info@0.70-6.el6",
                 "info": Object {
                   "name": "shared-mime-info",
-                  "purl": "pkg:rpm/centos/shared-mime-info@0.70-6.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/shared-mime-info@0.70-6.el6?distro=centos-6&upstream=shared-mime-info%400.70",
                   "version": "0.70-6.el6",
                 },
               },
@@ -2982,7 +2982,7 @@ Object {
                 "id": "sqlite@3.6.20-1.el6_7.2",
                 "info": Object {
                   "name": "sqlite",
-                  "purl": "pkg:rpm/centos/sqlite@3.6.20-1.el6_7.2?distro=centos-6",
+                  "purl": "pkg:rpm/centos/sqlite@3.6.20-1.el6_7.2?distro=centos-6&upstream=sqlite%403.6.20",
                   "version": "3.6.20-1.el6_7.2",
                 },
               },
@@ -2990,7 +2990,7 @@ Object {
                 "id": "strace@4.8-11.el6",
                 "info": Object {
                   "name": "strace",
-                  "purl": "pkg:rpm/centos/strace@4.8-11.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/strace@4.8-11.el6?distro=centos-6&upstream=strace%404.8",
                   "version": "4.8-11.el6",
                 },
               },
@@ -2998,7 +2998,7 @@ Object {
                 "id": "sudo@1.8.6p3-29.el6_10.3",
                 "info": Object {
                   "name": "sudo",
-                  "purl": "pkg:rpm/centos/sudo@1.8.6p3-29.el6_10.3?distro=centos-6",
+                  "purl": "pkg:rpm/centos/sudo@1.8.6p3-29.el6_10.3?distro=centos-6&upstream=sudo%401.8.6p3",
                   "version": "1.8.6p3-29.el6_10.3",
                 },
               },
@@ -3006,7 +3006,7 @@ Object {
                 "id": "sysvinit-tools@2.87-6.dsf.el6",
                 "info": Object {
                   "name": "sysvinit-tools",
-                  "purl": "pkg:rpm/centos/sysvinit-tools@2.87-6.dsf.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/sysvinit-tools@2.87-6.dsf.el6?distro=centos-6&upstream=sysvinit%402.87",
                   "version": "2.87-6.dsf.el6",
                 },
               },
@@ -3014,7 +3014,7 @@ Object {
                 "id": "tar@2:1.23-15.el6_8",
                 "info": Object {
                   "name": "tar",
-                  "purl": "pkg:rpm/centos/tar@2:1.23-15.el6_8?distro=centos-6&epoch=2",
+                  "purl": "pkg:rpm/centos/tar@2:1.23-15.el6_8?distro=centos-6&epoch=2&upstream=tar%401.23",
                   "version": "2:1.23-15.el6_8",
                 },
               },
@@ -3022,7 +3022,7 @@ Object {
                 "id": "tcpdump@14:4.0.0-11.20090921gitdf3cb4.2.el6",
                 "info": Object {
                   "name": "tcpdump",
-                  "purl": "pkg:rpm/centos/tcpdump@14:4.0.0-11.20090921gitdf3cb4.2.el6?distro=centos-6&epoch=14",
+                  "purl": "pkg:rpm/centos/tcpdump@14:4.0.0-11.20090921gitdf3cb4.2.el6?distro=centos-6&epoch=14&upstream=tcpdump%404.0.0",
                   "version": "14:4.0.0-11.20090921gitdf3cb4.2.el6",
                 },
               },
@@ -3030,7 +3030,7 @@ Object {
                 "id": "telnet@1:0.17-49.el6_10",
                 "info": Object {
                   "name": "telnet",
-                  "purl": "pkg:rpm/centos/telnet@1:0.17-49.el6_10?distro=centos-6&epoch=1",
+                  "purl": "pkg:rpm/centos/telnet@1:0.17-49.el6_10?distro=centos-6&epoch=1&upstream=telnet%400.17",
                   "version": "1:0.17-49.el6_10",
                 },
               },
@@ -3038,7 +3038,7 @@ Object {
                 "id": "time@1.7-38.el6",
                 "info": Object {
                   "name": "time",
-                  "purl": "pkg:rpm/centos/time@1.7-38.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/time@1.7-38.el6?distro=centos-6&upstream=time%401.7",
                   "version": "1.7-38.el6",
                 },
               },
@@ -3046,7 +3046,7 @@ Object {
                 "id": "tzdata@2018e-3.el6",
                 "info": Object {
                   "name": "tzdata",
-                  "purl": "pkg:rpm/centos/tzdata@2018e-3.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/tzdata@2018e-3.el6?distro=centos-6&upstream=tzdata%402018e",
                   "version": "2018e-3.el6",
                 },
               },
@@ -3054,7 +3054,7 @@ Object {
                 "id": "udev@147-2.74.el6_10",
                 "info": Object {
                   "name": "udev",
-                  "purl": "pkg:rpm/centos/udev@147-2.74.el6_10?distro=centos-6",
+                  "purl": "pkg:rpm/centos/udev@147-2.74.el6_10?distro=centos-6&upstream=udev%40147",
                   "version": "147-2.74.el6_10",
                 },
               },
@@ -3062,7 +3062,7 @@ Object {
                 "id": "upstart@0.6.5-17.el6",
                 "info": Object {
                   "name": "upstart",
-                  "purl": "pkg:rpm/centos/upstart@0.6.5-17.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/upstart@0.6.5-17.el6?distro=centos-6&upstream=upstart%400.6.5",
                   "version": "0.6.5-17.el6",
                 },
               },
@@ -3070,7 +3070,7 @@ Object {
                 "id": "ustr@1.0.4-9.1.el6",
                 "info": Object {
                   "name": "ustr",
-                  "purl": "pkg:rpm/centos/ustr@1.0.4-9.1.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/ustr@1.0.4-9.1.el6?distro=centos-6&upstream=ustr%401.0.4",
                   "version": "1.0.4-9.1.el6",
                 },
               },
@@ -3078,7 +3078,7 @@ Object {
                 "id": "util-linux-ng@2.17.2-12.28.el6_9.2",
                 "info": Object {
                   "name": "util-linux-ng",
-                  "purl": "pkg:rpm/centos/util-linux-ng@2.17.2-12.28.el6_9.2?distro=centos-6",
+                  "purl": "pkg:rpm/centos/util-linux-ng@2.17.2-12.28.el6_9.2?distro=centos-6&upstream=util-linux-ng%402.17.2",
                   "version": "2.17.2-12.28.el6_9.2",
                 },
               },
@@ -3086,7 +3086,7 @@ Object {
                 "id": "vim-minimal@2:7.4.629-5.el6_10.2",
                 "info": Object {
                   "name": "vim-minimal",
-                  "purl": "pkg:rpm/centos/vim-minimal@2:7.4.629-5.el6_10.2?distro=centos-6&epoch=2",
+                  "purl": "pkg:rpm/centos/vim-minimal@2:7.4.629-5.el6_10.2?distro=centos-6&epoch=2&upstream=vim%407.4.629",
                   "version": "2:7.4.629-5.el6_10.2",
                 },
               },
@@ -3094,7 +3094,7 @@ Object {
                 "id": "wget@1.12-10.el6",
                 "info": Object {
                   "name": "wget",
-                  "purl": "pkg:rpm/centos/wget@1.12-10.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/wget@1.12-10.el6?distro=centos-6&upstream=wget%401.12",
                   "version": "1.12-10.el6",
                 },
               },
@@ -3102,7 +3102,7 @@ Object {
                 "id": "which@2.19-6.el6",
                 "info": Object {
                   "name": "which",
-                  "purl": "pkg:rpm/centos/which@2.19-6.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/which@2.19-6.el6?distro=centos-6&upstream=which%402.19",
                   "version": "2.19-6.el6",
                 },
               },
@@ -3110,7 +3110,7 @@ Object {
                 "id": "xz@4.999.9-0.5.beta.20091007git.el6",
                 "info": Object {
                   "name": "xz",
-                  "purl": "pkg:rpm/centos/xz@4.999.9-0.5.beta.20091007git.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/xz@4.999.9-0.5.beta.20091007git.el6?distro=centos-6&upstream=xz%404.999.9",
                   "version": "4.999.9-0.5.beta.20091007git.el6",
                 },
               },
@@ -3118,7 +3118,7 @@ Object {
                 "id": "xz-libs@4.999.9-0.5.beta.20091007git.el6",
                 "info": Object {
                   "name": "xz-libs",
-                  "purl": "pkg:rpm/centos/xz-libs@4.999.9-0.5.beta.20091007git.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/xz-libs@4.999.9-0.5.beta.20091007git.el6?distro=centos-6&upstream=xz%404.999.9",
                   "version": "4.999.9-0.5.beta.20091007git.el6",
                 },
               },
@@ -3126,7 +3126,7 @@ Object {
                 "id": "xz-lzma-compat@4.999.9-0.5.beta.20091007git.el6",
                 "info": Object {
                   "name": "xz-lzma-compat",
-                  "purl": "pkg:rpm/centos/xz-lzma-compat@4.999.9-0.5.beta.20091007git.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/xz-lzma-compat@4.999.9-0.5.beta.20091007git.el6?distro=centos-6&upstream=xz%404.999.9",
                   "version": "4.999.9-0.5.beta.20091007git.el6",
                 },
               },
@@ -3134,7 +3134,7 @@ Object {
                 "id": "yum@3.2.29-81.el6.centos",
                 "info": Object {
                   "name": "yum",
-                  "purl": "pkg:rpm/centos/yum@3.2.29-81.el6.centos?distro=centos-6",
+                  "purl": "pkg:rpm/centos/yum@3.2.29-81.el6.centos?distro=centos-6&upstream=yum%403.2.29",
                   "version": "3.2.29-81.el6.centos",
                 },
               },
@@ -3142,7 +3142,7 @@ Object {
                 "id": "yum-metadata-parser@1.1.2-16.el6",
                 "info": Object {
                   "name": "yum-metadata-parser",
-                  "purl": "pkg:rpm/centos/yum-metadata-parser@1.1.2-16.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/yum-metadata-parser@1.1.2-16.el6?distro=centos-6&upstream=yum-metadata-parser%401.1.2",
                   "version": "1.1.2-16.el6",
                 },
               },
@@ -3150,7 +3150,7 @@ Object {
                 "id": "yum-plugin-fastestmirror@1.1.30-42.el6_10",
                 "info": Object {
                   "name": "yum-plugin-fastestmirror",
-                  "purl": "pkg:rpm/centos/yum-plugin-fastestmirror@1.1.30-42.el6_10?distro=centos-6",
+                  "purl": "pkg:rpm/centos/yum-plugin-fastestmirror@1.1.30-42.el6_10?distro=centos-6&upstream=yum-utils%401.1.30",
                   "version": "1.1.30-42.el6_10",
                 },
               },
@@ -3158,7 +3158,7 @@ Object {
                 "id": "yum-plugin-ovl@1.1.30-42.el6_10",
                 "info": Object {
                   "name": "yum-plugin-ovl",
-                  "purl": "pkg:rpm/centos/yum-plugin-ovl@1.1.30-42.el6_10?distro=centos-6",
+                  "purl": "pkg:rpm/centos/yum-plugin-ovl@1.1.30-42.el6_10?distro=centos-6&upstream=yum-utils%401.1.30",
                   "version": "1.1.30-42.el6_10",
                 },
               },
@@ -3166,7 +3166,7 @@ Object {
                 "id": "zlib@1.2.3-29.el6",
                 "info": Object {
                   "name": "zlib",
-                  "purl": "pkg:rpm/centos/zlib@1.2.3-29.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/zlib@1.2.3-29.el6?distro=centos-6&upstream=zlib%401.2.3",
                   "version": "1.2.3-29.el6",
                 },
               },
@@ -4846,7 +4846,7 @@ Object {
                 "id": "MAKEDEV@3.24-6.el6",
                 "info": Object {
                   "name": "MAKEDEV",
-                  "purl": "pkg:rpm/centos/MAKEDEV@3.24-6.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/MAKEDEV@3.24-6.el6?distro=centos-6&upstream=MAKEDEV%403.24",
                   "version": "3.24-6.el6",
                 },
               },
@@ -4854,7 +4854,7 @@ Object {
                 "id": "at@3.1.10-49.el6",
                 "info": Object {
                   "name": "at",
-                  "purl": "pkg:rpm/centos/at@3.1.10-49.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/at@3.1.10-49.el6?distro=centos-6&upstream=at%403.1.10",
                   "version": "3.1.10-49.el6",
                 },
               },
@@ -4862,7 +4862,7 @@ Object {
                 "id": "audit-libs@2.4.5-6.el6",
                 "info": Object {
                   "name": "audit-libs",
-                  "purl": "pkg:rpm/centos/audit-libs@2.4.5-6.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/audit-libs@2.4.5-6.el6?distro=centos-6&upstream=audit%402.4.5",
                   "version": "2.4.5-6.el6",
                 },
               },
@@ -4870,7 +4870,7 @@ Object {
                 "id": "basesystem@10.0-4.el6",
                 "info": Object {
                   "name": "basesystem",
-                  "purl": "pkg:rpm/centos/basesystem@10.0-4.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/basesystem@10.0-4.el6?distro=centos-6&upstream=basesystem%4010.0",
                   "version": "10.0-4.el6",
                 },
               },
@@ -4878,7 +4878,7 @@ Object {
                 "id": "bash@4.1.2-48.el6",
                 "info": Object {
                   "name": "bash",
-                  "purl": "pkg:rpm/centos/bash@4.1.2-48.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/bash@4.1.2-48.el6?distro=centos-6&upstream=bash%404.1.2",
                   "version": "4.1.2-48.el6",
                 },
               },
@@ -4886,7 +4886,7 @@ Object {
                 "id": "bc@1.06.95-1.el6",
                 "info": Object {
                   "name": "bc",
-                  "purl": "pkg:rpm/centos/bc@1.06.95-1.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/bc@1.06.95-1.el6?distro=centos-6&upstream=bc%401.06.95",
                   "version": "1.06.95-1.el6",
                 },
               },
@@ -4894,7 +4894,7 @@ Object {
                 "id": "bind-libs@32:9.8.2-0.68.rc1.el6_10.1",
                 "info": Object {
                   "name": "bind-libs",
-                  "purl": "pkg:rpm/centos/bind-libs@32:9.8.2-0.68.rc1.el6_10.1?distro=centos-6&epoch=32",
+                  "purl": "pkg:rpm/centos/bind-libs@32:9.8.2-0.68.rc1.el6_10.1?distro=centos-6&epoch=32&upstream=bind%409.8.2",
                   "version": "32:9.8.2-0.68.rc1.el6_10.1",
                 },
               },
@@ -4902,7 +4902,7 @@ Object {
                 "id": "bind-utils@32:9.8.2-0.68.rc1.el6_10.1",
                 "info": Object {
                   "name": "bind-utils",
-                  "purl": "pkg:rpm/centos/bind-utils@32:9.8.2-0.68.rc1.el6_10.1?distro=centos-6&epoch=32",
+                  "purl": "pkg:rpm/centos/bind-utils@32:9.8.2-0.68.rc1.el6_10.1?distro=centos-6&epoch=32&upstream=bind%409.8.2",
                   "version": "32:9.8.2-0.68.rc1.el6_10.1",
                 },
               },
@@ -4910,7 +4910,7 @@ Object {
                 "id": "binutils@2.20.51.0.2-5.48.el6",
                 "info": Object {
                   "name": "binutils",
-                  "purl": "pkg:rpm/centos/binutils@2.20.51.0.2-5.48.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/binutils@2.20.51.0.2-5.48.el6?distro=centos-6&upstream=binutils%402.20.51.0.2",
                   "version": "2.20.51.0.2-5.48.el6",
                 },
               },
@@ -4918,7 +4918,7 @@ Object {
                 "id": "bzip2@1.0.5-7.el6_0",
                 "info": Object {
                   "name": "bzip2",
-                  "purl": "pkg:rpm/centos/bzip2@1.0.5-7.el6_0?distro=centos-6",
+                  "purl": "pkg:rpm/centos/bzip2@1.0.5-7.el6_0?distro=centos-6&upstream=bzip2%401.0.5",
                   "version": "1.0.5-7.el6_0",
                 },
               },
@@ -4926,7 +4926,7 @@ Object {
                 "id": "bzip2-libs@1.0.5-7.el6_0",
                 "info": Object {
                   "name": "bzip2-libs",
-                  "purl": "pkg:rpm/centos/bzip2-libs@1.0.5-7.el6_0?distro=centos-6",
+                  "purl": "pkg:rpm/centos/bzip2-libs@1.0.5-7.el6_0?distro=centos-6&upstream=bzip2%401.0.5",
                   "version": "1.0.5-7.el6_0",
                 },
               },
@@ -4934,7 +4934,7 @@ Object {
                 "id": "ca-certificates@2020.2.41-65.1.el6_10",
                 "info": Object {
                   "name": "ca-certificates",
-                  "purl": "pkg:rpm/centos/ca-certificates@2020.2.41-65.1.el6_10?distro=centos-6",
+                  "purl": "pkg:rpm/centos/ca-certificates@2020.2.41-65.1.el6_10?distro=centos-6&upstream=ca-certificates%402020.2.41",
                   "version": "2020.2.41-65.1.el6_10",
                 },
               },
@@ -4942,7 +4942,7 @@ Object {
                 "id": "centos-release@6-10.el6.centos.12.3",
                 "info": Object {
                   "name": "centos-release",
-                  "purl": "pkg:rpm/centos/centos-release@6-10.el6.centos.12.3?distro=centos-6",
+                  "purl": "pkg:rpm/centos/centos-release@6-10.el6.centos.12.3?distro=centos-6&upstream=centos-release%406",
                   "version": "6-10.el6.centos.12.3",
                 },
               },
@@ -4950,7 +4950,7 @@ Object {
                 "id": "checkpolicy@2.0.22-1.el6",
                 "info": Object {
                   "name": "checkpolicy",
-                  "purl": "pkg:rpm/centos/checkpolicy@2.0.22-1.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/checkpolicy@2.0.22-1.el6?distro=centos-6&upstream=checkpolicy%402.0.22",
                   "version": "2.0.22-1.el6",
                 },
               },
@@ -4958,7 +4958,7 @@ Object {
                 "id": "chkconfig@1.3.49.5-1.el6",
                 "info": Object {
                   "name": "chkconfig",
-                  "purl": "pkg:rpm/centos/chkconfig@1.3.49.5-1.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/chkconfig@1.3.49.5-1.el6?distro=centos-6&upstream=chkconfig%401.3.49.5",
                   "version": "1.3.49.5-1.el6",
                 },
               },
@@ -4966,7 +4966,7 @@ Object {
                 "id": "coreutils@8.4-47.el6",
                 "info": Object {
                   "name": "coreutils",
-                  "purl": "pkg:rpm/centos/coreutils@8.4-47.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/coreutils@8.4-47.el6?distro=centos-6&upstream=coreutils%408.4",
                   "version": "8.4-47.el6",
                 },
               },
@@ -4974,7 +4974,7 @@ Object {
                 "id": "coreutils-libs@8.4-47.el6",
                 "info": Object {
                   "name": "coreutils-libs",
-                  "purl": "pkg:rpm/centos/coreutils-libs@8.4-47.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/coreutils-libs@8.4-47.el6?distro=centos-6&upstream=coreutils%408.4",
                   "version": "8.4-47.el6",
                 },
               },
@@ -4982,7 +4982,7 @@ Object {
                 "id": "cpio@2.10-13.el6",
                 "info": Object {
                   "name": "cpio",
-                  "purl": "pkg:rpm/centos/cpio@2.10-13.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/cpio@2.10-13.el6?distro=centos-6&upstream=cpio%402.10",
                   "version": "2.10-13.el6",
                 },
               },
@@ -4990,7 +4990,7 @@ Object {
                 "id": "cracklib@2.8.16-4.el6",
                 "info": Object {
                   "name": "cracklib",
-                  "purl": "pkg:rpm/centos/cracklib@2.8.16-4.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/cracklib@2.8.16-4.el6?distro=centos-6&upstream=cracklib%402.8.16",
                   "version": "2.8.16-4.el6",
                 },
               },
@@ -4998,7 +4998,7 @@ Object {
                 "id": "cracklib-dicts@2.8.16-4.el6",
                 "info": Object {
                   "name": "cracklib-dicts",
-                  "purl": "pkg:rpm/centos/cracklib-dicts@2.8.16-4.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/cracklib-dicts@2.8.16-4.el6?distro=centos-6&upstream=cracklib%402.8.16",
                   "version": "2.8.16-4.el6",
                 },
               },
@@ -5006,7 +5006,7 @@ Object {
                 "id": "cronie@1.4.4-16.el6_8.2",
                 "info": Object {
                   "name": "cronie",
-                  "purl": "pkg:rpm/centos/cronie@1.4.4-16.el6_8.2?distro=centos-6",
+                  "purl": "pkg:rpm/centos/cronie@1.4.4-16.el6_8.2?distro=centos-6&upstream=cronie%401.4.4",
                   "version": "1.4.4-16.el6_8.2",
                 },
               },
@@ -5014,7 +5014,7 @@ Object {
                 "id": "cronie-anacron@1.4.4-16.el6_8.2",
                 "info": Object {
                   "name": "cronie-anacron",
-                  "purl": "pkg:rpm/centos/cronie-anacron@1.4.4-16.el6_8.2?distro=centos-6",
+                  "purl": "pkg:rpm/centos/cronie-anacron@1.4.4-16.el6_8.2?distro=centos-6&upstream=cronie%401.4.4",
                   "version": "1.4.4-16.el6_8.2",
                 },
               },
@@ -5022,7 +5022,7 @@ Object {
                 "id": "crontabs@1.10-33.el6",
                 "info": Object {
                   "name": "crontabs",
-                  "purl": "pkg:rpm/centos/crontabs@1.10-33.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/crontabs@1.10-33.el6?distro=centos-6&upstream=crontabs%401.10",
                   "version": "1.10-33.el6",
                 },
               },
@@ -5030,7 +5030,7 @@ Object {
                 "id": "curl@7.19.7-54.el6_10",
                 "info": Object {
                   "name": "curl",
-                  "purl": "pkg:rpm/centos/curl@7.19.7-54.el6_10?distro=centos-6",
+                  "purl": "pkg:rpm/centos/curl@7.19.7-54.el6_10?distro=centos-6&upstream=curl%407.19.7",
                   "version": "7.19.7-54.el6_10",
                 },
               },
@@ -5038,7 +5038,7 @@ Object {
                 "id": "cvs@1.11.23-16.el6",
                 "info": Object {
                   "name": "cvs",
-                  "purl": "pkg:rpm/centos/cvs@1.11.23-16.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/cvs@1.11.23-16.el6?distro=centos-6&upstream=cvs%401.11.23",
                   "version": "1.11.23-16.el6",
                 },
               },
@@ -5046,7 +5046,7 @@ Object {
                 "id": "cyrus-sasl@2.1.23-15.el6_6.2",
                 "info": Object {
                   "name": "cyrus-sasl",
-                  "purl": "pkg:rpm/centos/cyrus-sasl@2.1.23-15.el6_6.2?distro=centos-6",
+                  "purl": "pkg:rpm/centos/cyrus-sasl@2.1.23-15.el6_6.2?distro=centos-6&upstream=cyrus-sasl%402.1.23",
                   "version": "2.1.23-15.el6_6.2",
                 },
               },
@@ -5054,7 +5054,7 @@ Object {
                 "id": "cyrus-sasl-lib@2.1.23-15.el6_6.2",
                 "info": Object {
                   "name": "cyrus-sasl-lib",
-                  "purl": "pkg:rpm/centos/cyrus-sasl-lib@2.1.23-15.el6_6.2?distro=centos-6",
+                  "purl": "pkg:rpm/centos/cyrus-sasl-lib@2.1.23-15.el6_6.2?distro=centos-6&upstream=cyrus-sasl%402.1.23",
                   "version": "2.1.23-15.el6_6.2",
                 },
               },
@@ -5062,7 +5062,7 @@ Object {
                 "id": "dash@0.5.5.1-4.el6",
                 "info": Object {
                   "name": "dash",
-                  "purl": "pkg:rpm/centos/dash@0.5.5.1-4.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/dash@0.5.5.1-4.el6?distro=centos-6&upstream=dash%400.5.5.1",
                   "version": "0.5.5.1-4.el6",
                 },
               },
@@ -5070,7 +5070,7 @@ Object {
                 "id": "db4@4.7.25-22.el6",
                 "info": Object {
                   "name": "db4",
-                  "purl": "pkg:rpm/centos/db4@4.7.25-22.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/db4@4.7.25-22.el6?distro=centos-6&upstream=db4%404.7.25",
                   "version": "4.7.25-22.el6",
                 },
               },
@@ -5078,7 +5078,7 @@ Object {
                 "id": "db4-cxx@4.7.25-22.el6",
                 "info": Object {
                   "name": "db4-cxx",
-                  "purl": "pkg:rpm/centos/db4-cxx@4.7.25-22.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/db4-cxx@4.7.25-22.el6?distro=centos-6&upstream=db4%404.7.25",
                   "version": "4.7.25-22.el6",
                 },
               },
@@ -5086,7 +5086,7 @@ Object {
                 "id": "db4-devel@4.7.25-22.el6",
                 "info": Object {
                   "name": "db4-devel",
-                  "purl": "pkg:rpm/centos/db4-devel@4.7.25-22.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/db4-devel@4.7.25-22.el6?distro=centos-6&upstream=db4%404.7.25",
                   "version": "4.7.25-22.el6",
                 },
               },
@@ -5094,7 +5094,7 @@ Object {
                 "id": "db4-utils@4.7.25-22.el6",
                 "info": Object {
                   "name": "db4-utils",
-                  "purl": "pkg:rpm/centos/db4-utils@4.7.25-22.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/db4-utils@4.7.25-22.el6?distro=centos-6&upstream=db4%404.7.25",
                   "version": "4.7.25-22.el6",
                 },
               },
@@ -5102,7 +5102,7 @@ Object {
                 "id": "dbus-glib@0.86-6.el6",
                 "info": Object {
                   "name": "dbus-glib",
-                  "purl": "pkg:rpm/centos/dbus-glib@0.86-6.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/dbus-glib@0.86-6.el6?distro=centos-6&upstream=dbus-glib%400.86",
                   "version": "0.86-6.el6",
                 },
               },
@@ -5110,7 +5110,7 @@ Object {
                 "id": "dbus-libs@1:1.2.24-9.el6",
                 "info": Object {
                   "name": "dbus-libs",
-                  "purl": "pkg:rpm/centos/dbus-libs@1:1.2.24-9.el6?distro=centos-6&epoch=1",
+                  "purl": "pkg:rpm/centos/dbus-libs@1:1.2.24-9.el6?distro=centos-6&epoch=1&upstream=dbus%401.2.24",
                   "version": "1:1.2.24-9.el6",
                 },
               },
@@ -5118,7 +5118,7 @@ Object {
                 "id": "diffutils@2.8.1-28.el6",
                 "info": Object {
                   "name": "diffutils",
-                  "purl": "pkg:rpm/centos/diffutils@2.8.1-28.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/diffutils@2.8.1-28.el6?distro=centos-6&upstream=diffutils%402.8.1",
                   "version": "2.8.1-28.el6",
                 },
               },
@@ -5126,7 +5126,7 @@ Object {
                 "id": "dmidecode@1:2.12-7.el6",
                 "info": Object {
                   "name": "dmidecode",
-                  "purl": "pkg:rpm/centos/dmidecode@1:2.12-7.el6?distro=centos-6&epoch=1",
+                  "purl": "pkg:rpm/centos/dmidecode@1:2.12-7.el6?distro=centos-6&epoch=1&upstream=dmidecode%402.12",
                   "version": "1:2.12-7.el6",
                 },
               },
@@ -5134,7 +5134,7 @@ Object {
                 "id": "ed@1.1-3.3.el6",
                 "info": Object {
                   "name": "ed",
-                  "purl": "pkg:rpm/centos/ed@1.1-3.3.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/ed@1.1-3.3.el6?distro=centos-6&upstream=ed%401.1",
                   "version": "1.1-3.3.el6",
                 },
               },
@@ -5142,7 +5142,7 @@ Object {
                 "id": "elfutils-libelf@0.164-2.el6",
                 "info": Object {
                   "name": "elfutils-libelf",
-                  "purl": "pkg:rpm/centos/elfutils-libelf@0.164-2.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/elfutils-libelf@0.164-2.el6?distro=centos-6&upstream=elfutils%400.164",
                   "version": "0.164-2.el6",
                 },
               },
@@ -5150,7 +5150,7 @@ Object {
                 "id": "ethtool@2:3.5-6.el6",
                 "info": Object {
                   "name": "ethtool",
-                  "purl": "pkg:rpm/centos/ethtool@2:3.5-6.el6?distro=centos-6&epoch=2",
+                  "purl": "pkg:rpm/centos/ethtool@2:3.5-6.el6?distro=centos-6&epoch=2&upstream=ethtool%403.5",
                   "version": "2:3.5-6.el6",
                 },
               },
@@ -5158,7 +5158,7 @@ Object {
                 "id": "expat@2.0.1-13.el6_8",
                 "info": Object {
                   "name": "expat",
-                  "purl": "pkg:rpm/centos/expat@2.0.1-13.el6_8?distro=centos-6",
+                  "purl": "pkg:rpm/centos/expat@2.0.1-13.el6_8?distro=centos-6&upstream=expat%402.0.1",
                   "version": "2.0.1-13.el6_8",
                 },
               },
@@ -5166,7 +5166,7 @@ Object {
                 "id": "file@5.04-30.el6",
                 "info": Object {
                   "name": "file",
-                  "purl": "pkg:rpm/centos/file@5.04-30.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/file@5.04-30.el6?distro=centos-6&upstream=file%405.04",
                   "version": "5.04-30.el6",
                 },
               },
@@ -5174,7 +5174,7 @@ Object {
                 "id": "file-libs@5.04-30.el6",
                 "info": Object {
                   "name": "file-libs",
-                  "purl": "pkg:rpm/centos/file-libs@5.04-30.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/file-libs@5.04-30.el6?distro=centos-6&upstream=file%405.04",
                   "version": "5.04-30.el6",
                 },
               },
@@ -5182,7 +5182,7 @@ Object {
                 "id": "filesystem@2.4.30-3.el6",
                 "info": Object {
                   "name": "filesystem",
-                  "purl": "pkg:rpm/centos/filesystem@2.4.30-3.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/filesystem@2.4.30-3.el6?distro=centos-6&upstream=filesystem%402.4.30",
                   "version": "2.4.30-3.el6",
                 },
               },
@@ -5190,7 +5190,7 @@ Object {
                 "id": "findutils@1:4.4.2-9.el6",
                 "info": Object {
                   "name": "findutils",
-                  "purl": "pkg:rpm/centos/findutils@1:4.4.2-9.el6?distro=centos-6&epoch=1",
+                  "purl": "pkg:rpm/centos/findutils@1:4.4.2-9.el6?distro=centos-6&epoch=1&upstream=findutils%404.4.2",
                   "version": "1:4.4.2-9.el6",
                 },
               },
@@ -5198,7 +5198,7 @@ Object {
                 "id": "gamin@0.1.10-9.el6",
                 "info": Object {
                   "name": "gamin",
-                  "purl": "pkg:rpm/centos/gamin@0.1.10-9.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/gamin@0.1.10-9.el6?distro=centos-6&upstream=gamin%400.1.10",
                   "version": "0.1.10-9.el6",
                 },
               },
@@ -5206,7 +5206,7 @@ Object {
                 "id": "gawk@3.1.7-10.el6_7.3",
                 "info": Object {
                   "name": "gawk",
-                  "purl": "pkg:rpm/centos/gawk@3.1.7-10.el6_7.3?distro=centos-6",
+                  "purl": "pkg:rpm/centos/gawk@3.1.7-10.el6_7.3?distro=centos-6&upstream=gawk%403.1.7",
                   "version": "3.1.7-10.el6_7.3",
                 },
               },
@@ -5214,7 +5214,7 @@ Object {
                 "id": "gdbm@1.8.0-39.el6",
                 "info": Object {
                   "name": "gdbm",
-                  "purl": "pkg:rpm/centos/gdbm@1.8.0-39.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/gdbm@1.8.0-39.el6?distro=centos-6&upstream=gdbm%401.8.0",
                   "version": "1.8.0-39.el6",
                 },
               },
@@ -5222,7 +5222,7 @@ Object {
                 "id": "gdbm-devel@1.8.0-39.el6",
                 "info": Object {
                   "name": "gdbm-devel",
-                  "purl": "pkg:rpm/centos/gdbm-devel@1.8.0-39.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/gdbm-devel@1.8.0-39.el6?distro=centos-6&upstream=gdbm%401.8.0",
                   "version": "1.8.0-39.el6",
                 },
               },
@@ -5230,7 +5230,7 @@ Object {
                 "id": "gettext@0.17-18.el6",
                 "info": Object {
                   "name": "gettext",
-                  "purl": "pkg:rpm/centos/gettext@0.17-18.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/gettext@0.17-18.el6?distro=centos-6&upstream=gettext%400.17",
                   "version": "0.17-18.el6",
                 },
               },
@@ -5238,7 +5238,7 @@ Object {
                 "id": "glib2@2.28.8-10.el6",
                 "info": Object {
                   "name": "glib2",
-                  "purl": "pkg:rpm/centos/glib2@2.28.8-10.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/glib2@2.28.8-10.el6?distro=centos-6&upstream=glib2%402.28.8",
                   "version": "2.28.8-10.el6",
                 },
               },
@@ -5246,7 +5246,7 @@ Object {
                 "id": "glibc@2.12-1.212.el6_10.3",
                 "info": Object {
                   "name": "glibc",
-                  "purl": "pkg:rpm/centos/glibc@2.12-1.212.el6_10.3?distro=centos-6",
+                  "purl": "pkg:rpm/centos/glibc@2.12-1.212.el6_10.3?distro=centos-6&upstream=glibc%402.12",
                   "version": "2.12-1.212.el6_10.3",
                 },
               },
@@ -5254,7 +5254,7 @@ Object {
                 "id": "glibc-common@2.12-1.212.el6_10.3",
                 "info": Object {
                   "name": "glibc-common",
-                  "purl": "pkg:rpm/centos/glibc-common@2.12-1.212.el6_10.3?distro=centos-6",
+                  "purl": "pkg:rpm/centos/glibc-common@2.12-1.212.el6_10.3?distro=centos-6&upstream=glibc%402.12",
                   "version": "2.12-1.212.el6_10.3",
                 },
               },
@@ -5262,7 +5262,7 @@ Object {
                 "id": "glibc-devel@2.12-1.212.el6_10.3",
                 "info": Object {
                   "name": "glibc-devel",
-                  "purl": "pkg:rpm/centos/glibc-devel@2.12-1.212.el6_10.3?distro=centos-6",
+                  "purl": "pkg:rpm/centos/glibc-devel@2.12-1.212.el6_10.3?distro=centos-6&upstream=glibc%402.12",
                   "version": "2.12-1.212.el6_10.3",
                 },
               },
@@ -5270,7 +5270,7 @@ Object {
                 "id": "glibc-headers@2.12-1.212.el6_10.3",
                 "info": Object {
                   "name": "glibc-headers",
-                  "purl": "pkg:rpm/centos/glibc-headers@2.12-1.212.el6_10.3?distro=centos-6",
+                  "purl": "pkg:rpm/centos/glibc-headers@2.12-1.212.el6_10.3?distro=centos-6&upstream=glibc%402.12",
                   "version": "2.12-1.212.el6_10.3",
                 },
               },
@@ -5278,7 +5278,7 @@ Object {
                 "id": "gmp@4.3.1-13.el6",
                 "info": Object {
                   "name": "gmp",
-                  "purl": "pkg:rpm/centos/gmp@4.3.1-13.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/gmp@4.3.1-13.el6?distro=centos-6&upstream=gmp%404.3.1",
                   "version": "4.3.1-13.el6",
                 },
               },
@@ -5286,7 +5286,7 @@ Object {
                 "id": "gnupg2@2.0.14-9.el6_10",
                 "info": Object {
                   "name": "gnupg2",
-                  "purl": "pkg:rpm/centos/gnupg2@2.0.14-9.el6_10?distro=centos-6",
+                  "purl": "pkg:rpm/centos/gnupg2@2.0.14-9.el6_10?distro=centos-6&upstream=gnupg2%402.0.14",
                   "version": "2.0.14-9.el6_10",
                 },
               },
@@ -5302,7 +5302,7 @@ Object {
                 "id": "gpgme@1.1.8-3.el6",
                 "info": Object {
                   "name": "gpgme",
-                  "purl": "pkg:rpm/centos/gpgme@1.1.8-3.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/gpgme@1.1.8-3.el6?distro=centos-6&upstream=gpgme%401.1.8",
                   "version": "1.1.8-3.el6",
                 },
               },
@@ -5310,7 +5310,7 @@ Object {
                 "id": "grep@2.20-6.el6",
                 "info": Object {
                   "name": "grep",
-                  "purl": "pkg:rpm/centos/grep@2.20-6.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/grep@2.20-6.el6?distro=centos-6&upstream=grep%402.20",
                   "version": "2.20-6.el6",
                 },
               },
@@ -5318,7 +5318,7 @@ Object {
                 "id": "groff@1.18.1.4-21.el6",
                 "info": Object {
                   "name": "groff",
-                  "purl": "pkg:rpm/centos/groff@1.18.1.4-21.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/groff@1.18.1.4-21.el6?distro=centos-6&upstream=groff%401.18.1.4",
                   "version": "1.18.1.4-21.el6",
                 },
               },
@@ -5326,7 +5326,7 @@ Object {
                 "id": "gzip@1.3.12-24.el6",
                 "info": Object {
                   "name": "gzip",
-                  "purl": "pkg:rpm/centos/gzip@1.3.12-24.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/gzip@1.3.12-24.el6?distro=centos-6&upstream=gzip%401.3.12",
                   "version": "1.3.12-24.el6",
                 },
               },
@@ -5334,7 +5334,7 @@ Object {
                 "id": "hwdata@0.233-20.1.el6",
                 "info": Object {
                   "name": "hwdata",
-                  "purl": "pkg:rpm/centos/hwdata@0.233-20.1.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/hwdata@0.233-20.1.el6?distro=centos-6&upstream=hwdata%400.233",
                   "version": "0.233-20.1.el6",
                 },
               },
@@ -5342,7 +5342,7 @@ Object {
                 "id": "info@4.13a-8.el6",
                 "info": Object {
                   "name": "info",
-                  "purl": "pkg:rpm/centos/info@4.13a-8.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/info@4.13a-8.el6?distro=centos-6&upstream=texinfo%404.13a",
                   "version": "4.13a-8.el6",
                 },
               },
@@ -5350,7 +5350,7 @@ Object {
                 "id": "initscripts@9.03.61-1.el6.centos",
                 "info": Object {
                   "name": "initscripts",
-                  "purl": "pkg:rpm/centos/initscripts@9.03.61-1.el6.centos?distro=centos-6",
+                  "purl": "pkg:rpm/centos/initscripts@9.03.61-1.el6.centos?distro=centos-6&upstream=initscripts%409.03.61",
                   "version": "9.03.61-1.el6.centos",
                 },
               },
@@ -5358,7 +5358,7 @@ Object {
                 "id": "iproute@2.6.32-57.el6",
                 "info": Object {
                   "name": "iproute",
-                  "purl": "pkg:rpm/centos/iproute@2.6.32-57.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/iproute@2.6.32-57.el6?distro=centos-6&upstream=iproute%402.6.32",
                   "version": "2.6.32-57.el6",
                 },
               },
@@ -5366,7 +5366,7 @@ Object {
                 "id": "iptables@1.4.7-19.el6",
                 "info": Object {
                   "name": "iptables",
-                  "purl": "pkg:rpm/centos/iptables@1.4.7-19.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/iptables@1.4.7-19.el6?distro=centos-6&upstream=iptables%401.4.7",
                   "version": "1.4.7-19.el6",
                 },
               },
@@ -5374,7 +5374,7 @@ Object {
                 "id": "iputils@20071127-24.el6",
                 "info": Object {
                   "name": "iputils",
-                  "purl": "pkg:rpm/centos/iputils@20071127-24.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/iputils@20071127-24.el6?distro=centos-6&upstream=iputils%4020071127",
                   "version": "20071127-24.el6",
                 },
               },
@@ -5382,7 +5382,7 @@ Object {
                 "id": "kernel-headers@2.6.32-754.35.1.el6",
                 "info": Object {
                   "name": "kernel-headers",
-                  "purl": "pkg:rpm/centos/kernel-headers@2.6.32-754.35.1.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/kernel-headers@2.6.32-754.35.1.el6?distro=centos-6&upstream=kernel%402.6.32",
                   "version": "2.6.32-754.35.1.el6",
                 },
               },
@@ -5390,7 +5390,7 @@ Object {
                 "id": "keyutils-libs@1.4-5.el6",
                 "info": Object {
                   "name": "keyutils-libs",
-                  "purl": "pkg:rpm/centos/keyutils-libs@1.4-5.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/keyutils-libs@1.4-5.el6?distro=centos-6&upstream=keyutils%401.4",
                   "version": "1.4-5.el6",
                 },
               },
@@ -5398,7 +5398,7 @@ Object {
                 "id": "krb5-libs@1.10.3-65.el6",
                 "info": Object {
                   "name": "krb5-libs",
-                  "purl": "pkg:rpm/centos/krb5-libs@1.10.3-65.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/krb5-libs@1.10.3-65.el6?distro=centos-6&upstream=krb5%401.10.3",
                   "version": "1.10.3-65.el6",
                 },
               },
@@ -5406,7 +5406,7 @@ Object {
                 "id": "less@436-13.el6",
                 "info": Object {
                   "name": "less",
-                  "purl": "pkg:rpm/centos/less@436-13.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/less@436-13.el6?distro=centos-6&upstream=less%40436",
                   "version": "436-13.el6",
                 },
               },
@@ -5414,7 +5414,7 @@ Object {
                 "id": "libacl@2.2.49-7.el6_9.1",
                 "info": Object {
                   "name": "libacl",
-                  "purl": "pkg:rpm/centos/libacl@2.2.49-7.el6_9.1?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libacl@2.2.49-7.el6_9.1?distro=centos-6&upstream=acl%402.2.49",
                   "version": "2.2.49-7.el6_9.1",
                 },
               },
@@ -5422,7 +5422,7 @@ Object {
                 "id": "libattr@2.4.44-7.el6",
                 "info": Object {
                   "name": "libattr",
-                  "purl": "pkg:rpm/centos/libattr@2.4.44-7.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libattr@2.4.44-7.el6?distro=centos-6&upstream=attr%402.4.44",
                   "version": "2.4.44-7.el6",
                 },
               },
@@ -5430,7 +5430,7 @@ Object {
                 "id": "libblkid@2.17.2-12.28.el6_9.2",
                 "info": Object {
                   "name": "libblkid",
-                  "purl": "pkg:rpm/centos/libblkid@2.17.2-12.28.el6_9.2?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libblkid@2.17.2-12.28.el6_9.2?distro=centos-6&upstream=util-linux-ng%402.17.2",
                   "version": "2.17.2-12.28.el6_9.2",
                 },
               },
@@ -5438,7 +5438,7 @@ Object {
                 "id": "libcap@2.16-5.5.el6",
                 "info": Object {
                   "name": "libcap",
-                  "purl": "pkg:rpm/centos/libcap@2.16-5.5.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libcap@2.16-5.5.el6?distro=centos-6&upstream=libcap%402.16",
                   "version": "2.16-5.5.el6",
                 },
               },
@@ -5446,7 +5446,7 @@ Object {
                 "id": "libcom_err@1.41.12-24.el6",
                 "info": Object {
                   "name": "libcom_err",
-                  "purl": "pkg:rpm/centos/libcom_err@1.41.12-24.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libcom_err@1.41.12-24.el6?distro=centos-6&upstream=e2fsprogs%401.41.12",
                   "version": "1.41.12-24.el6",
                 },
               },
@@ -5454,7 +5454,7 @@ Object {
                 "id": "libcurl@7.19.7-54.el6_10",
                 "info": Object {
                   "name": "libcurl",
-                  "purl": "pkg:rpm/centos/libcurl@7.19.7-54.el6_10?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libcurl@7.19.7-54.el6_10?distro=centos-6&upstream=curl%407.19.7",
                   "version": "7.19.7-54.el6_10",
                 },
               },
@@ -5462,7 +5462,7 @@ Object {
                 "id": "libdrm@2.4.65-2.el6",
                 "info": Object {
                   "name": "libdrm",
-                  "purl": "pkg:rpm/centos/libdrm@2.4.65-2.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libdrm@2.4.65-2.el6?distro=centos-6&upstream=libdrm%402.4.65",
                   "version": "2.4.65-2.el6",
                 },
               },
@@ -5470,7 +5470,7 @@ Object {
                 "id": "libffi@3.0.5-3.2.el6",
                 "info": Object {
                   "name": "libffi",
-                  "purl": "pkg:rpm/centos/libffi@3.0.5-3.2.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libffi@3.0.5-3.2.el6?distro=centos-6&upstream=libffi%403.0.5",
                   "version": "3.0.5-3.2.el6",
                 },
               },
@@ -5478,7 +5478,7 @@ Object {
                 "id": "libgcc@4.4.7-23.el6",
                 "info": Object {
                   "name": "libgcc",
-                  "purl": "pkg:rpm/centos/libgcc@4.4.7-23.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libgcc@4.4.7-23.el6?distro=centos-6&upstream=gcc%404.4.7",
                   "version": "4.4.7-23.el6",
                 },
               },
@@ -5486,7 +5486,7 @@ Object {
                 "id": "libgcrypt@1.4.5-12.el6_8",
                 "info": Object {
                   "name": "libgcrypt",
-                  "purl": "pkg:rpm/centos/libgcrypt@1.4.5-12.el6_8?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libgcrypt@1.4.5-12.el6_8?distro=centos-6&upstream=libgcrypt%401.4.5",
                   "version": "1.4.5-12.el6_8",
                 },
               },
@@ -5494,7 +5494,7 @@ Object {
                 "id": "libgomp@4.4.7-23.el6",
                 "info": Object {
                   "name": "libgomp",
-                  "purl": "pkg:rpm/centos/libgomp@4.4.7-23.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libgomp@4.4.7-23.el6?distro=centos-6&upstream=gcc%404.4.7",
                   "version": "4.4.7-23.el6",
                 },
               },
@@ -5502,7 +5502,7 @@ Object {
                 "id": "libgpg-error@1.7-4.el6",
                 "info": Object {
                   "name": "libgpg-error",
-                  "purl": "pkg:rpm/centos/libgpg-error@1.7-4.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libgpg-error@1.7-4.el6?distro=centos-6&upstream=libgpg-error%401.7",
                   "version": "1.7-4.el6",
                 },
               },
@@ -5510,7 +5510,7 @@ Object {
                 "id": "libidn@1.18-2.el6",
                 "info": Object {
                   "name": "libidn",
-                  "purl": "pkg:rpm/centos/libidn@1.18-2.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libidn@1.18-2.el6?distro=centos-6&upstream=libidn%401.18",
                   "version": "1.18-2.el6",
                 },
               },
@@ -5518,7 +5518,7 @@ Object {
                 "id": "libnih@1.0.1-8.el6",
                 "info": Object {
                   "name": "libnih",
-                  "purl": "pkg:rpm/centos/libnih@1.0.1-8.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libnih@1.0.1-8.el6?distro=centos-6&upstream=libnih%401.0.1",
                   "version": "1.0.1-8.el6",
                 },
               },
@@ -5526,7 +5526,7 @@ Object {
                 "id": "libpcap@14:1.4.0-4.20130826git2dbcaa1.el6",
                 "info": Object {
                   "name": "libpcap",
-                  "purl": "pkg:rpm/centos/libpcap@14:1.4.0-4.20130826git2dbcaa1.el6?distro=centos-6&epoch=14",
+                  "purl": "pkg:rpm/centos/libpcap@14:1.4.0-4.20130826git2dbcaa1.el6?distro=centos-6&epoch=14&upstream=libpcap%401.4.0",
                   "version": "14:1.4.0-4.20130826git2dbcaa1.el6",
                 },
               },
@@ -5534,7 +5534,7 @@ Object {
                 "id": "libpciaccess@0.13.4-1.el6",
                 "info": Object {
                   "name": "libpciaccess",
-                  "purl": "pkg:rpm/centos/libpciaccess@0.13.4-1.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libpciaccess@0.13.4-1.el6?distro=centos-6&upstream=libpciaccess%400.13.4",
                   "version": "0.13.4-1.el6",
                 },
               },
@@ -5542,7 +5542,7 @@ Object {
                 "id": "libselinux@2.0.94-7.el6",
                 "info": Object {
                   "name": "libselinux",
-                  "purl": "pkg:rpm/centos/libselinux@2.0.94-7.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libselinux@2.0.94-7.el6?distro=centos-6&upstream=libselinux%402.0.94",
                   "version": "2.0.94-7.el6",
                 },
               },
@@ -5550,7 +5550,7 @@ Object {
                 "id": "libselinux-utils@2.0.94-7.el6",
                 "info": Object {
                   "name": "libselinux-utils",
-                  "purl": "pkg:rpm/centos/libselinux-utils@2.0.94-7.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libselinux-utils@2.0.94-7.el6?distro=centos-6&upstream=libselinux%402.0.94",
                   "version": "2.0.94-7.el6",
                 },
               },
@@ -5558,7 +5558,7 @@ Object {
                 "id": "libsemanage@2.0.43-5.1.el6",
                 "info": Object {
                   "name": "libsemanage",
-                  "purl": "pkg:rpm/centos/libsemanage@2.0.43-5.1.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libsemanage@2.0.43-5.1.el6?distro=centos-6&upstream=libsemanage%402.0.43",
                   "version": "2.0.43-5.1.el6",
                 },
               },
@@ -5566,7 +5566,7 @@ Object {
                 "id": "libsepol@2.0.41-4.el6",
                 "info": Object {
                   "name": "libsepol",
-                  "purl": "pkg:rpm/centos/libsepol@2.0.41-4.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libsepol@2.0.41-4.el6?distro=centos-6&upstream=libsepol%402.0.41",
                   "version": "2.0.41-4.el6",
                 },
               },
@@ -5574,7 +5574,7 @@ Object {
                 "id": "libssh2@1.4.2-2.el6_7.1",
                 "info": Object {
                   "name": "libssh2",
-                  "purl": "pkg:rpm/centos/libssh2@1.4.2-2.el6_7.1?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libssh2@1.4.2-2.el6_7.1?distro=centos-6&upstream=libssh2%401.4.2",
                   "version": "1.4.2-2.el6_7.1",
                 },
               },
@@ -5582,7 +5582,7 @@ Object {
                 "id": "libstdc++@4.4.7-23.el6",
                 "info": Object {
                   "name": "libstdc++",
-                  "purl": "pkg:rpm/centos/libstdc%2B%2B@4.4.7-23.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libstdc%2B%2B@4.4.7-23.el6?distro=centos-6&upstream=gcc%404.4.7",
                   "version": "4.4.7-23.el6",
                 },
               },
@@ -5590,7 +5590,7 @@ Object {
                 "id": "libtasn1@2.3-6.el6_5",
                 "info": Object {
                   "name": "libtasn1",
-                  "purl": "pkg:rpm/centos/libtasn1@2.3-6.el6_5?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libtasn1@2.3-6.el6_5?distro=centos-6&upstream=libtasn1%402.3",
                   "version": "2.3-6.el6_5",
                 },
               },
@@ -5598,7 +5598,7 @@ Object {
                 "id": "libusb@0.1.12-23.el6",
                 "info": Object {
                   "name": "libusb",
-                  "purl": "pkg:rpm/centos/libusb@0.1.12-23.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libusb@0.1.12-23.el6?distro=centos-6&upstream=libusb%400.1.12",
                   "version": "0.1.12-23.el6",
                 },
               },
@@ -5606,7 +5606,7 @@ Object {
                 "id": "libuser@0.56.13-8.el6_7",
                 "info": Object {
                   "name": "libuser",
-                  "purl": "pkg:rpm/centos/libuser@0.56.13-8.el6_7?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libuser@0.56.13-8.el6_7?distro=centos-6&upstream=libuser%400.56.13",
                   "version": "0.56.13-8.el6_7",
                 },
               },
@@ -5614,7 +5614,7 @@ Object {
                 "id": "libutempter@1.1.5-4.1.el6",
                 "info": Object {
                   "name": "libutempter",
-                  "purl": "pkg:rpm/centos/libutempter@1.1.5-4.1.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libutempter@1.1.5-4.1.el6?distro=centos-6&upstream=libutempter%401.1.5",
                   "version": "1.1.5-4.1.el6",
                 },
               },
@@ -5622,7 +5622,7 @@ Object {
                 "id": "libuuid@2.17.2-12.28.el6_9.2",
                 "info": Object {
                   "name": "libuuid",
-                  "purl": "pkg:rpm/centos/libuuid@2.17.2-12.28.el6_9.2?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libuuid@2.17.2-12.28.el6_9.2?distro=centos-6&upstream=util-linux-ng%402.17.2",
                   "version": "2.17.2-12.28.el6_9.2",
                 },
               },
@@ -5630,7 +5630,7 @@ Object {
                 "id": "libxml2@2.7.6-21.el6_8.1",
                 "info": Object {
                   "name": "libxml2",
-                  "purl": "pkg:rpm/centos/libxml2@2.7.6-21.el6_8.1?distro=centos-6",
+                  "purl": "pkg:rpm/centos/libxml2@2.7.6-21.el6_8.1?distro=centos-6&upstream=libxml2%402.7.6",
                   "version": "2.7.6-21.el6_8.1",
                 },
               },
@@ -5638,7 +5638,7 @@ Object {
                 "id": "logrotate@3.7.8-28.el6",
                 "info": Object {
                   "name": "logrotate",
-                  "purl": "pkg:rpm/centos/logrotate@3.7.8-28.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/logrotate@3.7.8-28.el6?distro=centos-6&upstream=logrotate%403.7.8",
                   "version": "3.7.8-28.el6",
                 },
               },
@@ -5646,7 +5646,7 @@ Object {
                 "id": "lsof@4.82-5.el6",
                 "info": Object {
                   "name": "lsof",
-                  "purl": "pkg:rpm/centos/lsof@4.82-5.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/lsof@4.82-5.el6?distro=centos-6&upstream=lsof%404.82",
                   "version": "4.82-5.el6",
                 },
               },
@@ -5654,7 +5654,7 @@ Object {
                 "id": "lua@5.1.4-4.1.el6",
                 "info": Object {
                   "name": "lua",
-                  "purl": "pkg:rpm/centos/lua@5.1.4-4.1.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/lua@5.1.4-4.1.el6?distro=centos-6&upstream=lua%405.1.4",
                   "version": "5.1.4-4.1.el6",
                 },
               },
@@ -5662,7 +5662,7 @@ Object {
                 "id": "m4@1.4.13-5.el6",
                 "info": Object {
                   "name": "m4",
-                  "purl": "pkg:rpm/centos/m4@1.4.13-5.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/m4@1.4.13-5.el6?distro=centos-6&upstream=m4%401.4.13",
                   "version": "1.4.13-5.el6",
                 },
               },
@@ -5670,7 +5670,7 @@ Object {
                 "id": "mailx@12.4-10.el6_10",
                 "info": Object {
                   "name": "mailx",
-                  "purl": "pkg:rpm/centos/mailx@12.4-10.el6_10?distro=centos-6",
+                  "purl": "pkg:rpm/centos/mailx@12.4-10.el6_10?distro=centos-6&upstream=mailx%4012.4",
                   "version": "12.4-10.el6_10",
                 },
               },
@@ -5678,7 +5678,7 @@ Object {
                 "id": "make@1:3.81-23.el6",
                 "info": Object {
                   "name": "make",
-                  "purl": "pkg:rpm/centos/make@1:3.81-23.el6?distro=centos-6&epoch=1",
+                  "purl": "pkg:rpm/centos/make@1:3.81-23.el6?distro=centos-6&epoch=1&upstream=make%403.81",
                   "version": "1:3.81-23.el6",
                 },
               },
@@ -5686,7 +5686,7 @@ Object {
                 "id": "man@1.6f-39.el6",
                 "info": Object {
                   "name": "man",
-                  "purl": "pkg:rpm/centos/man@1.6f-39.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/man@1.6f-39.el6?distro=centos-6&upstream=man%401.6f",
                   "version": "1.6f-39.el6",
                 },
               },
@@ -5694,7 +5694,7 @@ Object {
                 "id": "mingetty@1.08-5.el6",
                 "info": Object {
                   "name": "mingetty",
-                  "purl": "pkg:rpm/centos/mingetty@1.08-5.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/mingetty@1.08-5.el6?distro=centos-6&upstream=mingetty%401.08",
                   "version": "1.08-5.el6",
                 },
               },
@@ -5702,7 +5702,7 @@ Object {
                 "id": "module-init-tools@3.9-26.el6",
                 "info": Object {
                   "name": "module-init-tools",
-                  "purl": "pkg:rpm/centos/module-init-tools@3.9-26.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/module-init-tools@3.9-26.el6?distro=centos-6&upstream=module-init-tools%403.9",
                   "version": "3.9-26.el6",
                 },
               },
@@ -5710,7 +5710,7 @@ Object {
                 "id": "mysql-libs@5.1.73-8.el6_8",
                 "info": Object {
                   "name": "mysql-libs",
-                  "purl": "pkg:rpm/centos/mysql-libs@5.1.73-8.el6_8?distro=centos-6",
+                  "purl": "pkg:rpm/centos/mysql-libs@5.1.73-8.el6_8?distro=centos-6&upstream=mysql%405.1.73",
                   "version": "5.1.73-8.el6_8",
                 },
               },
@@ -5718,7 +5718,7 @@ Object {
                 "id": "nc@1.84-24.el6",
                 "info": Object {
                   "name": "nc",
-                  "purl": "pkg:rpm/centos/nc@1.84-24.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/nc@1.84-24.el6?distro=centos-6&upstream=nc%401.84",
                   "version": "1.84-24.el6",
                 },
               },
@@ -5726,7 +5726,7 @@ Object {
                 "id": "ncurses@5.7-4.20090207.el6",
                 "info": Object {
                   "name": "ncurses",
-                  "purl": "pkg:rpm/centos/ncurses@5.7-4.20090207.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/ncurses@5.7-4.20090207.el6?distro=centos-6&upstream=ncurses%405.7",
                   "version": "5.7-4.20090207.el6",
                 },
               },
@@ -5734,7 +5734,7 @@ Object {
                 "id": "ncurses-base@5.7-4.20090207.el6",
                 "info": Object {
                   "name": "ncurses-base",
-                  "purl": "pkg:rpm/centos/ncurses-base@5.7-4.20090207.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/ncurses-base@5.7-4.20090207.el6?distro=centos-6&upstream=ncurses%405.7",
                   "version": "5.7-4.20090207.el6",
                 },
               },
@@ -5742,7 +5742,7 @@ Object {
                 "id": "ncurses-libs@5.7-4.20090207.el6",
                 "info": Object {
                   "name": "ncurses-libs",
-                  "purl": "pkg:rpm/centos/ncurses-libs@5.7-4.20090207.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/ncurses-libs@5.7-4.20090207.el6?distro=centos-6&upstream=ncurses%405.7",
                   "version": "5.7-4.20090207.el6",
                 },
               },
@@ -5750,7 +5750,7 @@ Object {
                 "id": "net-tools@1.60-114.el6",
                 "info": Object {
                   "name": "net-tools",
-                  "purl": "pkg:rpm/centos/net-tools@1.60-114.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/net-tools@1.60-114.el6?distro=centos-6&upstream=net-tools%401.60",
                   "version": "1.60-114.el6",
                 },
               },
@@ -5758,7 +5758,7 @@ Object {
                 "id": "nmap@2:5.51-6.el6",
                 "info": Object {
                   "name": "nmap",
-                  "purl": "pkg:rpm/centos/nmap@2:5.51-6.el6?distro=centos-6&epoch=2",
+                  "purl": "pkg:rpm/centos/nmap@2:5.51-6.el6?distro=centos-6&epoch=2&upstream=nmap%405.51",
                   "version": "2:5.51-6.el6",
                 },
               },
@@ -5766,7 +5766,7 @@ Object {
                 "id": "nspr@4.19.0-1.el6",
                 "info": Object {
                   "name": "nspr",
-                  "purl": "pkg:rpm/centos/nspr@4.19.0-1.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/nspr@4.19.0-1.el6?distro=centos-6&upstream=nspr%404.19.0",
                   "version": "4.19.0-1.el6",
                 },
               },
@@ -5774,7 +5774,7 @@ Object {
                 "id": "nss@3.36.0-8.el6",
                 "info": Object {
                   "name": "nss",
-                  "purl": "pkg:rpm/centos/nss@3.36.0-8.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/nss@3.36.0-8.el6?distro=centos-6&upstream=nss%403.36.0",
                   "version": "3.36.0-8.el6",
                 },
               },
@@ -5782,7 +5782,7 @@ Object {
                 "id": "nss-softokn@3.14.3-23.3.el6_8",
                 "info": Object {
                   "name": "nss-softokn",
-                  "purl": "pkg:rpm/centos/nss-softokn@3.14.3-23.3.el6_8?distro=centos-6",
+                  "purl": "pkg:rpm/centos/nss-softokn@3.14.3-23.3.el6_8?distro=centos-6&upstream=nss-softokn%403.14.3",
                   "version": "3.14.3-23.3.el6_8",
                 },
               },
@@ -5790,7 +5790,7 @@ Object {
                 "id": "nss-softokn-freebl@3.14.3-23.3.el6_8",
                 "info": Object {
                   "name": "nss-softokn-freebl",
-                  "purl": "pkg:rpm/centos/nss-softokn-freebl@3.14.3-23.3.el6_8?distro=centos-6",
+                  "purl": "pkg:rpm/centos/nss-softokn-freebl@3.14.3-23.3.el6_8?distro=centos-6&upstream=nss-softokn%403.14.3",
                   "version": "3.14.3-23.3.el6_8",
                 },
               },
@@ -5798,7 +5798,7 @@ Object {
                 "id": "nss-sysinit@3.36.0-8.el6",
                 "info": Object {
                   "name": "nss-sysinit",
-                  "purl": "pkg:rpm/centos/nss-sysinit@3.36.0-8.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/nss-sysinit@3.36.0-8.el6?distro=centos-6&upstream=nss%403.36.0",
                   "version": "3.36.0-8.el6",
                 },
               },
@@ -5806,7 +5806,7 @@ Object {
                 "id": "nss-tools@3.36.0-8.el6",
                 "info": Object {
                   "name": "nss-tools",
-                  "purl": "pkg:rpm/centos/nss-tools@3.36.0-8.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/nss-tools@3.36.0-8.el6?distro=centos-6&upstream=nss%403.36.0",
                   "version": "3.36.0-8.el6",
                 },
               },
@@ -5814,7 +5814,7 @@ Object {
                 "id": "nss-util@3.36.0-1.el6",
                 "info": Object {
                   "name": "nss-util",
-                  "purl": "pkg:rpm/centos/nss-util@3.36.0-1.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/nss-util@3.36.0-1.el6?distro=centos-6&upstream=nss-util%403.36.0",
                   "version": "3.36.0-1.el6",
                 },
               },
@@ -5822,7 +5822,7 @@ Object {
                 "id": "openldap@2.4.40-16.el6",
                 "info": Object {
                   "name": "openldap",
-                  "purl": "pkg:rpm/centos/openldap@2.4.40-16.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/openldap@2.4.40-16.el6?distro=centos-6&upstream=openldap%402.4.40",
                   "version": "2.4.40-16.el6",
                 },
               },
@@ -5830,7 +5830,7 @@ Object {
                 "id": "openssl@1.0.1e-58.el6_10",
                 "info": Object {
                   "name": "openssl",
-                  "purl": "pkg:rpm/centos/openssl@1.0.1e-58.el6_10?distro=centos-6",
+                  "purl": "pkg:rpm/centos/openssl@1.0.1e-58.el6_10?distro=centos-6&upstream=openssl%401.0.1e",
                   "version": "1.0.1e-58.el6_10",
                 },
               },
@@ -5838,7 +5838,7 @@ Object {
                 "id": "p11-kit@0.18.5-2.el6_5.2",
                 "info": Object {
                   "name": "p11-kit",
-                  "purl": "pkg:rpm/centos/p11-kit@0.18.5-2.el6_5.2?distro=centos-6",
+                  "purl": "pkg:rpm/centos/p11-kit@0.18.5-2.el6_5.2?distro=centos-6&upstream=p11-kit%400.18.5",
                   "version": "0.18.5-2.el6_5.2",
                 },
               },
@@ -5846,7 +5846,7 @@ Object {
                 "id": "p11-kit-trust@0.18.5-2.el6_5.2",
                 "info": Object {
                   "name": "p11-kit-trust",
-                  "purl": "pkg:rpm/centos/p11-kit-trust@0.18.5-2.el6_5.2?distro=centos-6",
+                  "purl": "pkg:rpm/centos/p11-kit-trust@0.18.5-2.el6_5.2?distro=centos-6&upstream=p11-kit%400.18.5",
                   "version": "0.18.5-2.el6_5.2",
                 },
               },
@@ -5854,7 +5854,7 @@ Object {
                 "id": "pam@1.1.1-24.el6",
                 "info": Object {
                   "name": "pam",
-                  "purl": "pkg:rpm/centos/pam@1.1.1-24.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/pam@1.1.1-24.el6?distro=centos-6&upstream=pam%401.1.1",
                   "version": "1.1.1-24.el6",
                 },
               },
@@ -5862,7 +5862,7 @@ Object {
                 "id": "passwd@0.77-7.el6",
                 "info": Object {
                   "name": "passwd",
-                  "purl": "pkg:rpm/centos/passwd@0.77-7.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/passwd@0.77-7.el6?distro=centos-6&upstream=passwd%400.77",
                   "version": "0.77-7.el6",
                 },
               },
@@ -5870,7 +5870,7 @@ Object {
                 "id": "patch@2.6-8.el6_9",
                 "info": Object {
                   "name": "patch",
-                  "purl": "pkg:rpm/centos/patch@2.6-8.el6_9?distro=centos-6",
+                  "purl": "pkg:rpm/centos/patch@2.6-8.el6_9?distro=centos-6&upstream=patch%402.6",
                   "version": "2.6-8.el6_9",
                 },
               },
@@ -5878,7 +5878,7 @@ Object {
                 "id": "pax@3.4-10.1.el6",
                 "info": Object {
                   "name": "pax",
-                  "purl": "pkg:rpm/centos/pax@3.4-10.1.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/pax@3.4-10.1.el6?distro=centos-6&upstream=pax%403.4",
                   "version": "3.4-10.1.el6",
                 },
               },
@@ -5886,7 +5886,7 @@ Object {
                 "id": "pcre@7.8-7.el6",
                 "info": Object {
                   "name": "pcre",
-                  "purl": "pkg:rpm/centos/pcre@7.8-7.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/pcre@7.8-7.el6?distro=centos-6&upstream=pcre%407.8",
                   "version": "7.8-7.el6",
                 },
               },
@@ -5894,7 +5894,7 @@ Object {
                 "id": "perl@4:5.10.1-144.el6",
                 "info": Object {
                   "name": "perl",
-                  "purl": "pkg:rpm/centos/perl@4:5.10.1-144.el6?distro=centos-6&epoch=4",
+                  "purl": "pkg:rpm/centos/perl@4:5.10.1-144.el6?distro=centos-6&epoch=4&upstream=perl%405.10.1",
                   "version": "4:5.10.1-144.el6",
                 },
               },
@@ -5902,7 +5902,7 @@ Object {
                 "id": "perl-CGI@3.51-144.el6",
                 "info": Object {
                   "name": "perl-CGI",
-                  "purl": "pkg:rpm/centos/perl-CGI@3.51-144.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/perl-CGI@3.51-144.el6?distro=centos-6&upstream=perl%405.10.1",
                   "version": "3.51-144.el6",
                 },
               },
@@ -5910,7 +5910,7 @@ Object {
                 "id": "perl-ExtUtils-MakeMaker@6.55-144.el6",
                 "info": Object {
                   "name": "perl-ExtUtils-MakeMaker",
-                  "purl": "pkg:rpm/centos/perl-ExtUtils-MakeMaker@6.55-144.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/perl-ExtUtils-MakeMaker@6.55-144.el6?distro=centos-6&upstream=perl%405.10.1",
                   "version": "6.55-144.el6",
                 },
               },
@@ -5918,7 +5918,7 @@ Object {
                 "id": "perl-ExtUtils-ParseXS@1:2.2003.0-144.el6",
                 "info": Object {
                   "name": "perl-ExtUtils-ParseXS",
-                  "purl": "pkg:rpm/centos/perl-ExtUtils-ParseXS@1:2.2003.0-144.el6?distro=centos-6&epoch=1",
+                  "purl": "pkg:rpm/centos/perl-ExtUtils-ParseXS@1:2.2003.0-144.el6?distro=centos-6&epoch=1&upstream=perl%405.10.1",
                   "version": "1:2.2003.0-144.el6",
                 },
               },
@@ -5926,7 +5926,7 @@ Object {
                 "id": "perl-Module-Pluggable@1:3.90-144.el6",
                 "info": Object {
                   "name": "perl-Module-Pluggable",
-                  "purl": "pkg:rpm/centos/perl-Module-Pluggable@1:3.90-144.el6?distro=centos-6&epoch=1",
+                  "purl": "pkg:rpm/centos/perl-Module-Pluggable@1:3.90-144.el6?distro=centos-6&epoch=1&upstream=perl%405.10.1",
                   "version": "1:3.90-144.el6",
                 },
               },
@@ -5934,7 +5934,7 @@ Object {
                 "id": "perl-Pod-Escapes@1:1.04-144.el6",
                 "info": Object {
                   "name": "perl-Pod-Escapes",
-                  "purl": "pkg:rpm/centos/perl-Pod-Escapes@1:1.04-144.el6?distro=centos-6&epoch=1",
+                  "purl": "pkg:rpm/centos/perl-Pod-Escapes@1:1.04-144.el6?distro=centos-6&epoch=1&upstream=perl%405.10.1",
                   "version": "1:1.04-144.el6",
                 },
               },
@@ -5942,7 +5942,7 @@ Object {
                 "id": "perl-Pod-Simple@1:3.13-144.el6",
                 "info": Object {
                   "name": "perl-Pod-Simple",
-                  "purl": "pkg:rpm/centos/perl-Pod-Simple@1:3.13-144.el6?distro=centos-6&epoch=1",
+                  "purl": "pkg:rpm/centos/perl-Pod-Simple@1:3.13-144.el6?distro=centos-6&epoch=1&upstream=perl%405.10.1",
                   "version": "1:3.13-144.el6",
                 },
               },
@@ -5950,7 +5950,7 @@ Object {
                 "id": "perl-Test-Harness@3.17-144.el6",
                 "info": Object {
                   "name": "perl-Test-Harness",
-                  "purl": "pkg:rpm/centos/perl-Test-Harness@3.17-144.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/perl-Test-Harness@3.17-144.el6?distro=centos-6&upstream=perl%405.10.1",
                   "version": "3.17-144.el6",
                 },
               },
@@ -5958,7 +5958,7 @@ Object {
                 "id": "perl-Test-Simple@0.92-144.el6",
                 "info": Object {
                   "name": "perl-Test-Simple",
-                  "purl": "pkg:rpm/centos/perl-Test-Simple@0.92-144.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/perl-Test-Simple@0.92-144.el6?distro=centos-6&upstream=perl%405.10.1",
                   "version": "0.92-144.el6",
                 },
               },
@@ -5966,7 +5966,7 @@ Object {
                 "id": "perl-devel@4:5.10.1-144.el6",
                 "info": Object {
                   "name": "perl-devel",
-                  "purl": "pkg:rpm/centos/perl-devel@4:5.10.1-144.el6?distro=centos-6&epoch=4",
+                  "purl": "pkg:rpm/centos/perl-devel@4:5.10.1-144.el6?distro=centos-6&epoch=4&upstream=perl%405.10.1",
                   "version": "4:5.10.1-144.el6",
                 },
               },
@@ -5974,7 +5974,7 @@ Object {
                 "id": "perl-libs@4:5.10.1-144.el6",
                 "info": Object {
                   "name": "perl-libs",
-                  "purl": "pkg:rpm/centos/perl-libs@4:5.10.1-144.el6?distro=centos-6&epoch=4",
+                  "purl": "pkg:rpm/centos/perl-libs@4:5.10.1-144.el6?distro=centos-6&epoch=4&upstream=perl%405.10.1",
                   "version": "4:5.10.1-144.el6",
                 },
               },
@@ -5982,7 +5982,7 @@ Object {
                 "id": "perl-version@3:0.77-144.el6",
                 "info": Object {
                   "name": "perl-version",
-                  "purl": "pkg:rpm/centos/perl-version@3:0.77-144.el6?distro=centos-6&epoch=3",
+                  "purl": "pkg:rpm/centos/perl-version@3:0.77-144.el6?distro=centos-6&epoch=3&upstream=perl%405.10.1",
                   "version": "3:0.77-144.el6",
                 },
               },
@@ -5990,7 +5990,7 @@ Object {
                 "id": "pinentry@0.7.6-8.el6",
                 "info": Object {
                   "name": "pinentry",
-                  "purl": "pkg:rpm/centos/pinentry@0.7.6-8.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/pinentry@0.7.6-8.el6?distro=centos-6&upstream=pinentry%400.7.6",
                   "version": "0.7.6-8.el6",
                 },
               },
@@ -5998,7 +5998,7 @@ Object {
                 "id": "pkgconfig@1:0.23-9.1.el6",
                 "info": Object {
                   "name": "pkgconfig",
-                  "purl": "pkg:rpm/centos/pkgconfig@1:0.23-9.1.el6?distro=centos-6&epoch=1",
+                  "purl": "pkg:rpm/centos/pkgconfig@1:0.23-9.1.el6?distro=centos-6&epoch=1&upstream=pkgconfig%400.23",
                   "version": "1:0.23-9.1.el6",
                 },
               },
@@ -6006,7 +6006,7 @@ Object {
                 "id": "plymouth@0.8.3-29.el6.centos",
                 "info": Object {
                   "name": "plymouth",
-                  "purl": "pkg:rpm/centos/plymouth@0.8.3-29.el6.centos?distro=centos-6",
+                  "purl": "pkg:rpm/centos/plymouth@0.8.3-29.el6.centos?distro=centos-6&upstream=plymouth%400.8.3",
                   "version": "0.8.3-29.el6.centos",
                 },
               },
@@ -6014,7 +6014,7 @@ Object {
                 "id": "plymouth-core-libs@0.8.3-29.el6.centos",
                 "info": Object {
                   "name": "plymouth-core-libs",
-                  "purl": "pkg:rpm/centos/plymouth-core-libs@0.8.3-29.el6.centos?distro=centos-6",
+                  "purl": "pkg:rpm/centos/plymouth-core-libs@0.8.3-29.el6.centos?distro=centos-6&upstream=plymouth%400.8.3",
                   "version": "0.8.3-29.el6.centos",
                 },
               },
@@ -6022,7 +6022,7 @@ Object {
                 "id": "plymouth-scripts@0.8.3-29.el6.centos",
                 "info": Object {
                   "name": "plymouth-scripts",
-                  "purl": "pkg:rpm/centos/plymouth-scripts@0.8.3-29.el6.centos?distro=centos-6",
+                  "purl": "pkg:rpm/centos/plymouth-scripts@0.8.3-29.el6.centos?distro=centos-6&upstream=plymouth%400.8.3",
                   "version": "0.8.3-29.el6.centos",
                 },
               },
@@ -6030,7 +6030,7 @@ Object {
                 "id": "policycoreutils@2.0.83-30.1.el6_8",
                 "info": Object {
                   "name": "policycoreutils",
-                  "purl": "pkg:rpm/centos/policycoreutils@2.0.83-30.1.el6_8?distro=centos-6",
+                  "purl": "pkg:rpm/centos/policycoreutils@2.0.83-30.1.el6_8?distro=centos-6&upstream=policycoreutils%402.0.83",
                   "version": "2.0.83-30.1.el6_8",
                 },
               },
@@ -6038,7 +6038,7 @@ Object {
                 "id": "popt@1.13-7.el6",
                 "info": Object {
                   "name": "popt",
-                  "purl": "pkg:rpm/centos/popt@1.13-7.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/popt@1.13-7.el6?distro=centos-6&upstream=popt%401.13",
                   "version": "1.13-7.el6",
                 },
               },
@@ -6046,7 +6046,7 @@ Object {
                 "id": "postfix@2:2.6.6-8.el6",
                 "info": Object {
                   "name": "postfix",
-                  "purl": "pkg:rpm/centos/postfix@2:2.6.6-8.el6?distro=centos-6&epoch=2",
+                  "purl": "pkg:rpm/centos/postfix@2:2.6.6-8.el6?distro=centos-6&epoch=2&upstream=postfix%402.6.6",
                   "version": "2:2.6.6-8.el6",
                 },
               },
@@ -6054,7 +6054,7 @@ Object {
                 "id": "procps@3.2.8-45.el6_9.3",
                 "info": Object {
                   "name": "procps",
-                  "purl": "pkg:rpm/centos/procps@3.2.8-45.el6_9.3?distro=centos-6",
+                  "purl": "pkg:rpm/centos/procps@3.2.8-45.el6_9.3?distro=centos-6&upstream=procps%403.2.8",
                   "version": "3.2.8-45.el6_9.3",
                 },
               },
@@ -6062,7 +6062,7 @@ Object {
                 "id": "psmisc@22.6-24.el6",
                 "info": Object {
                   "name": "psmisc",
-                  "purl": "pkg:rpm/centos/psmisc@22.6-24.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/psmisc@22.6-24.el6?distro=centos-6&upstream=psmisc%4022.6",
                   "version": "22.6-24.el6",
                 },
               },
@@ -6070,7 +6070,7 @@ Object {
                 "id": "pth@2.0.7-9.3.el6",
                 "info": Object {
                   "name": "pth",
-                  "purl": "pkg:rpm/centos/pth@2.0.7-9.3.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/pth@2.0.7-9.3.el6?distro=centos-6&upstream=pth%402.0.7",
                   "version": "2.0.7-9.3.el6",
                 },
               },
@@ -6078,7 +6078,7 @@ Object {
                 "id": "pygpgme@0.1-18.20090824bzr68.el6",
                 "info": Object {
                   "name": "pygpgme",
-                  "purl": "pkg:rpm/centos/pygpgme@0.1-18.20090824bzr68.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/pygpgme@0.1-18.20090824bzr68.el6?distro=centos-6&upstream=pygpgme%400.1",
                   "version": "0.1-18.20090824bzr68.el6",
                 },
               },
@@ -6086,7 +6086,7 @@ Object {
                 "id": "python@2.6.6-66.el6_8",
                 "info": Object {
                   "name": "python",
-                  "purl": "pkg:rpm/centos/python@2.6.6-66.el6_8?distro=centos-6",
+                  "purl": "pkg:rpm/centos/python@2.6.6-66.el6_8?distro=centos-6&upstream=python%402.6.6",
                   "version": "2.6.6-66.el6_8",
                 },
               },
@@ -6094,7 +6094,7 @@ Object {
                 "id": "python-iniparse@0.3.1-2.1.el6",
                 "info": Object {
                   "name": "python-iniparse",
-                  "purl": "pkg:rpm/centos/python-iniparse@0.3.1-2.1.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/python-iniparse@0.3.1-2.1.el6?distro=centos-6&upstream=python-iniparse%400.3.1",
                   "version": "0.3.1-2.1.el6",
                 },
               },
@@ -6102,7 +6102,7 @@ Object {
                 "id": "python-libs@2.6.6-66.el6_8",
                 "info": Object {
                   "name": "python-libs",
-                  "purl": "pkg:rpm/centos/python-libs@2.6.6-66.el6_8?distro=centos-6",
+                  "purl": "pkg:rpm/centos/python-libs@2.6.6-66.el6_8?distro=centos-6&upstream=python%402.6.6",
                   "version": "2.6.6-66.el6_8",
                 },
               },
@@ -6110,7 +6110,7 @@ Object {
                 "id": "python-pycurl@7.19.0-9.el6",
                 "info": Object {
                   "name": "python-pycurl",
-                  "purl": "pkg:rpm/centos/python-pycurl@7.19.0-9.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/python-pycurl@7.19.0-9.el6?distro=centos-6&upstream=python-pycurl%407.19.0",
                   "version": "7.19.0-9.el6",
                 },
               },
@@ -6118,7 +6118,7 @@ Object {
                 "id": "python-urlgrabber@3.9.1-11.el6",
                 "info": Object {
                   "name": "python-urlgrabber",
-                  "purl": "pkg:rpm/centos/python-urlgrabber@3.9.1-11.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/python-urlgrabber@3.9.1-11.el6?distro=centos-6&upstream=python-urlgrabber%403.9.1",
                   "version": "3.9.1-11.el6",
                 },
               },
@@ -6126,7 +6126,7 @@ Object {
                 "id": "readline@6.0-4.el6",
                 "info": Object {
                   "name": "readline",
-                  "purl": "pkg:rpm/centos/readline@6.0-4.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/readline@6.0-4.el6?distro=centos-6&upstream=readline%406.0",
                   "version": "6.0-4.el6",
                 },
               },
@@ -6134,7 +6134,7 @@ Object {
                 "id": "redhat-logos@60.0.14-12.el6.centos",
                 "info": Object {
                   "name": "redhat-logos",
-                  "purl": "pkg:rpm/centos/redhat-logos@60.0.14-12.el6.centos?distro=centos-6",
+                  "purl": "pkg:rpm/centos/redhat-logos@60.0.14-12.el6.centos?distro=centos-6&upstream=redhat-logos%4060.0.14",
                   "version": "60.0.14-12.el6.centos",
                 },
               },
@@ -6142,7 +6142,7 @@ Object {
                 "id": "redhat-lsb-core@4.0-7.el6.centos",
                 "info": Object {
                   "name": "redhat-lsb-core",
-                  "purl": "pkg:rpm/centos/redhat-lsb-core@4.0-7.el6.centos?distro=centos-6",
+                  "purl": "pkg:rpm/centos/redhat-lsb-core@4.0-7.el6.centos?distro=centos-6&upstream=redhat-lsb%404.0",
                   "version": "4.0-7.el6.centos",
                 },
               },
@@ -6150,7 +6150,7 @@ Object {
                 "id": "rootfiles@8.1-6.1.el6",
                 "info": Object {
                   "name": "rootfiles",
-                  "purl": "pkg:rpm/centos/rootfiles@8.1-6.1.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/rootfiles@8.1-6.1.el6?distro=centos-6&upstream=rootfiles%408.1",
                   "version": "8.1-6.1.el6",
                 },
               },
@@ -6158,7 +6158,7 @@ Object {
                 "id": "rpm@4.8.0-59.el6",
                 "info": Object {
                   "name": "rpm",
-                  "purl": "pkg:rpm/centos/rpm@4.8.0-59.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/rpm@4.8.0-59.el6?distro=centos-6&upstream=rpm%404.8.0",
                   "version": "4.8.0-59.el6",
                 },
               },
@@ -6166,7 +6166,7 @@ Object {
                 "id": "rpm-libs@4.8.0-59.el6",
                 "info": Object {
                   "name": "rpm-libs",
-                  "purl": "pkg:rpm/centos/rpm-libs@4.8.0-59.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/rpm-libs@4.8.0-59.el6?distro=centos-6&upstream=rpm%404.8.0",
                   "version": "4.8.0-59.el6",
                 },
               },
@@ -6174,7 +6174,7 @@ Object {
                 "id": "rpm-python@4.8.0-59.el6",
                 "info": Object {
                   "name": "rpm-python",
-                  "purl": "pkg:rpm/centos/rpm-python@4.8.0-59.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/rpm-python@4.8.0-59.el6?distro=centos-6&upstream=rpm%404.8.0",
                   "version": "4.8.0-59.el6",
                 },
               },
@@ -6182,7 +6182,7 @@ Object {
                 "id": "rsyslog@5.8.10-12.el6",
                 "info": Object {
                   "name": "rsyslog",
-                  "purl": "pkg:rpm/centos/rsyslog@5.8.10-12.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/rsyslog@5.8.10-12.el6?distro=centos-6&upstream=rsyslog%405.8.10",
                   "version": "5.8.10-12.el6",
                 },
               },
@@ -6190,7 +6190,7 @@ Object {
                 "id": "sed@4.2.1-10.el6",
                 "info": Object {
                   "name": "sed",
-                  "purl": "pkg:rpm/centos/sed@4.2.1-10.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/sed@4.2.1-10.el6?distro=centos-6&upstream=sed%404.2.1",
                   "version": "4.2.1-10.el6",
                 },
               },
@@ -6198,7 +6198,7 @@ Object {
                 "id": "setup@2.8.14-23.el6",
                 "info": Object {
                   "name": "setup",
-                  "purl": "pkg:rpm/centos/setup@2.8.14-23.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/setup@2.8.14-23.el6?distro=centos-6&upstream=setup%402.8.14",
                   "version": "2.8.14-23.el6",
                 },
               },
@@ -6206,7 +6206,7 @@ Object {
                 "id": "shadow-utils@2:4.1.5.1-5.el6",
                 "info": Object {
                   "name": "shadow-utils",
-                  "purl": "pkg:rpm/centos/shadow-utils@2:4.1.5.1-5.el6?distro=centos-6&epoch=2",
+                  "purl": "pkg:rpm/centos/shadow-utils@2:4.1.5.1-5.el6?distro=centos-6&epoch=2&upstream=shadow-utils%404.1.5.1",
                   "version": "2:4.1.5.1-5.el6",
                 },
               },
@@ -6214,7 +6214,7 @@ Object {
                 "id": "shared-mime-info@0.70-6.el6",
                 "info": Object {
                   "name": "shared-mime-info",
-                  "purl": "pkg:rpm/centos/shared-mime-info@0.70-6.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/shared-mime-info@0.70-6.el6?distro=centos-6&upstream=shared-mime-info%400.70",
                   "version": "0.70-6.el6",
                 },
               },
@@ -6222,7 +6222,7 @@ Object {
                 "id": "sqlite@3.6.20-1.el6_7.2",
                 "info": Object {
                   "name": "sqlite",
-                  "purl": "pkg:rpm/centos/sqlite@3.6.20-1.el6_7.2?distro=centos-6",
+                  "purl": "pkg:rpm/centos/sqlite@3.6.20-1.el6_7.2?distro=centos-6&upstream=sqlite%403.6.20",
                   "version": "3.6.20-1.el6_7.2",
                 },
               },
@@ -6230,7 +6230,7 @@ Object {
                 "id": "strace@4.8-11.el6",
                 "info": Object {
                   "name": "strace",
-                  "purl": "pkg:rpm/centos/strace@4.8-11.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/strace@4.8-11.el6?distro=centos-6&upstream=strace%404.8",
                   "version": "4.8-11.el6",
                 },
               },
@@ -6238,7 +6238,7 @@ Object {
                 "id": "sudo@1.8.6p3-29.el6_10.3",
                 "info": Object {
                   "name": "sudo",
-                  "purl": "pkg:rpm/centos/sudo@1.8.6p3-29.el6_10.3?distro=centos-6",
+                  "purl": "pkg:rpm/centos/sudo@1.8.6p3-29.el6_10.3?distro=centos-6&upstream=sudo%401.8.6p3",
                   "version": "1.8.6p3-29.el6_10.3",
                 },
               },
@@ -6246,7 +6246,7 @@ Object {
                 "id": "sysvinit-tools@2.87-6.dsf.el6",
                 "info": Object {
                   "name": "sysvinit-tools",
-                  "purl": "pkg:rpm/centos/sysvinit-tools@2.87-6.dsf.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/sysvinit-tools@2.87-6.dsf.el6?distro=centos-6&upstream=sysvinit%402.87",
                   "version": "2.87-6.dsf.el6",
                 },
               },
@@ -6254,7 +6254,7 @@ Object {
                 "id": "tar@2:1.23-15.el6_8",
                 "info": Object {
                   "name": "tar",
-                  "purl": "pkg:rpm/centos/tar@2:1.23-15.el6_8?distro=centos-6&epoch=2",
+                  "purl": "pkg:rpm/centos/tar@2:1.23-15.el6_8?distro=centos-6&epoch=2&upstream=tar%401.23",
                   "version": "2:1.23-15.el6_8",
                 },
               },
@@ -6262,7 +6262,7 @@ Object {
                 "id": "tcpdump@14:4.0.0-11.20090921gitdf3cb4.2.el6",
                 "info": Object {
                   "name": "tcpdump",
-                  "purl": "pkg:rpm/centos/tcpdump@14:4.0.0-11.20090921gitdf3cb4.2.el6?distro=centos-6&epoch=14",
+                  "purl": "pkg:rpm/centos/tcpdump@14:4.0.0-11.20090921gitdf3cb4.2.el6?distro=centos-6&epoch=14&upstream=tcpdump%404.0.0",
                   "version": "14:4.0.0-11.20090921gitdf3cb4.2.el6",
                 },
               },
@@ -6270,7 +6270,7 @@ Object {
                 "id": "telnet@1:0.17-49.el6_10",
                 "info": Object {
                   "name": "telnet",
-                  "purl": "pkg:rpm/centos/telnet@1:0.17-49.el6_10?distro=centos-6&epoch=1",
+                  "purl": "pkg:rpm/centos/telnet@1:0.17-49.el6_10?distro=centos-6&epoch=1&upstream=telnet%400.17",
                   "version": "1:0.17-49.el6_10",
                 },
               },
@@ -6278,7 +6278,7 @@ Object {
                 "id": "time@1.7-38.el6",
                 "info": Object {
                   "name": "time",
-                  "purl": "pkg:rpm/centos/time@1.7-38.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/time@1.7-38.el6?distro=centos-6&upstream=time%401.7",
                   "version": "1.7-38.el6",
                 },
               },
@@ -6286,7 +6286,7 @@ Object {
                 "id": "tzdata@2018e-3.el6",
                 "info": Object {
                   "name": "tzdata",
-                  "purl": "pkg:rpm/centos/tzdata@2018e-3.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/tzdata@2018e-3.el6?distro=centos-6&upstream=tzdata%402018e",
                   "version": "2018e-3.el6",
                 },
               },
@@ -6294,7 +6294,7 @@ Object {
                 "id": "udev@147-2.74.el6_10",
                 "info": Object {
                   "name": "udev",
-                  "purl": "pkg:rpm/centos/udev@147-2.74.el6_10?distro=centos-6",
+                  "purl": "pkg:rpm/centos/udev@147-2.74.el6_10?distro=centos-6&upstream=udev%40147",
                   "version": "147-2.74.el6_10",
                 },
               },
@@ -6302,7 +6302,7 @@ Object {
                 "id": "upstart@0.6.5-17.el6",
                 "info": Object {
                   "name": "upstart",
-                  "purl": "pkg:rpm/centos/upstart@0.6.5-17.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/upstart@0.6.5-17.el6?distro=centos-6&upstream=upstart%400.6.5",
                   "version": "0.6.5-17.el6",
                 },
               },
@@ -6310,7 +6310,7 @@ Object {
                 "id": "ustr@1.0.4-9.1.el6",
                 "info": Object {
                   "name": "ustr",
-                  "purl": "pkg:rpm/centos/ustr@1.0.4-9.1.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/ustr@1.0.4-9.1.el6?distro=centos-6&upstream=ustr%401.0.4",
                   "version": "1.0.4-9.1.el6",
                 },
               },
@@ -6318,7 +6318,7 @@ Object {
                 "id": "util-linux-ng@2.17.2-12.28.el6_9.2",
                 "info": Object {
                   "name": "util-linux-ng",
-                  "purl": "pkg:rpm/centos/util-linux-ng@2.17.2-12.28.el6_9.2?distro=centos-6",
+                  "purl": "pkg:rpm/centos/util-linux-ng@2.17.2-12.28.el6_9.2?distro=centos-6&upstream=util-linux-ng%402.17.2",
                   "version": "2.17.2-12.28.el6_9.2",
                 },
               },
@@ -6326,7 +6326,7 @@ Object {
                 "id": "vim-minimal@2:7.4.629-5.el6_10.2",
                 "info": Object {
                   "name": "vim-minimal",
-                  "purl": "pkg:rpm/centos/vim-minimal@2:7.4.629-5.el6_10.2?distro=centos-6&epoch=2",
+                  "purl": "pkg:rpm/centos/vim-minimal@2:7.4.629-5.el6_10.2?distro=centos-6&epoch=2&upstream=vim%407.4.629",
                   "version": "2:7.4.629-5.el6_10.2",
                 },
               },
@@ -6334,7 +6334,7 @@ Object {
                 "id": "wget@1.12-10.el6",
                 "info": Object {
                   "name": "wget",
-                  "purl": "pkg:rpm/centos/wget@1.12-10.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/wget@1.12-10.el6?distro=centos-6&upstream=wget%401.12",
                   "version": "1.12-10.el6",
                 },
               },
@@ -6342,7 +6342,7 @@ Object {
                 "id": "which@2.19-6.el6",
                 "info": Object {
                   "name": "which",
-                  "purl": "pkg:rpm/centos/which@2.19-6.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/which@2.19-6.el6?distro=centos-6&upstream=which%402.19",
                   "version": "2.19-6.el6",
                 },
               },
@@ -6350,7 +6350,7 @@ Object {
                 "id": "xz@4.999.9-0.5.beta.20091007git.el6",
                 "info": Object {
                   "name": "xz",
-                  "purl": "pkg:rpm/centos/xz@4.999.9-0.5.beta.20091007git.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/xz@4.999.9-0.5.beta.20091007git.el6?distro=centos-6&upstream=xz%404.999.9",
                   "version": "4.999.9-0.5.beta.20091007git.el6",
                 },
               },
@@ -6358,7 +6358,7 @@ Object {
                 "id": "xz-libs@4.999.9-0.5.beta.20091007git.el6",
                 "info": Object {
                   "name": "xz-libs",
-                  "purl": "pkg:rpm/centos/xz-libs@4.999.9-0.5.beta.20091007git.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/xz-libs@4.999.9-0.5.beta.20091007git.el6?distro=centos-6&upstream=xz%404.999.9",
                   "version": "4.999.9-0.5.beta.20091007git.el6",
                 },
               },
@@ -6366,7 +6366,7 @@ Object {
                 "id": "xz-lzma-compat@4.999.9-0.5.beta.20091007git.el6",
                 "info": Object {
                   "name": "xz-lzma-compat",
-                  "purl": "pkg:rpm/centos/xz-lzma-compat@4.999.9-0.5.beta.20091007git.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/xz-lzma-compat@4.999.9-0.5.beta.20091007git.el6?distro=centos-6&upstream=xz%404.999.9",
                   "version": "4.999.9-0.5.beta.20091007git.el6",
                 },
               },
@@ -6374,7 +6374,7 @@ Object {
                 "id": "yum@3.2.29-81.el6.centos",
                 "info": Object {
                   "name": "yum",
-                  "purl": "pkg:rpm/centos/yum@3.2.29-81.el6.centos?distro=centos-6",
+                  "purl": "pkg:rpm/centos/yum@3.2.29-81.el6.centos?distro=centos-6&upstream=yum%403.2.29",
                   "version": "3.2.29-81.el6.centos",
                 },
               },
@@ -6382,7 +6382,7 @@ Object {
                 "id": "yum-metadata-parser@1.1.2-16.el6",
                 "info": Object {
                   "name": "yum-metadata-parser",
-                  "purl": "pkg:rpm/centos/yum-metadata-parser@1.1.2-16.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/yum-metadata-parser@1.1.2-16.el6?distro=centos-6&upstream=yum-metadata-parser%401.1.2",
                   "version": "1.1.2-16.el6",
                 },
               },
@@ -6390,7 +6390,7 @@ Object {
                 "id": "yum-plugin-fastestmirror@1.1.30-42.el6_10",
                 "info": Object {
                   "name": "yum-plugin-fastestmirror",
-                  "purl": "pkg:rpm/centos/yum-plugin-fastestmirror@1.1.30-42.el6_10?distro=centos-6",
+                  "purl": "pkg:rpm/centos/yum-plugin-fastestmirror@1.1.30-42.el6_10?distro=centos-6&upstream=yum-utils%401.1.30",
                   "version": "1.1.30-42.el6_10",
                 },
               },
@@ -6398,7 +6398,7 @@ Object {
                 "id": "yum-plugin-ovl@1.1.30-42.el6_10",
                 "info": Object {
                   "name": "yum-plugin-ovl",
-                  "purl": "pkg:rpm/centos/yum-plugin-ovl@1.1.30-42.el6_10?distro=centos-6",
+                  "purl": "pkg:rpm/centos/yum-plugin-ovl@1.1.30-42.el6_10?distro=centos-6&upstream=yum-utils%401.1.30",
                   "version": "1.1.30-42.el6_10",
                 },
               },
@@ -6406,7 +6406,7 @@ Object {
                 "id": "zlib@1.2.3-29.el6",
                 "info": Object {
                   "name": "zlib",
-                  "purl": "pkg:rpm/centos/zlib@1.2.3-29.el6?distro=centos-6",
+                  "purl": "pkg:rpm/centos/zlib@1.2.3-29.el6?distro=centos-6&upstream=zlib%401.2.3",
                   "version": "1.2.3-29.el6",
                 },
               },
