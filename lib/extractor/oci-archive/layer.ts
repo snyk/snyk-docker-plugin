@@ -133,9 +133,14 @@ function getLayersContentAndArchiveManifest(
   manifest: OciArchiveManifest;
   imageConfig: ImageConfig;
 } {
+  const filteredConfigs = configs.filter((config) => {
+    return config?.os !== "unknown" || config?.architecture !== "unknown";
+  });
   const platform =
     options?.platform ||
-    (configs.length === 1 ? getPlatformFromConfig(configs[0]) : "linux/amd64");
+    (filteredConfigs.length === 1
+      ? getPlatformFromConfig(filteredConfigs[0])
+      : "linux/amd64");
   const platformInfo = getOciPlatformInfoFromOptionString(platform as string);
 
   // get manifest file first

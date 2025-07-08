@@ -154,6 +154,15 @@ describe("extractImageContent", () => {
           extractImageContent(type, fixture, [], { platform: "linux/arm/v4" }),
         ).rejects.toThrow();
       });
+
+      it("succeeds for single platform image containing an attestation manifest", async () => {
+        const fixture = getFixture(
+          "containerd-archives/busybox-single-arch-with-attestation-manifest.tar",
+        );
+        await expect(
+          extractImageContent(type, fixture, [], {}),
+        ).resolves.not.toThrow();
+      });
     });
   });
 });
