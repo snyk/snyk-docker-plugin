@@ -212,8 +212,11 @@ async function getImageArchive(
 
   try {
     inspectResult = await getInspectResult(docker, targetImage);
-  } catch {
-    debug(`${targetImage} does not exist locally, proceeding to pull image.`);
+  } catch (error) {
+    debug(
+      `${targetImage} does not exist locally, proceeding to pull image.`,
+      error.stack || error,
+    );
   }
 
   if (inspectResult === undefined) {
