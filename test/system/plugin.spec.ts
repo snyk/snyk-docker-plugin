@@ -1,5 +1,6 @@
 import { DepGraph } from "@snyk/dep-graph";
 import * as plugin from "../../lib";
+import * as subProcess from "../../lib/sub-process";
 import { getFixture } from "../util";
 
 describe("plugin", () => {
@@ -88,6 +89,35 @@ describe("plugin", () => {
       await expect(result).rejects.toThrow(
         "The provided archive path is not a file",
       );
+    });
+  });
+
+  describe("when scanning a locally loaded image", () => {
+    const imageName = "busybox";
+    const imageTag = "latest";
+    const imageNameWithTag = `${imageName}:${imageTag}`;
+
+    beforeAll(async () => {
+      const fixturePath = getFixture([
+        "../fixtures/docker-archives",
+        "skopeo-copy/busybox.tar",
+      ]);
+      await subProcess.execute("docker", ["load", "--input", fixturePath]);
+    }, 10000); // 10s timeout for loading image
+
+    afterAll(async () => {
+      await subProcess.execute("docker", ["rmi", imageNameWithTag]);
+    });
+
+    test("should successfully scan a local image loaded from a tar archive", async () => {
+      const pluginResult = await plugin.scan({ path: imageNameWithTag });
+      const depGraph: DepGraph = pluginResult.scanResults[0].facts.find(
+        (fact) => fact.type === "depGraph",
+      )!.data;
+
+      expect(depGraph.rootPkg.name).toEqual(`docker-image|${imageName}`);
+      expect(depGraph.rootPkg.version).toEqual(imageTag);
+      expect(pluginResult.scanResults[0].identity.type).toEqual("linux");
     });
   });
 
