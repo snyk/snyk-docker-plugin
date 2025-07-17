@@ -1,4 +1,5 @@
 import * as childProcess from "child_process";
+import { quoteAll } from "shescape/stateless";
 
 export { execute, CmdOutput };
 interface CmdOutput {
@@ -12,15 +13,13 @@ function execute(
   options?,
 ): Promise<CmdOutput> {
   const spawnOptions: any = {
-    // Some distributions may not have /bin/bash, which would cause `child_process.spawn` to fail.
-    // By setting `shell: false`, we tell `spawn` to execute the command directly without a shell,
-    // which is more portable.
-    shell: false,
+    shell: process.platform !== "win32" ? "/bin/bash" : true,
     env: { ...process.env },
   };
   if (options && options.cwd) {
     spawnOptions.cwd = options.cwd;
   }
+  args = quoteAll(args, { ...spawnOptions, flagProtection: false });
 
   // Before spawning an external process, we look if we need to restore the system proxy configuration,
   // which overrides the cli internal proxy configuration.

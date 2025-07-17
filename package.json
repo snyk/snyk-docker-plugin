@@ -45,6 +45,7 @@
     "mkdirp": "^1.0.4",
     "packageurl-js": "1.2.0",
     "semver": "^7.6.3",
+    "shescape": "2.1.0",
     "snyk-nodejs-lockfile-parser": "^2.0.0",
     "snyk-poetry-lockfile-parser": "^1.4.0",
     "snyk-resolve-deps": "^4.7.1",
