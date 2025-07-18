@@ -1,3 +1,4 @@
+import { quoteAll } from "shescape";
 import { execute } from "../../lib/sub-process";
 
 describe("sub-process", () => {
@@ -30,5 +31,25 @@ describe("sub-process", () => {
 
     expect(stdout).toContain("NO_PROXY=snyk.com");
     expect(process.env.NO_PROXY).toStrictEqual("example.com");
+  });
+
+  describe("quoteAll", () => {
+    const shellOptions = [false, true, "/bin/sh"];
+    if (process.platform !== "win32") {
+      shellOptions.push(
+        "/bin/bash",
+        "/bin/zsh",
+        "/bin/dash",
+        "/bin/ksh",
+        "/bin/csh",
+        "/bin/busybox",
+      );
+    }
+
+    for (const shell of shellOptions) {
+      it(`does not throw when shell is ${shell}`, () => {
+        expect(() => quoteAll(["test"], { shell })).not.toThrow();
+      });
+    }
   });
 });

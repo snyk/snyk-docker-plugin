@@ -13,7 +13,7 @@ function execute(
   options?,
 ): Promise<CmdOutput> {
   const spawnOptions: any = {
-    shell: process.platform !== "win32" ? "/bin/bash" : true,
+    shell: true,
     env: { ...process.env },
   };
   if (options && options.cwd) {
