@@ -23,7 +23,7 @@ async function getInspectResult(
   targetImage: string,
 ): Promise<DockerInspectOutput> {
   const info = await docker.inspectImage(targetImage);
-  return JSON.parse(info.stdout)[0];
+  return info;
 }
 
 function cleanupCallback(imageFolderPath: string, imageName: string) {

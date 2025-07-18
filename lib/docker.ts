@@ -8,6 +8,7 @@ import * as Debug from "debug";
 import * as Modem from "docker-modem";
 import { createWriteStream } from "fs";
 import { Stream } from "stream";
+import { DockerInspectOutput } from "./analyzer/types";
 import * as subProcess from "./sub-process";
 
 export { Docker, DockerOptions };
@@ -135,7 +136,29 @@ class Docker {
     });
   }
 
-  public async inspectImage(targetImage: string) {
-    return subProcess.execute("docker", ["inspect", targetImage]);
+  public async inspectImage(targetImage: string): Promise<DockerInspectOutput> {
+    const request = {
+      path: `/images/${targetImage}/json`,
+      method: "GET",
+      statusCodes: {
+        200: true,
+        404: "not found",
+        500: "server error",
+      },
+    };
+
+    debug(`Docker.inspectImage: targetImage: ${targetImage}`);
+
+    const modem = new Modem();
+
+    return new Promise<DockerInspectOutput>((resolve, reject) => {
+      modem.dial(request, (err, data) => {
+        if (err) {
+          return reject(err);
+        }
+
+        resolve(data);
+      });
+    });
   }
 }
