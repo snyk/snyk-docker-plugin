@@ -22,12 +22,7 @@ export interface AnalyzedPackageWithVersion extends AnalyzedPackage {
 }
 
 export interface DockerInspectOutput {
-  Id: string;
   Architecture: string;
-  RootFS: {
-    Type: string;
-    Layers: string[];
-  };
 }
 
 export interface ImageAnalysis {
