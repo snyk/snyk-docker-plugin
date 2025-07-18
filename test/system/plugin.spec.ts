@@ -92,6 +92,23 @@ describe("plugin", () => {
     });
   });
 
+  test("image pulled by tag has version set", async () => {
+    const imageNameAndTag = `nginx:1.19.0`;
+
+    const pluginResult = await plugin.scan({
+      path: imageNameAndTag,
+    });
+
+    const depGraph: DepGraph = pluginResult.scanResults[0].facts.find(
+      (fact) => fact.type === "depGraph",
+    )!.data;
+
+    //  image name matches
+    expect(depGraph.rootPkg.name).toEqual("docker-image|nginx");
+    //  version must not be empty
+    expect(depGraph.rootPkg.version).toEqual("1.19.0");
+  });
+
   describe("when scanning a locally loaded image", () => {
     const imageName = "busybox";
     const imageTag = "latest";
@@ -119,23 +136,6 @@ describe("plugin", () => {
       expect(depGraph.rootPkg.version).toEqual(imageTag);
       expect(pluginResult.scanResults[0].identity.type).toEqual("linux");
     });
-  });
-
-  test("image pulled by tag has version set", async () => {
-    const imageNameAndTag = `nginx:1.19.0`;
-
-    const pluginResult = await plugin.scan({
-      path: imageNameAndTag,
-    });
-
-    const depGraph: DepGraph = pluginResult.scanResults[0].facts.find(
-      (fact) => fact.type === "depGraph",
-    )!.data;
-
-    //  image name matches
-    expect(depGraph.rootPkg.name).toEqual("docker-image|nginx");
-    //  version must not be empty
-    expect(depGraph.rootPkg.version).toEqual("1.19.0");
   });
 
   test("static scan for Identifier type image (nginx:1.19.0)", async () => {
