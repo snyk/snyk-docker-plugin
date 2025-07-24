@@ -35,27 +35,75 @@ export async function extractArchive(
     const layers: Record<string, ExtractedLayers> = {};
     let manifest: DockerArchiveManifest;
     let imageConfig: ImageConfig;
+    
+
 
     tarExtractor.on("entry", async (header, stream, next) => {
       if (header.type === "file") {
         const normalizedName = normalizePath(header.name);
-        if (isTarFile(normalizedName)) {
+        if (isManifestFile(normalizedName)) {
+          const manifestArray = await getManifestFile<DockerArchiveManifest[]>(
+            stream,
+          );
+          manifest = manifestArray[0];
+        } else if (isTarFile(normalizedName)) {
           try {
             layers[normalizedName] = await extractImageLayer(
               stream,
               extractActions,
             );
           } catch (error) {
-            debug(`Error extracting layer content from: '${error.message}'`);
-            reject(new Error("Error reading tar archive"));
+            debug(`Error extracting layer content from: '${error.message}'}`);
+            // Don't reject for blob extraction errors - some blobs aren't layers
+            if (!normalizedName.startsWith("blobs/sha256/")) {
+              reject(new Error("Error reading tar archive"));
+            }
           }
-        } else if (isManifestFile(normalizedName)) {
-          const manifestArray = await getManifestFile<DockerArchiveManifest[]>(
-            stream,
-          );
-          manifest = manifestArray[0];
         } else if (isImageConfigFile(normalizedName)) {
           imageConfig = await getManifestFile<ImageConfig>(stream);
+        } else if (normalizedName.startsWith("blobs/sha256/")) {
+          // Handle blob-based files - try config first, then layer
+          // Buffer the stream content so we can try both approaches
+          const chunks: Buffer[] = [];
+          stream.on('data', (chunk) => chunks.push(chunk));
+          await new Promise((resolve) => stream.on('end', resolve));
+          const content = Buffer.concat(chunks);
+          
+          // First try as JSON config
+          try {
+            const potentialConfig = JSON.parse(content.toString());
+            if (potentialConfig && potentialConfig.created) {
+              imageConfig = potentialConfig;
+            } else {
+              // Try as layer
+              const Readable = require('stream').Readable;
+              const layerStream = new Readable();
+              layerStream.push(content);
+              layerStream.push(null);
+              try {
+                layers[normalizedName] = await extractImageLayer(
+                  layerStream,
+                  extractActions,
+                );
+              } catch (layerError) {
+                // Failed as both config and layer, skip silently
+              }
+            }
+          } catch (jsonError) {
+            // Not JSON, try as layer
+            const Readable = require('stream').Readable;
+            const layerStream = new Readable();
+            layerStream.push(content);
+            layerStream.push(null);
+            try {
+              layers[normalizedName] = await extractImageLayer(
+                layerStream,
+                extractActions,
+              );
+            } catch (layerError) {
+              // Failed as layer, skip silently
+            }
+          }
         }
       }
 
@@ -131,5 +179,8 @@ function isTarFile(name: string): boolean {
   // For both "docker save" and "skopeo copy" style archives the
   // layers are represented as tar archives whose names end in .tar.
   // For Docker this is "layer.tar", for Skopeo - "<sha256ofLayer>.tar".
+  // Note: blobs/sha256/ files are handled separately now
   return basename(name).endsWith(".tar");
 }
+
+

@@ -1,0 +1,32 @@
+.PHONY: docker-build
+docker-build: ## Build, push, and export the docker image for the service
+	# 1. Build the Docker image and tag it
+	docker build \
+		--build-arg APP=${APP} \
+		--secret id=gh_token,env=GITHUB_PRIVATE_TOKEN \
+		-t ${CIRCLE_PROJECT_REPONAME}:${CIRCLE_WORKFLOW_ID} \
+		-t ${CONTAINER_REGISTRY}/${APP}:${CIRCLE_SHA1} .
+
+	# 3. Export as traditional Docker archive (compatible with older Snyk)
+	#    Option A: Use docker buildx with docker output type
+	docker buildx build \
+		--build-arg APP=${APP} \
+		--secret id=gh_token,env=GITHUB_PRIVATE_TOKEN \
+		--output type=docker,dest=/tmp/${APP}.tar \
+		--platform=linux/amd64 \
+		--tag ${CONTAINER_REGISTRY}/${APP}:${CIRCLE_SHA1} \
+		.
+
+.PHONY: docker-build-alternative
+docker-build-alternative: ## Alternative: Build and save with traditional docker save
+	# 1. Build and load into Docker daemon
+	docker buildx build \
+		--build-arg APP=${APP} \
+		--secret id=gh_token,env=GITHUB_PRIVATE_TOKEN \
+		--load \
+		--platform=linux/amd64 \
+		--tag ${CONTAINER_REGISTRY}/${APP}:${CIRCLE_SHA1} \
+		.
+
+	# 2. Save using traditional docker save (creates docker-archive format)
+	docker save ${CONTAINER_REGISTRY}/${APP}:${CIRCLE_SHA1} -o /tmp/${APP}.tar 

@@ -1,0 +1,42 @@
+# syntax=docker/dockerfile:1
+ARG GO_VERSION=1.23.6
+
+###############
+# Build stage #
+###############
+FROM us-docker.pkg.dev/polaris-gcp-gar/polaris/ubuntu-22-golang-1-cis-stig-fips:3.5.4_202507071103 AS builder
+
+ARG APP
+ARG GITHUB_TOKEN
+WORKDIR /go/src/${APP}
+
+# Add go module files
+COPY go.mod go.sum ./
+
+# Download and cache dependencies (without mount secrets - pass as build arg instead)
+RUN git config --global url."https://${GITHUB_TOKEN}:x-oauth-basic@github.com/snyk".insteadOf "https://github.com/snyk" && \
+    go env -w GOPRIVATE=github.com/snyk && \
+    go mod download && \
+    git config --global --unset url."https://${GITHUB_TOKEN}:x-oauth-basic@github.com/snyk".insteadOf
+
+# Add source code & build (without cache mount)
+COPY . .
+
+RUN CGO_ENABLED=1 CC=x86_64-linux-gnu-gcc \
+    GOARCH=amd64 GOOS=linux \
+    GOEXPERIMENT=boringcrypto \
+    go build -tags=fips -v -o /go/bin/app ./cmd/${APP}
+
+# Verify BoringCrypto
+RUN go tool nm /go/bin/app | grep BoringCrypto || { echo "BoringCrypto not found in /go/bin/app"; exit 1; }
+
+#################
+# Runtime stage #
+#################
+FROM us-docker.pkg.dev/polaris-gcp-gar/polaris/ubuntu-22-cis-stig-fips:3.5.4_202507071103
+
+COPY config.*.json .
+COPY --from=builder /go/bin/app .
+
+EXPOSE 8080
+ENTRYPOINT [ "bin/start_service.sh", "/srv/app/app" ] 
