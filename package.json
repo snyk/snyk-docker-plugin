@@ -30,7 +30,7 @@
   "dependencies": {
     "@snyk/composer-lockfile-parser": "^1.4.1",
     "@snyk/dep-graph": "^2.8.1",
-    "@snyk/docker-registry-v2-client": "^2.21.1",
+    "@snyk/docker-registry-v2-client": "^2.22.0",
     "@snyk/rpm-parser": "^3.3.0",
     "@snyk/snyk-docker-pull": "^3.14.2",
     "@swimlane/docker-reference": "^2.0.1",
