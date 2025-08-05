@@ -49,6 +49,10 @@ import {
   getRpmSqliteDbFileContent,
   getRpmSqliteDbFileContentAction,
 } from "../inputs/rpm/static";
+import {
+  getSBOMFileContent,
+  getSBOMFileContentAction,
+} from "../inputs/sbom/static";
 import { isTrue } from "../option-utils";
 import { ImageType, ManifestFile, PluginOptions } from "../types";
 import {
@@ -70,6 +74,9 @@ import {
   analyze as rpmAnalyze,
   mapRpmSqlitePackages,
 } from "./package-managers/rpm";
+import { parseSBOMFiles } from "./sbom-parsers";
+import { convertMultipleSBOMsToAnalyzedPackages } from "./sbom/converter";
+import { mergeSBOMWithResults } from "./sbom/merger";
 import {
   ImagePackagesAnalysis,
   OSRelease,
@@ -99,6 +106,12 @@ export async function analyze(
     getDpkgPackageFileContentAction,
     getRedHatRepositoriesContentAction,
   ];
+
+  // Add SBOM scanning if enabled
+  const enableSBOMScan = !isTrue(options["exclude-sbom"]);
+  if (enableSBOMScan) {
+    staticAnalysisActions.push(getSBOMFileContentAction);
+  }
 
   const checkForGlobs = shouldCheckForGlobs(globsToFind);
   if (checkForGlobs) {
@@ -280,6 +293,45 @@ export async function analyze(
       ...jarFingerprintScanResults,
       ...goModulesScanResult,
     );
+  }
+
+  // Process SBOM files if enabled
+  if (enableSBOMScan) {
+    try {
+      const sbomFiles = getSBOMFileContent(extractedLayers);
+      debug(`Found ${Object.keys(sbomFiles).length} SBOM files`);
+
+      if (Object.keys(sbomFiles).length > 0) {
+        const parsedSBOMs = parseSBOMFiles(sbomFiles);
+        debug(`Successfully parsed ${parsedSBOMs.length} SBOM files`);
+
+        if (parsedSBOMs.length > 0) {
+          const sbomPackages =
+            convertMultipleSBOMsToAnalyzedPackages(parsedSBOMs);
+          debug(`Converted ${sbomPackages.length} SBOM packages`);
+
+          // Set default merge strategy if not specified (default is "ignore")
+          const sbomOptions = {
+            ...options,
+            "sbom-merge-strategy": options["sbom-merge-strategy"] || "ignore",
+          };
+
+          const sbomMergeResult = mergeSBOMWithResults(
+            results,
+            sbomPackages,
+            sbomOptions,
+          );
+          results = sbomMergeResult.mergedResults;
+
+          debug(
+            `SBOM merge completed: ${sbomMergeResult.sbomPackagesAdded} packages added, ${sbomMergeResult.conflictsResolved} conflicts resolved`,
+          );
+        }
+      }
+    } catch (error) {
+      debug(`Error processing SBOM files: ${error.message}`);
+      // Continue with analysis even if SBOM processing fails
+    }
   }
 
   return {

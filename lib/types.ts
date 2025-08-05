@@ -228,6 +228,26 @@ export interface PluginOptions {
   /** The default is "false". */
   "collect-application-files": boolean | string;
   "target-reference": string;
+
+  /** Whether to disable SBOM scanning. The default is "false" */
+  "exclude-sbom": boolean | string;
+
+  /**
+   * SBOM merge strategy when combining SBOM data with filesystem analysis.
+   * Options: "ignore", "supplement", "override", "validate"
+   * The default is "ignore"
+   */
+  "sbom-merge-strategy": string;
+
+  /**
+   * Which data source to prioritize in case of conflicts.
+   * Options: "filesystem", "sbom"
+   * The default is "filesystem"
+   */
+  "sbom-precedence": string;
+
+  /** Whether to enable strict SBOM validation mode. The default is "false" */
+  "sbom-validation-strict": boolean | string;
 }
 
 export interface DepTreeDep {
