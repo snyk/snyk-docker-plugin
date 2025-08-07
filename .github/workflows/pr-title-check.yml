@@ -1,0 +1,54 @@
+name: PR Title Check
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+
+jobs:
+  pr-title-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR Title
+        uses: amannn/action-semantic-pull-request@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          # Configure the action to use the same conventional commit types
+          # as your commitlint config
+          types: |
+            feat
+            fix
+            docs
+            style
+            refactor
+            perf
+            test
+            chore
+            ci
+            build
+            revert
+          # Require a scope (optional - remove if you don't want to require scopes)
+          requireScope: false
+          # Allow custom scopes
+          scopes: |
+            deps
+            security
+            performance
+            ui
+            api
+            cli
+            docker
+            python
+            java
+            node
+            go
+          # Disable validation of the scope (allows any scope)
+          disallowCustomScopes: false
+          # Maximum subject length (matching your header-max-length rule)
+          subjectMaxLength: 72
+          # Ignore releases created by semantic-release
+          ignoreLabels: |
+            ignore-semantic-pull-request
+          # Custom error message
+          headerPattern: '^(\w*)(?:\(([^)]*)\))?: (.*)$'
+          headerPatternCorrespondence: 'type,scope,subject' 
