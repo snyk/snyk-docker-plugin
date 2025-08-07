@@ -28,5 +28,3 @@ jobs:
             revert
           # Don't require scopes
           requireScope: false
-          # Maximum subject length (matching your commitlint config)
-          subjectMaxLength: 100 
