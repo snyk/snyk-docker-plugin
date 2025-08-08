@@ -1,6 +1,5 @@
-import { getContentAsString } from "../../../lib/extractor";
+import { getContentAsString, isWhitedOutFile } from "../../../lib/extractor";
 import { ExtractAction, ExtractedLayers } from "../../../lib/extractor/types";
-import { isWhitedOutFile } from "../../../lib/extractor";
 
 describe("index", () => {
   test("getContentAsString() does matches when a pattern is used in the extract action", async () => {
@@ -38,11 +37,11 @@ describe("isWhitedOutFile", () => {
     expect(isWhitedOutFile("/etc/wh.hosts")).toBe(false);
     expect(isWhitedOutFile("/etc/.whosts")).toBe(false);
     expect(isWhitedOutFile("/etc/whhosts")).toBe(false);
-    
+
     // dots in wrong places
     expect(isWhitedOutFile("/etc/.w.h.hosts")).toBe(false);
     expect(isWhitedOutFile("/etc/..wh..hosts")).toBe(false);
-    
+
     // case sensitive
     expect(isWhitedOutFile("/etc/.WH.hosts")).toBe(false);
     expect(isWhitedOutFile("/etc/.Wh.hosts")).toBe(false);

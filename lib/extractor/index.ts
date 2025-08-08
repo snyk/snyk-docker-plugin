@@ -248,11 +248,11 @@ function layersWithLatestFileModifications(
   return extractedLayers;
 }
 
-/** 
-* check if a file is 'whited out', which is shown by 
-* prefixing the filename with a .wh. 
-* https://www.madebymikal.com/interpreting-whiteout-files-in-docker-image-layers/
-*/
+/**
+ * check if a file is 'whited out', which is shown by
+ * prefixing the filename with a .wh.
+ * https://www.madebymikal.com/interpreting-whiteout-files-in-docker-image-layers/
+ */
 export function isWhitedOutFile(filename: string) {
   return filename.includes(".wh.");
 }
