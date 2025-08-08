@@ -14,11 +14,11 @@ function generatePathMatcher(
   globsExclude: string[],
 ): (filePath: string) => boolean {
   return (filePath: string): boolean => {
-    if (globsExclude.some(glob => minimatch(filePath, glob))) {
+    if (globsExclude.some((glob) => minimatch(filePath, glob))) {
       return false;
     }
-    
-    return globsInclude.some(glob => minimatch(filePath, glob));
+
+    return globsInclude.some((glob) => minimatch(filePath, glob));
   };
 }
 
