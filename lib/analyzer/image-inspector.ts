@@ -54,12 +54,11 @@ async function pullWithDockerBinary(
         "using local docker binary credentials. the credentials you provided will be ignored",
       );
     }
-    await docker.pullCli(targetImage, { platform });
+    await docker.pullCli(targetImage, {platform});
     await docker.save(targetImage, saveLocation);
     return true;
   } catch (err) {
     debug(`couldn't pull ${targetImage} using docker binary: ${err.message}`);
-
     handleDockerPullError(err.stderr, platform);
 
     return false;
@@ -80,10 +79,7 @@ function handleDockerPullError(err: string, platform?: string) {
     "manifest unknown",
   ];
   if (unknownManifestConditions.some((value) => err.includes(value))) {
-    if (platform) {
-      throw new Error(`The image does not exist for ${platform}`);
-    }
-    throw new Error(`The image does not exist for the current platform`);
+    throw new Error(`The image does not exist for ${platform ?? "the current platform"}`);
   }
 
   if (err.includes("invalid reference format")) {
