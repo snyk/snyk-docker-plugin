@@ -254,7 +254,7 @@ function layersWithLatestFileModifications(
 * https://www.madebymikal.com/interpreting-whiteout-files-in-docker-image-layers/
 */
 export function isWhitedOutFile(filename: string) {
-  return /\.wh\./.test(filename);
+  return filename.includes(".wh.");
 }
 
 function isBufferType(type: FileContent): type is Buffer {
