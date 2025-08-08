@@ -98,7 +98,7 @@ describe("extractImageDetails", () => {
          path: imageNameAndTag,
        }),
      ).rejects.toEqual(
-       new Error("invalid image format"),
+       new Error(`invalid image reference format: ${imageNameAndTag}`),
      );
    });
 });
