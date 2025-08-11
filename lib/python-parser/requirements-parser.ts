@@ -15,8 +15,7 @@ export function getRequirements(fileContent: string): PythonRequirement[] {
 
 function parseLine(line: string): PythonRequirement | null {
   line = line.trim();
-  // there's no point in calling the regex if the line is a comment
-  if (line.length === 0 || line.startsWith("#")) {
+  if (line.length === 0) {
     return null;
   }
   const parsedLine = VERSION_PARSE_REGEX.exec(line);
@@ -24,9 +23,10 @@ function parseLine(line: string): PythonRequirement | null {
     return null;
   }
   const { name, extras, specifier, version } = parsedLine.groups;
+  const correctedSpecifier = specifierValidRange(specifier, version);
   return {
     name: name.toLowerCase(),
-    specifier: specifierValidRange(specifier, version),
+    specifier: correctedSpecifier,
     version,
     extras: parseExtraNames(extras),
   } as PythonRequirement;
