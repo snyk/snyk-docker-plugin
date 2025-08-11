@@ -228,7 +228,7 @@ function layersWithLatestFileModifications(
       // if finding a deleted file - trimming to its original file name for excluding it from extractedLayers
       // + not adding this file
       if (isWhitedOutFile(filename)) {
-        removedFilesToIgnore.add(filename.replace(/\.wh\./, ""));
+        removedFilesToIgnore.add(filename.replace(/.wh./, ""));
         continue;
       }
       // not adding previously found to be whited out files to extractedLayers
@@ -248,13 +248,8 @@ function layersWithLatestFileModifications(
   return extractedLayers;
 }
 
-/**
- * check if a file is 'whited out', which is shown by
- * prefixing the filename with a .wh.
- * https://www.madebymikal.com/interpreting-whiteout-files-in-docker-image-layers/
- */
 export function isWhitedOutFile(filename: string) {
-  return filename.includes(".wh.");
+  return filename.match(/.wh./gm);
 }
 
 function isBufferType(type: FileContent): type is Buffer {
