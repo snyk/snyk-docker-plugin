@@ -12,7 +12,7 @@ describe("rpm package manager tests", () => {
       "amazonlinux:2022.0.20220504.1",
       "registry.access.redhat.com/ubi9/ubi@sha256:c113f67e8e70940af28116d75e32f0aa4ffd3bf6fab30e970850475ab1de697f",
       "registry.access.redhat.com/ubi10-beta/ubi@sha256:4b4976d86eefeedab6884c9d2923206c6c3c2e2471206f97fd9d7aaaecbc04ac",
-      "quay.io/centos/centos@sha256:45650b7974762418b66987d67c063aee0d2fab0ac8fade2db9807b3ec4bbd1af",
+      "quay.io/centos/centos@sha256:feafe3afc13d8bb4401953350dd0ce03be9b8262c388a9dac4210519ec167200",
       "quay.io/centos/centos@sha256:683927bd29076a14ff8f74419da9042a5e1d308af048244108247a26365bd1e3",
     ]).catch(() => {
       console.error(`tests teardown failed to remove docker image`);
@@ -58,8 +58,10 @@ describe("rpm package manager tests", () => {
   });
 
   it("should correctly analyze a CentOS Stream 9 image", async () => {
+    // quay doesn't always keep older shas, so if this fails, get the sha from the latest
+    // stream9 at https://quay.io/repository/centos/centos?tab=tags&tag=stream9
     const image =
-      "quay.io/centos/centos@sha256:45650b7974762418b66987d67c063aee0d2fab0ac8fade2db9807b3ec4bbd1af";
+      "quay.io/centos/centos@sha256:feafe3afc13d8bb4401953350dd0ce03be9b8262c388a9dac4210519ec167200";
     const pluginResult = await scan({
       path: image,
       platform: "linux/amd64",
@@ -68,6 +70,8 @@ describe("rpm package manager tests", () => {
   });
 
   it("should correctly analyze a CentOS Stream 10 image", async () => {
+    // quay doesn't always keep older shas, so if this fails, get the sha from the latest
+    // stream10 at https://quay.io/repository/centos/centos?tab=tags&tag=stream10
     const image =
       "quay.io/centos/centos@sha256:683927bd29076a14ff8f74419da9042a5e1d308af048244108247a26365bd1e3";
     const pluginResult = await scan({
