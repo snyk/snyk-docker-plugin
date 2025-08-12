@@ -38,7 +38,7 @@
     "chalk": "^2.4.2",
     "debug": "^4.4.1",
     "docker-modem": "^3.0.8",
-    "dockerfile-ast": "^0.6.1",
+    "dockerfile-ast": "^0.7.1",
     "elfy": "^1.0.0",
     "event-loop-spinner": "^2.3.2",
     "gunzip-maybe": "^1.4.2",
