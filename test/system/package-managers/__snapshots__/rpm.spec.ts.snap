@@ -2306,13 +2306,13 @@ Object {
                       "nodeId": "ca-certificates@2024.2.69_v8.0.303-102.3.el10",
                     },
                     Object {
-                      "nodeId": "centos-gpg-keys@10.0-8.el10",
+                      "nodeId": "centos-gpg-keys@10.0-10.el10",
                     },
                     Object {
-                      "nodeId": "centos-stream-release@10.0-8.el10",
+                      "nodeId": "centos-stream-release@10.0-10.el10",
                     },
                     Object {
-                      "nodeId": "centos-stream-repos@10.0-8.el10",
+                      "nodeId": "centos-stream-repos@10.0-10.el10",
                     },
                     Object {
                       "nodeId": "chrony@4.6.1-2.el10",
@@ -2327,10 +2327,10 @@ Object {
                       "nodeId": "cracklib-dicts@2.9.11-8.el10",
                     },
                     Object {
-                      "nodeId": "crypto-policies@20250602-1.gita6d4d0c.el10",
+                      "nodeId": "crypto-policies@20250804-1.git2ca4115.el10",
                     },
                     Object {
-                      "nodeId": "crypto-policies-scripts@20250602-1.gita6d4d0c.el10",
+                      "nodeId": "crypto-policies-scripts@20250804-1.git2ca4115.el10",
                     },
                     Object {
                       "nodeId": "cryptsetup-libs@2.7.5-2.el10",
@@ -2342,7 +2342,7 @@ Object {
                       "nodeId": "dbus@1:1.14.10-5.el10",
                     },
                     Object {
-                      "nodeId": "dbus-broker@36-1.el10",
+                      "nodeId": "dbus-broker@36-2.el10",
                     },
                     Object {
                       "nodeId": "dbus-common@1:1.14.10-5.el10",
@@ -2354,19 +2354,19 @@ Object {
                       "nodeId": "default-fonts-core-sans@4.1-3.el10",
                     },
                     Object {
-                      "nodeId": "device-mapper@10:1.02.202-6.el10",
+                      "nodeId": "device-mapper@10:1.02.206-3.el10",
                     },
                     Object {
-                      "nodeId": "device-mapper-libs@10:1.02.202-6.el10",
+                      "nodeId": "device-mapper-libs@10:1.02.206-3.el10",
                     },
                     Object {
                       "nodeId": "diffutils@3.10-8.el10",
                     },
                     Object {
-                      "nodeId": "dnf@4.20.0-14.el10",
+                      "nodeId": "dnf@4.20.0-18.el10",
                     },
                     Object {
-                      "nodeId": "dnf-data@4.20.0-14.el10",
+                      "nodeId": "dnf-data@4.20.0-18.el10",
                     },
                     Object {
                       "nodeId": "elfutils-debuginfod-client@0.193-1.el10",
@@ -2384,10 +2384,10 @@ Object {
                       "nodeId": "expat@2.7.1-1.el10",
                     },
                     Object {
-                      "nodeId": "file-libs@5.45-7.el10",
+                      "nodeId": "file-libs@5.45-8.el10",
                     },
                     Object {
-                      "nodeId": "filesystem@3.18-16.el10",
+                      "nodeId": "filesystem@3.18-17.el10",
                     },
                     Object {
                       "nodeId": "findutils@1:4.10.0-5.el10",
@@ -2402,34 +2402,34 @@ Object {
                       "nodeId": "gawk-all-langpacks@5.3.0-6.el10",
                     },
                     Object {
-                      "nodeId": "gdb-gdbserver@14.2-4.1.el10",
+                      "nodeId": "gdb-gdbserver@16.3-2.el10",
                     },
                     Object {
-                      "nodeId": "gdbm-libs@1:1.23-11.el10",
+                      "nodeId": "gdbm-libs@1:1.23-14.el10",
                     },
                     Object {
-                      "nodeId": "glib2@2.80.4-4.el10",
+                      "nodeId": "glib2@2.80.4-8.el10",
                     },
                     Object {
-                      "nodeId": "glibc@2.39-38.el10",
+                      "nodeId": "glibc@2.39-46.el10",
                     },
                     Object {
-                      "nodeId": "glibc-common@2.39-38.el10",
+                      "nodeId": "glibc-common@2.39-46.el10",
                     },
                     Object {
-                      "nodeId": "glibc-gconv-extra@2.39-38.el10",
+                      "nodeId": "glibc-gconv-extra@2.39-46.el10",
                     },
                     Object {
-                      "nodeId": "glibc-langpack-en@2.39-38.el10",
+                      "nodeId": "glibc-langpack-en@2.39-46.el10",
                     },
                     Object {
-                      "nodeId": "glibc-minimal-langpack@2.39-38.el10",
+                      "nodeId": "glibc-minimal-langpack@2.39-46.el10",
                     },
                     Object {
-                      "nodeId": "gmp@1:6.2.1-10.el10",
+                      "nodeId": "gmp@1:6.2.1-12.el10",
                     },
                     Object {
-                      "nodeId": "gnutls@3.8.9-16.el10",
+                      "nodeId": "gnutls@3.8.10-2.el10",
                     },
                     Object {
                       "nodeId": "google-noto-fonts-common@20240401-5.el10",
@@ -2504,7 +2504,7 @@ Object {
                       "nodeId": "libblkid@2.40.2-10.el10",
                     },
                     Object {
-                      "nodeId": "libbpf@2:1.5.0-4.el10",
+                      "nodeId": "libbpf@2:1.6.0-2.el10",
                     },
                     Object {
                       "nodeId": "libcap@2.69-7.el10",
@@ -2513,7 +2513,7 @@ Object {
                       "nodeId": "libcap-ng@0.8.4-6.el10",
                     },
                     Object {
-                      "nodeId": "libcom_err@1.47.1-3.el10",
+                      "nodeId": "libcom_err@1.47.1-4.el10",
                     },
                     Object {
                       "nodeId": "libcomps@0.1.21-3.el10",
@@ -2522,7 +2522,7 @@ Object {
                       "nodeId": "libcurl-minimal@8.12.1-2.el10",
                     },
                     Object {
-                      "nodeId": "libdnf@0.73.1-10.el10",
+                      "nodeId": "libdnf@0.73.1-12.el10",
                     },
                     Object {
                       "nodeId": "libeconf@0.6.2-4.el10",
@@ -2537,10 +2537,10 @@ Object {
                       "nodeId": "libffi@3.4.4-10.el10",
                     },
                     Object {
-                      "nodeId": "libgcc@14.2.1-8.el10",
+                      "nodeId": "libgcc@14.3.1-2.1.el10",
                     },
                     Object {
-                      "nodeId": "libgomp@14.2.1-8.el10",
+                      "nodeId": "libgomp@14.3.1-2.1.el10",
                     },
                     Object {
                       "nodeId": "libidn2@2.3.7-3.el10",
@@ -2558,19 +2558,19 @@ Object {
                       "nodeId": "libpwquality@1.4.5-12.el10",
                     },
                     Object {
-                      "nodeId": "librepo@1.18.0-3.el10",
+                      "nodeId": "librepo@1.18.0-5.el10",
                     },
                     Object {
-                      "nodeId": "libseccomp@2.5.3-10.el10",
+                      "nodeId": "libseccomp@2.5.6-1.el10",
                     },
                     Object {
-                      "nodeId": "libselinux@3.8-2.el10",
+                      "nodeId": "libselinux@3.9-1.el10",
                     },
                     Object {
-                      "nodeId": "libsemanage@3.8.1-1.el10",
+                      "nodeId": "libsemanage@3.9-1.el10",
                     },
                     Object {
-                      "nodeId": "libsepol@3.8-1.el10",
+                      "nodeId": "libsepol@3.9-1.el10",
                     },
                     Object {
                       "nodeId": "libsmartcols@2.40.2-10.el10",
@@ -2579,7 +2579,7 @@ Object {
                       "nodeId": "libsolv@0.7.29-8.el10",
                     },
                     Object {
-                      "nodeId": "libstdc++@14.2.1-8.el10",
+                      "nodeId": "libstdc++@14.3.1-2.1.el10",
                     },
                     Object {
                       "nodeId": "libtasn1@4.20.0-1.el10",
@@ -2597,7 +2597,7 @@ Object {
                       "nodeId": "libxcrypt@4.4.36-10.el10",
                     },
                     Object {
-                      "nodeId": "libxml2@2.12.5-5.el10",
+                      "nodeId": "libxml2@2.12.5-9.el10",
                     },
                     Object {
                       "nodeId": "libyaml@0.2.5-16.el10",
@@ -2624,7 +2624,10 @@ Object {
                       "nodeId": "ncurses-libs@6.4-14.20240127.el10",
                     },
                     Object {
-                      "nodeId": "openssl-libs@1:3.5.0-8.el10",
+                      "nodeId": "openssl-fips-provider@1:3.5.1-3.el10",
+                    },
+                    Object {
+                      "nodeId": "openssl-libs@1:3.5.1-3.el10",
                     },
                     Object {
                       "nodeId": "p11-kit@0.25.5-7.el10",
@@ -2633,7 +2636,7 @@ Object {
                       "nodeId": "p11-kit-trust@0.25.5-7.el10",
                     },
                     Object {
-                      "nodeId": "pam-libs@1.6.1-7.el10",
+                      "nodeId": "pam-libs@1.6.1-8.el10",
                     },
                     Object {
                       "nodeId": "pcre2@10.44-1.el10.3",
@@ -2645,40 +2648,40 @@ Object {
                       "nodeId": "popt@1.19-8.el10",
                     },
                     Object {
-                      "nodeId": "python-unversioned-command@3.12.10-3.el10",
+                      "nodeId": "python-unversioned-command@3.12.11-2.el10",
                     },
                     Object {
-                      "nodeId": "python3@3.12.10-3.el10",
+                      "nodeId": "python3@3.12.11-2.el10",
                     },
                     Object {
-                      "nodeId": "python3-dateutil@1:2.8.2-15.el10",
+                      "nodeId": "python3-dateutil@1:2.9.0.post0-1.el10",
                     },
                     Object {
                       "nodeId": "python3-dbus@1.3.2-8.el10",
                     },
                     Object {
-                      "nodeId": "python3-dnf@4.20.0-14.el10",
+                      "nodeId": "python3-dnf@4.20.0-18.el10",
                     },
                     Object {
                       "nodeId": "python3-dnf-plugins-core@4.7.0-9.el10",
                     },
                     Object {
-                      "nodeId": "python3-hawkey@0.73.1-10.el10",
+                      "nodeId": "python3-hawkey@0.73.1-12.el10",
                     },
                     Object {
                       "nodeId": "python3-libcomps@0.1.21-3.el10",
                     },
                     Object {
-                      "nodeId": "python3-libdnf@0.73.1-10.el10",
+                      "nodeId": "python3-libdnf@0.73.1-12.el10",
                     },
                     Object {
-                      "nodeId": "python3-libs@3.12.10-3.el10",
+                      "nodeId": "python3-libs@3.12.11-2.el10",
                     },
                     Object {
                       "nodeId": "python3-pip-wheel@23.3.2-7.el10",
                     },
                     Object {
-                      "nodeId": "python3-rpm@4.19.1.1-17.el10",
+                      "nodeId": "python3-rpm@4.19.1.1-18.el10",
                     },
                     Object {
                       "nodeId": "python3-six@1.16.0-16.el10",
@@ -2699,25 +2702,25 @@ Object {
                       "nodeId": "rootfiles@8.1-54.el10",
                     },
                     Object {
-                      "nodeId": "rpm@4.19.1.1-17.el10",
+                      "nodeId": "rpm@4.19.1.1-18.el10",
                     },
                     Object {
-                      "nodeId": "rpm-build-libs@4.19.1.1-17.el10",
+                      "nodeId": "rpm-build-libs@4.19.1.1-18.el10",
                     },
                     Object {
-                      "nodeId": "rpm-libs@4.19.1.1-17.el10",
+                      "nodeId": "rpm-libs@4.19.1.1-18.el10",
                     },
                     Object {
-                      "nodeId": "rpm-plugin-audit@4.19.1.1-17.el10",
+                      "nodeId": "rpm-plugin-audit@4.19.1.1-18.el10",
                     },
                     Object {
-                      "nodeId": "rpm-plugin-systemd-inhibit@4.19.1.1-17.el10",
+                      "nodeId": "rpm-plugin-systemd-inhibit@4.19.1.1-18.el10",
                     },
                     Object {
-                      "nodeId": "rpm-sequoia@1.6.0-6.el10",
+                      "nodeId": "rpm-sequoia@1.9.0.1-1.el10",
                     },
                     Object {
-                      "nodeId": "rpm-sign-libs@4.19.1.1-17.el10",
+                      "nodeId": "rpm-sign-libs@4.19.1.1-18.el10",
                     },
                     Object {
                       "nodeId": "sed@4.9-3.el10",
@@ -2762,7 +2765,7 @@ Object {
                       "nodeId": "xz-libs@1:5.6.2-4.el10",
                     },
                     Object {
-                      "nodeId": "yum@4.20.0-14.el10",
+                      "nodeId": "yum@4.20.0-18.el10",
                     },
                     Object {
                       "nodeId": "zlib-ng-compat@2.2.3-2.el10",
@@ -2808,18 +2811,18 @@ Object {
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "centos-gpg-keys@10.0-8.el10",
-                  "pkgId": "centos-gpg-keys@10.0-8.el10",
+                  "nodeId": "centos-gpg-keys@10.0-10.el10",
+                  "pkgId": "centos-gpg-keys@10.0-10.el10",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "centos-stream-release@10.0-8.el10",
-                  "pkgId": "centos-stream-release@10.0-8.el10",
+                  "nodeId": "centos-stream-release@10.0-10.el10",
+                  "pkgId": "centos-stream-release@10.0-10.el10",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "centos-stream-repos@10.0-8.el10",
-                  "pkgId": "centos-stream-repos@10.0-8.el10",
+                  "nodeId": "centos-stream-repos@10.0-10.el10",
+                  "pkgId": "centos-stream-repos@10.0-10.el10",
                 },
                 Object {
                   "deps": Array [],
@@ -2843,13 +2846,13 @@ Object {
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "crypto-policies@20250602-1.gita6d4d0c.el10",
-                  "pkgId": "crypto-policies@20250602-1.gita6d4d0c.el10",
+                  "nodeId": "crypto-policies@20250804-1.git2ca4115.el10",
+                  "pkgId": "crypto-policies@20250804-1.git2ca4115.el10",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "crypto-policies-scripts@20250602-1.gita6d4d0c.el10",
-                  "pkgId": "crypto-policies-scripts@20250602-1.gita6d4d0c.el10",
+                  "nodeId": "crypto-policies-scripts@20250804-1.git2ca4115.el10",
+                  "pkgId": "crypto-policies-scripts@20250804-1.git2ca4115.el10",
                 },
                 Object {
                   "deps": Array [],
@@ -2868,8 +2871,8 @@ Object {
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "dbus-broker@36-1.el10",
-                  "pkgId": "dbus-broker@36-1.el10",
+                  "nodeId": "dbus-broker@36-2.el10",
+                  "pkgId": "dbus-broker@36-2.el10",
                 },
                 Object {
                   "deps": Array [],
@@ -2888,13 +2891,13 @@ Object {
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "device-mapper@10:1.02.202-6.el10",
-                  "pkgId": "device-mapper@10:1.02.202-6.el10",
+                  "nodeId": "device-mapper@10:1.02.206-3.el10",
+                  "pkgId": "device-mapper@10:1.02.206-3.el10",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "device-mapper-libs@10:1.02.202-6.el10",
-                  "pkgId": "device-mapper-libs@10:1.02.202-6.el10",
+                  "nodeId": "device-mapper-libs@10:1.02.206-3.el10",
+                  "pkgId": "device-mapper-libs@10:1.02.206-3.el10",
                 },
                 Object {
                   "deps": Array [],
@@ -2903,13 +2906,13 @@ Object {
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "dnf@4.20.0-14.el10",
-                  "pkgId": "dnf@4.20.0-14.el10",
+                  "nodeId": "dnf@4.20.0-18.el10",
+                  "pkgId": "dnf@4.20.0-18.el10",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "dnf-data@4.20.0-14.el10",
-                  "pkgId": "dnf-data@4.20.0-14.el10",
+                  "nodeId": "dnf-data@4.20.0-18.el10",
+                  "pkgId": "dnf-data@4.20.0-18.el10",
                 },
                 Object {
                   "deps": Array [],
@@ -2938,13 +2941,13 @@ Object {
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "file-libs@5.45-7.el10",
-                  "pkgId": "file-libs@5.45-7.el10",
+                  "nodeId": "file-libs@5.45-8.el10",
+                  "pkgId": "file-libs@5.45-8.el10",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "filesystem@3.18-16.el10",
-                  "pkgId": "filesystem@3.18-16.el10",
+                  "nodeId": "filesystem@3.18-17.el10",
+                  "pkgId": "filesystem@3.18-17.el10",
                 },
                 Object {
                   "deps": Array [],
@@ -2968,53 +2971,53 @@ Object {
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "gdb-gdbserver@14.2-4.1.el10",
-                  "pkgId": "gdb-gdbserver@14.2-4.1.el10",
+                  "nodeId": "gdb-gdbserver@16.3-2.el10",
+                  "pkgId": "gdb-gdbserver@16.3-2.el10",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "gdbm-libs@1:1.23-11.el10",
-                  "pkgId": "gdbm-libs@1:1.23-11.el10",
+                  "nodeId": "gdbm-libs@1:1.23-14.el10",
+                  "pkgId": "gdbm-libs@1:1.23-14.el10",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "glib2@2.80.4-4.el10",
-                  "pkgId": "glib2@2.80.4-4.el10",
+                  "nodeId": "glib2@2.80.4-8.el10",
+                  "pkgId": "glib2@2.80.4-8.el10",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "glibc@2.39-38.el10",
-                  "pkgId": "glibc@2.39-38.el10",
+                  "nodeId": "glibc@2.39-46.el10",
+                  "pkgId": "glibc@2.39-46.el10",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "glibc-common@2.39-38.el10",
-                  "pkgId": "glibc-common@2.39-38.el10",
+                  "nodeId": "glibc-common@2.39-46.el10",
+                  "pkgId": "glibc-common@2.39-46.el10",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "glibc-gconv-extra@2.39-38.el10",
-                  "pkgId": "glibc-gconv-extra@2.39-38.el10",
+                  "nodeId": "glibc-gconv-extra@2.39-46.el10",
+                  "pkgId": "glibc-gconv-extra@2.39-46.el10",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "glibc-langpack-en@2.39-38.el10",
-                  "pkgId": "glibc-langpack-en@2.39-38.el10",
+                  "nodeId": "glibc-langpack-en@2.39-46.el10",
+                  "pkgId": "glibc-langpack-en@2.39-46.el10",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "glibc-minimal-langpack@2.39-38.el10",
-                  "pkgId": "glibc-minimal-langpack@2.39-38.el10",
+                  "nodeId": "glibc-minimal-langpack@2.39-46.el10",
+                  "pkgId": "glibc-minimal-langpack@2.39-46.el10",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "gmp@1:6.2.1-10.el10",
-                  "pkgId": "gmp@1:6.2.1-10.el10",
+                  "nodeId": "gmp@1:6.2.1-12.el10",
+                  "pkgId": "gmp@1:6.2.1-12.el10",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "gnutls@3.8.9-16.el10",
-                  "pkgId": "gnutls@3.8.9-16.el10",
+                  "nodeId": "gnutls@3.8.10-2.el10",
+                  "pkgId": "gnutls@3.8.10-2.el10",
                 },
                 Object {
                   "deps": Array [],
@@ -3138,8 +3141,8 @@ Object {
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libbpf@2:1.5.0-4.el10",
-                  "pkgId": "libbpf@2:1.5.0-4.el10",
+                  "nodeId": "libbpf@2:1.6.0-2.el10",
+                  "pkgId": "libbpf@2:1.6.0-2.el10",
                 },
                 Object {
                   "deps": Array [],
@@ -3153,8 +3156,8 @@ Object {
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libcom_err@1.47.1-3.el10",
-                  "pkgId": "libcom_err@1.47.1-3.el10",
+                  "nodeId": "libcom_err@1.47.1-4.el10",
+                  "pkgId": "libcom_err@1.47.1-4.el10",
                 },
                 Object {
                   "deps": Array [],
@@ -3168,8 +3171,8 @@ Object {
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libdnf@0.73.1-10.el10",
-                  "pkgId": "libdnf@0.73.1-10.el10",
+                  "nodeId": "libdnf@0.73.1-12.el10",
+                  "pkgId": "libdnf@0.73.1-12.el10",
                 },
                 Object {
                   "deps": Array [],
@@ -3193,13 +3196,13 @@ Object {
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libgcc@14.2.1-8.el10",
-                  "pkgId": "libgcc@14.2.1-8.el10",
+                  "nodeId": "libgcc@14.3.1-2.1.el10",
+                  "pkgId": "libgcc@14.3.1-2.1.el10",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libgomp@14.2.1-8.el10",
-                  "pkgId": "libgomp@14.2.1-8.el10",
+                  "nodeId": "libgomp@14.3.1-2.1.el10",
+                  "pkgId": "libgomp@14.3.1-2.1.el10",
                 },
                 Object {
                   "deps": Array [],
@@ -3228,28 +3231,28 @@ Object {
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "librepo@1.18.0-3.el10",
-                  "pkgId": "librepo@1.18.0-3.el10",
+                  "nodeId": "librepo@1.18.0-5.el10",
+                  "pkgId": "librepo@1.18.0-5.el10",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libseccomp@2.5.3-10.el10",
-                  "pkgId": "libseccomp@2.5.3-10.el10",
+                  "nodeId": "libseccomp@2.5.6-1.el10",
+                  "pkgId": "libseccomp@2.5.6-1.el10",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libselinux@3.8-2.el10",
-                  "pkgId": "libselinux@3.8-2.el10",
+                  "nodeId": "libselinux@3.9-1.el10",
+                  "pkgId": "libselinux@3.9-1.el10",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libsemanage@3.8.1-1.el10",
-                  "pkgId": "libsemanage@3.8.1-1.el10",
+                  "nodeId": "libsemanage@3.9-1.el10",
+                  "pkgId": "libsemanage@3.9-1.el10",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libsepol@3.8-1.el10",
-                  "pkgId": "libsepol@3.8-1.el10",
+                  "nodeId": "libsepol@3.9-1.el10",
+                  "pkgId": "libsepol@3.9-1.el10",
                 },
                 Object {
                   "deps": Array [],
@@ -3263,8 +3266,8 @@ Object {
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libstdc++@14.2.1-8.el10",
-                  "pkgId": "libstdc++@14.2.1-8.el10",
+                  "nodeId": "libstdc++@14.3.1-2.1.el10",
+                  "pkgId": "libstdc++@14.3.1-2.1.el10",
                 },
                 Object {
                   "deps": Array [],
@@ -3293,8 +3296,8 @@ Object {
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "libxml2@2.12.5-5.el10",
-                  "pkgId": "libxml2@2.12.5-5.el10",
+                  "nodeId": "libxml2@2.12.5-9.el10",
+                  "pkgId": "libxml2@2.12.5-9.el10",
                 },
                 Object {
                   "deps": Array [],
@@ -3338,8 +3341,13 @@ Object {
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "openssl-libs@1:3.5.0-8.el10",
-                  "pkgId": "openssl-libs@1:3.5.0-8.el10",
+                  "nodeId": "openssl-fips-provider@1:3.5.1-3.el10",
+                  "pkgId": "openssl-fips-provider@1:3.5.1-3.el10",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "openssl-libs@1:3.5.1-3.el10",
+                  "pkgId": "openssl-libs@1:3.5.1-3.el10",
                 },
                 Object {
                   "deps": Array [],
@@ -3353,8 +3361,8 @@ Object {
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "pam-libs@1.6.1-7.el10",
-                  "pkgId": "pam-libs@1.6.1-7.el10",
+                  "nodeId": "pam-libs@1.6.1-8.el10",
+                  "pkgId": "pam-libs@1.6.1-8.el10",
                 },
                 Object {
                   "deps": Array [],
@@ -3373,18 +3381,18 @@ Object {
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "python-unversioned-command@3.12.10-3.el10",
-                  "pkgId": "python-unversioned-command@3.12.10-3.el10",
+                  "nodeId": "python-unversioned-command@3.12.11-2.el10",
+                  "pkgId": "python-unversioned-command@3.12.11-2.el10",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "python3@3.12.10-3.el10",
-                  "pkgId": "python3@3.12.10-3.el10",
+                  "nodeId": "python3@3.12.11-2.el10",
+                  "pkgId": "python3@3.12.11-2.el10",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "python3-dateutil@1:2.8.2-15.el10",
-                  "pkgId": "python3-dateutil@1:2.8.2-15.el10",
+                  "nodeId": "python3-dateutil@1:2.9.0.post0-1.el10",
+                  "pkgId": "python3-dateutil@1:2.9.0.post0-1.el10",
                 },
                 Object {
                   "deps": Array [],
@@ -3393,8 +3401,8 @@ Object {
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "python3-dnf@4.20.0-14.el10",
-                  "pkgId": "python3-dnf@4.20.0-14.el10",
+                  "nodeId": "python3-dnf@4.20.0-18.el10",
+                  "pkgId": "python3-dnf@4.20.0-18.el10",
                 },
                 Object {
                   "deps": Array [],
@@ -3403,8 +3411,8 @@ Object {
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "python3-hawkey@0.73.1-10.el10",
-                  "pkgId": "python3-hawkey@0.73.1-10.el10",
+                  "nodeId": "python3-hawkey@0.73.1-12.el10",
+                  "pkgId": "python3-hawkey@0.73.1-12.el10",
                 },
                 Object {
                   "deps": Array [],
@@ -3413,13 +3421,13 @@ Object {
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "python3-libdnf@0.73.1-10.el10",
-                  "pkgId": "python3-libdnf@0.73.1-10.el10",
+                  "nodeId": "python3-libdnf@0.73.1-12.el10",
+                  "pkgId": "python3-libdnf@0.73.1-12.el10",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "python3-libs@3.12.10-3.el10",
-                  "pkgId": "python3-libs@3.12.10-3.el10",
+                  "nodeId": "python3-libs@3.12.11-2.el10",
+                  "pkgId": "python3-libs@3.12.11-2.el10",
                 },
                 Object {
                   "deps": Array [],
@@ -3428,8 +3436,8 @@ Object {
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "python3-rpm@4.19.1.1-17.el10",
-                  "pkgId": "python3-rpm@4.19.1.1-17.el10",
+                  "nodeId": "python3-rpm@4.19.1.1-18.el10",
+                  "pkgId": "python3-rpm@4.19.1.1-18.el10",
                 },
                 Object {
                   "deps": Array [],
@@ -3463,38 +3471,38 @@ Object {
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "rpm@4.19.1.1-17.el10",
-                  "pkgId": "rpm@4.19.1.1-17.el10",
+                  "nodeId": "rpm@4.19.1.1-18.el10",
+                  "pkgId": "rpm@4.19.1.1-18.el10",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "rpm-build-libs@4.19.1.1-17.el10",
-                  "pkgId": "rpm-build-libs@4.19.1.1-17.el10",
+                  "nodeId": "rpm-build-libs@4.19.1.1-18.el10",
+                  "pkgId": "rpm-build-libs@4.19.1.1-18.el10",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "rpm-libs@4.19.1.1-17.el10",
-                  "pkgId": "rpm-libs@4.19.1.1-17.el10",
+                  "nodeId": "rpm-libs@4.19.1.1-18.el10",
+                  "pkgId": "rpm-libs@4.19.1.1-18.el10",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "rpm-plugin-audit@4.19.1.1-17.el10",
-                  "pkgId": "rpm-plugin-audit@4.19.1.1-17.el10",
+                  "nodeId": "rpm-plugin-audit@4.19.1.1-18.el10",
+                  "pkgId": "rpm-plugin-audit@4.19.1.1-18.el10",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "rpm-plugin-systemd-inhibit@4.19.1.1-17.el10",
-                  "pkgId": "rpm-plugin-systemd-inhibit@4.19.1.1-17.el10",
+                  "nodeId": "rpm-plugin-systemd-inhibit@4.19.1.1-18.el10",
+                  "pkgId": "rpm-plugin-systemd-inhibit@4.19.1.1-18.el10",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "rpm-sequoia@1.6.0-6.el10",
-                  "pkgId": "rpm-sequoia@1.6.0-6.el10",
+                  "nodeId": "rpm-sequoia@1.9.0.1-1.el10",
+                  "pkgId": "rpm-sequoia@1.9.0.1-1.el10",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "rpm-sign-libs@4.19.1.1-17.el10",
-                  "pkgId": "rpm-sign-libs@4.19.1.1-17.el10",
+                  "nodeId": "rpm-sign-libs@4.19.1.1-18.el10",
+                  "pkgId": "rpm-sign-libs@4.19.1.1-18.el10",
                 },
                 Object {
                   "deps": Array [],
@@ -3568,8 +3576,8 @@ Object {
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "yum@4.20.0-14.el10",
-                  "pkgId": "yum@4.20.0-14.el10",
+                  "nodeId": "yum@4.20.0-18.el10",
+                  "pkgId": "yum@4.20.0-18.el10",
                 },
                 Object {
                   "deps": Array [],
@@ -3652,27 +3660,27 @@ Object {
                 },
               },
               Object {
-                "id": "centos-gpg-keys@10.0-8.el10",
+                "id": "centos-gpg-keys@10.0-10.el10",
                 "info": Object {
                   "name": "centos-gpg-keys",
-                  "purl": "pkg:rpm/centos/centos-gpg-keys@10.0-8.el10?distro=centos-10&upstream=centos-stream-release%4010.0",
-                  "version": "10.0-8.el10",
+                  "purl": "pkg:rpm/centos/centos-gpg-keys@10.0-10.el10?distro=centos-10&upstream=centos-stream-release%4010.0",
+                  "version": "10.0-10.el10",
                 },
               },
               Object {
-                "id": "centos-stream-release@10.0-8.el10",
+                "id": "centos-stream-release@10.0-10.el10",
                 "info": Object {
                   "name": "centos-stream-release",
-                  "purl": "pkg:rpm/centos/centos-stream-release@10.0-8.el10?distro=centos-10&upstream=centos-stream-release%4010.0",
-                  "version": "10.0-8.el10",
+                  "purl": "pkg:rpm/centos/centos-stream-release@10.0-10.el10?distro=centos-10&upstream=centos-stream-release%4010.0",
+                  "version": "10.0-10.el10",
                 },
               },
               Object {
-                "id": "centos-stream-repos@10.0-8.el10",
+                "id": "centos-stream-repos@10.0-10.el10",
                 "info": Object {
                   "name": "centos-stream-repos",
-                  "purl": "pkg:rpm/centos/centos-stream-repos@10.0-8.el10?distro=centos-10&upstream=centos-stream-release%4010.0",
-                  "version": "10.0-8.el10",
+                  "purl": "pkg:rpm/centos/centos-stream-repos@10.0-10.el10?distro=centos-10&upstream=centos-stream-release%4010.0",
+                  "version": "10.0-10.el10",
                 },
               },
               Object {
@@ -3708,19 +3716,19 @@ Object {
                 },
               },
               Object {
-                "id": "crypto-policies@20250602-1.gita6d4d0c.el10",
+                "id": "crypto-policies@20250804-1.git2ca4115.el10",
                 "info": Object {
                   "name": "crypto-policies",
-                  "purl": "pkg:rpm/centos/crypto-policies@20250602-1.gita6d4d0c.el10?distro=centos-10&upstream=crypto-policies%4020250602",
-                  "version": "20250602-1.gita6d4d0c.el10",
+                  "purl": "pkg:rpm/centos/crypto-policies@20250804-1.git2ca4115.el10?distro=centos-10&upstream=crypto-policies%4020250804",
+                  "version": "20250804-1.git2ca4115.el10",
                 },
               },
               Object {
-                "id": "crypto-policies-scripts@20250602-1.gita6d4d0c.el10",
+                "id": "crypto-policies-scripts@20250804-1.git2ca4115.el10",
                 "info": Object {
                   "name": "crypto-policies-scripts",
-                  "purl": "pkg:rpm/centos/crypto-policies-scripts@20250602-1.gita6d4d0c.el10?distro=centos-10&upstream=crypto-policies%4020250602",
-                  "version": "20250602-1.gita6d4d0c.el10",
+                  "purl": "pkg:rpm/centos/crypto-policies-scripts@20250804-1.git2ca4115.el10?distro=centos-10&upstream=crypto-policies%4020250804",
+                  "version": "20250804-1.git2ca4115.el10",
                 },
               },
               Object {
@@ -3748,11 +3756,11 @@ Object {
                 },
               },
               Object {
-                "id": "dbus-broker@36-1.el10",
+                "id": "dbus-broker@36-2.el10",
                 "info": Object {
                   "name": "dbus-broker",
-                  "purl": "pkg:rpm/centos/dbus-broker@36-1.el10?distro=centos-10&upstream=dbus-broker%4036",
-                  "version": "36-1.el10",
+                  "purl": "pkg:rpm/centos/dbus-broker@36-2.el10?distro=centos-10&upstream=dbus-broker%4036",
+                  "version": "36-2.el10",
                 },
               },
               Object {
@@ -3780,19 +3788,19 @@ Object {
                 },
               },
               Object {
-                "id": "device-mapper@10:1.02.202-6.el10",
+                "id": "device-mapper@10:1.02.206-3.el10",
                 "info": Object {
                   "name": "device-mapper",
-                  "purl": "pkg:rpm/centos/device-mapper@10:1.02.202-6.el10?distro=centos-10&epoch=10&upstream=lvm2%402.03.28",
-                  "version": "10:1.02.202-6.el10",
+                  "purl": "pkg:rpm/centos/device-mapper@10:1.02.206-3.el10?distro=centos-10&epoch=10&upstream=lvm2%402.03.32",
+                  "version": "10:1.02.206-3.el10",
                 },
               },
               Object {
-                "id": "device-mapper-libs@10:1.02.202-6.el10",
+                "id": "device-mapper-libs@10:1.02.206-3.el10",
                 "info": Object {
                   "name": "device-mapper-libs",
-                  "purl": "pkg:rpm/centos/device-mapper-libs@10:1.02.202-6.el10?distro=centos-10&epoch=10&upstream=lvm2%402.03.28",
-                  "version": "10:1.02.202-6.el10",
+                  "purl": "pkg:rpm/centos/device-mapper-libs@10:1.02.206-3.el10?distro=centos-10&epoch=10&upstream=lvm2%402.03.32",
+                  "version": "10:1.02.206-3.el10",
                 },
               },
               Object {
@@ -3804,19 +3812,19 @@ Object {
                 },
               },
               Object {
-                "id": "dnf@4.20.0-14.el10",
+                "id": "dnf@4.20.0-18.el10",
                 "info": Object {
                   "name": "dnf",
-                  "purl": "pkg:rpm/centos/dnf@4.20.0-14.el10?distro=centos-10&upstream=dnf%404.20.0",
-                  "version": "4.20.0-14.el10",
+                  "purl": "pkg:rpm/centos/dnf@4.20.0-18.el10?distro=centos-10&upstream=dnf%404.20.0",
+                  "version": "4.20.0-18.el10",
                 },
               },
               Object {
-                "id": "dnf-data@4.20.0-14.el10",
+                "id": "dnf-data@4.20.0-18.el10",
                 "info": Object {
                   "name": "dnf-data",
-                  "purl": "pkg:rpm/centos/dnf-data@4.20.0-14.el10?distro=centos-10&upstream=dnf%404.20.0",
-                  "version": "4.20.0-14.el10",
+                  "purl": "pkg:rpm/centos/dnf-data@4.20.0-18.el10?distro=centos-10&upstream=dnf%404.20.0",
+                  "version": "4.20.0-18.el10",
                 },
               },
               Object {
@@ -3860,19 +3868,19 @@ Object {
                 },
               },
               Object {
-                "id": "file-libs@5.45-7.el10",
+                "id": "file-libs@5.45-8.el10",
                 "info": Object {
                   "name": "file-libs",
-                  "purl": "pkg:rpm/centos/file-libs@5.45-7.el10?distro=centos-10&upstream=file%405.45",
-                  "version": "5.45-7.el10",
+                  "purl": "pkg:rpm/centos/file-libs@5.45-8.el10?distro=centos-10&upstream=file%405.45",
+                  "version": "5.45-8.el10",
                 },
               },
               Object {
-                "id": "filesystem@3.18-16.el10",
+                "id": "filesystem@3.18-17.el10",
                 "info": Object {
                   "name": "filesystem",
-                  "purl": "pkg:rpm/centos/filesystem@3.18-16.el10?distro=centos-10&upstream=filesystem%403.18",
-                  "version": "3.18-16.el10",
+                  "purl": "pkg:rpm/centos/filesystem@3.18-17.el10?distro=centos-10&upstream=filesystem%403.18",
+                  "version": "3.18-17.el10",
                 },
               },
               Object {
@@ -3908,83 +3916,83 @@ Object {
                 },
               },
               Object {
-                "id": "gdb-gdbserver@14.2-4.1.el10",
+                "id": "gdb-gdbserver@16.3-2.el10",
                 "info": Object {
                   "name": "gdb-gdbserver",
-                  "purl": "pkg:rpm/centos/gdb-gdbserver@14.2-4.1.el10?distro=centos-10&upstream=gdb%4014.2",
-                  "version": "14.2-4.1.el10",
+                  "purl": "pkg:rpm/centos/gdb-gdbserver@16.3-2.el10?distro=centos-10&upstream=gdb%4016.3",
+                  "version": "16.3-2.el10",
                 },
               },
               Object {
-                "id": "gdbm-libs@1:1.23-11.el10",
+                "id": "gdbm-libs@1:1.23-14.el10",
                 "info": Object {
                   "name": "gdbm-libs",
-                  "purl": "pkg:rpm/centos/gdbm-libs@1:1.23-11.el10?distro=centos-10&epoch=1&upstream=gdbm%401.23",
-                  "version": "1:1.23-11.el10",
+                  "purl": "pkg:rpm/centos/gdbm-libs@1:1.23-14.el10?distro=centos-10&epoch=1&upstream=gdbm%401.23",
+                  "version": "1:1.23-14.el10",
                 },
               },
               Object {
-                "id": "glib2@2.80.4-4.el10",
+                "id": "glib2@2.80.4-8.el10",
                 "info": Object {
                   "name": "glib2",
-                  "purl": "pkg:rpm/centos/glib2@2.80.4-4.el10?distro=centos-10&upstream=glib2%402.80.4",
-                  "version": "2.80.4-4.el10",
+                  "purl": "pkg:rpm/centos/glib2@2.80.4-8.el10?distro=centos-10&upstream=glib2%402.80.4",
+                  "version": "2.80.4-8.el10",
                 },
               },
               Object {
-                "id": "glibc@2.39-38.el10",
+                "id": "glibc@2.39-46.el10",
                 "info": Object {
                   "name": "glibc",
-                  "purl": "pkg:rpm/centos/glibc@2.39-38.el10?distro=centos-10&upstream=glibc%402.39",
-                  "version": "2.39-38.el10",
+                  "purl": "pkg:rpm/centos/glibc@2.39-46.el10?distro=centos-10&upstream=glibc%402.39",
+                  "version": "2.39-46.el10",
                 },
               },
               Object {
-                "id": "glibc-common@2.39-38.el10",
+                "id": "glibc-common@2.39-46.el10",
                 "info": Object {
                   "name": "glibc-common",
-                  "purl": "pkg:rpm/centos/glibc-common@2.39-38.el10?distro=centos-10&upstream=glibc%402.39",
-                  "version": "2.39-38.el10",
+                  "purl": "pkg:rpm/centos/glibc-common@2.39-46.el10?distro=centos-10&upstream=glibc%402.39",
+                  "version": "2.39-46.el10",
                 },
               },
               Object {
-                "id": "glibc-gconv-extra@2.39-38.el10",
+                "id": "glibc-gconv-extra@2.39-46.el10",
                 "info": Object {
                   "name": "glibc-gconv-extra",
-                  "purl": "pkg:rpm/centos/glibc-gconv-extra@2.39-38.el10?distro=centos-10&upstream=glibc%402.39",
-                  "version": "2.39-38.el10",
+                  "purl": "pkg:rpm/centos/glibc-gconv-extra@2.39-46.el10?distro=centos-10&upstream=glibc%402.39",
+                  "version": "2.39-46.el10",
                 },
               },
               Object {
-                "id": "glibc-langpack-en@2.39-38.el10",
+                "id": "glibc-langpack-en@2.39-46.el10",
                 "info": Object {
                   "name": "glibc-langpack-en",
-                  "purl": "pkg:rpm/centos/glibc-langpack-en@2.39-38.el10?distro=centos-10&upstream=glibc%402.39",
-                  "version": "2.39-38.el10",
+                  "purl": "pkg:rpm/centos/glibc-langpack-en@2.39-46.el10?distro=centos-10&upstream=glibc%402.39",
+                  "version": "2.39-46.el10",
                 },
               },
               Object {
-                "id": "glibc-minimal-langpack@2.39-38.el10",
+                "id": "glibc-minimal-langpack@2.39-46.el10",
                 "info": Object {
                   "name": "glibc-minimal-langpack",
-                  "purl": "pkg:rpm/centos/glibc-minimal-langpack@2.39-38.el10?distro=centos-10&upstream=glibc%402.39",
-                  "version": "2.39-38.el10",
+                  "purl": "pkg:rpm/centos/glibc-minimal-langpack@2.39-46.el10?distro=centos-10&upstream=glibc%402.39",
+                  "version": "2.39-46.el10",
                 },
               },
               Object {
-                "id": "gmp@1:6.2.1-10.el10",
+                "id": "gmp@1:6.2.1-12.el10",
                 "info": Object {
                   "name": "gmp",
-                  "purl": "pkg:rpm/centos/gmp@1:6.2.1-10.el10?distro=centos-10&epoch=1&upstream=gmp%406.2.1",
-                  "version": "1:6.2.1-10.el10",
+                  "purl": "pkg:rpm/centos/gmp@1:6.2.1-12.el10?distro=centos-10&epoch=1&upstream=gmp%406.2.1",
+                  "version": "1:6.2.1-12.el10",
                 },
               },
               Object {
-                "id": "gnutls@3.8.9-16.el10",
+                "id": "gnutls@3.8.10-2.el10",
                 "info": Object {
                   "name": "gnutls",
-                  "purl": "pkg:rpm/centos/gnutls@3.8.9-16.el10?distro=centos-10&upstream=gnutls%403.8.9",
-                  "version": "3.8.9-16.el10",
+                  "purl": "pkg:rpm/centos/gnutls@3.8.10-2.el10?distro=centos-10&upstream=gnutls%403.8.10",
+                  "version": "3.8.10-2.el10",
                 },
               },
               Object {
@@ -4180,11 +4188,11 @@ Object {
                 },
               },
               Object {
-                "id": "libbpf@2:1.5.0-4.el10",
+                "id": "libbpf@2:1.6.0-2.el10",
                 "info": Object {
                   "name": "libbpf",
-                  "purl": "pkg:rpm/centos/libbpf@2:1.5.0-4.el10?distro=centos-10&epoch=2&upstream=libbpf%401.5.0",
-                  "version": "2:1.5.0-4.el10",
+                  "purl": "pkg:rpm/centos/libbpf@2:1.6.0-2.el10?distro=centos-10&epoch=2&upstream=libbpf%401.6.0",
+                  "version": "2:1.6.0-2.el10",
                 },
               },
               Object {
@@ -4204,11 +4212,11 @@ Object {
                 },
               },
               Object {
-                "id": "libcom_err@1.47.1-3.el10",
+                "id": "libcom_err@1.47.1-4.el10",
                 "info": Object {
                   "name": "libcom_err",
-                  "purl": "pkg:rpm/centos/libcom_err@1.47.1-3.el10?distro=centos-10&upstream=e2fsprogs%401.47.1",
-                  "version": "1.47.1-3.el10",
+                  "purl": "pkg:rpm/centos/libcom_err@1.47.1-4.el10?distro=centos-10&upstream=e2fsprogs%401.47.1",
+                  "version": "1.47.1-4.el10",
                 },
               },
               Object {
@@ -4228,11 +4236,11 @@ Object {
                 },
               },
               Object {
-                "id": "libdnf@0.73.1-10.el10",
+                "id": "libdnf@0.73.1-12.el10",
                 "info": Object {
                   "name": "libdnf",
-                  "purl": "pkg:rpm/centos/libdnf@0.73.1-10.el10?distro=centos-10&upstream=libdnf%400.73.1",
-                  "version": "0.73.1-10.el10",
+                  "purl": "pkg:rpm/centos/libdnf@0.73.1-12.el10?distro=centos-10&upstream=libdnf%400.73.1",
+                  "version": "0.73.1-12.el10",
                 },
               },
               Object {
@@ -4268,19 +4276,19 @@ Object {
                 },
               },
               Object {
-                "id": "libgcc@14.2.1-8.el10",
+                "id": "libgcc@14.3.1-2.1.el10",
                 "info": Object {
                   "name": "libgcc",
-                  "purl": "pkg:rpm/centos/libgcc@14.2.1-8.el10?distro=centos-10&upstream=gcc%4014.2.1",
-                  "version": "14.2.1-8.el10",
+                  "purl": "pkg:rpm/centos/libgcc@14.3.1-2.1.el10?distro=centos-10&upstream=gcc%4014.3.1",
+                  "version": "14.3.1-2.1.el10",
                 },
               },
               Object {
-                "id": "libgomp@14.2.1-8.el10",
+                "id": "libgomp@14.3.1-2.1.el10",
                 "info": Object {
                   "name": "libgomp",
-                  "purl": "pkg:rpm/centos/libgomp@14.2.1-8.el10?distro=centos-10&upstream=gcc%4014.2.1",
-                  "version": "14.2.1-8.el10",
+                  "purl": "pkg:rpm/centos/libgomp@14.3.1-2.1.el10?distro=centos-10&upstream=gcc%4014.3.1",
+                  "version": "14.3.1-2.1.el10",
                 },
               },
               Object {
@@ -4324,43 +4332,43 @@ Object {
                 },
               },
               Object {
-                "id": "librepo@1.18.0-3.el10",
+                "id": "librepo@1.18.0-5.el10",
                 "info": Object {
                   "name": "librepo",
-                  "purl": "pkg:rpm/centos/librepo@1.18.0-3.el10?distro=centos-10&upstream=librepo%401.18.0",
-                  "version": "1.18.0-3.el10",
+                  "purl": "pkg:rpm/centos/librepo@1.18.0-5.el10?distro=centos-10&upstream=librepo%401.18.0",
+                  "version": "1.18.0-5.el10",
                 },
               },
               Object {
-                "id": "libseccomp@2.5.3-10.el10",
+                "id": "libseccomp@2.5.6-1.el10",
                 "info": Object {
                   "name": "libseccomp",
-                  "purl": "pkg:rpm/centos/libseccomp@2.5.3-10.el10?distro=centos-10&upstream=libseccomp%402.5.3",
-                  "version": "2.5.3-10.el10",
+                  "purl": "pkg:rpm/centos/libseccomp@2.5.6-1.el10?distro=centos-10&upstream=libseccomp%402.5.6",
+                  "version": "2.5.6-1.el10",
                 },
               },
               Object {
-                "id": "libselinux@3.8-2.el10",
+                "id": "libselinux@3.9-1.el10",
                 "info": Object {
                   "name": "libselinux",
-                  "purl": "pkg:rpm/centos/libselinux@3.8-2.el10?distro=centos-10&upstream=libselinux%403.8",
-                  "version": "3.8-2.el10",
+                  "purl": "pkg:rpm/centos/libselinux@3.9-1.el10?distro=centos-10&upstream=libselinux%403.9",
+                  "version": "3.9-1.el10",
                 },
               },
               Object {
-                "id": "libsemanage@3.8.1-1.el10",
+                "id": "libsemanage@3.9-1.el10",
                 "info": Object {
                   "name": "libsemanage",
-                  "purl": "pkg:rpm/centos/libsemanage@3.8.1-1.el10?distro=centos-10&upstream=libsemanage%403.8.1",
-                  "version": "3.8.1-1.el10",
+                  "purl": "pkg:rpm/centos/libsemanage@3.9-1.el10?distro=centos-10&upstream=libsemanage%403.9",
+                  "version": "3.9-1.el10",
                 },
               },
               Object {
-                "id": "libsepol@3.8-1.el10",
+                "id": "libsepol@3.9-1.el10",
                 "info": Object {
                   "name": "libsepol",
-                  "purl": "pkg:rpm/centos/libsepol@3.8-1.el10?distro=centos-10&upstream=libsepol%403.8",
-                  "version": "3.8-1.el10",
+                  "purl": "pkg:rpm/centos/libsepol@3.9-1.el10?distro=centos-10&upstream=libsepol%403.9",
+                  "version": "3.9-1.el10",
                 },
               },
               Object {
@@ -4380,11 +4388,11 @@ Object {
                 },
               },
               Object {
-                "id": "libstdc++@14.2.1-8.el10",
+                "id": "libstdc++@14.3.1-2.1.el10",
                 "info": Object {
                   "name": "libstdc++",
-                  "purl": "pkg:rpm/centos/libstdc%2B%2B@14.2.1-8.el10?distro=centos-10&upstream=gcc%4014.2.1",
-                  "version": "14.2.1-8.el10",
+                  "purl": "pkg:rpm/centos/libstdc%2B%2B@14.3.1-2.1.el10?distro=centos-10&upstream=gcc%4014.3.1",
+                  "version": "14.3.1-2.1.el10",
                 },
               },
               Object {
@@ -4428,11 +4436,11 @@ Object {
                 },
               },
               Object {
-                "id": "libxml2@2.12.5-5.el10",
+                "id": "libxml2@2.12.5-9.el10",
                 "info": Object {
                   "name": "libxml2",
-                  "purl": "pkg:rpm/centos/libxml2@2.12.5-5.el10?distro=centos-10&upstream=libxml2%402.12.5",
-                  "version": "2.12.5-5.el10",
+                  "purl": "pkg:rpm/centos/libxml2@2.12.5-9.el10?distro=centos-10&upstream=libxml2%402.12.5",
+                  "version": "2.12.5-9.el10",
                 },
               },
               Object {
@@ -4500,11 +4508,19 @@ Object {
                 },
               },
               Object {
-                "id": "openssl-libs@1:3.5.0-8.el10",
+                "id": "openssl-fips-provider@1:3.5.1-3.el10",
+                "info": Object {
+                  "name": "openssl-fips-provider",
+                  "purl": "pkg:rpm/centos/openssl-fips-provider@1:3.5.1-3.el10?distro=centos-10&epoch=1&upstream=openssl%403.5.1",
+                  "version": "1:3.5.1-3.el10",
+                },
+              },
+              Object {
+                "id": "openssl-libs@1:3.5.1-3.el10",
                 "info": Object {
                   "name": "openssl-libs",
-                  "purl": "pkg:rpm/centos/openssl-libs@1:3.5.0-8.el10?distro=centos-10&epoch=1&upstream=openssl%403.5.0",
-                  "version": "1:3.5.0-8.el10",
+                  "purl": "pkg:rpm/centos/openssl-libs@1:3.5.1-3.el10?distro=centos-10&epoch=1&upstream=openssl%403.5.1",
+                  "version": "1:3.5.1-3.el10",
                 },
               },
               Object {
@@ -4524,11 +4540,11 @@ Object {
                 },
               },
               Object {
-                "id": "pam-libs@1.6.1-7.el10",
+                "id": "pam-libs@1.6.1-8.el10",
                 "info": Object {
                   "name": "pam-libs",
-                  "purl": "pkg:rpm/centos/pam-libs@1.6.1-7.el10?distro=centos-10&upstream=pam%401.6.1",
-                  "version": "1.6.1-7.el10",
+                  "purl": "pkg:rpm/centos/pam-libs@1.6.1-8.el10?distro=centos-10&upstream=pam%401.6.1",
+                  "version": "1.6.1-8.el10",
                 },
               },
               Object {
@@ -4556,27 +4572,27 @@ Object {
                 },
               },
               Object {
-                "id": "python-unversioned-command@3.12.10-3.el10",
+                "id": "python-unversioned-command@3.12.11-2.el10",
                 "info": Object {
                   "name": "python-unversioned-command",
-                  "purl": "pkg:rpm/centos/python-unversioned-command@3.12.10-3.el10?distro=centos-10&upstream=python3.12%403.12.10",
-                  "version": "3.12.10-3.el10",
+                  "purl": "pkg:rpm/centos/python-unversioned-command@3.12.11-2.el10?distro=centos-10&upstream=python3.12%403.12.11",
+                  "version": "3.12.11-2.el10",
                 },
               },
               Object {
-                "id": "python3@3.12.10-3.el10",
+                "id": "python3@3.12.11-2.el10",
                 "info": Object {
                   "name": "python3",
-                  "purl": "pkg:rpm/centos/python3@3.12.10-3.el10?distro=centos-10&upstream=python3.12%403.12.10",
-                  "version": "3.12.10-3.el10",
+                  "purl": "pkg:rpm/centos/python3@3.12.11-2.el10?distro=centos-10&upstream=python3.12%403.12.11",
+                  "version": "3.12.11-2.el10",
                 },
               },
               Object {
-                "id": "python3-dateutil@1:2.8.2-15.el10",
+                "id": "python3-dateutil@1:2.9.0.post0-1.el10",
                 "info": Object {
                   "name": "python3-dateutil",
-                  "purl": "pkg:rpm/centos/python3-dateutil@1:2.8.2-15.el10?distro=centos-10&epoch=1&upstream=python-dateutil%402.8.2",
-                  "version": "1:2.8.2-15.el10",
+                  "purl": "pkg:rpm/centos/python3-dateutil@1:2.9.0.post0-1.el10?distro=centos-10&epoch=1&upstream=python-dateutil%402.9.0.post0",
+                  "version": "1:2.9.0.post0-1.el10",
                 },
               },
               Object {
@@ -4588,11 +4604,11 @@ Object {
                 },
               },
               Object {
-                "id": "python3-dnf@4.20.0-14.el10",
+                "id": "python3-dnf@4.20.0-18.el10",
                 "info": Object {
                   "name": "python3-dnf",
-                  "purl": "pkg:rpm/centos/python3-dnf@4.20.0-14.el10?distro=centos-10&upstream=dnf%404.20.0",
-                  "version": "4.20.0-14.el10",
+                  "purl": "pkg:rpm/centos/python3-dnf@4.20.0-18.el10?distro=centos-10&upstream=dnf%404.20.0",
+                  "version": "4.20.0-18.el10",
                 },
               },
               Object {
@@ -4604,11 +4620,11 @@ Object {
                 },
               },
               Object {
-                "id": "python3-hawkey@0.73.1-10.el10",
+                "id": "python3-hawkey@0.73.1-12.el10",
                 "info": Object {
                   "name": "python3-hawkey",
-                  "purl": "pkg:rpm/centos/python3-hawkey@0.73.1-10.el10?distro=centos-10&upstream=libdnf%400.73.1",
-                  "version": "0.73.1-10.el10",
+                  "purl": "pkg:rpm/centos/python3-hawkey@0.73.1-12.el10?distro=centos-10&upstream=libdnf%400.73.1",
+                  "version": "0.73.1-12.el10",
                 },
               },
               Object {
@@ -4620,19 +4636,19 @@ Object {
                 },
               },
               Object {
-                "id": "python3-libdnf@0.73.1-10.el10",
+                "id": "python3-libdnf@0.73.1-12.el10",
                 "info": Object {
                   "name": "python3-libdnf",
-                  "purl": "pkg:rpm/centos/python3-libdnf@0.73.1-10.el10?distro=centos-10&upstream=libdnf%400.73.1",
-                  "version": "0.73.1-10.el10",
+                  "purl": "pkg:rpm/centos/python3-libdnf@0.73.1-12.el10?distro=centos-10&upstream=libdnf%400.73.1",
+                  "version": "0.73.1-12.el10",
                 },
               },
               Object {
-                "id": "python3-libs@3.12.10-3.el10",
+                "id": "python3-libs@3.12.11-2.el10",
                 "info": Object {
                   "name": "python3-libs",
-                  "purl": "pkg:rpm/centos/python3-libs@3.12.10-3.el10?distro=centos-10&upstream=python3.12%403.12.10",
-                  "version": "3.12.10-3.el10",
+                  "purl": "pkg:rpm/centos/python3-libs@3.12.11-2.el10?distro=centos-10&upstream=python3.12%403.12.11",
+                  "version": "3.12.11-2.el10",
                 },
               },
               Object {
@@ -4644,11 +4660,11 @@ Object {
                 },
               },
               Object {
-                "id": "python3-rpm@4.19.1.1-17.el10",
+                "id": "python3-rpm@4.19.1.1-18.el10",
                 "info": Object {
                   "name": "python3-rpm",
-                  "purl": "pkg:rpm/centos/python3-rpm@4.19.1.1-17.el10?distro=centos-10&upstream=rpm%404.19.1.1",
-                  "version": "4.19.1.1-17.el10",
+                  "purl": "pkg:rpm/centos/python3-rpm@4.19.1.1-18.el10?distro=centos-10&upstream=rpm%404.19.1.1",
+                  "version": "4.19.1.1-18.el10",
                 },
               },
               Object {
@@ -4700,59 +4716,59 @@ Object {
                 },
               },
               Object {
-                "id": "rpm@4.19.1.1-17.el10",
+                "id": "rpm@4.19.1.1-18.el10",
                 "info": Object {
                   "name": "rpm",
-                  "purl": "pkg:rpm/centos/rpm@4.19.1.1-17.el10?distro=centos-10&upstream=rpm%404.19.1.1",
-                  "version": "4.19.1.1-17.el10",
+                  "purl": "pkg:rpm/centos/rpm@4.19.1.1-18.el10?distro=centos-10&upstream=rpm%404.19.1.1",
+                  "version": "4.19.1.1-18.el10",
                 },
               },
               Object {
-                "id": "rpm-build-libs@4.19.1.1-17.el10",
+                "id": "rpm-build-libs@4.19.1.1-18.el10",
                 "info": Object {
                   "name": "rpm-build-libs",
-                  "purl": "pkg:rpm/centos/rpm-build-libs@4.19.1.1-17.el10?distro=centos-10&upstream=rpm%404.19.1.1",
-                  "version": "4.19.1.1-17.el10",
+                  "purl": "pkg:rpm/centos/rpm-build-libs@4.19.1.1-18.el10?distro=centos-10&upstream=rpm%404.19.1.1",
+                  "version": "4.19.1.1-18.el10",
                 },
               },
               Object {
-                "id": "rpm-libs@4.19.1.1-17.el10",
+                "id": "rpm-libs@4.19.1.1-18.el10",
                 "info": Object {
                   "name": "rpm-libs",
-                  "purl": "pkg:rpm/centos/rpm-libs@4.19.1.1-17.el10?distro=centos-10&upstream=rpm%404.19.1.1",
-                  "version": "4.19.1.1-17.el10",
+                  "purl": "pkg:rpm/centos/rpm-libs@4.19.1.1-18.el10?distro=centos-10&upstream=rpm%404.19.1.1",
+                  "version": "4.19.1.1-18.el10",
                 },
               },
               Object {
-                "id": "rpm-plugin-audit@4.19.1.1-17.el10",
+                "id": "rpm-plugin-audit@4.19.1.1-18.el10",
                 "info": Object {
                   "name": "rpm-plugin-audit",
-                  "purl": "pkg:rpm/centos/rpm-plugin-audit@4.19.1.1-17.el10?distro=centos-10&upstream=rpm%404.19.1.1",
-                  "version": "4.19.1.1-17.el10",
+                  "purl": "pkg:rpm/centos/rpm-plugin-audit@4.19.1.1-18.el10?distro=centos-10&upstream=rpm%404.19.1.1",
+                  "version": "4.19.1.1-18.el10",
                 },
               },
               Object {
-                "id": "rpm-plugin-systemd-inhibit@4.19.1.1-17.el10",
+                "id": "rpm-plugin-systemd-inhibit@4.19.1.1-18.el10",
                 "info": Object {
                   "name": "rpm-plugin-systemd-inhibit",
-                  "purl": "pkg:rpm/centos/rpm-plugin-systemd-inhibit@4.19.1.1-17.el10?distro=centos-10&upstream=rpm%404.19.1.1",
-                  "version": "4.19.1.1-17.el10",
+                  "purl": "pkg:rpm/centos/rpm-plugin-systemd-inhibit@4.19.1.1-18.el10?distro=centos-10&upstream=rpm%404.19.1.1",
+                  "version": "4.19.1.1-18.el10",
                 },
               },
               Object {
-                "id": "rpm-sequoia@1.6.0-6.el10",
+                "id": "rpm-sequoia@1.9.0.1-1.el10",
                 "info": Object {
                   "name": "rpm-sequoia",
-                  "purl": "pkg:rpm/centos/rpm-sequoia@1.6.0-6.el10?distro=centos-10&upstream=rust-rpm-sequoia%401.6.0",
-                  "version": "1.6.0-6.el10",
+                  "purl": "pkg:rpm/centos/rpm-sequoia@1.9.0.1-1.el10?distro=centos-10&upstream=rust-rpm-sequoia%401.9.0.1",
+                  "version": "1.9.0.1-1.el10",
                 },
               },
               Object {
-                "id": "rpm-sign-libs@4.19.1.1-17.el10",
+                "id": "rpm-sign-libs@4.19.1.1-18.el10",
                 "info": Object {
                   "name": "rpm-sign-libs",
-                  "purl": "pkg:rpm/centos/rpm-sign-libs@4.19.1.1-17.el10?distro=centos-10&upstream=rpm%404.19.1.1",
-                  "version": "4.19.1.1-17.el10",
+                  "purl": "pkg:rpm/centos/rpm-sign-libs@4.19.1.1-18.el10?distro=centos-10&upstream=rpm%404.19.1.1",
+                  "version": "4.19.1.1-18.el10",
                 },
               },
               Object {
@@ -4868,11 +4884,11 @@ Object {
                 },
               },
               Object {
-                "id": "yum@4.20.0-14.el10",
+                "id": "yum@4.20.0-18.el10",
                 "info": Object {
                   "name": "yum",
-                  "purl": "pkg:rpm/centos/yum@4.20.0-14.el10?distro=centos-10&upstream=dnf%404.20.0",
-                  "version": "4.20.0-14.el10",
+                  "purl": "pkg:rpm/centos/yum@4.20.0-18.el10?distro=centos-10&upstream=dnf%404.20.0",
+                  "version": "4.20.0-18.el10",
                 },
               },
               Object {
@@ -4889,19 +4905,19 @@ Object {
           "type": "depGraph",
         },
         Object {
-          "data": "sha256:02ae49ff109e1e79595f0170b8e9e44c8ca26dd18bc5fc13ac9f37fc61822edc",
+          "data": "sha256:f411d33ff55a49ebae8d74b6eb2fd7458a6b72542e71b3bba01e59601891e3aa",
           "type": "imageId",
         },
         Object {
           "data": Array [
-            "sha256:cda20441ad17218e2f2cf14857ba0a7a375774f08c276a1d81f9f5cae064e908",
+            "sha256:5dd2d5bd11729f8115f57afbd74f00ae97e09a95892fdc3a22ac2c09a40b6d87",
           ],
           "type": "imageLayers",
         },
         Object {
           "data": Object {
             "io.buildah.version": "1.33.12",
-            "org.label-schema.build-date": "20250618",
+            "org.label-schema.build-date": "20250808",
             "org.label-schema.license": "GPLv2",
             "org.label-schema.name": "CentOS Stream 10 Base Image",
             "org.label-schema.schema-version": "1.0",
@@ -4910,12 +4926,12 @@ Object {
           "type": "imageLabels",
         },
         Object {
-          "data": "2025-06-18T00:08:42.127868589Z",
+          "data": "2025-08-08T05:26:40.071044786Z",
           "type": "imageCreationTime",
         },
         Object {
           "data": Array [
-            "sha256:cda20441ad17218e2f2cf14857ba0a7a375774f08c276a1d81f9f5cae064e908",
+            "sha256:5eabb043ad8dc0a3a18be72144369c4ecdc03a9f263c16e033476c4c4dd5be76",
           ],
           "type": "rootFs",
         },
@@ -4926,7 +4942,7 @@ Object {
         Object {
           "data": Object {
             "names": Array [
-              "quay.io/centos/centos@sha256:6fc587a47e7d92c4ece5c735cb34bdbdce54907c71fea2f0cc55eddb35bb374d",
+              "quay.io/centos/centos@sha256:683927bd29076a14ff8f74419da9042a5e1d308af048244108247a26365bd1e3",
             ],
           },
           "type": "imageNames",
@@ -7967,7 +7983,7 @@ Object {
         },
         Object {
           "data": Array [
-            "sha256:c82180f7f71ddc5c826547ff09ff44f303ae3e98c02aa4e81daabe35faa9d9c2",
+            "sha256:9ecd6eb4d9863a9e6f886b8bf6ac4ca5da3289365ffaccdcf95d3a78de75aad8",
           ],
           "type": "imageLayers",
         },
@@ -10846,8 +10862,8 @@ Object {
         },
         Object {
           "data": Array [
-            "sha256:e3b16f523d9f9d4dec8a471ce071a36fa78618f1420a881ff4aa8a96f4df9f40",
-            "sha256:320cd1d2c7387a0cec459e66e5fbfb2d103cf56ac4b3dcc4c48c5a184a933096",
+            "sha256:bd69bf9256bd9b0fbff30ca8f0b5267c2703b4e4355da451d72ffc475b5c7c7e",
+            "sha256:9dcf0326ccda4b17d9579049f09549e93a71c986da6166d766529ce83aa57fff",
           ],
           "type": "imageLayers",
         },

@@ -13,7 +13,7 @@ describe("rpm package manager tests", () => {
       "registry.access.redhat.com/ubi9/ubi@sha256:c113f67e8e70940af28116d75e32f0aa4ffd3bf6fab30e970850475ab1de697f",
       "registry.access.redhat.com/ubi10-beta/ubi@sha256:4b4976d86eefeedab6884c9d2923206c6c3c2e2471206f97fd9d7aaaecbc04ac",
       "quay.io/centos/centos@sha256:45650b7974762418b66987d67c063aee0d2fab0ac8fade2db9807b3ec4bbd1af",
-      "quay.io/centos/centos@sha256:6fc587a47e7d92c4ece5c735cb34bdbdce54907c71fea2f0cc55eddb35bb374d",
+      "quay.io/centos/centos@sha256:683927bd29076a14ff8f74419da9042a5e1d308af048244108247a26365bd1e3",
     ]).catch(() => {
       console.error(`tests teardown failed to remove docker image`);
     });
@@ -69,7 +69,7 @@ describe("rpm package manager tests", () => {
 
   it("should correctly analyze a CentOS Stream 10 image", async () => {
     const image =
-      "quay.io/centos/centos@sha256:6fc587a47e7d92c4ece5c735cb34bdbdce54907c71fea2f0cc55eddb35bb374d";
+      "quay.io/centos/centos@sha256:683927bd29076a14ff8f74419da9042a5e1d308af048244108247a26365bd1e3";
     const pluginResult = await scan({
       path: image,
       platform: "linux/amd64",
