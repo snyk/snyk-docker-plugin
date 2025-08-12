@@ -1,8 +1,21 @@
 import { scan } from "../../../lib/index";
 import { execute } from "../../../lib/sub-process";
+import { Docker } from "../../../lib/docker";
 
 describe("rpm package manager tests", () => {
+  beforeAll(() => {
+    // Mock Docker availability to force the OCI pull path.
+    // Without this, local (Docker binary exists) uses "docker save" and returns file-path
+    // imageLayers while CI (no Docker) uses registry pull and returns digest-based
+    // imageLayers/rootFs (e.g., "sha256:<digest>"). This divergence makes snapshots
+    // flaky across environments, so we standardize on OCI.
+    jest.spyOn(Docker, 'binaryExists').mockResolvedValue(false);
+  });
+  
   afterAll(async () => {
+    // Restore the original implementation
+    jest.restoreAllMocks();
+    
     // Increased timeout for potentially slow image removal
     jest.setTimeout(60000);
     await execute("docker", [
