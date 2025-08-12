@@ -1,7 +1,7 @@
 import { scan } from "../../../lib/index";
 import { execute } from "../../../lib/sub-process";
 
-describe("centos tests", () => {
+describe("CentOS 7 tests", () => {
   afterAll(async () => {
     await execute("docker", ["image", "rm", "centos:7.8.2003"]).catch(() => {
       console.error(`tests teardown failed to remove docker image`);

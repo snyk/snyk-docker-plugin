@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`CentOS 7 tests can scan a centos6-based image 1`] = `
+exports[`CentOS 6 tests can scan a centos6-based image 1`] = `
 Object {
   "scanResults": Array [
     Object {
@@ -3240,7 +3240,7 @@ Object {
 }
 `;
 
-exports[`CentOS 7 tests can scan a centos6-based image with app vulns 1`] = `
+exports[`CentOS 6 tests can scan a centos6-based image with app vulns 1`] = `
 Object {
   "scanResults": Array [
     Object {
