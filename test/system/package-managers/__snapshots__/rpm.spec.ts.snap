@@ -2270,7 +2270,6 @@ Object {
           "data": Object {
             "names": Array [
               "quay.io/centos/centos@sha256:feafe3afc13d8bb4401953350dd0ce03be9b8262c388a9dac4210519ec167200",
-              "quay.io/centos/centos@sha256:feafe3afc13d8bb4401953350dd0ce03be9b8262c388a9dac4210519ec167200",
             ],
           },
           "type": "imageNames",
@@ -4959,7 +4958,6 @@ Object {
         Object {
           "data": Object {
             "names": Array [
-              "quay.io/centos/centos@sha256:683927bd29076a14ff8f74419da9042a5e1d308af048244108247a26365bd1e3",
               "quay.io/centos/centos@sha256:683927bd29076a14ff8f74419da9042a5e1d308af048244108247a26365bd1e3",
             ],
           },
@@ -8048,7 +8046,6 @@ Object {
           "data": Object {
             "names": Array [
               "registry.access.redhat.com/ubi9/ubi@sha256:c113f67e8e70940af28116d75e32f0aa4ffd3bf6fab30e970850475ab1de697f",
-              "registry.access.redhat.com/ubi9/ubi@sha256:c113f67e8e70940af28116d75e32f0aa4ffd3bf6fab30e970850475ab1de697f",
             ],
           },
           "type": "imageNames",
@@ -10930,7 +10927,6 @@ Object {
           "data": Object {
             "names": Array [
               "registry.access.redhat.com/ubi10-beta/ubi@sha256:4b4976d86eefeedab6884c9d2923206c6c3c2e2471206f97fd9d7aaaecbc04ac",
-              "registry.access.redhat.com/ubi10-beta/ubi@sha256:4b4976d86eefeedab6884c9d2923206c6c3c2e2471206f97fd9d7aaaecbc04ac",
             ],
           },
           "type": "imageNames",
@@ -12659,7 +12655,7 @@ Object {
         },
         Object {
           "data": Array [
-            "37373184fe69e0fc20370c26317bf4c5b9b843c60b375563d4ee1c7766a89782/layer.tar",
+            "sha256:50c3cd23142638cd1a726e8d788baa9353907479df6e6501edcee6fa4f7820ba",
           ],
           "type": "imageLayers",
         },
@@ -14763,7 +14759,7 @@ Object {
         },
         Object {
           "data": Array [
-            "7516adf672a9b100319b04f4b961b4cc3070ca53af354317e3d80c6a73ca275f/layer.tar",
+            "sha256:4d0fbd18bf44aa3af9f97b650ba54e056fe98b89ad78cc0c4a95da6efca7cf7d",
           ],
           "type": "imageLayers",
         },
