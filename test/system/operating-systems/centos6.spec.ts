@@ -1,7 +1,8 @@
 import { scan } from "../../../lib";
+import { Docker } from "../../../lib/docker";
 import { execute } from "../../../lib/sub-process";
 
-describe("CentOS 7 tests", () => {
+describe("CentOS 6 tests", () => {
   afterAll(async () => {
     await execute("docker", [
       "image",
@@ -18,6 +19,7 @@ describe("CentOS 7 tests", () => {
 
     const pluginResponse = await scan({
       path: imagePath,
+      platform: "linux/amd64",
       "exclude-app-vulns": true,
     });
     expect(pluginResponse).toMatchSnapshot();
@@ -29,6 +31,7 @@ describe("CentOS 7 tests", () => {
 
     const pluginResponse = await scan({
       path: imagePath,
+      platform: "linux/amd64",
     });
     expect(pluginResponse).toMatchSnapshot();
   });

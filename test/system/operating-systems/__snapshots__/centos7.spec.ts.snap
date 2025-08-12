@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`centos tests should correctly analyze a centos image by sha256 1`] = `
+exports[`CentOS 7 tests should correctly analyze a centos image by sha256 1`] = `
 Object {
   "scanResults": Array [
     Object {
@@ -2452,7 +2452,7 @@ Object {
 }
 `;
 
-exports[`centos tests should correctly analyze a centos image by tag 1`] = `
+exports[`CentOS 7 tests should correctly analyze a centos image by tag 1`] = `
 Object {
   "scanResults": Array [
     Object {
