@@ -208,6 +208,7 @@ Object {
                   ],
                   "info": Object {
                     "labels": Object {
+                      "pkgIdProvenance": "Jinja2@3.1.2",
                       "scope": "prod",
                     },
                   },
@@ -218,6 +219,7 @@ Object {
                   "deps": Array [],
                   "info": Object {
                     "labels": Object {
+                      "pkgIdProvenance": "MarkupSafe@2.1.1",
                       "scope": "prod",
                     },
                   },
@@ -232,6 +234,7 @@ Object {
                   ],
                   "info": Object {
                     "labels": Object {
+                      "pkgIdProvenance": "Werkzeug@2.2.1",
                       "scope": "prod",
                     },
                   },
