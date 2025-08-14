@@ -227,6 +227,9 @@ export interface PluginOptions {
 
   /** The default is "false". */
   "collect-application-files": boolean | string;
+
+  /** Include system-level JARs in /usr/lib. The default is "false". */
+  "include-system-jars": boolean | string;
   "target-reference": string;
 }
 
