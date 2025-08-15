@@ -121,17 +121,19 @@ jobs:
           mode: auto
           open-source-additional-arguments: --exclude=test
           iac-scan: disabled
-  install:
+  install_lint_build:
     <<: *defaults
     steps:
       - install_deps
-  lint:
-    <<: *defaults
-    steps:
-      - checkout
       - attach_workspace:
           at: ~/snyk-docker-plugin
-      - run: npm run lint
+      - run:
+          name: Lint
+          command: npm run lint
+      - run:
+          name: Build
+          command: npm run build
+
   test:
     <<: *defaults
     steps:
@@ -146,15 +148,32 @@ jobs:
   test_jest_windows_with_docker:
     <<: *windows_big
     steps:
+      - run:
+          name: Start Docker pull
+          command: |
+            # The plugin.spec.ts test is slow due to pulling a 2+GB image,
+            # so we pull the image in the background to save time
+            docker pull python@sha256:1f92d35b567363820d0f2f37c7ccf2c1543e2d852cea01edb027039e6aef25e6
+          background: true
       - checkout
       - install_node_npm:
           node_version: << parameters.node_version >>
+
       - setup_npm_user
       - run: npm ci
       - run: docker version
       - run:
-          command: npm run test-jest-windows
+          name: Install JUnit coverage reporter
+          command: npm install --no-save jest-junit
+      - run:
+          name: Run Windows tests
+          command: npm run test-jest-windows --reporters=default --reporters=jest-junit
           no_output_timeout: 20m
+          environment:
+            JEST_JUNIT_OUTPUT_DIR: './reports/junit'
+            JEST_JUNIT_ADD_FILE_ATTRIBUTE: 'true'
+      - store_test_results:
+          path: reports
   test_jest_windows_no_docker:
     <<: *windows_big
     steps:
@@ -166,19 +185,22 @@ jobs:
         # make docker appear to be broken.
       - run: "function docker() { return 1; }"
       - run:
-          command: npm run test-jest-windows
+          name: Install JUnit coverage reporter
+          command: npm install --no-save jest-junit
+      - run:
+          name: Run Windows tests
+          command: npm run test-jest-windows --reporters=default --reporters=jest-junit
           no_output_timeout: 20m
-  build:
-    <<: *defaults
-    steps:
-      - checkout_and_merge
-      - setup_npm_user
-      - run: npm ci
-      - run: npm run build
+          environment:
+            JEST_JUNIT_OUTPUT_DIR: './reports/junit'
+            JEST_JUNIT_ADD_FILE_ATTRIBUTE: 'true'
+      - store_test_results:
+          path: reports
   build_cli:
     <<: *defaults
     resource_class: medium
     steps:
+      - setup_remote_docker
       - checkout_and_merge
       - run:
           name: Setup NPM credentials
@@ -190,7 +212,6 @@ jobs:
     <<: *defaults
     resource_class: medium
     steps:
-      - setup_remote_docker
       - checkout_and_merge
       - run:
           name: Build a Go binary with latest Go version
@@ -225,26 +246,11 @@ workflows:
           filters:
             branches:
               ignore: main
-      - install:
-          name: Install
-          context:
-            - nodejs-install
-      - lint:
-          name: Lint
+      - install_lint_build:
+          name: Install, Lint, and Build
           context:
             - nodejs-install
             - snyk-bot-slack
-          requires:
-            - Install
-          post-steps:
-            - *slack-fail-notify
-      - build:
-          name: Build
-          context:
-            - nodejs-install
-            - snyk-bot-slack
-          requires:
-            - Lint
           post-steps:
             - *slack-fail-notify
       - security-scans:
@@ -258,7 +264,7 @@ workflows:
             - nodejs-install
             - snyk-bot-slack
           requires:
-            - Build
+            - Install, Lint, and Build
           post-steps:
             - *slack-fail-notify
       - test_jest_windows_with_docker:
@@ -268,7 +274,7 @@ workflows:
             - snyk-bot-slack
           node_version: *windows_node_version
           requires:
-            - Build
+            - Install, Lint, and Build
           post-steps:
             - *slack-fail-notify
       - test_jest_windows_no_docker:
@@ -278,7 +284,7 @@ workflows:
             - snyk-bot-slack
           node_version: *windows_node_version
           requires:
-            - Build
+            - Install, Lint, and Build
           post-steps:
             - *slack-fail-notify
       - build_cli:
@@ -287,7 +293,7 @@ workflows:
             - nodejs-install
             - snyk-bot-slack
           requires:
-            - Build
+            - Install, Lint, and Build
           post-steps:
             - *slack-fail-notify
       - release:
@@ -300,8 +306,7 @@ workflows:
               only:
                 - main
           requires:
-            - Lint
-            - Build
+            - Install, Lint, and Build
             - Security Scans
             - Test
             - Test Jest Windows with Docker
