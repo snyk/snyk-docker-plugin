@@ -271,8 +271,9 @@ export function isWhitedOutFile(filename: string) {
  * Remove the .wh. prefix from a whiteout file to get the original filename
  */
 export function removeWhiteoutPrefix(filename: string): string {
-  // Replace .wh. that appears at the start or after the last slash
-  return filename.replace(/^(.*\/)?\.wh\./, "$1");
+  // Replace .wh. that appears at the start or after the last slash,
+  // and ensure no slashes come after .wh.
+  return filename.replace(/^(.*\/)?\.wh\.([^\/]*)$/, "$1$2");
 }
 
 function isBufferType(type: FileContent): type is Buffer {
