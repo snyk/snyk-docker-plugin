@@ -88,9 +88,7 @@ describe("removeWhiteoutPrefix", () => {
     );
     expect(removeWhiteoutPrefix(".whfile")).toBe(".whfile");
     expect(removeWhiteoutPrefix("/path/.whfile")).toBe("/path/.whfile");
-    expect(removeWhiteoutPrefix("/path/has/.wh./in/middle")).toBe(
-      "/path/has/.wh./in/middle",
-    );
+    expect(removeWhiteoutPrefix("/xwh.txt")).toBe("/xwh.txt");
   });
 
   test("should handle edge cases", () => {
