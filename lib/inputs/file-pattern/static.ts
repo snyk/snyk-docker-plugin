@@ -5,25 +5,20 @@ import { ExtractAction, ExtractedLayers } from "../../extractor/types";
 import { streamToString } from "../../stream-utils";
 import { ManifestFile } from "../../types";
 
+/**
+ * Return false if any exclusion pattern matches,
+ * return true if any inclusion pattern matches
+ */
 function generatePathMatcher(
   globsInclude: string[],
   globsExclude: string[],
 ): (filePath: string) => boolean {
   return (filePath: string): boolean => {
-    let exclude = false;
-    for (const g of globsExclude) {
-      if (!exclude && minimatch(filePath, g)) {
-        exclude = true;
-      }
+    if (globsExclude.some((glob) => minimatch(filePath, glob))) {
+      return false;
     }
-    if (!exclude) {
-      for (const g of globsInclude) {
-        if (minimatch(filePath, g)) {
-          return true;
-        }
-      }
-    }
-    return false;
+
+    return globsInclude.some((glob) => minimatch(filePath, glob));
   };
 }
 
