@@ -251,10 +251,20 @@ function layersWithLatestFileModifications(
 /**
  * check if a file is 'whited out', which is shown by
  * prefixing the filename with a .wh.
- * https://www.madebymikal.com/interpreting-whiteout-files-in-docker-image-layers/
+ * https://www.madebymikal.com/interpreting-whiteout-files-in-docker-image-layers
+ * https://github.com/opencontainers/image-spec/blob/main/layer.md#whiteouts
  */
 export function isWhitedOutFile(filename: string) {
-  return filename.includes(".wh.");
+  const lastSlashIndex = filename.lastIndexOf('/');
+  
+  if (lastSlashIndex === -1) {
+    // it's a file name, not a path
+    return filename.startsWith('.wh.');
+  } else {
+    // it's a path, so check the last part
+    const filenameToCheck = filename.substring(lastSlashIndex + 1);
+    return filenameToCheck.startsWith('.wh.');
+  }
 }
 
 function isBufferType(type: FileContent): type is Buffer {

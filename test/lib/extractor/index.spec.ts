@@ -49,8 +49,10 @@ describe("isWhitedOutFile", () => {
 
   test("should handle .wh. at different positions", () => {
     expect(isWhitedOutFile(".wh.start")).toBe(true);
-    expect(isWhitedOutFile("middle.wh.file")).toBe(true);
-    expect(isWhitedOutFile("end.wh.")).toBe(true);
+    expect(isWhitedOutFile("middle.wh.file")).toBe(false);
+    expect(isWhitedOutFile("end.wh.")).toBe(false);
     expect(isWhitedOutFile("/deeply/nested/path/.wh.present")).toBe(true);
+    expect(isWhitedOutFile("/the/.wh./in/path/present")).toBe(false);
+
   });
 });
