@@ -6035,11 +6035,11 @@ Object {
         },
         Object {
           "data": Array [
-            "sha256:76e525e1b16d0a56473d529790d3f1696078799abf41357103298a09f744f0fe",
-            "sha256:7a1f8cd94aa1e8ef907cb7bb71cb968cb907a283947aa28440159f1564bb12b0",
-            "sha256:47cf2e444f5a66d9e1b16a55aca8880d5a3329f4e0ed3976b0ea625471116b70",
-            "sha256:9d4685268f61f7e07d355dba7e314ea6b596fe5c371863d9860861db0d282d94",
-            "sha256:06d2bfb4c255ce6202421662c358af167a7dfb1dd4b63278c73ddae4ebae007f",
+            "sha256:a905c078265c2d3a1f959f8ca1d79b30453a16aed4de47dec5ed1c048b26a103",
+            "sha256:121d5409a427be35e19a57dbaa3d29e62baaf98a5f4296288b646aeb282fd554",
+            "sha256:a50500db3d1b335828f1a31bf32652ecf422beb7f12bd28f5ab052af90b81428",
+            "sha256:97b9bf14b9b756916dfa15569caa9183ae65a53d9f438356d2ba9540b64f9f78",
+            "sha256:01561dd6d6562de4cce2ee7e7ec077227b0133305d6f2b41fa1793ad9044e572",
           ],
           "type": "imageLayers",
         },
@@ -7377,11 +7377,6 @@ Object {
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "isexe@2.0.0",
-                  "pkgId": "isexe@2.0.0",
-                },
-                Object {
-                  "deps": Array [],
                   "nodeId": "duplexer@0.1.1",
                   "pkgId": "duplexer@0.1.1",
                 },
@@ -7667,12 +7662,29 @@ Object {
                   "pkgId": "shebang-command@1.2.0",
                 },
                 Object {
+                  "deps": Array [],
+                  "nodeId": "isexe@2.0.0",
+                  "pkgId": "isexe@2.0.0",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "isexe@2.0.0",
+                    },
+                  ],
+                  "nodeId": "which@1.3.0",
+                  "pkgId": "which@1.3.0",
+                },
+                Object {
                   "deps": Array [
                     Object {
                       "nodeId": "lru-cache@4.1.1",
                     },
                     Object {
                       "nodeId": "shebang-command@1.2.0",
+                    },
+                    Object {
+                      "nodeId": "which@1.3.0",
                     },
                   ],
                   "nodeId": "cross-spawn@5.1.0|1",
@@ -7685,6 +7697,9 @@ Object {
                     },
                     Object {
                       "nodeId": "shebang-command@1.2.0",
+                    },
+                    Object {
+                      "nodeId": "which@1.3.1",
                     },
                   ],
                   "nodeId": "cross-spawn@5.1.0|2",
@@ -8319,9 +8334,6 @@ Object {
                     },
                     Object {
                       "nodeId": "ignore-by-default@1.0.1",
-                    },
-                    Object {
-                      "nodeId": "isexe@2.0.0",
                     },
                     Object {
                       "nodeId": "minimatch@3.0.4|1",
@@ -10115,6 +10127,15 @@ Object {
                 Object {
                   "deps": Array [
                     Object {
+                      "nodeId": "isexe@2.0.0",
+                    },
+                  ],
+                  "nodeId": "which@1.3.1",
+                  "pkgId": "which@1.3.1",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
                       "nodeId": "env-paths@2.2.0",
                     },
                     Object {
@@ -10143,6 +10164,9 @@ Object {
                     },
                     Object {
                       "nodeId": "tar@4.4.13",
+                    },
+                    Object {
+                      "nodeId": "which@1.3.1",
                     },
                   ],
                   "nodeId": "node-gyp@5.1.0",
@@ -10185,6 +10209,9 @@ Object {
                     },
                     Object {
                       "nodeId": "umask@1.1.0",
+                    },
+                    Object {
+                      "nodeId": "which@1.3.1",
                     },
                   ],
                   "nodeId": "npm-lifecycle@3.1.4",
@@ -10598,6 +10625,9 @@ Object {
                     },
                     Object {
                       "nodeId": "unique-filename@1.1.1",
+                    },
+                    Object {
+                      "nodeId": "which@1.3.1",
                     },
                   ],
                   "nodeId": "pacote@9.5.12",
@@ -11239,6 +11269,9 @@ Object {
                     Object {
                       "nodeId": "shebang-command@1.2.0",
                     },
+                    Object {
+                      "nodeId": "which@1.3.1",
+                    },
                   ],
                   "nodeId": "cross-spawn@6.0.5",
                   "pkgId": "cross-spawn@6.0.5",
@@ -11350,6 +11383,11 @@ Object {
                 },
                 Object {
                   "deps": Array [],
+                  "nodeId": "which-module@2.0.0",
+                  "pkgId": "which-module@2.0.0",
+                },
+                Object {
+                  "deps": Array [],
                   "nodeId": "y18n@3.2.1",
                   "pkgId": "y18n@3.2.1",
                 },
@@ -11392,6 +11430,9 @@ Object {
                       "nodeId": "string-width@2.1.1",
                     },
                     Object {
+                      "nodeId": "which-module@2.0.0",
+                    },
+                    Object {
                       "nodeId": "y18n@3.2.1",
                     },
                     Object {
@@ -11417,6 +11458,9 @@ Object {
                     },
                     Object {
                       "nodeId": "update-notifier@2.5.0",
+                    },
+                    Object {
+                      "nodeId": "which@1.3.1",
                     },
                     Object {
                       "nodeId": "y18n@4.0.0",
@@ -12011,9 +12055,6 @@ Object {
                       "nodeId": "is-cidr@3.0.0",
                     },
                     Object {
-                      "nodeId": "isexe@2.0.0",
-                    },
-                    Object {
                       "nodeId": "json-parse-better-errors@1.0.2",
                     },
                     Object {
@@ -12249,6 +12290,9 @@ Object {
                     },
                     Object {
                       "nodeId": "validate-npm-package-name@3.0.0",
+                    },
+                    Object {
+                      "nodeId": "which@1.3.1",
                     },
                     Object {
                       "nodeId": "worker-farm@1.7.0",
@@ -13080,13 +13124,6 @@ Object {
                 },
               },
               Object {
-                "id": "isexe@2.0.0",
-                "info": Object {
-                  "name": "isexe",
-                  "version": "2.0.0",
-                },
-              },
-              Object {
                 "id": "duplexer@0.1.1",
                 "info": Object {
                   "name": "duplexer",
@@ -13336,6 +13373,20 @@ Object {
                 "info": Object {
                   "name": "shebang-command",
                   "version": "1.2.0",
+                },
+              },
+              Object {
+                "id": "isexe@2.0.0",
+                "info": Object {
+                  "name": "isexe",
+                  "version": "2.0.0",
+                },
+              },
+              Object {
+                "id": "which@1.3.0",
+                "info": Object {
+                  "name": "which",
+                  "version": "1.3.0",
                 },
               },
               Object {
@@ -14935,6 +14986,13 @@ Object {
                 },
               },
               Object {
+                "id": "which@1.3.1",
+                "info": Object {
+                  "name": "which",
+                  "version": "1.3.1",
+                },
+              },
+              Object {
                 "id": "node-gyp@5.1.0",
                 "info": Object {
                   "name": "node-gyp",
@@ -15604,6 +15662,13 @@ Object {
                 "info": Object {
                   "name": "require-main-filename",
                   "version": "1.0.1",
+                },
+              },
+              Object {
+                "id": "which-module@2.0.0",
+                "info": Object {
+                  "name": "which-module",
+                  "version": "2.0.0",
                 },
               },
               Object {
