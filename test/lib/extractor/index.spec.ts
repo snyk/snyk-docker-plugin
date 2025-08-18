@@ -1,4 +1,8 @@
-import { getContentAsString, isWhitedOutFile, removeWhiteoutPrefix } from "../../../lib/extractor";
+import {
+  getContentAsString,
+  isWhitedOutFile,
+  removeWhiteoutPrefix,
+} from "../../../lib/extractor";
 import { ExtractAction, ExtractedLayers } from "../../../lib/extractor/types";
 
 describe("index", () => {
@@ -69,7 +73,9 @@ describe("removeWhiteoutPrefix", () => {
     expect(removeWhiteoutPrefix("/etc/.wh.hosts")).toBe("/etc/hosts");
     expect(removeWhiteoutPrefix("/var/lib/.wh.data")).toBe("/var/lib/data");
     expect(removeWhiteoutPrefix("/.wh.config")).toBe("/config");
-    expect(removeWhiteoutPrefix("/deeply/nested/path/.wh.present")).toBe("/deeply/nested/path/present");
+    expect(removeWhiteoutPrefix("/deeply/nested/path/.wh.present")).toBe(
+      "/deeply/nested/path/present",
+    );
     expect(removeWhiteoutPrefix("/path/to/.wh.")).toBe("/path/to/");
   });
 
@@ -77,10 +83,14 @@ describe("removeWhiteoutPrefix", () => {
     expect(removeWhiteoutPrefix("normal.file")).toBe("normal.file");
     expect(removeWhiteoutPrefix("/etc/hosts")).toBe("/etc/hosts");
     expect(removeWhiteoutPrefix("middle.wh.file")).toBe("middle.wh.file");
-    expect(removeWhiteoutPrefix("/path/middle.wh.file")).toBe("/path/middle.wh.file");
+    expect(removeWhiteoutPrefix("/path/middle.wh.file")).toBe(
+      "/path/middle.wh.file",
+    );
     expect(removeWhiteoutPrefix(".whfile")).toBe(".whfile");
     expect(removeWhiteoutPrefix("/path/.whfile")).toBe("/path/.whfile");
-    expect(removeWhiteoutPrefix("/path/has/.wh./in/middle")).toBe("/path/has/.wh./in/middle");
+    expect(removeWhiteoutPrefix("/path/has/.wh./in/middle")).toBe(
+      "/path/has/.wh./in/middle",
+    );
   });
 
   test("should handle edge cases", () => {
@@ -92,7 +102,11 @@ describe("removeWhiteoutPrefix", () => {
   });
 
   test("should not remove .wh. that appears in the middle of paths", () => {
-    expect(removeWhiteoutPrefix("/the/.wh./in/path/file")).toBe("/the/.wh./in/path/file");
-    expect(removeWhiteoutPrefix("/path/.wh.dir/.wh.file")).toBe("/path/.wh.dir/file");
+    expect(removeWhiteoutPrefix("/the/.wh./in/path/file")).toBe(
+      "/the/.wh./in/path/file",
+    );
+    expect(removeWhiteoutPrefix("/path/.wh.dir/.wh.file")).toBe(
+      "/path/.wh.dir/file",
+    );
   });
 });
