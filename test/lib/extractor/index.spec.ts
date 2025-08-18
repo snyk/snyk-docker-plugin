@@ -53,6 +53,5 @@ describe("isWhitedOutFile", () => {
     expect(isWhitedOutFile("end.wh.")).toBe(false);
     expect(isWhitedOutFile("/deeply/nested/path/.wh.present")).toBe(true);
     expect(isWhitedOutFile("/the/.wh./in/path/present")).toBe(false);
-
   });
 });

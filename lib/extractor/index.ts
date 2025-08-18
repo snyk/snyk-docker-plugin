@@ -228,7 +228,7 @@ function layersWithLatestFileModifications(
       // if finding a deleted file - trimming to its original file name for excluding it from extractedLayers
       // + not adding this file
       if (isWhitedOutFile(filename)) {
-        removedFilesToIgnore.add(filename.replace(/\.wh\./, ""));
+        removedFilesToIgnore.add(removeWhiteoutPrefix(filename));
         continue;
       }
       // not adding previously found to be whited out files to extractedLayers
@@ -255,16 +255,24 @@ function layersWithLatestFileModifications(
  * https://github.com/opencontainers/image-spec/blob/main/layer.md#whiteouts
  */
 export function isWhitedOutFile(filename: string) {
-  const lastSlashIndex = filename.lastIndexOf('/');
-  
+  const lastSlashIndex = filename.lastIndexOf("/");
+
   if (lastSlashIndex === -1) {
     // it's a file name, not a path
-    return filename.startsWith('.wh.');
+    return filename.startsWith(".wh.");
   } else {
     // it's a path, so check the last part
     const filenameToCheck = filename.substring(lastSlashIndex + 1);
-    return filenameToCheck.startsWith('.wh.');
+    return filenameToCheck.startsWith(".wh.");
   }
+}
+
+/**
+ * Remove the .wh. prefix from a whiteout file to get the original filename
+ */
+export function removeWhiteoutPrefix(filename: string): string {
+  // Replace .wh. that appears at the start or after the last slash
+  return filename.replace(/^(.*\/)?\.wh\./, "$1");
 }
 
 function isBufferType(type: FileContent): type is Buffer {
