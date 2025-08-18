@@ -6035,11 +6035,11 @@ Object {
         },
         Object {
           "data": Array [
-            "sha256:a905c078265c2d3a1f959f8ca1d79b30453a16aed4de47dec5ed1c048b26a103",
-            "sha256:121d5409a427be35e19a57dbaa3d29e62baaf98a5f4296288b646aeb282fd554",
-            "sha256:a50500db3d1b335828f1a31bf32652ecf422beb7f12bd28f5ab052af90b81428",
-            "sha256:97b9bf14b9b756916dfa15569caa9183ae65a53d9f438356d2ba9540b64f9f78",
-            "sha256:01561dd6d6562de4cce2ee7e7ec077227b0133305d6f2b41fa1793ad9044e572",
+            "sha256:76e525e1b16d0a56473d529790d3f1696078799abf41357103298a09f744f0fe",
+            "sha256:7a1f8cd94aa1e8ef907cb7bb71cb968cb907a283947aa28440159f1564bb12b0",
+            "sha256:47cf2e444f5a66d9e1b16a55aca8880d5a3329f4e0ed3976b0ea625471116b70",
+            "sha256:9d4685268f61f7e07d355dba7e314ea6b596fe5c371863d9860861db0d282d94",
+            "sha256:06d2bfb4c255ce6202421662c358af167a7dfb1dd4b63278c73ddae4ebae007f",
           ],
           "type": "imageLayers",
         },
