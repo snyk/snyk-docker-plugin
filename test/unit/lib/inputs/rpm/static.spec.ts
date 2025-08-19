@@ -1,11 +1,12 @@
+import * as rpmParser from "@snyk/rpm-parser";
 import { PackageInfo } from "@snyk/rpm-parser/lib/rpm/types";
 import * as fs from "fs";
 import { ExtractedLayers } from "../../../../../lib/extractor/types";
-import { getRpmDbFileContent, getRpmNdbFileContent } from "../../../../../lib/inputs/rpm/static";
+import {
+  getRpmDbFileContent,
+  getRpmNdbFileContent,
+} from "../../../../../lib/inputs/rpm/static";
 import { streamToBuffer } from "../../../../../lib/stream-utils";
-import * as rpmParser from "@snyk/rpm-parser";
-
-
 
 describe("test getRpmNdbFileContent", () => {
   it("should return an empty array when layers are null", async () => {
