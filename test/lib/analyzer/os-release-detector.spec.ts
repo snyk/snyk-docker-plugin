@@ -248,18 +248,10 @@ describe("OS Release Analyzer - Error Cases", () => {
     ];
 
     test.each(parsers)(
-      "$name should return null for empty text",
+      "$name should return null for empty/null text",
       async ({ func }) => {
-        const result = await func("");
-        expect(result).toBeNull();
-      },
-    );
-
-    test.each(parsers)(
-      "$name should return null for null text",
-      async ({ func }) => {
-        const result = await func(null);
-        expect(result).toBeNull();
+        expect(await func("")).toBeNull();
+        expect(await func(null)).toBeNull();
       },
     );
   });
