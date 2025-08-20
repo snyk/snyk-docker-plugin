@@ -108,7 +108,7 @@ export class LineTable {
   public go12MapFiles(): string[] {
     this.initFileMap();
     const files: string[] = [];
-    for (const file of Object.keys(this.fileMap)) {
+    for (const file of this.fileMap.keys()) {
       files.push(file);
     }
     return files;
@@ -152,13 +152,13 @@ export class LineTable {
         const fileName = this.string(
           Number(this.binary.Uint32(this.filetab.slice(4 * i))),
         );
-        files[fileName] = i;
+        files.set(fileName, i);
       }
     } else {
       let pos: number = 0;
       for (let i = 0; i < this.nfiletab; i++) {
         const fileName = this.stringFrom(this.filetab, pos);
-        files[fileName] = pos;
+        files.set(fileName, pos);
         pos += fileName.length + 1;
       }
     }
