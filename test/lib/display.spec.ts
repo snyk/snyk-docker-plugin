@@ -140,6 +140,86 @@ describe("display", () => {
     expect(result).toEqual(expectedDisplay);
   });
 
+  describe("formatRemediations", () => {
+    test("handles baseImageRemediation with message but no advice", async () => {
+      // Test the missing else if branch
+      const testResult: TestResult = {
+        org: "org-test",
+        licensesPolicy: null,
+        docker: {
+          baseImageRemediation: {
+            message: "Please upgrade to a newer base image",
+            // advice is not present
+          },
+        },
+        issues: [],
+        issuesData: {},
+        depGraphData: {} as any,
+      };
+
+      const { formatRemediations } = await import("../../lib/display");
+      const result = formatRemediations(testResult);
+      expect(result).toBe("Please upgrade to a newer base image");
+    });
+
+    test("handles baseImageRemediation with neither advice nor message", async () => {
+      // Test the final else branch
+      const testResult: TestResult = {
+        org: "org-test",
+        licensesPolicy: null,
+        docker: {
+          baseImageRemediation: {
+            // neither advice nor message
+          },
+        },
+        issues: [],
+        issuesData: {},
+        depGraphData: {} as any,
+      };
+
+      const { formatRemediations } = await import("../../lib/display");
+      const result = formatRemediations(testResult);
+      expect(result).toBe("");
+    });
+  });
+
+  describe("padding", () => {
+    test("returns original string when padding length is zero or negative", async () => {
+      // Test the missing if branch when padLength <= 0
+      const debDepGraphData: DepGraphData = JSON.parse(
+        await readFixture("display", "deb-dep-graph.json"),
+      );
+      const rpmImageScanResult: ScanResult = JSON.parse(
+        await readFixture("display/scan-results", "rpm.json"),
+      );
+      const scanResults: ScanResult[] = [rpmImageScanResult];
+
+      // Create a test result with a very long organization name
+      const testResults: TestResult[] = [
+        {
+          org: "this-is-a-very-long-organization-name-that-exceeds-padding",
+          licensesPolicy: null,
+          docker: {},
+          issues: [],
+          issuesData: {},
+          depGraphData: debDepGraphData,
+        },
+      ];
+      const errors: string[] = [];
+      const options: Options = {
+        path: "snyk/kubernetes-monitor",
+        config: {},
+      } as Options;
+
+      const result = await display(scanResults, testResults, errors, options);
+
+      // The long organization name should appear without extra padding
+      expect(result).toContain(
+        "this-is-a-very-long-organization-name-that-exceeds-padding",
+      );
+    });
+  });
+
   function readFixture(fixture: string, filename: string): Promise<string> {
     const dir = join("./", "test", "fixtures", fixture);
     const file = join(dir, filename);

@@ -100,4 +100,19 @@ describe("parseDependency", () => {
     };
     expect(received).toEqual(expected);
   });
+
+  it("returns null when dependency string doesn't match expected format", () => {
+    const received = parseDependency("!@#$%^&*()", []);
+    expect(received).toBeNull();
+  });
+
+  it("returns null when dependency is empty", () => {
+    const received = parseDependency("", []);
+    expect(received).toBeNull();
+  });
+
+  it("returns null when dependency starts with invalid characters", () => {
+    const received = parseDependency("   ; malformed", []);
+    expect(received).toBeNull();
+  });
 });

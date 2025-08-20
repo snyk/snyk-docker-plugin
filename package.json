@@ -22,7 +22,6 @@
     "test": "npm run test-jest",
     "test-jest": "jest --ci --maxWorkers=3 --logHeapUsage --colors",
     "test-jest-windows": "jest --ci --maxWorkers=3 --config test/windows/jest.config.js --logHeapUsage",
-    "test:coverage": "jest --coverage --ci --maxWorkers=3 --logHeapUsage --colors",
     "prepare": "npm run build"
   },
   "engines": {

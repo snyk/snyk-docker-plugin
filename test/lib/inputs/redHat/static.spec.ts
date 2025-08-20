@@ -45,7 +45,7 @@ describe("getRedHatRepositoriesFromExtractedLayers", () => {
         "some-action": "content",
       },
       "/usr/lib/file.json": {
-        "another-action": { data: "test" },
+        "another-action": "test",
       },
     };
 
@@ -140,6 +140,21 @@ describe("getRedHatRepositoriesFromExtractedLayers", () => {
       getRedHatRepositoriesFromExtractedLayers(extractedLayers);
 
     expect(repositories).toEqual(["valid-repo-1", "valid-repo-2"]);
+  });
+
+  it("handles contentManifest with null content_sets", () => {
+    const extractedLayers: ExtractedLayers = {
+      "/root/buildinfo/content_manifests/test.json": {
+        "redhat-content-manifests": {
+          content_sets: null,
+        } as any,
+      },
+    };
+
+    const repositories =
+      getRedHatRepositoriesFromExtractedLayers(extractedLayers);
+
+    expect(repositories).toEqual([]);
   });
 });
 
