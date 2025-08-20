@@ -227,13 +227,12 @@ function stdlib(
 
 function redisModule(goVersion: GoVersion): Module {
   // Go 1.25 doesn't include internal/unsafe.go in the PCLN table
-  const internalFiles = goVersion !== GoVersion.Go125 
-    ? ["unsafe.go", "log.go", "util.go"]
-    : ["log.go", "util.go"];
+  const internalFiles =
+    goVersion === GoVersion.Go125
+      ? ["log.go", "util.go"]
+      : ["unsafe.go", "log.go", "util.go"];
 
   const packages = new Map([
-    // exhaustive package list, but non-exhaustive file list in each
-    // package.
     ["", ["error.go", "cluster.go", "options.go"]],
     ["internal", internalFiles],
     ["internal/hscan", ["hscan.go"]],
@@ -247,7 +246,7 @@ function redisModule(goVersion: GoVersion): Module {
     name: "github.com/go-redis/redis/v9",
     version: "v9.0.0-beta.2",
     type: moduleType.External,
-    packages: packages,
+    packages,
   };
 }
 
@@ -265,10 +264,8 @@ enum GoVersion {
 }
 
 function extractGoVersion(fileName: string): GoVersion {
-  const name = path.parse(fileName).name;
-  
-  // Handle versioned files like "go1.20.0_normal"
-  const vers = name.substring(0, 7);
+  // we're using the fact that "go1.nn" has the same length as "latest"
+  const vers = path.parse(fileName).name.substring(0, 7);
   switch (vers) {
     case "go1.13":
       return GoVersion.Go113;
@@ -281,7 +278,9 @@ function extractGoVersion(fileName: string): GoVersion {
     case "go1.25":
       return GoVersion.Go125;
     default:
-      // Default to Go 1.25 for unknown versions
+      // if the test fails because we're using GoVersion.Go125 here, it means
+      // that the binary format has changed and we need to introduce a new
+      // version + check how to handle that.
       return GoVersion.Go125;
   }
 }
