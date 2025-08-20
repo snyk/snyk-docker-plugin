@@ -74,5 +74,106 @@ describe("dependency-tree", () => {
         expect(tree.dependencies["meta-common-packages"]).toBeTruthy();
       });
     });
+
+    describe("Edge Cases", () => {
+      it("should handle packages with no dependencies (null Deps)", () => {
+        // Test the missing branch: depInfo.Deps || {}
+        const fixture: AnalyzedPackageWithVersion[] = [
+          {
+            Name: "package-without-deps",
+            Version: "1.0",
+            Provides: [],
+            Deps: null as any, // Deps is null/undefined
+            AutoInstalled: false,
+            Purl: "pkg:snyk/package-without-deps@1.0",
+          },
+          {
+            Name: "package-with-empty-deps",
+            Version: "1.0",
+            Provides: [],
+            Deps: {}, // Empty deps object
+            AutoInstalled: false,
+            Purl: "pkg:snyk/package-with-empty-deps@1.0",
+          },
+        ];
+        const tree = buildTree(targetImage, "deb", fixture, targetOS);
+        expect(tree.dependencies["package-without-deps"]).toBeTruthy();
+        expect(tree.dependencies["package-without-deps"].dependencies).toEqual(
+          {},
+        );
+        expect(tree.dependencies["package-with-empty-deps"]).toBeTruthy();
+        expect(
+          tree.dependencies["package-with-empty-deps"].dependencies,
+        ).toEqual({});
+      });
+
+      it("should handle recursive dependencies gracefully", () => {
+        // This tests various branches in buildTreeRecursive
+        const fixture: AnalyzedPackageWithVersion[] = [
+          {
+            Name: "package-a",
+            Version: "1.0",
+            Provides: [],
+            Deps: { "package-b": true },
+            AutoInstalled: false,
+            Purl: "pkg:snyk/package-a@1.0",
+          },
+          {
+            Name: "package-b",
+            Version: "1.0",
+            Provides: [],
+            Deps: { "package-c": true },
+            AutoInstalled: false,
+            Purl: "pkg:snyk/package-b@1.0",
+          },
+          {
+            Name: "package-c",
+            Version: "1.0",
+            Provides: [],
+            Deps: { "package-a": true }, // Circular dependency
+            AutoInstalled: false,
+            Purl: "pkg:snyk/package-c@1.0",
+          },
+        ];
+        const tree = buildTree(targetImage, "deb", fixture, targetOS);
+        // Should handle circular dependencies without infinite recursion
+        expect(tree.dependencies["package-a"]).toBeTruthy();
+        expect(
+          tree.dependencies["package-a"].dependencies["package-b"],
+        ).toBeTruthy();
+        expect(
+          tree.dependencies["package-a"].dependencies["package-b"].dependencies[
+            "package-c"
+          ],
+        ).toBeTruthy();
+        // The circular reference back to package-a should not be included
+        expect(
+          tree.dependencies["package-a"].dependencies["package-b"].dependencies[
+            "package-c"
+          ].dependencies,
+        ).toEqual({});
+      });
+
+      it("should handle packages with Source field", () => {
+        // Test the depFullName function with Source field
+        const fixture: AnalyzedPackageWithVersion[] = [
+          {
+            Name: "subpackage",
+            Source: "source-package",
+            Version: "1.0",
+            Provides: [],
+            Deps: {},
+            AutoInstalled: false,
+            Purl: "pkg:snyk/subpackage@1.0",
+          },
+        ];
+        const tree = buildTree(targetImage, "deb", fixture, targetOS);
+        // Should use Source/Name format
+        expect(tree.dependencies["source-package/subpackage"]).toBeTruthy();
+        expect(tree.dependencies["source-package/subpackage"].version).toBe(
+          "1.0",
+        );
+      });
+    });
   });
 });

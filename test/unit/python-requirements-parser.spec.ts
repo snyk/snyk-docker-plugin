@@ -43,4 +43,34 @@ describe("python requirements parser", () => {
       { name: "jinja2", specifier: "=", version: "2.7.2" },
     ]);
   });
+
+  it("ignores invalid requirement lines", () => {
+    const fileContent = `
+      valid-package==1.0.0
+      [invalid requirement format]
+      another-valid==2.0.0
+      !@#$%^&*()
+    `;
+    const requirements = getRequirements(fileContent);
+    expect(requirements).toHaveLength(2);
+    expect(requirements).toMatchObject([
+      { name: "valid-package", specifier: "=", version: "1.0.0" },
+      { name: "another-valid", specifier: "=", version: "2.0.0" },
+    ]);
+  });
+
+  it("handles empty lines", () => {
+    const fileContent = `
+      package1==1.0.0
+      
+      
+      package2==2.0.0
+    `;
+    const requirements = getRequirements(fileContent);
+    expect(requirements).toHaveLength(2);
+    expect(requirements).toMatchObject([
+      { name: "package1", specifier: "=", version: "1.0.0" },
+      { name: "package2", specifier: "=", version: "2.0.0" },
+    ]);
+  });
 });

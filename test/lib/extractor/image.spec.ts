@@ -69,6 +69,32 @@ describe("image", () => {
       );
     });
 
+    test("ImageName class throws an error when image repository name is more than 255 characters", () => {
+      const longImageName = "a".repeat(256);
+      expect(() => new ImageName(longImageName)).toThrowError(
+        "image repository name is more than 255 characters",
+      );
+    });
+
+    test("ImageName class defaults tag to 'latest' when no tag or digest is provided", () => {
+      const imageName = new ImageName("nginx", {});
+      expect(imageName.tag).toEqual("latest");
+      expect(imageName.getAllNames()).toEqual(["nginx:latest"]);
+    });
+
+    test("ImageName class includes unknown digest in getAllNames()", () => {
+      const imageName = new ImageName(
+        "nginx:latest@sha256:abcd1234567890abcdef1234567890abcdef1234567890abcdef1234567890ab",
+        {},
+      );
+      expect(imageName.digests.unknown).toBeDefined();
+      const allNames = imageName.getAllNames();
+      expect(allNames).toContain("nginx:latest");
+      expect(allNames).toContain(
+        "nginx@sha256:abcd1234567890abcdef1234567890abcdef1234567890abcdef1234567890ab",
+      );
+    });
+
     test("ImageDigest class throws an error when digest algorithm is not supported", () => {
       expect(
         () =>
@@ -82,6 +108,57 @@ describe("image", () => {
         }),
       );
     });
+
+    test.each([
+      ["sha256", "no colon"],
+      [
+        ":abcd1234567890abcdef1234567890abcdef1234567890abcdef1234567890ab",
+        "colon at start",
+      ],
+      ["sha256:", "colon at end"],
+    ])(
+      "ImageDigest class throws error for invalid digest format - %s",
+      (digest, _description) => {
+        expect(
+          () =>
+            new ImageName("gcr.io/nginx:1.23.0", {
+              manifest: digest,
+            }),
+        ).toThrowError("invalid digest format");
+      },
+    );
+
+    test("ImageDigest class throws an error when digest hex length is incorrect", () => {
+      expect(
+        () =>
+          new ImageName("gcr.io/nginx:1.23.0", {
+            manifest: "sha256:abcd1234", // Too short for sha256 (should be 64 chars)
+          }),
+      ).toThrowError(
+        "digest algorithm sha256 suggested length 64, but got digest with length 8",
+      );
+    });
+
+    test.each([
+      [
+        "GGGG1234567890abcdef1234567890abcdef1234567890abcdef1234567890ab",
+        "non-hex character G",
+      ],
+      [
+        "ABCD1234567890abcdef1234567890abcdef1234567890abcdef1234567890ab",
+        "uppercase hex chars",
+      ],
+    ])(
+      "ImageDigest class throws error for invalid hex characters - %s",
+      (hexPart, _description) => {
+        expect(
+          () =>
+            new ImageName("gcr.io/nginx:1.23.0", {
+              manifest: `sha256:${hexPart}`,
+            }),
+        ).toThrowError("digest contains invalid characters");
+      },
+    );
   });
 
   describe("getImageNames can handle given inputs", () => {
@@ -142,77 +219,68 @@ describe("image", () => {
     const getFixture = (fixturePath) =>
       path.join(__dirname, "../../fixtures", fixturePath);
 
-    test("callbacks are issued when files are found", async () => {
-      expect.assertions(2);
-
-      const extractActions: ExtractAction[] = [
-        {
-          actionName: "read_as_string",
-          filePathMatches: (filePath) => filePath === "/snyk/mock.txt",
-          callback: async (stream) => {
-            const content = await streamToString(stream);
-            //  content read is as expected
-            expect(content).toEqual("Hello, world!");
-            return content;
+    test.each([
+      ["docker-save", "docker-archives/docker-save/nginx.tar"],
+      ["skopeo", "docker-archives/skopeo-copy/nginx.tar"],
+    ])(
+      "callbacks are issued when files are found (%s archive)",
+      async (archiveType, fixturePath) => {
+        const extractActions: ExtractAction[] = [
+          {
+            actionName: "read_as_string",
+            filePathMatches: (filePath) => filePath === "/snyk/mock.txt",
+            callback: async (stream) => {
+              const content = await streamToString(stream);
+              expect(content).toEqual("Hello, world!");
+              return content;
+            },
           },
-        },
-      ];
+        ];
 
-      // Try a docker-archive first
-      await extractImageContent(
-        ImageType.DockerArchive,
-        getFixture("docker-archives/docker-save/nginx.tar"),
-        extractActions,
-      );
+        await extractImageContent(
+          ImageType.DockerArchive,
+          getFixture(fixturePath),
+          extractActions,
+          {},
+        );
+      },
+    );
 
-      // Try a skopeo docker-archive
-      await extractImageContent(
-        ImageType.DockerArchive,
-        getFixture("docker-archives/skopeo-copy/nginx.tar"),
-        extractActions,
-      );
-    });
-
-    test("can read content with multiple callbacks", async () => {
-      expect.assertions(4);
-
-      const extractActions: ExtractAction[] = [
-        {
-          actionName: "read_as_string",
-          filePathMatches: (filePath) => filePath === "/snyk/mock.txt",
-          callback: async (stream) => {
-            const content = await streamToString(stream);
-            //  content read is as expected
-            expect(content).toEqual("Hello, world!");
-            return content;
+    test.each([
+      ["docker-save", "docker-archives/docker-save/nginx.tar"],
+      ["skopeo", "docker-archives/skopeo-copy/nginx.tar"],
+    ])(
+      "can read content with multiple callbacks (%s archive)",
+      async (archiveType, fixturePath) => {
+        const extractActions: ExtractAction[] = [
+          {
+            actionName: "read_as_string",
+            filePathMatches: (filePath) => filePath === "/snyk/mock.txt",
+            callback: async (stream) => {
+              const content = await streamToString(stream);
+              expect(content).toEqual("Hello, world!");
+              return content;
+            },
           },
-        },
-        {
-          actionName: "read_as_buffer",
-          filePathMatches: (filePath) => filePath === "/snyk/mock.txt",
-          callback: async (stream) => {
-            const content = await streamToString(stream);
-            //  content read is as expected
-            expect(content).toEqual("Hello, world!");
-            return `${content} Second callback!`;
+          {
+            actionName: "read_as_buffer",
+            filePathMatches: (filePath) => filePath === "/snyk/mock.txt",
+            callback: async (stream) => {
+              const content = await streamToString(stream);
+              expect(content).toEqual("Hello, world!");
+              return `${content} Second callback!`;
+            },
           },
-        },
-      ];
+        ];
 
-      // Try a docker-archive first
-      await extractImageContent(
-        ImageType.DockerArchive,
-        getFixture("docker-archives/docker-save/nginx.tar"),
-        extractActions,
-      );
-
-      // Try a skopeo docker-archive
-      await extractImageContent(
-        ImageType.DockerArchive,
-        getFixture("docker-archives/skopeo-copy/nginx.tar"),
-        extractActions,
-      );
-    });
+        await extractImageContent(
+          ImageType.DockerArchive,
+          getFixture(fixturePath),
+          extractActions,
+          {},
+        );
+      },
+    );
 
     test("ensure the results are the same for docker and for skopeo docker-archives", async () => {
       const returnedContent = "this is a mock";
@@ -231,12 +299,14 @@ describe("image", () => {
         ImageType.DockerArchive,
         getFixture("docker-archives/skopeo-copy/nginx.tar"),
         extractActions,
+        {},
       );
 
       const skopeoResult = await extractImageContent(
         ImageType.DockerArchive,
         getFixture("docker-archives/skopeo-copy/nginx.tar"),
         extractActions,
+        {},
       );
 
       //  Docker and Skopeo docker-archive outputs resolve the same way
@@ -304,6 +374,7 @@ describe("image", () => {
         ImageType.OciArchive,
         getFixture("oci-archives/nginx.tar"),
         extractActions,
+        {},
       );
 
       //  ImageId returned as expected
@@ -348,6 +419,7 @@ describe("image", () => {
             ImageType.OciArchive,
             getFixture("docker-archives/skopeo-copy/nginx.tar"),
             extractActions,
+            {},
           ),
       ).not.toThrow(new Error("Invalid OCI archive"));
 
@@ -357,6 +429,7 @@ describe("image", () => {
             ImageType.DockerArchive,
             getFixture("oci-archives/nginx.tar"),
             extractActions,
+            {},
           ),
       ).not.toThrow(new Error("Invalid Docker archive"));
 
@@ -366,6 +439,7 @@ describe("image", () => {
             ImageType.DockerArchive,
             getFixture("oci-archives/oci-with-manifest.tar"),
             extractActions,
+            {},
           ),
       ).not.toThrow(new Error("Invalid Docker archive"));
     });
