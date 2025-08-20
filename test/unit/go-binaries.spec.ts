@@ -40,7 +40,7 @@ class TestCase {
   // Optionally, by setting trimPath, the files will not contain the
   // build-path, Go source directory or GOMODCACHE directory.
   public files(trimPath?: boolean, vendored?: boolean): string[] {
-    const files = [];
+    const files: string[] = [];
     for (const module of this.modules) {
       for (const [pkgName, pkgFiles] of module.packages.entries()) {
         for (const file of pkgFiles) {
@@ -667,59 +667,46 @@ describe("go-parser index.ts coverage", () => {
       mockReadRawBuildInfo.mockRestore();
     });
 
-    it("should resolve undefined when goBuildId doesn't have valid Go magic", async () => {
-      const testBuffer = Buffer.from("\x7FELF" + "A".repeat(100));
-      const stream = new Readable({
-        read() {
-          this.push(testBuffer);
-          this.push(null);
-        },
-      });
+    const invalidBuildIdCases = [
+      {
+        description: "doesn't have valid Go magic",
+        buildIdData: "test\0NotGo\0actionID/contentID\0",
+      },
+      {
+        description: "doesn't have enough build ID parts",
+        buildIdData: "test\0Go\0singlepart\0",
+      },
+    ];
 
-      const mockElfParse = jest.spyOn(elf, "parse");
-      mockElfParse.mockReturnValue({
-        body: {
-          sections: [
-            {
-              name: ".note.go.buildid",
-              data: Buffer.from("test\0NotGo\0actionID/contentID\0"),
-            },
-          ],
-        },
-      } as any);
+    test.each(invalidBuildIdCases)(
+      "should resolve undefined when goBuildId $description",
+      async ({ buildIdData }) => {
+        const testBuffer = Buffer.from("\x7FELF" + "A".repeat(100));
+        const stream = new Readable({
+          read() {
+            this.push(testBuffer);
+            this.push(null);
+          },
+        });
 
-      const result = await getGoModulesContentAction.callback!(stream);
+        const mockElfParse = jest.spyOn(elf, "parse");
+        mockElfParse.mockReturnValue({
+          body: {
+            sections: [
+              {
+                name: ".note.go.buildid",
+                data: Buffer.from(buildIdData),
+              },
+            ],
+          },
+        } as any);
 
-      expect(result).toBeUndefined();
-      mockElfParse.mockRestore();
-    });
+        const result = await getGoModulesContentAction.callback!(stream);
 
-    it("should resolve undefined when goBuildId doesn't have enough build ID parts", async () => {
-      const testBuffer = Buffer.from("\x7FELF" + "A".repeat(100));
-      const stream = new Readable({
-        read() {
-          this.push(testBuffer);
-          this.push(null);
-        },
-      });
-
-      const mockElfParse = jest.spyOn(elf, "parse");
-      mockElfParse.mockReturnValue({
-        body: {
-          sections: [
-            {
-              name: ".note.go.buildid",
-              data: Buffer.from("test\0Go\0singlepart\0"),
-            },
-          ],
-        },
-      } as any);
-
-      const result = await getGoModulesContentAction.callback!(stream);
-
-      expect(result).toBeUndefined();
-      mockElfParse.mockRestore();
-    });
+        expect(result).toBeUndefined();
+        mockElfParse.mockRestore();
+      },
+    );
 
     it("should reject when stream emits error", async () => {
       const stream = new Readable({
@@ -761,49 +748,31 @@ describe("go-parser index.ts coverage", () => {
   });
 
   describe("filePathMatches", () => {
-    it("should match files in allowed paths", () => {
-      const { getGoModulesContentAction } = require("../../lib/go-parser");
+    const { getGoModulesContentAction } = require("../../lib/go-parser");
 
-      expect(getGoModulesContentAction.filePathMatches("/usr/bin/myapp")).toBe(
-        true,
-      );
-      expect(getGoModulesContentAction.filePathMatches("/opt/app/binary")).toBe(
-        true,
-      );
-    });
+    const pathTestCases = [
+      // Allowed paths
+      { path: "/usr/bin/myapp", shouldMatch: true },
+      { path: "/opt/app/binary", shouldMatch: true },
+      // Ignored paths
+      { path: "/boot/kernel", shouldMatch: false },
+      { path: "/dev/device", shouldMatch: false },
+      { path: "/etc/config", shouldMatch: false },
+      { path: "/home/user/app", shouldMatch: false },
+      { path: "/proc/1/exe", shouldMatch: false },
+      { path: "/var/log/app", shouldMatch: false },
+      // Files with extensions
+      { path: "/usr/bin/myapp.so", shouldMatch: false },
+      { path: "/opt/app/binary.exe", shouldMatch: false },
+    ];
 
-    it("should not match files in ignored paths", () => {
-      const { getGoModulesContentAction } = require("../../lib/go-parser");
-
-      expect(getGoModulesContentAction.filePathMatches("/boot/kernel")).toBe(
-        false,
-      );
-      expect(getGoModulesContentAction.filePathMatches("/dev/device")).toBe(
-        false,
-      );
-      expect(getGoModulesContentAction.filePathMatches("/etc/config")).toBe(
-        false,
-      );
-      expect(getGoModulesContentAction.filePathMatches("/home/user/app")).toBe(
-        false,
-      );
-      expect(getGoModulesContentAction.filePathMatches("/proc/1/exe")).toBe(
-        false,
-      );
-      expect(getGoModulesContentAction.filePathMatches("/var/log/app")).toBe(
-        false,
-      );
-    });
-
-    it("should not match files with extensions", () => {
-      const { getGoModulesContentAction } = require("../../lib/go-parser");
-
-      expect(
-        getGoModulesContentAction.filePathMatches("/usr/bin/myapp.so"),
-      ).toBe(false);
-      expect(
-        getGoModulesContentAction.filePathMatches("/opt/app/binary.exe"),
-      ).toBe(false);
-    });
+    test.each(pathTestCases)(
+      "should $shouldMatch match path: $path",
+      ({ path, shouldMatch }) => {
+        expect(getGoModulesContentAction.filePathMatches(path)).toBe(
+          shouldMatch,
+        );
+      },
+    );
   });
 });

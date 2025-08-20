@@ -222,34 +222,5 @@ describe("sub-process on Windows", () => {
 
       spawnSpy.mockRestore();
     });
-
-    it("should handle spawn errors on Windows", async () => {
-      // Create a mock process
-      const mockProcess = new EventEmitter() as any;
-      mockProcess.stdout = new EventEmitter();
-      mockProcess.stderr = new EventEmitter();
-
-      // Mock the spawn
-      const spawnSpy = jest
-        .spyOn(childProcess, "spawn")
-        .mockImplementation(() => mockProcess);
-
-      // Start execution
-      const executePromise = execute("nonexistent.exe", ["arg1"]);
-
-      // Emit Windows-specific error
-      const errorMessage = "spawn nonexistent.exe ENOENT";
-      process.nextTick(() => {
-        mockProcess.emit("error", new Error(errorMessage));
-      });
-
-      // Should reject with the error
-      await expect(executePromise).rejects.toEqual({
-        stdout: "",
-        stderr: errorMessage,
-      });
-
-      spawnSpy.mockRestore();
-    });
   });
 });

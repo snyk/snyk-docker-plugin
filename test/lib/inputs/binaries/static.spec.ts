@@ -7,43 +7,39 @@ import {
 import { streamToSha256 } from "../../../../lib/stream-utils";
 
 describe("lib/inputs/binaries/static", () => {
-  describe("getNodeBinariesFileContentAction", () => {
-    it("has the correct metadata", () => {
-      expect(getNodeBinariesFileContentAction.actionName).toBe("node");
-      expect(getNodeBinariesFileContentAction.callback).toBe(streamToSha256);
-    });
+  const binaryActions = [
+    {
+      name: "node",
+      action: getNodeBinariesFileContentAction,
+      validPaths: ["/usr/local/bin/node", "/bin/node"],
+      invalidPaths: ["/usr/bin/nodejs"],
+    },
+    {
+      name: "java",
+      action: getOpenJDKBinariesFileContentAction,
+      validPaths: ["/usr/bin/java", "/bin/java"],
+      invalidPaths: ["/usr/bin/javaw"],
+    },
+  ];
 
-    it("matches paths ending with 'node'", () => {
-      expect(
-        getNodeBinariesFileContentAction.filePathMatches("/usr/local/bin/node"),
-      ).toBe(true);
-      expect(
-        getNodeBinariesFileContentAction.filePathMatches("/bin/node"),
-      ).toBe(true);
-      expect(
-        getNodeBinariesFileContentAction.filePathMatches("/usr/bin/nodejs"),
-      ).toBe(false);
-    });
-  });
+  describe.each(binaryActions)(
+    "get$nameBinariesFileContentAction",
+    ({ name, action, validPaths, invalidPaths }) => {
+      it("has the correct metadata", () => {
+        expect(action.actionName).toBe(name);
+        expect(action.callback).toBe(streamToSha256);
+      });
 
-  describe("getOpenJDKBinariesFileContentAction", () => {
-    it("has the correct metadata", () => {
-      expect(getOpenJDKBinariesFileContentAction.actionName).toBe("java");
-      expect(getOpenJDKBinariesFileContentAction.callback).toBe(streamToSha256);
-    });
-
-    it("matches paths ending with 'java'", () => {
-      expect(
-        getOpenJDKBinariesFileContentAction.filePathMatches("/usr/bin/java"),
-      ).toBe(true);
-      expect(
-        getOpenJDKBinariesFileContentAction.filePathMatches("/bin/java"),
-      ).toBe(true);
-      expect(
-        getOpenJDKBinariesFileContentAction.filePathMatches("/usr/bin/javaw"),
-      ).toBe(false);
-    });
-  });
+      it(`matches paths ending with '${name}'`, () => {
+        validPaths.forEach((path) => {
+          expect(action.filePathMatches(path)).toBe(true);
+        });
+        invalidPaths.forEach((path) => {
+          expect(action.filePathMatches(path)).toBe(false);
+        });
+      });
+    },
+  );
 
   describe("getBinariesHashes", () => {
     it("returns an empty array for empty extracted layers", () => {
