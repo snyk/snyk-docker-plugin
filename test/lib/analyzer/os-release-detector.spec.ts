@@ -266,18 +266,16 @@ describe("OS Release Analyzer - Error Cases", () => {
   });
 
   describe("tryLsbRelease", () => {
-    it("should throw error when DISTRIB_ID is missing", async () => {
-      const text = "DISTRIB_RELEASE=20.04";
-      await expect(releaseAnalyzer.tryLsbRelease(text)).rejects.toThrow(
-        "Failed to parse /etc/lsb-release",
-      );
-    });
+    it("should throw error when required fields are missing", async () => {
+      // Missing DISTRIB_ID
+      await expect(
+        releaseAnalyzer.tryLsbRelease("DISTRIB_RELEASE=20.04"),
+      ).rejects.toThrow("Failed to parse /etc/lsb-release");
 
-    it("should throw error when DISTRIB_RELEASE is missing", async () => {
-      const text = "DISTRIB_ID=Ubuntu";
-      await expect(releaseAnalyzer.tryLsbRelease(text)).rejects.toThrow(
-        "Failed to parse /etc/lsb-release",
-      );
+      // Missing DISTRIB_RELEASE
+      await expect(
+        releaseAnalyzer.tryLsbRelease("DISTRIB_ID=Ubuntu"),
+      ).rejects.toThrow("Failed to parse /etc/lsb-release");
     });
   });
 
@@ -308,51 +306,38 @@ describe("OS Release Analyzer - Error Cases", () => {
     );
   });
 
-  describe("tryRedHatRelease", () => {
-    it("should throw error when no ID pattern found", async () => {
-      const text = "   \n  "; // Only whitespace, no ID at start
-      await expect(releaseAnalyzer.tryRedHatRelease(text)).rejects.toThrow(
-        "Failed to parse /etc/redhat-release",
-      );
-    });
+  describe("RedHat-based release parsers", () => {
+    const rhParsers = [
+      {
+        name: "tryRedHatRelease",
+        func: releaseAnalyzer.tryRedHatRelease,
+        file: "/etc/redhat-release",
+      },
+      {
+        name: "tryCentosRelease",
+        func: releaseAnalyzer.tryCentosRelease,
+        file: "/etc/centos-release",
+      },
+      {
+        name: "tryOracleRelease",
+        func: releaseAnalyzer.tryOracleRelease,
+        file: "/etc/oracle-release",
+      },
+    ];
 
-    it("should throw error when version pattern not found", async () => {
-      const text = "Red Hat Enterprise Linux Server release"; // Has ID but no version number
-      await expect(releaseAnalyzer.tryRedHatRelease(text)).rejects.toThrow(
-        "Failed to parse /etc/redhat-release",
-      );
-    });
-  });
+    test.each(rhParsers)(
+      "$name should throw error for missing ID/version patterns",
+      async ({ func, file }) => {
+        // No ID pattern found (whitespace only)
+        await expect(func("   \n  ")).rejects.toThrow(
+          `Failed to parse ${file}`,
+        );
 
-  describe("tryCentosRelease", () => {
-    it("should throw error when no ID pattern found", async () => {
-      const text = "   \n  "; // Only whitespace, no ID at start
-      await expect(releaseAnalyzer.tryCentosRelease(text)).rejects.toThrow(
-        "Failed to parse /etc/centos-release",
-      );
-    });
-
-    it("should throw error when version not found", async () => {
-      const text = "CentOS Linux release"; // Has ID but no version number
-      await expect(releaseAnalyzer.tryCentosRelease(text)).rejects.toThrow(
-        "Failed to parse /etc/centos-release",
-      );
-    });
-  });
-
-  describe("tryOracleRelease", () => {
-    it("should throw error when no ID pattern found", async () => {
-      const text = "   \n  "; // Only whitespace, no ID at start
-      await expect(releaseAnalyzer.tryOracleRelease(text)).rejects.toThrow(
-        "Failed to parse /etc/oracle-release",
-      );
-    });
-
-    it("should throw error when version pattern not found", async () => {
-      const text = "Oracle Linux Server release"; // Has ID but no version number (needs d.d pattern)
-      await expect(releaseAnalyzer.tryOracleRelease(text)).rejects.toThrow(
-        "Failed to parse /etc/oracle-release",
-      );
-    });
+        // ID found but no version number
+        await expect(func("OS Linux release")).rejects.toThrow(
+          `Failed to parse ${file}`,
+        );
+      },
+    );
   });
 });
