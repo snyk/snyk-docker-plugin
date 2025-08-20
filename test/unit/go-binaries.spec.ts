@@ -227,10 +227,9 @@ function stdlib(
 
 function redisModule(goVersion: GoVersion): Module {
   // Go 1.25 doesn't include internal/unsafe.go in the PCLN table
+  const baseFiles = ["log.go", "util.go"];
   const internalFiles =
-    goVersion === GoVersion.Go125
-      ? ["log.go", "util.go"]
-      : ["unsafe.go", "log.go", "util.go"];
+    goVersion === GoVersion.Go125 ? baseFiles : ["unsafe.go", ...baseFiles];
 
   const packages = new Map([
     ["", ["error.go", "cluster.go", "options.go"]],
