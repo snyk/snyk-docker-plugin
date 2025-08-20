@@ -158,7 +158,6 @@ jobs:
       - checkout
       - install_node_npm:
           node_version: << parameters.node_version >>
-
       - setup_npm_user
       - run: npm ci
       - run: docker version
