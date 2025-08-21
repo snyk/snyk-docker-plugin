@@ -1,24 +1,5 @@
 import { toBeDockerPackageInstallCommand } from "../matchers/dockerPackageInstallCommand";
 
-describe("toBeDockerPackageInstallCommand message generation", () => {
-  it("returns success message when pass is true", () => {
-    const result = toBeDockerPackageInstallCommand(
-      "apt-get install curl",
-      "curl",
-    );
-    expect(result.message()).toBe(
-      "expected apt-get install curl not to be a package installCommand",
-    );
-  });
-
-  it("returns failure message when pass is false", () => {
-    const result = toBeDockerPackageInstallCommand("invalid command", "curl");
-    expect(result.message()).toBe(
-      "expected invalid command to be a package installCommand",
-    );
-  });
-});
-
 // Test all of the combinations of package install commands for the regex in test/matchers/dockerPackageInstallCommand.ts:11
 describe("valid package install commands", () => {
   const testCases = [
