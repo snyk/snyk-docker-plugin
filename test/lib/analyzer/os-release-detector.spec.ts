@@ -231,3 +231,113 @@ describe("os release parsing", () => {
     }
   });
 });
+
+describe("OS Release Analyzer - Error Cases", () => {
+  const releaseAnalyzer = require("../../../lib/analyzer/os-release/release-analyzer");
+
+  // Test all parsers for null/empty text handling
+  describe("All parsers null/empty handling", () => {
+    const parsers = [
+      { name: "tryOSRelease", func: releaseAnalyzer.tryOSRelease },
+      { name: "tryLsbRelease", func: releaseAnalyzer.tryLsbRelease },
+      { name: "tryDebianVersion", func: releaseAnalyzer.tryDebianVersion },
+      { name: "tryAlpineRelease", func: releaseAnalyzer.tryAlpineRelease },
+      { name: "tryRedHatRelease", func: releaseAnalyzer.tryRedHatRelease },
+      { name: "tryCentosRelease", func: releaseAnalyzer.tryCentosRelease },
+      { name: "tryOracleRelease", func: releaseAnalyzer.tryOracleRelease },
+    ];
+
+    test.each(parsers)(
+      "$name should return null for empty/null text",
+      async ({ func }) => {
+        expect(await func("")).toBeNull();
+        expect(await func(null)).toBeNull();
+      },
+    );
+  });
+
+  describe("tryOSRelease", () => {
+    it("should throw error when ID is missing", async () => {
+      const text = "VERSION_ID=20.04\nPRETTY_NAME=Ubuntu";
+      await expect(releaseAnalyzer.tryOSRelease(text)).rejects.toThrow(
+        "Failed to parse /etc/os-release",
+      );
+    });
+  });
+
+  describe("tryLsbRelease", () => {
+    it("should throw error when required fields are missing", async () => {
+      // Missing DISTRIB_ID
+      await expect(
+        releaseAnalyzer.tryLsbRelease("DISTRIB_RELEASE=20.04"),
+      ).rejects.toThrow("Failed to parse /etc/lsb-release");
+
+      // Missing DISTRIB_RELEASE
+      await expect(
+        releaseAnalyzer.tryLsbRelease("DISTRIB_ID=Ubuntu"),
+      ).rejects.toThrow("Failed to parse /etc/lsb-release");
+    });
+  });
+
+  describe("tryDebianVersion and tryAlpineRelease - short text handling", () => {
+    const shortTextParsers = [
+      {
+        name: "tryDebianVersion",
+        func: releaseAnalyzer.tryDebianVersion,
+        file: "/etc/debian_version",
+      },
+      {
+        name: "tryAlpineRelease",
+        func: releaseAnalyzer.tryAlpineRelease,
+        file: "/etc/alpine-release",
+      },
+    ];
+
+    test.each(shortTextParsers)(
+      "$name should throw error for text shorter than 2 chars after trim",
+      async ({ func, file }) => {
+        // Test single character
+        await expect(func("9")).rejects.toThrow(`Failed to parse ${file}`);
+        // Test whitespace only
+        await expect(func(" ")).rejects.toThrow(`Failed to parse ${file}`);
+        // Test single char with whitespace
+        await expect(func(" a ")).rejects.toThrow(`Failed to parse ${file}`);
+      },
+    );
+  });
+
+  describe("RedHat-based release parsers", () => {
+    const rhParsers = [
+      {
+        name: "tryRedHatRelease",
+        func: releaseAnalyzer.tryRedHatRelease,
+        file: "/etc/redhat-release",
+      },
+      {
+        name: "tryCentosRelease",
+        func: releaseAnalyzer.tryCentosRelease,
+        file: "/etc/centos-release",
+      },
+      {
+        name: "tryOracleRelease",
+        func: releaseAnalyzer.tryOracleRelease,
+        file: "/etc/oracle-release",
+      },
+    ];
+
+    test.each(rhParsers)(
+      "$name should throw error for missing ID/version patterns",
+      async ({ func, file }) => {
+        // No ID pattern found (whitespace only)
+        await expect(func("   \n  ")).rejects.toThrow(
+          `Failed to parse ${file}`,
+        );
+
+        // ID found but no version number
+        await expect(func("OS Linux release")).rejects.toThrow(
+          `Failed to parse ${file}`,
+        );
+      },
+    );
+  });
+});
