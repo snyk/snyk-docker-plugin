@@ -74,7 +74,7 @@ describe("rpm package manager tests", () => {
     // quay doesn't always keep older shas, so if this fails, get the sha from the latest
     // stream9 at https://quay.io/repository/centos/centos?tab=tags&tag=stream9
     const image =
-      "quay.io/centos/centos@sha256:feafe3afc13d8bb4401953350dd0ce03be9b8262c388a9dac4210519ec167200";
+      "quay.io/centos/centos@sha256:db73b2ac6c8a9f199bdacf2f0e759429b0287a8be95c9a9e26dc1d594e0d84a2";
     const pluginResult = await scan({
       path: image,
       platform: "linux/amd64",
@@ -86,7 +86,7 @@ describe("rpm package manager tests", () => {
     // quay doesn't always keep older shas, so if this fails, get the sha from the latest
     // stream10 at https://quay.io/repository/centos/centos?tab=tags&tag=stream10
     const image =
-      "quay.io/centos/centos@sha256:683927bd29076a14ff8f74419da9042a5e1d308af048244108247a26365bd1e3";
+      "quay.io/centos/centos@sha256:7459813cfcd8a6b8e62c6fd080e000504424c41125045f87a085b2d695ae006e";
     const pluginResult = await scan({
       path: image,
       platform: "linux/amd64",
