@@ -9,7 +9,7 @@ describe("rpm package manager tests", () => {
     // imageLayers while CI (no Docker) uses registry pull and returns digest-based
     // imageLayers/rootFs (e.g., "sha256:<digest>"). This divergence makes snapshots
     // flaky across environments, so we standardize on OCI.
-    jest.spyOn(Docker, "binaryExists").mockResolvedValue(false);
+    // jest.spyOn(Docker, "binaryExists").mockResolvedValue(false); 
   });
 
   afterAll(async () => {
@@ -73,6 +73,13 @@ describe("rpm package manager tests", () => {
   it("should correctly analyze a CentOS Stream 9 image", async () => {
     // we use docker/dokken because quay doesn't always keep older shas,
     // and this test had to be updated to use a newer sha every month otherwise
+    await execute("docker", [
+      "login",
+      "--username",
+      process.env.DOCKER_HUB_USERNAME || "",
+      "--password",
+      process.env.DOCKER_HUB_PASSWORD || "",
+    ]);
     const image = "docker.io/library/dokken/centos-stream-9:sha-d1e294f";
     const pluginResult = await scan({
       path: image,
