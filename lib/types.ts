@@ -227,6 +227,10 @@ export interface PluginOptions {
 
   /** The default is "false". */
   "collect-application-files": boolean | string;
+
+  /** Include system-level JARs and WARs from /usr/lib in scan results. The default is "false". */
+  "include-system-jars": boolean | string;
+
   "target-reference": string;
 }
 

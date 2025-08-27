@@ -59,7 +59,8 @@ async function pullWithDockerBinary(
     return true;
   } catch (err) {
     debug(`couldn't pull ${targetImage} using docker binary: ${err.message}`);
-    handleDockerPullError(err.stderr, platform);
+    const errorMessage = err.stderr || err.message || err.toString();
+    handleDockerPullError(errorMessage, platform);
 
     return false;
   }

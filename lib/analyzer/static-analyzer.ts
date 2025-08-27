@@ -25,7 +25,10 @@ import {
   getDpkgPackageFileContentAction,
 } from "../inputs/distroless/static";
 import * as filePatternStatic from "../inputs/file-pattern/static";
-import { getJarFileContentAction } from "../inputs/java/static";
+import {
+  getJarFileContentAction,
+  getUsrLibJarFileContentAction,
+} from "../inputs/java/static";
 import {
   getNodeAppFileContentAction,
   getNodeJsTsAppFileContentAction,
@@ -116,13 +119,20 @@ export async function analyze(
   const collectApplicationFiles = isTrue(options["collect-application-files"]);
 
   if (appScan) {
+    const jarActions = [getJarFileContentAction];
+
+    // Include system JARs from /usr/lib if flag is enabled
+    if (isTrue(options["include-system-jars"])) {
+      jarActions.push(getUsrLibJarFileContentAction);
+    }
+
     staticAnalysisActions.push(
       ...[
         getNodeAppFileContentAction,
         getPhpAppFileContentAction,
         getPoetryAppFileContentAction,
         getPipAppFileContentAction,
-        getJarFileContentAction,
+        ...jarActions,
         getGoModulesContentAction,
       ],
     );
