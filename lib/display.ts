@@ -150,6 +150,13 @@ function formatMetadataSection(
   const image = target.image.replace("docker-image|", "");
   result.push(formatMetadataLine("Project name:", projectName));
   result.push(formatMetadataLine("Docker image:", image));
+
+  // Add Target OS information
+  const targetOS = getTargetOSFromScanResult(scanResult, testResult);
+  if (targetOS) {
+    result.push(formatMetadataLine("Target OS:", targetOS));
+  }
+
   if (testResult.docker && testResult.docker.baseImage) {
     result.push(formatMetadataLine("Base image:", testResult.docker.baseImage));
   }
@@ -162,6 +169,26 @@ function formatMetadataSection(
   }
 
   return result.join(BREAK_LINE);
+}
+
+function getTargetOSFromScanResult(
+  scanResult: ScanResult,
+  testResult: TestResult,
+): string | null {
+  // First check for imageOsReleasePrettyName fact
+  const osReleaseFact = scanResult.facts?.find(
+    (fact) => fact.type === "imageOsReleasePrettyName",
+  );
+  if (osReleaseFact?.data) {
+    return osReleaseFact.data;
+  }
+
+  // Fall back to creating it from the testResult targetOS
+  if (testResult.targetOS) {
+    return `${testResult.targetOS.name}:${testResult.targetOS.version}`;
+  }
+
+  return null;
 }
 
 function formatMetadataLine(header: string, info: string = ""): string {

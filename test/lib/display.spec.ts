@@ -140,6 +140,277 @@ describe("display", () => {
     expect(result).toEqual(expectedDisplay);
   });
 
+  test("shows Target OS from imageOsReleasePrettyName fact", async () => {
+    const expectedDisplay = await readFixture(
+      "display/output",
+      "with-os-fact.txt",
+    );
+    const debDepGraphData: DepGraphData = JSON.parse(
+      await readFixture("display", "deb-dep-graph.json"),
+    );
+    const scanResultWithOsFact: ScanResult = JSON.parse(
+      await readFixture("display/scan-results", "rpm-with-os-fact.json"),
+    );
+    const scanResults: ScanResult[] = [scanResultWithOsFact];
+    const testResults: TestResult[] = [
+      {
+        org: "org-test",
+        licensesPolicy: null,
+        docker: {},
+        issues: [],
+        issuesData: {},
+        depGraphData: debDepGraphData,
+      },
+    ];
+    const errors: string[] = [];
+    const options: Options = {
+      path: "snyk/kubernetes-monitor",
+      config: {},
+    } as Options;
+
+    const result = await display(scanResults, testResults, errors, options);
+
+    expect(result).toEqual(expectedDisplay);
+  });
+
+  test("shows Target OS from testResult.targetOS when fact is not present", async () => {
+    const expectedDisplay = await readFixture(
+      "display/output",
+      "with-targetos-fallback.txt",
+    );
+    const debDepGraphData: DepGraphData = JSON.parse(
+      await readFixture("display", "deb-dep-graph.json"),
+    );
+    const scanResultNoOsInfo: ScanResult = JSON.parse(
+      await readFixture("display/scan-results", "rpm-no-os-info.json"),
+    );
+    const scanResults: ScanResult[] = [scanResultNoOsInfo];
+    const testResults: TestResult[] = [
+      {
+        org: "org-test",
+        licensesPolicy: null,
+        docker: {},
+        issues: [],
+        issuesData: {},
+        depGraphData: debDepGraphData,
+        targetOS: {
+          name: "ubuntu",
+          version: "20.04",
+        },
+      },
+    ];
+    const errors: string[] = [];
+    const options: Options = {
+      path: "snyk/kubernetes-monitor",
+      config: {},
+    } as Options;
+
+    const result = await display(scanResults, testResults, errors, options);
+
+    expect(result).toEqual(expectedDisplay);
+  });
+
+  test("imageOsReleasePrettyName fact takes priority over testResult.targetOS", async () => {
+    const expectedDisplay = await readFixture(
+      "display/output",
+      "with-fact-priority.txt",
+    );
+    const debDepGraphData: DepGraphData = JSON.parse(
+      await readFixture("display", "deb-dep-graph.json"),
+    );
+    const scanResultWithOsFact: ScanResult = JSON.parse(
+      await readFixture("display/scan-results", "rpm-with-os-fact.json"),
+    );
+    // Override the fact data to test priority
+    scanResultWithOsFact.facts.find(
+      (f) => f.type === "imageOsReleasePrettyName",
+    )!.data = "Red Hat Enterprise Linux 8.2 (Ootpa)";
+
+    const scanResults: ScanResult[] = [scanResultWithOsFact];
+    const testResults: TestResult[] = [
+      {
+        org: "org-test",
+        licensesPolicy: null,
+        docker: {},
+        issues: [],
+        issuesData: {},
+        depGraphData: debDepGraphData,
+        // This should be ignored in favor of the fact
+        targetOS: {
+          name: "ubuntu",
+          version: "20.04",
+        },
+      },
+    ];
+    const errors: string[] = [];
+    const options: Options = {
+      path: "snyk/kubernetes-monitor",
+      config: {},
+    } as Options;
+
+    const result = await display(scanResults, testResults, errors, options);
+
+    expect(result).toEqual(expectedDisplay);
+  });
+
+  test("does not show Target OS when neither fact nor targetOS is present", async () => {
+    const expectedDisplay = await readFixture(
+      "display/output",
+      "no-issues.txt",
+    );
+    const debDepGraphData: DepGraphData = JSON.parse(
+      await readFixture("display", "deb-dep-graph.json"),
+    );
+    const scanResultNoOsInfo: ScanResult = JSON.parse(
+      await readFixture("display/scan-results", "rpm-no-os-info.json"),
+    );
+    const scanResults: ScanResult[] = [scanResultNoOsInfo];
+    const testResults: TestResult[] = [
+      {
+        org: "org-test",
+        licensesPolicy: null,
+        docker: {},
+        issues: [],
+        issuesData: {},
+        depGraphData: debDepGraphData,
+        // No targetOS provided
+      },
+    ];
+    const errors: string[] = [];
+    const options: Options = {
+      path: "snyk/kubernetes-monitor",
+      config: {},
+    } as Options;
+
+    const result = await display(scanResults, testResults, errors, options);
+
+    expect(result).toEqual(expectedDisplay);
+  });
+
+  test("handles empty imageOsReleasePrettyName fact data gracefully", async () => {
+    const expectedDisplay = await readFixture(
+      "display/output",
+      "with-targetos-fallback.txt",
+    );
+    const debDepGraphData: DepGraphData = JSON.parse(
+      await readFixture("display", "deb-dep-graph.json"),
+    );
+    const scanResultWithEmptyFact: ScanResult = JSON.parse(
+      await readFixture("display/scan-results", "rpm-with-os-fact.json"),
+    );
+    // Set fact data to empty string
+    scanResultWithEmptyFact.facts.find(
+      (f) => f.type === "imageOsReleasePrettyName",
+    )!.data = "";
+
+    const scanResults: ScanResult[] = [scanResultWithEmptyFact];
+    const testResults: TestResult[] = [
+      {
+        org: "org-test",
+        licensesPolicy: null,
+        docker: {},
+        issues: [],
+        issuesData: {},
+        depGraphData: debDepGraphData,
+        // Should fall back to this
+        targetOS: {
+          name: "ubuntu",
+          version: "20.04",
+        },
+      },
+    ];
+    const errors: string[] = [];
+    const options: Options = {
+      path: "snyk/kubernetes-monitor",
+      config: {},
+    } as Options;
+
+    const result = await display(scanResults, testResults, errors, options);
+
+    expect(result).toEqual(expectedDisplay);
+  });
+
+  test("handles null imageOsReleasePrettyName fact data gracefully", async () => {
+    const expectedDisplay = await readFixture(
+      "display/output",
+      "with-targetos-fallback.txt",
+    );
+    const debDepGraphData: DepGraphData = JSON.parse(
+      await readFixture("display", "deb-dep-graph.json"),
+    );
+    const scanResultWithNullFact: ScanResult = JSON.parse(
+      await readFixture("display/scan-results", "rpm-with-os-fact.json"),
+    );
+    // Set fact data to null
+    scanResultWithNullFact.facts.find(
+      (f) => f.type === "imageOsReleasePrettyName",
+    )!.data = null;
+
+    const scanResults: ScanResult[] = [scanResultWithNullFact];
+    const testResults: TestResult[] = [
+      {
+        org: "org-test",
+        licensesPolicy: null,
+        docker: {},
+        issues: [],
+        issuesData: {},
+        depGraphData: debDepGraphData,
+        // Should fall back to this
+        targetOS: {
+          name: "ubuntu",
+          version: "20.04",
+        },
+      },
+    ];
+    const errors: string[] = [];
+    const options: Options = {
+      path: "snyk/kubernetes-monitor",
+      config: {},
+    } as Options;
+
+    const result = await display(scanResults, testResults, errors, options);
+
+    expect(result).toEqual(expectedDisplay);
+  });
+
+  test("handles missing prettyName in targetOS gracefully", async () => {
+    const expectedDisplay = await readFixture(
+      "display/output",
+      "with-targetos-fallback.txt",
+    );
+    const debDepGraphData: DepGraphData = JSON.parse(
+      await readFixture("display", "deb-dep-graph.json"),
+    );
+    const scanResultNoOsInfo: ScanResult = JSON.parse(
+      await readFixture("display/scan-results", "rpm-no-os-info.json"),
+    );
+    const scanResults: ScanResult[] = [scanResultNoOsInfo];
+    const testResults: TestResult[] = [
+      {
+        org: "org-test",
+        licensesPolicy: null,
+        docker: {},
+        issues: [],
+        issuesData: {},
+        depGraphData: debDepGraphData,
+        targetOS: {
+          name: "ubuntu",
+          version: "20.04",
+          // prettyName is optional and not provided
+        },
+      },
+    ];
+    const errors: string[] = [];
+    const options: Options = {
+      path: "snyk/kubernetes-monitor",
+      config: {},
+    } as Options;
+
+    const result = await display(scanResults, testResults, errors, options);
+
+    expect(result).toEqual(expectedDisplay);
+  });
+
   function readFixture(fixture: string, filename: string): Promise<string> {
     const dir = join("./", "test", "fixtures", fixture);
     const file = join(dir, filename);
