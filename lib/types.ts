@@ -310,6 +310,11 @@ export interface TestResult {
   issues: Issue[];
   issuesData: IssuesData;
   depGraphData: DepGraphData;
+  targetOS?: {
+    name: string;
+    version: string;
+    prettyName?: string;
+  };
 }
 
 export interface Options {
