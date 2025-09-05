@@ -61,7 +61,8 @@ async function findGoBinaries(
     // ELF section headers and so ".go.buildinfo" & ".note.go.buildid" blobs are available in the first 64kb
     const elfBuildInfoSize = 64 * 1024;
 
-    const buffer: Buffer = Buffer.alloc(streamSize ?? elfBuildInfoSize);
+    // Only allocate what we actually need (64KB max), regardless of file size
+    const buffer: Buffer = Buffer.alloc(elfBuildInfoSize);
     let bytesWritten = 0;
 
     stream.on("end", () => {
