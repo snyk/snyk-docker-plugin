@@ -61,13 +61,13 @@ async function findGoBinaries(
     // ELF section headers and so ".go.buildinfo" & ".note.go.buildid" blobs are available in the first 64kb
     const elfBuildInfoSize = 64 * 1024;
 
-    const buffer: Buffer = Buffer.alloc(streamSize ?? elfBuildInfoSize);
+    let buffer: Buffer | null = null;
     let bytesWritten = 0;
 
-    stream.on("end", () => {
+    const processCompleteBuffer = () => {
       try {
         // Discard
-        if (bytesWritten === 0) {
+        if (!buffer || bytesWritten === 0) {
           return resolve(undefined);
         }
 
@@ -121,7 +121,9 @@ async function findGoBinaries(
         // it either we recognize file as binary or not
         return resolve(undefined);
       }
-    });
+    };
+
+    stream.on("end", processCompleteBuffer);
 
     stream.on("error", (error) => {
       reject(error);
@@ -131,13 +133,22 @@ async function findGoBinaries(
       const first4Bytes = chunk.toString(encoding, 0, 4);
 
       if (first4Bytes === elfHeaderMagic) {
+        // Now that we know it's an ELF file, allocate the buffer
+        buffer = Buffer.alloc(streamSize ?? elfBuildInfoSize);
+        
         Buffer.from(chunk).copy(buffer, bytesWritten, 0);
         bytesWritten += chunk.length;
+        
         // Listen to next chunks only if it's an ELF executable
         stream.addListener("data", (chunk) => {
-          Buffer.from(chunk).copy(buffer, bytesWritten, 0);
-          bytesWritten += chunk.length;
+          if (buffer && bytesWritten < buffer.length) {
+            Buffer.from(chunk).copy(buffer, bytesWritten, 0);
+            bytesWritten += chunk.length;
+          }
         });
+      } else {
+        // Not an ELF file, exit early without allocating memory
+        return resolve(undefined);
       }
     });
   });
