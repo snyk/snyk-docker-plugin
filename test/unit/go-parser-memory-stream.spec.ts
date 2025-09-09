@@ -1,7 +1,7 @@
-import { Readable } from "stream";
 import * as elf from "elfy";
 import { readFileSync } from "fs";
 import * as path from "path";
+import { Readable } from "stream";
 
 import { getGoModulesContentAction } from "../../lib/go-parser";
 
@@ -34,8 +34,11 @@ describe("Go parser memory allocation fix", () => {
 
     it("should still process legitimate ELF files", async () => {
       // Ensure we didn't break existing functionality
-      const goBinaryPath = path.join(__dirname, "../fixtures/go-binaries/go1.18.10_normal");
-      
+      const goBinaryPath = path.join(
+        __dirname,
+        "../fixtures/go-binaries/go1.18.10_normal",
+      );
+
       // Check if fixture exists before running test
       try {
         const goBinaryBuffer = readFileSync(goBinaryPath);
@@ -49,7 +52,7 @@ describe("Go parser memory allocation fix", () => {
         // If fixture doesn't exist, create a minimal ELF file for testing
         const minimalElf = Buffer.concat([
           Buffer.from("\x7FELF\x02\x01\x01\x00"),
-          Buffer.alloc(56, 0)
+          Buffer.alloc(56, 0),
         ]);
         const stream = createStreamFromBuffer(minimalElf);
 
@@ -71,7 +74,7 @@ describe("Go parser memory allocation fix", () => {
     it("should detect ELF magic correctly", async () => {
       const elfContent = Buffer.concat([
         Buffer.from("\x7FELF"), // ELF magic
-        Buffer.alloc(100, 0)
+        Buffer.alloc(100, 0),
       ]);
       const stream = createStreamFromBuffer(elfContent);
 
@@ -101,7 +104,7 @@ describe("Go parser memory allocation fix", () => {
       // This is acceptable because it's extremely rare in real TAR streams
       const stream = new Readable();
       stream.push(Buffer.from("\x7F")); // First chunk - not full ELF magic
-      stream.push(Buffer.from("ELF")); // Second chunk  
+      stream.push(Buffer.from("ELF")); // Second chunk
       stream.push(Buffer.alloc(60, 0)); // Rest
       stream.push(null);
 
@@ -143,11 +146,11 @@ describe("Go parser memory allocation fix", () => {
     it("should handle stream errors gracefully", async () => {
       const errorStream = new Readable({
         read() {
-          this.emit('error', new Error('Stream error'));
-        }
+          this.emit("error", new Error("Stream error"));
+        },
       });
 
-      await expect(findGoBinaries(errorStream)).rejects.toThrow('Stream error');
+      await expect(findGoBinaries(errorStream)).rejects.toThrow("Stream error");
     });
 
     it("should handle ELF parsing errors gracefully", async () => {

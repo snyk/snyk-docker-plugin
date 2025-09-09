@@ -64,7 +64,7 @@ async function findGoBinaries(
     let buffer: Buffer | null = null;
     let bytesWritten = 0;
 
-    const processCompleteBuffer = () => {
+    stream.on("end", () => {
       try {
         // Discard
         if (!buffer || bytesWritten === 0) {
@@ -121,9 +121,7 @@ async function findGoBinaries(
         // it either we recognize file as binary or not
         return resolve(undefined);
       }
-    };
-
-    stream.on("end", processCompleteBuffer);
+    });
 
     stream.on("error", (error) => {
       reject(error);
@@ -135,10 +133,10 @@ async function findGoBinaries(
       if (first4Bytes === elfHeaderMagic) {
         // Now that we know it's an ELF file, allocate the buffer
         buffer = Buffer.alloc(streamSize ?? elfBuildInfoSize);
-        
+
         Buffer.from(chunk).copy(buffer, bytesWritten, 0);
         bytesWritten += chunk.length;
-        
+
         // Listen to next chunks only if it's an ELF executable
         stream.addListener("data", (chunk) => {
           if (buffer && bytesWritten < buffer.length) {
