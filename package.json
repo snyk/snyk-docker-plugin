@@ -22,6 +22,7 @@
     "test": "npm run test-jest",
     "test-jest": "jest --ci --maxWorkers=3 --logHeapUsage --colors",
     "test-jest-windows": "jest --ci --maxWorkers=3 --config test/windows/jest.config.js --logHeapUsage",
+    "update-quay-tests": "./update_centos_shas.sh",
     "prepare": "npm run build"
   },
   "engines": {
