@@ -24,35 +24,25 @@ if [[ ! $STREAM10_SHA =~ ^sha256:[a-f0-9]{64}$ ]]; then
     exit 1
 fi
 
-TEST_FILE="test/system/package-managers/rpm.spec.ts"
+SHA_FILE="test/fixtures/centos-shas.ts"
 
-echo "Updating $TEST_FILE with new SHA digests..."
+echo "Updating $SHA_FILE with new SHA digests..."
 
-# Update line 28 (stream9 in afterAll cleanup)
-sed -i.bak "28s|quay.io/centos/centos@sha256:[a-f0-9]*|quay.io/centos/centos@$STREAM9_SHA|" "$TEST_FILE"
+# Update the SHA file with new digests
+cat > "$SHA_FILE" << EOF
+// CentOS Stream SHA digests for quay.io/centos/centos images
+// This file is automatically updated by the update_centos_shas.sh script
+// Run \`npm run update-quay-tests\` to fetch the latest SHA digests
 
-# Update line 29 (stream10 in afterAll cleanup)  
-sed -i.bak "29s|quay.io/centos/centos@sha256:[a-f0-9]*|quay.io/centos/centos@$STREAM10_SHA|" "$TEST_FILE"
+export const CENTOS_SHAS = {
+  stream9: "$STREAM9_SHA",
+  stream10: "$STREAM10_SHA",
+} as const;
+EOF
 
-# Update line 78 (stream9 in test)
-sed -i.bak "78s|quay.io/centos/centos@sha256:[a-f0-9]*|quay.io/centos/centos@$STREAM9_SHA|" "$TEST_FILE"
-
-# Update line 91 (stream10 in test)
-sed -i.bak "91s|quay.io/centos/centos@sha256:[a-f0-9]*|quay.io/centos/centos@$STREAM10_SHA|" "$TEST_FILE"
-
-# Remove backup file
-rm "${TEST_FILE}.bak"
-
-echo "Successfully updated $TEST_FILE with:"
+echo "Successfully updated $SHA_FILE with:"
 echo "  Stream 9: $STREAM9_SHA"
 echo "  Stream 10: $STREAM10_SHA"
-
-echo ""
-echo "Updated lines:"
-echo "Line 28: $(sed -n '28p' "$TEST_FILE")"
-echo "Line 29: $(sed -n '29p' "$TEST_FILE")"
-echo "Line 78: $(sed -n '78p' "$TEST_FILE")"
-echo "Line 91: $(sed -n '91p' "$TEST_FILE")"
 
 echo ""
 echo "Running RPM tests to update snapshots..."

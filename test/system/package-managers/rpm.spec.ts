@@ -1,6 +1,7 @@
 import { Docker } from "../../../lib/docker";
 import { scan } from "../../../lib/index";
 import { execute } from "../../../lib/sub-process";
+import { CENTOS_SHAS } from "../../fixtures/centos-shas";
 
 describe("rpm package manager tests", () => {
   beforeAll(() => {
@@ -25,8 +26,8 @@ describe("rpm package manager tests", () => {
       "amazonlinux:2022.0.20220504.1",
       "registry.access.redhat.com/ubi9/ubi@sha256:c113f67e8e70940af28116d75e32f0aa4ffd3bf6fab30e970850475ab1de697f",
       "registry.access.redhat.com/ubi10-beta/ubi@sha256:4b4976d86eefeedab6884c9d2923206c6c3c2e2471206f97fd9d7aaaecbc04ac",
-      "quay.io/centos/centos@sha256:3d97213cc9e44fc6d055968dac5b922a106eb7e557148973d1e7717320ca9801", // stream9
-      "quay.io/centos/centos@sha256:277f2b6361ea16917abf73bdaab672ff137045c181be7f0ed5c826cf00542dcf", // stream10
+      `quay.io/centos/centos@${CENTOS_SHAS.stream9}`, // stream9
+      `quay.io/centos/centos@${CENTOS_SHAS.stream10}`, // stream10
     ]).catch(() => {
       console.error(`tests teardown failed to remove docker image`);
     });
@@ -74,8 +75,7 @@ describe("rpm package manager tests", () => {
     // quay doesn't always keep older shas, so if this fails, get the sha from the latest
     // stream9 at https://quay.io/repository/centos/centos?tab=tags&tag=stream9
     // OR run npm run update-quay-tests to update the shas
-    const image =
-      "quay.io/centos/centos@sha256:3d97213cc9e44fc6d055968dac5b922a106eb7e557148973d1e7717320ca9801";
+    const image = `quay.io/centos/centos@${CENTOS_SHAS.stream9}`;
     const pluginResult = await scan({
       path: image,
       platform: "linux/amd64",
@@ -87,8 +87,7 @@ describe("rpm package manager tests", () => {
     // quay doesn't always keep older shas, so if this fails, get the sha from the latest
     // stream10 at https://quay.io/repository/centos/centos?tab=tags&tag=stream10
     // OR run npm run update-quay-tests to update the shas
-    const image =
-      "quay.io/centos/centos@sha256:277f2b6361ea16917abf73bdaab672ff137045c181be7f0ed5c826cf00542dcf";
+    const image = `quay.io/centos/centos@${CENTOS_SHAS.stream10}`;
     const pluginResult = await scan({
       path: image,
       platform: "linux/amd64",
