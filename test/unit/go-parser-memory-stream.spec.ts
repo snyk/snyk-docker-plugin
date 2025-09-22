@@ -122,7 +122,7 @@ describe("Go parser memory allocation fix", () => {
   });
 
   describe("Error handling", () => {
-    it("should handle stream errors gracefully", async () => {
+    it("should catch stream errors", async () => {
       const errorStream = new Readable({
         read() {
           this.emit("error", new Error("Stream error"));
@@ -132,7 +132,7 @@ describe("Go parser memory allocation fix", () => {
       await expect(findGoBinaries(errorStream)).rejects.toThrow("Stream error");
     });
 
-    it("should handle ELF parsing errors gracefully", async () => {
+    it("should return undefined for corrupted ELF files", async () => {
       const corruptedElf = Buffer.from("\x7FELF" + "corrupted");
       const stream = createStreamFromBuffer(corruptedElf);
 
@@ -141,7 +141,7 @@ describe("Go parser memory allocation fix", () => {
       expect(result).toBeUndefined(); // Should not throw
     });
 
-    it("should handle empty streams", async () => {
+    it("should return undefined for empty streams", async () => {
       const emptyStream = new Readable();
       emptyStream.push(null);
 
