@@ -36,37 +36,16 @@ describe("Go parser memory allocation fix", () => {
       // Ensure we didn't break existing functionality
       const goBinaryPath = path.join(
         __dirname,
-        "../fixtures/go-binaries/go1.18.10_normal",
+        "../fixtures/go-binaries/go1.18.5_normal",
       );
 
-      // Check if fixture exists before running test
-      try {
         const goBinaryBuffer = readFileSync(goBinaryPath);
         const stream = createStreamFromBuffer(goBinaryBuffer);
 
         const result = await findGoBinaries(stream, goBinaryBuffer.length);
 
-        // Should process ELF files (may or may not find Go modules)
+        // Should process ELF files
         expect(typeof result).toBeDefined();
-      } catch (e) {
-        // If fixture doesn't exist, create a minimal ELF file for testing
-        const minimalElf = Buffer.concat([
-          Buffer.from("\x7FELF\x02\x01\x01\x00"),
-          Buffer.alloc(56, 0),
-        ]);
-        const stream = createStreamFromBuffer(minimalElf);
-
-        // Mock elf.parse to simulate successful parsing
-        const originalParse = elf.parse;
-        elf.parse = jest.fn().mockReturnValue({ body: { sections: [] } });
-
-        const result = await findGoBinaries(stream, minimalElf.length);
-
-        expect(result).toBeUndefined(); // No Go sections, but ELF was processed
-        expect(elf.parse).toHaveBeenCalled();
-
-        elf.parse = originalParse;
-      }
     });
   });
 
