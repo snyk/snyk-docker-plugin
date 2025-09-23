@@ -140,7 +140,13 @@ async function findGoBinaries(
         // Listen to next chunks only if it's an ELF executable
         stream.addListener("data", (chunk) => {
           if (buffer && bytesWritten < buffer.length) {
-            Buffer.from(chunk).copy(buffer, bytesWritten, 0);
+            // Make sure we don't exceed the buffer capacity. Don't copy more
+            // than the buffer can handle, and don't exceed the chunk length
+            const sourceEnd = Math.min(
+              buffer.length - bytesWritten,
+              chunk.length,
+            );
+            Buffer.from(chunk).copy(buffer, bytesWritten, 0, sourceEnd);
             bytesWritten += chunk.length;
           }
         });
