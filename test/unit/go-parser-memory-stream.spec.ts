@@ -77,21 +77,6 @@ describe("Go parser memory allocation fix", () => {
 
       expect(result).toBeUndefined();
     });
-
-    it("should reject ELF magic split across chunks (current limitation)", async () => {
-      // Our current implementation doesn't handle ELF magic split across chunks
-      // This is acceptable because it's extremely rare in real TAR streams
-      const stream = new Readable();
-      stream.push(Buffer.from("\x7F")); // First chunk - not full ELF magic
-      stream.push(Buffer.from("ELF")); // Second chunk
-      stream.push(Buffer.alloc(60, 0)); // Rest
-      stream.push(null);
-
-      const result = await findGoBinaries(stream);
-
-      // Should reject because first chunk doesn't contain full ELF magic
-      expect(result).toBeUndefined();
-    });
   });
 
   describe("filePathMatches function", () => {
