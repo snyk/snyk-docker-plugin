@@ -134,8 +134,7 @@ async function findGoBinaries(
         // Now that we know it's an ELF file, allocate the buffer
         buffer = Buffer.alloc(streamSize ?? elfBuildInfoSize);
 
-        Buffer.from(chunk).copy(buffer, bytesWritten, 0);
-        bytesWritten += chunk.length;
+        bytesWritten += Buffer.from(chunk).copy(buffer, bytesWritten, 0);
 
         // Listen to next chunks only if it's an ELF executable
         stream.addListener("data", (chunk) => {
@@ -146,8 +145,12 @@ async function findGoBinaries(
               buffer.length - bytesWritten,
               chunk.length,
             );
-            Buffer.from(chunk).copy(buffer, bytesWritten, 0, bytesToWrite);
-            bytesWritten += bytesToWrite;
+            bytesWritten += Buffer.from(chunk).copy(
+              buffer,
+              bytesWritten,
+              0,
+              bytesToWrite,
+            );
           }
         });
       } else {

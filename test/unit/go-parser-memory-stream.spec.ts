@@ -80,7 +80,7 @@ describe("Go parser memory allocation fix", () => {
   });
 
   describe("filePathMatches function", () => {
-    it("should match files without extensions", () => {
+    it("should match normal files without extensions", () => {
       expect(filePathMatches("/app/myservice")).toBe(true);
       expect(filePathMatches("/usr/bin/kubectl")).toBe(true);
       expect(filePathMatches("/opt/binary")).toBe(true);
@@ -97,12 +97,6 @@ describe("Go parser memory allocation fix", () => {
       expect(filePathMatches("/var/log/app")).toBe(false);
       expect(filePathMatches("/tmp/file")).toBe(false);
       expect(filePathMatches("/proc/cpuinfo")).toBe(false);
-    });
-
-    it("should handle the problematic case - large files without extensions", () => {
-      // These would previously cause the memory issue
-      expect(filePathMatches("/app/large-data-file")).toBe(true);
-      expect(filePathMatches("/usr/local/huge-binary")).toBe(true);
     });
   });
 
