@@ -39,13 +39,13 @@ describe("Go parser memory allocation fix", () => {
         "../fixtures/go-binaries/go1.18.5_normal",
       );
 
-        const goBinaryBuffer = readFileSync(goBinaryPath);
-        const stream = createStreamFromBuffer(goBinaryBuffer);
+      const goBinaryBuffer = readFileSync(goBinaryPath);
+      const stream = createStreamFromBuffer(goBinaryBuffer);
 
-        const result = await findGoBinaries(stream, goBinaryBuffer.length);
+      const result = await findGoBinaries(stream, goBinaryBuffer.length);
 
-        // Should process ELF files
-        expect(typeof result).toBeDefined();
+      // Should process ELF files
+      expect(typeof result).toBeDefined();
     });
   });
 
