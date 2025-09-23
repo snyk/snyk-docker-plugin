@@ -142,12 +142,12 @@ async function findGoBinaries(
           if (buffer && bytesWritten < buffer.length) {
             // Make sure we don't exceed the buffer capacity. Don't copy more
             // than the buffer can handle, and don't exceed the chunk length
-            const sourceEnd = Math.min(
+            const bytesToWrite = Math.min(
               buffer.length - bytesWritten,
               chunk.length,
             );
-            Buffer.from(chunk).copy(buffer, bytesWritten, 0, sourceEnd);
-            bytesWritten += chunk.length;
+            Buffer.from(chunk).copy(buffer, bytesWritten, 0, bytesToWrite);
+            bytesWritten += bytesToWrite;
           }
         });
       } else {
