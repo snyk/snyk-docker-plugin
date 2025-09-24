@@ -26,8 +26,8 @@ describe("rpm package manager tests", () => {
       "amazonlinux:2022.0.20220504.1",
       "registry.access.redhat.com/ubi9/ubi@sha256:c113f67e8e70940af28116d75e32f0aa4ffd3bf6fab30e970850475ab1de697f",
       "registry.access.redhat.com/ubi10-beta/ubi@sha256:4b4976d86eefeedab6884c9d2923206c6c3c2e2471206f97fd9d7aaaecbc04ac",
-      `quay.io/centos/centos@${CENTOS_SHAS.stream9}`, // stream9
-      `quay.io/centos/centos@${CENTOS_SHAS.stream10}`, // stream10
+      "registry-1.docker.io/snykgoof/dockerhub-goof:centos-stream9",
+      "registry-1.docker.io/snykgoof/dockerhub-goof:centos-stream10",
     ]).catch(() => {
       console.error(`tests teardown failed to remove docker image`);
     });
@@ -72,10 +72,10 @@ describe("rpm package manager tests", () => {
   });
 
   it("should correctly analyze a CentOS Stream 9 image", async () => {
-    // quay doesn't always keep older shas, so if this fails, get the sha from the latest
-    // stream9 at https://quay.io/repository/centos/centos?tab=tags&tag=stream9
-    // OR run npm run update-quay-tests to update the shas
-    const image = `quay.io/centos/centos@${CENTOS_SHAS.stream9}`;
+    // quay doesn't keep older shas, so the test would break every time
+    // they pushed a new version. To mitigate this, we cloned an image
+    // and pushed it to the snykgoof repo
+    const image = "snykgoof/dockerhub-goof:centos-stream9"
     const pluginResult = await scan({
       path: image,
       platform: "linux/amd64",
@@ -84,10 +84,10 @@ describe("rpm package manager tests", () => {
   });
 
   it("should correctly analyze a CentOS Stream 10 image", async () => {
-    // quay doesn't always keep older shas, so if this fails, get the sha from the latest
-    // stream10 at https://quay.io/repository/centos/centos?tab=tags&tag=stream10
-    // OR run npm run update-quay-tests to update the shas
-    const image = `quay.io/centos/centos@${CENTOS_SHAS.stream10}`;
+    // quay doesn't keep older shas, so the test would break every time
+    // they pushed a new version. To mitigate this, we cloned an image
+    // and pushed it to the snykgoof repo
+    const image = "snykgoof/dockerhub-goof:centos-stream10"
     const pluginResult = await scan({
       path: image,
       platform: "linux/amd64",

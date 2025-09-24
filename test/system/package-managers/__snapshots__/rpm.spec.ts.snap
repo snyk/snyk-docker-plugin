@@ -424,7 +424,7 @@ Object {
                     },
                   ],
                   "nodeId": "root-node",
-                  "pkgId": "docker-image|quay.io/centos/centos@",
+                  "pkgId": "docker-image|snykgoof/dockerhub-goof@centos-stream9",
                 },
                 Object {
                   "deps": Array [],
@@ -1124,10 +1124,10 @@ Object {
             },
             "pkgs": Array [
               Object {
-                "id": "docker-image|quay.io/centos/centos@",
+                "id": "docker-image|snykgoof/dockerhub-goof@centos-stream9",
                 "info": Object {
-                  "name": "docker-image|quay.io/centos/centos",
-                  "version": undefined,
+                  "name": "docker-image|snykgoof/dockerhub-goof",
+                  "version": "centos-stream9",
                 },
               },
               Object {
@@ -2237,7 +2237,7 @@ Object {
         },
         Object {
           "data": Array [
-            "sha256:388256329b02d57afd18ce187b85eae5b49ce8b24df7ec91f299fd45f926f9c9",
+            "548262f4b50f4ed2941ff02cde714223a51a2f11191b06dcb95b54c2381cb514/layer.tar",
           ],
           "type": "imageLayers",
         },
@@ -2269,8 +2269,8 @@ Object {
         Object {
           "data": Object {
             "names": Array [
-              "quay.io/centos/centos@sha256:0cae7e53f997228f0afc523f1bad28f3347dd0216ea8e27977f7af33f626f912",
-              "quay.io/centos/centos@sha256:0cae7e53f997228f0afc523f1bad28f3347dd0216ea8e27977f7af33f626f912",
+              "snykgoof/dockerhub-goof:centos-stream9",
+              "snykgoof/dockerhub-goof@sha256:afa4e96dd42cec591af30331b45b68fc00de9a95e7c148b847914b749e10e651",
             ],
           },
           "type": "imageNames",
@@ -2283,7 +2283,7 @@ Object {
         "type": "rpm",
       },
       "target": Object {
-        "image": "docker-image|quay.io/centos/centos",
+        "image": "docker-image|snykgoof/dockerhub-goof",
       },
     },
   ],
@@ -2789,7 +2789,7 @@ Object {
                     },
                   ],
                   "nodeId": "root-node",
-                  "pkgId": "docker-image|quay.io/centos/centos@",
+                  "pkgId": "docker-image|snykgoof/dockerhub-goof@centos-stream10",
                 },
                 Object {
                   "deps": Array [],
@@ -3614,10 +3614,10 @@ Object {
             },
             "pkgs": Array [
               Object {
-                "id": "docker-image|quay.io/centos/centos@",
+                "id": "docker-image|snykgoof/dockerhub-goof@centos-stream10",
                 "info": Object {
-                  "name": "docker-image|quay.io/centos/centos",
-                  "version": undefined,
+                  "name": "docker-image|snykgoof/dockerhub-goof",
+                  "version": "centos-stream10",
                 },
               },
               Object {
@@ -4927,7 +4927,7 @@ Object {
         },
         Object {
           "data": Array [
-            "sha256:2d5a7d2db745217a9f00bd43e99262d3ff2e54efae6bce8e30f29a001adad913",
+            "8be31ad17a137bcf3c6d66a929af66a31da914a42a568949bf12510409133d5f/layer.tar",
           ],
           "type": "imageLayers",
         },
@@ -4959,8 +4959,8 @@ Object {
         Object {
           "data": Object {
             "names": Array [
-              "quay.io/centos/centos@sha256:8749c1fde6471d2dd94d6b1cee8ac43a070573ce9cc5e85bf59b9e8331bc1974",
-              "quay.io/centos/centos@sha256:8749c1fde6471d2dd94d6b1cee8ac43a070573ce9cc5e85bf59b9e8331bc1974",
+              "snykgoof/dockerhub-goof:centos-stream10",
+              "snykgoof/dockerhub-goof@sha256:211cc59e39702f1bfc1a0bebe2271c9e506459cef382594f319a591a119a62dd",
             ],
           },
           "type": "imageNames",
@@ -4973,7 +4973,7 @@ Object {
         "type": "rpm",
       },
       "target": Object {
-        "image": "docker-image|quay.io/centos/centos",
+        "image": "docker-image|snykgoof/dockerhub-goof",
       },
     },
   ],
