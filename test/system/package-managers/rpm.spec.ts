@@ -1,7 +1,6 @@
 import { Docker } from "../../../lib/docker";
 import { scan } from "../../../lib/index";
 import { execute } from "../../../lib/sub-process";
-import { CENTOS_SHAS } from "../../fixtures/centos-shas";
 
 describe("rpm package manager tests", () => {
   beforeAll(() => {
@@ -75,7 +74,7 @@ describe("rpm package manager tests", () => {
     // quay doesn't keep older shas, so the test would break every time
     // they pushed a new version. To mitigate this, we cloned an image
     // and pushed it to the snykgoof repo
-    const image = "snykgoof/dockerhub-goof:centos-stream9"
+    const image = "snykgoof/dockerhub-goof:centos-stream9";
     const pluginResult = await scan({
       path: image,
       platform: "linux/amd64",
@@ -87,7 +86,7 @@ describe("rpm package manager tests", () => {
     // quay doesn't keep older shas, so the test would break every time
     // they pushed a new version. To mitigate this, we cloned an image
     // and pushed it to the snykgoof repo
-    const image = "snykgoof/dockerhub-goof:centos-stream10"
+    const image = "snykgoof/dockerhub-goof:centos-stream10";
     const pluginResult = await scan({
       path: image,
       platform: "linux/amd64",
