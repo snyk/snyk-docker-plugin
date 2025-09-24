@@ -35,8 +35,10 @@ cat > "$SHA_FILE" << EOF
 // Run \`npm run update-quay-tests\` to fetch the latest SHA digests
 
 export const CENTOS_SHAS = {
-  stream9: "$STREAM9_SHA",
-  stream10: "$STREAM10_SHA",
+  stream9:
+    "$STREAM9_SHA",
+  stream10:
+    "$STREAM10_SHA",
 } as const;
 EOF
 

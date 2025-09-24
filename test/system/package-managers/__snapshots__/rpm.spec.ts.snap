@@ -336,7 +336,7 @@ Object {
                       "nodeId": "python3-dnf@4.14.0-31.el9",
                     },
                     Object {
-                      "nodeId": "python3-dnf-plugins-core@4.3.0-22.el9",
+                      "nodeId": "python3-dnf-plugins-core@4.3.0-23.el9",
                     },
                     Object {
                       "nodeId": "python3-gpg@1.15.1-6.el9",
@@ -968,8 +968,8 @@ Object {
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "python3-dnf-plugins-core@4.3.0-22.el9",
-                  "pkgId": "python3-dnf-plugins-core@4.3.0-22.el9",
+                  "nodeId": "python3-dnf-plugins-core@4.3.0-23.el9",
+                  "pkgId": "python3-dnf-plugins-core@4.3.0-23.el9",
                 },
                 Object {
                   "deps": Array [],
@@ -1995,11 +1995,11 @@ Object {
                 },
               },
               Object {
-                "id": "python3-dnf-plugins-core@4.3.0-22.el9",
+                "id": "python3-dnf-plugins-core@4.3.0-23.el9",
                 "info": Object {
                   "name": "python3-dnf-plugins-core",
-                  "purl": "pkg:rpm/centos/python3-dnf-plugins-core@4.3.0-22.el9?distro=centos-9&upstream=dnf-plugins-core%404.3.0",
-                  "version": "4.3.0-22.el9",
+                  "purl": "pkg:rpm/centos/python3-dnf-plugins-core@4.3.0-23.el9?distro=centos-9&upstream=dnf-plugins-core%404.3.0",
+                  "version": "4.3.0-23.el9",
                 },
               },
               Object {
@@ -2232,19 +2232,19 @@ Object {
           "type": "depGraph",
         },
         Object {
-          "data": "sha256:961c50f6ebc8e5f5c3a167ac730e3f34609d170f551f62423f6bdb7ef2514e66",
+          "data": "sha256:1a699fb56cacf4a1bf09f8748fbc0bec75b60237fabd15d367375bc0c62a1574",
           "type": "imageId",
         },
         Object {
           "data": Array [
-            "sha256:c321a9d837c4e0c20fcd622b1d4962694a6a46b0c21b5da258d63aaaa880ab6c",
+            "sha256:388256329b02d57afd18ce187b85eae5b49ce8b24df7ec91f299fd45f926f9c9",
           ],
           "type": "imageLayers",
         },
         Object {
           "data": Object {
             "io.buildah.version": "1.33.12",
-            "org.label-schema.build-date": "20250916",
+            "org.label-schema.build-date": "20250923",
             "org.label-schema.license": "GPLv2",
             "org.label-schema.name": "CentOS Stream 9 Base Image",
             "org.label-schema.schema-version": "1.0",
@@ -2253,12 +2253,12 @@ Object {
           "type": "imageLabels",
         },
         Object {
-          "data": "2025-09-16T01:00:02.451168844Z",
+          "data": "2025-09-23T01:06:35.806253152Z",
           "type": "imageCreationTime",
         },
         Object {
           "data": Array [
-            "sha256:3133d3a1c7a2da42aee7171a6ebfa8984679e3a25990c487a3b572f3f849d4ff",
+            "sha256:381a13485a932941201e961274f3d5270c1f74a1d912d45e64629103cf3a76c6",
           ],
           "type": "rootFs",
         },
@@ -2269,8 +2269,8 @@ Object {
         Object {
           "data": Object {
             "names": Array [
-              "quay.io/centos/centos@sha256:60f831ea21128433798b74d2181375c5da2c04e3397a6e7ad3b9abf47159e550",
-              "quay.io/centos/centos@sha256:60f831ea21128433798b74d2181375c5da2c04e3397a6e7ad3b9abf47159e550",
+              "quay.io/centos/centos@sha256:0cae7e53f997228f0afc523f1bad28f3347dd0216ea8e27977f7af33f626f912",
+              "quay.io/centos/centos@sha256:0cae7e53f997228f0afc523f1bad28f3347dd0216ea8e27977f7af33f626f912",
             ],
           },
           "type": "imageNames",
