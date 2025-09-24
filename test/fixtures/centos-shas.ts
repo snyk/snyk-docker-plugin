@@ -4,7 +4,7 @@
 
 export const CENTOS_SHAS = {
   stream9:
-    "sha256:60f831ea21128433798b74d2181375c5da2c04e3397a6e7ad3b9abf47159e550",
+    "sha256:0cae7e53f997228f0afc523f1bad28f3347dd0216ea8e27977f7af33f626f912",
   stream10:
     "sha256:798fbe5c40fba2609fae716f5414af6654df21d2552927e85de6a11d20bbff7d",
 } as const;
