@@ -2350,7 +2350,7 @@ Object {
                       "nodeId": "crypto-policies-scripts@20250905-1.gitc7eb7b2.el10",
                     },
                     Object {
-                      "nodeId": "cryptsetup-libs@2.7.5-2.el10",
+                      "nodeId": "cryptsetup-libs@2.8.1-1.el10",
                     },
                     Object {
                       "nodeId": "curl@8.12.1-2.el10",
@@ -2428,19 +2428,19 @@ Object {
                       "nodeId": "glib2@2.80.4-8.el10",
                     },
                     Object {
-                      "nodeId": "glibc@2.39-59.el10",
+                      "nodeId": "glibc@2.39-63.el10",
                     },
                     Object {
-                      "nodeId": "glibc-common@2.39-59.el10",
+                      "nodeId": "glibc-common@2.39-63.el10",
                     },
                     Object {
-                      "nodeId": "glibc-gconv-extra@2.39-59.el10",
+                      "nodeId": "glibc-gconv-extra@2.39-63.el10",
                     },
                     Object {
-                      "nodeId": "glibc-langpack-en@2.39-59.el10",
+                      "nodeId": "glibc-langpack-en@2.39-63.el10",
                     },
                     Object {
-                      "nodeId": "glibc-minimal-langpack@2.39-59.el10",
+                      "nodeId": "glibc-minimal-langpack@2.39-63.el10",
                     },
                     Object {
                       "nodeId": "gmp@1:6.2.1-12.el10",
@@ -2647,10 +2647,10 @@ Object {
                       "nodeId": "openssl-libs@1:3.5.1-5.el10",
                     },
                     Object {
-                      "nodeId": "p11-kit@0.25.5-7.el10",
+                      "nodeId": "p11-kit@0.25.10-1.el10",
                     },
                     Object {
-                      "nodeId": "p11-kit-trust@0.25.5-7.el10",
+                      "nodeId": "p11-kit-trust@0.25.10-1.el10",
                     },
                     Object {
                       "nodeId": "pam-libs@1.6.1-8.el10",
@@ -2734,7 +2734,7 @@ Object {
                       "nodeId": "rpm-plugin-systemd-inhibit@4.19.1.1-20.el10",
                     },
                     Object {
-                      "nodeId": "rpm-sequoia@1.9.0.1-1.el10",
+                      "nodeId": "rpm-sequoia@1.9.0.3-1.el10",
                     },
                     Object {
                       "nodeId": "rpm-sign-libs@4.19.1.1-20.el10",
@@ -2873,8 +2873,8 @@ Object {
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "cryptsetup-libs@2.7.5-2.el10",
-                  "pkgId": "cryptsetup-libs@2.7.5-2.el10",
+                  "nodeId": "cryptsetup-libs@2.8.1-1.el10",
+                  "pkgId": "cryptsetup-libs@2.8.1-1.el10",
                 },
                 Object {
                   "deps": Array [],
@@ -3003,28 +3003,28 @@ Object {
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "glibc@2.39-59.el10",
-                  "pkgId": "glibc@2.39-59.el10",
+                  "nodeId": "glibc@2.39-63.el10",
+                  "pkgId": "glibc@2.39-63.el10",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "glibc-common@2.39-59.el10",
-                  "pkgId": "glibc-common@2.39-59.el10",
+                  "nodeId": "glibc-common@2.39-63.el10",
+                  "pkgId": "glibc-common@2.39-63.el10",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "glibc-gconv-extra@2.39-59.el10",
-                  "pkgId": "glibc-gconv-extra@2.39-59.el10",
+                  "nodeId": "glibc-gconv-extra@2.39-63.el10",
+                  "pkgId": "glibc-gconv-extra@2.39-63.el10",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "glibc-langpack-en@2.39-59.el10",
-                  "pkgId": "glibc-langpack-en@2.39-59.el10",
+                  "nodeId": "glibc-langpack-en@2.39-63.el10",
+                  "pkgId": "glibc-langpack-en@2.39-63.el10",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "glibc-minimal-langpack@2.39-59.el10",
-                  "pkgId": "glibc-minimal-langpack@2.39-59.el10",
+                  "nodeId": "glibc-minimal-langpack@2.39-63.el10",
+                  "pkgId": "glibc-minimal-langpack@2.39-63.el10",
                 },
                 Object {
                   "deps": Array [],
@@ -3368,13 +3368,13 @@ Object {
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "p11-kit@0.25.5-7.el10",
-                  "pkgId": "p11-kit@0.25.5-7.el10",
+                  "nodeId": "p11-kit@0.25.10-1.el10",
+                  "pkgId": "p11-kit@0.25.10-1.el10",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "p11-kit-trust@0.25.5-7.el10",
-                  "pkgId": "p11-kit-trust@0.25.5-7.el10",
+                  "nodeId": "p11-kit-trust@0.25.10-1.el10",
+                  "pkgId": "p11-kit-trust@0.25.10-1.el10",
                 },
                 Object {
                   "deps": Array [],
@@ -3513,8 +3513,8 @@ Object {
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "rpm-sequoia@1.9.0.1-1.el10",
-                  "pkgId": "rpm-sequoia@1.9.0.1-1.el10",
+                  "nodeId": "rpm-sequoia@1.9.0.3-1.el10",
+                  "pkgId": "rpm-sequoia@1.9.0.3-1.el10",
                 },
                 Object {
                   "deps": Array [],
@@ -3749,11 +3749,11 @@ Object {
                 },
               },
               Object {
-                "id": "cryptsetup-libs@2.7.5-2.el10",
+                "id": "cryptsetup-libs@2.8.1-1.el10",
                 "info": Object {
                   "name": "cryptsetup-libs",
-                  "purl": "pkg:rpm/centos/cryptsetup-libs@2.7.5-2.el10?distro=centos-10&upstream=cryptsetup%402.7.5",
-                  "version": "2.7.5-2.el10",
+                  "purl": "pkg:rpm/centos/cryptsetup-libs@2.8.1-1.el10?distro=centos-10&upstream=cryptsetup%402.8.1",
+                  "version": "2.8.1-1.el10",
                 },
               },
               Object {
@@ -3957,43 +3957,43 @@ Object {
                 },
               },
               Object {
-                "id": "glibc@2.39-59.el10",
+                "id": "glibc@2.39-63.el10",
                 "info": Object {
                   "name": "glibc",
-                  "purl": "pkg:rpm/centos/glibc@2.39-59.el10?distro=centos-10&upstream=glibc%402.39",
-                  "version": "2.39-59.el10",
+                  "purl": "pkg:rpm/centos/glibc@2.39-63.el10?distro=centos-10&upstream=glibc%402.39",
+                  "version": "2.39-63.el10",
                 },
               },
               Object {
-                "id": "glibc-common@2.39-59.el10",
+                "id": "glibc-common@2.39-63.el10",
                 "info": Object {
                   "name": "glibc-common",
-                  "purl": "pkg:rpm/centos/glibc-common@2.39-59.el10?distro=centos-10&upstream=glibc%402.39",
-                  "version": "2.39-59.el10",
+                  "purl": "pkg:rpm/centos/glibc-common@2.39-63.el10?distro=centos-10&upstream=glibc%402.39",
+                  "version": "2.39-63.el10",
                 },
               },
               Object {
-                "id": "glibc-gconv-extra@2.39-59.el10",
+                "id": "glibc-gconv-extra@2.39-63.el10",
                 "info": Object {
                   "name": "glibc-gconv-extra",
-                  "purl": "pkg:rpm/centos/glibc-gconv-extra@2.39-59.el10?distro=centos-10&upstream=glibc%402.39",
-                  "version": "2.39-59.el10",
+                  "purl": "pkg:rpm/centos/glibc-gconv-extra@2.39-63.el10?distro=centos-10&upstream=glibc%402.39",
+                  "version": "2.39-63.el10",
                 },
               },
               Object {
-                "id": "glibc-langpack-en@2.39-59.el10",
+                "id": "glibc-langpack-en@2.39-63.el10",
                 "info": Object {
                   "name": "glibc-langpack-en",
-                  "purl": "pkg:rpm/centos/glibc-langpack-en@2.39-59.el10?distro=centos-10&upstream=glibc%402.39",
-                  "version": "2.39-59.el10",
+                  "purl": "pkg:rpm/centos/glibc-langpack-en@2.39-63.el10?distro=centos-10&upstream=glibc%402.39",
+                  "version": "2.39-63.el10",
                 },
               },
               Object {
-                "id": "glibc-minimal-langpack@2.39-59.el10",
+                "id": "glibc-minimal-langpack@2.39-63.el10",
                 "info": Object {
                   "name": "glibc-minimal-langpack",
-                  "purl": "pkg:rpm/centos/glibc-minimal-langpack@2.39-59.el10?distro=centos-10&upstream=glibc%402.39",
-                  "version": "2.39-59.el10",
+                  "purl": "pkg:rpm/centos/glibc-minimal-langpack@2.39-63.el10?distro=centos-10&upstream=glibc%402.39",
+                  "version": "2.39-63.el10",
                 },
               },
               Object {
@@ -4541,19 +4541,19 @@ Object {
                 },
               },
               Object {
-                "id": "p11-kit@0.25.5-7.el10",
+                "id": "p11-kit@0.25.10-1.el10",
                 "info": Object {
                   "name": "p11-kit",
-                  "purl": "pkg:rpm/centos/p11-kit@0.25.5-7.el10?distro=centos-10&upstream=p11-kit%400.25.5",
-                  "version": "0.25.5-7.el10",
+                  "purl": "pkg:rpm/centos/p11-kit@0.25.10-1.el10?distro=centos-10&upstream=p11-kit%400.25.10",
+                  "version": "0.25.10-1.el10",
                 },
               },
               Object {
-                "id": "p11-kit-trust@0.25.5-7.el10",
+                "id": "p11-kit-trust@0.25.10-1.el10",
                 "info": Object {
                   "name": "p11-kit-trust",
-                  "purl": "pkg:rpm/centos/p11-kit-trust@0.25.5-7.el10?distro=centos-10&upstream=p11-kit%400.25.5",
-                  "version": "0.25.5-7.el10",
+                  "purl": "pkg:rpm/centos/p11-kit-trust@0.25.10-1.el10?distro=centos-10&upstream=p11-kit%400.25.10",
+                  "version": "0.25.10-1.el10",
                 },
               },
               Object {
@@ -4773,11 +4773,11 @@ Object {
                 },
               },
               Object {
-                "id": "rpm-sequoia@1.9.0.1-1.el10",
+                "id": "rpm-sequoia@1.9.0.3-1.el10",
                 "info": Object {
                   "name": "rpm-sequoia",
-                  "purl": "pkg:rpm/centos/rpm-sequoia@1.9.0.1-1.el10?distro=centos-10&upstream=rust-rpm-sequoia%401.9.0.1",
-                  "version": "1.9.0.1-1.el10",
+                  "purl": "pkg:rpm/centos/rpm-sequoia@1.9.0.3-1.el10?distro=centos-10&upstream=rust-rpm-sequoia%401.9.0.3",
+                  "version": "1.9.0.3-1.el10",
                 },
               },
               Object {
@@ -4922,19 +4922,19 @@ Object {
           "type": "depGraph",
         },
         Object {
-          "data": "sha256:2538192b93b75090d3212f5a445d300a2d5d3e48dcdafaf96a4ee9696016097d",
+          "data": "sha256:3f245d6f1dd792c2fd2dde397093b6773760b5dbac4d51e529ef0b64a0637cfa",
           "type": "imageId",
         },
         Object {
           "data": Array [
-            "sha256:380e5264cbded1bb6d85ac7dfdf4f6b3d9a2e90df2f63ce08b14b8afb92350fe",
+            "sha256:2d5a7d2db745217a9f00bd43e99262d3ff2e54efae6bce8e30f29a001adad913",
           ],
           "type": "imageLayers",
         },
         Object {
           "data": Object {
             "io.buildah.version": "1.33.12",
-            "org.label-schema.build-date": "20250916",
+            "org.label-schema.build-date": "20250924",
             "org.label-schema.license": "GPLv2",
             "org.label-schema.name": "CentOS Stream 10 Base Image",
             "org.label-schema.schema-version": "1.0",
@@ -4943,12 +4943,12 @@ Object {
           "type": "imageLabels",
         },
         Object {
-          "data": "2025-09-16T05:15:20.112847896Z",
+          "data": "2025-09-24T00:54:08.454451796Z",
           "type": "imageCreationTime",
         },
         Object {
           "data": Array [
-            "sha256:15eb6f655ad99b818100aa16da80cac7e417bdcf8ee52cdf34910a6d99cd7193",
+            "sha256:7de159c913ca9320c81eccc12ebeeaa43904ae4597b8a379f3c3959bb3aa3ab6",
           ],
           "type": "rootFs",
         },
@@ -4959,8 +4959,8 @@ Object {
         Object {
           "data": Object {
             "names": Array [
-              "quay.io/centos/centos@sha256:798fbe5c40fba2609fae716f5414af6654df21d2552927e85de6a11d20bbff7d",
-              "quay.io/centos/centos@sha256:798fbe5c40fba2609fae716f5414af6654df21d2552927e85de6a11d20bbff7d",
+              "quay.io/centos/centos@sha256:8749c1fde6471d2dd94d6b1cee8ac43a070573ce9cc5e85bf59b9e8331bc1974",
+              "quay.io/centos/centos@sha256:8749c1fde6471d2dd94d6b1cee8ac43a070573ce9cc5e85bf59b9e8331bc1974",
             ],
           },
           "type": "imageNames",
