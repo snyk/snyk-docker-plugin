@@ -25,8 +25,8 @@ describe("rpm package manager tests", () => {
       "amazonlinux:2022.0.20220504.1",
       "registry.access.redhat.com/ubi9/ubi@sha256:c113f67e8e70940af28116d75e32f0aa4ffd3bf6fab30e970850475ab1de697f",
       "registry.access.redhat.com/ubi10-beta/ubi@sha256:4b4976d86eefeedab6884c9d2923206c6c3c2e2471206f97fd9d7aaaecbc04ac",
-      "registry-1.docker.io/snykgoof/dockerhub-goof:centos-stream9",
-      "registry-1.docker.io/snykgoof/dockerhub-goof:centos-stream10",
+      "snykgoof/dockerhub-goof:centos-stream9",
+      "snykgoof/dockerhub-goof:centos-stream10",
     ]).catch(() => {
       console.error(`tests teardown failed to remove docker image`);
     });
@@ -75,9 +75,12 @@ describe("rpm package manager tests", () => {
     // they pushed a new version. To mitigate this, we cloned an image
     // and pushed it to the snykgoof repo
     const image = "snykgoof/dockerhub-goof:centos-stream9";
+
     const pluginResult = await scan({
       path: image,
       platform: "linux/amd64",
+      username: process.env.DOCKER_HUB_USERNAME,
+      password: process.env.DOCKER_HUB_PASSWORD,
     });
     expect(pluginResult).toMatchSnapshot();
   });
@@ -90,6 +93,8 @@ describe("rpm package manager tests", () => {
     const pluginResult = await scan({
       path: image,
       platform: "linux/amd64",
+      username: process.env.DOCKER_HUB_USERNAME,
+      password: process.env.DOCKER_HUB_PASSWORD,
     });
     expect(pluginResult).toMatchSnapshot();
   });
