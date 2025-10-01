@@ -42,6 +42,7 @@
     "elfy": "^1.0.0",
     "event-loop-spinner": "^2.3.2",
     "gunzip-maybe": "^1.4.2",
+    "minimatch": "^3.1.2",
     "mkdirp": "^1.0.4",
     "packageurl-js": "1.2.0",
     "semver": "^7.7.2",
