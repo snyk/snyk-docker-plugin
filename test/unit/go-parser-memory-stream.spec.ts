@@ -32,6 +32,41 @@ describe("Go parser memory allocation fix", () => {
       // If we reach here without memory errors, the fix works
     });
 
+    it("should cap buffer size at Node.js max buffer length for large ELF files", async () => {
+      // Create ELF content that would trigger large buffer allocation
+      const elfContent = Buffer.concat([
+        Buffer.from("\x7FELF"), // ELF magic
+        Buffer.alloc(1000, 0), // Some content
+      ]);
+      const stream = createStreamFromBuffer(elfContent);
+      const bigOlFileSize = 5 * 1024 * 1024 * 1024; // 5GB - exceeds max buffer length
+
+      // Mock elf.parse to avoid complexity and track buffer allocation
+      const originalParse = elf.parse;
+      let allocatedBufferSize: number | undefined;
+      
+      // Mock Buffer.alloc to capture the size being allocated
+      const originalAlloc = Buffer.alloc;
+      Buffer.alloc = jest.fn().mockImplementation((size: number) => {
+        allocatedBufferSize = size;
+        return originalAlloc.call(Buffer, Math.min(size, 1024)); // Allocate small buffer for test
+      });
+
+      elf.parse = jest.fn().mockReturnValue({ body: { sections: [] } });
+
+      // Act
+      await findGoBinaries(stream, bigOlFileSize);
+
+      // Assert - buffer size should be capped at Node.js max, not the huge reported size
+      expect(allocatedBufferSize).toBeDefined();
+      expect(allocatedBufferSize).toEqual(require('buffer').constants.MAX_LENGTH);
+      expect(allocatedBufferSize).toBeLessThan(bigOlFileSize);
+
+      // Restore mocks
+      Buffer.alloc = originalAlloc;
+      elf.parse = originalParse;
+    });
+
     it("should still process legitimate ELF files", async () => {
       // Ensure we didn't break existing functionality
       const goBinaryPath = path.join(
