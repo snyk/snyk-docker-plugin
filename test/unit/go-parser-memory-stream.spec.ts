@@ -44,7 +44,7 @@ describe("Go parser memory allocation fix", () => {
       // Mock elf.parse to avoid complexity and track buffer allocation
       const originalParse = elf.parse;
       let allocatedBufferSize: number | undefined;
-      
+
       // Mock Buffer.alloc to capture the size being allocated
       const originalAlloc = Buffer.alloc;
       Buffer.alloc = jest.fn().mockImplementation((size: number) => {
@@ -59,7 +59,9 @@ describe("Go parser memory allocation fix", () => {
 
       // Assert - buffer size should be capped at Node.js max, not the huge reported size
       expect(allocatedBufferSize).toBeDefined();
-      expect(allocatedBufferSize).toEqual(require('buffer').constants.MAX_LENGTH);
+      expect(allocatedBufferSize).toEqual(
+        require("buffer").constants.MAX_LENGTH,
+      );
       expect(allocatedBufferSize).toBeLessThan(bigOlFileSize);
 
       // Restore mocks

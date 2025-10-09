@@ -138,7 +138,7 @@ async function findGoBinaries(
         // be okay doing this
         const bufferSize = Math.min(
           streamSize ?? elfBuildInfoSize,
-          require('buffer').constants.MAX_LENGTH
+          require("buffer").constants.MAX_LENGTH,
         );
         buffer = Buffer.alloc(bufferSize);
 
