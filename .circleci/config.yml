@@ -151,6 +151,8 @@ jobs:
           node_version: << parameters.node_version >>
       - setup_npm_user
       - run: npm ci
+      - setup_remote_docker:
+          docker_layer_caching: true
       - run: docker version
       - run:
           command: npm run test-jest-windows
@@ -163,6 +165,8 @@ jobs:
           node_version: << parameters.node_version >>
       - setup_npm_user
       - run: npm ci
+      - setup_remote_docker:
+          docker_layer_caching: true
         # make docker appear to be broken.
       - run: "function docker() { return 1; }"
       - run:
