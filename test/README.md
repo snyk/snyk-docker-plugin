@@ -4,7 +4,7 @@
 
 To run system tests the following environment variables need to be set:
 
-- ` DOCKER_HUB_PRIVATE_IMAGE` : `snykgoof/dockerhub-goof:alpine`
+- `DOCKER_HUB_PRIVATE_IMAGE` : `snykgoof/dockerhub-goof:alpine`
 - `DOCKER_HUB_USERNAME` : `snykgoof`
 - `DOCKER_HUB_PASSWORD` : <see 1password>
 
