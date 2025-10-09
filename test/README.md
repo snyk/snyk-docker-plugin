@@ -9,7 +9,7 @@ To run system tests the following environment variables need to be set:
 - `DOCKER_HUB_PASSWORD` : <see 1password>
 
 This is an image that is hosted on Docker Hub but not available publicly.
-Note that the variables above are used purely for system test and are unrelated to the `SNYK_REGISTRY_USERNAME
+Note that the variables above are used purely for system test and are unrelated to the `SNYK_REGISTRY_USERNAME_A
 ` / `SNYK_REGISTRY_PASSWORD` environment variables which need to be present at runtime and can be found in 1password.
 
 If tests should fail because that config hasn't been done, some artifacts will be left over/my_custom/image/save/path
