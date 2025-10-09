@@ -117,21 +117,24 @@ export async function extractImageContent(
   let archiveContent: ExtractedLayersAndManifest;
 
   if (!extractors.has(imageType)) {
-    // default to Docker extractor if image type is unknown
-    imageType = ImageType.DockerArchive;
-  }
-  extractor = extractors.get(imageType) as ArchiveExtractor;
+    // Unknown image type - try all extractors to auto-detect format
+    [archiveContent, extractor] = await extractArchiveContentFallback(
+      extractors,
+    );
+  } else {
+    extractor = extractors.get(imageType) as ArchiveExtractor;
 
-  try {
-    archiveContent = await extractor.getLayersAndManifest();
-  } catch (err) {
-    if (err instanceof InvalidArchiveError) {
-      // fallback to the other extractor if layer extraction failed
-      [archiveContent, extractor] = await extractArchiveContentFallback(
-        extractors,
-      );
-    } else {
-      throw err;
+    try {
+      archiveContent = await extractor.getLayersAndManifest();
+    } catch (err) {
+      if (err instanceof InvalidArchiveError) {
+        // fallback to the other extractor if layer extraction failed
+        [archiveContent, extractor] = await extractArchiveContentFallback(
+          extractors,
+        );
+      } else {
+        throw err;
+      }
     }
   }
 
