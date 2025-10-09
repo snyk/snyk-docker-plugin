@@ -132,7 +132,15 @@ async function findGoBinaries(
 
       if (first4Bytes === elfHeaderMagic) {
         // Now that we know it's an ELF file, allocate the buffer
-        buffer = Buffer.alloc(streamSize ?? elfBuildInfoSize);
+        // If the streamSize is larger than node.js's max buffer length
+        // we should cap the size at that value. The liklihood
+        // of a node module being this size is near zero, so we should
+        // be okay doing this
+        const bufferSize = Math.min(
+          streamSize ?? elfBuildInfoSize,
+          require("buffer").constants.MAX_LENGTH,
+        );
+        buffer = Buffer.alloc(bufferSize);
 
         bytesWritten += Buffer.from(chunk).copy(buffer, bytesWritten, 0);
 
