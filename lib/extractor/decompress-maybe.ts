@@ -1,4 +1,4 @@
-import { spawn } from "child_process";
+import { Decompress as ZstdDecompress } from "fzstd";
 import { Transform } from "stream";
 import { createGunzip } from "zlib";
 
@@ -6,20 +6,23 @@ import { createGunzip } from "zlib";
  * Creates a transform stream that automatically detects and decompresses data based on magic numbers.
  *
  * Supports three formats:
- * - gzip (magic: 1f 8b) - Decompressed using Node.js built-in zlib
- * - zstd (magic: 28 b5 2f fd) - Decompressed using system zstd command
+ * - gzip (magic: 1f 8b) - Streamed through Node.js built-in zlib
+ * - zstd (magic: 28 b5 2f fd) - Streamed through fzstd library
  * - uncompressed - Passed through unchanged
  *
- * This is necessary because OCI images from containerd may use zstd compression,
- * while older Docker archives use gzip. Additionally, manifest and config files
- * within OCI archives are typically uncompressed JSON.
+ * Both gzip and zstd use streaming decompression to avoid buffering entire layers in memory.
+ * This is critical for handling large image layers (multiple GB) without excessive memory usage.
+ *
+ * OCI images from containerd may use zstd compression, while older Docker archives use gzip.
+ * Manifest and config files within OCI archives are typically uncompressed JSON.
  *
  * Named after the gunzip-maybe library, which only handled gzip detection.
  */
 export function decompressMaybe(): Transform {
   let headerRead = false;
   let compressionType: "gzip" | "zstd" | "none" | null = null;
-  let decompressionStream: Transform | null = null;
+  let gzipStream: Transform | null = null;
+  let zstdStream: ZstdDecompress | null = null;
   const buffer: Buffer[] = [];
 
   const transform = new Transform({
@@ -38,16 +41,12 @@ export function decompressMaybe(): Transform {
           headerRead = true;
 
           // Setup gzip decompressor
-          decompressionStream = createGunzip();
-          decompressionStream.on("data", (data: Buffer) =>
-            transform.push(data),
-          );
-          decompressionStream.on("error", (err: Error) =>
-            transform.destroy(err),
-          );
+          gzipStream = createGunzip();
+          gzipStream.on("data", (data: Buffer) => transform.push(data));
+          gzipStream.on("error", (err: Error) => transform.destroy(err));
 
           // Write buffered data
-          decompressionStream.write(combined);
+          gzipStream.write(combined);
           buffer.length = 0;
           callback();
         }
@@ -61,8 +60,17 @@ export function decompressMaybe(): Transform {
         ) {
           compressionType = "zstd";
           headerRead = true;
-          // Buffer all zstd data and decompress in flush() since we use the system
-          // zstd command which requires the complete compressed data at once.
+
+          // Setup zstd decompressor with streaming API
+          zstdStream = new ZstdDecompress(
+            (data: Uint8Array, final?: boolean) => {
+              transform.push(Buffer.from(data));
+            },
+          );
+
+          // Write buffered data
+          zstdStream.push(new Uint8Array(combined), false);
+          buffer.length = 0;
           callback();
         }
         // After 8 bytes, assume uncompressed
@@ -80,11 +88,11 @@ export function decompressMaybe(): Transform {
         }
       } else {
         // Header already read
-        if (compressionType === "gzip" && decompressionStream) {
-          decompressionStream.write(chunk);
+        if (compressionType === "gzip" && gzipStream) {
+          gzipStream.write(chunk);
           callback();
-        } else if (compressionType === "zstd") {
-          buffer.push(chunk);
+        } else if (compressionType === "zstd" && zstdStream) {
+          zstdStream.push(new Uint8Array(chunk), false);
           callback();
         } else {
           // No compression
@@ -94,58 +102,23 @@ export function decompressMaybe(): Transform {
     },
 
     async flush(callback) {
-      if (compressionType === "gzip" && decompressionStream) {
-        decompressionStream.once("end", () => callback());
-        decompressionStream.end();
-      } else if (compressionType === "zstd") {
-        // Use system zstd command for decompression. Available npm packages either
-        // lack streaming APIs or fail to compile with modern Node.js versions.
-        // Since containerd uses zstd, the command should be available on the system.
-        const combined = Buffer.concat(buffer);
-
-        if (combined.length === 0) {
-          callback(new Error("No zstd data to decompress"));
-          return;
-        }
-
-        const zstd = spawn("zstd", ["-d", "-c"], {
-          stdio: ["pipe", "pipe", "pipe"],
-        });
-
-        let errorOutput = "";
-
-        zstd.stdout.on("data", (chunk: Buffer) => {
-          // Push each chunk immediately as it arrives for streaming behavior
-          transform.push(chunk);
-        });
-
-        zstd.stderr.on("data", (chunk: Buffer) => {
-          errorOutput += chunk.toString();
-        });
-
-        zstd.on("close", (code: number) => {
-          if (code !== 0) {
-            callback(
-              new Error(
-                `zstd decompression failed (exit code ${code}): ${errorOutput}`,
-              ),
-            );
-          } else {
-            callback();
-          }
-        });
-
-        zstd.on("error", (err: Error) => {
+      if (compressionType === "gzip" && gzipStream) {
+        gzipStream.once("end", () => callback());
+        gzipStream.end();
+      } else if (compressionType === "zstd" && zstdStream) {
+        // Signal end of zstd stream
+        try {
+          zstdStream.push(new Uint8Array(0), true);
+          callback();
+        } catch (err) {
           callback(
             new Error(
-              `Failed to spawn zstd command: ${err.message}. Ensure zstd is installed.`,
+              `zstd decompression failed: ${
+                err instanceof Error ? err.message : String(err)
+              }`,
             ),
           );
-        });
-
-        // Write compressed data and close stdin
-        zstd.stdin.write(combined);
-        zstd.stdin.end();
+        }
       } else if (!headerRead && buffer.length > 0) {
         // Stream ended before determining compression, assume uncompressed
         this.push(Buffer.concat(buffer));

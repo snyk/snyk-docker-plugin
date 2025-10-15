@@ -41,6 +41,7 @@
     "dockerfile-ast": "^0.7.1",
     "elfy": "^1.0.0",
     "event-loop-spinner": "^2.3.2",
+    "fzstd": "^0.1.1",
     "gunzip-maybe": "^1.4.2",
     "minimatch": "^3.1.2",
     "mkdirp": "^1.0.4",
@@ -59,6 +60,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.0.2",
     "@commitlint/config-conventional": "^17.0.2",
+    "@mongodb-js/zstd": "^2.0.1",
     "@types/adm-zip": "^0.4.34",
     "@types/debug": "^4.1.5",
     "@types/jest": "^29.5.5",
