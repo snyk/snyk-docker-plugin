@@ -69,7 +69,18 @@ export function decompressMaybe(): Transform {
           );
 
           // Write buffered data
-          zstdStream.push(new Uint8Array(combined), false);
+          try {
+            zstdStream.push(new Uint8Array(combined), false);
+          } catch (err) {
+            callback(
+              new Error(
+                `zstd decompression failed: ${
+                  err instanceof Error ? err.message : String(err)
+                }`,
+              ),
+            );
+            return;
+          }
           buffer.length = 0;
           callback();
         }
@@ -92,8 +103,18 @@ export function decompressMaybe(): Transform {
           gzipStream.write(chunk);
           callback();
         } else if (compressionType === "zstd" && zstdStream) {
-          zstdStream.push(new Uint8Array(chunk), false);
-          callback();
+          try {
+            zstdStream.push(new Uint8Array(chunk), false);
+            callback();
+          } catch (err) {
+            callback(
+              new Error(
+                `zstd decompression failed: ${
+                  err instanceof Error ? err.message : String(err)
+                }`,
+              ),
+            );
+          }
         } else {
           // No compression
           callback(null, chunk);
