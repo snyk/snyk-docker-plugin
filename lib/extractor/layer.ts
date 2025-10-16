@@ -45,8 +45,6 @@ export async function extractImageLayer(
             ) {
               result[absoluteFileName] = callbackResult;
             }
-            next();
-            return;
           } catch (error) {
             // An ExtractAction has thrown an uncaught exception, likely a bug in the code!
             debug(
