@@ -22,15 +22,17 @@ export class GoBinary {
     );
 
     // some CGo built binaries might not contain a pclnTab, which means we
-    // cannot scan the files.
-    // TODO: from a technical perspective, it would be enough to only report the
-    // modules, as the only remediation path is to upgrade a full module
-    // anyways. From a product perspective, it's not clear (yet).
-    if (pclnTab === undefined) {
-      throw Error("no pcln table present in Go binary");
+    // cannot scan the files for package-level detail.
+    // In this case, we still report module-level dependencies, as the only
+    // remediation path is to upgrade a full module anyways.
+    if (pclnTab !== undefined) {
+      try {
+        this.matchFilesToModules(new LineTable(pclnTab.data).go12MapFiles());
+      } catch (err) {
+        // If pclntab parsing fails, continue with module-only reporting
+        // This can happen with corrupted or unsupported pclntab formats
+      }
     }
-
-    this.matchFilesToModules(new LineTable(pclnTab.data).go12MapFiles());
   }
 
   public async depGraph(): Promise<depGraph.DepGraph> {
@@ -40,14 +42,27 @@ export class GoBinary {
     );
 
     for (const module of this.modules) {
-      for (const pkg of module.packages) {
-        if (eventLoopSpinner.isStarving()) {
-          await eventLoopSpinner.spin();
-        }
+      if (eventLoopSpinner.isStarving()) {
+        await eventLoopSpinner.spin();
+      }
 
-        const nodeId = `${pkg}@${module.version}`;
+      // If we have package-level information (from pclntab), use it
+      if (module.packages.length > 0) {
+        for (const pkg of module.packages) {
+          const nodeId = `${pkg}@${module.version}`;
+          goModulesDepGraph.addPkgNode(
+            { name: pkg, version: module.version },
+            nodeId,
+          );
+          goModulesDepGraph.connectDep(goModulesDepGraph.rootNodeId, nodeId);
+        }
+      } else {
+        // If no package info (no pclntab), report the module itself
+        // This is sufficient for vulnerability scanning since remediation
+        // requires upgrading the entire module anyway
+        const nodeId = `${module.name}@${module.version}`;
         goModulesDepGraph.addPkgNode(
-          { name: pkg, version: module.version },
+          { name: module.name, version: module.version },
           nodeId,
         );
         goModulesDepGraph.connectDep(goModulesDepGraph.rootNodeId, nodeId);
