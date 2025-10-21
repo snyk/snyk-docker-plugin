@@ -1,12 +1,12 @@
 import * as Debug from "debug";
 import { createReadStream } from "fs";
-import * as gunzip from "gunzip-maybe";
 import { normalize as normalizePath, sep as pathSeparator } from "path";
 import { PassThrough } from "stream";
 import { extract, Extract } from "tar-stream";
 import { getPlatformFromConfig, InvalidArchiveError } from "..";
 import { streamToJson } from "../../stream-utils";
 import { PluginOptions } from "../../types";
+import { decompressMaybe } from "../decompress-maybe";
 import { extractImageLayer } from "../layer";
 import {
   ExtractAction,
@@ -30,6 +30,12 @@ const MEDIATYPE_OCI_MANIFEST_LIST_V1 =
 
 /**
  * Retrieve the products of files content from the specified oci-archive.
+ *
+ * OCI archives contain multiple blobs (configs, manifests, layers). For each blob,
+ * we attempt to parse it as both JSON (for configs/manifests) and as a compressed layer
+ * tarball. Most attempts will fail gracefully (a layer isn't valid JSON, a manifest isn't
+ * a valid tarball), which is expected behavior.
+ *
  * @param ociArchiveFilesystemPath Path to image file saved in oci-archive format.
  * @param extractActions Array of pattern-callbacks pairs.
  * @param options PluginOptions
@@ -79,7 +85,7 @@ export async function extractArchive(
           } else if (isImageIndexFile(manifest)) {
             indexFiles[digest] = manifest as OciImageIndex;
           } else if (isImageConfigFile(manifest)) {
-            configs.push(manifest);
+            configs.push(manifest as ImageConfig);
           }
           if (layer !== undefined) {
             layers[digest] = layer as ExtractedLayers;
@@ -116,7 +122,7 @@ export async function extractArchive(
     });
 
     createReadStream(ociArchiveFilesystemPath)
-      .pipe(gunzip())
+      .pipe(decompressMaybe())
       .pipe(tarExtractor);
   });
 }

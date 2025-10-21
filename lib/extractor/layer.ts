@@ -1,16 +1,19 @@
 import * as Debug from "debug";
-import * as gunzip from "gunzip-maybe";
 import * as path from "path";
 import { Readable } from "stream";
 import { extract, Extract } from "tar-stream";
 import { isWhitedOutFile } from ".";
 import { applyCallbacks, isResultEmpty } from "./callbacks";
+import { decompressMaybe } from "./decompress-maybe";
 import { ExtractAction, ExtractedLayers } from "./types";
 
 const debug = Debug("snyk");
 
 /**
  * Extract key files from the specified TAR stream.
+ *
+ * Layer streams may be compressed with gzip, zstd, or uncompressed.
+ * The decompressMaybe transform handles all three formats automatically.
  * @param layerTarStream image layer as a Readable TAR stream. Note: consumes the stream.
  * @param extractActions array of pattern, callbacks pairs
  * @returns extracted file products
@@ -36,7 +39,6 @@ export async function extractImageLayer(
               stream,
               headers.size,
             );
-
             if (
               !isResultEmpty(callbackResult) ||
               isWhitedOutFile(absoluteFileName)
@@ -49,6 +51,7 @@ export async function extractImageLayer(
               `Exception thrown while applying callbacks during image layer extraction: ${error.message}`,
             );
             reject(error);
+            return;
           }
         } else if (isWhitedOutFile(absoluteFileName)) {
           result[absoluteFileName] = {};
@@ -66,6 +69,6 @@ export async function extractImageLayer(
 
     tarExtractor.on("error", (error) => reject(error));
 
-    layerTarStream.pipe(gunzip()).pipe(tarExtractor);
+    layerTarStream.pipe(decompressMaybe()).pipe(tarExtractor);
   });
 }
