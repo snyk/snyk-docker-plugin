@@ -41,4 +41,3 @@ export function analyze(
     Analysis: analysis,
   });
 }
-

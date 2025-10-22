@@ -1,9 +1,9 @@
 import { compress as zstdCompress } from "@mongodb-js/zstd";
+import { ExtractedLayers } from "../../../../lib/extractor/types";
 import {
   getChiselManifestAction,
   getChiselManifestContent,
 } from "../../../../lib/inputs/chisel/static";
-import { ExtractedLayers } from "../../../../lib/extractor/types";
 
 /**
  * Helper to compress data with zstd for testing.
@@ -31,9 +31,9 @@ describe("chisel static extraction", () => {
       expect(
         getChiselManifestAction.filePathMatches("/var/lib/dpkg/status"),
       ).toBe(false);
-      expect(
-        getChiselManifestAction.filePathMatches("/var/lib/chisel/"),
-      ).toBe(false);
+      expect(getChiselManifestAction.filePathMatches("/var/lib/chisel/")).toBe(
+        false,
+      );
     });
   });
 
@@ -225,7 +225,9 @@ describe("chisel static extraction", () => {
           `{"kind":"package","name":"pkg${i}","version":"1.0.${i}","sha256":"abc${i}","arch":"amd64"}`,
         );
       }
-      const manifest = `{"jsonwall":"1.0","schema":"1.0","count":${packages.length + 1}}\n${packages.join("\n")}`;
+      const manifest = `{"jsonwall":"1.0","schema":"1.0","count":${
+        packages.length + 1
+      }}\n${packages.join("\n")}`;
 
       const compressedManifest = await compressZstd(manifest);
       const extractedLayers: ExtractedLayers = {
@@ -242,4 +244,3 @@ describe("chisel static extraction", () => {
     });
   });
 });
-

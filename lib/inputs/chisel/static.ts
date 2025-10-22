@@ -66,7 +66,9 @@ export function getChiselManifestContent(
           // Validate required fields exist before creating package object
           if (!entry.name || !entry.version || !entry.sha256 || !entry.arch) {
             debug(
-              `Skipping package entry with missing required fields: ${JSON.stringify(entry)}`,
+              `Skipping package entry with missing required fields: ${JSON.stringify(
+                entry,
+              )}`,
             );
             continue;
           }
@@ -82,7 +84,9 @@ export function getChiselManifestContent(
         // Skip malformed JSON lines - manifest may be corrupted or have trailing newlines
         debug(
           `Failed to parse Chisel manifest line: ${
-            parseError instanceof Error ? parseError.message : String(parseError)
+            parseError instanceof Error
+              ? parseError.message
+              : String(parseError)
           }`,
         );
         continue;

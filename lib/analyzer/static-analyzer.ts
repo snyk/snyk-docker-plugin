@@ -21,6 +21,10 @@ import {
   getOpenJDKBinariesFileContentAction,
 } from "../inputs/binaries/static";
 import {
+  getChiselManifestAction,
+  getChiselManifestContent,
+} from "../inputs/chisel/static";
+import {
   getAptFiles,
   getDpkgPackageFileContentAction,
 } from "../inputs/distroless/static";
@@ -52,10 +56,6 @@ import {
   getRpmSqliteDbFileContent,
   getRpmSqliteDbFileContentAction,
 } from "../inputs/rpm/static";
-import {
-  getChiselManifestAction,
-  getChiselManifestContent,
-} from "../inputs/chisel/static";
 import { isTrue } from "../option-utils";
 import { ImageType, ManifestFile, PluginOptions } from "../types";
 import {
@@ -73,11 +73,11 @@ import {
   analyze as aptAnalyze,
   analyzeDistroless as aptDistrolessAnalyze,
 } from "./package-managers/apt";
+import { analyze as chiselAnalyze } from "./package-managers/chisel";
 import {
   analyze as rpmAnalyze,
   mapRpmSqlitePackages,
 } from "./package-managers/rpm";
-import { analyze as chiselAnalyze } from "./package-managers/chisel";
 import {
   ImagePackagesAnalysis,
   OSRelease,

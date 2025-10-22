@@ -86,19 +86,22 @@ export async function detect(
   if (!osRelease) {
     // Check if this is a Chisel image without OS release information
     const isChiselImage = hasChiselManifest(extractedLayers);
-    
+
     if (isChiselImage) {
       // Chisel images detected but OS version could not be determined
       // This happens when ultra-minimal Chisel slices are used without base-files_release-info
       debug(
         "Chisel manifest found at /var/lib/chisel/manifest.wall but no OS release files detected",
       );
-      
+
       // Set OS name to "chisel" so downstream systems can identify these images
       // note we only do this to alert the user that they are missing release info
       // when they have release info, we identify the image with that instead
       osRelease = { name: "chisel", version: "0.0", prettyName: "" };
-    } else if (dockerfileAnalysis && dockerfileAnalysis.baseImage === "scratch") {
+    } else if (
+      dockerfileAnalysis &&
+      dockerfileAnalysis.baseImage === "scratch"
+    ) {
       // If the docker file was build from a scratch image
       // then we don't have a known OS
       osRelease = { name: "scratch", version: "0.0", prettyName: "" };
