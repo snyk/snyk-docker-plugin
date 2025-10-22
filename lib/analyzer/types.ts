@@ -40,6 +40,7 @@ export enum AnalysisType {
   Apk = "Apk",
   Apt = "Apt",
   Rpm = "Rpm",
+  Chisel = "Chisel",
   Binaries = "binaries",
   Linux = "linux", // default/unknown/tech-debt
 }
@@ -108,4 +109,12 @@ export interface SourcePackage {
   name: string;
   version: string;
   release: string;
+}
+
+export interface ChiselPackage {
+  kind: "package";
+  name: string;
+  version: string;
+  sha256: string;
+  arch: string;
 }

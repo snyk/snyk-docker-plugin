@@ -1,4 +1,5 @@
 import * as Debug from "debug";
+import { normalize as normalizePath } from "path";
 
 import { DockerFileAnalysis } from "../../dockerfile/types";
 import { ExtractedLayers } from "../../extractor/types";
@@ -18,6 +19,18 @@ import {
 const debug = Debug("snyk");
 
 type OsReleaseHandler = (text: string) => Promise<OSRelease | null>;
+
+/**
+ * Checks if a Chisel manifest exists in the extracted layers.
+ * Chisel is Ubuntu's tool for creating minimal container images.
+ *
+ * @param extractedLayers - Layers extracted from the Docker image
+ * @returns true if Chisel manifest.wall file is present
+ */
+function hasChiselManifest(extractedLayers: ExtractedLayers): boolean {
+  const manifestPath = normalizePath("/var/lib/chisel/manifest.wall");
+  return manifestPath in extractedLayers;
+}
 
 const releaseDetectors: Record<OsReleaseFilePath, OsReleaseHandler> = {
   [OsReleaseFilePath.Linux]: tryOSRelease,
@@ -71,7 +84,21 @@ export async function detect(
   }
 
   if (!osRelease) {
-    if (dockerfileAnalysis && dockerfileAnalysis.baseImage === "scratch") {
+    // Check if this is a Chisel image without OS release information
+    const isChiselImage = hasChiselManifest(extractedLayers);
+    
+    if (isChiselImage) {
+      // Chisel images detected but OS version could not be determined
+      // This happens when ultra-minimal Chisel slices are used without base-files_release-info
+      debug(
+        "Chisel manifest found at /var/lib/chisel/manifest.wall but no OS release files detected",
+      );
+      
+      // Set OS name to "chisel" so downstream systems can identify these images
+      // note we only do this to alert the user that they are missing release info
+      // when they have release info, we identify the image with that instead
+      osRelease = { name: "chisel", version: "0.0", prettyName: "" };
+    } else if (dockerfileAnalysis && dockerfileAnalysis.baseImage === "scratch") {
       // If the docker file was build from a scratch image
       // then we don't have a known OS
       osRelease = { name: "scratch", version: "0.0", prettyName: "" };
