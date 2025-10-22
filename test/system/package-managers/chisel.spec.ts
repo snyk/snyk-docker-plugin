@@ -17,6 +17,8 @@ describe("chisel package manager tests", () => {
     const pluginResult = await scan({
       path: image,
       platform: "linux/amd64",
+      username: process.env.DOCKER_HUB_USERNAME,
+      password: process.env.DOCKER_HUB_PASSWORD,
     });
 
     expect(pluginResult).toMatchSnapshot();
