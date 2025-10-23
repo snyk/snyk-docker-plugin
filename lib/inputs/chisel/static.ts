@@ -1,12 +1,18 @@
 import * as Debug from "debug";
-import { Decompress as ZstdDecompress } from "fzstd";
 import { normalize as normalizePath } from "path";
 import { ChiselPackage } from "../../analyzer/types";
+import { decompressZstd } from "../../compression-utils";
 import { getContentAsBuffer } from "../../extractor";
 import { ExtractAction, ExtractedLayers } from "../../extractor/types";
 import { streamToBuffer } from "../../stream-utils";
 
 const debug = Debug("snyk");
+
+/**
+ * Path to the Chisel manifest file within container images.
+ * This file contains package and slice information for Chisel-built images.
+ */
+const CHISEL_MANIFEST_PATH = "/var/lib/chisel/manifest.wall";
 
 /**
  * Extract action for Ubuntu Chisel manifest files.
@@ -21,7 +27,7 @@ const debug = Debug("snyk");
 export const getChiselManifestAction: ExtractAction = {
   actionName: "chisel-manifest",
   filePathMatches: (filePath) =>
-    filePath === normalizePath("/var/lib/chisel/manifest.wall"),
+    filePath === normalizePath(CHISEL_MANIFEST_PATH),
   callback: streamToBuffer,
 };
 
@@ -102,29 +108,5 @@ export function getChiselManifestContent(
       }`,
     );
     return [];
-  }
-}
-
-/**
- * Decompresses zstd-compressed Chisel manifest data.
- * Chisel uses zstd for better compression ratios on small manifests.
- */
-function decompressZstd(compressed: Buffer): Buffer {
-  const chunks: Buffer[] = [];
-
-  try {
-    const decompressor = new ZstdDecompress((data: Uint8Array) => {
-      chunks.push(Buffer.from(data));
-    });
-
-    decompressor.push(new Uint8Array(compressed), true);
-
-    return Buffer.concat(chunks);
-  } catch (error) {
-    throw new Error(
-      `Zstd decompression failed: ${
-        error instanceof Error ? error.message : String(error)
-      }`,
-    );
   }
 }

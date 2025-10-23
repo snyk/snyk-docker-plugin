@@ -18,6 +18,8 @@ import {
 
 const debug = Debug("snyk");
 
+const CHISEL_MANIFEST_PATH = "/var/lib/chisel/manifest.wall";
+
 type OsReleaseHandler = (text: string) => Promise<OSRelease | null>;
 
 /**
@@ -28,7 +30,7 @@ type OsReleaseHandler = (text: string) => Promise<OSRelease | null>;
  * @returns true if Chisel manifest.wall file is present
  */
 function hasChiselManifest(extractedLayers: ExtractedLayers): boolean {
-  const manifestPath = normalizePath("/var/lib/chisel/manifest.wall");
+  const manifestPath = normalizePath(CHISEL_MANIFEST_PATH);
   return manifestPath in extractedLayers;
 }
 
@@ -91,7 +93,7 @@ export async function detect(
       // Chisel images detected but OS version could not be determined
       // This happens when ultra-minimal Chisel slices are used without base-files_release-info
       debug(
-        "Chisel manifest found at /var/lib/chisel/manifest.wall but no OS release files detected",
+        `Chisel manifest found at ${CHISEL_MANIFEST_PATH} but no OS release files detected`,
       );
 
       // Set OS name to "chisel" so downstream systems can identify these images
