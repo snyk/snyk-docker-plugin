@@ -352,8 +352,8 @@ Object {
           "data": Object {
             "names": Array [
               "snykgoof/dockerhub-goof:ubuntu-chisel-24.04",
-               "snykgoof/dockerhub-goof@sha256:6c33709164fe0c9bc20e3d13ba3c1f2fcd6fc7fcf6357b84fbc1c50c483a1178",
-               "snykgoof/dockerhub-goof@sha256:2f7f8c4bb123b101e4356a8955cf294c0a7354249e5d8cc7b8a4e7bb02271cbc",
+              "snykgoof/dockerhub-goof@sha256:6c33709164fe0c9bc20e3d13ba3c1f2fcd6fc7fcf6357b84fbc1c50c483a1178",
+              "snykgoof/dockerhub-goof@sha256:2f7f8c4bb123b101e4356a8955cf294c0a7354249e5d8cc7b8a4e7bb02271cbc",
             ],
           },
           "type": "imageNames",
