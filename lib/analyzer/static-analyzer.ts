@@ -21,6 +21,10 @@ import {
   getOpenJDKBinariesFileContentAction,
 } from "../inputs/binaries/static";
 import {
+  getChiselManifestAction,
+  getChiselManifestContent,
+} from "../inputs/chisel/static";
+import {
   getAptFiles,
   getDpkgPackageFileContentAction,
 } from "../inputs/distroless/static";
@@ -69,6 +73,7 @@ import {
   analyze as aptAnalyze,
   analyzeDistroless as aptDistrolessAnalyze,
 } from "./package-managers/apt";
+import { analyze as chiselAnalyze } from "./package-managers/chisel";
 import {
   analyze as rpmAnalyze,
   mapRpmSqlitePackages,
@@ -96,6 +101,7 @@ export async function analyze(
     getRpmDbFileContentAction,
     getRpmSqliteDbFileContentAction,
     getRpmNdbFileContentAction,
+    getChiselManifestAction,
     ...getOsReleaseActions,
     getNodeBinariesFileContentAction,
     getOpenJDKBinariesFileContentAction,
@@ -167,12 +173,14 @@ export async function analyze(
     rpmDbFileContent,
     rpmSqliteDbFileContent,
     rpmNdbFileContent,
+    chiselPackages,
   ] = await Promise.all([
     getApkDbFileContent(extractedLayers),
     getAptDbFileContent(extractedLayers),
     getRpmDbFileContent(extractedLayers),
     getRpmSqliteDbFileContent(extractedLayers),
     getRpmNdbFileContent(extractedLayers),
+    getChiselManifestContent(extractedLayers),
   ]);
 
   const distrolessAptFiles = getAptFiles(extractedLayers);
@@ -215,6 +223,7 @@ export async function analyze(
         osRelease,
       ),
       aptDistrolessAnalyze(targetImage, distrolessAptFiles, osRelease),
+      chiselAnalyze(targetImage, chiselPackages),
     ]);
   } catch (err) {
     debug(`Could not detect installed OS packages: ${err.message}`);
