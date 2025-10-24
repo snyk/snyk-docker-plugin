@@ -39,17 +39,17 @@ describe("layer extractor: POSIX path normalization fix", () => {
         capturedPaths.push(filePath);
         return false;
       },
-    };    
+    };
 
     const stream = fs.createReadStream(
       getFixture("docker-archives/docker-save/go-binaries.tar"),
     );
     await extractImageLayer(stream, [mockExtractAction]);
-    
+
     expect(capturedPaths.length).toBeGreaterThan(0);
-    capturedPaths.forEach(filePath => {
-      expect(filePath.startsWith('/')).toBe(true);
-      expect(filePath).not.toContain('\\');
+    capturedPaths.forEach((filePath) => {
+      expect(filePath.startsWith("/")).toBe(true);
+      expect(filePath).not.toContain("\\");
       expect(path.posix.isAbsolute(filePath)).toBe(true);
     });
   });
