@@ -28,7 +28,7 @@ export async function extractImageLayer(
 
     tarExtractor.on("entry", async (headers, stream, next) => {
       if (headers.type === "file") {
-        const absoluteFileName = path.join(path.sep, headers.name);
+        const absoluteFileName = path.posix.join(path.posix.sep, headers.name);
         const matchedActions = extractActions.filter((action) =>
           action.filePathMatches(absoluteFileName),
         );

@@ -29,3 +29,28 @@ describe("layer extractor: layer contain cgo compiled go file", () => {
     expect(p).toMatchObject({});
   });
 });
+
+describe("layer extractor: POSIX path normalization fix", () => {
+  it("should use path.posix.join to normalize file paths for Windows compatibility", async () => {
+    const capturedPaths: string[] = [];
+    const mockExtractAction: ExtractAction = {
+      actionName: "posix-path-test",
+      filePathMatches: (filePath: string) => {
+        capturedPaths.push(filePath);
+        return false;
+      },
+    };
+
+    const stream = fs.createReadStream(
+      getFixture("docker-archives/docker-save/go-binaries.tar"),
+    );
+    await extractImageLayer(stream, [mockExtractAction]);
+
+    expect(capturedPaths.length).toBeGreaterThan(0);
+    capturedPaths.forEach((filePath) => {
+      expect(filePath.startsWith("/")).toBe(true);
+      expect(filePath).not.toContain("\\");
+      expect(path.posix.isAbsolute(filePath)).toBe(true);
+    });
+  });
+});
