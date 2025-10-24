@@ -6,7 +6,6 @@ import {
 import { PackageInfo } from "@snyk/rpm-parser/lib/rpm/types";
 import { Response } from "@snyk/rpm-parser/lib/types";
 import * as Debug from "debug";
-import { normalize as normalizePath } from "path";
 import { getContentAsBuffer } from "../../extractor";
 import { ExtractAction, ExtractedLayers } from "../../extractor/types";
 import { streamToBuffer } from "../../stream-utils";
@@ -16,8 +15,8 @@ const debug = Debug("snyk");
 export const getRpmDbFileContentAction: ExtractAction = {
   actionName: "rpm-db",
   filePathMatches: (filePath) =>
-    filePath === normalizePath("/var/lib/rpm/Packages") ||
-    filePath === normalizePath("/usr/lib/sysimage/rpm/Packages"),
+    filePath === "/var/lib/rpm/Packages" ||
+    filePath === "/usr/lib/sysimage/rpm/Packages",
   callback: streamToBuffer,
 };
 
@@ -68,8 +67,8 @@ export async function getRpmSqliteDbFileContent(
 export const getRpmNdbFileContentAction: ExtractAction = {
   actionName: "rpm-ndb",
   filePathMatches: (filePath) =>
-    filePath === normalizePath("/var/lib/rpm/Packages.db") ||
-    filePath === normalizePath("/usr/lib/sysimage/rpm/Packages.db"),
+    filePath === "/var/lib/rpm/Packages.db" ||
+    filePath === "/usr/lib/sysimage/rpm/Packages.db",
   callback: streamToBuffer,
 };
 
@@ -100,8 +99,8 @@ export async function getRpmNdbFileContent(
 export const getRpmSqliteDbFileContentAction: ExtractAction = {
   actionName: "rpm-sqlite-db",
   filePathMatches: (filePath) =>
-    filePath === normalizePath("/var/lib/rpm/rpmdb.sqlite") ||
-    filePath === normalizePath("/usr/lib/sysimage/rpm/rpmdb.sqlite") ||
-    filePath === normalizePath("/usr/lib/sysimage/rpm/Packages.db"),
+    filePath === "/var/lib/rpm/rpmdb.sqlite" ||
+    filePath === "/usr/lib/sysimage/rpm/rpmdb.sqlite" ||
+    filePath === "/usr/lib/sysimage/rpm/Packages.db",
   callback: streamToBuffer,
 };

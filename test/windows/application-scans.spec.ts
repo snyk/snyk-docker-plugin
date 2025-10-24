@@ -49,7 +49,6 @@ describe("go binaries scanning", () => {
 
     expect(pluginResult.scanResults.length).toEqual(4);
 
-    // esbuild go binary should be found in the scan results
     const esbuildResultFound = pluginResult.scanResults.find(
       (r) => r.identity.targetFile && r.identity.targetFile.includes("esbuild"),
     );

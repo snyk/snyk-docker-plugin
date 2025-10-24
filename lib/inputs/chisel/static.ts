@@ -1,5 +1,4 @@
 import * as Debug from "debug";
-import { normalize as normalizePath } from "path";
 import { ChiselPackage } from "../../analyzer/types";
 import { decompressZstd } from "../../compression-utils";
 import { getContentAsBuffer } from "../../extractor";
@@ -26,8 +25,7 @@ const CHISEL_MANIFEST_PATH = "/var/lib/chisel/manifest.wall";
  */
 export const getChiselManifestAction: ExtractAction = {
   actionName: "chisel-manifest",
-  filePathMatches: (filePath) =>
-    filePath === normalizePath(CHISEL_MANIFEST_PATH),
+  filePathMatches: (filePath) => filePath === CHISEL_MANIFEST_PATH,
   callback: streamToBuffer,
 };
 
