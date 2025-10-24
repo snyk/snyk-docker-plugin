@@ -36,7 +36,7 @@ describe("jar binaries scanning", () => {
 describe("go binaries scanning", () => {
   it("should return expected result", async () => {
     const fixturePath = getFixture(
-      "docker-archives/docker-save/go-windows.tar",
+      "docker-archives/docker-save/go-binaries.tar",
     );
     const imageNameAndTag = `docker-archive:${fixturePath}`;
 
@@ -46,5 +46,14 @@ describe("go binaries scanning", () => {
     });
 
     expect(pluginResult).toMatchSnapshot();
+
+    expect(pluginResult.scanResults.length).toEqual(4);
+
+    // esbuild go binary should be found in the scan results
+    const esbuildResultFound = pluginResult.scanResults.find(
+      (r) => r.identity.targetFile && r.identity.targetFile.includes("esbuild"),
+    );
+
+    expect(esbuildResultFound).toBeTruthy();
   });
 });
