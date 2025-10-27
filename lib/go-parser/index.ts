@@ -37,8 +37,15 @@ export const DEP_GRAPH_TYPE = "gomodules";
 function filePathMatches(filePath: string): boolean {
   const normalizedPath = path.normalize(filePath);
   const dirName = path.dirname(normalizedPath);
+
+  // Fix: Use the original filename for extension check to avoid Windows path issues
+  // On Windows, normalized paths like '\app\node_modules\.pnpm\@esbuild+linux-x64@0.23.1\...'
+  // can confuse path.parse() due to dots in directory names
+  const fileName = path.basename(filePath);
+  const hasExtension = !!path.parse(fileName).ext;
+
   return (
-    !path.parse(normalizedPath).ext &&
+    !hasExtension &&
     !ignoredPaths.some((ignorePath) => dirName.startsWith(ignorePath))
   );
 }
