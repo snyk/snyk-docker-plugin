@@ -42,7 +42,7 @@ function filePathMatches(filePath: string): boolean {
   // On Windows, normalized paths like '\app\node_modules\.pnpm\@esbuild+linux-x64@0.23.1\...'
   // can confuse path.parse() due to dots in directory names
   const fileName = path.basename(filePath);
-  const hasExtension = !!path.parse(fileName).ext;
+  const hasExtension = Boolean(path.parse(fileName).ext);
 
   return (
     !hasExtension &&
