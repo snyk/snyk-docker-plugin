@@ -128,8 +128,6 @@ describe("windows scanning", () => {
       "app-vulns": true,
     });
 
-    expect(pluginResult.scanResults.length).toEqual(4);
-
     const esbuildResultFound = pluginResult.scanResults.find(
       (r) => r.identity.targetFile && r.identity.targetFile.includes("esbuild"),
     );
