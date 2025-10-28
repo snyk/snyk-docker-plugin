@@ -36,6 +36,22 @@ describe("jar binaries scanning", () => {
 describe("go binaries scanning", () => {
   it("should return expected result", async () => {
     const fixturePath = getFixture(
+      "docker-archives/docker-save/go-windows.tar",
+    );
+    const imageNameAndTag = `docker-archive:${fixturePath}`;
+
+    const pluginResult = await scan({
+      path: imageNameAndTag,
+      "app-vulns": true,
+    });
+
+    expect(pluginResult).toMatchSnapshot();
+  });
+});
+
+describe("go binaries scanning 2", () => {
+  it("should return expected result", async () => {
+    const fixturePath = getFixture(
       "docker-archives/docker-save/go-binaries.tar",
     );
     const imageNameAndTag = `docker-archive:${fixturePath}`;
@@ -46,13 +62,5 @@ describe("go binaries scanning", () => {
     });
 
     expect(pluginResult).toMatchSnapshot();
-
-    expect(pluginResult.scanResults.length).toEqual(4);
-
-    const esbuildResultFound = pluginResult.scanResults.find(
-      (r) => r.identity.targetFile && r.identity.targetFile.includes("esbuild"),
-    );
-
-    expect(esbuildResultFound).toBeTruthy();
   });
 });
