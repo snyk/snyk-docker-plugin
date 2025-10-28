@@ -48,3 +48,19 @@ describe("go binaries scanning", () => {
     expect(pluginResult).toMatchSnapshot();
   });
 });
+
+describe("go binaries 2 scanning", () => {
+  it("should return expected result", async () => {
+    const fixturePath = getFixture(
+      "docker-archives/docker-save/go-binaries.tar",
+    );
+    const imageNameAndTag = `docker-archive:${fixturePath}`;
+
+    const pluginResult = await scan({
+      path: imageNameAndTag,
+      "app-vulns": true,
+    });
+
+    expect(pluginResult).toMatchSnapshot();
+  });
+});

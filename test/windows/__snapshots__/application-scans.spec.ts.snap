@@ -1,5 +1,637 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`go binaries 2 scanning should return expected result 1`] = `
+Object {
+  "scanResults": Array [
+    Object {
+      "facts": Array [
+        Object {
+          "data": Object {
+            "graph": Object {
+              "nodes": Array [
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "alpine-base/alpine-release@3.22.2-r0",
+                    },
+                    Object {
+                      "nodeId": "alpine-baselayout/alpine-baselayout@3.7.0-r0|2",
+                    },
+                    Object {
+                      "nodeId": "alpine-baselayout/alpine-baselayout-data@3.7.0-r0",
+                    },
+                    Object {
+                      "nodeId": "alpine-keys/alpine-keys@2.5-r0",
+                    },
+                    Object {
+                      "nodeId": "apk-tools/apk-tools@2.14.9-r3",
+                    },
+                    Object {
+                      "nodeId": "apk-tools/libapk2@2.14.9-r3|2",
+                    },
+                    Object {
+                      "nodeId": "busybox/busybox@1.37.0-r19|2",
+                    },
+                    Object {
+                      "nodeId": "busybox/busybox-binsh@1.37.0-r19|2",
+                    },
+                    Object {
+                      "nodeId": "busybox/ssl_client@1.37.0-r19",
+                    },
+                    Object {
+                      "nodeId": "ca-certificates/ca-certificates-bundle@20250911-r0",
+                    },
+                    Object {
+                      "nodeId": "musl/musl@1.2.5-r10",
+                    },
+                    Object {
+                      "nodeId": "musl/musl-utils@1.2.5-r10",
+                    },
+                    Object {
+                      "nodeId": "openssl/libcrypto3@3.5.4-r0|2",
+                    },
+                    Object {
+                      "nodeId": "openssl/libssl3@3.5.4-r0|2",
+                    },
+                    Object {
+                      "nodeId": "pax-utils/scanelf@1.3.8-r1|2",
+                    },
+                    Object {
+                      "nodeId": "zlib/zlib@1.3.1-r2|2",
+                    },
+                  ],
+                  "nodeId": "root-node",
+                  "pkgId": "docker-image|go-binaries.tar@",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "alpine-baselayout/alpine-baselayout@3.7.0-r0|1",
+                  "pkgId": "alpine-baselayout/alpine-baselayout@3.7.0-r0",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "alpine-baselayout/alpine-baselayout-data@3.7.0-r0",
+                    },
+                    Object {
+                      "nodeId": "busybox/busybox-binsh@1.37.0-r19|1",
+                    },
+                  ],
+                  "nodeId": "alpine-baselayout/alpine-baselayout@3.7.0-r0|2",
+                  "pkgId": "alpine-baselayout/alpine-baselayout@3.7.0-r0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "alpine-keys/alpine-keys@2.5-r0",
+                  "pkgId": "alpine-keys/alpine-keys@2.5-r0",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "alpine-baselayout/alpine-baselayout@3.7.0-r0|1",
+                    },
+                    Object {
+                      "nodeId": "alpine-keys/alpine-keys@2.5-r0",
+                    },
+                  ],
+                  "nodeId": "alpine-base/alpine-release@3.22.2-r0",
+                  "pkgId": "alpine-base/alpine-release@3.22.2-r0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "alpine-baselayout/alpine-baselayout-data@3.7.0-r0",
+                  "pkgId": "alpine-baselayout/alpine-baselayout-data@3.7.0-r0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "musl/musl@1.2.5-r10",
+                  "pkgId": "musl/musl@1.2.5-r10",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "musl/musl@1.2.5-r10",
+                    },
+                  ],
+                  "nodeId": "busybox/busybox@1.37.0-r19|1",
+                  "pkgId": "busybox/busybox@1.37.0-r19",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "busybox/busybox@1.37.0-r19|2",
+                  "pkgId": "busybox/busybox@1.37.0-r19",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "busybox/busybox@1.37.0-r19|1",
+                    },
+                  ],
+                  "nodeId": "busybox/busybox-binsh@1.37.0-r19|1",
+                  "pkgId": "busybox/busybox-binsh@1.37.0-r19",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "busybox/busybox-binsh@1.37.0-r19|2",
+                  "pkgId": "busybox/busybox-binsh@1.37.0-r19",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "ca-certificates/ca-certificates-bundle@20250911-r0",
+                  "pkgId": "ca-certificates/ca-certificates-bundle@20250911-r0",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "musl/musl@1.2.5-r10",
+                    },
+                  ],
+                  "nodeId": "openssl/libcrypto3@3.5.4-r0|1",
+                  "pkgId": "openssl/libcrypto3@3.5.4-r0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "openssl/libcrypto3@3.5.4-r0|2",
+                  "pkgId": "openssl/libcrypto3@3.5.4-r0",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "musl/musl@1.2.5-r10",
+                    },
+                    Object {
+                      "nodeId": "openssl/libcrypto3@3.5.4-r0|2",
+                    },
+                  ],
+                  "nodeId": "openssl/libssl3@3.5.4-r0|1",
+                  "pkgId": "openssl/libssl3@3.5.4-r0",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "openssl/libssl3@3.5.4-r0|2",
+                  "pkgId": "openssl/libssl3@3.5.4-r0",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "musl/musl@1.2.5-r10",
+                    },
+                  ],
+                  "nodeId": "zlib/zlib@1.3.1-r2|1",
+                  "pkgId": "zlib/zlib@1.3.1-r2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "zlib/zlib@1.3.1-r2|2",
+                  "pkgId": "zlib/zlib@1.3.1-r2",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "ca-certificates/ca-certificates-bundle@20250911-r0",
+                    },
+                    Object {
+                      "nodeId": "musl/musl@1.2.5-r10",
+                    },
+                    Object {
+                      "nodeId": "openssl/libcrypto3@3.5.4-r0|1",
+                    },
+                    Object {
+                      "nodeId": "openssl/libssl3@3.5.4-r0|1",
+                    },
+                    Object {
+                      "nodeId": "zlib/zlib@1.3.1-r2|1",
+                    },
+                  ],
+                  "nodeId": "apk-tools/libapk2@2.14.9-r3|1",
+                  "pkgId": "apk-tools/libapk2@2.14.9-r3",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "apk-tools/libapk2@2.14.9-r3|2",
+                  "pkgId": "apk-tools/libapk2@2.14.9-r3",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "apk-tools/libapk2@2.14.9-r3|1",
+                    },
+                    Object {
+                      "nodeId": "ca-certificates/ca-certificates-bundle@20250911-r0",
+                    },
+                    Object {
+                      "nodeId": "musl/musl@1.2.5-r10",
+                    },
+                    Object {
+                      "nodeId": "openssl/libcrypto3@3.5.4-r0|2",
+                    },
+                    Object {
+                      "nodeId": "zlib/zlib@1.3.1-r2|2",
+                    },
+                  ],
+                  "nodeId": "apk-tools/apk-tools@2.14.9-r3",
+                  "pkgId": "apk-tools/apk-tools@2.14.9-r3",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "musl/musl@1.2.5-r10",
+                    },
+                    Object {
+                      "nodeId": "openssl/libcrypto3@3.5.4-r0|2",
+                    },
+                    Object {
+                      "nodeId": "openssl/libssl3@3.5.4-r0|2",
+                    },
+                  ],
+                  "nodeId": "busybox/ssl_client@1.37.0-r19",
+                  "pkgId": "busybox/ssl_client@1.37.0-r19",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "musl/musl@1.2.5-r10",
+                    },
+                  ],
+                  "nodeId": "pax-utils/scanelf@1.3.8-r1|1",
+                  "pkgId": "pax-utils/scanelf@1.3.8-r1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "pax-utils/scanelf@1.3.8-r1|2",
+                  "pkgId": "pax-utils/scanelf@1.3.8-r1",
+                },
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "musl/musl@1.2.5-r10",
+                    },
+                    Object {
+                      "nodeId": "pax-utils/scanelf@1.3.8-r1|1",
+                    },
+                  ],
+                  "nodeId": "musl/musl-utils@1.2.5-r10",
+                  "pkgId": "musl/musl-utils@1.2.5-r10",
+                },
+              ],
+              "rootNodeId": "root-node",
+            },
+            "pkgManager": Object {
+              "name": "apk",
+              "repositories": Array [
+                Object {
+                  "alias": "alpine:3.22.2",
+                },
+              ],
+            },
+            "pkgs": Array [
+              Object {
+                "id": "docker-image|go-binaries.tar@",
+                "info": Object {
+                  "name": "docker-image|go-binaries.tar",
+                  "version": undefined,
+                },
+              },
+              Object {
+                "id": "alpine-baselayout/alpine-baselayout@3.7.0-r0",
+                "info": Object {
+                  "name": "alpine-baselayout/alpine-baselayout",
+                  "version": "3.7.0-r0",
+                },
+              },
+              Object {
+                "id": "alpine-keys/alpine-keys@2.5-r0",
+                "info": Object {
+                  "name": "alpine-keys/alpine-keys",
+                  "version": "2.5-r0",
+                },
+              },
+              Object {
+                "id": "alpine-base/alpine-release@3.22.2-r0",
+                "info": Object {
+                  "name": "alpine-base/alpine-release",
+                  "version": "3.22.2-r0",
+                },
+              },
+              Object {
+                "id": "alpine-baselayout/alpine-baselayout-data@3.7.0-r0",
+                "info": Object {
+                  "name": "alpine-baselayout/alpine-baselayout-data",
+                  "version": "3.7.0-r0",
+                },
+              },
+              Object {
+                "id": "musl/musl@1.2.5-r10",
+                "info": Object {
+                  "name": "musl/musl",
+                  "version": "1.2.5-r10",
+                },
+              },
+              Object {
+                "id": "busybox/busybox@1.37.0-r19",
+                "info": Object {
+                  "name": "busybox/busybox",
+                  "version": "1.37.0-r19",
+                },
+              },
+              Object {
+                "id": "busybox/busybox-binsh@1.37.0-r19",
+                "info": Object {
+                  "name": "busybox/busybox-binsh",
+                  "version": "1.37.0-r19",
+                },
+              },
+              Object {
+                "id": "ca-certificates/ca-certificates-bundle@20250911-r0",
+                "info": Object {
+                  "name": "ca-certificates/ca-certificates-bundle",
+                  "version": "20250911-r0",
+                },
+              },
+              Object {
+                "id": "openssl/libcrypto3@3.5.4-r0",
+                "info": Object {
+                  "name": "openssl/libcrypto3",
+                  "version": "3.5.4-r0",
+                },
+              },
+              Object {
+                "id": "openssl/libssl3@3.5.4-r0",
+                "info": Object {
+                  "name": "openssl/libssl3",
+                  "version": "3.5.4-r0",
+                },
+              },
+              Object {
+                "id": "zlib/zlib@1.3.1-r2",
+                "info": Object {
+                  "name": "zlib/zlib",
+                  "version": "1.3.1-r2",
+                },
+              },
+              Object {
+                "id": "apk-tools/libapk2@2.14.9-r3",
+                "info": Object {
+                  "name": "apk-tools/libapk2",
+                  "version": "2.14.9-r3",
+                },
+              },
+              Object {
+                "id": "apk-tools/apk-tools@2.14.9-r3",
+                "info": Object {
+                  "name": "apk-tools/apk-tools",
+                  "version": "2.14.9-r3",
+                },
+              },
+              Object {
+                "id": "busybox/ssl_client@1.37.0-r19",
+                "info": Object {
+                  "name": "busybox/ssl_client",
+                  "version": "1.37.0-r19",
+                },
+              },
+              Object {
+                "id": "pax-utils/scanelf@1.3.8-r1",
+                "info": Object {
+                  "name": "pax-utils/scanelf",
+                  "version": "1.3.8-r1",
+                },
+              },
+              Object {
+                "id": "musl/musl-utils@1.2.5-r10",
+                "info": Object {
+                  "name": "musl/musl-utils",
+                  "version": "1.2.5-r10",
+                },
+              },
+            ],
+            "schemaVersion": "1.3.0",
+          },
+          "type": "depGraph",
+        },
+        Object {
+          "data": "sha256:d995f79578b2f268b71e4cb7360f3baeddd0f07f8a5cf98977472dc563e67825",
+          "type": "imageId",
+        },
+        Object {
+          "data": Array [
+            "sha256:6b59a28fa20117e6048ad0616b8d8c901877ef15ff4c7f18db04e4f01f43bc39",
+            "sha256:e32650c275b006f294c1e061d6e59a2ecfe7d1cdd16314bf5d02b1c74b1fa390",
+            "sha256:35986fe3144d1f21a98e44ff365ceed48792731b36228eb748a221424492b1c2",
+            "sha256:4f4fb700ef54461cfa02571ae0db9a0dc1e0cdb5577484a6d75e68dc38e8acc1",
+            "sha256:f9667c1dc9b42f3a24e857ce1b0cb0d2d7346d5f51223699088f1994a9f9c5ca",
+            "sha256:ba95d6830fbd9dd0b515f8216ea7c57423c250afaabcadb6a9191a86c7c8b199",
+            "sha256:4f4fb700ef54461cfa02571ae0db9a0dc1e0cdb5577484a6d75e68dc38e8acc1",
+          ],
+          "type": "imageLayers",
+        },
+        Object {
+          "data": "2025-10-21T21:00:44.51800796Z",
+          "type": "imageCreationTime",
+        },
+        Object {
+          "data": Array [
+            "sha256:0e64f2360a448b389c83fcbc3705e1364ccf43f004bb55233c689e7ce59a1ae9",
+            "sha256:fba66f609362396333e84b10d748f19c903b0628fb5f153a24e9b7a9f0e1312f",
+            "sha256:30106d1f235aaa8b415f573c408291598cdcd52c101e6b775fc4944781cefd59",
+            "sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+            "sha256:a4a6a3643cddefede59c3ca78eabc99c3bbf1e8f90911ef21a9cc61721624487",
+            "sha256:c1954acbb68853ae922afb02613bfdb132116b52ddd74a157a1c276c10c2d69e",
+            "sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+          ],
+          "type": "rootFs",
+        },
+        Object {
+          "data": "Alpine Linux v3.22",
+          "type": "imageOsReleasePrettyName",
+        },
+      ],
+      "identity": Object {
+        "args": Object {
+          "platform": "linux/arm64",
+        },
+        "type": "apk",
+      },
+      "target": Object {
+        "image": "docker-image|go-binaries.tar",
+      },
+    },
+    Object {
+      "facts": Array [
+        Object {
+          "data": Object {
+            "graph": Object {
+              "nodes": Array [
+                Object {
+                  "deps": Array [],
+                  "nodeId": "root-node",
+                  "pkgId": "go-distribution@command-line-arguments@",
+                },
+              ],
+              "rootNodeId": "root-node",
+            },
+            "pkgManager": Object {
+              "name": "gomodules",
+            },
+            "pkgs": Array [
+              Object {
+                "id": "go-distribution@command-line-arguments@",
+                "info": Object {
+                  "name": "go-distribution@command-line-arguments",
+                },
+              },
+            ],
+            "schemaVersion": "1.3.0",
+          },
+          "type": "depGraph",
+        },
+        Object {
+          "data": "sha256:d995f79578b2f268b71e4cb7360f3baeddd0f07f8a5cf98977472dc563e67825",
+          "type": "imageId",
+        },
+      ],
+      "identity": Object {
+        "targetFile": "\\usr\\lib\\go-standard-2",
+        "type": "gomodules",
+      },
+      "target": Object {
+        "image": "docker-image|go-binaries.tar",
+      },
+    },
+    Object {
+      "facts": Array [
+        Object {
+          "data": Object {
+            "graph": Object {
+              "nodes": Array [
+                Object {
+                  "deps": Array [],
+                  "nodeId": "root-node",
+                  "pkgId": "go-distribution@command-line-arguments@",
+                },
+              ],
+              "rootNodeId": "root-node",
+            },
+            "pkgManager": Object {
+              "name": "gomodules",
+            },
+            "pkgs": Array [
+              Object {
+                "id": "go-distribution@command-line-arguments@",
+                "info": Object {
+                  "name": "go-distribution@command-line-arguments",
+                },
+              },
+            ],
+            "schemaVersion": "1.3.0",
+          },
+          "type": "depGraph",
+        },
+        Object {
+          "data": "sha256:d995f79578b2f268b71e4cb7360f3baeddd0f07f8a5cf98977472dc563e67825",
+          "type": "imageId",
+        },
+      ],
+      "identity": Object {
+        "targetFile": "\\usr\\local\\lib\\go-standard",
+        "type": "gomodules",
+      },
+      "target": Object {
+        "image": "docker-image|go-binaries.tar",
+      },
+    },
+    Object {
+      "facts": Array [
+        Object {
+          "data": Object {
+            "graph": Object {
+              "nodes": Array [
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "golang.org/x/sys/unix@v0.0.0-20220715151400-c0bba94af5f8",
+                    },
+                    Object {
+                      "nodeId": "golang.org/x/text/transform@v0.3.7",
+                    },
+                    Object {
+                      "nodeId": "golang.org/x/text/encoding@v0.3.7",
+                    },
+                  ],
+                  "nodeId": "root-node",
+                  "pkgId": "go-distribution@command-line-arguments@",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "golang.org/x/sys/unix@v0.0.0-20220715151400-c0bba94af5f8",
+                  "pkgId": "golang.org/x/sys/unix@v0.0.0-20220715151400-c0bba94af5f8",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "golang.org/x/text/transform@v0.3.7",
+                  "pkgId": "golang.org/x/text/transform@v0.3.7",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "golang.org/x/text/encoding@v0.3.7",
+                  "pkgId": "golang.org/x/text/encoding@v0.3.7",
+                },
+              ],
+              "rootNodeId": "root-node",
+            },
+            "pkgManager": Object {
+              "name": "gomodules",
+            },
+            "pkgs": Array [
+              Object {
+                "id": "go-distribution@command-line-arguments@",
+                "info": Object {
+                  "name": "go-distribution@command-line-arguments",
+                },
+              },
+              Object {
+                "id": "golang.org/x/sys/unix@v0.0.0-20220715151400-c0bba94af5f8",
+                "info": Object {
+                  "name": "golang.org/x/sys/unix",
+                  "version": "v0.0.0-20220715151400-c0bba94af5f8",
+                },
+              },
+              Object {
+                "id": "golang.org/x/text/transform@v0.3.7",
+                "info": Object {
+                  "name": "golang.org/x/text/transform",
+                  "version": "v0.3.7",
+                },
+              },
+              Object {
+                "id": "golang.org/x/text/encoding@v0.3.7",
+                "info": Object {
+                  "name": "golang.org/x/text/encoding",
+                  "version": "v0.3.7",
+                },
+              },
+            ],
+            "schemaVersion": "1.3.0",
+          },
+          "type": "depGraph",
+        },
+        Object {
+          "data": "sha256:d995f79578b2f268b71e4cb7360f3baeddd0f07f8a5cf98977472dc563e67825",
+          "type": "imageId",
+        },
+      ],
+      "identity": Object {
+        "targetFile": "\\app\\node_modules\\.pnpm\\@esbuild+linux-x64@0.23.1\\node_modules\\@esbuild\\linux-x64\\bin\\esbuild",
+        "type": "gomodules",
+      },
+      "target": Object {
+        "image": "docker-image|go-binaries.tar",
+      },
+    },
+  ],
+}
+`;
+
 exports[`go binaries scanning should return expected result 1`] = `
 Object {
   "scanResults": Array [
@@ -44,7 +676,7 @@ Object {
         },
         Object {
           "data": Array [
-            "2d0714e906bed2c04c0df856b8928376970d0f163c7dc63cf99bc681d7e668fa/layer.tar",
+            "2d0714e906bed2c04c0df856b8928376970d0f163c7dc63cf99bc681d7e668fa\\layer.tar",
           ],
           "type": "imageLayers",
         },
@@ -1875,7 +2507,7 @@ Object {
         },
       ],
       "identity": Object {
-        "targetFile": "/livenessprobe",
+        "targetFile": "\\livenessprobe",
         "type": "gomodules",
       },
       "target": Object {
@@ -1930,7 +2562,7 @@ Object {
         },
         Object {
           "data": Array [
-            "c8f25f0787b14b09638a294eab0b30b81c82295b8aa5e1df3fb36796fa6d0179/layer.tar",
+            "c8f25f0787b14b09638a294eab0b30b81c82295b8aa5e1df3fb36796fa6d0179\\layer.tar",
           ],
           "type": "imageLayers",
         },
@@ -1963,11 +2595,11 @@ Object {
               Object {
                 "dependencies": Array [],
                 "digest": "485de3a253e23f645037828c07f1d7f1af40763a",
-                "location": "/app/activation-1.1.1.jar",
+                "location": "\\app\\activation-1.1.1.jar",
               },
             ],
             "origin": "java-windows.tar",
-            "path": "/app",
+            "path": "\\app",
           },
           "type": "jarFingerprints",
         },
@@ -1977,7 +2609,7 @@ Object {
         },
       ],
       "identity": Object {
-        "targetFile": "/app",
+        "targetFile": "\\app",
         "type": "maven",
       },
       "target": Object {
@@ -1994,7 +2626,7 @@ Object {
                 "dependencies": Array [],
                 "digest": null,
                 "groupId": "org.glassfish.hk2.external",
-                "location": "/libs/aopalliance-repackaged-2.5.0.jar",
+                "location": "\\libs\\aopalliance-repackaged-2.5.0.jar",
                 "version": "2.5.0",
               },
               Object {
@@ -2002,12 +2634,12 @@ Object {
                 "dependencies": Array [],
                 "digest": null,
                 "groupId": "org.apache.yetus",
-                "location": "/libs/audience-annotations-0.5.0.jar",
+                "location": "\\libs\\audience-annotations-0.5.0.jar",
                 "version": "0.5.0",
               },
             ],
             "origin": "java-windows.tar",
-            "path": "/libs",
+            "path": "\\libs",
           },
           "type": "jarFingerprints",
         },
@@ -2017,7 +2649,7 @@ Object {
         },
       ],
       "identity": Object {
-        "targetFile": "/libs",
+        "targetFile": "\\libs",
         "type": "maven",
       },
       "target": Object {
@@ -3851,7 +4483,7 @@ Object {
         },
       ],
       "identity": Object {
-        "targetFile": "/srv/npm-app/package.json",
+        "targetFile": "\\srv\\npm-app\\package.json",
         "type": "npm",
       },
       "target": Object {
@@ -14141,7 +14773,7 @@ Object {
         },
       ],
       "identity": Object {
-        "targetFile": "/srv/yarn-app/package.json",
+        "targetFile": "\\srv\\yarn-app\\package.json",
         "type": "yarn",
       },
       "target": Object {
