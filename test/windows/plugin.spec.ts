@@ -116,4 +116,22 @@ describe("windows scanning", () => {
       "windows/amd64",
     );
   }, 900000);
+
+  it("can scan docker-archive image type with go binaries", async () => {
+    const fixturePath = getFixture(
+      "docker-archives/docker-save/go-binaries.tar",
+    );
+    const imageNameAndTag = `docker-archive:${fixturePath}`;
+
+    const pluginResult = await plugin.scan({
+      path: imageNameAndTag,
+      "app-vulns": true,
+    });
+
+    const esbuildResultFound = pluginResult.scanResults.find(
+      (r) => r.identity.targetFile && r.identity.targetFile.includes("esbuild"),
+    );
+
+    expect(esbuildResultFound).toBeTruthy();
+  });
 });
