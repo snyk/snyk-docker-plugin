@@ -37,10 +37,13 @@ export const DEP_GRAPH_TYPE = "gomodules";
 function filePathMatches(filePath: string): boolean {
   const normalizedPath = path.normalize(filePath);
   const dirName = path.dirname(normalizedPath);
-  return (
-    !path.parse(normalizedPath).ext &&
-    !ignoredPaths.some((ignorePath) => dirName.startsWith(ignorePath))
+  const posixPath = filePath.replace(/\\/g, "/");
+  const hasExtension = !!path.posix.parse(posixPath).ext;
+  const isInIgnoredPath = ignoredPaths.some((ignorePath) =>
+    dirName.startsWith(ignorePath),
   );
+
+  return !hasExtension && !isInIgnoredPath;
 }
 
 export const getGoModulesContentAction: ExtractAction = {
