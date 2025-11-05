@@ -34,7 +34,7 @@ const ignoredPaths = [
 
 export const DEP_GRAPH_TYPE = "gomodules";
 
-export function filePathMatches(filePath: string): boolean {
+function filePathMatches(filePath: string): boolean {
   const normalizedPath = path.normalize(filePath);
   const dirName = path.dirname(normalizedPath);
   const posixPath = filePath.replace(/\\/g, "/");
@@ -42,9 +42,8 @@ export function filePathMatches(filePath: string): boolean {
   const isInIgnoredPath = ignoredPaths.some((ignorePath) =>
     dirName.startsWith(ignorePath),
   );
-  const matches = !hasExtension && !isInIgnoredPath;
 
-  return matches;
+  return !hasExtension && !isInIgnoredPath;
 }
 
 export const getGoModulesContentAction: ExtractAction = {
@@ -74,6 +73,7 @@ async function findGoBinaries(
         if (!buffer || bytesWritten === 0) {
           return resolve(undefined);
         }
+
         const binaryFile = elf.parse(buffer);
 
         const goBuildInfo = binaryFile.body.sections.find(
@@ -97,6 +97,7 @@ async function findGoBinaries(
             readRawBuildInfo(binaryFile);
             return resolve(binaryFile);
           }
+
           return resolve(undefined);
         } else if (goBuildId) {
           const strings = goBuildId.data

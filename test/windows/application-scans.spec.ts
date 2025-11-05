@@ -49,7 +49,7 @@ describe("go binaries scanning", () => {
   });
 });
 
-describe("go binaries 2 scanning", () => {
+describe("go binaries scanning with esbuild npm path that previously failed extension matching on Windows", () => {
   it("should return expected result", async () => {
     const fixturePath = getFixture(
       "docker-archives/docker-save/go-binaries.tar",
