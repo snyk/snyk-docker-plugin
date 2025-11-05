@@ -10,9 +10,7 @@ import { ImageType } from "../../lib/types";
 import { getFixture } from "../util";
 
 describe("Go Binary Detection Debug (Windows)", () => {
-  const fixturePath = getFixture(
-    "docker-archives/docker-save/gobinaries-test.tar",
-  );
+  const fixturePath = getFixture("docker-archives/docker-save/go-binaries.tar");
   const imageNameAndTag = `docker-archive:${fixturePath}`;
 
   beforeAll(() => {
