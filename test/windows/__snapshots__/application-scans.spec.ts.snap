@@ -491,7 +491,7 @@ Object {
         },
       ],
       "identity": Object {
-        "targetFile": "/usr/lib/go-standard-2",
+        "targetFile": "\\usr\\lib\\go-standard-2",
         "type": "gomodules",
       },
       "target": Object {
@@ -533,7 +533,7 @@ Object {
         },
       ],
       "identity": Object {
-        "targetFile": "/usr/local/lib/go-standard",
+        "targetFile": "\\usr\\local\\lib\\go-standard",
         "type": "gomodules",
       },
       "target": Object {
@@ -621,7 +621,7 @@ Object {
         },
       ],
       "identity": Object {
-        "targetFile": "/app/node_modules/.pnpm/@esbuild+linux-x64@0.23.1/node_modules/@esbuild/linux-x64/bin/esbuild",
+        "targetFile": "\\app\\node_modules\\.pnpm\\@esbuild+linux-x64@0.23.1\\node_modules\\@esbuild\\linux-x64\\bin\\esbuild",
         "type": "gomodules",
       },
       "target": Object {
