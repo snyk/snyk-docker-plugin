@@ -37,8 +37,10 @@ export const DEP_GRAPH_TYPE = "gomodules";
 function filePathMatches(filePath: string): boolean {
   const normalizedPath = path.normalize(filePath);
   const dirName = path.dirname(normalizedPath);
-  const posixPath = filePath.replace(/\\/g, "/");
-  const hasExtension = !!path.posix.parse(posixPath).ext;
+  const forwardSlashedPath = filePath.replace(/\\/g, "/");
+
+  // Fix backslash path extension detection false positives: path.parse().ext incorrectly detects extensions in paths with backslashes (usually on Windows)
+  const hasExtension = !!path.posix.parse(forwardSlashedPath).ext;
   const isInIgnoredPath = ignoredPaths.some((ignorePath) =>
     dirName.startsWith(ignorePath),
   );
