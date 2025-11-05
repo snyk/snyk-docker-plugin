@@ -38,16 +38,24 @@ function filePathMatches(filePath: string): boolean {
   const normalizedPath = path.normalize(filePath);
   const dirName = path.dirname(normalizedPath);
   const hasExtension = !!path.parse(normalizedPath).ext;
-  const isInIgnoredPath = ignoredPaths.some((ignorePath) => dirName.startsWith(ignorePath));
+  const isInIgnoredPath = ignoredPaths.some((ignorePath) =>
+    dirName.startsWith(ignorePath),
+  );
   const matches = !hasExtension && !isInIgnoredPath;
-  
+
   // Log file path checking details for debugging
-  console.log(`🔍 filePathMatches: "${filePath}" -> normalized: "${normalizedPath}"`);
-  console.log(`🔍   hasExtension: ${hasExtension}, isInIgnoredPath: ${isInIgnoredPath}, matches: ${matches}`);
+  console.log(
+    `🔍 filePathMatches: "${filePath}" -> normalized: "${normalizedPath}"`,
+  );
+  console.log(
+    `🔍   hasExtension: ${hasExtension}, isInIgnoredPath: ${isInIgnoredPath}, matches: ${matches}`,
+  );
   if (isInIgnoredPath) {
-    console.log(`🔍   Ignored because dirName "${dirName}" matches ignored paths`);
+    console.log(
+      `🔍   Ignored because dirName "${dirName}" matches ignored paths`,
+    );
   }
-  
+
   return matches;
 }
 
@@ -61,8 +69,10 @@ async function findGoBinaries(
   stream: Readable,
   streamSize?: number,
 ): Promise<any> {
-  console.log(`🔍 findGoBinaries - Starting binary analysis, streamSize: ${streamSize}`);
-  
+  console.log(
+    `🔍 findGoBinaries - Starting binary analysis, streamSize: ${streamSize}`,
+  );
+
   return new Promise((resolve, reject) => {
     const encoding = "binary";
     const buildIdMagic = "Go";
@@ -75,12 +85,16 @@ async function findGoBinaries(
     let bytesWritten = 0;
 
     stream.on("end", () => {
-      console.log(`🔍 findGoBinaries - Stream ended, bytesWritten: ${bytesWritten}, hasBuffer: ${!!buffer}`);
-      
+      console.log(
+        `🔍 findGoBinaries - Stream ended, bytesWritten: ${bytesWritten}, hasBuffer: ${!!buffer}`,
+      );
+
       try {
         // Discard
         if (!buffer || bytesWritten === 0) {
-          console.log(`🔍 findGoBinaries - ❌ No buffer or no bytes written, discarding`);
+          console.log(
+            `🔍 findGoBinaries - ❌ No buffer or no bytes written, discarding`,
+          );
           return resolve(undefined);
         }
 
@@ -95,28 +109,40 @@ async function findGoBinaries(
           (section) => section.name === ".note.go.buildid",
         );
 
-        console.log(`🔍 findGoBinaries - Found sections: goBuildInfo=${!!goBuildInfo}, goBuildId=${!!goBuildId}`);
+        console.log(
+          `🔍 findGoBinaries - Found sections: goBuildInfo=${!!goBuildInfo}, goBuildId=${!!goBuildId}`,
+        );
 
         if (!goBuildInfo && !goBuildId) {
-          console.log(`🔍 findGoBinaries - ❌ No Go build info or build ID sections found`);
+          console.log(
+            `🔍 findGoBinaries - ❌ No Go build info or build ID sections found`,
+          );
           return resolve(undefined);
         } else if (goBuildInfo) {
           const info = goBuildInfo.data
             .slice(0, buildInfoMagic.length)
             .toString(encoding);
 
-          console.log(`🔍 findGoBinaries - Checking goBuildInfo magic: "${info}" === "${buildInfoMagic}"`);
+          console.log(
+            `🔍 findGoBinaries - Checking goBuildInfo magic: "${info}" === "${buildInfoMagic}"`,
+          );
 
           if (info === buildInfoMagic) {
-            console.log(`🔍 findGoBinaries - ✅ Go build info magic matched, reading raw build info...`);
+            console.log(
+              `🔍 findGoBinaries - ✅ Go build info magic matched, reading raw build info...`,
+            );
             // to make sure we got a Go binary with module support, we try
             // reading it. Will throw an error if not.
             readRawBuildInfo(binaryFile);
-            console.log(`🔍 findGoBinaries - ✅ Successfully validated Go binary`);
+            console.log(
+              `🔍 findGoBinaries - ✅ Successfully validated Go binary`,
+            );
             return resolve(binaryFile);
           }
 
-          console.log(`🔍 findGoBinaries - ❌ Go build info magic did not match`);
+          console.log(
+            `🔍 findGoBinaries - ❌ Go build info magic did not match`,
+          );
           return resolve(undefined);
         } else if (goBuildId) {
           console.log(`🔍 findGoBinaries - Checking goBuildId...`);
@@ -127,25 +153,35 @@ async function findGoBinaries(
           const go = strings[strings.length - 2];
           const buildIdParts = strings[strings.length - 1].split(path.sep);
 
-          console.log(`🔍 findGoBinaries - BuildId check: go="${go}", buildIdParts.length=${buildIdParts.length}, magic="${buildIdMagic}"`);
+          console.log(
+            `🔍 findGoBinaries - BuildId check: go="${go}", buildIdParts.length=${buildIdParts.length}, magic="${buildIdMagic}"`,
+          );
 
           // Build ID's precise form is actionID/[.../]contentID.
           // Usually the buildID is simply actionID/contentID, but with exceptions.
           // https://github.com/golang/go/blob/master/src/cmd/go/internal/work/buildid.go#L23
           if (go === buildIdMagic && buildIdParts.length >= 2) {
-            console.log(`🔍 findGoBinaries - ✅ Go build ID matched, reading raw build info...`);
+            console.log(
+              `🔍 findGoBinaries - ✅ Go build ID matched, reading raw build info...`,
+            );
             // to make sure we got a Go binary with module support, we try
             // reading it. Will throw an error if not.
             readRawBuildInfo(binaryFile);
-            console.log(`🔍 findGoBinaries - ✅ Successfully validated Go binary via build ID`);
+            console.log(
+              `🔍 findGoBinaries - ✅ Successfully validated Go binary via build ID`,
+            );
             return resolve(binaryFile);
           }
 
-          console.log(`🔍 findGoBinaries - ❌ Go build ID did not match criteria`);
+          console.log(
+            `🔍 findGoBinaries - ❌ Go build ID did not match criteria`,
+          );
           return resolve(undefined);
         }
       } catch (error) {
-        console.log(`🔍 findGoBinaries - ❌ Exception during ELF parsing: ${error.message}`);
+        console.log(
+          `🔍 findGoBinaries - ❌ Exception during ELF parsing: ${error.message}`,
+        );
         // catching exception during elf file parse shouldn't fail the archive iteration
         // it either we recognize file as binary or not
         return resolve(undefined);
@@ -159,10 +195,14 @@ async function findGoBinaries(
 
     stream.once("data", (chunk) => {
       const first4Bytes = chunk.toString(encoding, 0, 4);
-      console.log(`🔍 findGoBinaries - First 4 bytes: "${first4Bytes}" (expected ELF: "${elfHeaderMagic}")`);
+      console.log(
+        `🔍 findGoBinaries - First 4 bytes: "${first4Bytes}" (expected ELF: "${elfHeaderMagic}")`,
+      );
 
       if (first4Bytes === elfHeaderMagic) {
-        console.log(`🔍 findGoBinaries - ✅ ELF header detected, allocating buffer...`);
+        console.log(
+          `🔍 findGoBinaries - ✅ ELF header detected, allocating buffer...`,
+        );
         // Now that we know it's an ELF file, allocate the buffer
         // If the streamSize is larger than node.js's max buffer length
         // we should cap the size at that value. The liklihood
@@ -173,7 +213,9 @@ async function findGoBinaries(
           require("buffer").constants.MAX_LENGTH,
         );
         buffer = Buffer.alloc(bufferSize);
-        console.log(`🔍 findGoBinaries - Allocated buffer of size: ${bufferSize}`);
+        console.log(
+          `🔍 findGoBinaries - Allocated buffer of size: ${bufferSize}`,
+        );
 
         bytesWritten += Buffer.from(chunk).copy(buffer, bytesWritten, 0);
 
@@ -211,19 +253,24 @@ export async function goModulesToScannedProjects(
   filePathToContent: FilePathToElfContent,
 ): Promise<AppDepsScanResultWithoutTarget[]> {
   console.log("🔍 goModulesToScannedProjects - Starting with file paths:");
-  console.log("🔍 Input filePathToContent keys:", Object.keys(filePathToContent));
-  console.log("🔍 Platform info:", { 
-    platform: process.platform, 
+  console.log(
+    "🔍 Input filePathToContent keys:",
+    Object.keys(filePathToContent),
+  );
+  console.log("🔍 Platform info:", {
+    platform: process.platform,
     pathSep: path.sep,
-    posixSep: path.posix.sep 
+    posixSep: path.posix.sep,
   });
-  
+
   const scanResults: AppDepsScanResultWithoutTarget[] = [];
 
   for (const [filePath, goBinary] of Object.entries(filePathToContent)) {
     console.log(`🔍 Processing Go binary at path: "${filePath}"`);
-    console.log(`🔍 Binary object type: ${typeof goBinary}, has body: ${!!goBinary?.body}`);
-    
+    console.log(
+      `🔍 Binary object type: ${typeof goBinary}, has body: ${!!goBinary?.body}`,
+    );
+
     if (eventLoopSpinner.isStarving()) {
       await eventLoopSpinner.spin();
     }
@@ -237,7 +284,11 @@ export async function goModulesToScannedProjects(
       }
 
       console.log(`🔍 ✅ Successfully created depGraph for: ${filePath}`);
-      console.log(`🔍 DepGraph info - name: ${depGraph.rootPkg.name}, deps count: ${depGraph.getDepPkgs().length}`);
+      console.log(
+        `🔍 DepGraph info - name: ${depGraph.rootPkg.name}, deps count: ${
+          depGraph.getDepPkgs().length
+        }`,
+      );
 
       const depGraphFact: DepGraphFact = {
         type: "depGraph",
@@ -258,12 +309,19 @@ export async function goModulesToScannedProjects(
       });
       console.log(`🔍 ✅ Added scan result for: ${filePath}`);
     } catch (err) {
-      console.log(`🔍 ❌ Go binary scan for file ${filePath} failed: ${err.message}`);
+      console.log(
+        `🔍 ❌ Go binary scan for file ${filePath} failed: ${err.message}`,
+      );
       debug(`Go binary scan for file ${filePath} failed: ${err.message}`);
     }
   }
 
-  console.log(`🔍 goModulesToScannedProjects - Completed. Total scan results: ${scanResults.length}`);
-  console.log("🔍 Final scan results paths:", scanResults.map(r => r.identity.targetFile));
+  console.log(
+    `🔍 goModulesToScannedProjects - Completed. Total scan results: ${scanResults.length}`,
+  );
+  console.log(
+    "🔍 Final scan results paths:",
+    scanResults.map((r) => r.identity.targetFile),
+  );
   return scanResults;
 }
