@@ -34,10 +34,11 @@ const ignoredPaths = [
 
 export const DEP_GRAPH_TYPE = "gomodules";
 
-function filePathMatches(filePath: string): boolean {
+export function filePathMatches(filePath: string): boolean {
   const normalizedPath = path.normalize(filePath);
   const dirName = path.dirname(normalizedPath);
-  const hasExtension = !!path.parse(normalizedPath).ext;
+  const posixPath = filePath.replace(/\\/g, '/');
+  const hasExtension = !!path.posix.parse(posixPath).ext;
   const isInIgnoredPath = ignoredPaths.some((ignorePath) =>
     dirName.startsWith(ignorePath),
   );
