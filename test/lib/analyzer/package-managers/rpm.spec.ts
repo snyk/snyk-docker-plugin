@@ -1,12 +1,12 @@
 import * as fs from "fs";
 import * as path from "path";
+import { PackageInfo } from "@snyk/rpm-parser/lib/rpm/types";
 import {
-  parseSourceRPM,
-  mapRpmSqlitePackages,
   analyze,
+  mapRpmSqlitePackages,
+  parseSourceRPM,
 } from "../../../../lib/analyzer/package-managers/rpm";
 import { SourcePackage } from "../../../../lib/analyzer/types";
-import { PackageInfo } from "@snyk/rpm-parser/lib/rpm/types";
 
 describe("RPM Package Version and Epoch Handling", () => {
   describe("formats version without epoch", () => {
