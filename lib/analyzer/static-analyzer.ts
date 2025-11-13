@@ -33,6 +33,8 @@ import {
   getJarFileContentAction,
   getUsrLibJarFileContentAction,
 } from "../inputs/java/static";
+import { getJavaRuntimeReleaseAction } from "../inputs/java-runtime/static";
+import { detectJavaRuntime } from "./java-runtime";
 import {
   getNodeAppFileContentAction,
   getNodeJsTsAppFileContentAction,
@@ -105,6 +107,7 @@ export async function analyze(
     ...getOsReleaseActions,
     getNodeBinariesFileContentAction,
     getOpenJDKBinariesFileContentAction,
+    getJavaRuntimeReleaseAction,
     getDpkgPackageFileContentAction,
     getRedHatRepositoriesContentAction,
   ];
@@ -231,6 +234,7 @@ export async function analyze(
   }
 
   const binaries = getBinariesHashes(extractedLayers);
+  const javaRuntimeMetadata = detectJavaRuntime(extractedLayers) || undefined;
 
   const applicationDependenciesScanResults: AppDepsScanResultWithoutTarget[] =
     [];
@@ -307,6 +311,7 @@ export async function analyze(
     platform,
     results,
     binaries,
+    javaRuntimeMetadata,
     imageLayers: manifestLayers,
     rootFsLayers,
     applicationDependenciesScanResults,

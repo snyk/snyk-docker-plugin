@@ -103,3 +103,19 @@ export interface OCIDistributionMetadataFact {
   type: "ociDistributionMetadata";
   data: OCIDistributionMetadata;
 }
+
+export interface JavaRuntimeMetadata {
+  version: string;
+  // the vendor/organization that provided the Java runtime (needed because sometimes CVEs are vendor specific)
+  implementor?: string;
+  // the type of Java runtime (JRE or JDK)
+  imageType?: "JRE" | "JDK";
+  // the modules that are included in the Java runtime
+  modules?: string[];
+  releaseFilePath: string;
+}
+
+export interface JavaRuntimeMetadataFact {
+  type: "javaRuntimeMetadata";
+  data: JavaRuntimeMetadata;
+}

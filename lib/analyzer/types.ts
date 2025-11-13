@@ -1,5 +1,6 @@
 import { ImageName } from "../extractor/image";
 import { AutoDetectedUserInstructions, ManifestFile } from "../types";
+import { JavaRuntimeMetadata } from "../facts";
 import {
   AppDepsScanResultWithoutTarget,
   JarCoords,
@@ -75,6 +76,7 @@ export interface StaticAnalysis {
   osRelease: OSRelease;
   results: ImageAnalysis[];
   binaries: string[];
+  javaRuntimeMetadata?: JavaRuntimeMetadata;
   imageLayers: string[];
   rootFsLayers?: string[];
   autoDetectedUserInstructions?: AutoDetectedUserInstructions;
