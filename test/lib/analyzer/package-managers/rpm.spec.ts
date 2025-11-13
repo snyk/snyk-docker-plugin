@@ -1,6 +1,6 @@
+import { PackageInfo } from "@snyk/rpm-parser/lib/rpm/types";
 import * as fs from "fs";
 import * as path from "path";
-import { PackageInfo } from "@snyk/rpm-parser/lib/rpm/types";
 import {
   analyze,
   mapRpmSqlitePackages,
@@ -114,12 +114,10 @@ describe("RPM Package Version and Epoch Handling", () => {
         },
       ];
 
-      const result = await analyze(
-        "test-image",
-        pkgs,
-        [],
-        { name: "rhel", version: "8.2" },
-      );
+      const result = await analyze("test-image", pkgs, [], {
+        name: "rhel",
+        version: "8.2",
+      });
 
       expect(result.Analysis[0].Purl).toBe(
         "pkg:rpm/rhel/openssl-libs@1.1.1-15.el8?distro=rhel-8.2&epoch=0",
