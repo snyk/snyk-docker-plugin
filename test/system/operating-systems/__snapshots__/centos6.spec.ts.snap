@@ -2662,7 +2662,7 @@ Object {
                 "id": "perl-CGI@3.51-144.el6",
                 "info": Object {
                   "name": "perl-CGI",
-                  "purl": "pkg:rpm/centos/perl-CGI@3.51-144.el6?distro=centos-6&upstream=perl%405.10.1",
+                  "purl": "pkg:rpm/centos/perl-CGI@3.51-144.el6?distro=centos-6&epoch=0&upstream=perl%405.10.1",
                   "version": "3.51-144.el6",
                 },
               },
@@ -2670,7 +2670,7 @@ Object {
                 "id": "perl-ExtUtils-MakeMaker@6.55-144.el6",
                 "info": Object {
                   "name": "perl-ExtUtils-MakeMaker",
-                  "purl": "pkg:rpm/centos/perl-ExtUtils-MakeMaker@6.55-144.el6?distro=centos-6&upstream=perl%405.10.1",
+                  "purl": "pkg:rpm/centos/perl-ExtUtils-MakeMaker@6.55-144.el6?distro=centos-6&epoch=0&upstream=perl%405.10.1",
                   "version": "6.55-144.el6",
                 },
               },
@@ -2710,7 +2710,7 @@ Object {
                 "id": "perl-Test-Harness@3.17-144.el6",
                 "info": Object {
                   "name": "perl-Test-Harness",
-                  "purl": "pkg:rpm/centos/perl-Test-Harness@3.17-144.el6?distro=centos-6&upstream=perl%405.10.1",
+                  "purl": "pkg:rpm/centos/perl-Test-Harness@3.17-144.el6?distro=centos-6&epoch=0&upstream=perl%405.10.1",
                   "version": "3.17-144.el6",
                 },
               },
@@ -2718,7 +2718,7 @@ Object {
                 "id": "perl-Test-Simple@0.92-144.el6",
                 "info": Object {
                   "name": "perl-Test-Simple",
-                  "purl": "pkg:rpm/centos/perl-Test-Simple@0.92-144.el6?distro=centos-6&upstream=perl%405.10.1",
+                  "purl": "pkg:rpm/centos/perl-Test-Simple@0.92-144.el6?distro=centos-6&epoch=0&upstream=perl%405.10.1",
                   "version": "0.92-144.el6",
                 },
               },
@@ -3181,11 +3181,11 @@ Object {
         },
         Object {
           "data": Array [
-            "sha256:af6bf1987c2eb07d73f33836b0d8fd825d7c785273526b077e46780e8b4b2ae9",
-            "sha256:282064e8c74ac642a58047db969497eeae247fb78e8e9c7c7cd0452b3063a11b",
-            "sha256:91d67088c5c5c582ba1740d680281e579a6b79a11a722a1099cedbd6eacc90b4",
-            "sha256:33080feb7575643f4ba24fe41c38d4bed2c9507fb54eb80f49a65ed068cc37be",
-            "sha256:2b7c38b09edb3ce271c3f5d11560644cb8d153917529c1d28a2818fc8cc0d7aa",
+            "sha256:ff50d722b38227ec8f2bbf0cdbce428b66745077c173d8117d91376128fa532e",
+            "sha256:84e0d1671716528b6f2cfa3c5117b59929e4493c9cc92f4028366303efa35c39",
+            "sha256:826574c5b389816ae84b73341ceff34764f1b11e014afad7abb1ff212ef31896",
+            "sha256:113f5299e5454fd22e73bedc486d6e0373666daf01bd803854f767f8649c2ee2",
+            "sha256:8d33272ddf389194f2812716f8617b947c2950dd0d8ae4a71c26319410ac77c7",
           ],
           "type": "imageLayers",
         },
@@ -5902,7 +5902,7 @@ Object {
                 "id": "perl-CGI@3.51-144.el6",
                 "info": Object {
                   "name": "perl-CGI",
-                  "purl": "pkg:rpm/centos/perl-CGI@3.51-144.el6?distro=centos-6&upstream=perl%405.10.1",
+                  "purl": "pkg:rpm/centos/perl-CGI@3.51-144.el6?distro=centos-6&epoch=0&upstream=perl%405.10.1",
                   "version": "3.51-144.el6",
                 },
               },
@@ -5910,7 +5910,7 @@ Object {
                 "id": "perl-ExtUtils-MakeMaker@6.55-144.el6",
                 "info": Object {
                   "name": "perl-ExtUtils-MakeMaker",
-                  "purl": "pkg:rpm/centos/perl-ExtUtils-MakeMaker@6.55-144.el6?distro=centos-6&upstream=perl%405.10.1",
+                  "purl": "pkg:rpm/centos/perl-ExtUtils-MakeMaker@6.55-144.el6?distro=centos-6&epoch=0&upstream=perl%405.10.1",
                   "version": "6.55-144.el6",
                 },
               },
@@ -5950,7 +5950,7 @@ Object {
                 "id": "perl-Test-Harness@3.17-144.el6",
                 "info": Object {
                   "name": "perl-Test-Harness",
-                  "purl": "pkg:rpm/centos/perl-Test-Harness@3.17-144.el6?distro=centos-6&upstream=perl%405.10.1",
+                  "purl": "pkg:rpm/centos/perl-Test-Harness@3.17-144.el6?distro=centos-6&epoch=0&upstream=perl%405.10.1",
                   "version": "3.17-144.el6",
                 },
               },
@@ -5958,7 +5958,7 @@ Object {
                 "id": "perl-Test-Simple@0.92-144.el6",
                 "info": Object {
                   "name": "perl-Test-Simple",
-                  "purl": "pkg:rpm/centos/perl-Test-Simple@0.92-144.el6?distro=centos-6&upstream=perl%405.10.1",
+                  "purl": "pkg:rpm/centos/perl-Test-Simple@0.92-144.el6?distro=centos-6&epoch=0&upstream=perl%405.10.1",
                   "version": "0.92-144.el6",
                 },
               },
@@ -6421,11 +6421,11 @@ Object {
         },
         Object {
           "data": Array [
-            "sha256:af6bf1987c2eb07d73f33836b0d8fd825d7c785273526b077e46780e8b4b2ae9",
-            "sha256:282064e8c74ac642a58047db969497eeae247fb78e8e9c7c7cd0452b3063a11b",
-            "sha256:91d67088c5c5c582ba1740d680281e579a6b79a11a722a1099cedbd6eacc90b4",
-            "sha256:33080feb7575643f4ba24fe41c38d4bed2c9507fb54eb80f49a65ed068cc37be",
-            "sha256:2b7c38b09edb3ce271c3f5d11560644cb8d153917529c1d28a2818fc8cc0d7aa",
+            "sha256:ff50d722b38227ec8f2bbf0cdbce428b66745077c173d8117d91376128fa532e",
+            "sha256:84e0d1671716528b6f2cfa3c5117b59929e4493c9cc92f4028366303efa35c39",
+            "sha256:826574c5b389816ae84b73341ceff34764f1b11e014afad7abb1ff212ef31896",
+            "sha256:113f5299e5454fd22e73bedc486d6e0373666daf01bd803854f767f8649c2ee2",
+            "sha256:8d33272ddf389194f2812716f8617b947c2950dd0d8ae4a71c26319410ac77c7",
           ],
           "type": "imageLayers",
         },
