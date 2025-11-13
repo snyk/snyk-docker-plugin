@@ -183,7 +183,7 @@ describe("RPM Package Version and Epoch Handling", () => {
       const purl = result.Analysis[0].Purl;
       expect(purl).toContain("?");
       expect(purl).toContain("epoch=1");
-      expect(purl).toContain("module=nodejs:10");
+      expect(purl).toContain("module=nodejs%3A10"); // : is URL-encoded as %3A
       expect(purl).toContain("repositories=rhel-8-appstream");
       expect(purl).toContain("distro=rhel-8.2");
     });
@@ -206,7 +206,7 @@ describe("RPM Package Version and Epoch Handling", () => {
 
       const purl = result.Analysis[0].Purl;
       expect(purl).toContain("epoch=0");
-      expect(purl).toContain("upstream=libxml2@2.9.7");
+      expect(purl).toContain("upstream=libxml2%402.9.7"); // @ is URL-encoded as %40
     });
   });
 });
