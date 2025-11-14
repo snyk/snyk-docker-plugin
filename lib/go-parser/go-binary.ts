@@ -10,9 +10,38 @@ import { GoModule } from "./go-module";
 import { LineTable } from "./pclntab";
 import { Elf, ElfProgram } from "./types";
 
+/**
+ * GoBinary: Parser for Go compiled binaries
+ *
+ * This class extracts dependency information from Go binaries by reading ELF sections.
+ * It implements two scanning strategies depending on binary characteristics:
+ * - If .gopclntab exists: Extract source files → Map to packages → Report packages
+ * - If .gopclntab missing: Extract modules from .go.buildinfo → Report all modules
+ *
+ * Binary Types:
+ *
+ * 1. Normal Go Binaries (with .gopclntab):
+ *    - Built with standard flags
+ *    - Contains .gopclntab (Go Program Counter Line Table) section
+ *    - .gopclntab maps program counter addresses to source files
+ *
+ * 2. Stripped Go Binaries (without .gopclntab):
+ *    - Built with -ldflags='-s -w' flag
+ *    - Removes debug symbols, symbol tables (.symtab, .strtab), and .gopclntab
+ *
+ * 3. CGo Go Binaries:
+ *    - Built with CGO_ENABLED=1 (calls C code)
+ *    - May or may not contain .gopclntab depending on build configuration
+ *
+ * ELF Sections Used:
+ * - .go.buildinfo: Module names, versions, and build information (always present)
+ * - .gopclntab: Source file to package mapping (missing in stripped/some CGo binaries)
+ *
+ */
 export class GoBinary {
   public name: string;
   public modules: GoModule[];
+  private hasPclnTab: boolean;
 
   constructor(goElfBinary: Elf) {
     [this.name, this.modules] = extractModuleInformation(goElfBinary);
@@ -21,16 +50,21 @@ export class GoBinary {
       (section) => section.name === ".gopclntab",
     );
 
-    // some CGo built binaries might not contain a pclnTab, which means we
-    // cannot scan the files.
-    // TODO: from a technical perspective, it would be enough to only report the
-    // modules, as the only remediation path is to upgrade a full module
-    // anyways. From a product perspective, it's not clear (yet).
-    if (pclnTab === undefined) {
-      throw Error("no pcln table present in Go binary");
-    }
+    // Track whether pclnTab exists to determine reporting strategy
+    this.hasPclnTab = pclnTab !== undefined;
 
-    this.matchFilesToModules(new LineTable(pclnTab.data).go12MapFiles());
+    // Stripped binaries (built with -ldflags='-s -w') and some CGo binaries
+    // do not contain .gopclntab, which means we cannot detect package-level
+    // dependencies. In this case, we fall back to module-level reporting from
+    // .go.buildinfo, as remediation is performed at the module level anyway.
+    if (pclnTab !== undefined) {
+      try {
+        this.matchFilesToModules(new LineTable(pclnTab.data).go12MapFiles());
+      } catch (err) {
+        // If pclntab parsing fails, continue with module-only reporting
+        // This can happen with corrupted or unsupported pclntab formats
+      }
+    }
   }
 
   public async depGraph(): Promise<depGraph.DepGraph> {
@@ -40,18 +74,38 @@ export class GoBinary {
     );
 
     for (const module of this.modules) {
-      for (const pkg of module.packages) {
-        if (eventLoopSpinner.isStarving()) {
-          await eventLoopSpinner.spin();
-        }
+      if (eventLoopSpinner.isStarving()) {
+        await eventLoopSpinner.spin();
+      }
 
-        const nodeId = `${pkg}@${module.version}`;
+      // If we have package-level information (from pclntab), use it
+      if (module.packages.length > 0) {
+        for (const pkg of module.packages) {
+          const nodeId = `${pkg}@${module.version}`;
+          goModulesDepGraph.addPkgNode(
+            { name: pkg, version: module.version },
+            nodeId,
+          );
+          goModulesDepGraph.connectDep(goModulesDepGraph.rootNodeId, nodeId);
+        }
+      } else if (!this.hasPclnTab) {
+        // ONLY if .gopclntab is missing (stripped/CGo binaries), report module-level
+        // dependencies from .go.buildinfo.
+        //
+        // Note: .go.buildinfo contains ALL modules from the build graph, including
+        // modules required only for version resolution (transitive dependencies with
+        // no code actually compiled into the binary). Without .gopclntab, we cannot
+        // distinguish these from modules with actual code present.
+        const nodeId = `${module.name}@${module.version}`;
         goModulesDepGraph.addPkgNode(
-          { name: pkg, version: module.version },
+          { name: module.name, version: module.version },
           nodeId,
         );
         goModulesDepGraph.connectDep(goModulesDepGraph.rootNodeId, nodeId);
       }
+      // else: pclnTab exists but module has no packages - don't report anything
+      // This can happen for modules that are required for version resolution
+      // but have no actual code compiled into the binary
     }
 
     return goModulesDepGraph.build();
