@@ -39,4 +39,30 @@ describe("purl()", () => {
       } as unknown as AnalyzedPackageWithVersion),
     ).toEqual("pkg:deb/bar@1.2.3-4?upstream=foo%405.6.7%2B8");
   });
+
+  it("uses 'dhi' namespace for Docker Hardened Images packages", () => {
+    expect(
+      purl(
+        {
+          Name: "curl",
+          Version: "7.88.1-10+deb12u8",
+          Maintainer: "Docker Hardened Images <dhi@docker.com>",
+        } as unknown as AnalyzedPackageWithVersion,
+        { name: "debian", version: "12", prettyName: "Debian GNU/Linux 12" },
+      ),
+    ).toEqual("pkg:deb/dhi/curl@7.88.1-10%2Bdeb12u8?distro=debian-bookworm");
+  });
+
+  it("uses osRelease vendor when maintainer is not Docker Hardened Images", () => {
+    expect(
+      purl(
+        {
+          Name: "curl",
+          Version: "7.88.1-10+deb12u8",
+          Maintainer: "Some Other Maintainer <other@example.com>",
+        } as unknown as AnalyzedPackageWithVersion,
+        { name: "debian", version: "12", prettyName: "Debian GNU/Linux 12" },
+      ),
+    ).toEqual("pkg:deb/debian/curl@7.88.1-10%2Bdeb12u8?distro=debian-bookworm");
+  });
 });
