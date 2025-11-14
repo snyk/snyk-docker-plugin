@@ -60,7 +60,7 @@ function purl(
     qualifiers.repositories = repos.join(",");
   }
 
-  if (pkg.epoch) {
+  if (pkg.epoch !== undefined && pkg.epoch !== null) {
     qualifiers.epoch = String(pkg.epoch);
   }
 

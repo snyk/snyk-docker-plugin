@@ -5110,7 +5110,7 @@ Object {
                 "id": "perl-Errno@1.28-416.el8",
                 "info": Object {
                   "name": "perl-Errno",
-                  "purl": "pkg:rpm/rhel/perl-Errno@1.28-416.el8?distro=rhel-8.2&repositories=rhel-8-for-x86_64-baseos-rpms%2Crhel-8-for-x86_64-appstream-rpms%2Crhel-8-for-x86_64-baseos-beta-rpms%2Crhel-8-for-x86_64-appstream-beta-rpms%2Crhel-8-for-x86_64-baseos-htb-rpms%2Crhel-8-for-x86_64-appstream-htb-rpms&upstream=perl%405.26.3",
+                  "purl": "pkg:rpm/rhel/perl-Errno@1.28-416.el8?distro=rhel-8.2&epoch=0&repositories=rhel-8-for-x86_64-baseos-rpms%2Crhel-8-for-x86_64-appstream-rpms%2Crhel-8-for-x86_64-baseos-beta-rpms%2Crhel-8-for-x86_64-appstream-beta-rpms%2Crhel-8-for-x86_64-baseos-htb-rpms%2Crhel-8-for-x86_64-appstream-htb-rpms&upstream=perl%405.26.3",
                   "version": "1.28-416.el8",
                 },
               },
@@ -5174,7 +5174,7 @@ Object {
                 "id": "perl-IO@1.38-416.el8",
                 "info": Object {
                   "name": "perl-IO",
-                  "purl": "pkg:rpm/rhel/perl-IO@1.38-416.el8?distro=rhel-8.2&repositories=rhel-8-for-x86_64-baseos-rpms%2Crhel-8-for-x86_64-appstream-rpms%2Crhel-8-for-x86_64-baseos-beta-rpms%2Crhel-8-for-x86_64-appstream-beta-rpms%2Crhel-8-for-x86_64-baseos-htb-rpms%2Crhel-8-for-x86_64-appstream-htb-rpms&upstream=perl%405.26.3",
+                  "purl": "pkg:rpm/rhel/perl-IO@1.38-416.el8?distro=rhel-8.2&epoch=0&repositories=rhel-8-for-x86_64-baseos-rpms%2Crhel-8-for-x86_64-appstream-rpms%2Crhel-8-for-x86_64-baseos-beta-rpms%2Crhel-8-for-x86_64-appstream-beta-rpms%2Crhel-8-for-x86_64-baseos-htb-rpms%2Crhel-8-for-x86_64-appstream-htb-rpms&upstream=perl%405.26.3",
                   "version": "1.38-416.el8",
                 },
               },
