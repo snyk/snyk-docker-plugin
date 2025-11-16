@@ -11,6 +11,7 @@ import { streamToString } from "../../stream-utils";
 export const getJavaRuntimeReleaseAction: ExtractAction = {
   actionName: "java-runtime-release",
   // using this specific path for Java runtime metadata for now, but might want to expand this to other paths in the future.
+  // Different implementors (Oracle, Eclipse Adoptium, etc.) may use different paths. This path is confirmed for Eclipse Adoptium.
   filePathMatches: (filePath) =>
     filePath === normalizePath("/opt/java/openjdk/release"),
   callback: streamToString,

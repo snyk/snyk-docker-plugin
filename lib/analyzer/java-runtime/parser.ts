@@ -20,19 +20,44 @@ export function parseJavaRuntimeRelease(
   }
 
   try {
-    // TODO: Implement actual parsing logic
-    // For now, return null to indicate parsing not yet implemented
-    // 
-    // Implementation should:
-    // 1. Split content by newlines
-    // 2. Parse each line as KEY="VALUE" or KEY=VALUE
-    // 3. Extract JAVA_VERSION, IMPLEMENTOR, IMAGE_TYPE, MODULES
-    // 4. Split MODULES by spaces into an array
-    // 5. Return JavaRuntimeMetadata object with the extracted information
+    const lines = content.split("\n");
+    const properties: Record<string, string> = {};
     
-    return null;
+    for (const line of lines) {
+      const trimmedLine = line.trim();
+      // Skip empty lines or comments
+      if (!trimmedLine || trimmedLine.startsWith("#")) {
+        continue;
+      }
+      
+      // Parse KEY="VALUE" or KEY=VALUE format
+      const equalsIndex = trimmedLine.indexOf("=");
+      if (equalsIndex === -1) {
+        continue; // Skip lines without '='
+      }
+      
+      const key = trimmedLine.substring(0, equalsIndex).trim();
+      let value = trimmedLine.substring(equalsIndex + 1).trim();
+      
+      // Remove surrounding quotes
+      if ((value.startsWith('"') && value.endsWith('"')) ||
+          (value.startsWith("'") && value.endsWith("'"))) {
+        value = value.substring(1, value.length - 1);
+      }
+      
+      properties[key] = value;
+    }
+    
+    // extract JAVA_VERSION (required)
+    const javaVersion = properties.JAVA_VERSION;
+    if (!javaVersion) {
+      return null; // 
+    }
+    return {
+      javaVersion,
+      releaseFilePath: "", // This will be set by the caller
+    };
   } catch (error) {
-    // If parsing fails, return null
     return null;
   }
 }

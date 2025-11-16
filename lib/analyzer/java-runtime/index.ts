@@ -5,7 +5,7 @@ import { parseJavaRuntimeRelease } from "./parser";
 
 /**
  * Detects Java runtime metadata from the /opt/java/openjdk/release file.
- * This provides version, implementor, image type (JRE/JDK), and modules information,
+ * This provides version, implementor, and modules information,
  * 
  * @param extractedLayers - Extracted image layers containing file contents
  * @returns Parsed Java runtime metadata or null if not found/parseable
