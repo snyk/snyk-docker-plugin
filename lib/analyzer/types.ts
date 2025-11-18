@@ -1,6 +1,6 @@
 import { ImageName } from "../extractor/image";
-import { AutoDetectedUserInstructions, ManifestFile } from "../types";
 import { JavaRuntimeMetadata } from "../facts";
+import { AutoDetectedUserInstructions, ManifestFile } from "../types";
 import {
   AppDepsScanResultWithoutTarget,
   JarCoords,

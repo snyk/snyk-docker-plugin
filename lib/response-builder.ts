@@ -48,7 +48,7 @@ async function buildResponse(
     };
     additionalFacts.push(keyBinariesHashesFact);
   }
-  // add the Java Runtime Metadata fact as a part of the first scan result 
+  // add the Java Runtime Metadata fact as a part of the first scan result
   if (depsAnalysis.javaRuntimeMetadata) {
     const javaRuntimeMetadataFact: facts.JavaRuntimeMetadataFact = {
       type: "javaRuntimeMetadata",

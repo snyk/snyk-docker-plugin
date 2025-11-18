@@ -69,7 +69,7 @@ export type FactType =
   | "jarFingerprints"
   // Hashes of executables not installed by a package manager (e.g. if they were copied straight onto the image).
   | "keyBinariesHashes"
-  // Java runtime metadata extracted from /opt/java/openjdk/release file 
+  // Java runtime metadata extracted from /opt/java/openjdk/release file
   | "javaRuntimeMetadata"
   | "loadedPackages"
   | "ociDistributionMetadata"

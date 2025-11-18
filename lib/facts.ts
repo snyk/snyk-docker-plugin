@@ -105,8 +105,10 @@ export interface OCIDistributionMetadataFact {
 }
 
 export interface JavaRuntimeMetadata {
-  javaVersion: string; // required eg. JAVA_VERSION="11.0.28" 
-  releaseFilePath: string; // required eg. /opt/java/openjdk/release
+  javaVersion: string; // required eg. JAVA_VERSION="11.0.28"
+  // could expand to include other fields in the release file in the future
+  // eg. implementor, image type, modules, etc.
+  // Since we currently only scan for vulns based on the Java version, we only need the java version.
 }
 
 export interface JavaRuntimeMetadataFact {

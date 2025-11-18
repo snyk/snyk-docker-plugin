@@ -25,12 +25,11 @@ import {
   getDpkgPackageFileContentAction,
 } from "../inputs/distroless/static";
 import * as filePatternStatic from "../inputs/file-pattern/static";
+import { getJavaRuntimeReleaseAction } from "../inputs/java-runtime/static";
 import {
   getJarFileContentAction,
   getUsrLibJarFileContentAction,
 } from "../inputs/java/static";
-import { getJavaRuntimeReleaseAction } from "../inputs/java-runtime/static";
-import { detectJavaRuntime } from "./java-runtime";
 import {
   getNodeAppFileContentAction,
   getNodeJsTsAppFileContentAction,
@@ -65,6 +64,7 @@ import { jarFilesToScannedResults } from "./applications/java";
 import { pipFilesToScannedProjects } from "./applications/python";
 import { getApplicationFiles } from "./applications/runtime-common";
 import { AppDepsScanResultWithoutTarget } from "./applications/types";
+import { detectJavaRuntime } from "./java-runtime";
 import * as osReleaseDetector from "./os-release";
 import { analyze as apkAnalyze } from "./package-managers/apk";
 import {
