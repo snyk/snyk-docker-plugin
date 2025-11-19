@@ -2662,7 +2662,7 @@ Object {
                 "id": "perl-CGI@3.51-144.el6",
                 "info": Object {
                   "name": "perl-CGI",
-                  "purl": "pkg:rpm/centos/perl-CGI@3.51-144.el6?distro=centos-6&upstream=perl%405.10.1",
+                  "purl": "pkg:rpm/centos/perl-CGI@3.51-144.el6?distro=centos-6&epoch=0&upstream=perl%405.10.1",
                   "version": "3.51-144.el6",
                 },
               },
@@ -2670,7 +2670,7 @@ Object {
                 "id": "perl-ExtUtils-MakeMaker@6.55-144.el6",
                 "info": Object {
                   "name": "perl-ExtUtils-MakeMaker",
-                  "purl": "pkg:rpm/centos/perl-ExtUtils-MakeMaker@6.55-144.el6?distro=centos-6&upstream=perl%405.10.1",
+                  "purl": "pkg:rpm/centos/perl-ExtUtils-MakeMaker@6.55-144.el6?distro=centos-6&epoch=0&upstream=perl%405.10.1",
                   "version": "6.55-144.el6",
                 },
               },
@@ -2710,7 +2710,7 @@ Object {
                 "id": "perl-Test-Harness@3.17-144.el6",
                 "info": Object {
                   "name": "perl-Test-Harness",
-                  "purl": "pkg:rpm/centos/perl-Test-Harness@3.17-144.el6?distro=centos-6&upstream=perl%405.10.1",
+                  "purl": "pkg:rpm/centos/perl-Test-Harness@3.17-144.el6?distro=centos-6&epoch=0&upstream=perl%405.10.1",
                   "version": "3.17-144.el6",
                 },
               },
@@ -2718,7 +2718,7 @@ Object {
                 "id": "perl-Test-Simple@0.92-144.el6",
                 "info": Object {
                   "name": "perl-Test-Simple",
-                  "purl": "pkg:rpm/centos/perl-Test-Simple@0.92-144.el6?distro=centos-6&upstream=perl%405.10.1",
+                  "purl": "pkg:rpm/centos/perl-Test-Simple@0.92-144.el6?distro=centos-6&epoch=0&upstream=perl%405.10.1",
                   "version": "0.92-144.el6",
                 },
               },
@@ -5902,7 +5902,7 @@ Object {
                 "id": "perl-CGI@3.51-144.el6",
                 "info": Object {
                   "name": "perl-CGI",
-                  "purl": "pkg:rpm/centos/perl-CGI@3.51-144.el6?distro=centos-6&upstream=perl%405.10.1",
+                  "purl": "pkg:rpm/centos/perl-CGI@3.51-144.el6?distro=centos-6&epoch=0&upstream=perl%405.10.1",
                   "version": "3.51-144.el6",
                 },
               },
@@ -5910,7 +5910,7 @@ Object {
                 "id": "perl-ExtUtils-MakeMaker@6.55-144.el6",
                 "info": Object {
                   "name": "perl-ExtUtils-MakeMaker",
-                  "purl": "pkg:rpm/centos/perl-ExtUtils-MakeMaker@6.55-144.el6?distro=centos-6&upstream=perl%405.10.1",
+                  "purl": "pkg:rpm/centos/perl-ExtUtils-MakeMaker@6.55-144.el6?distro=centos-6&epoch=0&upstream=perl%405.10.1",
                   "version": "6.55-144.el6",
                 },
               },
@@ -5950,7 +5950,7 @@ Object {
                 "id": "perl-Test-Harness@3.17-144.el6",
                 "info": Object {
                   "name": "perl-Test-Harness",
-                  "purl": "pkg:rpm/centos/perl-Test-Harness@3.17-144.el6?distro=centos-6&upstream=perl%405.10.1",
+                  "purl": "pkg:rpm/centos/perl-Test-Harness@3.17-144.el6?distro=centos-6&epoch=0&upstream=perl%405.10.1",
                   "version": "3.17-144.el6",
                 },
               },
@@ -5958,7 +5958,7 @@ Object {
                 "id": "perl-Test-Simple@0.92-144.el6",
                 "info": Object {
                   "name": "perl-Test-Simple",
-                  "purl": "pkg:rpm/centos/perl-Test-Simple@0.92-144.el6?distro=centos-6&upstream=perl%405.10.1",
+                  "purl": "pkg:rpm/centos/perl-Test-Simple@0.92-144.el6?distro=centos-6&epoch=0&upstream=perl%405.10.1",
                   "version": "0.92-144.el6",
                 },
               },
