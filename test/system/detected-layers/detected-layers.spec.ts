@@ -66,6 +66,30 @@ describe("correctly picks user instruction layers from manifest config", () => {
     );
     expect(layers.length).toBe(0);
   });
+
+  it("handles empty history array)", async () => {
+    const configWithEmptyHistory = {
+      architecture: "arm64",
+      os: "linux",
+      history: [], 
+      rootfs: { diff_ids: [] },
+      config: { Labels: {} },
+    };
+    const layers = getUserInstructionLayersFromConfig(configWithEmptyHistory);
+    expect(layers).toEqual([]);
+  });
+
+  it("handles undefined history without error", async () => {
+    const configWithNoHistory = {
+      architecture: "arm64",
+      os: "linux",
+      history: undefined,
+      rootfs: { diff_ids: [] },
+      config: { Labels: {} },
+    };
+    const layers = getUserInstructionLayersFromConfig(configWithNoHistory);
+    expect(layers).toEqual([]);
+  });
 });
 
 describe("layers are extracted", () => {

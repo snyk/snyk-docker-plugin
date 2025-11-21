@@ -201,7 +201,7 @@ export function getUserInstructionLayersFromConfig(imageConfig) {
   const maxDiffInHours = 5;
 
   const history = imageConfig.history;
-  if (!history) {
+  if (!history || history.length === 0) {
     return [];
   }
   const lastInstructionTime = new Date(history.slice(-1)[0].created);
