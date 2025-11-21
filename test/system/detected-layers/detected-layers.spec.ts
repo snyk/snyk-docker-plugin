@@ -71,7 +71,7 @@ describe("correctly picks user instruction layers from manifest config", () => {
     const configWithEmptyHistory = {
       architecture: "arm64",
       os: "linux",
-      history: [], 
+      history: [],
       rootfs: { diff_ids: [] },
       config: { Labels: {} },
     };
