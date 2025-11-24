@@ -33,7 +33,7 @@ export function parseJavaRuntimeRelease(
       // extracts the key and value, and removes whitespace surrounding each key and value
       const key = trimmedLine.substring(0, equalsIndex).trim();
       let value = trimmedLine.substring(equalsIndex + 1).trim();
-      
+
       if (
         (value.startsWith('"') && value.endsWith('"')) ||
         (value.startsWith("'") && value.endsWith("'"))

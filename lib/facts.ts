@@ -105,7 +105,7 @@ export interface OCIDistributionMetadataFact {
 }
 
 export interface JavaRuntimeMetadata {
-  javaVersion: string; 
+  javaVersion: string;
 }
 
 export interface JavaRuntimeMetadataFact {

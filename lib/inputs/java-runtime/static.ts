@@ -11,7 +11,6 @@ export const getJavaRuntimeReleaseAction: ExtractAction = {
   callback: streamToString,
 };
 
-// Retrieves the Java runtime release file content from extracted layers.
 export function getJavaRuntimeReleaseContent(
   extractedLayers: ExtractedLayers,
 ): string {
