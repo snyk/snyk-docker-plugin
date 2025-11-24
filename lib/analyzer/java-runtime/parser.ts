@@ -9,10 +9,7 @@ import { JavaRuntimeMetadata } from "../../facts";
  * JAVA_VERSION="17.0.11"
  * IMAGE_TYPE="JRE"
  * MODULES="java.base java.logging java.xml ..."
- * .... Other fields ...
- *
- * @param content - Raw content of /opt/java/openjdk/release file
- * @returns Parsed metadata or null if parsing fails
+ * ... Other fields ...
  */
 export function parseJavaRuntimeRelease(
   content: string,
@@ -26,20 +23,17 @@ export function parseJavaRuntimeRelease(
 
     for (const line of lines) {
       const trimmedLine = line.trim();
-      // Skip empty lines or comments
       if (!trimmedLine || trimmedLine.startsWith("#")) {
         continue;
       }
-      // Parse KEY="VALUE" or KEY=VALUE format
       const equalsIndex = trimmedLine.indexOf("=");
       if (equalsIndex === -1) {
-        continue; // Skip lines without '='
+        continue;
       }
-
+      // extracts the key and value, and removes whitespace surrounding each key and value
       const key = trimmedLine.substring(0, equalsIndex).trim();
       let value = trimmedLine.substring(equalsIndex + 1).trim();
-
-      // Remove surrounding quotes
+      
       if (
         (value.startsWith('"') && value.endsWith('"')) ||
         (value.startsWith("'") && value.endsWith("'"))
@@ -49,7 +43,6 @@ export function parseJavaRuntimeRelease(
 
       properties[key] = value;
     }
-    // return the Java version if it exists, otherwise return null
     return properties.JAVA_VERSION
       ? { javaVersion: properties.JAVA_VERSION }
       : null;
