@@ -133,11 +133,10 @@ function unpackJar({
   }
 
   for (const zipEntry of zipEntries) {
-    // pom.properties is file describing a package or package dependency
-    // using this file allows resolution of shaded jars
-    if (zipEntry.entryName.endsWith("pom.properties")) {
+    // pom.xml has the correct version for packages (e.g., mssql-jdbc with jre suffix)
+    if (zipEntry.entryName.endsWith("pom.xml")) {
       const entryData = zipEntry.getData().toString();
-      const entryCoords = getCoordsFromPomProperties(entryData);
+      const entryCoords = getCoordsFromPomXml(entryData);
       if (entryCoords) {
         if (
           // sometimes the path does not have the version
@@ -260,6 +259,53 @@ export function getCoordsFromPomProperties(
   fileContent: string,
 ): JarCoords | null {
   const coords = parsePomProperties(fileContent);
+
+  // we need all of these props to allow us to inject the package
+  // into the depGraph
+  if (!coords.artifactId || !coords.groupId || !coords.version) {
+    return null;
+  }
+
+  return coords;
+}
+
+/**
+ * Parses the file content of a pom.xml file to extract
+ * the coords for a package.
+ * @param {string} fileContent
+ */
+export function parsePomXml(fileContent: string): JarCoords {
+  const coords: JarCoords = {};
+  
+  // Extract groupId
+  const groupIdMatch = fileContent.match(/<groupId>([^<]+)<\/groupId>/);
+  if (groupIdMatch) {
+    coords.groupId = groupIdMatch[1].trim();
+  }
+  
+  // Extract artifactId
+  const artifactIdMatch = fileContent.match(/<artifactId>([^<]+)<\/artifactId>/);
+  if (artifactIdMatch) {
+    coords.artifactId = artifactIdMatch[1].trim();
+  }
+  
+  // Extract version
+  const versionMatch = fileContent.match(/<version>([^<]+)<\/version>/);
+  if (versionMatch) {
+    coords.version = versionMatch[1].trim();
+  }
+  
+  return coords;
+}
+
+/**
+ * Gets coords from the contents of a pom.xml file
+ * @param {string} fileContent
+ */
+export function getCoordsFromPomXml(
+  fileContent: string,
+): JarCoords | null {
+  const coords = parsePomXml(fileContent);
 
   // we need all of these props to allow us to inject the package
   // into the depGraph

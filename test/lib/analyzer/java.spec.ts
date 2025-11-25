@@ -3,8 +3,10 @@ import { readFileSync } from "fs";
 import { __metadata } from "tslib";
 import {
   getCoordsFromPomProperties,
+  getCoordsFromPomXml,
   jarFilesToScannedResults,
   parsePomProperties,
+  parsePomXml,
 } from "../../../lib/analyzer/applications/java";
 import { getTextFromFixture } from "../../util";
 
@@ -112,6 +114,74 @@ describe("getCoordsFromPomProperties function", () => {
       "pom-properties/incomplete.pom.properties",
     );
     const coords = getCoordsFromPomProperties(fixture);
+    expect(coords).toBeNull();
+  });
+});
+
+describe("parsePomXml function", () => {
+  describe("with a valid pom.xml file", () => {
+    const pomXmlContent = `<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.microsoft.sqlserver</groupId>
+  <artifactId>mssql-jdbc</artifactId>
+  <version>12.10.2.jre8</version>
+  <packaging>jar</packaging>
+</project>`;
+
+    const parsed = parsePomXml(pomXmlContent);
+
+    it("parsed output includes all required properties", () => {
+      expect(parsed).toEqual(
+        expect.objectContaining({
+          artifactId: "mssql-jdbc",
+          groupId: "com.microsoft.sqlserver",
+          version: "12.10.2.jre8",
+        }),
+      );
+    });
+
+    it("extracts version with jre suffix correctly", () => {
+      expect(parsed.version).toEqual("12.10.2.jre8");
+    });
+  });
+
+  describe("with an invalid pom.xml file", () => {
+    it("returns empty coords when required fields are missing", () => {
+      const invalidPomXml = `<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+  <modelVersion>4.0.0</modelVersion>
+</project>`;
+      const coords = getCoordsFromPomXml(invalidPomXml);
+      expect(coords).toBeNull();
+    });
+  });
+});
+
+describe("getCoordsFromPomXml function", () => {
+  const pomXmlContent = `<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+  <groupId>com.microsoft.sqlserver</groupId>
+  <artifactId>mssql-jdbc</artifactId>
+  <version>12.10.2.jre8</version>
+</project>`;
+
+  it("returns a coord as expected", () => {
+    const coords = getCoordsFromPomXml(pomXmlContent);
+    expect(coords).not.toBeNull();
+    expect(coords).toEqual({
+      artifactId: "mssql-jdbc",
+      groupId: "com.microsoft.sqlserver",
+      version: "12.10.2.jre8",
+    });
+  });
+
+  it("returns null when required fields are missing", () => {
+    const incompletePomXml = `<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <groupId>com.microsoft.sqlserver</groupId>
+</project>`;
+    const coords = getCoordsFromPomXml(incompletePomXml);
     expect(coords).toBeNull();
   });
 });
