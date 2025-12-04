@@ -215,6 +215,33 @@ async function depGraphFromManifestFiles(
   return scanResults;
 }
 
+export interface LockFileInfo {
+  path: string;
+  type: lockFileParser.LockfileType;
+}
+
+export function detectLockFile(
+  directoryPath: string,
+  filesInDirectory: Set<string>,
+): LockFileInfo | null {
+  const lockFiles: Array<{
+    filename: string;
+    type: lockFileParser.LockfileType;
+  }> = [
+    { filename: "package-lock.json", type: lockFileParser.LockfileType.npm },
+    { filename: "yarn.lock", type: lockFileParser.LockfileType.yarn },
+    { filename: "pnpm-lock.yaml", type: lockFileParser.LockfileType.pnpm },
+  ];
+
+  for (const { filename, type } of lockFiles) {
+    const lockPath = path.join(directoryPath, filename);
+    if (filesInDirectory.has(lockPath)) {
+      return { path: lockPath, type };
+    }
+  }
+  return null;
+}
+
 function findManifestLockPairsInSameDirectory(
   fileNamesGroupedByDirectory: FilesByDirMap,
 ): ManifestLockPathPair[] {
@@ -231,26 +258,21 @@ function findManifestLockPairsInSameDirectory(
     }
 
     const expectedManifest = path.join(directoryPath, "package.json");
-    const expectedNpmLockFile = path.join(directoryPath, "package-lock.json");
-    const expectedYarnLockFile = path.join(directoryPath, "yarn.lock");
-
-    const hasManifestFile = filesInDirectory.has(expectedManifest);
-    const hasLockFile =
-      filesInDirectory.has(expectedNpmLockFile) ||
-      filesInDirectory.has(expectedYarnLockFile);
-
-    if (hasManifestFile && hasLockFile) {
-      manifestLockPathPairs.push({
-        manifest: expectedManifest,
-        // TODO: correlate filtering action with expected lockfile types
-        lock: filesInDirectory.has(expectedNpmLockFile)
-          ? expectedNpmLockFile
-          : expectedYarnLockFile,
-        lockType: filesInDirectory.has(expectedNpmLockFile)
-          ? lockFileParser.LockfileType.npm
-          : lockFileParser.LockfileType.yarn,
-      });
+    if (!filesInDirectory.has(expectedManifest)) {
+      continue;
     }
+
+    // TODO: correlate filtering action with expected lockfile types
+    const lockFile = detectLockFile(directoryPath, filesInDirectory);
+    if (!lockFile) {
+      continue;
+    }
+
+    manifestLockPathPairs.push({
+      manifest: expectedManifest,
+      lock: lockFile.path,
+      lockType: lockFile.type,
+    });
   }
 
   return manifestLockPathPairs;
@@ -269,13 +291,9 @@ function findManifestNodeModulesFilesInSameDirectory(
     }
 
     const expectedManifest = path.join(directoryPath, "package.json");
-    const expectedNpmLockFile = path.join(directoryPath, "package-lock.json");
-    const expectedYarnLockFile = path.join(directoryPath, "yarn.lock");
-
     const hasManifestFile = filesInDirectory.has(expectedManifest);
     const hasLockFile =
-      filesInDirectory.has(expectedNpmLockFile) ||
-      filesInDirectory.has(expectedYarnLockFile);
+      detectLockFile(directoryPath, filesInDirectory) !== null;
 
     if (hasManifestFile && hasLockFile) {
       continue;
@@ -347,6 +365,21 @@ async function buildDepGraph(
           strictOutOfSync: shouldBeStrictForManifestAndLockfileOutOfSync,
         },
       );
+    case NodeLockfileVersion.PnpmLockV5:
+    case NodeLockfileVersion.PnpmLockV6:
+    case NodeLockfileVersion.PnpmLockV9:
+      return await lockFileParser.parsePnpmProject(
+        manifestFileContents,
+        lockFileContents,
+        {
+          includeDevDeps: shouldIncludeDevDependencies,
+          includeOptionalDeps: true,
+          includePeerDeps: false,
+          pruneWithinTopLevelDeps: true,
+          strictOutOfSync: shouldBeStrictForManifestAndLockfileOutOfSync,
+        },
+        lockfileVersion,
+      );
   }
   throw new Error(
     "Failed to build dep graph from current project, unknown lockfile version : " +
@@ -401,6 +434,9 @@ export function shouldBuildDepTree(lockfileVersion: NodeLockfileVersion) {
     lockfileVersion === NodeLockfileVersion.YarnLockV1 ||
     lockfileVersion === NodeLockfileVersion.YarnLockV2 ||
     lockfileVersion === NodeLockfileVersion.NpmLockV2 ||
-    lockfileVersion === NodeLockfileVersion.NpmLockV3
+    lockfileVersion === NodeLockfileVersion.NpmLockV3 ||
+    lockfileVersion === NodeLockfileVersion.PnpmLockV5 ||
+    lockfileVersion === NodeLockfileVersion.PnpmLockV6 ||
+    lockfileVersion === NodeLockfileVersion.PnpmLockV9
   );
 }
