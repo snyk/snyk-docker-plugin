@@ -751,11 +751,17 @@ describe("node application files grouping", () => {
         "",
       "~/.pnpm-store/54321098765432109876543210987654321098765432109876543210987654321/package.json":
         "",
+      "~/.pnpm-store/54321098765432109876543210987654321098765432109876543210987654321/pnpm-lock.yaml":
+        "",
       "~/.pnpm-store/54321098765432109876543210987654321098765432109876543210987654321/node_modules/@scope/package-a@1.2.3/package.json":
         "",
       "C:\\Users\\username\\AppData\\Roaming\\pnpm-store\\54321098765432109876543210987654321098765432109876543210987654321\\package.json":
         "",
+      "C:\\Users\\username\\AppData\\Roaming\\pnpm-store\\54321098765432109876543210987654321098765432109876543210987654321\\pnpm-lock.yaml":
+        "",
       "C:\\Users\\username\\AppData\\Roaming\\pnpm\\store\\54321098765432109876543210987654321098765432109876543210987654321\\package.json":
+        "",
+      "C:\\Users\\username\\AppData\\Roaming\\pnpm\\store\\54321098765432109876543210987654321098765432109876543210987654321\\pnpm-lock.yaml":
         "",
     };
 
