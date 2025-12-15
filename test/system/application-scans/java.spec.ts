@@ -96,21 +96,6 @@ describe("jar binaries scanning", () => {
             imageNameAndTag = `docker-archive:${fixturePath}`;
           });
 
-          it("should return nested (second-level) jar in the result", async () => {
-            // Act
-            pluginResult = await scan({
-              path: imageNameAndTag,
-              "app-vulns": true,
-              [flagName]: true,
-            });
-
-            // Assert
-            fingerprints =
-              pluginResult.scanResults[1].facts[0].data.fingerprints;
-
-            expect(fingerprints).toContainEqual(nestedJar);
-          });
-
           it(`should unpack 1 level of jars if ${flagName} flag is missing`, async () => {
             // Act
             pluginResult = await scan({
@@ -144,6 +129,17 @@ describe("jar binaries scanning", () => {
               pluginResult.scanResults[1].facts[0].data.fingerprints;
             expect(fingerprints).toContainEqual(fatJar);
             expect(fingerprints).not.toContainEqual(nestedJar);
+          });
+
+          it(`should throw if ${flagName} flag is set to true`, async () => {
+            // Act + Assert
+            await expect(
+              scan({
+                path: imageNameAndTag,
+                "app-vulns": true,
+                [flagName]: true,
+              }),
+            ).rejects.toThrow();
           });
 
           it(`should throw if ${flagName} flag is set to -1`, async () => {

@@ -9,7 +9,7 @@ import { ImageName } from "./extractor/image";
 import { ExtractAction, ExtractionResult } from "./extractor/types";
 import { fullImageSavePath } from "./image-save-path";
 import { getArchivePath, getImageType } from "./image-type";
-import { isNumber, isTrue } from "./option-utils";
+import { isStrictNumber, isTrue } from "./option-utils";
 import * as staticModule from "./static";
 import { ImageType, PluginOptions, PluginResponse } from "./types";
 import { isValidDockerImageReference } from "./utils";
@@ -43,7 +43,7 @@ async function getAnalysisParameters(
   const nestedJarsDepth =
     options["nested-jars-depth"] || options["shaded-jars-depth"];
   if (
-    (isTrue(nestedJarsDepth) || isNumber(nestedJarsDepth)) &&
+    (isStrictNumber(nestedJarsDepth)) &&
     isTrue(options["exclude-app-vulns"])
   ) {
     throw new Error(
@@ -52,8 +52,7 @@ async function getAnalysisParameters(
   }
 
   if (
-    (!isNumber(nestedJarsDepth) &&
-      !isTrue(nestedJarsDepth) &&
+    (!isStrictNumber(nestedJarsDepth) &&
       typeof nestedJarsDepth !== "undefined") ||
     Number(nestedJarsDepth) < 0
   ) {
