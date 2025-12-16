@@ -123,8 +123,9 @@ async function depGraphFromNodeModules(
         continue;
       }
 
+      const normalizedPkgTree = normalizeLabelsInPkgTree(pkgTree);
       const depGraph = await legacy.depTreeToGraph(
-        pkgTree,
+        normalizedPkgTree,
         pkgTree.type || "npm",
       );
 
@@ -304,22 +305,76 @@ function findManifestNodeModulesFilesInSameDirectory(
   return nodeProjects;
 }
 
-function stripUndefinedLabels(
-  parserResult: lockFileParser.PkgTree,
-): lockFileParser.PkgTree {
-  const optionalLabels = parserResult.labels;
-  const mandatoryLabels: Record<string, string> = {};
-  if (optionalLabels) {
-    for (const currentLabelName of Object.keys(optionalLabels)) {
-      if (optionalLabels[currentLabelName] !== undefined) {
-        mandatoryLabels[currentLabelName] = optionalLabels[currentLabelName]!;
+/**
+ * Recursively normalizes labels in dependencies by converting Alias objects to strings
+ */
+function normalizeDependencies(dependencies?: { [depName: string]: any }):
+  | {
+      [depName: string]: any;
+    }
+  | undefined {
+  if (!dependencies) {
+    return undefined;
+  }
+
+  const result: { [depName: string]: any } = {};
+
+  for (const [depName, dep] of Object.entries(dependencies)) {
+    result[depName] = {
+      ...dep,
+      labels: normalizeLabels(dep.labels),
+      dependencies: normalizeDependencies(dep.dependencies),
+    };
+  }
+
+  return result;
+}
+
+/**
+ * Converts Alias objects in labels to string representations
+ * to ensure compatibility with legacy.depTreeToGraph()
+ */
+export function normalizeLabels(labels?: any):
+  | {
+      [key: string]: string;
+    }
+  | undefined {
+  if (!labels) {
+    return undefined;
+  }
+
+  const normalized: { [key: string]: string } = {};
+
+  for (const [key, value] of Object.entries(labels)) {
+    if (value !== undefined && value !== null) {
+      if (typeof value === "string") {
+        normalized[key] = value;
+      } else if (
+        typeof value === "object" &&
+        value &&
+        "aliasName" in value &&
+        "version" in value
+      ) {
+        // Convert Alias object to string representation
+        const aliasValue = value as { aliasName: string; version: string };
+        normalized[key] = `${aliasValue.aliasName}@${aliasValue.version}`;
       }
     }
   }
-  const parserResultWithProperLabels = Object.assign({}, parserResult, {
-    labels: mandatoryLabels,
-  });
-  return parserResultWithProperLabels;
+
+  return normalized;
+}
+
+/**
+ * Normalizes labels in the entire PkgTree by converting Alias objects to strings
+ * Returns a tree structure with normalized labels compatible with legacy API
+ */
+export function normalizeLabelsInPkgTree(pkgTree: lockFileParser.PkgTree) {
+  return {
+    ...pkgTree,
+    labels: normalizeLabels(pkgTree.labels),
+    dependencies: normalizeDependencies(pkgTree.dependencies),
+  };
 }
 
 async function buildDepGraph(
@@ -403,8 +458,8 @@ async function buildDepGraphFromDepTree(
     shouldBeStrictForManifestAndLockfileOutOfSync,
     // Don't provide a default manifest file name, prefer the parser to infer it.
   );
-  const strippedLabelsParserResult = stripUndefinedLabels(parserResult);
-  return await legacy.depTreeToGraph(strippedLabelsParserResult, lockfileType);
+  const normalizedResult = normalizeLabelsInPkgTree(parserResult);
+  return await legacy.depTreeToGraph(normalizedResult, lockfileType);
 }
 
 export function getLockFileVersion(
