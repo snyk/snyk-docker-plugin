@@ -42,10 +42,7 @@ async function getAnalysisParameters(
 
   const nestedJarsDepth =
     options["nested-jars-depth"] || options["shaded-jars-depth"];
-  if (
-    (isStrictNumber(nestedJarsDepth)) &&
-    isTrue(options["exclude-app-vulns"])
-  ) {
+  if (isStrictNumber(nestedJarsDepth) && isTrue(options["exclude-app-vulns"])) {
     throw new Error(
       "To use --nested-jars-depth, you must not use --exclude-app-vulns",
     );

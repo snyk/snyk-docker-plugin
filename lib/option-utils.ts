@@ -11,8 +11,8 @@ function isNumber(value?: boolean | string): boolean {
 
 // Must be a finite numeric value, excluding booleans, and Infinity
 function isStrictNumber(value?: boolean | string): boolean {
-  if (typeof value === 'boolean' || !value) return false;
-  
+  if (typeof value === "boolean" || !value) { return false; }
+
   const num = Number(value);
   return !Number.isNaN(num) && Number.isFinite(num);
 }
