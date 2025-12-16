@@ -2,6 +2,7 @@ import { DepGraph, legacy } from "@snyk/dep-graph";
 import * as Debug from "debug";
 import * as path from "path";
 import * as lockFileParser from "snyk-nodejs-lockfile-parser";
+import { DepTree, DepTreeDep } from "@snyk/cli-interface/legacy/common";
 import * as resolveDeps from "snyk-resolve-deps";
 import { DepGraphFact, TestedFilesFact } from "../../facts";
 
@@ -123,8 +124,9 @@ async function depGraphFromNodeModules(
         continue;
       }
 
+      const depTree = convertPkgTreeToDepTree(pkgTree);
       const depGraph = await legacy.depTreeToGraph(
-        pkgTree,
+        depTree,
         pkgTree.type || "npm",
       );
 
@@ -304,22 +306,27 @@ function findManifestNodeModulesFilesInSameDirectory(
   return nodeProjects;
 }
 
+function convertDependencies(
+  dependencies?: { [depName: string]: any },
+): { [depName: string]: DepTreeDep } | undefined {
+  if (!dependencies) return undefined;
+  
+  const convertedDeps: { [depName: string]: DepTreeDep } = {};
+  for (const [depName, dep] of Object.entries(dependencies)) {
+    convertedDeps[depName] = {
+      name: dep.name,
+      version: dep.version,
+      dependencies: convertDependencies(dep.dependencies),
+      labels: convertLabels(dep.labels),
+    };
+  }
+  return convertedDeps;
+}
+
 function stripUndefinedLabels(
   parserResult: lockFileParser.PkgTree,
-): lockFileParser.PkgTree {
-  const optionalLabels = parserResult.labels;
-  const mandatoryLabels: Record<string, string> = {};
-  if (optionalLabels) {
-    for (const currentLabelName of Object.keys(optionalLabels)) {
-      if (optionalLabels[currentLabelName] !== undefined) {
-        mandatoryLabels[currentLabelName] = optionalLabels[currentLabelName]!;
-      }
-    }
-  }
-  const parserResultWithProperLabels = Object.assign({}, parserResult, {
-    labels: mandatoryLabels,
-  });
-  return parserResultWithProperLabels;
+): DepTree {
+  return convertPkgTreeToDepTree(parserResult);
 }
 
 async function buildDepGraph(
@@ -405,6 +412,39 @@ async function buildDepGraphFromDepTree(
   );
   const strippedLabelsParserResult = stripUndefinedLabels(parserResult);
   return await legacy.depTreeToGraph(strippedLabelsParserResult, lockfileType);
+}
+
+export function convertPkgTreeToDepTree(
+  pkgTree: lockFileParser.PkgTree,
+): DepTree {
+  return {
+    name: pkgTree.name,
+    version: pkgTree.version,
+    dependencies: convertDependencies(pkgTree.dependencies),
+    labels: convertLabels(pkgTree.labels),
+    type: pkgTree.type,
+    packageFormatVersion: pkgTree.packageFormatVersion,
+  };
+}
+
+export function convertLabels(
+  labels?: any,
+): { [key: string]: string } | undefined {
+  if (!labels) return undefined;
+  
+  const convertedLabels: { [key: string]: string } = {};
+  for (const [key, value] of Object.entries(labels)) {
+    if (value !== undefined && value !== null) {
+      if (typeof value === 'string') {
+        convertedLabels[key] = value;
+      } else if (typeof value === 'object' && value && 'aliasName' in value && 'version' in value) {
+        // Convert Alias object to string representation
+        const aliasValue = value as { aliasName: string; version: string };
+        convertedLabels[key] = `${aliasValue.aliasName}@${aliasValue.version}`;
+      }
+    }
+  }
+  return convertedLabels;
 }
 
 export function getLockFileVersion(
