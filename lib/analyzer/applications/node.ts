@@ -1,4 +1,3 @@
-import { DepTree, DepTreeDep } from "@snyk/cli-interface/legacy/common";
 import { DepGraph, legacy } from "@snyk/dep-graph";
 import * as Debug from "debug";
 import * as path from "path";
@@ -124,9 +123,9 @@ async function depGraphFromNodeModules(
         continue;
       }
 
-      const depTree = convertPkgTreeToDepTree(pkgTree);
+      const normalizedPkgTree = normalizeLabelsInPkgTree(pkgTree);
       const depGraph = await legacy.depTreeToGraph(
-        depTree,
+        normalizedPkgTree as any,
         pkgTree.type || "npm",
       );
 
@@ -306,27 +305,78 @@ function findManifestNodeModulesFilesInSameDirectory(
   return nodeProjects;
 }
 
-function convertDependencies(dependencies?: {
-  [depName: string]: any;
-}): { [depName: string]: DepTreeDep } | undefined {
+/**
+ * Recursively normalizes labels in dependencies by converting Alias objects to strings
+ */
+function normalizeDependencies(dependencies?: { [depName: string]: any }):
+  | {
+      [depName: string]: any;
+    }
+  | undefined {
   if (!dependencies) {
     return undefined;
   }
 
-  const convertedDeps: { [depName: string]: DepTreeDep } = {};
+  const result: { [depName: string]: any } = {};
+
   for (const [depName, dep] of Object.entries(dependencies)) {
-    convertedDeps[depName] = {
-      name: dep.name,
-      version: dep.version,
-      dependencies: convertDependencies(dep.dependencies),
-      labels: convertLabels(dep.labels),
+    result[depName] = {
+      ...dep,
+      labels: normalizeLabels(dep.labels),
+      dependencies: normalizeDependencies(dep.dependencies),
     };
   }
-  return convertedDeps;
+
+  return result;
 }
 
-function stripUndefinedLabels(parserResult: lockFileParser.PkgTree): DepTree {
-  return convertPkgTreeToDepTree(parserResult);
+/**
+ * Converts Alias objects in labels to string representations
+ * to ensure compatibility with legacy.depTreeToGraph()
+ */
+export function normalizeLabels(labels?: any):
+  | {
+      [key: string]: string;
+    }
+  | undefined {
+  if (!labels) {
+    return undefined;
+  }
+
+  const normalized: { [key: string]: string } = {};
+
+  for (const [key, value] of Object.entries(labels)) {
+    if (value !== undefined && value !== null) {
+      if (typeof value === "string") {
+        normalized[key] = value;
+      } else if (
+        typeof value === "object" &&
+        value &&
+        "aliasName" in value &&
+        "version" in value
+      ) {
+        // Convert Alias object to string representation
+        const aliasValue = value as { aliasName: string; version: string };
+        normalized[key] = `${aliasValue.aliasName}@${aliasValue.version}`;
+      }
+    }
+  }
+
+  return normalized;
+}
+
+/**
+ * Normalizes labels in the entire PkgTree by converting Alias objects to strings
+ * Returns the PkgTree with all labels normalized, compatible with DepTree
+ */
+export function normalizeLabelsInPkgTree(
+  pkgTree: lockFileParser.PkgTree,
+): lockFileParser.PkgTree {
+  return {
+    ...pkgTree,
+    labels: normalizeLabels(pkgTree.labels),
+    dependencies: normalizeDependencies(pkgTree.dependencies),
+  } as lockFileParser.PkgTree;
 }
 
 async function buildDepGraph(
@@ -410,48 +460,8 @@ async function buildDepGraphFromDepTree(
     shouldBeStrictForManifestAndLockfileOutOfSync,
     // Don't provide a default manifest file name, prefer the parser to infer it.
   );
-  const strippedLabelsParserResult = stripUndefinedLabels(parserResult);
-  return await legacy.depTreeToGraph(strippedLabelsParserResult, lockfileType);
-}
-
-export function convertPkgTreeToDepTree(
-  pkgTree: lockFileParser.PkgTree,
-): DepTree {
-  return {
-    name: pkgTree.name,
-    version: pkgTree.version,
-    dependencies: convertDependencies(pkgTree.dependencies),
-    labels: convertLabels(pkgTree.labels),
-    type: pkgTree.type,
-    packageFormatVersion: pkgTree.packageFormatVersion,
-  };
-}
-
-export function convertLabels(
-  labels?: any,
-): { [key: string]: string } | undefined {
-  if (!labels) {
-    return undefined;
-  }
-
-  const convertedLabels: { [key: string]: string } = {};
-  for (const [key, value] of Object.entries(labels)) {
-    if (value !== undefined && value !== null) {
-      if (typeof value === "string") {
-        convertedLabels[key] = value;
-      } else if (
-        typeof value === "object" &&
-        value &&
-        "aliasName" in value &&
-        "version" in value
-      ) {
-        // Convert Alias object to string representation
-        const aliasValue = value as { aliasName: string; version: string };
-        convertedLabels[key] = `${aliasValue.aliasName}@${aliasValue.version}`;
-      }
-    }
-  }
-  return convertedLabels;
+  const normalizedResult = normalizeLabelsInPkgTree(parserResult);
+  return await legacy.depTreeToGraph(normalizedResult as any, lockfileType);
 }
 
 export function getLockFileVersion(

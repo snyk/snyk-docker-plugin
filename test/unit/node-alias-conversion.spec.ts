@@ -1,19 +1,19 @@
 import * as lockFileParser from "snyk-nodejs-lockfile-parser";
 import {
-  convertLabels,
-  convertPkgTreeToDepTree,
+  normalizeLabels,
+  normalizeLabelsInPkgTree,
 } from "../../lib/analyzer/applications/node";
 
-describe("Node.js Alias Conversion", () => {
-  describe("convertLabels", () => {
-    it("should convert string labels correctly", () => {
+describe("Node.js Alias Normalization", () => {
+  describe("normalizeLabels", () => {
+    it("should keep string labels unchanged", () => {
       const labels = {
         scope: "dev",
         pruned: "cyclic",
         someLabel: "someValue",
       };
 
-      const result = convertLabels(labels);
+      const result = normalizeLabels(labels);
 
       expect(result).toEqual({
         scope: "dev",
@@ -33,7 +33,7 @@ describe("Node.js Alias Conversion", () => {
         },
       };
 
-      const result = convertLabels(labels);
+      const result = normalizeLabels(labels);
 
       expect(result).toEqual({
         scope: "prod",
@@ -54,7 +54,7 @@ describe("Node.js Alias Conversion", () => {
         customLabel: "custom-value",
       };
 
-      const result = convertLabels(labels);
+      const result = normalizeLabels(labels);
 
       expect(result).toEqual({
         scope: "prod",
@@ -72,7 +72,7 @@ describe("Node.js Alias Conversion", () => {
         validValue: "valid",
       };
 
-      const result = convertLabels(labels);
+      const result = normalizeLabels(labels);
 
       expect(result).toEqual({
         scope: "dev",
@@ -81,16 +81,16 @@ describe("Node.js Alias Conversion", () => {
     });
 
     it("should handle empty labels", () => {
-      const result = convertLabels(undefined);
+      const result = normalizeLabels(undefined);
       expect(result).toBeUndefined();
 
-      const resultEmpty = convertLabels({});
+      const resultEmpty = normalizeLabels({});
       expect(resultEmpty).toEqual({});
     });
   });
 
-  describe("convertPkgTreeToDepTree", () => {
-    it("should convert a PkgTree with alias labels to DepTree", () => {
+  describe("normalizeLabelsInPkgTree", () => {
+    it("should normalize all labels in a PkgTree with aliases", () => {
       const pkgTree: lockFileParser.PkgTree = {
         name: "my-app",
         version: "1.0.0",
@@ -121,7 +121,7 @@ describe("Node.js Alias Conversion", () => {
         },
       };
 
-      const result = convertPkgTreeToDepTree(pkgTree);
+      const result = normalizeLabelsInPkgTree(pkgTree);
 
       expect(result.name).toBe("my-app");
       expect(result.version).toBe("1.0.0");
