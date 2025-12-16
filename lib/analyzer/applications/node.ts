@@ -125,7 +125,7 @@ async function depGraphFromNodeModules(
 
       const normalizedPkgTree = normalizeLabelsInPkgTree(pkgTree);
       const depGraph = await legacy.depTreeToGraph(
-        normalizedPkgTree as any,
+        normalizedPkgTree,
         pkgTree.type || "npm",
       );
 
@@ -367,16 +367,14 @@ export function normalizeLabels(labels?: any):
 
 /**
  * Normalizes labels in the entire PkgTree by converting Alias objects to strings
- * Returns the PkgTree with all labels normalized, compatible with DepTree
+ * Returns a tree structure with normalized labels compatible with legacy API
  */
-export function normalizeLabelsInPkgTree(
-  pkgTree: lockFileParser.PkgTree,
-): lockFileParser.PkgTree {
+export function normalizeLabelsInPkgTree(pkgTree: lockFileParser.PkgTree) {
   return {
     ...pkgTree,
     labels: normalizeLabels(pkgTree.labels),
     dependencies: normalizeDependencies(pkgTree.dependencies),
-  } as lockFileParser.PkgTree;
+  };
 }
 
 async function buildDepGraph(
@@ -461,7 +459,7 @@ async function buildDepGraphFromDepTree(
     // Don't provide a default manifest file name, prefer the parser to infer it.
   );
   const normalizedResult = normalizeLabelsInPkgTree(parserResult);
-  return await legacy.depTreeToGraph(normalizedResult as any, lockfileType);
+  return await legacy.depTreeToGraph(normalizedResult, lockfileType);
 }
 
 export function getLockFileVersion(
