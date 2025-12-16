@@ -16,5 +16,5 @@ function isStrictNumber(value?: boolean | string): boolean {
   }
 
   const num = Number(value);
-  return !Number.isNaN(num) && Number.isFinite(num);
+  return Number.isFinite(num);
 }
