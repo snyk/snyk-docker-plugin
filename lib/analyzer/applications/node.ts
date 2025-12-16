@@ -1,8 +1,8 @@
+import { DepTree, DepTreeDep } from "@snyk/cli-interface/legacy/common";
 import { DepGraph, legacy } from "@snyk/dep-graph";
 import * as Debug from "debug";
 import * as path from "path";
 import * as lockFileParser from "snyk-nodejs-lockfile-parser";
-import { DepTree, DepTreeDep } from "@snyk/cli-interface/legacy/common";
 import * as resolveDeps from "snyk-resolve-deps";
 import { DepGraphFact, TestedFilesFact } from "../../facts";
 
@@ -306,11 +306,13 @@ function findManifestNodeModulesFilesInSameDirectory(
   return nodeProjects;
 }
 
-function convertDependencies(
-  dependencies?: { [depName: string]: any },
-): { [depName: string]: DepTreeDep } | undefined {
-  if (!dependencies) return undefined;
-  
+function convertDependencies(dependencies?: {
+  [depName: string]: any;
+}): { [depName: string]: DepTreeDep } | undefined {
+  if (!dependencies) {
+    return undefined;
+  }
+
   const convertedDeps: { [depName: string]: DepTreeDep } = {};
   for (const [depName, dep] of Object.entries(dependencies)) {
     convertedDeps[depName] = {
@@ -323,9 +325,7 @@ function convertDependencies(
   return convertedDeps;
 }
 
-function stripUndefinedLabels(
-  parserResult: lockFileParser.PkgTree,
-): DepTree {
+function stripUndefinedLabels(parserResult: lockFileParser.PkgTree): DepTree {
   return convertPkgTreeToDepTree(parserResult);
 }
 
@@ -430,14 +430,21 @@ export function convertPkgTreeToDepTree(
 export function convertLabels(
   labels?: any,
 ): { [key: string]: string } | undefined {
-  if (!labels) return undefined;
-  
+  if (!labels) {
+    return undefined;
+  }
+
   const convertedLabels: { [key: string]: string } = {};
   for (const [key, value] of Object.entries(labels)) {
     if (value !== undefined && value !== null) {
-      if (typeof value === 'string') {
+      if (typeof value === "string") {
         convertedLabels[key] = value;
-      } else if (typeof value === 'object' && value && 'aliasName' in value && 'version' in value) {
+      } else if (
+        typeof value === "object" &&
+        value &&
+        "aliasName" in value &&
+        "version" in value
+      ) {
         // Convert Alias object to string representation
         const aliasValue = value as { aliasName: string; version: string };
         convertedLabels[key] = `${aliasValue.aliasName}@${aliasValue.version}`;

@@ -1,4 +1,8 @@
-import { convertPkgTreeToDepTree, convertLabels } from "../../lib/analyzer/applications/node";
+import * as lockFileParser from "snyk-nodejs-lockfile-parser";
+import {
+  convertLabels,
+  convertPkgTreeToDepTree,
+} from "../../lib/analyzer/applications/node";
 
 describe("Node.js Alias Conversion", () => {
   describe("convertLabels", () => {
@@ -87,7 +91,7 @@ describe("Node.js Alias Conversion", () => {
 
   describe("convertPkgTreeToDepTree", () => {
     it("should convert a PkgTree with alias labels to DepTree", () => {
-      const pkgTree = {
+      const pkgTree: lockFileParser.PkgTree = {
         name: "my-app",
         version: "1.0.0",
         type: "npm",
@@ -108,12 +112,12 @@ describe("Node.js Alias Conversion", () => {
             name: "regular-dep",
             version: "2.0.0",
             labels: {
-              scope: "prod",
+              scope: "prod" as const,
             },
           },
         },
         labels: {
-          scope: "prod",
+          scope: "prod" as const,
         },
       };
 
@@ -134,9 +138,3 @@ describe("Node.js Alias Conversion", () => {
     });
   });
 });
-
-
-
-
-
-
