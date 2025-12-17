@@ -163,6 +163,10 @@ async function buildResponse(
       target: {
         image: depGraph.rootPkg.name,
       },
+      ...(options &&
+        options["target-reference"] && {
+          targetReference: options["target-reference"],
+        }),
     };
   });
 
