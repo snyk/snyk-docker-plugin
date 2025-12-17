@@ -40,8 +40,10 @@ async function getAnalysisParameters(
     throw new Error("No image identifier or path provided");
   }
 
-  const nestedJarsDepth =
-    options["nested-jars-depth"] || options["shaded-jars-depth"];
+  const nestedJarsDepth = [
+    options["nested-jars-depth"],
+    options["shaded-jars-depth"],
+  ].find((val) => val !== "" && val != null);
   if (isStrictNumber(nestedJarsDepth) && isTrue(options["exclude-app-vulns"])) {
     throw new Error(
       "To use --nested-jars-depth, you must not use --exclude-app-vulns",

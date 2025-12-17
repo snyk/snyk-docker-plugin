@@ -318,8 +318,10 @@ export async function analyze(
 }
 
 function getNestedJarsDesiredDepth(options: Partial<PluginOptions>) {
-  const nestedJarsOption =
-    options["nested-jars-depth"] || options["shaded-jars-depth"];
+  const nestedJarsOption = [
+    options["nested-jars-depth"],
+    options["shaded-jars-depth"],
+  ].find((val) => val !== "" && val != null);
   let nestedJarsDepth = 1;
   const depthNumber = Number(nestedJarsOption);
   if (!isNaN(depthNumber) && depthNumber >= 0) {

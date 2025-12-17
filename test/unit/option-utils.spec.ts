@@ -156,4 +156,20 @@ describe("isStrictNumber", () => {
   test("'123.' should return true", () => {
     expect(isStrictNumber("123.")).toBe(true);
   });
+
+  test("'   ' should return false", () => {
+    expect(isStrictNumber("   ")).toBe(false);
+  });
+
+  test("' 1' should return true", () => {
+    expect(isStrictNumber(" 1")).toBe(true);
+  });
+
+  test("'1  ' should return true", () => {
+    expect(isStrictNumber("1  ")).toBe(true);
+  });
+
+  test("'. . 234 ' should return false", () => {
+    expect(isStrictNumber(". . 234 ")).toBe(false);
+  });
 });

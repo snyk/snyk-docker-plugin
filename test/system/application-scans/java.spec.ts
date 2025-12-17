@@ -108,6 +108,20 @@ describe("jar binaries scanning", () => {
 
             expect(fingerprints).toContainEqual(nestedJar);
           });
+
+          it(`should unpack 1 level of jars if ${flagName} flag is ''`, async () => {
+            // Act
+            pluginResult = await scan({
+              path: imageNameAndTag,
+              "app-vulns": true,
+              [flagName]: "",
+            });
+
+            fingerprints =
+              pluginResult.scanResults[1].facts[0].data.fingerprints;
+
+            expect(fingerprints).toContainEqual(nestedJar);
+          });
         });
 
         describe("with missing CLI flags", () => {
@@ -149,6 +163,17 @@ describe("jar binaries scanning", () => {
                 path: imageNameAndTag,
                 "app-vulns": true,
                 [flagName]: "-1",
+              }),
+            ).rejects.toThrow();
+          });
+
+          it(`should throw if ${flagName} flag is set to ' '`, async () => {
+            // Act + Assert
+            await expect(
+              scan({
+                path: imageNameAndTag,
+                "app-vulns": true,
+                [flagName]: " ",
               }),
             ).rejects.toThrow();
           });

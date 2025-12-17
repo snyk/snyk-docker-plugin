@@ -9,9 +9,9 @@ function isNumber(value?: boolean | string): boolean {
   return !isNaN(Number(value));
 }
 
-// Must be a finite numeric value, excluding booleans, and Infinity
+// Must be a finite numeric value, excluding booleans, Infinity, and non-numeric strings
 function isStrictNumber(value?: boolean | string): boolean {
-  if (typeof value === "boolean" || !value) {
+  if (typeof value === "boolean" || !value?.replace(/\s/g, "").length) {
     return false;
   }
 
