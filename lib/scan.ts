@@ -9,7 +9,7 @@ import { ImageName } from "./extractor/image";
 import { ExtractAction, ExtractionResult } from "./extractor/types";
 import { fullImageSavePath } from "./image-save-path";
 import { getArchivePath, getImageType } from "./image-type";
-import { isStrictNumber, isTrue } from "./option-utils";
+import { isStrictNumber, isTrue, resolveNestedJarsOption } from "./option-utils";
 import * as staticModule from "./static";
 import { ImageType, PluginOptions, PluginResponse } from "./types";
 import { isValidDockerImageReference } from "./utils";
@@ -40,10 +40,7 @@ async function getAnalysisParameters(
     throw new Error("No image identifier or path provided");
   }
 
-  const nestedJarsDepth = [
-    options["nested-jars-depth"],
-    options["shaded-jars-depth"],
-  ].find((val) => val !== "" && val != null);
+  const nestedJarsDepth = resolveNestedJarsOption(options);
   if (isStrictNumber(nestedJarsDepth) && isTrue(options["exclude-app-vulns"])) {
     throw new Error(
       "To use --nested-jars-depth, you must not use --exclude-app-vulns",

@@ -1,4 +1,5 @@
 import * as Debug from "debug";
+import { resolveNestedJarsOption } from "../option-utils";
 import { DockerFileAnalysis } from "../dockerfile";
 import * as archiveExtractor from "../extractor";
 import {
@@ -83,6 +84,7 @@ import {
   OSRelease,
   StaticPackagesAnalysis,
 } from "./types";
+
 
 const debug = Debug("snyk");
 
@@ -318,10 +320,7 @@ export async function analyze(
 }
 
 function getNestedJarsDesiredDepth(options: Partial<PluginOptions>) {
-  const nestedJarsOption = [
-    options["nested-jars-depth"],
-    options["shaded-jars-depth"],
-  ].find((val) => val !== "" && val != null);
+  const nestedJarsOption = resolveNestedJarsOption(options);
   let nestedJarsDepth = 1;
   const depthNumber = Number(nestedJarsOption);
   if (!isNaN(depthNumber) && depthNumber >= 0) {

@@ -1,3 +1,4 @@
+import { PluginOptions } from './types'; 
 export { isTrue, isNumber, isStrictNumber };
 
 function isTrue(value?: boolean | string): boolean {
@@ -17,4 +18,13 @@ function isStrictNumber(value?: boolean | string): boolean {
 
   const num = Number(value);
   return Number.isFinite(num);
+}
+
+export function resolveNestedJarsOption(options?: Partial<PluginOptions>) {
+  const safeOptions = options || {}; 
+
+  return [
+    safeOptions['nested-jars-depth'],
+    safeOptions['shaded-jars-depth'],
+  ].find((val) => val !== '' && val != null);
 }
