@@ -1,0 +1,36 @@
+{
+  "spdxVersion": "SPDX-2.3",
+  "dataLicense": "CC0-1.0",
+  "SPDXID": "SPDXRef-dhi-pkg-binutils",
+  "name": "SPDX document for dhi/pkg-binutils 2.45-debian13",
+  "documentNamespace": "dhi-pkg-binutils-2.45-debian13",
+  "creationInfo": {
+    "creators": [
+      "Organization: Docker, Inc.",
+      "Tool: dhi/build"
+    ],
+    "created": "1970-01-01T00:00:00Z"
+  },
+  "packages": [
+    {
+      "name": "dhi/pkg-binutils",
+      "SPDXID": "SPDXRef-dhi-pkg-binutils",
+      "versionInfo": "2.45-debian13",
+      "supplier": "Organization: Docker, Inc.",
+      "originator": "Organization: Docker, Inc.",
+      "downloadLocation": "https://hub.docker.com/hardened-images/dhi/pkg-binutils",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:docker/dhi/pkg-binutils@2.45-debian13?platform=linux%2Farm64&os_name=debian&os_version=13"
+        }
+      ],
+      "primaryPackagePurpose": "CONTAINER"
+    }
+  ]
+}
+

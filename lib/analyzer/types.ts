@@ -40,6 +40,7 @@ export enum AnalysisType {
   Apk = "Apk",
   Apt = "Apt",
   Rpm = "Rpm",
+  Spdx = "Spdx",
   Chisel = "Chisel",
   Binaries = "binaries",
   Linux = "linux", // default/unknown/tech-debt
