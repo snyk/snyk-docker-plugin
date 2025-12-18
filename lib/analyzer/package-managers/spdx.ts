@@ -8,42 +8,75 @@ export function analyze(
   targetImage: string,
   spdxFileContents: string[],
 ): Promise<ImagePackagesAnalysis> {
-  // TODO: implement
+const analyzedPackages: AnalyzedPackageWithVersion[] = [];
+
+for (const fileContent of spdxFileContents) {
+    const currentPackages = parseSpdxFile(fileContent);
+    analyzedPackages.push(...currentPackages);
+  }
+
   return Promise.resolve({
     Image: targetImage,
     AnalyzeType: AnalysisType.Spdx,
-    Analysis: [],
+    Analysis: analyzedPackages,
   });
 }
 
 function parseSpdxFile(text: string): AnalyzedPackageWithVersion[] {
-  // TODO: implement
-  return [];
-}
+    const pkgs: AnalyzedPackageWithVersion[] = [];
+    
+    try {
+      const spdxDoc = JSON.parse(text);
+      
+      if (!spdxDoc.packages || !Array.isArray(spdxDoc.packages)) {
+        return pkgs;
+      }
+      
+      // Usually packages.length === 1, but iterate anyway for safety
+      for (const pkg of spdxDoc.packages) {
+        const analyzedPkg = parseSpdxLine(pkg);
+        pkgs.push(analyzedPkg);  // ← Typically adds exactly 1 package
+      }
+    } catch (err) {
+      console.error(`Failed to parse SPDX: ${err.message}`);
+    }
+    
+    return pkgs;
+  }
 
-function parseSpdxLine(pkg: any): AnalyzedPackageWithVersion {
-  // TODO: implement
-  return {
-    Name: "",
-    Version: "",
-    Source: undefined,
-    Provides: [],
-    Deps: {},
-    AutoInstalled: undefined,
-  };
-}
+  function parseSpdxLine(pkg: any): AnalyzedPackageWithVersion {
+    // Extract what we need from the SPDX package object
+    const name = stripDhiPrefix(pkg.name);
+    const version = pkg.versionInfo;     
+    const purl = extractPurl(pkg) || createDhiPurl(name, version); 
+    
+    return {
+      Name: name,
+      Version: version,
+      Source: undefined,      // ← Fixed: SPDX doesn't have this
+      Provides: [],           // ← Fixed: SPDX doesn't have this
+      Deps: {},              // ← Fixed: SPDX doesn't have this
+      AutoInstalled: undefined,  // ← Fixed: SPDX doesn't have this
+      Purl: purl,
+    };
+  } 
 
-function stripDhiPrefix(name: string): string {
-  // TODO: implement
-  return name;
-}
+  function stripDhiPrefix(name: string): string {
+    return name.replace(/^dhi\//, "");
+  }
 
 function extractPurl(pkg: any): string | undefined {
-  // TODO: implement
-  return undefined;
+  if (!pkg.externalRefs || !Array.isArray(pkg.externalRefs)) {
+    return undefined;
+  }
+
+  const purlRef = pkg.externalRefs.find(
+    (ref) => ref.referenceType === "purl",
+  );
+
+  return purlRef?.referenceLocator;
 }
 
 function createDhiPurl(name: string, version: string): string {
-  // TODO: implement
-  return "";
+  return `pkg:dhi/${name}@${version}`;
 }
