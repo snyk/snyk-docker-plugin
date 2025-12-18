@@ -40,7 +40,7 @@ describe("SPDX analyzer", () => {
 
       const result = await analyze("test-image", spdxFileContents);
 
-      expect(result.Analysis[0].purl).toBe(
+      expect(result.Analysis[0].Purl).toBe(
         "pkg:docker/dhi/pkg-binutils@2.45-debian13?platform=linux%2Farm64&os_name=debian&os_version=13",
       );
     });
@@ -61,7 +61,7 @@ describe("SPDX analyzer", () => {
 
       const result = await analyze("test-image", spdxFileContents);
 
-      expect(result.Analysis[0].purl).toBe("pkg:dhi/curl@7.88.1");
+      expect(result.Analysis[0].Purl).toBe("pkg:dhi/curl@7.88.1");
     });
 
     it("handles malformed SPDX gracefully", async () => {
@@ -134,7 +134,7 @@ describe("SPDX analyzer", () => {
         Provides: [],
         Deps: {},
         AutoInstalled: undefined,
-        purl: "pkg:dhi/test-pkg@1.0.0",
+        Purl: "pkg:dhi/test-pkg@1.0.0",
       });
     });
 
