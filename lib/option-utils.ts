@@ -1,4 +1,4 @@
-import { PluginOptions } from './types'; 
+import { PluginOptions } from "./types";
 export { isTrue, isNumber, isStrictNumber };
 
 function isTrue(value?: boolean | string): boolean {
@@ -21,14 +21,14 @@ function isStrictNumber(value?: boolean | string): boolean {
 }
 
 export function resolveNestedJarsOption(options?: Partial<PluginOptions>) {
-  const safeOptions = options || {}; 
+  const safeOptions = options || {};
 
   return [
-    safeOptions['nested-jars-depth'],
-    safeOptions['shaded-jars-depth'],
+    safeOptions["nested-jars-depth"],
+    safeOptions["shaded-jars-depth"],
   ].find(isDefined);
 }
 
 export function isDefined(value?: string | boolean): boolean {
-  return value !== '' && value != null;
+  return value !== "" && value != null;
 }

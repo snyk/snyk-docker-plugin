@@ -1,4 +1,9 @@
-import { isNumber, isStrictNumber, isTrue, resolveNestedJarsOption} from "../../lib/option-utils";
+import {
+  isNumber,
+  isStrictNumber,
+  isTrue,
+  resolveNestedJarsOption,
+} from "../../lib/option-utils";
 
 describe("isTrue", () => {
   test("'true' should return true", () => {
@@ -174,103 +179,103 @@ describe("isStrictNumber", () => {
   });
 });
 
-describe('resolveNestedJarsOption', () => {
-  test('should return nested-jars-depth when present and not empty', () => {
-    const options = { 'nested-jars-depth': '5' };
-    expect(resolveNestedJarsOption(options)).toBe('5');
+describe("resolveNestedJarsOption", () => {
+  test("should return nested-jars-depth when present and not empty", () => {
+    const options = { "nested-jars-depth": "5" };
+    expect(resolveNestedJarsOption(options)).toBe("5");
   });
 
-  test('should return nested-jars-depth when it is a number', () => {
-    const options = { 'nested-jars-depth': 5 };
+  test("should return nested-jars-depth when it is a number", () => {
+    const options = { "nested-jars-depth": 5 };
     expect(resolveNestedJarsOption(options)).toBe(5);
   });
 
-  test('should return shaded-jars-depth when nested-jars-depth is empty string', () => {
-    const options = { 
-      'nested-jars-depth': '',
-      'shaded-jars-depth': '3'
+  test("should return shaded-jars-depth when nested-jars-depth is empty string", () => {
+    const options = {
+      "nested-jars-depth": "",
+      "shaded-jars-depth": "3",
     };
-    expect(resolveNestedJarsOption(options)).toBe('3');
+    expect(resolveNestedJarsOption(options)).toBe("3");
   });
 
-  test('should return shaded-jars-depth when nested-jars-depth is null', () => {
-    const options = { 
-      'nested-jars-depth': null,
-      'shaded-jars-depth': '3'
+  test("should return shaded-jars-depth when nested-jars-depth is null", () => {
+    const options = {
+      "nested-jars-depth": null,
+      "shaded-jars-depth": "3",
     };
-    expect(resolveNestedJarsOption(options)).toBe('3');
+    expect(resolveNestedJarsOption(options)).toBe("3");
   });
 
-  test('should return shaded-jars-depth when nested-jars-depth is undefined', () => {
-    const options = { 
-      'shaded-jars-depth': '3'
+  test("should return shaded-jars-depth when nested-jars-depth is undefined", () => {
+    const options = {
+      "shaded-jars-depth": "3",
     };
-    expect(resolveNestedJarsOption(options)).toBe('3');
+    expect(resolveNestedJarsOption(options)).toBe("3");
   });
 
-  test('should return shaded-jars-depth when nested-jars-depth is empty and shaded-jars-depth is present', () => {
-    const options = { 
-      'nested-jars-depth': '',
-      'shaded-jars-depth': '10'
+  test("should return shaded-jars-depth when nested-jars-depth is empty and shaded-jars-depth is present", () => {
+    const options = {
+      "nested-jars-depth": "",
+      "shaded-jars-depth": "10",
     };
-    expect(resolveNestedJarsOption(options)).toBe('10');
+    expect(resolveNestedJarsOption(options)).toBe("10");
   });
 
-  test('should return undefined when both are empty strings', () => {
-    const options = { 
-      'nested-jars-depth': '',
-      'shaded-jars-depth': ''
-    };
-    expect(resolveNestedJarsOption(options)).toBeUndefined();
-  });
-
-  test('should return undefined when both are null', () => {
-    const options = { 
-      'nested-jars-depth': null,
-      'shaded-jars-depth': null
+  test("should return undefined when both are empty strings", () => {
+    const options = {
+      "nested-jars-depth": "",
+      "shaded-jars-depth": "",
     };
     expect(resolveNestedJarsOption(options)).toBeUndefined();
   });
 
-  test('should return undefined when both are undefined', () => {
+  test("should return undefined when both are null", () => {
+    const options = {
+      "nested-jars-depth": null,
+      "shaded-jars-depth": null,
+    };
+    expect(resolveNestedJarsOption(options)).toBeUndefined();
+  });
+
+  test("should return undefined when both are undefined", () => {
     const options = {};
     expect(resolveNestedJarsOption(options)).toBeUndefined();
   });
 
-  test('should return undefined when options is undefined', () => {
+  test("should return undefined when options is undefined", () => {
     expect(resolveNestedJarsOption(undefined)).toBeUndefined();
   });
 
-  test('should prefer nested-jars-depth over shaded-jars-depth when both are present', () => {
-    const options = { 
-      'nested-jars-depth': '5',
-      'shaded-jars-depth': '3'
+  test("should prefer nested-jars-depth over shaded-jars-depth when both are present", () => {
+    const options = {
+      "nested-jars-depth": "5",
+      "shaded-jars-depth": "3",
     };
-    expect(resolveNestedJarsOption(options)).toBe('5');
+    expect(resolveNestedJarsOption(options)).toBe("5");
   });
 
-  test('should return nested-jars-depth when it is 0', () => {
-    const options = { 'nested-jars-depth': 0 };
+  test("should return nested-jars-depth when it is 0", () => {
+    const options = { "nested-jars-depth": 0 };
     expect(resolveNestedJarsOption(options)).toBe(0);
   });
 
   test('should return nested-jars-depth when it is "0"', () => {
-    const options = { 'nested-jars-depth': '0' };
-    expect(resolveNestedJarsOption(options)).toBe('0');
+    const options = { "nested-jars-depth": "0" };
+    expect(resolveNestedJarsOption(options)).toBe("0");
   });
 
-  test('should return shaded-jars-depth when nested-jars-depth is empty and shaded-jars-depth is 0', () => {
-    const options = { 
-      'nested-jars-depth': '',
-      'shaded-jars-depth': 0
+  test("should return shaded-jars-depth when nested-jars-depth is empty and shaded-jars-depth is 0", () => {
+    const options = {
+      "nested-jars-depth": "",
+      "shaded-jars-depth": 0,
     };
     expect(resolveNestedJarsOption(options)).toBe(0);
   });
 
-  test('should return undefined when nested-jars-depth is empty and shaded-jars-depth is also empty', () => {
-    const options = { 
-      'nested-jars-depth': '',
-      'shaded-jars-depth': ''
+  test("should return undefined when nested-jars-depth is empty and shaded-jars-depth is also empty", () => {
+    const options = {
+      "nested-jars-depth": "",
+      "shaded-jars-depth": "",
     };
     expect(resolveNestedJarsOption(options)).toBeUndefined();
   });

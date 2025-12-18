@@ -9,7 +9,12 @@ import { ImageName } from "./extractor/image";
 import { ExtractAction, ExtractionResult } from "./extractor/types";
 import { fullImageSavePath } from "./image-save-path";
 import { getArchivePath, getImageType } from "./image-type";
-import { isStrictNumber, isTrue, resolveNestedJarsOption, isDefined } from "./option-utils";
+import {
+  isDefined,
+  isStrictNumber,
+  isTrue,
+  resolveNestedJarsOption,
+} from "./option-utils";
 import * as staticModule from "./static";
 import { ImageType, PluginOptions, PluginResponse } from "./types";
 import { isValidDockerImageReference } from "./utils";
@@ -40,7 +45,10 @@ async function getAnalysisParameters(
     throw new Error("No image identifier or path provided");
   }
 
-  if (isDefined(options["shaded-jars-depth"]) && isDefined(options["nested-jars-depth"])) {
+  if (
+    isDefined(options["shaded-jars-depth"]) &&
+    isDefined(options["nested-jars-depth"])
+  ) {
     throw new Error(
       "Cannot use --shaded-jars-depth together with --nested-jars-depth, please use the latter",
     );

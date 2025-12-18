@@ -1,5 +1,4 @@
 import * as Debug from "debug";
-import { resolveNestedJarsOption } from "../option-utils";
 import { DockerFileAnalysis } from "../dockerfile";
 import * as archiveExtractor from "../extractor";
 import {
@@ -57,6 +56,7 @@ import {
   getRpmSqliteDbFileContent,
   getRpmSqliteDbFileContentAction,
 } from "../inputs/rpm/static";
+import { resolveNestedJarsOption } from "../option-utils";
 import { isTrue } from "../option-utils";
 import { ImageType, ManifestFile, PluginOptions } from "../types";
 import {
@@ -84,7 +84,6 @@ import {
   OSRelease,
   StaticPackagesAnalysis,
 } from "./types";
-
 
 const debug = Debug("snyk");
 
