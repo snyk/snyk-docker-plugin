@@ -26,5 +26,9 @@ export function resolveNestedJarsOption(options?: Partial<PluginOptions>) {
   return [
     safeOptions['nested-jars-depth'],
     safeOptions['shaded-jars-depth'],
-  ].find((val) => val !== '' && val != null);
+  ].find(isDefined);
+}
+
+export function isDefined(value?: string | boolean): boolean {
+  return value !== '' && value != null;
 }

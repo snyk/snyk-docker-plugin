@@ -488,5 +488,23 @@ describe("jar binaries scanning", () => {
         });
       },
     );
+    describe("conflicting flags", () => {
+      const fixturePath = getFixture(
+        "docker-archives/docker-save/java-uberjar.tar",
+      );
+      const imageNameAndTag = `docker-archive:${fixturePath}`;
+
+      it(`should throw if both --shaded-jars-depth and --nested-jars-depth flags are set`, async () => {
+            // Act + Assert
+            await expect(
+              scan({
+                path: imageNameAndTag,
+                "app-vulns": true,
+                "shaded-jars-depth": "2",
+                "nested-jars-depth": "4",
+              }),
+            ).rejects.toThrow();
+          });
+      });
   });
 });
