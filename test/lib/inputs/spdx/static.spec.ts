@@ -1,8 +1,8 @@
+import { ExtractedLayers } from "../../../../lib/extractor/types";
 import {
   getSpdxFileContentAction,
   getSpdxFileContents,
 } from "../../../../lib/inputs/spdx/static";
-import { ExtractedLayers } from "../../../../lib/extractor/types";
 
 describe("SPDX static input extraction", () => {
   describe("getSpdxFileContentAction", () => {
@@ -36,17 +36,13 @@ describe("SPDX static input extraction", () => {
       ).toBe(false);
 
       expect(
-        getSpdxFileContentAction.filePathMatches(
-          "/lib/apk/db/installed",
-        ),
+        getSpdxFileContentAction.filePathMatches("/lib/apk/db/installed"),
       ).toBe(false);
     });
 
     it("does not match SPDX-like paths outside /docker/sbom/", () => {
       expect(
-        getSpdxFileContentAction.filePathMatches(
-          "/other/sbom/spdx.test.json",
-        ),
+        getSpdxFileContentAction.filePathMatches("/other/sbom/spdx.test.json"),
       ).toBe(false);
 
       expect(
@@ -168,10 +164,15 @@ describe("SPDX static input extraction", () => {
       const result = getSpdxFileContents(extractedLayers);
 
       expect(result).toHaveLength(3);
-      expect(result.some((content) => content.includes('"package": "python"'))).toBe(true);
-      expect(result.some((content) => content.includes('"package": "curl"'))).toBe(true);
-      expect(result.some((content) => content.includes('"package": "openssl"'))).toBe(true);
+      expect(
+        result.some((content) => content.includes('"package": "python"')),
+      ).toBe(true);
+      expect(
+        result.some((content) => content.includes('"package": "curl"')),
+      ).toBe(true);
+      expect(
+        result.some((content) => content.includes('"package": "openssl"')),
+      ).toBe(true);
     });
   });
 });
-

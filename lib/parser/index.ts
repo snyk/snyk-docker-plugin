@@ -33,8 +33,14 @@ export function parseAnalysisResults(
   }
 
   // Merge SPDX packages into the main result
-  const spdxResult = analysis.results.find((r) => r.AnalyzeType === AnalysisType.Spdx);
-  if (spdxResult && spdxResult.Analysis.length > 0 && analysisResult.AnalyzeType !== AnalysisType.Spdx) {
+  const spdxResult = analysis.results.find(
+    (r) => r.AnalyzeType === AnalysisType.Spdx,
+  );
+  if (
+    spdxResult &&
+    spdxResult.Analysis.length > 0 &&
+    analysisResult.AnalyzeType !== AnalysisType.Spdx
+  ) {
     analysisResult.Analysis.push(...spdxResult.Analysis);
   }
 
