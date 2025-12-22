@@ -8,9 +8,9 @@ export function analyze(
   targetImage: string,
   spdxFileContents: string[],
 ): Promise<ImagePackagesAnalysis> {
-const analyzedPackages: AnalyzedPackageWithVersion[] = [];
+  const analyzedPackages: AnalyzedPackageWithVersion[] = [];
 
-for (const fileContent of spdxFileContents) {
+  for (const fileContent of spdxFileContents) {
     const currentPackages = parseSpdxFile(fileContent);
     analyzedPackages.push(...currentPackages);
   }
@@ -23,55 +23,53 @@ for (const fileContent of spdxFileContents) {
 }
 
 function parseSpdxFile(text: string): AnalyzedPackageWithVersion[] {
-    const pkgs: AnalyzedPackageWithVersion[] = [];
-    
-    try {
-      const spdxDoc = JSON.parse(text);
-      
-      if (!spdxDoc.packages || !Array.isArray(spdxDoc.packages)) {
-        return pkgs;
-      }
-      
-      // Usually packages.length === 1, but iterate anyway for safety
-      for (const pkg of spdxDoc.packages) {
-        const analyzedPkg = parseSpdxLine(pkg);
-        pkgs.push(analyzedPkg); 
-      }
-    } catch (err) {
-      console.error(`Failed to parse SPDX: ${err.message}`);
+  const pkgs: AnalyzedPackageWithVersion[] = [];
+
+  try {
+    const spdxDoc = JSON.parse(text);
+
+    if (!spdxDoc.packages || !Array.isArray(spdxDoc.packages)) {
+      return pkgs;
     }
-    
-    return pkgs;
+
+    // Usually packages.length === 1, but iterate anyway for safety
+    for (const pkg of spdxDoc.packages) {
+      const analyzedPkg = parseSpdxLine(pkg);
+      pkgs.push(analyzedPkg);
+    }
+  } catch (err) {
+    console.error(`Failed to parse SPDX: ${err.message}`);
   }
 
-  function parseSpdxLine(pkg: any): AnalyzedPackageWithVersion {
-    const name = stripDhiPrefix(pkg.name);
-    const version = pkg.versionInfo;     
-    const purl = extractPurl(pkg) || createDhiPurl(name, version); 
-    
-    return {
-      Name: name,
-      Version: version,
-      Source: undefined,      
-      Provides: [],           
-      Deps: {},              
-      AutoInstalled: undefined, 
-      Purl: purl,
-    };
-  } 
+  return pkgs;
+}
 
-  function stripDhiPrefix(name: string): string {
-    return name.replace(/^dhi\//, "");
-  }
+function parseSpdxLine(pkg: any): AnalyzedPackageWithVersion {
+  const name = stripDhiPrefix(pkg.name);
+  const version = pkg.versionInfo;
+  const purl = extractPurl(pkg) || createDhiPurl(name, version);
+
+  return {
+    Name: name,
+    Version: version,
+    Source: undefined,
+    Provides: [],
+    Deps: {},
+    AutoInstalled: undefined,
+    Purl: purl,
+  };
+}
+
+function stripDhiPrefix(name: string): string {
+  return name.replace(/^dhi\//, "");
+}
 
 function extractPurl(pkg: any): string | undefined {
   if (!pkg.externalRefs || !Array.isArray(pkg.externalRefs)) {
     return undefined;
   }
 
-  const purlRef = pkg.externalRefs.find(
-    (ref) => ref.referenceType === "purl",
-  );
+  const purlRef = pkg.externalRefs.find((ref) => ref.referenceType === "purl");
 
   return purlRef?.referenceLocator;
 }

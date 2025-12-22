@@ -1,6 +1,6 @@
 import * as path from "path";
-import { scan } from "../../../lib/index";
 import { AnalysisType } from "../../../lib/analyzer/types";
+import { scan } from "../../../lib/index";
 
 describe("SPDX (Docker Hardened Images) package manager tests", () => {
   const imagePath = path.join(
@@ -54,4 +54,3 @@ describe("SPDX (Docker Hardened Images) package manager tests", () => {
     }
   }, 120000); // 2 minute timeout for pulling and scanning image
 });
-
