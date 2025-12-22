@@ -56,6 +56,10 @@ import {
   getRpmSqliteDbFileContent,
   getRpmSqliteDbFileContentAction,
 } from "../inputs/rpm/static";
+import {
+  getSpdxFileContentAction,
+  getSpdxFileContents,
+} from "../inputs/spdx/static";
 import { isTrue } from "../option-utils";
 import { ImageType, ManifestFile, PluginOptions } from "../types";
 import {
@@ -78,6 +82,7 @@ import {
   analyze as rpmAnalyze,
   mapRpmSqlitePackages,
 } from "./package-managers/rpm";
+import { analyze as spdxAnalyze } from "./package-managers/spdx";
 import {
   ImagePackagesAnalysis,
   OSRelease,
@@ -102,6 +107,7 @@ export async function analyze(
     getRpmSqliteDbFileContentAction,
     getRpmNdbFileContentAction,
     getChiselManifestAction,
+    getSpdxFileContentAction,
     ...getOsReleaseActions,
     getNodeBinariesFileContentAction,
     getOpenJDKBinariesFileContentAction,
@@ -184,6 +190,7 @@ export async function analyze(
   ]);
 
   const distrolessAptFiles = getAptFiles(extractedLayers);
+  const spdxFileContents = getSpdxFileContents(extractedLayers);
 
   const manifestFiles: ManifestFile[] = [];
   if (checkForGlobs) {
@@ -224,6 +231,7 @@ export async function analyze(
       ),
       aptDistrolessAnalyze(targetImage, distrolessAptFiles, osRelease),
       chiselAnalyze(targetImage, chiselPackages),
+      spdxAnalyze(targetImage, spdxFileContents),
     ]);
   } catch (err) {
     debug(`Could not detect installed OS packages: ${err.message}`);
