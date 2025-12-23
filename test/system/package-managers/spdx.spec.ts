@@ -10,7 +10,7 @@ describe("SPDX (Docker Hardened Images) package manager tests", () => {
 
   it("should correctly analyze SPDX files from a Docker Hardened Image", async () => {
     const pluginResult = await scan({
-      path: `snyklabs/dhi-python:3.13.8-debian13-dev`,
+      path: `oci-archive:${imagePath}`,
       platform: "linux/arm64",
     });
 
@@ -40,17 +40,17 @@ describe("SPDX (Docker Hardened Images) package manager tests", () => {
     if (depGraphFact && depGraphFact.type === "depGraph") {
       const pkgs = depGraphFact.data.getPkgs();
 
-      // Should have detected python package from SPDX
-      const pythonPkg = pkgs.find((pkg) =>
-        pkg.name.toLowerCase().includes("python"),
+      // Should have detected redis-tools package from SPDX
+      const redisToolsPkg = pkgs.find((pkg) =>
+        pkg.name.toLowerCase().includes("redis-tools"),
       );
-      expect(pythonPkg).toBeDefined();
+      expect(redisToolsPkg).toBeDefined();
 
-      // Should have detected pkg-binutils package from SPDX
-      const pkgBinutilsPkg = pkgs.find((pkg) =>
-        pkg.name.toLowerCase().includes("pkg-binutils"),
+      // Should have detected redis-server package from SPDX
+      const redisServerPkg = pkgs.find((pkg) =>
+        pkg.name.toLowerCase().includes("redis-server"),
       );
-      expect(pkgBinutilsPkg).toBeDefined();
+      expect(redisServerPkg).toBeDefined();
     }
   }, 120000); // 2 minute timeout for pulling and scanning image
 });
