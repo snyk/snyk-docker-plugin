@@ -870,7 +870,7 @@ Object {
                 "id": "amazon-linux-extras@1.6.10-1.amzn2",
                 "info": Object {
                   "name": "amazon-linux-extras",
-                  "purl": "pkg:rpm/amzn/amazon-linux-extras@1.6.10-1.amzn2?distro=amzn-2&upstream=amazon-linux-extras%401.6.10",
+                  "purl": "pkg:rpm/amzn/amazon-linux-extras@1.6.10-1.amzn2?distro=amzn-2&upstream=amazon-linux-extras%401.6.10-1.amzn2",
                   "version": "1.6.10-1.amzn2",
                 },
               },
@@ -878,7 +878,7 @@ Object {
                 "id": "basesystem@10.0-7.amzn2.0.1",
                 "info": Object {
                   "name": "basesystem",
-                  "purl": "pkg:rpm/amzn/basesystem@10.0-7.amzn2.0.1?distro=amzn-2&upstream=basesystem%4010.0",
+                  "purl": "pkg:rpm/amzn/basesystem@10.0-7.amzn2.0.1?distro=amzn-2&upstream=basesystem%4010.0-7.amzn2.0.1",
                   "version": "10.0-7.amzn2.0.1",
                 },
               },
@@ -886,7 +886,7 @@ Object {
                 "id": "bash@4.2.46-33.amzn2",
                 "info": Object {
                   "name": "bash",
-                  "purl": "pkg:rpm/amzn/bash@4.2.46-33.amzn2?distro=amzn-2&upstream=bash%404.2.46",
+                  "purl": "pkg:rpm/amzn/bash@4.2.46-33.amzn2?distro=amzn-2&upstream=bash%404.2.46-33.amzn2",
                   "version": "4.2.46-33.amzn2",
                 },
               },
@@ -894,7 +894,7 @@ Object {
                 "id": "bzip2-libs@1.0.6-13.amzn2.0.2",
                 "info": Object {
                   "name": "bzip2-libs",
-                  "purl": "pkg:rpm/amzn/bzip2-libs@1.0.6-13.amzn2.0.2?distro=amzn-2&upstream=bzip2%401.0.6",
+                  "purl": "pkg:rpm/amzn/bzip2-libs@1.0.6-13.amzn2.0.2?distro=amzn-2&upstream=bzip2%401.0.6-13.amzn2.0.2",
                   "version": "1.0.6-13.amzn2.0.2",
                 },
               },
@@ -902,7 +902,7 @@ Object {
                 "id": "ca-certificates@2019.2.32-76.amzn2.0.1",
                 "info": Object {
                   "name": "ca-certificates",
-                  "purl": "pkg:rpm/amzn/ca-certificates@2019.2.32-76.amzn2.0.1?distro=amzn-2&upstream=ca-certificates%402019.2.32",
+                  "purl": "pkg:rpm/amzn/ca-certificates@2019.2.32-76.amzn2.0.1?distro=amzn-2&upstream=ca-certificates%402019.2.32-76.amzn2.0.1",
                   "version": "2019.2.32-76.amzn2.0.1",
                 },
               },
@@ -910,7 +910,7 @@ Object {
                 "id": "chkconfig@1.7.4-1.amzn2.0.2",
                 "info": Object {
                   "name": "chkconfig",
-                  "purl": "pkg:rpm/amzn/chkconfig@1.7.4-1.amzn2.0.2?distro=amzn-2&upstream=chkconfig%401.7.4",
+                  "purl": "pkg:rpm/amzn/chkconfig@1.7.4-1.amzn2.0.2?distro=amzn-2&upstream=chkconfig%401.7.4-1.amzn2.0.2",
                   "version": "1.7.4-1.amzn2.0.2",
                 },
               },
@@ -918,7 +918,7 @@ Object {
                 "id": "coreutils@8.22-24.amzn2",
                 "info": Object {
                   "name": "coreutils",
-                  "purl": "pkg:rpm/amzn/coreutils@8.22-24.amzn2?distro=amzn-2&upstream=coreutils%408.22",
+                  "purl": "pkg:rpm/amzn/coreutils@8.22-24.amzn2?distro=amzn-2&upstream=coreutils%408.22-24.amzn2",
                   "version": "8.22-24.amzn2",
                 },
               },
@@ -926,7 +926,7 @@ Object {
                 "id": "cpio@2.11-27.amzn2",
                 "info": Object {
                   "name": "cpio",
-                  "purl": "pkg:rpm/amzn/cpio@2.11-27.amzn2?distro=amzn-2&upstream=cpio%402.11",
+                  "purl": "pkg:rpm/amzn/cpio@2.11-27.amzn2?distro=amzn-2&upstream=cpio%402.11-27.amzn2",
                   "version": "2.11-27.amzn2",
                 },
               },
@@ -934,7 +934,7 @@ Object {
                 "id": "curl@7.61.1-12.amzn2.0.1",
                 "info": Object {
                   "name": "curl",
-                  "purl": "pkg:rpm/amzn/curl@7.61.1-12.amzn2.0.1?distro=amzn-2&upstream=curl%407.61.1",
+                  "purl": "pkg:rpm/amzn/curl@7.61.1-12.amzn2.0.1?distro=amzn-2&upstream=curl%407.61.1-12.amzn2.0.1",
                   "version": "7.61.1-12.amzn2.0.1",
                 },
               },
@@ -942,7 +942,7 @@ Object {
                 "id": "cyrus-sasl-lib@2.1.26-23.amzn2",
                 "info": Object {
                   "name": "cyrus-sasl-lib",
-                  "purl": "pkg:rpm/amzn/cyrus-sasl-lib@2.1.26-23.amzn2?distro=amzn-2&upstream=cyrus-sasl%402.1.26",
+                  "purl": "pkg:rpm/amzn/cyrus-sasl-lib@2.1.26-23.amzn2?distro=amzn-2&upstream=cyrus-sasl%402.1.26-23.amzn2",
                   "version": "2.1.26-23.amzn2",
                 },
               },
@@ -950,7 +950,7 @@ Object {
                 "id": "diffutils@3.3-5.amzn2",
                 "info": Object {
                   "name": "diffutils",
-                  "purl": "pkg:rpm/amzn/diffutils@3.3-5.amzn2?distro=amzn-2&upstream=diffutils%403.3",
+                  "purl": "pkg:rpm/amzn/diffutils@3.3-5.amzn2?distro=amzn-2&upstream=diffutils%403.3-5.amzn2",
                   "version": "3.3-5.amzn2",
                 },
               },
@@ -958,7 +958,7 @@ Object {
                 "id": "elfutils-libelf@0.176-2.amzn2",
                 "info": Object {
                   "name": "elfutils-libelf",
-                  "purl": "pkg:rpm/amzn/elfutils-libelf@0.176-2.amzn2?distro=amzn-2&upstream=elfutils%400.176",
+                  "purl": "pkg:rpm/amzn/elfutils-libelf@0.176-2.amzn2?distro=amzn-2&upstream=elfutils%400.176-2.amzn2",
                   "version": "0.176-2.amzn2",
                 },
               },
@@ -966,7 +966,7 @@ Object {
                 "id": "expat@2.1.0-10.amzn2.0.2",
                 "info": Object {
                   "name": "expat",
-                  "purl": "pkg:rpm/amzn/expat@2.1.0-10.amzn2.0.2?distro=amzn-2&upstream=expat%402.1.0",
+                  "purl": "pkg:rpm/amzn/expat@2.1.0-10.amzn2.0.2?distro=amzn-2&upstream=expat%402.1.0-10.amzn2.0.2",
                   "version": "2.1.0-10.amzn2.0.2",
                 },
               },
@@ -974,7 +974,7 @@ Object {
                 "id": "file-libs@5.11-35.amzn2.0.2",
                 "info": Object {
                   "name": "file-libs",
-                  "purl": "pkg:rpm/amzn/file-libs@5.11-35.amzn2.0.2?distro=amzn-2&upstream=file%405.11",
+                  "purl": "pkg:rpm/amzn/file-libs@5.11-35.amzn2.0.2?distro=amzn-2&upstream=file%405.11-35.amzn2.0.2",
                   "version": "5.11-35.amzn2.0.2",
                 },
               },
@@ -982,7 +982,7 @@ Object {
                 "id": "filesystem@3.2-25.amzn2.0.4",
                 "info": Object {
                   "name": "filesystem",
-                  "purl": "pkg:rpm/amzn/filesystem@3.2-25.amzn2.0.4?distro=amzn-2&upstream=filesystem%403.2",
+                  "purl": "pkg:rpm/amzn/filesystem@3.2-25.amzn2.0.4?distro=amzn-2&upstream=filesystem%403.2-25.amzn2.0.4",
                   "version": "3.2-25.amzn2.0.4",
                 },
               },
@@ -990,7 +990,7 @@ Object {
                 "id": "findutils@1:4.5.11-6.amzn2",
                 "info": Object {
                   "name": "findutils",
-                  "purl": "pkg:rpm/amzn/findutils@1:4.5.11-6.amzn2?distro=amzn-2&epoch=1&upstream=findutils%404.5.11",
+                  "purl": "pkg:rpm/amzn/findutils@1:4.5.11-6.amzn2?distro=amzn-2&epoch=1&upstream=findutils%404.5.11-6.amzn2",
                   "version": "1:4.5.11-6.amzn2",
                 },
               },
@@ -998,7 +998,7 @@ Object {
                 "id": "gawk@4.0.2-4.amzn2.1.2",
                 "info": Object {
                   "name": "gawk",
-                  "purl": "pkg:rpm/amzn/gawk@4.0.2-4.amzn2.1.2?distro=amzn-2&upstream=gawk%404.0.2",
+                  "purl": "pkg:rpm/amzn/gawk@4.0.2-4.amzn2.1.2?distro=amzn-2&upstream=gawk%404.0.2-4.amzn2.1.2",
                   "version": "4.0.2-4.amzn2.1.2",
                 },
               },
@@ -1006,7 +1006,7 @@ Object {
                 "id": "gdbm@1:1.13-6.amzn2.0.2",
                 "info": Object {
                   "name": "gdbm",
-                  "purl": "pkg:rpm/amzn/gdbm@1:1.13-6.amzn2.0.2?distro=amzn-2&epoch=1&upstream=gdbm%401.13",
+                  "purl": "pkg:rpm/amzn/gdbm@1:1.13-6.amzn2.0.2?distro=amzn-2&epoch=1&upstream=gdbm%401.13-6.amzn2.0.2",
                   "version": "1:1.13-6.amzn2.0.2",
                 },
               },
@@ -1014,7 +1014,7 @@ Object {
                 "id": "glib2@2.56.1-4.amzn2",
                 "info": Object {
                   "name": "glib2",
-                  "purl": "pkg:rpm/amzn/glib2@2.56.1-4.amzn2?distro=amzn-2&upstream=glib2%402.56.1",
+                  "purl": "pkg:rpm/amzn/glib2@2.56.1-4.amzn2?distro=amzn-2&upstream=glib2%402.56.1-4.amzn2",
                   "version": "2.56.1-4.amzn2",
                 },
               },
@@ -1022,7 +1022,7 @@ Object {
                 "id": "glibc@2.26-34.amzn2",
                 "info": Object {
                   "name": "glibc",
-                  "purl": "pkg:rpm/amzn/glibc@2.26-34.amzn2?distro=amzn-2&upstream=glibc%402.26",
+                  "purl": "pkg:rpm/amzn/glibc@2.26-34.amzn2?distro=amzn-2&upstream=glibc%402.26-34.amzn2",
                   "version": "2.26-34.amzn2",
                 },
               },
@@ -1030,7 +1030,7 @@ Object {
                 "id": "glibc-common@2.26-34.amzn2",
                 "info": Object {
                   "name": "glibc-common",
-                  "purl": "pkg:rpm/amzn/glibc-common@2.26-34.amzn2?distro=amzn-2&upstream=glibc%402.26",
+                  "purl": "pkg:rpm/amzn/glibc-common@2.26-34.amzn2?distro=amzn-2&upstream=glibc%402.26-34.amzn2",
                   "version": "2.26-34.amzn2",
                 },
               },
@@ -1038,7 +1038,7 @@ Object {
                 "id": "glibc-langpack-en@2.26-34.amzn2",
                 "info": Object {
                   "name": "glibc-langpack-en",
-                  "purl": "pkg:rpm/amzn/glibc-langpack-en@2.26-34.amzn2?distro=amzn-2&upstream=glibc%402.26",
+                  "purl": "pkg:rpm/amzn/glibc-langpack-en@2.26-34.amzn2?distro=amzn-2&upstream=glibc%402.26-34.amzn2",
                   "version": "2.26-34.amzn2",
                 },
               },
@@ -1046,7 +1046,7 @@ Object {
                 "id": "glibc-minimal-langpack@2.26-34.amzn2",
                 "info": Object {
                   "name": "glibc-minimal-langpack",
-                  "purl": "pkg:rpm/amzn/glibc-minimal-langpack@2.26-34.amzn2?distro=amzn-2&upstream=glibc%402.26",
+                  "purl": "pkg:rpm/amzn/glibc-minimal-langpack@2.26-34.amzn2?distro=amzn-2&upstream=glibc%402.26-34.amzn2",
                   "version": "2.26-34.amzn2",
                 },
               },
@@ -1054,7 +1054,7 @@ Object {
                 "id": "gmp@1:6.0.0-15.amzn2.0.2",
                 "info": Object {
                   "name": "gmp",
-                  "purl": "pkg:rpm/amzn/gmp@1:6.0.0-15.amzn2.0.2?distro=amzn-2&epoch=1&upstream=gmp%406.0.0",
+                  "purl": "pkg:rpm/amzn/gmp@1:6.0.0-15.amzn2.0.2?distro=amzn-2&epoch=1&upstream=gmp%406.0.0-15.amzn2.0.2",
                   "version": "1:6.0.0-15.amzn2.0.2",
                 },
               },
@@ -1062,7 +1062,7 @@ Object {
                 "id": "gnupg2@2.0.22-5.amzn2.0.4",
                 "info": Object {
                   "name": "gnupg2",
-                  "purl": "pkg:rpm/amzn/gnupg2@2.0.22-5.amzn2.0.4?distro=amzn-2&upstream=gnupg2%402.0.22",
+                  "purl": "pkg:rpm/amzn/gnupg2@2.0.22-5.amzn2.0.4?distro=amzn-2&upstream=gnupg2%402.0.22-5.amzn2.0.4",
                   "version": "2.0.22-5.amzn2.0.4",
                 },
               },
@@ -1078,7 +1078,7 @@ Object {
                 "id": "gpgme@1.3.2-5.amzn2.0.2",
                 "info": Object {
                   "name": "gpgme",
-                  "purl": "pkg:rpm/amzn/gpgme@1.3.2-5.amzn2.0.2?distro=amzn-2&upstream=gpgme%401.3.2",
+                  "purl": "pkg:rpm/amzn/gpgme@1.3.2-5.amzn2.0.2?distro=amzn-2&upstream=gpgme%401.3.2-5.amzn2.0.2",
                   "version": "1.3.2-5.amzn2.0.2",
                 },
               },
@@ -1086,7 +1086,7 @@ Object {
                 "id": "grep@2.20-3.amzn2.0.2",
                 "info": Object {
                   "name": "grep",
-                  "purl": "pkg:rpm/amzn/grep@2.20-3.amzn2.0.2?distro=amzn-2&upstream=grep%402.20",
+                  "purl": "pkg:rpm/amzn/grep@2.20-3.amzn2.0.2?distro=amzn-2&upstream=grep%402.20-3.amzn2.0.2",
                   "version": "2.20-3.amzn2.0.2",
                 },
               },
@@ -1094,7 +1094,7 @@ Object {
                 "id": "info@5.1-5.amzn2",
                 "info": Object {
                   "name": "info",
-                  "purl": "pkg:rpm/amzn/info@5.1-5.amzn2?distro=amzn-2&upstream=texinfo%405.1",
+                  "purl": "pkg:rpm/amzn/info@5.1-5.amzn2?distro=amzn-2&upstream=texinfo%405.1-5.amzn2",
                   "version": "5.1-5.amzn2",
                 },
               },
@@ -1102,7 +1102,7 @@ Object {
                 "id": "keyutils-libs@1.5.8-3.amzn2.0.2",
                 "info": Object {
                   "name": "keyutils-libs",
-                  "purl": "pkg:rpm/amzn/keyutils-libs@1.5.8-3.amzn2.0.2?distro=amzn-2&upstream=keyutils%401.5.8",
+                  "purl": "pkg:rpm/amzn/keyutils-libs@1.5.8-3.amzn2.0.2?distro=amzn-2&upstream=keyutils%401.5.8-3.amzn2.0.2",
                   "version": "1.5.8-3.amzn2.0.2",
                 },
               },
@@ -1110,7 +1110,7 @@ Object {
                 "id": "krb5-libs@1.15.1-37.amzn2.2.2",
                 "info": Object {
                   "name": "krb5-libs",
-                  "purl": "pkg:rpm/amzn/krb5-libs@1.15.1-37.amzn2.2.2?distro=amzn-2&upstream=krb5%401.15.1",
+                  "purl": "pkg:rpm/amzn/krb5-libs@1.15.1-37.amzn2.2.2?distro=amzn-2&upstream=krb5%401.15.1-37.amzn2.2.2",
                   "version": "1.15.1-37.amzn2.2.2",
                 },
               },
@@ -1118,7 +1118,7 @@ Object {
                 "id": "libacl@2.2.51-14.amzn2",
                 "info": Object {
                   "name": "libacl",
-                  "purl": "pkg:rpm/amzn/libacl@2.2.51-14.amzn2?distro=amzn-2&upstream=acl%402.2.51",
+                  "purl": "pkg:rpm/amzn/libacl@2.2.51-14.amzn2?distro=amzn-2&upstream=acl%402.2.51-14.amzn2",
                   "version": "2.2.51-14.amzn2",
                 },
               },
@@ -1126,7 +1126,7 @@ Object {
                 "id": "libassuan@2.1.0-3.amzn2.0.2",
                 "info": Object {
                   "name": "libassuan",
-                  "purl": "pkg:rpm/amzn/libassuan@2.1.0-3.amzn2.0.2?distro=amzn-2&upstream=libassuan%402.1.0",
+                  "purl": "pkg:rpm/amzn/libassuan@2.1.0-3.amzn2.0.2?distro=amzn-2&upstream=libassuan%402.1.0-3.amzn2.0.2",
                   "version": "2.1.0-3.amzn2.0.2",
                 },
               },
@@ -1134,7 +1134,7 @@ Object {
                 "id": "libattr@2.4.46-12.amzn2.0.2",
                 "info": Object {
                   "name": "libattr",
-                  "purl": "pkg:rpm/amzn/libattr@2.4.46-12.amzn2.0.2?distro=amzn-2&upstream=attr%402.4.46",
+                  "purl": "pkg:rpm/amzn/libattr@2.4.46-12.amzn2.0.2?distro=amzn-2&upstream=attr%402.4.46-12.amzn2.0.2",
                   "version": "2.4.46-12.amzn2.0.2",
                 },
               },
@@ -1142,7 +1142,7 @@ Object {
                 "id": "libblkid@2.30.2-2.amzn2.0.4",
                 "info": Object {
                   "name": "libblkid",
-                  "purl": "pkg:rpm/amzn/libblkid@2.30.2-2.amzn2.0.4?distro=amzn-2&upstream=util-linux%402.30.2",
+                  "purl": "pkg:rpm/amzn/libblkid@2.30.2-2.amzn2.0.4?distro=amzn-2&upstream=util-linux%402.30.2-2.amzn2.0.4",
                   "version": "2.30.2-2.amzn2.0.4",
                 },
               },
@@ -1150,7 +1150,7 @@ Object {
                 "id": "libcap@2.22-9.amzn2.0.2",
                 "info": Object {
                   "name": "libcap",
-                  "purl": "pkg:rpm/amzn/libcap@2.22-9.amzn2.0.2?distro=amzn-2&upstream=libcap%402.22",
+                  "purl": "pkg:rpm/amzn/libcap@2.22-9.amzn2.0.2?distro=amzn-2&upstream=libcap%402.22-9.amzn2.0.2",
                   "version": "2.22-9.amzn2.0.2",
                 },
               },
@@ -1158,7 +1158,7 @@ Object {
                 "id": "libcom_err@1.42.9-12.amzn2.0.2",
                 "info": Object {
                   "name": "libcom_err",
-                  "purl": "pkg:rpm/amzn/libcom_err@1.42.9-12.amzn2.0.2?distro=amzn-2&upstream=e2fsprogs%401.42.9",
+                  "purl": "pkg:rpm/amzn/libcom_err@1.42.9-12.amzn2.0.2?distro=amzn-2&upstream=e2fsprogs%401.42.9-12.amzn2.0.2",
                   "version": "1.42.9-12.amzn2.0.2",
                 },
               },
@@ -1166,7 +1166,7 @@ Object {
                 "id": "libcrypt@2.26-34.amzn2",
                 "info": Object {
                   "name": "libcrypt",
-                  "purl": "pkg:rpm/amzn/libcrypt@2.26-34.amzn2?distro=amzn-2&upstream=glibc%402.26",
+                  "purl": "pkg:rpm/amzn/libcrypt@2.26-34.amzn2?distro=amzn-2&upstream=glibc%402.26-34.amzn2",
                   "version": "2.26-34.amzn2",
                 },
               },
@@ -1174,7 +1174,7 @@ Object {
                 "id": "libcurl@7.61.1-12.amzn2.0.1",
                 "info": Object {
                   "name": "libcurl",
-                  "purl": "pkg:rpm/amzn/libcurl@7.61.1-12.amzn2.0.1?distro=amzn-2&upstream=curl%407.61.1",
+                  "purl": "pkg:rpm/amzn/libcurl@7.61.1-12.amzn2.0.1?distro=amzn-2&upstream=curl%407.61.1-12.amzn2.0.1",
                   "version": "7.61.1-12.amzn2.0.1",
                 },
               },
@@ -1182,7 +1182,7 @@ Object {
                 "id": "libdb@5.3.21-24.amzn2.0.3",
                 "info": Object {
                   "name": "libdb",
-                  "purl": "pkg:rpm/amzn/libdb@5.3.21-24.amzn2.0.3?distro=amzn-2&upstream=libdb%405.3.21",
+                  "purl": "pkg:rpm/amzn/libdb@5.3.21-24.amzn2.0.3?distro=amzn-2&upstream=libdb%405.3.21-24.amzn2.0.3",
                   "version": "5.3.21-24.amzn2.0.3",
                 },
               },
@@ -1190,7 +1190,7 @@ Object {
                 "id": "libdb-utils@5.3.21-24.amzn2.0.3",
                 "info": Object {
                   "name": "libdb-utils",
-                  "purl": "pkg:rpm/amzn/libdb-utils@5.3.21-24.amzn2.0.3?distro=amzn-2&upstream=libdb%405.3.21",
+                  "purl": "pkg:rpm/amzn/libdb-utils@5.3.21-24.amzn2.0.3?distro=amzn-2&upstream=libdb%405.3.21-24.amzn2.0.3",
                   "version": "5.3.21-24.amzn2.0.3",
                 },
               },
@@ -1198,7 +1198,7 @@ Object {
                 "id": "libffi@3.0.13-18.amzn2.0.2",
                 "info": Object {
                   "name": "libffi",
-                  "purl": "pkg:rpm/amzn/libffi@3.0.13-18.amzn2.0.2?distro=amzn-2&upstream=libffi%403.0.13",
+                  "purl": "pkg:rpm/amzn/libffi@3.0.13-18.amzn2.0.2?distro=amzn-2&upstream=libffi%403.0.13-18.amzn2.0.2",
                   "version": "3.0.13-18.amzn2.0.2",
                 },
               },
@@ -1206,7 +1206,7 @@ Object {
                 "id": "libgcc@7.3.1-6.amzn2.0.4",
                 "info": Object {
                   "name": "libgcc",
-                  "purl": "pkg:rpm/amzn/libgcc@7.3.1-6.amzn2.0.4?distro=amzn-2&upstream=gcc%407.3.1",
+                  "purl": "pkg:rpm/amzn/libgcc@7.3.1-6.amzn2.0.4?distro=amzn-2&upstream=gcc%407.3.1-6.amzn2.0.4",
                   "version": "7.3.1-6.amzn2.0.4",
                 },
               },
@@ -1214,7 +1214,7 @@ Object {
                 "id": "libgcrypt@1.5.3-14.amzn2.0.2",
                 "info": Object {
                   "name": "libgcrypt",
-                  "purl": "pkg:rpm/amzn/libgcrypt@1.5.3-14.amzn2.0.2?distro=amzn-2&upstream=libgcrypt%401.5.3",
+                  "purl": "pkg:rpm/amzn/libgcrypt@1.5.3-14.amzn2.0.2?distro=amzn-2&upstream=libgcrypt%401.5.3-14.amzn2.0.2",
                   "version": "1.5.3-14.amzn2.0.2",
                 },
               },
@@ -1222,7 +1222,7 @@ Object {
                 "id": "libgpg-error@1.12-3.amzn2.0.3",
                 "info": Object {
                   "name": "libgpg-error",
-                  "purl": "pkg:rpm/amzn/libgpg-error@1.12-3.amzn2.0.3?distro=amzn-2&upstream=libgpg-error%401.12",
+                  "purl": "pkg:rpm/amzn/libgpg-error@1.12-3.amzn2.0.3?distro=amzn-2&upstream=libgpg-error%401.12-3.amzn2.0.3",
                   "version": "1.12-3.amzn2.0.3",
                 },
               },
@@ -1230,7 +1230,7 @@ Object {
                 "id": "libidn2@2.3.0-1.amzn2",
                 "info": Object {
                   "name": "libidn2",
-                  "purl": "pkg:rpm/amzn/libidn2@2.3.0-1.amzn2?distro=amzn-2&upstream=libidn2%402.3.0",
+                  "purl": "pkg:rpm/amzn/libidn2@2.3.0-1.amzn2?distro=amzn-2&upstream=libidn2%402.3.0-1.amzn2",
                   "version": "2.3.0-1.amzn2",
                 },
               },
@@ -1238,7 +1238,7 @@ Object {
                 "id": "libmetalink@0.1.2-7.amzn2.0.2",
                 "info": Object {
                   "name": "libmetalink",
-                  "purl": "pkg:rpm/amzn/libmetalink@0.1.2-7.amzn2.0.2?distro=amzn-2&upstream=libmetalink%400.1.2",
+                  "purl": "pkg:rpm/amzn/libmetalink@0.1.2-7.amzn2.0.2?distro=amzn-2&upstream=libmetalink%400.1.2-7.amzn2.0.2",
                   "version": "0.1.2-7.amzn2.0.2",
                 },
               },
@@ -1246,7 +1246,7 @@ Object {
                 "id": "libmount@2.30.2-2.amzn2.0.4",
                 "info": Object {
                   "name": "libmount",
-                  "purl": "pkg:rpm/amzn/libmount@2.30.2-2.amzn2.0.4?distro=amzn-2&upstream=util-linux%402.30.2",
+                  "purl": "pkg:rpm/amzn/libmount@2.30.2-2.amzn2.0.4?distro=amzn-2&upstream=util-linux%402.30.2-2.amzn2.0.4",
                   "version": "2.30.2-2.amzn2.0.4",
                 },
               },
@@ -1254,7 +1254,7 @@ Object {
                 "id": "libnghttp2@1.39.2-1.amzn2",
                 "info": Object {
                   "name": "libnghttp2",
-                  "purl": "pkg:rpm/amzn/libnghttp2@1.39.2-1.amzn2?distro=amzn-2&upstream=nghttp2%401.39.2",
+                  "purl": "pkg:rpm/amzn/libnghttp2@1.39.2-1.amzn2?distro=amzn-2&upstream=nghttp2%401.39.2-1.amzn2",
                   "version": "1.39.2-1.amzn2",
                 },
               },
@@ -1262,7 +1262,7 @@ Object {
                 "id": "libselinux@2.5-12.amzn2.0.2",
                 "info": Object {
                   "name": "libselinux",
-                  "purl": "pkg:rpm/amzn/libselinux@2.5-12.amzn2.0.2?distro=amzn-2&upstream=libselinux%402.5",
+                  "purl": "pkg:rpm/amzn/libselinux@2.5-12.amzn2.0.2?distro=amzn-2&upstream=libselinux%402.5-12.amzn2.0.2",
                   "version": "2.5-12.amzn2.0.2",
                 },
               },
@@ -1270,7 +1270,7 @@ Object {
                 "id": "libsepol@2.5-8.1.amzn2.0.2",
                 "info": Object {
                   "name": "libsepol",
-                  "purl": "pkg:rpm/amzn/libsepol@2.5-8.1.amzn2.0.2?distro=amzn-2&upstream=libsepol%402.5",
+                  "purl": "pkg:rpm/amzn/libsepol@2.5-8.1.amzn2.0.2?distro=amzn-2&upstream=libsepol%402.5-8.1.amzn2.0.2",
                   "version": "2.5-8.1.amzn2.0.2",
                 },
               },
@@ -1278,7 +1278,7 @@ Object {
                 "id": "libssh2@1.4.3-12.amzn2.2.2",
                 "info": Object {
                   "name": "libssh2",
-                  "purl": "pkg:rpm/amzn/libssh2@1.4.3-12.amzn2.2.2?distro=amzn-2&upstream=libssh2%401.4.3",
+                  "purl": "pkg:rpm/amzn/libssh2@1.4.3-12.amzn2.2.2?distro=amzn-2&upstream=libssh2%401.4.3-12.amzn2.2.2",
                   "version": "1.4.3-12.amzn2.2.2",
                 },
               },
@@ -1286,7 +1286,7 @@ Object {
                 "id": "libstdc++@7.3.1-6.amzn2.0.4",
                 "info": Object {
                   "name": "libstdc++",
-                  "purl": "pkg:rpm/amzn/libstdc%2B%2B@7.3.1-6.amzn2.0.4?distro=amzn-2&upstream=gcc%407.3.1",
+                  "purl": "pkg:rpm/amzn/libstdc%2B%2B@7.3.1-6.amzn2.0.4?distro=amzn-2&upstream=gcc%407.3.1-6.amzn2.0.4",
                   "version": "7.3.1-6.amzn2.0.4",
                 },
               },
@@ -1294,7 +1294,7 @@ Object {
                 "id": "libtasn1@4.10-1.amzn2.0.2",
                 "info": Object {
                   "name": "libtasn1",
-                  "purl": "pkg:rpm/amzn/libtasn1@4.10-1.amzn2.0.2?distro=amzn-2&upstream=libtasn1%404.10",
+                  "purl": "pkg:rpm/amzn/libtasn1@4.10-1.amzn2.0.2?distro=amzn-2&upstream=libtasn1%404.10-1.amzn2.0.2",
                   "version": "4.10-1.amzn2.0.2",
                 },
               },
@@ -1302,7 +1302,7 @@ Object {
                 "id": "libunistring@0.9.3-9.amzn2.0.2",
                 "info": Object {
                   "name": "libunistring",
-                  "purl": "pkg:rpm/amzn/libunistring@0.9.3-9.amzn2.0.2?distro=amzn-2&upstream=libunistring%400.9.3",
+                  "purl": "pkg:rpm/amzn/libunistring@0.9.3-9.amzn2.0.2?distro=amzn-2&upstream=libunistring%400.9.3-9.amzn2.0.2",
                   "version": "0.9.3-9.amzn2.0.2",
                 },
               },
@@ -1310,7 +1310,7 @@ Object {
                 "id": "libuuid@2.30.2-2.amzn2.0.4",
                 "info": Object {
                   "name": "libuuid",
-                  "purl": "pkg:rpm/amzn/libuuid@2.30.2-2.amzn2.0.4?distro=amzn-2&upstream=util-linux%402.30.2",
+                  "purl": "pkg:rpm/amzn/libuuid@2.30.2-2.amzn2.0.4?distro=amzn-2&upstream=util-linux%402.30.2-2.amzn2.0.4",
                   "version": "2.30.2-2.amzn2.0.4",
                 },
               },
@@ -1318,7 +1318,7 @@ Object {
                 "id": "libverto@0.2.5-4.amzn2.0.2",
                 "info": Object {
                   "name": "libverto",
-                  "purl": "pkg:rpm/amzn/libverto@0.2.5-4.amzn2.0.2?distro=amzn-2&upstream=libverto%400.2.5",
+                  "purl": "pkg:rpm/amzn/libverto@0.2.5-4.amzn2.0.2?distro=amzn-2&upstream=libverto%400.2.5-4.amzn2.0.2",
                   "version": "0.2.5-4.amzn2.0.2",
                 },
               },
@@ -1326,7 +1326,7 @@ Object {
                 "id": "libxml2@2.9.1-6.amzn2.3.3",
                 "info": Object {
                   "name": "libxml2",
-                  "purl": "pkg:rpm/amzn/libxml2@2.9.1-6.amzn2.3.3?distro=amzn-2&upstream=libxml2%402.9.1",
+                  "purl": "pkg:rpm/amzn/libxml2@2.9.1-6.amzn2.3.3?distro=amzn-2&upstream=libxml2%402.9.1-6.amzn2.3.3",
                   "version": "2.9.1-6.amzn2.3.3",
                 },
               },
@@ -1334,7 +1334,7 @@ Object {
                 "id": "lua@5.1.4-15.amzn2.0.2",
                 "info": Object {
                   "name": "lua",
-                  "purl": "pkg:rpm/amzn/lua@5.1.4-15.amzn2.0.2?distro=amzn-2&upstream=lua%405.1.4",
+                  "purl": "pkg:rpm/amzn/lua@5.1.4-15.amzn2.0.2?distro=amzn-2&upstream=lua%405.1.4-15.amzn2.0.2",
                   "version": "5.1.4-15.amzn2.0.2",
                 },
               },
@@ -1342,7 +1342,7 @@ Object {
                 "id": "ncurses@6.0-8.20170212.amzn2.1.3",
                 "info": Object {
                   "name": "ncurses",
-                  "purl": "pkg:rpm/amzn/ncurses@6.0-8.20170212.amzn2.1.3?distro=amzn-2&upstream=ncurses%406.0",
+                  "purl": "pkg:rpm/amzn/ncurses@6.0-8.20170212.amzn2.1.3?distro=amzn-2&upstream=ncurses%406.0-8.20170212.amzn2.1.3",
                   "version": "6.0-8.20170212.amzn2.1.3",
                 },
               },
@@ -1350,7 +1350,7 @@ Object {
                 "id": "ncurses-base@6.0-8.20170212.amzn2.1.3",
                 "info": Object {
                   "name": "ncurses-base",
-                  "purl": "pkg:rpm/amzn/ncurses-base@6.0-8.20170212.amzn2.1.3?distro=amzn-2&upstream=ncurses%406.0",
+                  "purl": "pkg:rpm/amzn/ncurses-base@6.0-8.20170212.amzn2.1.3?distro=amzn-2&upstream=ncurses%406.0-8.20170212.amzn2.1.3",
                   "version": "6.0-8.20170212.amzn2.1.3",
                 },
               },
@@ -1358,7 +1358,7 @@ Object {
                 "id": "ncurses-libs@6.0-8.20170212.amzn2.1.3",
                 "info": Object {
                   "name": "ncurses-libs",
-                  "purl": "pkg:rpm/amzn/ncurses-libs@6.0-8.20170212.amzn2.1.3?distro=amzn-2&upstream=ncurses%406.0",
+                  "purl": "pkg:rpm/amzn/ncurses-libs@6.0-8.20170212.amzn2.1.3?distro=amzn-2&upstream=ncurses%406.0-8.20170212.amzn2.1.3",
                   "version": "6.0-8.20170212.amzn2.1.3",
                 },
               },
@@ -1366,7 +1366,7 @@ Object {
                 "id": "nspr@4.21.0-1.amzn2.0.2",
                 "info": Object {
                   "name": "nspr",
-                  "purl": "pkg:rpm/amzn/nspr@4.21.0-1.amzn2.0.2?distro=amzn-2&upstream=nspr%404.21.0",
+                  "purl": "pkg:rpm/amzn/nspr@4.21.0-1.amzn2.0.2?distro=amzn-2&upstream=nspr%404.21.0-1.amzn2.0.2",
                   "version": "4.21.0-1.amzn2.0.2",
                 },
               },
@@ -1374,7 +1374,7 @@ Object {
                 "id": "nss@3.44.0-7.amzn2",
                 "info": Object {
                   "name": "nss",
-                  "purl": "pkg:rpm/amzn/nss@3.44.0-7.amzn2?distro=amzn-2&upstream=nss%403.44.0",
+                  "purl": "pkg:rpm/amzn/nss@3.44.0-7.amzn2?distro=amzn-2&upstream=nss%403.44.0-7.amzn2",
                   "version": "3.44.0-7.amzn2",
                 },
               },
@@ -1382,7 +1382,7 @@ Object {
                 "id": "nss-pem@1.0.3-5.amzn2",
                 "info": Object {
                   "name": "nss-pem",
-                  "purl": "pkg:rpm/amzn/nss-pem@1.0.3-5.amzn2?distro=amzn-2&upstream=nss-pem%401.0.3",
+                  "purl": "pkg:rpm/amzn/nss-pem@1.0.3-5.amzn2?distro=amzn-2&upstream=nss-pem%401.0.3-5.amzn2",
                   "version": "1.0.3-5.amzn2",
                 },
               },
@@ -1390,7 +1390,7 @@ Object {
                 "id": "nss-softokn@3.44.0-8.amzn2",
                 "info": Object {
                   "name": "nss-softokn",
-                  "purl": "pkg:rpm/amzn/nss-softokn@3.44.0-8.amzn2?distro=amzn-2&upstream=nss-softokn%403.44.0",
+                  "purl": "pkg:rpm/amzn/nss-softokn@3.44.0-8.amzn2?distro=amzn-2&upstream=nss-softokn%403.44.0-8.amzn2",
                   "version": "3.44.0-8.amzn2",
                 },
               },
@@ -1398,7 +1398,7 @@ Object {
                 "id": "nss-softokn-freebl@3.44.0-8.amzn2",
                 "info": Object {
                   "name": "nss-softokn-freebl",
-                  "purl": "pkg:rpm/amzn/nss-softokn-freebl@3.44.0-8.amzn2?distro=amzn-2&upstream=nss-softokn%403.44.0",
+                  "purl": "pkg:rpm/amzn/nss-softokn-freebl@3.44.0-8.amzn2?distro=amzn-2&upstream=nss-softokn%403.44.0-8.amzn2",
                   "version": "3.44.0-8.amzn2",
                 },
               },
@@ -1406,7 +1406,7 @@ Object {
                 "id": "nss-sysinit@3.44.0-7.amzn2",
                 "info": Object {
                   "name": "nss-sysinit",
-                  "purl": "pkg:rpm/amzn/nss-sysinit@3.44.0-7.amzn2?distro=amzn-2&upstream=nss%403.44.0",
+                  "purl": "pkg:rpm/amzn/nss-sysinit@3.44.0-7.amzn2?distro=amzn-2&upstream=nss%403.44.0-7.amzn2",
                   "version": "3.44.0-7.amzn2",
                 },
               },
@@ -1414,7 +1414,7 @@ Object {
                 "id": "nss-tools@3.44.0-7.amzn2",
                 "info": Object {
                   "name": "nss-tools",
-                  "purl": "pkg:rpm/amzn/nss-tools@3.44.0-7.amzn2?distro=amzn-2&upstream=nss%403.44.0",
+                  "purl": "pkg:rpm/amzn/nss-tools@3.44.0-7.amzn2?distro=amzn-2&upstream=nss%403.44.0-7.amzn2",
                   "version": "3.44.0-7.amzn2",
                 },
               },
@@ -1422,7 +1422,7 @@ Object {
                 "id": "nss-util@3.44.0-4.amzn2",
                 "info": Object {
                   "name": "nss-util",
-                  "purl": "pkg:rpm/amzn/nss-util@3.44.0-4.amzn2?distro=amzn-2&upstream=nss-util%403.44.0",
+                  "purl": "pkg:rpm/amzn/nss-util@3.44.0-4.amzn2?distro=amzn-2&upstream=nss-util%403.44.0-4.amzn2",
                   "version": "3.44.0-4.amzn2",
                 },
               },
@@ -1430,7 +1430,7 @@ Object {
                 "id": "openldap@2.4.44-15.amzn2",
                 "info": Object {
                   "name": "openldap",
-                  "purl": "pkg:rpm/amzn/openldap@2.4.44-15.amzn2?distro=amzn-2&upstream=openldap%402.4.44",
+                  "purl": "pkg:rpm/amzn/openldap@2.4.44-15.amzn2?distro=amzn-2&upstream=openldap%402.4.44-15.amzn2",
                   "version": "2.4.44-15.amzn2",
                 },
               },
@@ -1438,7 +1438,7 @@ Object {
                 "id": "openssl-libs@1:1.0.2k-19.amzn2.0.3",
                 "info": Object {
                   "name": "openssl-libs",
-                  "purl": "pkg:rpm/amzn/openssl-libs@1:1.0.2k-19.amzn2.0.3?distro=amzn-2&epoch=1&upstream=openssl%401.0.2k",
+                  "purl": "pkg:rpm/amzn/openssl-libs@1:1.0.2k-19.amzn2.0.3?distro=amzn-2&epoch=1&upstream=openssl%401.0.2k-19.amzn2.0.3",
                   "version": "1:1.0.2k-19.amzn2.0.3",
                 },
               },
@@ -1446,7 +1446,7 @@ Object {
                 "id": "p11-kit@0.23.5-3.amzn2.0.2",
                 "info": Object {
                   "name": "p11-kit",
-                  "purl": "pkg:rpm/amzn/p11-kit@0.23.5-3.amzn2.0.2?distro=amzn-2&upstream=p11-kit%400.23.5",
+                  "purl": "pkg:rpm/amzn/p11-kit@0.23.5-3.amzn2.0.2?distro=amzn-2&upstream=p11-kit%400.23.5-3.amzn2.0.2",
                   "version": "0.23.5-3.amzn2.0.2",
                 },
               },
@@ -1454,7 +1454,7 @@ Object {
                 "id": "p11-kit-trust@0.23.5-3.amzn2.0.2",
                 "info": Object {
                   "name": "p11-kit-trust",
-                  "purl": "pkg:rpm/amzn/p11-kit-trust@0.23.5-3.amzn2.0.2?distro=amzn-2&upstream=p11-kit%400.23.5",
+                  "purl": "pkg:rpm/amzn/p11-kit-trust@0.23.5-3.amzn2.0.2?distro=amzn-2&upstream=p11-kit%400.23.5-3.amzn2.0.2",
                   "version": "0.23.5-3.amzn2.0.2",
                 },
               },
@@ -1462,7 +1462,7 @@ Object {
                 "id": "pcre@8.32-17.amzn2.0.2",
                 "info": Object {
                   "name": "pcre",
-                  "purl": "pkg:rpm/amzn/pcre@8.32-17.amzn2.0.2?distro=amzn-2&upstream=pcre%408.32",
+                  "purl": "pkg:rpm/amzn/pcre@8.32-17.amzn2.0.2?distro=amzn-2&upstream=pcre%408.32-17.amzn2.0.2",
                   "version": "8.32-17.amzn2.0.2",
                 },
               },
@@ -1470,7 +1470,7 @@ Object {
                 "id": "pinentry@0.8.1-17.amzn2.0.2",
                 "info": Object {
                   "name": "pinentry",
-                  "purl": "pkg:rpm/amzn/pinentry@0.8.1-17.amzn2.0.2?distro=amzn-2&upstream=pinentry%400.8.1",
+                  "purl": "pkg:rpm/amzn/pinentry@0.8.1-17.amzn2.0.2?distro=amzn-2&upstream=pinentry%400.8.1-17.amzn2.0.2",
                   "version": "0.8.1-17.amzn2.0.2",
                 },
               },
@@ -1478,7 +1478,7 @@ Object {
                 "id": "popt@1.13-16.amzn2.0.2",
                 "info": Object {
                   "name": "popt",
-                  "purl": "pkg:rpm/amzn/popt@1.13-16.amzn2.0.2?distro=amzn-2&upstream=popt%401.13",
+                  "purl": "pkg:rpm/amzn/popt@1.13-16.amzn2.0.2?distro=amzn-2&upstream=popt%401.13-16.amzn2.0.2",
                   "version": "1.13-16.amzn2.0.2",
                 },
               },
@@ -1486,7 +1486,7 @@ Object {
                 "id": "pth@2.0.7-23.amzn2.0.2",
                 "info": Object {
                   "name": "pth",
-                  "purl": "pkg:rpm/amzn/pth@2.0.7-23.amzn2.0.2?distro=amzn-2&upstream=pth%402.0.7",
+                  "purl": "pkg:rpm/amzn/pth@2.0.7-23.amzn2.0.2?distro=amzn-2&upstream=pth%402.0.7-23.amzn2.0.2",
                   "version": "2.0.7-23.amzn2.0.2",
                 },
               },
@@ -1494,7 +1494,7 @@ Object {
                 "id": "pygpgme@0.3-9.amzn2.0.2",
                 "info": Object {
                   "name": "pygpgme",
-                  "purl": "pkg:rpm/amzn/pygpgme@0.3-9.amzn2.0.2?distro=amzn-2&upstream=pygpgme%400.3",
+                  "purl": "pkg:rpm/amzn/pygpgme@0.3-9.amzn2.0.2?distro=amzn-2&upstream=pygpgme%400.3-9.amzn2.0.2",
                   "version": "0.3-9.amzn2.0.2",
                 },
               },
@@ -1502,7 +1502,7 @@ Object {
                 "id": "pyliblzma@0.5.3-11.amzn2.0.2",
                 "info": Object {
                   "name": "pyliblzma",
-                  "purl": "pkg:rpm/amzn/pyliblzma@0.5.3-11.amzn2.0.2?distro=amzn-2&upstream=pyliblzma%400.5.3",
+                  "purl": "pkg:rpm/amzn/pyliblzma@0.5.3-11.amzn2.0.2?distro=amzn-2&upstream=pyliblzma%400.5.3-11.amzn2.0.2",
                   "version": "0.5.3-11.amzn2.0.2",
                 },
               },
@@ -1510,7 +1510,7 @@ Object {
                 "id": "python@2.7.16-5.amzn2",
                 "info": Object {
                   "name": "python",
-                  "purl": "pkg:rpm/amzn/python@2.7.16-5.amzn2?distro=amzn-2&upstream=python%402.7.16",
+                  "purl": "pkg:rpm/amzn/python@2.7.16-5.amzn2?distro=amzn-2&upstream=python%402.7.16-5.amzn2",
                   "version": "2.7.16-5.amzn2",
                 },
               },
@@ -1518,7 +1518,7 @@ Object {
                 "id": "python-iniparse@0.4-9.amzn2",
                 "info": Object {
                   "name": "python-iniparse",
-                  "purl": "pkg:rpm/amzn/python-iniparse@0.4-9.amzn2?distro=amzn-2&upstream=python-iniparse%400.4",
+                  "purl": "pkg:rpm/amzn/python-iniparse@0.4-9.amzn2?distro=amzn-2&upstream=python-iniparse%400.4-9.amzn2",
                   "version": "0.4-9.amzn2",
                 },
               },
@@ -1526,7 +1526,7 @@ Object {
                 "id": "python-libs@2.7.16-5.amzn2",
                 "info": Object {
                   "name": "python-libs",
-                  "purl": "pkg:rpm/amzn/python-libs@2.7.16-5.amzn2?distro=amzn-2&upstream=python%402.7.16",
+                  "purl": "pkg:rpm/amzn/python-libs@2.7.16-5.amzn2?distro=amzn-2&upstream=python%402.7.16-5.amzn2",
                   "version": "2.7.16-5.amzn2",
                 },
               },
@@ -1534,7 +1534,7 @@ Object {
                 "id": "python-pycurl@7.19.0-19.amzn2.0.2",
                 "info": Object {
                   "name": "python-pycurl",
-                  "purl": "pkg:rpm/amzn/python-pycurl@7.19.0-19.amzn2.0.2?distro=amzn-2&upstream=python-pycurl%407.19.0",
+                  "purl": "pkg:rpm/amzn/python-pycurl@7.19.0-19.amzn2.0.2?distro=amzn-2&upstream=python-pycurl%407.19.0-19.amzn2.0.2",
                   "version": "7.19.0-19.amzn2.0.2",
                 },
               },
@@ -1542,7 +1542,7 @@ Object {
                 "id": "python-urlgrabber@3.10-9.amzn2.0.1",
                 "info": Object {
                   "name": "python-urlgrabber",
-                  "purl": "pkg:rpm/amzn/python-urlgrabber@3.10-9.amzn2.0.1?distro=amzn-2&upstream=python-urlgrabber%403.10",
+                  "purl": "pkg:rpm/amzn/python-urlgrabber@3.10-9.amzn2.0.1?distro=amzn-2&upstream=python-urlgrabber%403.10-9.amzn2.0.1",
                   "version": "3.10-9.amzn2.0.1",
                 },
               },
@@ -1550,7 +1550,7 @@ Object {
                 "id": "python2-rpm@4.11.3-40.amzn2.0.3",
                 "info": Object {
                   "name": "python2-rpm",
-                  "purl": "pkg:rpm/amzn/python2-rpm@4.11.3-40.amzn2.0.3?distro=amzn-2&upstream=rpm%404.11.3",
+                  "purl": "pkg:rpm/amzn/python2-rpm@4.11.3-40.amzn2.0.3?distro=amzn-2&upstream=rpm%404.11.3-40.amzn2.0.3",
                   "version": "4.11.3-40.amzn2.0.3",
                 },
               },
@@ -1558,7 +1558,7 @@ Object {
                 "id": "pyxattr@0.5.1-5.amzn2.0.2",
                 "info": Object {
                   "name": "pyxattr",
-                  "purl": "pkg:rpm/amzn/pyxattr@0.5.1-5.amzn2.0.2?distro=amzn-2&upstream=pyxattr%400.5.1",
+                  "purl": "pkg:rpm/amzn/pyxattr@0.5.1-5.amzn2.0.2?distro=amzn-2&upstream=pyxattr%400.5.1-5.amzn2.0.2",
                   "version": "0.5.1-5.amzn2.0.2",
                 },
               },
@@ -1566,7 +1566,7 @@ Object {
                 "id": "readline@6.2-10.amzn2.0.2",
                 "info": Object {
                   "name": "readline",
-                  "purl": "pkg:rpm/amzn/readline@6.2-10.amzn2.0.2?distro=amzn-2&upstream=readline%406.2",
+                  "purl": "pkg:rpm/amzn/readline@6.2-10.amzn2.0.2?distro=amzn-2&upstream=readline%406.2-10.amzn2.0.2",
                   "version": "6.2-10.amzn2.0.2",
                 },
               },
@@ -1574,7 +1574,7 @@ Object {
                 "id": "rpm@4.11.3-40.amzn2.0.3",
                 "info": Object {
                   "name": "rpm",
-                  "purl": "pkg:rpm/amzn/rpm@4.11.3-40.amzn2.0.3?distro=amzn-2&upstream=rpm%404.11.3",
+                  "purl": "pkg:rpm/amzn/rpm@4.11.3-40.amzn2.0.3?distro=amzn-2&upstream=rpm%404.11.3-40.amzn2.0.3",
                   "version": "4.11.3-40.amzn2.0.3",
                 },
               },
@@ -1582,7 +1582,7 @@ Object {
                 "id": "rpm-build-libs@4.11.3-40.amzn2.0.3",
                 "info": Object {
                   "name": "rpm-build-libs",
-                  "purl": "pkg:rpm/amzn/rpm-build-libs@4.11.3-40.amzn2.0.3?distro=amzn-2&upstream=rpm%404.11.3",
+                  "purl": "pkg:rpm/amzn/rpm-build-libs@4.11.3-40.amzn2.0.3?distro=amzn-2&upstream=rpm%404.11.3-40.amzn2.0.3",
                   "version": "4.11.3-40.amzn2.0.3",
                 },
               },
@@ -1590,7 +1590,7 @@ Object {
                 "id": "rpm-libs@4.11.3-40.amzn2.0.3",
                 "info": Object {
                   "name": "rpm-libs",
-                  "purl": "pkg:rpm/amzn/rpm-libs@4.11.3-40.amzn2.0.3?distro=amzn-2&upstream=rpm%404.11.3",
+                  "purl": "pkg:rpm/amzn/rpm-libs@4.11.3-40.amzn2.0.3?distro=amzn-2&upstream=rpm%404.11.3-40.amzn2.0.3",
                   "version": "4.11.3-40.amzn2.0.3",
                 },
               },
@@ -1598,7 +1598,7 @@ Object {
                 "id": "sed@4.2.2-5.amzn2.0.2",
                 "info": Object {
                   "name": "sed",
-                  "purl": "pkg:rpm/amzn/sed@4.2.2-5.amzn2.0.2?distro=amzn-2&upstream=sed%404.2.2",
+                  "purl": "pkg:rpm/amzn/sed@4.2.2-5.amzn2.0.2?distro=amzn-2&upstream=sed%404.2.2-5.amzn2.0.2",
                   "version": "4.2.2-5.amzn2.0.2",
                 },
               },
@@ -1606,7 +1606,7 @@ Object {
                 "id": "setup@2.8.71-10.amzn2.0.1",
                 "info": Object {
                   "name": "setup",
-                  "purl": "pkg:rpm/amzn/setup@2.8.71-10.amzn2.0.1?distro=amzn-2&upstream=setup%402.8.71",
+                  "purl": "pkg:rpm/amzn/setup@2.8.71-10.amzn2.0.1?distro=amzn-2&upstream=setup%402.8.71-10.amzn2.0.1",
                   "version": "2.8.71-10.amzn2.0.1",
                 },
               },
@@ -1614,7 +1614,7 @@ Object {
                 "id": "shared-mime-info@1.8-4.amzn2",
                 "info": Object {
                   "name": "shared-mime-info",
-                  "purl": "pkg:rpm/amzn/shared-mime-info@1.8-4.amzn2?distro=amzn-2&upstream=shared-mime-info%401.8",
+                  "purl": "pkg:rpm/amzn/shared-mime-info@1.8-4.amzn2?distro=amzn-2&upstream=shared-mime-info%401.8-4.amzn2",
                   "version": "1.8-4.amzn2",
                 },
               },
@@ -1622,7 +1622,7 @@ Object {
                 "id": "sqlite@3.7.17-8.amzn2.1.1",
                 "info": Object {
                   "name": "sqlite",
-                  "purl": "pkg:rpm/amzn/sqlite@3.7.17-8.amzn2.1.1?distro=amzn-2&upstream=sqlite%403.7.17",
+                  "purl": "pkg:rpm/amzn/sqlite@3.7.17-8.amzn2.1.1?distro=amzn-2&upstream=sqlite%403.7.17-8.amzn2.1.1",
                   "version": "3.7.17-8.amzn2.1.1",
                 },
               },
@@ -1630,7 +1630,7 @@ Object {
                 "id": "system-release@1:2-11.amzn2",
                 "info": Object {
                   "name": "system-release",
-                  "purl": "pkg:rpm/amzn/system-release@1:2-11.amzn2?distro=amzn-2&epoch=1&upstream=system-release%402",
+                  "purl": "pkg:rpm/amzn/system-release@1:2-11.amzn2?distro=amzn-2&epoch=1&upstream=system-release%402-11.amzn2",
                   "version": "1:2-11.amzn2",
                 },
               },
@@ -1638,7 +1638,7 @@ Object {
                 "id": "tzdata@2019c-1.amzn2",
                 "info": Object {
                   "name": "tzdata",
-                  "purl": "pkg:rpm/amzn/tzdata@2019c-1.amzn2?distro=amzn-2&upstream=tzdata%402019c",
+                  "purl": "pkg:rpm/amzn/tzdata@2019c-1.amzn2?distro=amzn-2&upstream=tzdata%402019c-1.amzn2",
                   "version": "2019c-1.amzn2",
                 },
               },
@@ -1646,7 +1646,7 @@ Object {
                 "id": "vim-minimal@2:8.1.1602-1.amzn2",
                 "info": Object {
                   "name": "vim-minimal",
-                  "purl": "pkg:rpm/amzn/vim-minimal@2:8.1.1602-1.amzn2?distro=amzn-2&epoch=2&upstream=vim%408.1.1602",
+                  "purl": "pkg:rpm/amzn/vim-minimal@2:8.1.1602-1.amzn2?distro=amzn-2&epoch=2&upstream=vim%408.1.1602-1.amzn2",
                   "version": "2:8.1.1602-1.amzn2",
                 },
               },
@@ -1654,7 +1654,7 @@ Object {
                 "id": "xz-libs@5.2.2-1.amzn2.0.2",
                 "info": Object {
                   "name": "xz-libs",
-                  "purl": "pkg:rpm/amzn/xz-libs@5.2.2-1.amzn2.0.2?distro=amzn-2&upstream=xz%405.2.2",
+                  "purl": "pkg:rpm/amzn/xz-libs@5.2.2-1.amzn2.0.2?distro=amzn-2&upstream=xz%405.2.2-1.amzn2.0.2",
                   "version": "5.2.2-1.amzn2.0.2",
                 },
               },
@@ -1662,7 +1662,7 @@ Object {
                 "id": "yum@3.4.3-158.amzn2.0.3",
                 "info": Object {
                   "name": "yum",
-                  "purl": "pkg:rpm/amzn/yum@3.4.3-158.amzn2.0.3?distro=amzn-2&upstream=yum%403.4.3",
+                  "purl": "pkg:rpm/amzn/yum@3.4.3-158.amzn2.0.3?distro=amzn-2&upstream=yum%403.4.3-158.amzn2.0.3",
                   "version": "3.4.3-158.amzn2.0.3",
                 },
               },
@@ -1670,7 +1670,7 @@ Object {
                 "id": "yum-metadata-parser@1.1.4-10.amzn2.0.2",
                 "info": Object {
                   "name": "yum-metadata-parser",
-                  "purl": "pkg:rpm/amzn/yum-metadata-parser@1.1.4-10.amzn2.0.2?distro=amzn-2&upstream=yum-metadata-parser%401.1.4",
+                  "purl": "pkg:rpm/amzn/yum-metadata-parser@1.1.4-10.amzn2.0.2?distro=amzn-2&upstream=yum-metadata-parser%401.1.4-10.amzn2.0.2",
                   "version": "1.1.4-10.amzn2.0.2",
                 },
               },
@@ -1678,7 +1678,7 @@ Object {
                 "id": "yum-plugin-ovl@1.1.31-46.amzn2.0.1",
                 "info": Object {
                   "name": "yum-plugin-ovl",
-                  "purl": "pkg:rpm/amzn/yum-plugin-ovl@1.1.31-46.amzn2.0.1?distro=amzn-2&upstream=yum-utils%401.1.31",
+                  "purl": "pkg:rpm/amzn/yum-plugin-ovl@1.1.31-46.amzn2.0.1?distro=amzn-2&upstream=yum-utils%401.1.31-46.amzn2.0.1",
                   "version": "1.1.31-46.amzn2.0.1",
                 },
               },
@@ -1686,7 +1686,7 @@ Object {
                 "id": "yum-plugin-priorities@1.1.31-46.amzn2.0.1",
                 "info": Object {
                   "name": "yum-plugin-priorities",
-                  "purl": "pkg:rpm/amzn/yum-plugin-priorities@1.1.31-46.amzn2.0.1?distro=amzn-2&upstream=yum-utils%401.1.31",
+                  "purl": "pkg:rpm/amzn/yum-plugin-priorities@1.1.31-46.amzn2.0.1?distro=amzn-2&upstream=yum-utils%401.1.31-46.amzn2.0.1",
                   "version": "1.1.31-46.amzn2.0.1",
                 },
               },
@@ -1694,7 +1694,7 @@ Object {
                 "id": "zlib@1.2.7-18.amzn2",
                 "info": Object {
                   "name": "zlib",
-                  "purl": "pkg:rpm/amzn/zlib@1.2.7-18.amzn2?distro=amzn-2&upstream=zlib%401.2.7",
+                  "purl": "pkg:rpm/amzn/zlib@1.2.7-18.amzn2?distro=amzn-2&upstream=zlib%401.2.7-18.amzn2",
                   "version": "1.2.7-18.amzn2",
                 },
               },
@@ -12994,7 +12994,7 @@ Object {
                 "id": "amazon-linux-extras@1.6.10-1.amzn2",
                 "info": Object {
                   "name": "amazon-linux-extras",
-                  "purl": "pkg:rpm/amzn/amazon-linux-extras@1.6.10-1.amzn2?distro=amzn-2&upstream=amazon-linux-extras%401.6.10",
+                  "purl": "pkg:rpm/amzn/amazon-linux-extras@1.6.10-1.amzn2?distro=amzn-2&upstream=amazon-linux-extras%401.6.10-1.amzn2",
                   "version": "1.6.10-1.amzn2",
                 },
               },
@@ -13002,7 +13002,7 @@ Object {
                 "id": "basesystem@10.0-7.amzn2.0.1",
                 "info": Object {
                   "name": "basesystem",
-                  "purl": "pkg:rpm/amzn/basesystem@10.0-7.amzn2.0.1?distro=amzn-2&upstream=basesystem%4010.0",
+                  "purl": "pkg:rpm/amzn/basesystem@10.0-7.amzn2.0.1?distro=amzn-2&upstream=basesystem%4010.0-7.amzn2.0.1",
                   "version": "10.0-7.amzn2.0.1",
                 },
               },
@@ -13010,7 +13010,7 @@ Object {
                 "id": "bash@4.2.46-33.amzn2",
                 "info": Object {
                   "name": "bash",
-                  "purl": "pkg:rpm/amzn/bash@4.2.46-33.amzn2?distro=amzn-2&upstream=bash%404.2.46",
+                  "purl": "pkg:rpm/amzn/bash@4.2.46-33.amzn2?distro=amzn-2&upstream=bash%404.2.46-33.amzn2",
                   "version": "4.2.46-33.amzn2",
                 },
               },
@@ -13018,7 +13018,7 @@ Object {
                 "id": "bzip2-libs@1.0.6-13.amzn2.0.2",
                 "info": Object {
                   "name": "bzip2-libs",
-                  "purl": "pkg:rpm/amzn/bzip2-libs@1.0.6-13.amzn2.0.2?distro=amzn-2&upstream=bzip2%401.0.6",
+                  "purl": "pkg:rpm/amzn/bzip2-libs@1.0.6-13.amzn2.0.2?distro=amzn-2&upstream=bzip2%401.0.6-13.amzn2.0.2",
                   "version": "1.0.6-13.amzn2.0.2",
                 },
               },
@@ -13026,7 +13026,7 @@ Object {
                 "id": "ca-certificates@2019.2.32-76.amzn2.0.1",
                 "info": Object {
                   "name": "ca-certificates",
-                  "purl": "pkg:rpm/amzn/ca-certificates@2019.2.32-76.amzn2.0.1?distro=amzn-2&upstream=ca-certificates%402019.2.32",
+                  "purl": "pkg:rpm/amzn/ca-certificates@2019.2.32-76.amzn2.0.1?distro=amzn-2&upstream=ca-certificates%402019.2.32-76.amzn2.0.1",
                   "version": "2019.2.32-76.amzn2.0.1",
                 },
               },
@@ -13034,7 +13034,7 @@ Object {
                 "id": "chkconfig@1.7.4-1.amzn2.0.2",
                 "info": Object {
                   "name": "chkconfig",
-                  "purl": "pkg:rpm/amzn/chkconfig@1.7.4-1.amzn2.0.2?distro=amzn-2&upstream=chkconfig%401.7.4",
+                  "purl": "pkg:rpm/amzn/chkconfig@1.7.4-1.amzn2.0.2?distro=amzn-2&upstream=chkconfig%401.7.4-1.amzn2.0.2",
                   "version": "1.7.4-1.amzn2.0.2",
                 },
               },
@@ -13042,7 +13042,7 @@ Object {
                 "id": "coreutils@8.22-24.amzn2",
                 "info": Object {
                   "name": "coreutils",
-                  "purl": "pkg:rpm/amzn/coreutils@8.22-24.amzn2?distro=amzn-2&upstream=coreutils%408.22",
+                  "purl": "pkg:rpm/amzn/coreutils@8.22-24.amzn2?distro=amzn-2&upstream=coreutils%408.22-24.amzn2",
                   "version": "8.22-24.amzn2",
                 },
               },
@@ -13050,7 +13050,7 @@ Object {
                 "id": "cpio@2.11-27.amzn2",
                 "info": Object {
                   "name": "cpio",
-                  "purl": "pkg:rpm/amzn/cpio@2.11-27.amzn2?distro=amzn-2&upstream=cpio%402.11",
+                  "purl": "pkg:rpm/amzn/cpio@2.11-27.amzn2?distro=amzn-2&upstream=cpio%402.11-27.amzn2",
                   "version": "2.11-27.amzn2",
                 },
               },
@@ -13058,7 +13058,7 @@ Object {
                 "id": "curl@7.61.1-12.amzn2.0.1",
                 "info": Object {
                   "name": "curl",
-                  "purl": "pkg:rpm/amzn/curl@7.61.1-12.amzn2.0.1?distro=amzn-2&upstream=curl%407.61.1",
+                  "purl": "pkg:rpm/amzn/curl@7.61.1-12.amzn2.0.1?distro=amzn-2&upstream=curl%407.61.1-12.amzn2.0.1",
                   "version": "7.61.1-12.amzn2.0.1",
                 },
               },
@@ -13066,7 +13066,7 @@ Object {
                 "id": "cyrus-sasl-lib@2.1.26-23.amzn2",
                 "info": Object {
                   "name": "cyrus-sasl-lib",
-                  "purl": "pkg:rpm/amzn/cyrus-sasl-lib@2.1.26-23.amzn2?distro=amzn-2&upstream=cyrus-sasl%402.1.26",
+                  "purl": "pkg:rpm/amzn/cyrus-sasl-lib@2.1.26-23.amzn2?distro=amzn-2&upstream=cyrus-sasl%402.1.26-23.amzn2",
                   "version": "2.1.26-23.amzn2",
                 },
               },
@@ -13074,7 +13074,7 @@ Object {
                 "id": "diffutils@3.3-5.amzn2",
                 "info": Object {
                   "name": "diffutils",
-                  "purl": "pkg:rpm/amzn/diffutils@3.3-5.amzn2?distro=amzn-2&upstream=diffutils%403.3",
+                  "purl": "pkg:rpm/amzn/diffutils@3.3-5.amzn2?distro=amzn-2&upstream=diffutils%403.3-5.amzn2",
                   "version": "3.3-5.amzn2",
                 },
               },
@@ -13082,7 +13082,7 @@ Object {
                 "id": "elfutils-libelf@0.176-2.amzn2",
                 "info": Object {
                   "name": "elfutils-libelf",
-                  "purl": "pkg:rpm/amzn/elfutils-libelf@0.176-2.amzn2?distro=amzn-2&upstream=elfutils%400.176",
+                  "purl": "pkg:rpm/amzn/elfutils-libelf@0.176-2.amzn2?distro=amzn-2&upstream=elfutils%400.176-2.amzn2",
                   "version": "0.176-2.amzn2",
                 },
               },
@@ -13090,7 +13090,7 @@ Object {
                 "id": "expat@2.1.0-10.amzn2.0.2",
                 "info": Object {
                   "name": "expat",
-                  "purl": "pkg:rpm/amzn/expat@2.1.0-10.amzn2.0.2?distro=amzn-2&upstream=expat%402.1.0",
+                  "purl": "pkg:rpm/amzn/expat@2.1.0-10.amzn2.0.2?distro=amzn-2&upstream=expat%402.1.0-10.amzn2.0.2",
                   "version": "2.1.0-10.amzn2.0.2",
                 },
               },
@@ -13098,7 +13098,7 @@ Object {
                 "id": "file-libs@5.11-35.amzn2.0.2",
                 "info": Object {
                   "name": "file-libs",
-                  "purl": "pkg:rpm/amzn/file-libs@5.11-35.amzn2.0.2?distro=amzn-2&upstream=file%405.11",
+                  "purl": "pkg:rpm/amzn/file-libs@5.11-35.amzn2.0.2?distro=amzn-2&upstream=file%405.11-35.amzn2.0.2",
                   "version": "5.11-35.amzn2.0.2",
                 },
               },
@@ -13106,7 +13106,7 @@ Object {
                 "id": "filesystem@3.2-25.amzn2.0.4",
                 "info": Object {
                   "name": "filesystem",
-                  "purl": "pkg:rpm/amzn/filesystem@3.2-25.amzn2.0.4?distro=amzn-2&upstream=filesystem%403.2",
+                  "purl": "pkg:rpm/amzn/filesystem@3.2-25.amzn2.0.4?distro=amzn-2&upstream=filesystem%403.2-25.amzn2.0.4",
                   "version": "3.2-25.amzn2.0.4",
                 },
               },
@@ -13114,7 +13114,7 @@ Object {
                 "id": "findutils@1:4.5.11-6.amzn2",
                 "info": Object {
                   "name": "findutils",
-                  "purl": "pkg:rpm/amzn/findutils@1:4.5.11-6.amzn2?distro=amzn-2&epoch=1&upstream=findutils%404.5.11",
+                  "purl": "pkg:rpm/amzn/findutils@1:4.5.11-6.amzn2?distro=amzn-2&epoch=1&upstream=findutils%404.5.11-6.amzn2",
                   "version": "1:4.5.11-6.amzn2",
                 },
               },
@@ -13122,7 +13122,7 @@ Object {
                 "id": "gawk@4.0.2-4.amzn2.1.2",
                 "info": Object {
                   "name": "gawk",
-                  "purl": "pkg:rpm/amzn/gawk@4.0.2-4.amzn2.1.2?distro=amzn-2&upstream=gawk%404.0.2",
+                  "purl": "pkg:rpm/amzn/gawk@4.0.2-4.amzn2.1.2?distro=amzn-2&upstream=gawk%404.0.2-4.amzn2.1.2",
                   "version": "4.0.2-4.amzn2.1.2",
                 },
               },
@@ -13130,7 +13130,7 @@ Object {
                 "id": "gdbm@1:1.13-6.amzn2.0.2",
                 "info": Object {
                   "name": "gdbm",
-                  "purl": "pkg:rpm/amzn/gdbm@1:1.13-6.amzn2.0.2?distro=amzn-2&epoch=1&upstream=gdbm%401.13",
+                  "purl": "pkg:rpm/amzn/gdbm@1:1.13-6.amzn2.0.2?distro=amzn-2&epoch=1&upstream=gdbm%401.13-6.amzn2.0.2",
                   "version": "1:1.13-6.amzn2.0.2",
                 },
               },
@@ -13138,7 +13138,7 @@ Object {
                 "id": "glib2@2.56.1-4.amzn2",
                 "info": Object {
                   "name": "glib2",
-                  "purl": "pkg:rpm/amzn/glib2@2.56.1-4.amzn2?distro=amzn-2&upstream=glib2%402.56.1",
+                  "purl": "pkg:rpm/amzn/glib2@2.56.1-4.amzn2?distro=amzn-2&upstream=glib2%402.56.1-4.amzn2",
                   "version": "2.56.1-4.amzn2",
                 },
               },
@@ -13146,7 +13146,7 @@ Object {
                 "id": "glibc@2.26-34.amzn2",
                 "info": Object {
                   "name": "glibc",
-                  "purl": "pkg:rpm/amzn/glibc@2.26-34.amzn2?distro=amzn-2&upstream=glibc%402.26",
+                  "purl": "pkg:rpm/amzn/glibc@2.26-34.amzn2?distro=amzn-2&upstream=glibc%402.26-34.amzn2",
                   "version": "2.26-34.amzn2",
                 },
               },
@@ -13154,7 +13154,7 @@ Object {
                 "id": "glibc-common@2.26-34.amzn2",
                 "info": Object {
                   "name": "glibc-common",
-                  "purl": "pkg:rpm/amzn/glibc-common@2.26-34.amzn2?distro=amzn-2&upstream=glibc%402.26",
+                  "purl": "pkg:rpm/amzn/glibc-common@2.26-34.amzn2?distro=amzn-2&upstream=glibc%402.26-34.amzn2",
                   "version": "2.26-34.amzn2",
                 },
               },
@@ -13162,7 +13162,7 @@ Object {
                 "id": "glibc-langpack-en@2.26-34.amzn2",
                 "info": Object {
                   "name": "glibc-langpack-en",
-                  "purl": "pkg:rpm/amzn/glibc-langpack-en@2.26-34.amzn2?distro=amzn-2&upstream=glibc%402.26",
+                  "purl": "pkg:rpm/amzn/glibc-langpack-en@2.26-34.amzn2?distro=amzn-2&upstream=glibc%402.26-34.amzn2",
                   "version": "2.26-34.amzn2",
                 },
               },
@@ -13170,7 +13170,7 @@ Object {
                 "id": "glibc-minimal-langpack@2.26-34.amzn2",
                 "info": Object {
                   "name": "glibc-minimal-langpack",
-                  "purl": "pkg:rpm/amzn/glibc-minimal-langpack@2.26-34.amzn2?distro=amzn-2&upstream=glibc%402.26",
+                  "purl": "pkg:rpm/amzn/glibc-minimal-langpack@2.26-34.amzn2?distro=amzn-2&upstream=glibc%402.26-34.amzn2",
                   "version": "2.26-34.amzn2",
                 },
               },
@@ -13178,7 +13178,7 @@ Object {
                 "id": "gmp@1:6.0.0-15.amzn2.0.2",
                 "info": Object {
                   "name": "gmp",
-                  "purl": "pkg:rpm/amzn/gmp@1:6.0.0-15.amzn2.0.2?distro=amzn-2&epoch=1&upstream=gmp%406.0.0",
+                  "purl": "pkg:rpm/amzn/gmp@1:6.0.0-15.amzn2.0.2?distro=amzn-2&epoch=1&upstream=gmp%406.0.0-15.amzn2.0.2",
                   "version": "1:6.0.0-15.amzn2.0.2",
                 },
               },
@@ -13186,7 +13186,7 @@ Object {
                 "id": "gnupg2@2.0.22-5.amzn2.0.4",
                 "info": Object {
                   "name": "gnupg2",
-                  "purl": "pkg:rpm/amzn/gnupg2@2.0.22-5.amzn2.0.4?distro=amzn-2&upstream=gnupg2%402.0.22",
+                  "purl": "pkg:rpm/amzn/gnupg2@2.0.22-5.amzn2.0.4?distro=amzn-2&upstream=gnupg2%402.0.22-5.amzn2.0.4",
                   "version": "2.0.22-5.amzn2.0.4",
                 },
               },
@@ -13202,7 +13202,7 @@ Object {
                 "id": "gpgme@1.3.2-5.amzn2.0.2",
                 "info": Object {
                   "name": "gpgme",
-                  "purl": "pkg:rpm/amzn/gpgme@1.3.2-5.amzn2.0.2?distro=amzn-2&upstream=gpgme%401.3.2",
+                  "purl": "pkg:rpm/amzn/gpgme@1.3.2-5.amzn2.0.2?distro=amzn-2&upstream=gpgme%401.3.2-5.amzn2.0.2",
                   "version": "1.3.2-5.amzn2.0.2",
                 },
               },
@@ -13210,7 +13210,7 @@ Object {
                 "id": "grep@2.20-3.amzn2.0.2",
                 "info": Object {
                   "name": "grep",
-                  "purl": "pkg:rpm/amzn/grep@2.20-3.amzn2.0.2?distro=amzn-2&upstream=grep%402.20",
+                  "purl": "pkg:rpm/amzn/grep@2.20-3.amzn2.0.2?distro=amzn-2&upstream=grep%402.20-3.amzn2.0.2",
                   "version": "2.20-3.amzn2.0.2",
                 },
               },
@@ -13218,7 +13218,7 @@ Object {
                 "id": "info@5.1-5.amzn2",
                 "info": Object {
                   "name": "info",
-                  "purl": "pkg:rpm/amzn/info@5.1-5.amzn2?distro=amzn-2&upstream=texinfo%405.1",
+                  "purl": "pkg:rpm/amzn/info@5.1-5.amzn2?distro=amzn-2&upstream=texinfo%405.1-5.amzn2",
                   "version": "5.1-5.amzn2",
                 },
               },
@@ -13226,7 +13226,7 @@ Object {
                 "id": "keyutils-libs@1.5.8-3.amzn2.0.2",
                 "info": Object {
                   "name": "keyutils-libs",
-                  "purl": "pkg:rpm/amzn/keyutils-libs@1.5.8-3.amzn2.0.2?distro=amzn-2&upstream=keyutils%401.5.8",
+                  "purl": "pkg:rpm/amzn/keyutils-libs@1.5.8-3.amzn2.0.2?distro=amzn-2&upstream=keyutils%401.5.8-3.amzn2.0.2",
                   "version": "1.5.8-3.amzn2.0.2",
                 },
               },
@@ -13234,7 +13234,7 @@ Object {
                 "id": "krb5-libs@1.15.1-37.amzn2.2.2",
                 "info": Object {
                   "name": "krb5-libs",
-                  "purl": "pkg:rpm/amzn/krb5-libs@1.15.1-37.amzn2.2.2?distro=amzn-2&upstream=krb5%401.15.1",
+                  "purl": "pkg:rpm/amzn/krb5-libs@1.15.1-37.amzn2.2.2?distro=amzn-2&upstream=krb5%401.15.1-37.amzn2.2.2",
                   "version": "1.15.1-37.amzn2.2.2",
                 },
               },
@@ -13242,7 +13242,7 @@ Object {
                 "id": "libacl@2.2.51-14.amzn2",
                 "info": Object {
                   "name": "libacl",
-                  "purl": "pkg:rpm/amzn/libacl@2.2.51-14.amzn2?distro=amzn-2&upstream=acl%402.2.51",
+                  "purl": "pkg:rpm/amzn/libacl@2.2.51-14.amzn2?distro=amzn-2&upstream=acl%402.2.51-14.amzn2",
                   "version": "2.2.51-14.amzn2",
                 },
               },
@@ -13250,7 +13250,7 @@ Object {
                 "id": "libassuan@2.1.0-3.amzn2.0.2",
                 "info": Object {
                   "name": "libassuan",
-                  "purl": "pkg:rpm/amzn/libassuan@2.1.0-3.amzn2.0.2?distro=amzn-2&upstream=libassuan%402.1.0",
+                  "purl": "pkg:rpm/amzn/libassuan@2.1.0-3.amzn2.0.2?distro=amzn-2&upstream=libassuan%402.1.0-3.amzn2.0.2",
                   "version": "2.1.0-3.amzn2.0.2",
                 },
               },
@@ -13258,7 +13258,7 @@ Object {
                 "id": "libattr@2.4.46-12.amzn2.0.2",
                 "info": Object {
                   "name": "libattr",
-                  "purl": "pkg:rpm/amzn/libattr@2.4.46-12.amzn2.0.2?distro=amzn-2&upstream=attr%402.4.46",
+                  "purl": "pkg:rpm/amzn/libattr@2.4.46-12.amzn2.0.2?distro=amzn-2&upstream=attr%402.4.46-12.amzn2.0.2",
                   "version": "2.4.46-12.amzn2.0.2",
                 },
               },
@@ -13266,7 +13266,7 @@ Object {
                 "id": "libblkid@2.30.2-2.amzn2.0.4",
                 "info": Object {
                   "name": "libblkid",
-                  "purl": "pkg:rpm/amzn/libblkid@2.30.2-2.amzn2.0.4?distro=amzn-2&upstream=util-linux%402.30.2",
+                  "purl": "pkg:rpm/amzn/libblkid@2.30.2-2.amzn2.0.4?distro=amzn-2&upstream=util-linux%402.30.2-2.amzn2.0.4",
                   "version": "2.30.2-2.amzn2.0.4",
                 },
               },
@@ -13274,7 +13274,7 @@ Object {
                 "id": "libcap@2.22-9.amzn2.0.2",
                 "info": Object {
                   "name": "libcap",
-                  "purl": "pkg:rpm/amzn/libcap@2.22-9.amzn2.0.2?distro=amzn-2&upstream=libcap%402.22",
+                  "purl": "pkg:rpm/amzn/libcap@2.22-9.amzn2.0.2?distro=amzn-2&upstream=libcap%402.22-9.amzn2.0.2",
                   "version": "2.22-9.amzn2.0.2",
                 },
               },
@@ -13282,7 +13282,7 @@ Object {
                 "id": "libcom_err@1.42.9-12.amzn2.0.2",
                 "info": Object {
                   "name": "libcom_err",
-                  "purl": "pkg:rpm/amzn/libcom_err@1.42.9-12.amzn2.0.2?distro=amzn-2&upstream=e2fsprogs%401.42.9",
+                  "purl": "pkg:rpm/amzn/libcom_err@1.42.9-12.amzn2.0.2?distro=amzn-2&upstream=e2fsprogs%401.42.9-12.amzn2.0.2",
                   "version": "1.42.9-12.amzn2.0.2",
                 },
               },
@@ -13290,7 +13290,7 @@ Object {
                 "id": "libcrypt@2.26-34.amzn2",
                 "info": Object {
                   "name": "libcrypt",
-                  "purl": "pkg:rpm/amzn/libcrypt@2.26-34.amzn2?distro=amzn-2&upstream=glibc%402.26",
+                  "purl": "pkg:rpm/amzn/libcrypt@2.26-34.amzn2?distro=amzn-2&upstream=glibc%402.26-34.amzn2",
                   "version": "2.26-34.amzn2",
                 },
               },
@@ -13298,7 +13298,7 @@ Object {
                 "id": "libcurl@7.61.1-12.amzn2.0.1",
                 "info": Object {
                   "name": "libcurl",
-                  "purl": "pkg:rpm/amzn/libcurl@7.61.1-12.amzn2.0.1?distro=amzn-2&upstream=curl%407.61.1",
+                  "purl": "pkg:rpm/amzn/libcurl@7.61.1-12.amzn2.0.1?distro=amzn-2&upstream=curl%407.61.1-12.amzn2.0.1",
                   "version": "7.61.1-12.amzn2.0.1",
                 },
               },
@@ -13306,7 +13306,7 @@ Object {
                 "id": "libdb@5.3.21-24.amzn2.0.3",
                 "info": Object {
                   "name": "libdb",
-                  "purl": "pkg:rpm/amzn/libdb@5.3.21-24.amzn2.0.3?distro=amzn-2&upstream=libdb%405.3.21",
+                  "purl": "pkg:rpm/amzn/libdb@5.3.21-24.amzn2.0.3?distro=amzn-2&upstream=libdb%405.3.21-24.amzn2.0.3",
                   "version": "5.3.21-24.amzn2.0.3",
                 },
               },
@@ -13314,7 +13314,7 @@ Object {
                 "id": "libdb-utils@5.3.21-24.amzn2.0.3",
                 "info": Object {
                   "name": "libdb-utils",
-                  "purl": "pkg:rpm/amzn/libdb-utils@5.3.21-24.amzn2.0.3?distro=amzn-2&upstream=libdb%405.3.21",
+                  "purl": "pkg:rpm/amzn/libdb-utils@5.3.21-24.amzn2.0.3?distro=amzn-2&upstream=libdb%405.3.21-24.amzn2.0.3",
                   "version": "5.3.21-24.amzn2.0.3",
                 },
               },
@@ -13322,7 +13322,7 @@ Object {
                 "id": "libffi@3.0.13-18.amzn2.0.2",
                 "info": Object {
                   "name": "libffi",
-                  "purl": "pkg:rpm/amzn/libffi@3.0.13-18.amzn2.0.2?distro=amzn-2&upstream=libffi%403.0.13",
+                  "purl": "pkg:rpm/amzn/libffi@3.0.13-18.amzn2.0.2?distro=amzn-2&upstream=libffi%403.0.13-18.amzn2.0.2",
                   "version": "3.0.13-18.amzn2.0.2",
                 },
               },
@@ -13330,7 +13330,7 @@ Object {
                 "id": "libgcc@7.3.1-6.amzn2.0.4",
                 "info": Object {
                   "name": "libgcc",
-                  "purl": "pkg:rpm/amzn/libgcc@7.3.1-6.amzn2.0.4?distro=amzn-2&upstream=gcc%407.3.1",
+                  "purl": "pkg:rpm/amzn/libgcc@7.3.1-6.amzn2.0.4?distro=amzn-2&upstream=gcc%407.3.1-6.amzn2.0.4",
                   "version": "7.3.1-6.amzn2.0.4",
                 },
               },
@@ -13338,7 +13338,7 @@ Object {
                 "id": "libgcrypt@1.5.3-14.amzn2.0.2",
                 "info": Object {
                   "name": "libgcrypt",
-                  "purl": "pkg:rpm/amzn/libgcrypt@1.5.3-14.amzn2.0.2?distro=amzn-2&upstream=libgcrypt%401.5.3",
+                  "purl": "pkg:rpm/amzn/libgcrypt@1.5.3-14.amzn2.0.2?distro=amzn-2&upstream=libgcrypt%401.5.3-14.amzn2.0.2",
                   "version": "1.5.3-14.amzn2.0.2",
                 },
               },
@@ -13346,7 +13346,7 @@ Object {
                 "id": "libgpg-error@1.12-3.amzn2.0.3",
                 "info": Object {
                   "name": "libgpg-error",
-                  "purl": "pkg:rpm/amzn/libgpg-error@1.12-3.amzn2.0.3?distro=amzn-2&upstream=libgpg-error%401.12",
+                  "purl": "pkg:rpm/amzn/libgpg-error@1.12-3.amzn2.0.3?distro=amzn-2&upstream=libgpg-error%401.12-3.amzn2.0.3",
                   "version": "1.12-3.amzn2.0.3",
                 },
               },
@@ -13354,7 +13354,7 @@ Object {
                 "id": "libidn2@2.3.0-1.amzn2",
                 "info": Object {
                   "name": "libidn2",
-                  "purl": "pkg:rpm/amzn/libidn2@2.3.0-1.amzn2?distro=amzn-2&upstream=libidn2%402.3.0",
+                  "purl": "pkg:rpm/amzn/libidn2@2.3.0-1.amzn2?distro=amzn-2&upstream=libidn2%402.3.0-1.amzn2",
                   "version": "2.3.0-1.amzn2",
                 },
               },
@@ -13362,7 +13362,7 @@ Object {
                 "id": "libmetalink@0.1.2-7.amzn2.0.2",
                 "info": Object {
                   "name": "libmetalink",
-                  "purl": "pkg:rpm/amzn/libmetalink@0.1.2-7.amzn2.0.2?distro=amzn-2&upstream=libmetalink%400.1.2",
+                  "purl": "pkg:rpm/amzn/libmetalink@0.1.2-7.amzn2.0.2?distro=amzn-2&upstream=libmetalink%400.1.2-7.amzn2.0.2",
                   "version": "0.1.2-7.amzn2.0.2",
                 },
               },
@@ -13370,7 +13370,7 @@ Object {
                 "id": "libmount@2.30.2-2.amzn2.0.4",
                 "info": Object {
                   "name": "libmount",
-                  "purl": "pkg:rpm/amzn/libmount@2.30.2-2.amzn2.0.4?distro=amzn-2&upstream=util-linux%402.30.2",
+                  "purl": "pkg:rpm/amzn/libmount@2.30.2-2.amzn2.0.4?distro=amzn-2&upstream=util-linux%402.30.2-2.amzn2.0.4",
                   "version": "2.30.2-2.amzn2.0.4",
                 },
               },
@@ -13378,7 +13378,7 @@ Object {
                 "id": "libnghttp2@1.39.2-1.amzn2",
                 "info": Object {
                   "name": "libnghttp2",
-                  "purl": "pkg:rpm/amzn/libnghttp2@1.39.2-1.amzn2?distro=amzn-2&upstream=nghttp2%401.39.2",
+                  "purl": "pkg:rpm/amzn/libnghttp2@1.39.2-1.amzn2?distro=amzn-2&upstream=nghttp2%401.39.2-1.amzn2",
                   "version": "1.39.2-1.amzn2",
                 },
               },
@@ -13386,7 +13386,7 @@ Object {
                 "id": "libselinux@2.5-12.amzn2.0.2",
                 "info": Object {
                   "name": "libselinux",
-                  "purl": "pkg:rpm/amzn/libselinux@2.5-12.amzn2.0.2?distro=amzn-2&upstream=libselinux%402.5",
+                  "purl": "pkg:rpm/amzn/libselinux@2.5-12.amzn2.0.2?distro=amzn-2&upstream=libselinux%402.5-12.amzn2.0.2",
                   "version": "2.5-12.amzn2.0.2",
                 },
               },
@@ -13394,7 +13394,7 @@ Object {
                 "id": "libsepol@2.5-8.1.amzn2.0.2",
                 "info": Object {
                   "name": "libsepol",
-                  "purl": "pkg:rpm/amzn/libsepol@2.5-8.1.amzn2.0.2?distro=amzn-2&upstream=libsepol%402.5",
+                  "purl": "pkg:rpm/amzn/libsepol@2.5-8.1.amzn2.0.2?distro=amzn-2&upstream=libsepol%402.5-8.1.amzn2.0.2",
                   "version": "2.5-8.1.amzn2.0.2",
                 },
               },
@@ -13402,7 +13402,7 @@ Object {
                 "id": "libssh2@1.4.3-12.amzn2.2.2",
                 "info": Object {
                   "name": "libssh2",
-                  "purl": "pkg:rpm/amzn/libssh2@1.4.3-12.amzn2.2.2?distro=amzn-2&upstream=libssh2%401.4.3",
+                  "purl": "pkg:rpm/amzn/libssh2@1.4.3-12.amzn2.2.2?distro=amzn-2&upstream=libssh2%401.4.3-12.amzn2.2.2",
                   "version": "1.4.3-12.amzn2.2.2",
                 },
               },
@@ -13410,7 +13410,7 @@ Object {
                 "id": "libstdc++@7.3.1-6.amzn2.0.4",
                 "info": Object {
                   "name": "libstdc++",
-                  "purl": "pkg:rpm/amzn/libstdc%2B%2B@7.3.1-6.amzn2.0.4?distro=amzn-2&upstream=gcc%407.3.1",
+                  "purl": "pkg:rpm/amzn/libstdc%2B%2B@7.3.1-6.amzn2.0.4?distro=amzn-2&upstream=gcc%407.3.1-6.amzn2.0.4",
                   "version": "7.3.1-6.amzn2.0.4",
                 },
               },
@@ -13418,7 +13418,7 @@ Object {
                 "id": "libtasn1@4.10-1.amzn2.0.2",
                 "info": Object {
                   "name": "libtasn1",
-                  "purl": "pkg:rpm/amzn/libtasn1@4.10-1.amzn2.0.2?distro=amzn-2&upstream=libtasn1%404.10",
+                  "purl": "pkg:rpm/amzn/libtasn1@4.10-1.amzn2.0.2?distro=amzn-2&upstream=libtasn1%404.10-1.amzn2.0.2",
                   "version": "4.10-1.amzn2.0.2",
                 },
               },
@@ -13426,7 +13426,7 @@ Object {
                 "id": "libunistring@0.9.3-9.amzn2.0.2",
                 "info": Object {
                   "name": "libunistring",
-                  "purl": "pkg:rpm/amzn/libunistring@0.9.3-9.amzn2.0.2?distro=amzn-2&upstream=libunistring%400.9.3",
+                  "purl": "pkg:rpm/amzn/libunistring@0.9.3-9.amzn2.0.2?distro=amzn-2&upstream=libunistring%400.9.3-9.amzn2.0.2",
                   "version": "0.9.3-9.amzn2.0.2",
                 },
               },
@@ -13434,7 +13434,7 @@ Object {
                 "id": "libuuid@2.30.2-2.amzn2.0.4",
                 "info": Object {
                   "name": "libuuid",
-                  "purl": "pkg:rpm/amzn/libuuid@2.30.2-2.amzn2.0.4?distro=amzn-2&upstream=util-linux%402.30.2",
+                  "purl": "pkg:rpm/amzn/libuuid@2.30.2-2.amzn2.0.4?distro=amzn-2&upstream=util-linux%402.30.2-2.amzn2.0.4",
                   "version": "2.30.2-2.amzn2.0.4",
                 },
               },
@@ -13442,7 +13442,7 @@ Object {
                 "id": "libverto@0.2.5-4.amzn2.0.2",
                 "info": Object {
                   "name": "libverto",
-                  "purl": "pkg:rpm/amzn/libverto@0.2.5-4.amzn2.0.2?distro=amzn-2&upstream=libverto%400.2.5",
+                  "purl": "pkg:rpm/amzn/libverto@0.2.5-4.amzn2.0.2?distro=amzn-2&upstream=libverto%400.2.5-4.amzn2.0.2",
                   "version": "0.2.5-4.amzn2.0.2",
                 },
               },
@@ -13450,7 +13450,7 @@ Object {
                 "id": "libxml2@2.9.1-6.amzn2.3.3",
                 "info": Object {
                   "name": "libxml2",
-                  "purl": "pkg:rpm/amzn/libxml2@2.9.1-6.amzn2.3.3?distro=amzn-2&upstream=libxml2%402.9.1",
+                  "purl": "pkg:rpm/amzn/libxml2@2.9.1-6.amzn2.3.3?distro=amzn-2&upstream=libxml2%402.9.1-6.amzn2.3.3",
                   "version": "2.9.1-6.amzn2.3.3",
                 },
               },
@@ -13458,7 +13458,7 @@ Object {
                 "id": "lua@5.1.4-15.amzn2.0.2",
                 "info": Object {
                   "name": "lua",
-                  "purl": "pkg:rpm/amzn/lua@5.1.4-15.amzn2.0.2?distro=amzn-2&upstream=lua%405.1.4",
+                  "purl": "pkg:rpm/amzn/lua@5.1.4-15.amzn2.0.2?distro=amzn-2&upstream=lua%405.1.4-15.amzn2.0.2",
                   "version": "5.1.4-15.amzn2.0.2",
                 },
               },
@@ -13466,7 +13466,7 @@ Object {
                 "id": "ncurses@6.0-8.20170212.amzn2.1.3",
                 "info": Object {
                   "name": "ncurses",
-                  "purl": "pkg:rpm/amzn/ncurses@6.0-8.20170212.amzn2.1.3?distro=amzn-2&upstream=ncurses%406.0",
+                  "purl": "pkg:rpm/amzn/ncurses@6.0-8.20170212.amzn2.1.3?distro=amzn-2&upstream=ncurses%406.0-8.20170212.amzn2.1.3",
                   "version": "6.0-8.20170212.amzn2.1.3",
                 },
               },
@@ -13474,7 +13474,7 @@ Object {
                 "id": "ncurses-base@6.0-8.20170212.amzn2.1.3",
                 "info": Object {
                   "name": "ncurses-base",
-                  "purl": "pkg:rpm/amzn/ncurses-base@6.0-8.20170212.amzn2.1.3?distro=amzn-2&upstream=ncurses%406.0",
+                  "purl": "pkg:rpm/amzn/ncurses-base@6.0-8.20170212.amzn2.1.3?distro=amzn-2&upstream=ncurses%406.0-8.20170212.amzn2.1.3",
                   "version": "6.0-8.20170212.amzn2.1.3",
                 },
               },
@@ -13482,7 +13482,7 @@ Object {
                 "id": "ncurses-libs@6.0-8.20170212.amzn2.1.3",
                 "info": Object {
                   "name": "ncurses-libs",
-                  "purl": "pkg:rpm/amzn/ncurses-libs@6.0-8.20170212.amzn2.1.3?distro=amzn-2&upstream=ncurses%406.0",
+                  "purl": "pkg:rpm/amzn/ncurses-libs@6.0-8.20170212.amzn2.1.3?distro=amzn-2&upstream=ncurses%406.0-8.20170212.amzn2.1.3",
                   "version": "6.0-8.20170212.amzn2.1.3",
                 },
               },
@@ -13490,7 +13490,7 @@ Object {
                 "id": "nspr@4.21.0-1.amzn2.0.2",
                 "info": Object {
                   "name": "nspr",
-                  "purl": "pkg:rpm/amzn/nspr@4.21.0-1.amzn2.0.2?distro=amzn-2&upstream=nspr%404.21.0",
+                  "purl": "pkg:rpm/amzn/nspr@4.21.0-1.amzn2.0.2?distro=amzn-2&upstream=nspr%404.21.0-1.amzn2.0.2",
                   "version": "4.21.0-1.amzn2.0.2",
                 },
               },
@@ -13498,7 +13498,7 @@ Object {
                 "id": "nss@3.44.0-7.amzn2",
                 "info": Object {
                   "name": "nss",
-                  "purl": "pkg:rpm/amzn/nss@3.44.0-7.amzn2?distro=amzn-2&upstream=nss%403.44.0",
+                  "purl": "pkg:rpm/amzn/nss@3.44.0-7.amzn2?distro=amzn-2&upstream=nss%403.44.0-7.amzn2",
                   "version": "3.44.0-7.amzn2",
                 },
               },
@@ -13506,7 +13506,7 @@ Object {
                 "id": "nss-pem@1.0.3-5.amzn2",
                 "info": Object {
                   "name": "nss-pem",
-                  "purl": "pkg:rpm/amzn/nss-pem@1.0.3-5.amzn2?distro=amzn-2&upstream=nss-pem%401.0.3",
+                  "purl": "pkg:rpm/amzn/nss-pem@1.0.3-5.amzn2?distro=amzn-2&upstream=nss-pem%401.0.3-5.amzn2",
                   "version": "1.0.3-5.amzn2",
                 },
               },
@@ -13514,7 +13514,7 @@ Object {
                 "id": "nss-softokn@3.44.0-8.amzn2",
                 "info": Object {
                   "name": "nss-softokn",
-                  "purl": "pkg:rpm/amzn/nss-softokn@3.44.0-8.amzn2?distro=amzn-2&upstream=nss-softokn%403.44.0",
+                  "purl": "pkg:rpm/amzn/nss-softokn@3.44.0-8.amzn2?distro=amzn-2&upstream=nss-softokn%403.44.0-8.amzn2",
                   "version": "3.44.0-8.amzn2",
                 },
               },
@@ -13522,7 +13522,7 @@ Object {
                 "id": "nss-softokn-freebl@3.44.0-8.amzn2",
                 "info": Object {
                   "name": "nss-softokn-freebl",
-                  "purl": "pkg:rpm/amzn/nss-softokn-freebl@3.44.0-8.amzn2?distro=amzn-2&upstream=nss-softokn%403.44.0",
+                  "purl": "pkg:rpm/amzn/nss-softokn-freebl@3.44.0-8.amzn2?distro=amzn-2&upstream=nss-softokn%403.44.0-8.amzn2",
                   "version": "3.44.0-8.amzn2",
                 },
               },
@@ -13530,7 +13530,7 @@ Object {
                 "id": "nss-sysinit@3.44.0-7.amzn2",
                 "info": Object {
                   "name": "nss-sysinit",
-                  "purl": "pkg:rpm/amzn/nss-sysinit@3.44.0-7.amzn2?distro=amzn-2&upstream=nss%403.44.0",
+                  "purl": "pkg:rpm/amzn/nss-sysinit@3.44.0-7.amzn2?distro=amzn-2&upstream=nss%403.44.0-7.amzn2",
                   "version": "3.44.0-7.amzn2",
                 },
               },
@@ -13538,7 +13538,7 @@ Object {
                 "id": "nss-tools@3.44.0-7.amzn2",
                 "info": Object {
                   "name": "nss-tools",
-                  "purl": "pkg:rpm/amzn/nss-tools@3.44.0-7.amzn2?distro=amzn-2&upstream=nss%403.44.0",
+                  "purl": "pkg:rpm/amzn/nss-tools@3.44.0-7.amzn2?distro=amzn-2&upstream=nss%403.44.0-7.amzn2",
                   "version": "3.44.0-7.amzn2",
                 },
               },
@@ -13546,7 +13546,7 @@ Object {
                 "id": "nss-util@3.44.0-4.amzn2",
                 "info": Object {
                   "name": "nss-util",
-                  "purl": "pkg:rpm/amzn/nss-util@3.44.0-4.amzn2?distro=amzn-2&upstream=nss-util%403.44.0",
+                  "purl": "pkg:rpm/amzn/nss-util@3.44.0-4.amzn2?distro=amzn-2&upstream=nss-util%403.44.0-4.amzn2",
                   "version": "3.44.0-4.amzn2",
                 },
               },
@@ -13554,7 +13554,7 @@ Object {
                 "id": "openldap@2.4.44-15.amzn2",
                 "info": Object {
                   "name": "openldap",
-                  "purl": "pkg:rpm/amzn/openldap@2.4.44-15.amzn2?distro=amzn-2&upstream=openldap%402.4.44",
+                  "purl": "pkg:rpm/amzn/openldap@2.4.44-15.amzn2?distro=amzn-2&upstream=openldap%402.4.44-15.amzn2",
                   "version": "2.4.44-15.amzn2",
                 },
               },
@@ -13562,7 +13562,7 @@ Object {
                 "id": "openssl-libs@1:1.0.2k-19.amzn2.0.3",
                 "info": Object {
                   "name": "openssl-libs",
-                  "purl": "pkg:rpm/amzn/openssl-libs@1:1.0.2k-19.amzn2.0.3?distro=amzn-2&epoch=1&upstream=openssl%401.0.2k",
+                  "purl": "pkg:rpm/amzn/openssl-libs@1:1.0.2k-19.amzn2.0.3?distro=amzn-2&epoch=1&upstream=openssl%401.0.2k-19.amzn2.0.3",
                   "version": "1:1.0.2k-19.amzn2.0.3",
                 },
               },
@@ -13570,7 +13570,7 @@ Object {
                 "id": "p11-kit@0.23.5-3.amzn2.0.2",
                 "info": Object {
                   "name": "p11-kit",
-                  "purl": "pkg:rpm/amzn/p11-kit@0.23.5-3.amzn2.0.2?distro=amzn-2&upstream=p11-kit%400.23.5",
+                  "purl": "pkg:rpm/amzn/p11-kit@0.23.5-3.amzn2.0.2?distro=amzn-2&upstream=p11-kit%400.23.5-3.amzn2.0.2",
                   "version": "0.23.5-3.amzn2.0.2",
                 },
               },
@@ -13578,7 +13578,7 @@ Object {
                 "id": "p11-kit-trust@0.23.5-3.amzn2.0.2",
                 "info": Object {
                   "name": "p11-kit-trust",
-                  "purl": "pkg:rpm/amzn/p11-kit-trust@0.23.5-3.amzn2.0.2?distro=amzn-2&upstream=p11-kit%400.23.5",
+                  "purl": "pkg:rpm/amzn/p11-kit-trust@0.23.5-3.amzn2.0.2?distro=amzn-2&upstream=p11-kit%400.23.5-3.amzn2.0.2",
                   "version": "0.23.5-3.amzn2.0.2",
                 },
               },
@@ -13586,7 +13586,7 @@ Object {
                 "id": "pcre@8.32-17.amzn2.0.2",
                 "info": Object {
                   "name": "pcre",
-                  "purl": "pkg:rpm/amzn/pcre@8.32-17.amzn2.0.2?distro=amzn-2&upstream=pcre%408.32",
+                  "purl": "pkg:rpm/amzn/pcre@8.32-17.amzn2.0.2?distro=amzn-2&upstream=pcre%408.32-17.amzn2.0.2",
                   "version": "8.32-17.amzn2.0.2",
                 },
               },
@@ -13594,7 +13594,7 @@ Object {
                 "id": "pinentry@0.8.1-17.amzn2.0.2",
                 "info": Object {
                   "name": "pinentry",
-                  "purl": "pkg:rpm/amzn/pinentry@0.8.1-17.amzn2.0.2?distro=amzn-2&upstream=pinentry%400.8.1",
+                  "purl": "pkg:rpm/amzn/pinentry@0.8.1-17.amzn2.0.2?distro=amzn-2&upstream=pinentry%400.8.1-17.amzn2.0.2",
                   "version": "0.8.1-17.amzn2.0.2",
                 },
               },
@@ -13602,7 +13602,7 @@ Object {
                 "id": "popt@1.13-16.amzn2.0.2",
                 "info": Object {
                   "name": "popt",
-                  "purl": "pkg:rpm/amzn/popt@1.13-16.amzn2.0.2?distro=amzn-2&upstream=popt%401.13",
+                  "purl": "pkg:rpm/amzn/popt@1.13-16.amzn2.0.2?distro=amzn-2&upstream=popt%401.13-16.amzn2.0.2",
                   "version": "1.13-16.amzn2.0.2",
                 },
               },
@@ -13610,7 +13610,7 @@ Object {
                 "id": "pth@2.0.7-23.amzn2.0.2",
                 "info": Object {
                   "name": "pth",
-                  "purl": "pkg:rpm/amzn/pth@2.0.7-23.amzn2.0.2?distro=amzn-2&upstream=pth%402.0.7",
+                  "purl": "pkg:rpm/amzn/pth@2.0.7-23.amzn2.0.2?distro=amzn-2&upstream=pth%402.0.7-23.amzn2.0.2",
                   "version": "2.0.7-23.amzn2.0.2",
                 },
               },
@@ -13618,7 +13618,7 @@ Object {
                 "id": "pygpgme@0.3-9.amzn2.0.2",
                 "info": Object {
                   "name": "pygpgme",
-                  "purl": "pkg:rpm/amzn/pygpgme@0.3-9.amzn2.0.2?distro=amzn-2&upstream=pygpgme%400.3",
+                  "purl": "pkg:rpm/amzn/pygpgme@0.3-9.amzn2.0.2?distro=amzn-2&upstream=pygpgme%400.3-9.amzn2.0.2",
                   "version": "0.3-9.amzn2.0.2",
                 },
               },
@@ -13626,7 +13626,7 @@ Object {
                 "id": "pyliblzma@0.5.3-11.amzn2.0.2",
                 "info": Object {
                   "name": "pyliblzma",
-                  "purl": "pkg:rpm/amzn/pyliblzma@0.5.3-11.amzn2.0.2?distro=amzn-2&upstream=pyliblzma%400.5.3",
+                  "purl": "pkg:rpm/amzn/pyliblzma@0.5.3-11.amzn2.0.2?distro=amzn-2&upstream=pyliblzma%400.5.3-11.amzn2.0.2",
                   "version": "0.5.3-11.amzn2.0.2",
                 },
               },
@@ -13634,7 +13634,7 @@ Object {
                 "id": "python@2.7.16-5.amzn2",
                 "info": Object {
                   "name": "python",
-                  "purl": "pkg:rpm/amzn/python@2.7.16-5.amzn2?distro=amzn-2&upstream=python%402.7.16",
+                  "purl": "pkg:rpm/amzn/python@2.7.16-5.amzn2?distro=amzn-2&upstream=python%402.7.16-5.amzn2",
                   "version": "2.7.16-5.amzn2",
                 },
               },
@@ -13642,7 +13642,7 @@ Object {
                 "id": "python-iniparse@0.4-9.amzn2",
                 "info": Object {
                   "name": "python-iniparse",
-                  "purl": "pkg:rpm/amzn/python-iniparse@0.4-9.amzn2?distro=amzn-2&upstream=python-iniparse%400.4",
+                  "purl": "pkg:rpm/amzn/python-iniparse@0.4-9.amzn2?distro=amzn-2&upstream=python-iniparse%400.4-9.amzn2",
                   "version": "0.4-9.amzn2",
                 },
               },
@@ -13650,7 +13650,7 @@ Object {
                 "id": "python-libs@2.7.16-5.amzn2",
                 "info": Object {
                   "name": "python-libs",
-                  "purl": "pkg:rpm/amzn/python-libs@2.7.16-5.amzn2?distro=amzn-2&upstream=python%402.7.16",
+                  "purl": "pkg:rpm/amzn/python-libs@2.7.16-5.amzn2?distro=amzn-2&upstream=python%402.7.16-5.amzn2",
                   "version": "2.7.16-5.amzn2",
                 },
               },
@@ -13658,7 +13658,7 @@ Object {
                 "id": "python-pycurl@7.19.0-19.amzn2.0.2",
                 "info": Object {
                   "name": "python-pycurl",
-                  "purl": "pkg:rpm/amzn/python-pycurl@7.19.0-19.amzn2.0.2?distro=amzn-2&upstream=python-pycurl%407.19.0",
+                  "purl": "pkg:rpm/amzn/python-pycurl@7.19.0-19.amzn2.0.2?distro=amzn-2&upstream=python-pycurl%407.19.0-19.amzn2.0.2",
                   "version": "7.19.0-19.amzn2.0.2",
                 },
               },
@@ -13666,7 +13666,7 @@ Object {
                 "id": "python-urlgrabber@3.10-9.amzn2.0.1",
                 "info": Object {
                   "name": "python-urlgrabber",
-                  "purl": "pkg:rpm/amzn/python-urlgrabber@3.10-9.amzn2.0.1?distro=amzn-2&upstream=python-urlgrabber%403.10",
+                  "purl": "pkg:rpm/amzn/python-urlgrabber@3.10-9.amzn2.0.1?distro=amzn-2&upstream=python-urlgrabber%403.10-9.amzn2.0.1",
                   "version": "3.10-9.amzn2.0.1",
                 },
               },
@@ -13674,7 +13674,7 @@ Object {
                 "id": "python2-rpm@4.11.3-40.amzn2.0.3",
                 "info": Object {
                   "name": "python2-rpm",
-                  "purl": "pkg:rpm/amzn/python2-rpm@4.11.3-40.amzn2.0.3?distro=amzn-2&upstream=rpm%404.11.3",
+                  "purl": "pkg:rpm/amzn/python2-rpm@4.11.3-40.amzn2.0.3?distro=amzn-2&upstream=rpm%404.11.3-40.amzn2.0.3",
                   "version": "4.11.3-40.amzn2.0.3",
                 },
               },
@@ -13682,7 +13682,7 @@ Object {
                 "id": "pyxattr@0.5.1-5.amzn2.0.2",
                 "info": Object {
                   "name": "pyxattr",
-                  "purl": "pkg:rpm/amzn/pyxattr@0.5.1-5.amzn2.0.2?distro=amzn-2&upstream=pyxattr%400.5.1",
+                  "purl": "pkg:rpm/amzn/pyxattr@0.5.1-5.amzn2.0.2?distro=amzn-2&upstream=pyxattr%400.5.1-5.amzn2.0.2",
                   "version": "0.5.1-5.amzn2.0.2",
                 },
               },
@@ -13690,7 +13690,7 @@ Object {
                 "id": "readline@6.2-10.amzn2.0.2",
                 "info": Object {
                   "name": "readline",
-                  "purl": "pkg:rpm/amzn/readline@6.2-10.amzn2.0.2?distro=amzn-2&upstream=readline%406.2",
+                  "purl": "pkg:rpm/amzn/readline@6.2-10.amzn2.0.2?distro=amzn-2&upstream=readline%406.2-10.amzn2.0.2",
                   "version": "6.2-10.amzn2.0.2",
                 },
               },
@@ -13698,7 +13698,7 @@ Object {
                 "id": "rpm@4.11.3-40.amzn2.0.3",
                 "info": Object {
                   "name": "rpm",
-                  "purl": "pkg:rpm/amzn/rpm@4.11.3-40.amzn2.0.3?distro=amzn-2&upstream=rpm%404.11.3",
+                  "purl": "pkg:rpm/amzn/rpm@4.11.3-40.amzn2.0.3?distro=amzn-2&upstream=rpm%404.11.3-40.amzn2.0.3",
                   "version": "4.11.3-40.amzn2.0.3",
                 },
               },
@@ -13706,7 +13706,7 @@ Object {
                 "id": "rpm-build-libs@4.11.3-40.amzn2.0.3",
                 "info": Object {
                   "name": "rpm-build-libs",
-                  "purl": "pkg:rpm/amzn/rpm-build-libs@4.11.3-40.amzn2.0.3?distro=amzn-2&upstream=rpm%404.11.3",
+                  "purl": "pkg:rpm/amzn/rpm-build-libs@4.11.3-40.amzn2.0.3?distro=amzn-2&upstream=rpm%404.11.3-40.amzn2.0.3",
                   "version": "4.11.3-40.amzn2.0.3",
                 },
               },
@@ -13714,7 +13714,7 @@ Object {
                 "id": "rpm-libs@4.11.3-40.amzn2.0.3",
                 "info": Object {
                   "name": "rpm-libs",
-                  "purl": "pkg:rpm/amzn/rpm-libs@4.11.3-40.amzn2.0.3?distro=amzn-2&upstream=rpm%404.11.3",
+                  "purl": "pkg:rpm/amzn/rpm-libs@4.11.3-40.amzn2.0.3?distro=amzn-2&upstream=rpm%404.11.3-40.amzn2.0.3",
                   "version": "4.11.3-40.amzn2.0.3",
                 },
               },
@@ -13722,7 +13722,7 @@ Object {
                 "id": "sed@4.2.2-5.amzn2.0.2",
                 "info": Object {
                   "name": "sed",
-                  "purl": "pkg:rpm/amzn/sed@4.2.2-5.amzn2.0.2?distro=amzn-2&upstream=sed%404.2.2",
+                  "purl": "pkg:rpm/amzn/sed@4.2.2-5.amzn2.0.2?distro=amzn-2&upstream=sed%404.2.2-5.amzn2.0.2",
                   "version": "4.2.2-5.amzn2.0.2",
                 },
               },
@@ -13730,7 +13730,7 @@ Object {
                 "id": "setup@2.8.71-10.amzn2.0.1",
                 "info": Object {
                   "name": "setup",
-                  "purl": "pkg:rpm/amzn/setup@2.8.71-10.amzn2.0.1?distro=amzn-2&upstream=setup%402.8.71",
+                  "purl": "pkg:rpm/amzn/setup@2.8.71-10.amzn2.0.1?distro=amzn-2&upstream=setup%402.8.71-10.amzn2.0.1",
                   "version": "2.8.71-10.amzn2.0.1",
                 },
               },
@@ -13738,7 +13738,7 @@ Object {
                 "id": "shared-mime-info@1.8-4.amzn2",
                 "info": Object {
                   "name": "shared-mime-info",
-                  "purl": "pkg:rpm/amzn/shared-mime-info@1.8-4.amzn2?distro=amzn-2&upstream=shared-mime-info%401.8",
+                  "purl": "pkg:rpm/amzn/shared-mime-info@1.8-4.amzn2?distro=amzn-2&upstream=shared-mime-info%401.8-4.amzn2",
                   "version": "1.8-4.amzn2",
                 },
               },
@@ -13746,7 +13746,7 @@ Object {
                 "id": "sqlite@3.7.17-8.amzn2.1.1",
                 "info": Object {
                   "name": "sqlite",
-                  "purl": "pkg:rpm/amzn/sqlite@3.7.17-8.amzn2.1.1?distro=amzn-2&upstream=sqlite%403.7.17",
+                  "purl": "pkg:rpm/amzn/sqlite@3.7.17-8.amzn2.1.1?distro=amzn-2&upstream=sqlite%403.7.17-8.amzn2.1.1",
                   "version": "3.7.17-8.amzn2.1.1",
                 },
               },
@@ -13754,7 +13754,7 @@ Object {
                 "id": "system-release@1:2-11.amzn2",
                 "info": Object {
                   "name": "system-release",
-                  "purl": "pkg:rpm/amzn/system-release@1:2-11.amzn2?distro=amzn-2&epoch=1&upstream=system-release%402",
+                  "purl": "pkg:rpm/amzn/system-release@1:2-11.amzn2?distro=amzn-2&epoch=1&upstream=system-release%402-11.amzn2",
                   "version": "1:2-11.amzn2",
                 },
               },
@@ -13762,7 +13762,7 @@ Object {
                 "id": "tzdata@2019c-1.amzn2",
                 "info": Object {
                   "name": "tzdata",
-                  "purl": "pkg:rpm/amzn/tzdata@2019c-1.amzn2?distro=amzn-2&upstream=tzdata%402019c",
+                  "purl": "pkg:rpm/amzn/tzdata@2019c-1.amzn2?distro=amzn-2&upstream=tzdata%402019c-1.amzn2",
                   "version": "2019c-1.amzn2",
                 },
               },
@@ -13770,7 +13770,7 @@ Object {
                 "id": "vim-minimal@2:8.1.1602-1.amzn2",
                 "info": Object {
                   "name": "vim-minimal",
-                  "purl": "pkg:rpm/amzn/vim-minimal@2:8.1.1602-1.amzn2?distro=amzn-2&epoch=2&upstream=vim%408.1.1602",
+                  "purl": "pkg:rpm/amzn/vim-minimal@2:8.1.1602-1.amzn2?distro=amzn-2&epoch=2&upstream=vim%408.1.1602-1.amzn2",
                   "version": "2:8.1.1602-1.amzn2",
                 },
               },
@@ -13778,7 +13778,7 @@ Object {
                 "id": "xz-libs@5.2.2-1.amzn2.0.2",
                 "info": Object {
                   "name": "xz-libs",
-                  "purl": "pkg:rpm/amzn/xz-libs@5.2.2-1.amzn2.0.2?distro=amzn-2&upstream=xz%405.2.2",
+                  "purl": "pkg:rpm/amzn/xz-libs@5.2.2-1.amzn2.0.2?distro=amzn-2&upstream=xz%405.2.2-1.amzn2.0.2",
                   "version": "5.2.2-1.amzn2.0.2",
                 },
               },
@@ -13786,7 +13786,7 @@ Object {
                 "id": "yum@3.4.3-158.amzn2.0.3",
                 "info": Object {
                   "name": "yum",
-                  "purl": "pkg:rpm/amzn/yum@3.4.3-158.amzn2.0.3?distro=amzn-2&upstream=yum%403.4.3",
+                  "purl": "pkg:rpm/amzn/yum@3.4.3-158.amzn2.0.3?distro=amzn-2&upstream=yum%403.4.3-158.amzn2.0.3",
                   "version": "3.4.3-158.amzn2.0.3",
                 },
               },
@@ -13794,7 +13794,7 @@ Object {
                 "id": "yum-metadata-parser@1.1.4-10.amzn2.0.2",
                 "info": Object {
                   "name": "yum-metadata-parser",
-                  "purl": "pkg:rpm/amzn/yum-metadata-parser@1.1.4-10.amzn2.0.2?distro=amzn-2&upstream=yum-metadata-parser%401.1.4",
+                  "purl": "pkg:rpm/amzn/yum-metadata-parser@1.1.4-10.amzn2.0.2?distro=amzn-2&upstream=yum-metadata-parser%401.1.4-10.amzn2.0.2",
                   "version": "1.1.4-10.amzn2.0.2",
                 },
               },
@@ -13802,7 +13802,7 @@ Object {
                 "id": "yum-plugin-ovl@1.1.31-46.amzn2.0.1",
                 "info": Object {
                   "name": "yum-plugin-ovl",
-                  "purl": "pkg:rpm/amzn/yum-plugin-ovl@1.1.31-46.amzn2.0.1?distro=amzn-2&upstream=yum-utils%401.1.31",
+                  "purl": "pkg:rpm/amzn/yum-plugin-ovl@1.1.31-46.amzn2.0.1?distro=amzn-2&upstream=yum-utils%401.1.31-46.amzn2.0.1",
                   "version": "1.1.31-46.amzn2.0.1",
                 },
               },
@@ -13810,7 +13810,7 @@ Object {
                 "id": "yum-plugin-priorities@1.1.31-46.amzn2.0.1",
                 "info": Object {
                   "name": "yum-plugin-priorities",
-                  "purl": "pkg:rpm/amzn/yum-plugin-priorities@1.1.31-46.amzn2.0.1?distro=amzn-2&upstream=yum-utils%401.1.31",
+                  "purl": "pkg:rpm/amzn/yum-plugin-priorities@1.1.31-46.amzn2.0.1?distro=amzn-2&upstream=yum-utils%401.1.31-46.amzn2.0.1",
                   "version": "1.1.31-46.amzn2.0.1",
                 },
               },
@@ -13818,7 +13818,7 @@ Object {
                 "id": "zlib@1.2.7-18.amzn2",
                 "info": Object {
                   "name": "zlib",
-                  "purl": "pkg:rpm/amzn/zlib@1.2.7-18.amzn2?distro=amzn-2&upstream=zlib%401.2.7",
+                  "purl": "pkg:rpm/amzn/zlib@1.2.7-18.amzn2?distro=amzn-2&upstream=zlib%401.2.7-18.amzn2",
                   "version": "1.2.7-18.amzn2",
                 },
               },

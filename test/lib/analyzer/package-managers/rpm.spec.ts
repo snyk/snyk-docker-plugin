@@ -188,7 +188,7 @@ describe("RPM Package Version and Epoch Handling", () => {
       expect(purl).toContain("distro=rhel-8.2");
     });
 
-    it("should include epoch=0 with sourceRPM upstream qualifier", () => {
+    it("should include epoch=0 with sourceRPM upstream qualifier including release", () => {
       const result = mapRpmSqlitePackages(
         "test-image",
         [
@@ -206,8 +206,65 @@ describe("RPM Package Version and Epoch Handling", () => {
 
       const purl = result.Analysis[0].Purl;
       expect(purl).toContain("epoch=0");
-      expect(purl).toContain("upstream=libxml2%402.9.7"); // @ is URL-encoded as %40
+      // upstream should include full version with release for accurate vulnerability matching
+      expect(purl).toContain("upstream=libxml2%402.9.7-14.el8"); // @ is URL-encoded as %40
     });
+  });
+});
+
+describe("upstream qualifier includes full version with release", () => {
+  it("should generate upstream with version-release to prevent false positives", () => {
+    // This test ensures we don't have the false positive issue where:
+    // - Package: pam-libs@1.6.1-8.el10
+    // - Vulnerability fixed in: 0:1.6.1-8.el10
+    // Without the release in upstream, version comparison fails incorrectly
+    const result = mapRpmSqlitePackages(
+      "test-image",
+      [
+        {
+          name: "pam-libs",
+          version: "1.6.1",
+          release: "8.el10",
+          sourceRPM: "pam-1.6.1-8.el10.src.rpm",
+          size: 1000,
+        },
+      ],
+      [],
+      { name: "rhel", version: "10.1" },
+    );
+
+    const purl = result.Analysis[0].Purl;
+    // upstream MUST include the release (8.el10) for accurate vulnerability matching
+    expect(purl).toContain("upstream=pam%401.6.1-8.el10");
+    // Verify the full PURL format
+    expect(purl).toBe(
+      "pkg:rpm/rhel/pam-libs@1.6.1-8.el10?distro=rhel-10.1&upstream=pam%401.6.1-8.el10",
+    );
+  });
+
+  it("should generate upstream with version-release for glibc packages", () => {
+    // Another false positive scenario:
+    // - Package: glibc@2.39-58.el10_1.2
+    // - Vulnerability fixed in: 0:2.39-43.el10_0
+    // Without release, "2.39" is compared against "2.39-43" and matches incorrectly
+    const result = mapRpmSqlitePackages(
+      "test-image",
+      [
+        {
+          name: "glibc",
+          version: "2.39",
+          release: "58.el10_1.2",
+          sourceRPM: "glibc-2.39-58.el10_1.2.src.rpm",
+          size: 5000,
+        },
+      ],
+      [],
+      { name: "rhel", version: "10.1" },
+    );
+
+    const purl = result.Analysis[0].Purl;
+    // upstream MUST include the release for proper version comparison
+    expect(purl).toContain("upstream=glibc%402.39-58.el10_1.2");
   });
 });
 

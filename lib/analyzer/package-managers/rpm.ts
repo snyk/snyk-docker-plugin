@@ -49,7 +49,10 @@ function purl(
     const sourcePackage = parseSourceRPM(pkg.sourceRPM);
     if (sourcePackage) {
       let upstream = sourcePackage.name;
-      if (sourcePackage.version) {
+      if (sourcePackage.version && sourcePackage.release) {
+        // Include full version with release for accurate vulnerability matching
+        upstream += `@${sourcePackage.version}-${sourcePackage.release}`;
+      } else if (sourcePackage.version) {
         upstream += `@${sourcePackage.version}`;
       }
       qualifiers.upstream = upstream;
