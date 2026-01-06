@@ -93,11 +93,6 @@ export function purl(
     vendor = osRelease.name;
   }
 
-  // Use 'dhi' namespace for Docker Hardened Images packages
-  if (curPkg.Maintainer === "Docker Hardened Images <dhi@docker.com>") {
-    vendor = "dhi";
-  }
-
   return new PackageURL(
     "deb",
     vendor,
@@ -155,9 +150,6 @@ function parseDpkgLine(
         name = name.trim().split(" ")[0];
         curPkg.Provides.push(name);
       }
-      break;
-    case "Maintainer":
-      curPkg.Maintainer = value;
       break;
     case "Pre-Depends":
     case "Depends":
