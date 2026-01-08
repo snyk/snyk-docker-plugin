@@ -104,11 +104,12 @@ export interface OCIDistributionMetadataFact {
   data: OCIDistributionMetadata;
 }
 
-export interface JavaRuntimeMetadata {
-  javaVersion: string;
+export interface BaseRuntime {
+  type: string;
+  version: string;
 }
 
-export interface JavaRuntimeMetadataFact {
-  type: "javaRuntimeMetadata";
-  data: JavaRuntimeMetadata;
+export interface BaseRuntimesFact {
+  type: "baseRuntimes";
+  data: BaseRuntime[];
 }

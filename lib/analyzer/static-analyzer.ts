@@ -225,7 +225,8 @@ export async function analyze(
   }
 
   const binaries = getBinariesHashes(extractedLayers);
-  const javaRuntimeMetadata = detectJavaRuntime(extractedLayers) || undefined;
+  const javaRuntime = detectJavaRuntime(extractedLayers);
+  const baseRuntimes = javaRuntime ? [javaRuntime] : undefined;
 
   const applicationDependenciesScanResults: AppDepsScanResultWithoutTarget[] =
     [];
@@ -302,7 +303,7 @@ export async function analyze(
     platform,
     results,
     binaries,
-    javaRuntimeMetadata,
+    baseRuntimes,
     imageLayers: manifestLayers,
     rootFsLayers,
     applicationDependenciesScanResults,

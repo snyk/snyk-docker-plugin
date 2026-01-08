@@ -3,7 +3,6 @@ import { getContentAsString } from "../../extractor";
 import { ExtractAction, ExtractedLayers } from "../../extractor/types";
 import { streamToString } from "../../stream-utils";
 
-// Extract action to detect and read the Java runtime release file for java version.
 export const getJavaRuntimeReleaseAction: ExtractAction = {
   actionName: "java-runtime-release",
   filePathMatches: (filePath) =>

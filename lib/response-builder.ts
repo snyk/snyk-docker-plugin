@@ -48,13 +48,12 @@ async function buildResponse(
     };
     additionalFacts.push(keyBinariesHashesFact);
   }
-  // add the Java Runtime Metadata fact as a part of the first scan result
-  if (depsAnalysis.javaRuntimeMetadata) {
-    const javaRuntimeMetadataFact: facts.JavaRuntimeMetadataFact = {
-      type: "javaRuntimeMetadata",
-      data: depsAnalysis.javaRuntimeMetadata,
+  if (depsAnalysis.baseRuntimes && depsAnalysis.baseRuntimes.length > 0) {
+    const baseRuntimesFact: facts.BaseRuntimesFact = {
+      type: "baseRuntimes",
+      data: depsAnalysis.baseRuntimes,
     };
-    additionalFacts.push(javaRuntimeMetadataFact);
+    additionalFacts.push(baseRuntimesFact);
   }
 
   if (dockerfileAnalysis !== undefined) {

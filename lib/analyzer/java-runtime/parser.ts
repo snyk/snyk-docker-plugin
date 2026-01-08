@@ -1,4 +1,28 @@
-import { JavaRuntimeMetadata } from "../../facts";
+import { BaseRuntime } from "../../facts";
+
+const MAX_CONTENT_LENGTH = 10 * 1024;
+const MAX_LINE_COUNT = 100;
+const MAX_VERSION_LENGTH = 50;
+
+// Valid Java version pattern:
+// - must start with a digit
+// - can contain: digits, dots, underscores, plus signs, hyphens, and letters (for -ea, -beta, -rc, etc.)
+// - cannot have consecutive dots
+// - cannot start or end with a dot
+const VALID_VERSION_PATTERN = /^[0-9]+([._+a-zA-Z0-9-]*[a-zA-Z0-9])?$/;
+
+function isValidJavaVersion(version: string): boolean {
+  if (!version || version.length === 0 || version.length > MAX_VERSION_LENGTH) {
+    return false;
+  }
+  if (version.includes("..")) {
+    return false;
+  }
+  if (version.startsWith(".") || version.endsWith(".")) {
+    return false;
+  }
+  return VALID_VERSION_PATTERN.test(version);
+}
 
 /**
  * Parses the Java runtime release file content into structured metadata.
@@ -11,15 +35,21 @@ import { JavaRuntimeMetadata } from "../../facts";
  * MODULES="java.base java.logging java.xml ..."
  * ... Other fields ...
  */
-export function parseJavaRuntimeRelease(
-  content: string,
-): JavaRuntimeMetadata | null {
+export function parseJavaRuntimeRelease(content: string): BaseRuntime | null {
   if (!content || content.trim().length === 0) {
+    return null;
+  }
+  if (content.length > MAX_CONTENT_LENGTH) {
     return null;
   }
   try {
     const lines = content.split("\n");
-    const properties: Record<string, string> = {};
+
+    if (lines.length > MAX_LINE_COUNT) {
+      return null;
+    }
+    let javaVersion: string | null = null;
+    let javaVersionCount = 0;
 
     for (const line of lines) {
       const trimmedLine = line.trim();
@@ -30,22 +60,29 @@ export function parseJavaRuntimeRelease(
       if (equalsIndex === -1) {
         continue;
       }
-      // extracts the key and value, and removes whitespace surrounding each key and value
       const key = trimmedLine.substring(0, equalsIndex).trim();
+      if (key !== "JAVA_VERSION") {
+        continue;
+      }
+      javaVersionCount++;
+      if (javaVersionCount > 1) {
+        return null;
+      }
       let value = trimmedLine.substring(equalsIndex + 1).trim();
-
       if (
         (value.startsWith('"') && value.endsWith('"')) ||
         (value.startsWith("'") && value.endsWith("'"))
       ) {
         value = value.substring(1, value.length - 1);
       }
+      value = value.trim();
 
-      properties[key] = value;
+      if (!isValidJavaVersion(value)) {
+        return null;
+      }
+      javaVersion = value;
     }
-    return properties.JAVA_VERSION
-      ? { javaVersion: properties.JAVA_VERSION }
-      : null;
+    return javaVersion ? { type: "java", version: javaVersion } : null;
   } catch (error) {
     return null;
   }
