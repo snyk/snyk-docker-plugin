@@ -56,6 +56,7 @@ import {
   getRpmSqliteDbFileContent,
   getRpmSqliteDbFileContentAction,
 } from "../inputs/rpm/static";
+import { resolveNestedJarsOption } from "../option-utils";
 import { isTrue } from "../option-utils";
 import { ImageType, ManifestFile, PluginOptions } from "../types";
 import {
@@ -318,8 +319,7 @@ export async function analyze(
 }
 
 function getNestedJarsDesiredDepth(options: Partial<PluginOptions>) {
-  const nestedJarsOption =
-    options["nested-jars-depth"] || options["shaded-jars-depth"];
+  const nestedJarsOption = resolveNestedJarsOption(options);
   let nestedJarsDepth = 1;
   const depthNumber = Number(nestedJarsOption);
   if (!isNaN(depthNumber) && depthNumber >= 0) {
