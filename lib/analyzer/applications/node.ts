@@ -226,14 +226,14 @@ async function tryBuildDepGraphFromPnpmStore(
   const seen = new Set<string>();
   for (const pkgJsonPath of pnpmPackageJsons) {
     const content = filePathToContent[pkgJsonPath];
-    if (!content) continue;
+    if (!content) { continue; }
 
     try {
       const pkg: { name?: string; version?: string } = JSON.parse(content);
-      if (!pkg.name || !pkg.version) continue;
+      if (!pkg.name || !pkg.version) { continue; }
 
       const nodeId = `${pkg.name}@${pkg.version}`;
-      if (seen.has(nodeId)) continue;
+      if (seen.has(nodeId)) { continue; }
       seen.add(nodeId);
 
       builder.addPkgNode({ name: pkg.name, version: pkg.version }, nodeId);
