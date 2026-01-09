@@ -8,6 +8,7 @@
     "no-bitwise": false,
     "max-classes-per-file": false,
     "no-console": false,
-    "variable-name": false
+    "variable-name": false,
+    "no-unnecessary-initializer": false
   }
 }
