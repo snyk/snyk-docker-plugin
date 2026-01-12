@@ -12,7 +12,7 @@ function isNumber(value?: boolean | string): boolean {
 
 // Must be a finite numeric value, excluding booleans, Infinity, and non-numeric strings
 function isStrictNumber(value?: boolean | string): boolean {
-  if (typeof value === "boolean" || !value?.replace(/\s/g, "").length) {
+  if (typeof value === "boolean" || !value?.trim().length) {
     return false;
   }
 
