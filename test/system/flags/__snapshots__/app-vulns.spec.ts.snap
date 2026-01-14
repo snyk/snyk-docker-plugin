@@ -3563,8 +3563,21 @@ Object {
           "data": "sha256:7f335821efb5e5b95b36541004fa0287732a11f97a4a0ff807cc065746f82538",
           "type": "imageId",
         },
+        Object {
+          "data": "2020-04-21T18:22:56.403210733Z",
+          "type": "imageCreationTime",
+        },
+        Object {
+          "data": Array [
+            "sha256:2943de48ac85f6eaeecbf35ed894375b5001e9001fd908e40d8e577b77e6bfeb",
+          ],
+          "type": "rootFs",
+        },
       ],
       "identity": Object {
+        "args": Object {
+          "platform": "linux/amd64",
+        },
         "targetFile": "/srv/npm-app/package.json",
         "type": "npm",
       },
@@ -13853,8 +13866,21 @@ Object {
           "data": "sha256:7f335821efb5e5b95b36541004fa0287732a11f97a4a0ff807cc065746f82538",
           "type": "imageId",
         },
+        Object {
+          "data": "2020-04-21T18:22:56.403210733Z",
+          "type": "imageCreationTime",
+        },
+        Object {
+          "data": Array [
+            "sha256:2943de48ac85f6eaeecbf35ed894375b5001e9001fd908e40d8e577b77e6bfeb",
+          ],
+          "type": "rootFs",
+        },
       ],
       "identity": Object {
+        "args": Object {
+          "platform": "linux/amd64",
+        },
         "targetFile": "/srv/yarn-app/package.json",
         "type": "yarn",
       },

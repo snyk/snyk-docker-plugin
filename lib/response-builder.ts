@@ -158,10 +158,66 @@ async function buildResponse(
       appDepsScanResult.facts.push(imageIdFact);
     }
 
+    if (depsAnalysis.imageCreationTime) {
+      const imageCreationTimeFact: facts.ImageCreationTimeFact = {
+        type: "imageCreationTime",
+        data: depsAnalysis.imageCreationTime,
+      };
+      appDepsScanResult.facts.push(imageCreationTimeFact);
+    }
+
+    if (names && names.length > 0) {
+      const imageNamesFact: facts.ImageNamesFact = {
+        type: "imageNames",
+        data: { names },
+      };
+      appDepsScanResult.facts.push(imageNamesFact);
+    }
+
+    if (depsAnalysis.imageLabels) {
+      const imageLabels: facts.ImageLabels = {
+        type: "imageLabels",
+        data: depsAnalysis.imageLabels,
+      };
+      appDepsScanResult.facts.push(imageLabels);
+    }
+
+    if (
+      depsAnalysis.rootFsLayers &&
+      Array.isArray(depsAnalysis.rootFsLayers) &&
+      depsAnalysis.rootFsLayers.length > 0
+    ) {
+      const rootFsFact: facts.RootFsFact = {
+        type: "rootFs",
+        data: depsAnalysis.rootFsLayers,
+      };
+      appDepsScanResult.facts.push(rootFsFact);
+    }
+
+    if (ociDistributionMetadata) {
+      const metadataFact: facts.OCIDistributionMetadataFact = {
+        type: "ociDistributionMetadata",
+        data: ociDistributionMetadata,
+      };
+      appDepsScanResult.facts.push(metadataFact);
+    }
+
+    const appArgs =
+      depsAnalysis.platform !== undefined
+        ? {
+            ...appDepsScanResult.identity.args,
+            platform: depsAnalysis.platform,
+          }
+        : appDepsScanResult.identity.args;
+
     return {
       ...appDepsScanResult,
       target: {
         image: depGraph.rootPkg.name,
+      },
+      identity: {
+        ...appDepsScanResult.identity,
+        args: appArgs,
       },
     };
   });

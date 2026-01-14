@@ -1088,8 +1088,30 @@ Object {
           "data": "sha256:0809facff9bd760673e046192ad24a2ee08d451f6dbb6c22552293dc4b15e734",
           "type": "imageId",
         },
+        Object {
+          "data": "2020-10-18T21:48:52.642510942Z",
+          "type": "imageCreationTime",
+        },
+        Object {
+          "data": Object {
+            "version": "none",
+          },
+          "type": "imageLabels",
+        },
+        Object {
+          "data": Array [
+            "sha256:50644c29ef5a27c9a40c393a73ece2479de78325cae7d762ef3cdc19bf42dd0a",
+            "sha256:c1df98c53fe381ef0bd5d7712600a9c4e8e7ac6debbfb0cd3a4c50a4e2e6c5c0",
+            "sha256:c1df98c53fe381ef0bd5d7712600a9c4e8e7ac6debbfb0cd3a4c50a4e2e6c5c0",
+            "sha256:d24888289f050c75a92d33b77c3a052154ed2c4f61e084b7e63cd007bc8bfb00",
+          ],
+          "type": "rootFs",
+        },
       ],
       "identity": Object {
+        "args": Object {
+          "platform": "linux/amd64",
+        },
         "targetFile": "/usr/bin/yq",
         "type": "gomodules",
       },
@@ -1354,8 +1376,21 @@ Object {
           "data": "sha256:b5a5cea3c00c659a3bd14bf786644ec0deed22bc30e99260177aca1dc8600449",
           "type": "imageId",
         },
+        Object {
+          "data": "2022-07-10T08:39:42.311434047Z",
+          "type": "imageCreationTime",
+        },
+        Object {
+          "data": Array [
+            "sha256:b3b29ea441a79462c8d942f597c0ef38960379046651c03659ea28d3729fa5ad",
+          ],
+          "type": "rootFs",
+        },
       ],
       "identity": Object {
+        "args": Object {
+          "platform": "linux/amd64",
+        },
         "targetFile": "/testgo",
         "type": "gomodules",
       },
@@ -1620,8 +1655,21 @@ Object {
           "data": "sha256:b7f8424ea2e9e94dd34b972998957f3210b9caeb968cb53088dfadb775feefe1",
           "type": "imageId",
         },
+        Object {
+          "data": "2022-07-10T08:41:36.652919824Z",
+          "type": "imageCreationTime",
+        },
+        Object {
+          "data": Array [
+            "sha256:b3b45e39a2de618d672de8395f83e78ef2cdf15c0a5d08e631bc46d4d5bff3dc",
+          ],
+          "type": "rootFs",
+        },
       ],
       "identity": Object {
+        "args": Object {
+          "platform": "linux/amd64",
+        },
         "targetFile": "/testgo",
         "type": "gomodules",
       },
@@ -1886,8 +1934,21 @@ Object {
           "data": "sha256:f12d5cc86a0c5c078e16dca419459a91cc555e8cd9ef5750a6b809f2db19a47f",
           "type": "imageId",
         },
+        Object {
+          "data": "2022-07-10T08:49:54.881276343Z",
+          "type": "imageCreationTime",
+        },
+        Object {
+          "data": Array [
+            "sha256:f3b3cf4596949f12573f1fe82d20c44d88cff630caef72661b5da451157082be",
+          ],
+          "type": "rootFs",
+        },
       ],
       "identity": Object {
+        "args": Object {
+          "platform": "linux/amd64",
+        },
         "targetFile": "/testgo",
         "type": "gomodules",
       },
