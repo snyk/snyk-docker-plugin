@@ -1821,8 +1821,21 @@ Object {
           "data": "sha256:7f335821efb5e5b95b36541004fa0287732a11f97a4a0ff807cc065746f82538",
           "type": "imageId",
         },
+        Object {
+          "data": "2020-04-21T18:22:56.403210733Z",
+          "type": "imageCreationTime",
+        },
+        Object {
+          "data": Array [
+            "sha256:2943de48ac85f6eaeecbf35ed894375b5001e9001fd908e40d8e577b77e6bfeb",
+          ],
+          "type": "rootFs",
+        },
       ],
       "identity": Object {
+        "args": Object {
+          "platform": "linux/amd64",
+        },
         "targetFile": "/srv/npm-app/package.json",
         "type": "npm",
       },
@@ -12111,8 +12124,21 @@ Object {
           "data": "sha256:7f335821efb5e5b95b36541004fa0287732a11f97a4a0ff807cc065746f82538",
           "type": "imageId",
         },
+        Object {
+          "data": "2020-04-21T18:22:56.403210733Z",
+          "type": "imageCreationTime",
+        },
+        Object {
+          "data": Array [
+            "sha256:2943de48ac85f6eaeecbf35ed894375b5001e9001fd908e40d8e577b77e6bfeb",
+          ],
+          "type": "rootFs",
+        },
       ],
       "identity": Object {
+        "args": Object {
+          "platform": "linux/amd64",
+        },
         "targetFile": "/srv/yarn-app/package.json",
         "type": "yarn",
       },
@@ -13945,8 +13971,21 @@ Object {
           "data": "sha256:7f335821efb5e5b95b36541004fa0287732a11f97a4a0ff807cc065746f82538",
           "type": "imageId",
         },
+        Object {
+          "data": "2020-04-21T18:22:56.403210733Z",
+          "type": "imageCreationTime",
+        },
+        Object {
+          "data": Array [
+            "sha256:2943de48ac85f6eaeecbf35ed894375b5001e9001fd908e40d8e577b77e6bfeb",
+          ],
+          "type": "rootFs",
+        },
       ],
       "identity": Object {
+        "args": Object {
+          "platform": "linux/amd64",
+        },
         "targetFile": "/srv/npm-app/package.json",
         "type": "npm",
       },
@@ -24235,8 +24274,21 @@ Object {
           "data": "sha256:7f335821efb5e5b95b36541004fa0287732a11f97a4a0ff807cc065746f82538",
           "type": "imageId",
         },
+        Object {
+          "data": "2020-04-21T18:22:56.403210733Z",
+          "type": "imageCreationTime",
+        },
+        Object {
+          "data": Array [
+            "sha256:2943de48ac85f6eaeecbf35ed894375b5001e9001fd908e40d8e577b77e6bfeb",
+          ],
+          "type": "rootFs",
+        },
       ],
       "identity": Object {
+        "args": Object {
+          "platform": "linux/amd64",
+        },
         "targetFile": "/srv/yarn-app/package.json",
         "type": "yarn",
       },
@@ -29866,8 +29918,23 @@ Object {
           "data": "sha256:c13011f01437d41c7115478cbe47f27483709aff914ac9df4aa6d5a2cba5d6ff",
           "type": "imageId",
         },
+        Object {
+          "data": "2024-09-06T15:01:32.670474542Z",
+          "type": "imageCreationTime",
+        },
+        Object {
+          "data": Array [
+            "sha256:9110f7b5208f035f4d4f99b5169338169e1df9bb2519d1b047f50f54430bacc2",
+            "sha256:358874e5c209e5f344c497a8914c51c35cfc33900da81ffc5600e3c989993ed0",
+            "sha256:87a7edf8de271a7026340139d52799a4fab18c2bab9e2c9216ce22e3e7259460",
+          ],
+          "type": "rootFs",
+        },
       ],
       "identity": Object {
+        "args": Object {
+          "platform": "linux/arm64",
+        },
         "targetFile": "/app/package.json",
         "type": "npm",
       },
@@ -35497,8 +35564,23 @@ Object {
           "data": "sha256:8b983b89de166ee3b2198f92983253e09b1dd9179f9498cc456db0cf1678a2ab",
           "type": "imageId",
         },
+        Object {
+          "data": "2024-09-06T14:36:52.162859875Z",
+          "type": "imageCreationTime",
+        },
+        Object {
+          "data": Array [
+            "sha256:9110f7b5208f035f4d4f99b5169338169e1df9bb2519d1b047f50f54430bacc2",
+            "sha256:64589d02ac1cbf477322148257d51a8670479c7765339b890f4e3a689405c790",
+            "sha256:bab7e5291761a8313c617e04e668a65bbea1773414e8d7617cb9be868f059b78",
+          ],
+          "type": "rootFs",
+        },
       ],
       "identity": Object {
+        "args": Object {
+          "platform": "linux/arm64",
+        },
         "targetFile": "/app/package.json",
         "type": "npm",
       },
@@ -36002,8 +36084,23 @@ Object {
           "data": "sha256:eb75b84593227d513b10544e8a1b7b7aa1cb060fa2df6df7b5b20498506c9dcd",
           "type": "imageId",
         },
+        Object {
+          "data": "2025-12-04T19:22:57.389307087Z",
+          "type": "imageCreationTime",
+        },
+        Object {
+          "data": Array [
+            "sha256:171a26c7bc56cc6ba67549042b24db9f5bc7cc7d4f195e8f03aaf58e956b2544",
+            "sha256:e12b81f4379548e151fe366493cd94c581bf21842d5dc0dfc16a0781d62fa340",
+            "sha256:7f5456f2488489e48d12b5726e64382bd1302087b315a3cdf9f5639de7b8f639",
+          ],
+          "type": "rootFs",
+        },
       ],
       "identity": Object {
+        "args": Object {
+          "platform": "linux/arm64",
+        },
         "targetFile": "/app/package.json",
         "type": "pnpm",
       },
@@ -36507,8 +36604,23 @@ Object {
           "data": "sha256:f22a6df242f9d718888e91c36f625ea24b80327572753918685337c6a9a0fab0",
           "type": "imageId",
         },
+        Object {
+          "data": "2025-12-04T19:23:26.881480962Z",
+          "type": "imageCreationTime",
+        },
+        Object {
+          "data": Array [
+            "sha256:171a26c7bc56cc6ba67549042b24db9f5bc7cc7d4f195e8f03aaf58e956b2544",
+            "sha256:e12b81f4379548e151fe366493cd94c581bf21842d5dc0dfc16a0781d62fa340",
+            "sha256:49fbac8368a6d3bd21d1a8f04947583b7645eac52c6f2882489f206ecd12f8ff",
+          ],
+          "type": "rootFs",
+        },
       ],
       "identity": Object {
+        "args": Object {
+          "platform": "linux/arm64",
+        },
         "targetFile": "/app/package.json",
         "type": "pnpm",
       },
@@ -42722,8 +42834,23 @@ Object {
           "data": "sha256:48567e3d237b4b3ccba06904df2531d502c818f5fdce1e824c9d2225b5249ed6",
           "type": "imageId",
         },
+        Object {
+          "data": "2024-09-13T11:43:24.923691584Z",
+          "type": "imageCreationTime",
+        },
+        Object {
+          "data": Array [
+            "sha256:16113d51b7181f20135f51e8ffbaead20a7671cd783017601f198748ce8a8ebf",
+            "sha256:7e21075c1e983cedc692a734e992eba4e0a49cdc744474114d1fe281d6617c8e",
+            "sha256:0e1f428f5554ed61ddfea1b1547fdee58d93e241d971737d7c44cee7dc064511",
+          ],
+          "type": "rootFs",
+        },
       ],
       "identity": Object {
+        "args": Object {
+          "platform": "linux/arm64",
+        },
         "targetFile": "/app/package.json",
         "type": "yarn",
       },
@@ -48937,8 +49064,23 @@ Object {
           "data": "sha256:80200643a8d8bfb917045b84180964f3b545682f16586e4b3606e166407f7a98",
           "type": "imageId",
         },
+        Object {
+          "data": "2024-09-13T11:47:29.564730378Z",
+          "type": "imageCreationTime",
+        },
+        Object {
+          "data": Array [
+            "sha256:16113d51b7181f20135f51e8ffbaead20a7671cd783017601f198748ce8a8ebf",
+            "sha256:ba53c1947fe699828593d7722de22d1d836f2432a87864168491645ede2de380",
+            "sha256:771915531affffd38ecca1b204d6bbd4c1b539b085743b83d3d7b316e5a45d54",
+          ],
+          "type": "rootFs",
+        },
       ],
       "identity": Object {
+        "args": Object {
+          "platform": "linux/arm64",
+        },
         "targetFile": "/app/package.json",
         "type": "yarn",
       },
@@ -51331,8 +51473,30 @@ Array [
         "data": "sha256:d60c3644cc5048e48a45c9de94fec3f17ee2eb72eb835434dc13ec5b9d3c532b",
         "type": "imageId",
       },
+      Object {
+        "data": "2024-07-22T14:05:29.829059334Z",
+        "type": "imageCreationTime",
+      },
+      Object {
+        "data": Array [
+          "sha256:3e207b409db364b595ba862cdc12be96dcdad8e36c59a03b7b3b61c946a5741a",
+          "sha256:9fb10d90048747932e482419d8c5089004573493f66b2c260289360b62b7e0ce",
+          "sha256:c4491b3ee70970a087ec1f32e424f08ccf014978acad19c09405222c21ea70ae",
+          "sha256:a1915d7a111100643f8bf07c38e43ae96c92f3763fdb925b75e05f4c0c23d476",
+          "sha256:fbda8a69857cff80df48e4ad4a53f7b3059b3365cdb955cfb90eb18cda07e014",
+          "sha256:eaa9918ba3f7c4e2af1d47ee2924c2004f416958014e48ab12ae280704257023",
+          "sha256:56e43adaa71af64c63fdaf4ec8e093fe625ff51b6a708d813f140e30159a682b",
+          "sha256:363af1a9de027fb35a2a8289042e419c00d7807f8e3d37b1b299fb9670dc4a44",
+          "sha256:0167d935f5a41e98bdb62050718387a540ddf4692b14e6e3fe51499dd8ca9bcd",
+          "sha256:7748240a53259e2229669b7570c6aa7aaff9c317f5cc790dfb7e8d2b94209d9b",
+        ],
+        "type": "rootFs",
+      },
     ],
     "identity": Object {
+      "args": Object {
+        "platform": "linux/amd64",
+      },
       "targetFile": "/usr/goof2/package.json",
       "type": "npm",
     },
@@ -53308,8 +53472,30 @@ Array [
         "data": "sha256:d60c3644cc5048e48a45c9de94fec3f17ee2eb72eb835434dc13ec5b9d3c532b",
         "type": "imageId",
       },
+      Object {
+        "data": "2024-07-22T14:05:29.829059334Z",
+        "type": "imageCreationTime",
+      },
+      Object {
+        "data": Array [
+          "sha256:3e207b409db364b595ba862cdc12be96dcdad8e36c59a03b7b3b61c946a5741a",
+          "sha256:9fb10d90048747932e482419d8c5089004573493f66b2c260289360b62b7e0ce",
+          "sha256:c4491b3ee70970a087ec1f32e424f08ccf014978acad19c09405222c21ea70ae",
+          "sha256:a1915d7a111100643f8bf07c38e43ae96c92f3763fdb925b75e05f4c0c23d476",
+          "sha256:fbda8a69857cff80df48e4ad4a53f7b3059b3365cdb955cfb90eb18cda07e014",
+          "sha256:eaa9918ba3f7c4e2af1d47ee2924c2004f416958014e48ab12ae280704257023",
+          "sha256:56e43adaa71af64c63fdaf4ec8e093fe625ff51b6a708d813f140e30159a682b",
+          "sha256:363af1a9de027fb35a2a8289042e419c00d7807f8e3d37b1b299fb9670dc4a44",
+          "sha256:0167d935f5a41e98bdb62050718387a540ddf4692b14e6e3fe51499dd8ca9bcd",
+          "sha256:7748240a53259e2229669b7570c6aa7aaff9c317f5cc790dfb7e8d2b94209d9b",
+        ],
+        "type": "rootFs",
+      },
     ],
     "identity": Object {
+      "args": Object {
+        "platform": "linux/amd64",
+      },
       "targetFile": "/usr/goof2/package.json",
       "type": "npm",
     },
@@ -54533,8 +54719,30 @@ Array [
         "data": "sha256:d60c3644cc5048e48a45c9de94fec3f17ee2eb72eb835434dc13ec5b9d3c532b",
         "type": "imageId",
       },
+      Object {
+        "data": "2024-07-22T14:05:29.829059334Z",
+        "type": "imageCreationTime",
+      },
+      Object {
+        "data": Array [
+          "sha256:3e207b409db364b595ba862cdc12be96dcdad8e36c59a03b7b3b61c946a5741a",
+          "sha256:9fb10d90048747932e482419d8c5089004573493f66b2c260289360b62b7e0ce",
+          "sha256:c4491b3ee70970a087ec1f32e424f08ccf014978acad19c09405222c21ea70ae",
+          "sha256:a1915d7a111100643f8bf07c38e43ae96c92f3763fdb925b75e05f4c0c23d476",
+          "sha256:fbda8a69857cff80df48e4ad4a53f7b3059b3365cdb955cfb90eb18cda07e014",
+          "sha256:eaa9918ba3f7c4e2af1d47ee2924c2004f416958014e48ab12ae280704257023",
+          "sha256:56e43adaa71af64c63fdaf4ec8e093fe625ff51b6a708d813f140e30159a682b",
+          "sha256:363af1a9de027fb35a2a8289042e419c00d7807f8e3d37b1b299fb9670dc4a44",
+          "sha256:0167d935f5a41e98bdb62050718387a540ddf4692b14e6e3fe51499dd8ca9bcd",
+          "sha256:7748240a53259e2229669b7570c6aa7aaff9c317f5cc790dfb7e8d2b94209d9b",
+        ],
+        "type": "rootFs",
+      },
     ],
     "identity": Object {
+      "args": Object {
+        "platform": "linux/amd64",
+      },
       "targetFile": "/usr/goof3/node_modules",
       "type": "npm",
     },
@@ -55722,8 +55930,30 @@ Array [
         "data": "sha256:d60c3644cc5048e48a45c9de94fec3f17ee2eb72eb835434dc13ec5b9d3c532b",
         "type": "imageId",
       },
+      Object {
+        "data": "2024-07-22T14:05:29.829059334Z",
+        "type": "imageCreationTime",
+      },
+      Object {
+        "data": Array [
+          "sha256:3e207b409db364b595ba862cdc12be96dcdad8e36c59a03b7b3b61c946a5741a",
+          "sha256:9fb10d90048747932e482419d8c5089004573493f66b2c260289360b62b7e0ce",
+          "sha256:c4491b3ee70970a087ec1f32e424f08ccf014978acad19c09405222c21ea70ae",
+          "sha256:a1915d7a111100643f8bf07c38e43ae96c92f3763fdb925b75e05f4c0c23d476",
+          "sha256:fbda8a69857cff80df48e4ad4a53f7b3059b3365cdb955cfb90eb18cda07e014",
+          "sha256:eaa9918ba3f7c4e2af1d47ee2924c2004f416958014e48ab12ae280704257023",
+          "sha256:56e43adaa71af64c63fdaf4ec8e093fe625ff51b6a708d813f140e30159a682b",
+          "sha256:363af1a9de027fb35a2a8289042e419c00d7807f8e3d37b1b299fb9670dc4a44",
+          "sha256:0167d935f5a41e98bdb62050718387a540ddf4692b14e6e3fe51499dd8ca9bcd",
+          "sha256:7748240a53259e2229669b7570c6aa7aaff9c317f5cc790dfb7e8d2b94209d9b",
+        ],
+        "type": "rootFs",
+      },
     ],
     "identity": Object {
+      "args": Object {
+        "platform": "linux/amd64",
+      },
       "targetFile": "/usr/goof/package.json",
       "type": "npm",
     },
@@ -63007,8 +63237,30 @@ Array [
         "data": "sha256:d60c3644cc5048e48a45c9de94fec3f17ee2eb72eb835434dc13ec5b9d3c532b",
         "type": "imageId",
       },
+      Object {
+        "data": "2024-07-22T14:05:29.829059334Z",
+        "type": "imageCreationTime",
+      },
+      Object {
+        "data": Array [
+          "sha256:3e207b409db364b595ba862cdc12be96dcdad8e36c59a03b7b3b61c946a5741a",
+          "sha256:9fb10d90048747932e482419d8c5089004573493f66b2c260289360b62b7e0ce",
+          "sha256:c4491b3ee70970a087ec1f32e424f08ccf014978acad19c09405222c21ea70ae",
+          "sha256:a1915d7a111100643f8bf07c38e43ae96c92f3763fdb925b75e05f4c0c23d476",
+          "sha256:fbda8a69857cff80df48e4ad4a53f7b3059b3365cdb955cfb90eb18cda07e014",
+          "sha256:eaa9918ba3f7c4e2af1d47ee2924c2004f416958014e48ab12ae280704257023",
+          "sha256:56e43adaa71af64c63fdaf4ec8e093fe625ff51b6a708d813f140e30159a682b",
+          "sha256:363af1a9de027fb35a2a8289042e419c00d7807f8e3d37b1b299fb9670dc4a44",
+          "sha256:0167d935f5a41e98bdb62050718387a540ddf4692b14e6e3fe51499dd8ca9bcd",
+          "sha256:7748240a53259e2229669b7570c6aa7aaff9c317f5cc790dfb7e8d2b94209d9b",
+        ],
+        "type": "rootFs",
+      },
     ],
     "identity": Object {
+      "args": Object {
+        "platform": "linux/amd64",
+      },
       "targetFile": "/usr/local/lib/node_modules",
       "type": "npm",
     },

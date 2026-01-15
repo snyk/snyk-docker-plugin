@@ -6496,8 +6496,47 @@ Object {
           "data": "sha256:37eec09741b0048d83af1a40ac621bb5f591f28e8f322317ffe22a41dc7ffadd",
           "type": "imageId",
         },
+        Object {
+          "data": "2021-03-13T00:03:32.777698465Z",
+          "type": "imageCreationTime",
+        },
+        Object {
+          "data": Object {
+            "names": Array [
+              "dokken/centos-6@sha256:494b9b280814f1e661597b48e229156e4dccb60dce198d9210f7572ff22626d2",
+            ],
+          },
+          "type": "imageNames",
+        },
+        Object {
+          "data": Object {
+            "maintainer": "sean@sean.io",
+            "org.label-schema.build-date": "2021-03-13T00:01:13Z",
+            "org.label-schema.description": "A Docker container for testing centos-6",
+            "org.label-schema.license": "GPLv2",
+            "org.label-schema.name": "test-kitechen/dokken-images",
+            "org.label-schema.schema-version": "1.0",
+            "org.label-schema.vcs-ref": "d546b246",
+            "org.label-schema.vcs-url": "https://github.com/test-kitechen/dokken-images",
+            "org.label-schema.vendor": "test-kitchen",
+          },
+          "type": "imageLabels",
+        },
+        Object {
+          "data": Array [
+            "sha256:af6bf1987c2eb07d73f33836b0d8fd825d7c785273526b077e46780e8b4b2ae9",
+            "sha256:282064e8c74ac642a58047db969497eeae247fb78e8e9c7c7cd0452b3063a11b",
+            "sha256:91d67088c5c5c582ba1740d680281e579a6b79a11a722a1099cedbd6eacc90b4",
+            "sha256:33080feb7575643f4ba24fe41c38d4bed2c9507fb54eb80f49a65ed068cc37be",
+            "sha256:2b7c38b09edb3ce271c3f5d11560644cb8d153917529c1d28a2818fc8cc0d7aa",
+          ],
+          "type": "rootFs",
+        },
       ],
       "identity": Object {
+        "args": Object {
+          "platform": "linux/amd64",
+        },
         "targetFile": "/usr/share/gettext",
         "type": "maven",
       },

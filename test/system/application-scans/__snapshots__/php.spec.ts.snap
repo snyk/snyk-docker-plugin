@@ -649,8 +649,22 @@ Object {
           "data": "sha256:a4837fa95bd797412aca5c73854c8f196e584a33cbc53df0f6f9e88a37cd41a3",
           "type": "imageId",
         },
+        Object {
+          "data": "2020-03-30T10:09:06.723677058Z",
+          "type": "imageCreationTime",
+        },
+        Object {
+          "data": Array [
+            "sha256:721384ec99e56bc06202a738722bcb4b8254b9bbd71c43ab7ad0d9e773ced7ac",
+            "sha256:df4d57529acd660388c427793ac57fe4b3d0528c722c2d1cdfd38e1b86e01ebb",
+          ],
+          "type": "rootFs",
+        },
       ],
       "identity": Object {
+        "args": Object {
+          "platform": "linux/amd64",
+        },
         "targetFile": "/app/composer.lock",
         "type": "composer",
       },
@@ -1311,8 +1325,22 @@ Object {
           "data": "sha256:a4837fa95bd797412aca5c73854c8f196e584a33cbc53df0f6f9e88a37cd41a3",
           "type": "imageId",
         },
+        Object {
+          "data": "2020-03-30T10:09:06.723677058Z",
+          "type": "imageCreationTime",
+        },
+        Object {
+          "data": Array [
+            "sha256:721384ec99e56bc06202a738722bcb4b8254b9bbd71c43ab7ad0d9e773ced7ac",
+            "sha256:df4d57529acd660388c427793ac57fe4b3d0528c722c2d1cdfd38e1b86e01ebb",
+          ],
+          "type": "rootFs",
+        },
       ],
       "identity": Object {
+        "args": Object {
+          "platform": "linux/amd64",
+        },
         "targetFile": "/app/composer.lock",
         "type": "composer",
       },

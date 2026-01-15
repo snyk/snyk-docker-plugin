@@ -231,8 +231,22 @@ Object {
           "data": "sha256:aedf2e53ead6ec9a10802e76bb7b9d4ef6c98cabbc94f206624b297dfe36896c",
           "type": "imageId",
         },
+        Object {
+          "data": "2022-08-11T12:10:06.844187544Z",
+          "type": "imageCreationTime",
+        },
+        Object {
+          "data": Array [
+            "sha256:06cdc966a7b291cce93f299ae7dc9cd513eddfab9b0c8b1e9bccc71f581c0568",
+            "sha256:b59e235579c9b971248641b8b7316abdf85d783790de306e64228a58cd48e905",
+          ],
+          "type": "rootFs",
+        },
       ],
       "identity": Object {
+        "args": Object {
+          "platform": "linux/amd64",
+        },
         "targetFile": "/app/requirements.txt",
         "type": "pip",
       },
@@ -475,8 +489,22 @@ Object {
           "data": "sha256:436a467a4bbbe103e2417a965e290f27f4030b74c5de64a088f1e67c7b4caa10",
           "type": "imageId",
         },
+        Object {
+          "data": "2023-01-10T12:06:10.183855463Z",
+          "type": "imageCreationTime",
+        },
+        Object {
+          "data": Array [
+            "sha256:2cc09064b491aefa0399d2886aa2e56055fed4d159ac104bc60328278772d9c1",
+            "sha256:7bc258cc6ab05c1da5517e07e8de024ea560b5d713d4f8638984400485899de9",
+          ],
+          "type": "rootFs",
+        },
       ],
       "identity": Object {
+        "args": Object {
+          "platform": "linux/arm64",
+        },
         "targetFile": "/app/requirements.txt",
         "type": "pip",
       },

@@ -369,8 +369,21 @@ Object {
           "data": "sha256:83878e4a19e2c44d6efc14d3aa75b0cda05a44927575480cf3cef8889efa26f9",
           "type": "imageId",
         },
+        Object {
+          "data": "2022-08-04T13:17:10.411032291Z",
+          "type": "imageCreationTime",
+        },
+        Object {
+          "data": Array [
+            "sha256:1a94d0e60a13af7e273a428cb3f439f1f8872c806a70c41895bfd95de875c4c4",
+          ],
+          "type": "rootFs",
+        },
       ],
       "identity": Object {
+        "args": Object {
+          "platform": "linux/amd64",
+        },
         "targetFile": "/app/pyproject.toml",
         "type": "poetry",
       },

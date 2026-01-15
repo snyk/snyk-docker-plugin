@@ -89,8 +89,21 @@ Object {
           "data": "sha256:e997a24cd4633de60213a23debcfb37dcc9fa6578a112976fc80aaa094ea1f59",
           "type": "imageId",
         },
+        Object {
+          "data": "2020-03-24T13:05:21.8612979Z",
+          "type": "imageCreationTime",
+        },
+        Object {
+          "data": Array [
+            "sha256:05356880e40587a7dedbdcb39f8a9f99f2f48e094c7e1d2fae64f4774cc7a4aa",
+          ],
+          "type": "rootFs",
+        },
       ],
       "identity": Object {
+        "args": Object {
+          "platform": "linux/amd64",
+        },
         "targetFile": "/app",
         "type": "maven",
       },
@@ -129,8 +142,21 @@ Object {
           "data": "sha256:e997a24cd4633de60213a23debcfb37dcc9fa6578a112976fc80aaa094ea1f59",
           "type": "imageId",
         },
+        Object {
+          "data": "2020-03-24T13:05:21.8612979Z",
+          "type": "imageCreationTime",
+        },
+        Object {
+          "data": Array [
+            "sha256:05356880e40587a7dedbdcb39f8a9f99f2f48e094c7e1d2fae64f4774cc7a4aa",
+          ],
+          "type": "rootFs",
+        },
       ],
       "identity": Object {
+        "args": Object {
+          "platform": "linux/amd64",
+        },
         "targetFile": "/libs",
         "type": "maven",
       },
