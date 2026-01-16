@@ -96,26 +96,25 @@ describe("jar binaries scanning", () => {
             imageNameAndTag = `docker-archive:${fixturePath}`;
           });
 
-          it("should return nested (second-level) jar in the result", async () => {
+          it(`should unpack 1 level of jars if ${flagName} flag is missing`, async () => {
             // Act
             pluginResult = await scan({
               path: imageNameAndTag,
               "app-vulns": true,
-              [flagName]: true,
             });
 
-            // Assert
             fingerprints =
               pluginResult.scanResults[1].facts[0].data.fingerprints;
 
             expect(fingerprints).toContainEqual(nestedJar);
           });
 
-          it(`should unpack 1 level of jars if ${flagName} flag is missing`, async () => {
+          it(`should unpack 1 level of jars if ${flagName} flag is ''`, async () => {
             // Act
             pluginResult = await scan({
               path: imageNameAndTag,
               "app-vulns": true,
+              [flagName]: "",
             });
 
             fingerprints =
@@ -146,6 +145,17 @@ describe("jar binaries scanning", () => {
             expect(fingerprints).not.toContainEqual(nestedJar);
           });
 
+          it(`should throw if ${flagName} flag is set to true`, async () => {
+            // Act + Assert
+            await expect(
+              scan({
+                path: imageNameAndTag,
+                "app-vulns": true,
+                [flagName]: true,
+              }),
+            ).rejects.toThrow();
+          });
+
           it(`should throw if ${flagName} flag is set to -1`, async () => {
             // Act + Assert
             await expect(
@@ -153,6 +163,17 @@ describe("jar binaries scanning", () => {
                 path: imageNameAndTag,
                 "app-vulns": true,
                 [flagName]: "-1",
+              }),
+            ).rejects.toThrow();
+          });
+
+          it(`should throw if ${flagName} flag is set to ' '`, async () => {
+            // Act + Assert
+            await expect(
+              scan({
+                path: imageNameAndTag,
+                "app-vulns": true,
+                [flagName]: " ",
               }),
             ).rejects.toThrow();
           });
@@ -467,5 +488,23 @@ describe("jar binaries scanning", () => {
         });
       },
     );
+    describe("conflicting flags", () => {
+      const fixturePath = getFixture(
+        "docker-archives/docker-save/java-uberjar.tar",
+      );
+      const imageNameAndTag = `docker-archive:${fixturePath}`;
+
+      it(`should throw if both --shaded-jars-depth and --nested-jars-depth flags are set`, async () => {
+        // Act + Assert
+        await expect(
+          scan({
+            path: imageNameAndTag,
+            "app-vulns": true,
+            "shaded-jars-depth": "2",
+            "nested-jars-depth": "4",
+          }),
+        ).rejects.toThrow();
+      });
+    });
   });
 });
