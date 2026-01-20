@@ -369,7 +369,8 @@ describe("OCI archive layer extraction", () => {
       pack.entry({ name: `blobs/sha256/${validLayerHash}` }, validLayerContent);
 
       // Reference a layer that doesn't exist in the archive
-      const missingLayerDigest = "sha256:0000000000000000000000000000000000000000000000000000000000000000";
+      const missingLayerDigest =
+        "sha256:0000000000000000000000000000000000000000000000000000000000000000";
 
       const configContent = Buffer.from(
         JSON.stringify({
@@ -377,10 +378,7 @@ describe("OCI archive layer extraction", () => {
           os: "linux",
           rootfs: {
             type: "layers",
-            diff_ids: [
-              `sha256:${createHash(validLayerTar)}`,
-              "sha256:missing",
-            ],
+            diff_ids: [`sha256:${createHash(validLayerTar)}`, "sha256:missing"],
           },
           config: { Labels: {} },
           created: "2024-01-01T00:00:00Z",
