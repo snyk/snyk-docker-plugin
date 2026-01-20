@@ -33,6 +33,8 @@ export function parseAnalysisResults(
   }
 
   // Merge SPDX packages into the main result
+  // But skip any SPDX packages that conflict with existing package manager records
+  // (apt/apk/rpm/chisel)
   const spdxResult = analysis.results.find(
     (r) => r.AnalyzeType === AnalysisType.Spdx,
   );
@@ -41,7 +43,17 @@ export function parseAnalysisResults(
     spdxResult.Analysis.length > 0 &&
     analysisResult.AnalyzeType !== AnalysisType.Spdx
   ) {
-    analysisResult.Analysis.push(...spdxResult.Analysis);
+    // Create a set of existing package names from the primary package manager for fast lookup
+    const existingPackageNames = new Set(
+      analysisResult.Analysis.map((pkg) => pkg.Name),
+    );
+    
+    // Only add SPDX packages that don't conflict with existing packages
+    const nonConflictingSpdxPackages = spdxResult.Analysis.filter(
+      (pkg) => !existingPackageNames.has(pkg.Name),
+    );
+    
+    analysisResult.Analysis.push(...nonConflictingSpdxPackages);
   }
 
   let packageFormat: string;
