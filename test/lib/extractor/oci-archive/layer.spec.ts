@@ -355,6 +355,103 @@ describe("OCI archive layer extraction", () => {
   });
 
   describe("error handling", () => {
+    it("should handle missing layer blobs gracefully", async () => {
+      // Create an archive where the manifest references a layer digest
+      // that doesn't exist in the archive (simulates corruption or incomplete download)
+      const pack = tar.pack();
+      const chunks: Buffer[] = [];
+
+      // Create a valid layer that we'll actually include
+      const validLayerTar = await createLayerTarball({ "/valid.txt": "valid" });
+      const validLayerContent = gzipSync(validLayerTar);
+      const validLayerHash = createHash(validLayerContent);
+      const validLayerDigest = `sha256:${validLayerHash}`;
+      pack.entry({ name: `blobs/sha256/${validLayerHash}` }, validLayerContent);
+
+      // Reference a layer that doesn't exist in the archive
+      const missingLayerDigest = "sha256:0000000000000000000000000000000000000000000000000000000000000000";
+
+      const configContent = Buffer.from(
+        JSON.stringify({
+          architecture: "amd64",
+          os: "linux",
+          rootfs: {
+            type: "layers",
+            diff_ids: [
+              `sha256:${createHash(validLayerTar)}`,
+              "sha256:missing",
+            ],
+          },
+          config: { Labels: {} },
+          created: "2024-01-01T00:00:00Z",
+        }),
+      );
+      const configHash = createHash(configContent);
+      pack.entry({ name: `blobs/sha256/${configHash}` }, configContent);
+
+      // Manifest references both a valid layer and a missing layer
+      const manifest = {
+        schemaVersion: 2,
+        mediaType: "application/vnd.oci.image.manifest.v1+json",
+        config: { digest: `sha256:${configHash}`, size: configContent.length },
+        layers: [
+          {
+            mediaType: "application/vnd.oci.image.layer.v1.tar+gzip",
+            digest: validLayerDigest,
+            size: validLayerContent.length,
+          },
+          {
+            mediaType: "application/vnd.oci.image.layer.v1.tar+gzip",
+            digest: missingLayerDigest,
+            size: 1000, // Fake size
+          },
+        ],
+      };
+      const manifestContent = Buffer.from(JSON.stringify(manifest));
+      const manifestHash = createHash(manifestContent);
+      pack.entry({ name: `blobs/sha256/${manifestHash}` }, manifestContent);
+
+      const index = {
+        schemaVersion: 2,
+        mediaType: "application/vnd.oci.image.index.v1+json",
+        manifests: [
+          {
+            mediaType: "application/vnd.oci.image.manifest.v1+json",
+            digest: `sha256:${manifestHash}`,
+            size: manifestContent.length,
+            platform: { architecture: "amd64", os: "linux" },
+          },
+        ],
+      };
+      pack.entry({ name: "index.json" }, JSON.stringify(index));
+      pack.finalize();
+
+      const archiveBuffer = await new Promise<Buffer>((resolve, reject) => {
+        pack.on("data", (chunk: Buffer) => chunks.push(chunk));
+        pack.on("end", () => resolve(Buffer.concat(chunks)));
+        pack.on("error", reject);
+      });
+
+      const archivePath = await writeTempArchive(archiveBuffer);
+
+      try {
+        // Should succeed with partial results (the valid layer)
+        // The missing layer is logged as a warning but doesn't cause failure
+        const result = await extractArchive(
+          archivePath,
+          defaultExtractActions,
+          {} as PluginOptions,
+        );
+
+        // Should have extracted the valid layer
+        expect(result.layers).toHaveLength(1);
+        expect(result.manifest).toBeDefined();
+        expect(result.imageConfig).toBeDefined();
+      } finally {
+        cleanupTempArchive(archivePath);
+      }
+    });
+
     it("should throw InvalidArchiveError when no layers can be extracted", async () => {
       // Create an archive with an invalid layer (content that won't parse as tar)
       const pack = tar.pack();
