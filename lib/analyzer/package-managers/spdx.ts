@@ -35,7 +35,7 @@ function parseSpdxFile(text: string): AnalyzedPackageWithVersion[] {
       // Usually packages.length === 1, but iterate anyway for safety
       for (const pkg of spdxDoc.packages) {
         const analyzedPkg = parseSpdxLine(pkg);
-        pkgs.push(analyzedPkg);  // ← Typically adds exactly 1 package
+        pkgs.push(analyzedPkg); 
       }
     } catch (err) {
       console.error(`Failed to parse SPDX: ${err.message}`);
@@ -45,7 +45,6 @@ function parseSpdxFile(text: string): AnalyzedPackageWithVersion[] {
   }
 
   function parseSpdxLine(pkg: any): AnalyzedPackageWithVersion {
-    // Extract what we need from the SPDX package object
     const name = stripDhiPrefix(pkg.name);
     const version = pkg.versionInfo;     
     const purl = extractPurl(pkg) || createDhiPurl(name, version); 
@@ -53,10 +52,10 @@ function parseSpdxFile(text: string): AnalyzedPackageWithVersion[] {
     return {
       Name: name,
       Version: version,
-      Source: undefined,      // ← Fixed: SPDX doesn't have this
-      Provides: [],           // ← Fixed: SPDX doesn't have this
-      Deps: {},              // ← Fixed: SPDX doesn't have this
-      AutoInstalled: undefined,  // ← Fixed: SPDX doesn't have this
+      Source: undefined,      
+      Provides: [],           
+      Deps: {},              
+      AutoInstalled: undefined, 
       Purl: purl,
     };
   } 
