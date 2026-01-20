@@ -37,10 +37,12 @@ describe("SPDX deduplication with apt conflicts", () => {
     if (depGraphFact && depGraphFact.type === "depGraph") {
       const pkgs = depGraphFact.data.getPkgs();
 
-      // Should have curl from apt 
-      const curlPkgs = pkgs.filter((pkg) => pkg.name.toLowerCase().includes("curl"));
+      // Should have curl from apt
+      const curlPkgs = pkgs.filter((pkg) =>
+        pkg.name.toLowerCase().includes("curl"),
+      );
       expect(curlPkgs.length).toBeGreaterThan(0);
-      
+
       // Verify NO duplicate curl entries
       const curlNames = curlPkgs.map((pkg) => pkg.name);
       const uniqueCurlNames = new Set(curlNames);
@@ -54,14 +56,17 @@ describe("SPDX deduplication with apt conflicts", () => {
       expect(curlPkg?.version).not.toBe("7.88.0"); // Not the exact SPDX version
 
       // Should have wget from apt
-      const wgetPkg = pkgs.find((pkg) => pkg.name.toLowerCase().includes("wget"));
+      const wgetPkg = pkgs.find((pkg) =>
+        pkg.name.toLowerCase().includes("wget"),
+      );
       expect(wgetPkg).toBeDefined();
       expect(wgetPkg?.version).toBeDefined();
 
       // Should have redis-server from SPDX (no conflict with apt)
-      const redisPkg = pkgs.find((pkg) => 
-        pkg.name.toLowerCase().includes("redis-server") || 
-        pkg.name.toLowerCase() === "redis-server"
+      const redisPkg = pkgs.find(
+        (pkg) =>
+          pkg.name.toLowerCase().includes("redis-server") ||
+          pkg.name.toLowerCase() === "redis-server",
       );
       expect(redisPkg).toBeDefined();
       expect(redisPkg?.version).toBe("7.0.15"); // SPDX version should be included
@@ -84,17 +89,17 @@ describe("SPDX deduplication with apt conflicts", () => {
     if (depGraphFact && depGraphFact.type === "depGraph") {
       const pkgs = depGraphFact.data.getPkgs();
       const packageNames = pkgs.map((pkg) => pkg.name);
-      
+
       // Check for duplicates by comparing array length to Set size
       const uniqueNames = new Set(packageNames);
       expect(packageNames.length).toBe(uniqueNames.size);
-      
+
       // Specifically check curl is not duplicated
-      const curlCount = packageNames.filter((name) => 
-        name.toLowerCase().includes("curl")
+      const curlCount = packageNames.filter((name) =>
+        name.toLowerCase().includes("curl"),
       ).length;
       expect(curlCount).toBeGreaterThan(0); // Should exist
-      
+
       // No package should appear more than once
       packageNames.forEach((name) => {
         const count = packageNames.filter((n) => n === name).length;
@@ -103,4 +108,3 @@ describe("SPDX deduplication with apt conflicts", () => {
     }
   }, 120000);
 });
-

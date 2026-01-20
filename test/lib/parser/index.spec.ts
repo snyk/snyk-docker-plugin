@@ -1,5 +1,8 @@
+import {
+  AnalysisType,
+  StaticPackagesAnalysis,
+} from "../../../lib/analyzer/types";
 import { parseAnalysisResults } from "../../../lib/parser/index";
-import { AnalysisType, StaticPackagesAnalysis } from "../../../lib/analyzer/types";
 
 describe("parseAnalysisResults", () => {
   const mockOSRelease = {
@@ -57,7 +60,9 @@ describe("parseAnalysisResults", () => {
       // Should include both apt and SPDX packages since there's no conflict
       expect(result.depInfosList).toHaveLength(2);
       expect(result.depInfosList[0].Name).toBe("curl");
-      expect(result.depInfosList[0].Purl).toBe("pkg:deb/debian/curl@7.88.1-10+deb12u8");
+      expect(result.depInfosList[0].Purl).toBe(
+        "pkg:deb/debian/curl@7.88.1-10+deb12u8",
+      );
       expect(result.depInfosList[1].Name).toBe("python");
       expect(result.depInfosList[1].Purl).toBe("pkg:dhi/python@3.11.2");
     });
@@ -127,11 +132,15 @@ describe("parseAnalysisResults", () => {
 
       // Should have 3 packages: curl and python from apt, redis-server from SPDX
       expect(result.depInfosList).toHaveLength(3);
-      
+
       // Find each package
       const curlPkg = result.depInfosList.find((pkg) => pkg.Name === "curl");
-      const pythonPkg = result.depInfosList.find((pkg) => pkg.Name === "python");
-      const redisPkg = result.depInfosList.find((pkg) => pkg.Name === "redis-server");
+      const pythonPkg = result.depInfosList.find(
+        (pkg) => pkg.Name === "python",
+      );
+      const redisPkg = result.depInfosList.find(
+        (pkg) => pkg.Name === "redis-server",
+      );
 
       // Verify curl from apt
       expect(curlPkg).toBeDefined();
@@ -154,7 +163,11 @@ describe("parseAnalysisResults", () => {
       const analysis: StaticPackagesAnalysis = {
         imageId: "test-image-123",
         platform: "linux/arm64",
-        osRelease: { name: "alpine", version: "3.19", prettyName: "Alpine Linux 3.19" },
+        osRelease: {
+          name: "alpine",
+          version: "3.19",
+          prettyName: "Alpine Linux 3.19",
+        },
         results: [
           {
             Image: "test-image",
@@ -256,7 +269,11 @@ describe("parseAnalysisResults", () => {
       const analysis: StaticPackagesAnalysis = {
         imageId: "test-image-123",
         platform: "linux/amd64",
-        osRelease: { name: "rhel", version: "9", prettyName: "Red Hat Enterprise Linux 9" },
+        osRelease: {
+          name: "rhel",
+          version: "9",
+          prettyName: "Red Hat Enterprise Linux 9",
+        },
         results: [
           {
             Image: "test-image",
@@ -308,8 +325,10 @@ describe("parseAnalysisResults", () => {
 
       // Should have 2 packages: openssl from rpm, nginx from SPDX
       expect(result.depInfosList).toHaveLength(2);
-      
-      const opensslPkg = result.depInfosList.find((pkg) => pkg.Name === "openssl");
+
+      const opensslPkg = result.depInfosList.find(
+        (pkg) => pkg.Name === "openssl",
+      );
       const nginxPkg = result.depInfosList.find((pkg) => pkg.Name === "nginx");
 
       // Verify openssl from rpm (NOT from SPDX)
@@ -371,7 +390,9 @@ describe("parseAnalysisResults", () => {
       expect(result.depInfosList).toHaveLength(1);
       expect(result.depInfosList[0].Name).toBe("base-files");
       expect(result.depInfosList[0].Version).toBe("12.3ubuntu1");
-      expect(result.depInfosList[0].Purl).toBe("pkg:deb/ubuntu/base-files@12.3ubuntu1");
+      expect(result.depInfosList[0].Purl).toBe(
+        "pkg:deb/ubuntu/base-files@12.3ubuntu1",
+      );
     });
 
     it("should handle multiple duplicate packages between apt and SPDX", () => {
@@ -448,18 +469,19 @@ describe("parseAnalysisResults", () => {
 
       // Should have 3 packages total: curl and wget from apt, redis-tools from SPDX
       expect(result.depInfosList).toHaveLength(3);
-      
+
       const curlPkg = result.depInfosList.find((pkg) => pkg.Name === "curl");
       const wgetPkg = result.depInfosList.find((pkg) => pkg.Name === "wget");
-      const redisPkg = result.depInfosList.find((pkg) => pkg.Name === "redis-tools");
+      const redisPkg = result.depInfosList.find(
+        (pkg) => pkg.Name === "redis-tools",
+      );
 
       // Verify all packages from apt (NOT from SPDX)
       expect(curlPkg?.Purl).toBe("pkg:deb/debian/curl@7.88.1-10+deb12u8");
       expect(wgetPkg?.Purl).toBe("pkg:deb/debian/wget@1.21.3-1+b2");
-      
+
       // Verify redis-tools from SPDX (no conflict)
       expect(redisPkg?.Purl).toBe("pkg:dhi/redis-tools@7.0.15");
     });
   });
 });
-

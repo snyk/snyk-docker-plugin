@@ -47,12 +47,12 @@ export function parseAnalysisResults(
     const existingPackageNames = new Set(
       analysisResult.Analysis.map((pkg) => pkg.Name),
     );
-    
+
     // Only add SPDX packages that don't conflict with existing packages
     const nonConflictingSpdxPackages = spdxResult.Analysis.filter(
       (pkg) => !existingPackageNames.has(pkg.Name),
     );
-    
+
     analysisResult.Analysis.push(...nonConflictingSpdxPackages);
   }
 
