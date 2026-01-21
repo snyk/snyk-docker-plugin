@@ -56979,11 +56979,6 @@ Array [
               },
               Object {
                 "deps": Array [],
-                "nodeId": "isexe@2.0.0",
-                "pkgId": "isexe@2.0.0",
-              },
-              Object {
-                "deps": Array [],
                 "nodeId": "lazy-property@1.0.0",
                 "pkgId": "lazy-property@1.0.0",
               },
@@ -57616,6 +57611,20 @@ Array [
                 "pkgId": "tar@4.4.13",
               },
               Object {
+                "deps": Array [],
+                "nodeId": "isexe@2.0.0",
+                "pkgId": "isexe@2.0.0",
+              },
+              Object {
+                "deps": Array [
+                  Object {
+                    "nodeId": "isexe@2.0.0",
+                  },
+                ],
+                "nodeId": "which@1.3.1",
+                "pkgId": "which@1.3.1",
+              },
+              Object {
                 "deps": Array [
                   Object {
                     "nodeId": "env-paths@2.2.0",
@@ -57646,6 +57655,9 @@ Array [
                   },
                   Object {
                     "nodeId": "tar@4.4.13",
+                  },
+                  Object {
+                    "nodeId": "which@1.3.1",
                   },
                 ],
                 "nodeId": "node-gyp@5.1.0",
@@ -57688,6 +57700,9 @@ Array [
                   },
                   Object {
                     "nodeId": "umask@1.1.0",
+                  },
+                  Object {
+                    "nodeId": "which@1.3.1",
                   },
                 ],
                 "nodeId": "npm-lifecycle@3.1.4",
@@ -58115,6 +58130,9 @@ Array [
                   },
                   Object {
                     "nodeId": "unique-filename@1.1.1",
+                  },
+                  Object {
+                    "nodeId": "which@1.3.1",
                   },
                 ],
                 "nodeId": "pacote@9.5.12",
@@ -58593,6 +58611,9 @@ Array [
                   },
                   Object {
                     "nodeId": "shebang-command@1.2.0",
+                  },
+                  Object {
+                    "nodeId": "which@1.3.1",
                   },
                 ],
                 "nodeId": "cross-spawn@5.1.0",
@@ -59147,6 +59168,9 @@ Array [
                   Object {
                     "nodeId": "shebang-command@1.2.0",
                   },
+                  Object {
+                    "nodeId": "which@1.3.1",
+                  },
                 ],
                 "nodeId": "cross-spawn@6.0.5",
                 "pkgId": "cross-spawn@6.0.5",
@@ -59258,6 +59282,11 @@ Array [
               },
               Object {
                 "deps": Array [],
+                "nodeId": "which-module@2.0.0",
+                "pkgId": "which-module@2.0.0",
+              },
+              Object {
+                "deps": Array [],
                 "nodeId": "y18n@3.2.1",
                 "pkgId": "y18n@3.2.1",
               },
@@ -59300,6 +59329,9 @@ Array [
                     "nodeId": "string-width@2.1.1",
                   },
                   Object {
+                    "nodeId": "which-module@2.0.0",
+                  },
+                  Object {
                     "nodeId": "y18n@3.2.1",
                   },
                   Object {
@@ -59325,6 +59357,9 @@ Array [
                   },
                   Object {
                     "nodeId": "update-notifier@2.5.0",
+                  },
+                  Object {
+                    "nodeId": "which@1.3.1",
                   },
                   Object {
                     "nodeId": "y18n@4.0.0",
@@ -59924,9 +59959,6 @@ Array [
                     "nodeId": "is-cidr@3.0.0",
                   },
                   Object {
-                    "nodeId": "isexe@2.0.0",
-                  },
-                  Object {
                     "nodeId": "json-parse-better-errors@1.0.2",
                   },
                   Object {
@@ -60162,6 +60194,9 @@ Array [
                   },
                   Object {
                     "nodeId": "validate-npm-package-name@3.0.0",
+                  },
+                  Object {
+                    "nodeId": "which@1.3.1",
                   },
                   Object {
                     "nodeId": "worker-farm@1.7.0",
@@ -61091,13 +61126,6 @@ Array [
               },
             },
             Object {
-              "id": "isexe@2.0.0",
-              "info": Object {
-                "name": "isexe",
-                "version": "2.0.0",
-              },
-            },
-            Object {
               "id": "lazy-property@1.0.0",
               "info": Object {
                 "name": "lazy-property",
@@ -61550,6 +61578,20 @@ Array [
               "info": Object {
                 "name": "tar",
                 "version": "4.4.13",
+              },
+            },
+            Object {
+              "id": "isexe@2.0.0",
+              "info": Object {
+                "name": "isexe",
+                "version": "2.0.0",
+              },
+            },
+            Object {
+              "id": "which@1.3.1",
+              "info": Object {
+                "name": "which",
+                "version": "1.3.1",
               },
             },
             Object {
@@ -62558,6 +62600,13 @@ Array [
               "info": Object {
                 "name": "require-main-filename",
                 "version": "1.0.1",
+              },
+            },
+            Object {
+              "id": "which-module@2.0.0",
+              "info": Object {
+                "name": "which-module",
+                "version": "2.0.0",
               },
             },
             Object {
