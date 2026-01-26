@@ -352,6 +352,51 @@ Object {
           "type": "imageLayers",
         },
         Object {
+          "data": Object {
+            "argsEscaped": true,
+            "cmd": Array [
+              "/bin/sh",
+            ],
+            "entrypoint": Array [],
+            "env": Array [
+              "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            ],
+            "exposedPorts": Array [],
+            "labels": Object {},
+            "stopSignal": "",
+            "user": "",
+            "volumes": Array [],
+            "workingDir": "",
+          },
+          "type": "containerConfig",
+        },
+        Object {
+          "data": Array [
+            Object {
+              "author": "",
+              "comment": "",
+              "created": "2019-03-07T22:20:00.434038891Z",
+              "createdBy": "/bin/sh -c #(nop) ADD file:9714761bb81de664e431dec41f12db20f0438047615df2ecd9fdc88933d6c20f in / ",
+              "emptyLayer": false,
+            },
+            Object {
+              "author": "",
+              "comment": "",
+              "created": "2019-03-07T22:20:00.563496859Z",
+              "createdBy": "/bin/sh -c #(nop)  CMD [\\"/bin/sh\\"]",
+              "emptyLayer": true,
+            },
+            Object {
+              "author": "",
+              "comment": "",
+              "created": "2020-03-30T10:09:06.723677058Z",
+              "createdBy": "/bin/sh -c #(nop) COPY multi:eb945c6b07d451ae4753032c5da5bb26dae2805ad6daf1932e73aff6a6ca2425 in /app/ ",
+              "emptyLayer": false,
+            },
+          ],
+          "type": "history",
+        },
+        Object {
           "data": "2020-03-30T10:09:06.723677058Z",
           "type": "imageCreationTime",
         },
@@ -365,6 +410,14 @@ Object {
         Object {
           "data": "Alpine Linux v3.6",
           "type": "imageOsReleasePrettyName",
+        },
+        Object {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        Object {
+          "data": "0.0.0",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {
@@ -648,6 +701,10 @@ Object {
         Object {
           "data": "sha256:a4837fa95bd797412aca5c73854c8f196e584a33cbc53df0f6f9e88a37cd41a3",
           "type": "imageId",
+        },
+        Object {
+          "data": "0.0.0",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {
@@ -1014,6 +1071,51 @@ Object {
           "type": "imageLayers",
         },
         Object {
+          "data": Object {
+            "argsEscaped": true,
+            "cmd": Array [
+              "/bin/sh",
+            ],
+            "entrypoint": Array [],
+            "env": Array [
+              "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            ],
+            "exposedPorts": Array [],
+            "labels": Object {},
+            "stopSignal": "",
+            "user": "",
+            "volumes": Array [],
+            "workingDir": "",
+          },
+          "type": "containerConfig",
+        },
+        Object {
+          "data": Array [
+            Object {
+              "author": "",
+              "comment": "",
+              "created": "2019-03-07T22:20:00.434038891Z",
+              "createdBy": "/bin/sh -c #(nop) ADD file:9714761bb81de664e431dec41f12db20f0438047615df2ecd9fdc88933d6c20f in / ",
+              "emptyLayer": false,
+            },
+            Object {
+              "author": "",
+              "comment": "",
+              "created": "2019-03-07T22:20:00.563496859Z",
+              "createdBy": "/bin/sh -c #(nop)  CMD [\\"/bin/sh\\"]",
+              "emptyLayer": true,
+            },
+            Object {
+              "author": "",
+              "comment": "",
+              "created": "2020-03-30T10:09:06.723677058Z",
+              "createdBy": "/bin/sh -c #(nop) COPY multi:eb945c6b07d451ae4753032c5da5bb26dae2805ad6daf1932e73aff6a6ca2425 in /app/ ",
+              "emptyLayer": false,
+            },
+          ],
+          "type": "history",
+        },
+        Object {
           "data": "2020-03-30T10:09:06.723677058Z",
           "type": "imageCreationTime",
         },
@@ -1027,6 +1129,14 @@ Object {
         Object {
           "data": "Alpine Linux v3.6",
           "type": "imageOsReleasePrettyName",
+        },
+        Object {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        Object {
+          "data": "0.0.0",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {
@@ -1310,6 +1420,10 @@ Object {
         Object {
           "data": "sha256:a4837fa95bd797412aca5c73854c8f196e584a33cbc53df0f6f9e88a37cd41a3",
           "type": "imageId",
+        },
+        Object {
+          "data": "0.0.0",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {

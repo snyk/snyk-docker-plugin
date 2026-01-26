@@ -1714,6 +1714,44 @@ Object {
           "type": "imageLayers",
         },
         Object {
+          "data": Object {
+            "argsEscaped": true,
+            "cmd": Array [
+              "/bin/bash",
+            ],
+            "entrypoint": Array [],
+            "env": Array [
+              "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            ],
+            "exposedPorts": Array [],
+            "labels": Object {},
+            "stopSignal": "",
+            "user": "",
+            "volumes": Array [],
+            "workingDir": "",
+          },
+          "type": "containerConfig",
+        },
+        Object {
+          "data": Array [
+            Object {
+              "author": "",
+              "comment": "",
+              "created": "2020-04-21T18:22:56.027865753Z",
+              "createdBy": "/bin/sh -c #(nop) ADD file:c64a7d77d1e9f4364c8d2009059cb8668697d61f54f457215b6be6f0c9cded5b in / ",
+              "emptyLayer": false,
+            },
+            Object {
+              "author": "",
+              "comment": "",
+              "created": "2020-04-21T18:22:56.403210733Z",
+              "createdBy": "/bin/sh -c #(nop)  CMD [\\"/bin/bash\\"]",
+              "emptyLayer": true,
+            },
+          ],
+          "type": "history",
+        },
+        Object {
           "data": "2020-04-21T18:22:56.403210733Z",
           "type": "imageCreationTime",
         },
@@ -1726,6 +1764,14 @@ Object {
         Object {
           "data": "Amazon Linux 2",
           "type": "imageOsReleasePrettyName",
+        },
+        Object {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        Object {
+          "data": "0.0.0",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {
@@ -3456,6 +3502,44 @@ Object {
           "type": "imageLayers",
         },
         Object {
+          "data": Object {
+            "argsEscaped": true,
+            "cmd": Array [
+              "/bin/bash",
+            ],
+            "entrypoint": Array [],
+            "env": Array [
+              "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            ],
+            "exposedPorts": Array [],
+            "labels": Object {},
+            "stopSignal": "",
+            "user": "",
+            "volumes": Array [],
+            "workingDir": "",
+          },
+          "type": "containerConfig",
+        },
+        Object {
+          "data": Array [
+            Object {
+              "author": "",
+              "comment": "",
+              "created": "2020-04-21T18:22:56.027865753Z",
+              "createdBy": "/bin/sh -c #(nop) ADD file:c64a7d77d1e9f4364c8d2009059cb8668697d61f54f457215b6be6f0c9cded5b in / ",
+              "emptyLayer": false,
+            },
+            Object {
+              "author": "",
+              "comment": "",
+              "created": "2020-04-21T18:22:56.403210733Z",
+              "createdBy": "/bin/sh -c #(nop)  CMD [\\"/bin/bash\\"]",
+              "emptyLayer": true,
+            },
+          ],
+          "type": "history",
+        },
+        Object {
           "data": "2020-04-21T18:22:56.403210733Z",
           "type": "imageCreationTime",
         },
@@ -3468,6 +3552,14 @@ Object {
         Object {
           "data": "Amazon Linux 2",
           "type": "imageOsReleasePrettyName",
+        },
+        Object {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        Object {
+          "data": "0.0.0",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {
@@ -3562,6 +3654,10 @@ Object {
         Object {
           "data": "sha256:7f335821efb5e5b95b36541004fa0287732a11f97a4a0ff807cc065746f82538",
           "type": "imageId",
+        },
+        Object {
+          "data": "0.0.0",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {
@@ -13852,6 +13948,10 @@ Object {
         Object {
           "data": "sha256:7f335821efb5e5b95b36541004fa0287732a11f97a4a0ff807cc065746f82538",
           "type": "imageId",
+        },
+        Object {
+          "data": "0.0.0",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {

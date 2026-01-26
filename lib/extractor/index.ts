@@ -149,6 +149,8 @@ export async function extractImageContent(
     ),
     platform: getPlatformFromConfig(archiveContent.imageConfig),
     imageLabels: archiveContent.imageConfig.config.Labels,
+    containerConfig: archiveContent.imageConfig.config,
+    history: archiveContent.imageConfig.history,
   };
 }
 

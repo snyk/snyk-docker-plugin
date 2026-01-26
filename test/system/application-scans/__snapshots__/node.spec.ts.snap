@@ -1714,6 +1714,44 @@ Object {
           "type": "imageLayers",
         },
         Object {
+          "data": Object {
+            "argsEscaped": true,
+            "cmd": Array [
+              "/bin/bash",
+            ],
+            "entrypoint": Array [],
+            "env": Array [
+              "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            ],
+            "exposedPorts": Array [],
+            "labels": Object {},
+            "stopSignal": "",
+            "user": "",
+            "volumes": Array [],
+            "workingDir": "",
+          },
+          "type": "containerConfig",
+        },
+        Object {
+          "data": Array [
+            Object {
+              "author": "",
+              "comment": "",
+              "created": "2020-04-21T18:22:56.027865753Z",
+              "createdBy": "/bin/sh -c #(nop) ADD file:c64a7d77d1e9f4364c8d2009059cb8668697d61f54f457215b6be6f0c9cded5b in / ",
+              "emptyLayer": false,
+            },
+            Object {
+              "author": "",
+              "comment": "",
+              "created": "2020-04-21T18:22:56.403210733Z",
+              "createdBy": "/bin/sh -c #(nop)  CMD [\\"/bin/bash\\"]",
+              "emptyLayer": true,
+            },
+          ],
+          "type": "history",
+        },
+        Object {
           "data": "2020-04-21T18:22:56.403210733Z",
           "type": "imageCreationTime",
         },
@@ -1726,6 +1764,14 @@ Object {
         Object {
           "data": "Amazon Linux 2",
           "type": "imageOsReleasePrettyName",
+        },
+        Object {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        Object {
+          "data": "0.0.0",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {
@@ -1820,6 +1866,10 @@ Object {
         Object {
           "data": "sha256:7f335821efb5e5b95b36541004fa0287732a11f97a4a0ff807cc065746f82538",
           "type": "imageId",
+        },
+        Object {
+          "data": "0.0.0",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {
@@ -12110,6 +12160,10 @@ Object {
         Object {
           "data": "sha256:7f335821efb5e5b95b36541004fa0287732a11f97a4a0ff807cc065746f82538",
           "type": "imageId",
+        },
+        Object {
+          "data": "0.0.0",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {
@@ -13838,6 +13892,44 @@ Object {
           "type": "imageLayers",
         },
         Object {
+          "data": Object {
+            "argsEscaped": true,
+            "cmd": Array [
+              "/bin/bash",
+            ],
+            "entrypoint": Array [],
+            "env": Array [
+              "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            ],
+            "exposedPorts": Array [],
+            "labels": Object {},
+            "stopSignal": "",
+            "user": "",
+            "volumes": Array [],
+            "workingDir": "",
+          },
+          "type": "containerConfig",
+        },
+        Object {
+          "data": Array [
+            Object {
+              "author": "",
+              "comment": "",
+              "created": "2020-04-21T18:22:56.027865753Z",
+              "createdBy": "/bin/sh -c #(nop) ADD file:c64a7d77d1e9f4364c8d2009059cb8668697d61f54f457215b6be6f0c9cded5b in / ",
+              "emptyLayer": false,
+            },
+            Object {
+              "author": "",
+              "comment": "",
+              "created": "2020-04-21T18:22:56.403210733Z",
+              "createdBy": "/bin/sh -c #(nop)  CMD [\\"/bin/bash\\"]",
+              "emptyLayer": true,
+            },
+          ],
+          "type": "history",
+        },
+        Object {
           "data": "2020-04-21T18:22:56.403210733Z",
           "type": "imageCreationTime",
         },
@@ -13850,6 +13942,14 @@ Object {
         Object {
           "data": "Amazon Linux 2",
           "type": "imageOsReleasePrettyName",
+        },
+        Object {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        Object {
+          "data": "0.0.0",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {
@@ -13944,6 +14044,10 @@ Object {
         Object {
           "data": "sha256:7f335821efb5e5b95b36541004fa0287732a11f97a4a0ff807cc065746f82538",
           "type": "imageId",
+        },
+        Object {
+          "data": "0.0.0",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {
@@ -24235,6 +24339,10 @@ Object {
           "data": "sha256:7f335821efb5e5b95b36541004fa0287732a11f97a4a0ff807cc065746f82538",
           "type": "imageId",
         },
+        Object {
+          "data": "0.0.0",
+          "type": "pluginVersion",
+        },
       ],
       "identity": Object {
         "targetFile": "/srv/yarn-app/package.json",
@@ -24607,6 +24715,58 @@ Object {
           "type": "imageLayers",
         },
         Object {
+          "data": Object {
+            "argsEscaped": false,
+            "cmd": Array [
+              "/bin/sh",
+            ],
+            "entrypoint": Array [],
+            "env": Array [
+              "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            ],
+            "exposedPorts": Array [],
+            "labels": Object {},
+            "stopSignal": "",
+            "user": "",
+            "volumes": Array [],
+            "workingDir": "",
+          },
+          "type": "containerConfig",
+        },
+        Object {
+          "data": Array [
+            Object {
+              "author": "",
+              "comment": "",
+              "created": "2024-07-22T21:44:13.639084272Z",
+              "createdBy": "/bin/sh -c #(nop) ADD file:a71f7e9bc66668361f88637c724c44deeb2774ec268ff0a68bd99014c8a02a84 in / ",
+              "emptyLayer": false,
+            },
+            Object {
+              "author": "",
+              "comment": "",
+              "created": "2024-07-22T21:44:13.781194625Z",
+              "createdBy": "/bin/sh -c #(nop)  CMD [\\"/bin/sh\\"]",
+              "emptyLayer": true,
+            },
+            Object {
+              "author": "",
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2024-09-06T15:01:32.660902542Z",
+              "createdBy": "COPY ./package.json /app/package.json # buildkit",
+              "emptyLayer": false,
+            },
+            Object {
+              "author": "",
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2024-09-06T15:01:32.670474542Z",
+              "createdBy": "COPY ./package-lock.json /app/package-lock.json # buildkit",
+              "emptyLayer": false,
+            },
+          ],
+          "type": "history",
+        },
+        Object {
           "data": "2024-09-06T15:01:32.670474542Z",
           "type": "imageCreationTime",
         },
@@ -24621,6 +24781,14 @@ Object {
         Object {
           "data": "Alpine Linux v3.20",
           "type": "imageOsReleasePrettyName",
+        },
+        Object {
+          "data": "linux/arm64",
+          "type": "platform",
+        },
+        Object {
+          "data": "0.0.0",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {
@@ -29866,6 +30034,10 @@ Object {
           "data": "sha256:c13011f01437d41c7115478cbe47f27483709aff914ac9df4aa6d5a2cba5d6ff",
           "type": "imageId",
         },
+        Object {
+          "data": "0.0.0",
+          "type": "pluginVersion",
+        },
       ],
       "identity": Object {
         "targetFile": "/app/package.json",
@@ -30238,6 +30410,58 @@ Object {
           "type": "imageLayers",
         },
         Object {
+          "data": Object {
+            "argsEscaped": false,
+            "cmd": Array [
+              "/bin/sh",
+            ],
+            "entrypoint": Array [],
+            "env": Array [
+              "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            ],
+            "exposedPorts": Array [],
+            "labels": Object {},
+            "stopSignal": "",
+            "user": "",
+            "volumes": Array [],
+            "workingDir": "",
+          },
+          "type": "containerConfig",
+        },
+        Object {
+          "data": Array [
+            Object {
+              "author": "",
+              "comment": "",
+              "created": "2024-07-22T21:44:13.639084272Z",
+              "createdBy": "/bin/sh -c #(nop) ADD file:a71f7e9bc66668361f88637c724c44deeb2774ec268ff0a68bd99014c8a02a84 in / ",
+              "emptyLayer": false,
+            },
+            Object {
+              "author": "",
+              "comment": "",
+              "created": "2024-07-22T21:44:13.781194625Z",
+              "createdBy": "/bin/sh -c #(nop)  CMD [\\"/bin/sh\\"]",
+              "emptyLayer": true,
+            },
+            Object {
+              "author": "",
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2024-09-06T14:36:52.151354292Z",
+              "createdBy": "COPY ./package.json /app/package.json # buildkit",
+              "emptyLayer": false,
+            },
+            Object {
+              "author": "",
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2024-09-06T14:36:52.162859875Z",
+              "createdBy": "COPY ./package-lock.json /app/package-lock.json # buildkit",
+              "emptyLayer": false,
+            },
+          ],
+          "type": "history",
+        },
+        Object {
           "data": "2024-09-06T14:36:52.162859875Z",
           "type": "imageCreationTime",
         },
@@ -30252,6 +30476,14 @@ Object {
         Object {
           "data": "Alpine Linux v3.20",
           "type": "imageOsReleasePrettyName",
+        },
+        Object {
+          "data": "linux/arm64",
+          "type": "platform",
+        },
+        Object {
+          "data": "0.0.0",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {
@@ -35497,6 +35729,10 @@ Object {
           "data": "sha256:8b983b89de166ee3b2198f92983253e09b1dd9179f9498cc456db0cf1678a2ab",
           "type": "imageId",
         },
+        Object {
+          "data": "0.0.0",
+          "type": "pluginVersion",
+        },
       ],
       "identity": Object {
         "targetFile": "/app/package.json",
@@ -35893,6 +36129,58 @@ Object {
           "type": "imageLayers",
         },
         Object {
+          "data": Object {
+            "argsEscaped": false,
+            "cmd": Array [
+              "/bin/sh",
+            ],
+            "entrypoint": Array [],
+            "env": Array [
+              "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            ],
+            "exposedPorts": Array [],
+            "labels": Object {},
+            "stopSignal": "",
+            "user": "",
+            "volumes": Array [],
+            "workingDir": "/app",
+          },
+          "type": "containerConfig",
+        },
+        Object {
+          "data": Array [
+            Object {
+              "author": "",
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2025-02-14T03:03:06Z",
+              "createdBy": "ADD alpine-minirootfs-3.18.12-aarch64.tar.gz / # buildkit",
+              "emptyLayer": false,
+            },
+            Object {
+              "author": "",
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2025-02-14T03:03:06Z",
+              "createdBy": "CMD [\\"/bin/sh\\"]",
+              "emptyLayer": true,
+            },
+            Object {
+              "author": "",
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2025-12-04T19:22:57.323945212Z",
+              "createdBy": "WORKDIR /app",
+              "emptyLayer": false,
+            },
+            Object {
+              "author": "",
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2025-12-04T19:22:57.389307087Z",
+              "createdBy": "COPY package.json pnpm-lock.yaml ./ # buildkit",
+              "emptyLayer": false,
+            },
+          ],
+          "type": "history",
+        },
+        Object {
           "data": "2025-12-04T19:22:57.389307087Z",
           "type": "imageCreationTime",
         },
@@ -35907,6 +36195,14 @@ Object {
         Object {
           "data": "Alpine Linux v3.18",
           "type": "imageOsReleasePrettyName",
+        },
+        Object {
+          "data": "linux/arm64",
+          "type": "platform",
+        },
+        Object {
+          "data": "0.0.0",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {
@@ -36001,6 +36297,10 @@ Object {
         Object {
           "data": "sha256:eb75b84593227d513b10544e8a1b7b7aa1cb060fa2df6df7b5b20498506c9dcd",
           "type": "imageId",
+        },
+        Object {
+          "data": "0.0.0",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {
@@ -36398,6 +36698,58 @@ Object {
           "type": "imageLayers",
         },
         Object {
+          "data": Object {
+            "argsEscaped": false,
+            "cmd": Array [
+              "/bin/sh",
+            ],
+            "entrypoint": Array [],
+            "env": Array [
+              "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            ],
+            "exposedPorts": Array [],
+            "labels": Object {},
+            "stopSignal": "",
+            "user": "",
+            "volumes": Array [],
+            "workingDir": "/app",
+          },
+          "type": "containerConfig",
+        },
+        Object {
+          "data": Array [
+            Object {
+              "author": "",
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2025-02-14T03:03:06Z",
+              "createdBy": "ADD alpine-minirootfs-3.18.12-aarch64.tar.gz / # buildkit",
+              "emptyLayer": false,
+            },
+            Object {
+              "author": "",
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2025-02-14T03:03:06Z",
+              "createdBy": "CMD [\\"/bin/sh\\"]",
+              "emptyLayer": true,
+            },
+            Object {
+              "author": "",
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2025-12-04T19:22:57.323945212Z",
+              "createdBy": "WORKDIR /app",
+              "emptyLayer": false,
+            },
+            Object {
+              "author": "",
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2025-12-04T19:23:26.881480962Z",
+              "createdBy": "COPY package.json pnpm-lock.yaml ./ # buildkit",
+              "emptyLayer": false,
+            },
+          ],
+          "type": "history",
+        },
+        Object {
           "data": "2025-12-04T19:23:26.881480962Z",
           "type": "imageCreationTime",
         },
@@ -36412,6 +36764,14 @@ Object {
         Object {
           "data": "Alpine Linux v3.18",
           "type": "imageOsReleasePrettyName",
+        },
+        Object {
+          "data": "linux/arm64",
+          "type": "platform",
+        },
+        Object {
+          "data": "0.0.0",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {
@@ -36506,6 +36866,10 @@ Object {
         Object {
           "data": "sha256:f22a6df242f9d718888e91c36f625ea24b80327572753918685337c6a9a0fab0",
           "type": "imageId",
+        },
+        Object {
+          "data": "0.0.0",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {
@@ -36879,6 +37243,58 @@ Object {
           "type": "imageLayers",
         },
         Object {
+          "data": Object {
+            "argsEscaped": false,
+            "cmd": Array [
+              "/bin/sh",
+            ],
+            "entrypoint": Array [],
+            "env": Array [
+              "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            ],
+            "exposedPorts": Array [],
+            "labels": Object {},
+            "stopSignal": "",
+            "user": "",
+            "volumes": Array [],
+            "workingDir": "",
+          },
+          "type": "containerConfig",
+        },
+        Object {
+          "data": Array [
+            Object {
+              "author": "",
+              "comment": "",
+              "created": "2024-09-06T22:44:10.797925871Z",
+              "createdBy": "/bin/sh -c #(nop) ADD file:ee5bb8409915b11413f44cce4c22fed658aba4fb078a448e08dd4ac9a23581f2 in / ",
+              "emptyLayer": false,
+            },
+            Object {
+              "author": "",
+              "comment": "",
+              "created": "2024-09-06T22:44:11.008804648Z",
+              "createdBy": "/bin/sh -c #(nop)  CMD [\\"/bin/sh\\"]",
+              "emptyLayer": true,
+            },
+            Object {
+              "author": "",
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2024-09-13T11:43:24.910197293Z",
+              "createdBy": "COPY ./package.json /app/package.json # buildkit",
+              "emptyLayer": false,
+            },
+            Object {
+              "author": "",
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2024-09-13T11:43:24.923691584Z",
+              "createdBy": "COPY ./yarn.lock /app/yarn.lock # buildkit",
+              "emptyLayer": false,
+            },
+          ],
+          "type": "history",
+        },
+        Object {
           "data": "2024-09-13T11:43:24.923691584Z",
           "type": "imageCreationTime",
         },
@@ -36893,6 +37309,14 @@ Object {
         Object {
           "data": "Alpine Linux v3.20",
           "type": "imageOsReleasePrettyName",
+        },
+        Object {
+          "data": "linux/arm64",
+          "type": "platform",
+        },
+        Object {
+          "data": "0.0.0",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {
@@ -42722,6 +43146,10 @@ Object {
           "data": "sha256:48567e3d237b4b3ccba06904df2531d502c818f5fdce1e824c9d2225b5249ed6",
           "type": "imageId",
         },
+        Object {
+          "data": "0.0.0",
+          "type": "pluginVersion",
+        },
       ],
       "identity": Object {
         "targetFile": "/app/package.json",
@@ -43094,6 +43522,58 @@ Object {
           "type": "imageLayers",
         },
         Object {
+          "data": Object {
+            "argsEscaped": false,
+            "cmd": Array [
+              "/bin/sh",
+            ],
+            "entrypoint": Array [],
+            "env": Array [
+              "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            ],
+            "exposedPorts": Array [],
+            "labels": Object {},
+            "stopSignal": "",
+            "user": "",
+            "volumes": Array [],
+            "workingDir": "",
+          },
+          "type": "containerConfig",
+        },
+        Object {
+          "data": Array [
+            Object {
+              "author": "",
+              "comment": "",
+              "created": "2024-09-06T22:44:10.797925871Z",
+              "createdBy": "/bin/sh -c #(nop) ADD file:ee5bb8409915b11413f44cce4c22fed658aba4fb078a448e08dd4ac9a23581f2 in / ",
+              "emptyLayer": false,
+            },
+            Object {
+              "author": "",
+              "comment": "",
+              "created": "2024-09-06T22:44:11.008804648Z",
+              "createdBy": "/bin/sh -c #(nop)  CMD [\\"/bin/sh\\"]",
+              "emptyLayer": true,
+            },
+            Object {
+              "author": "",
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2024-09-13T11:47:29.55099467Z",
+              "createdBy": "COPY ./package.json /app/package.json # buildkit",
+              "emptyLayer": false,
+            },
+            Object {
+              "author": "",
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2024-09-13T11:47:29.564730378Z",
+              "createdBy": "COPY ./yarn.lock /app/yarn.lock # buildkit",
+              "emptyLayer": false,
+            },
+          ],
+          "type": "history",
+        },
+        Object {
           "data": "2024-09-13T11:47:29.564730378Z",
           "type": "imageCreationTime",
         },
@@ -43108,6 +43588,14 @@ Object {
         Object {
           "data": "Alpine Linux v3.20",
           "type": "imageOsReleasePrettyName",
+        },
+        Object {
+          "data": "linux/arm64",
+          "type": "platform",
+        },
+        Object {
+          "data": "0.0.0",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {
@@ -48937,6 +49425,10 @@ Object {
           "data": "sha256:80200643a8d8bfb917045b84180964f3b545682f16586e4b3606e166407f7a98",
           "type": "imageId",
         },
+        Object {
+          "data": "0.0.0",
+          "type": "pluginVersion",
+        },
       ],
       "identity": Object {
         "targetFile": "/app/package.json",
@@ -49336,6 +49828,58 @@ Object {
           "type": "imageLayers",
         },
         Object {
+          "data": Object {
+            "argsEscaped": false,
+            "cmd": Array [
+              "/bin/sh",
+            ],
+            "entrypoint": Array [],
+            "env": Array [
+              "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            ],
+            "exposedPorts": Array [],
+            "labels": Object {},
+            "stopSignal": "",
+            "user": "",
+            "volumes": Array [],
+            "workingDir": "/",
+          },
+          "type": "containerConfig",
+        },
+        Object {
+          "data": Array [
+            Object {
+              "author": "",
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2025-01-08T12:07:30Z",
+              "createdBy": "ADD alpine-minirootfs-3.21.2-aarch64.tar.gz / # buildkit",
+              "emptyLayer": false,
+            },
+            Object {
+              "author": "",
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2025-01-08T12:07:30Z",
+              "createdBy": "CMD [\\"/bin/sh\\"]",
+              "emptyLayer": true,
+            },
+            Object {
+              "author": "",
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2025-03-10T13:58:04.03555022Z",
+              "createdBy": "COPY ./package.json /app/package.json # buildkit",
+              "emptyLayer": false,
+            },
+            Object {
+              "author": "",
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2025-03-10T13:58:04.047883095Z",
+              "createdBy": "COPY ./package-lock.json /app/package-lock.json # buildkit",
+              "emptyLayer": false,
+            },
+          ],
+          "type": "history",
+        },
+        Object {
           "data": "2025-03-10T13:58:04.047883095Z",
           "type": "imageCreationTime",
         },
@@ -49350,6 +49894,14 @@ Object {
         Object {
           "data": "Alpine Linux v3.21",
           "type": "imageOsReleasePrettyName",
+        },
+        Object {
+          "data": "linux/arm64",
+          "type": "platform",
+        },
+        Object {
+          "data": "0.0.0",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {
@@ -49795,6 +50347,154 @@ Array [
         "type": "imageLayers",
       },
       Object {
+        "data": Object {
+          "argsEscaped": true,
+          "cmd": Array [],
+          "entrypoint": Array [
+            "npm",
+            "start",
+          ],
+          "env": Array [
+            "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            "NODE_VERSION=14.5.0",
+            "YARN_VERSION=1.22.4",
+          ],
+          "exposedPorts": Array [
+            "9229/tcp",
+          ],
+          "labels": Object {},
+          "stopSignal": "",
+          "user": "",
+          "volumes": Array [],
+          "workingDir": "",
+        },
+        "type": "containerConfig",
+      },
+      Object {
+        "data": Array [
+          Object {
+            "author": "",
+            "comment": "",
+            "created": "2020-04-24T01:05:03.608058404Z",
+            "createdBy": "/bin/sh -c #(nop) ADD file:b91adb67b670d3a6ff9463e48b7def903ed516be66fc4282d22c53e41512be49 in / ",
+            "emptyLayer": false,
+          },
+          Object {
+            "author": "",
+            "comment": "",
+            "created": "2020-04-24T01:05:03.92860976Z",
+            "createdBy": "/bin/sh -c #(nop)  CMD [\\"/bin/sh\\"]",
+            "emptyLayer": true,
+          },
+          Object {
+            "author": "",
+            "comment": "",
+            "created": "2020-07-01T20:22:05.757061857Z",
+            "createdBy": "/bin/sh -c #(nop)  ENV NODE_VERSION=14.5.0",
+            "emptyLayer": true,
+          },
+          Object {
+            "author": "",
+            "comment": "",
+            "created": "2020-07-01T20:22:12.282075773Z",
+            "createdBy": "/bin/sh -c addgroup -g 1000 node     && adduser -u 1000 -G node -s /bin/sh -D node     && apk add --no-cache         libstdc++     && apk add --no-cache --virtual .build-deps         curl     && ARCH= && alpineArch=\\"$(apk --print-arch)\\"       && case \\"\${alpineArch##*-}\\" in         x86_64)           ARCH='x64'           CHECKSUM=\\"06cd37ebff802dda592aee08c2ca015650d8a134dd95e945b7bd78c4b73a8bd5\\"           ;;         *) ;;       esac   && if [ -n \\"\${CHECKSUM}\\" ]; then     set -eu;     curl -fsSLO --compressed \\"https://unofficial-builds.nodejs.org/download/release/v$NODE_VERSION/node-v$NODE_VERSION-linux-$ARCH-musl.tar.xz\\";     echo \\"$CHECKSUM  node-v$NODE_VERSION-linux-$ARCH-musl.tar.xz\\" | sha256sum -c -       && tar -xJf \\"node-v$NODE_VERSION-linux-$ARCH-musl.tar.xz\\" -C /usr/local --strip-components=1 --no-same-owner       && ln -s /usr/local/bin/node /usr/local/bin/nodejs;   else     echo \\"Building from source\\"     && apk add --no-cache --virtual .build-deps-full         binutils-gold         g++         gcc         gnupg         libgcc         linux-headers         make         python     && for key in       94AE36675C464D64BAFA68DD7434390BDBE9B9C5       FD3A5288F042B6850C66B31F09FE44734EB7990E       71DCFD284A79C3B38668286BC97EC7A07EDE3FC1       DD8F2338BAE7501E3DD5AC78C273792F7D83545D       C4F0DFFF4E8C1A8236409D08E73BC641CC11F4C8       B9AE9905FFD7803F25714661B63B535A4C206CA9       77984A986EBC2AA786BC0F66B01FBB92821C587A       8FCCA13FEF1D0C2E91008E09770F7A9A5AE15600       4ED778F539E3634C779C87C6D7062848A1AB005C       A48C2BEE680E841632CD4E44F07496B3EB3C1762       B9E2F5981AA6E0CD28160D9FF13993A75599653C     ; do       gpg --batch --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys \\"$key\\" ||       gpg --batch --keyserver hkp://ipv4.pool.sks-keyservers.net --recv-keys \\"$key\\" ||       gpg --batch --keyserver hkp://pgp.mit.edu:80 --recv-keys \\"$key\\" ;     done     && curl -fsSLO --compressed \\"https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION.tar.xz\\"     && curl -fsSLO --compressed \\"https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc\\"     && gpg --batch --decrypt --output SHASUMS256.txt SHASUMS256.txt.asc     && grep \\" node-v$NODE_VERSION.tar.xz\\\\$\\" SHASUMS256.txt | sha256sum -c -     && tar -xf \\"node-v$NODE_VERSION.tar.xz\\"     && cd \\"node-v$NODE_VERSION\\"     && ./configure     && make -j$(getconf _NPROCESSORS_ONLN) V=     && make install     && apk del .build-deps-full     && cd ..     && rm -Rf \\"node-v$NODE_VERSION\\"     && rm \\"node-v$NODE_VERSION.tar.xz\\" SHASUMS256.txt.asc SHASUMS256.txt;   fi   && rm -f \\"node-v$NODE_VERSION-linux-$ARCH-musl.tar.xz\\"   && apk del .build-deps   && node --version   && npm --version",
+            "emptyLayer": false,
+          },
+          Object {
+            "author": "",
+            "comment": "",
+            "created": "2020-07-01T20:22:12.619187111Z",
+            "createdBy": "/bin/sh -c #(nop)  ENV YARN_VERSION=1.22.4",
+            "emptyLayer": true,
+          },
+          Object {
+            "author": "",
+            "comment": "",
+            "created": "2020-07-01T20:22:14.870399942Z",
+            "createdBy": "/bin/sh -c apk add --no-cache --virtual .build-deps-yarn curl gnupg tar   && for key in     6A010C5166006599AA17F08146C2130DFD2497F5   ; do     gpg --batch --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys \\"$key\\" ||     gpg --batch --keyserver hkp://ipv4.pool.sks-keyservers.net --recv-keys \\"$key\\" ||     gpg --batch --keyserver hkp://pgp.mit.edu:80 --recv-keys \\"$key\\" ;   done   && curl -fsSLO --compressed \\"https://yarnpkg.com/downloads/$YARN_VERSION/yarn-v$YARN_VERSION.tar.gz\\"   && curl -fsSLO --compressed \\"https://yarnpkg.com/downloads/$YARN_VERSION/yarn-v$YARN_VERSION.tar.gz.asc\\"   && gpg --batch --verify yarn-v$YARN_VERSION.tar.gz.asc yarn-v$YARN_VERSION.tar.gz   && mkdir -p /opt   && tar -xzf yarn-v$YARN_VERSION.tar.gz -C /opt/   && ln -s /opt/yarn-v$YARN_VERSION/bin/yarn /usr/local/bin/yarn   && ln -s /opt/yarn-v$YARN_VERSION/bin/yarnpkg /usr/local/bin/yarnpkg   && rm yarn-v$YARN_VERSION.tar.gz.asc yarn-v$YARN_VERSION.tar.gz   && apk del .build-deps-yarn   && yarn --version",
+            "emptyLayer": false,
+          },
+          Object {
+            "author": "",
+            "comment": "",
+            "created": "2020-07-01T20:22:15.092121491Z",
+            "createdBy": "/bin/sh -c #(nop) COPY file:238737301d47304174e4d24f4def935b29b3069c03c72ae8de97d94624382fce in /usr/local/bin/ ",
+            "emptyLayer": false,
+          },
+          Object {
+            "author": "",
+            "comment": "",
+            "created": "2020-07-01T20:22:15.256568685Z",
+            "createdBy": "/bin/sh -c #(nop)  ENTRYPOINT [\\"docker-entrypoint.sh\\"]",
+            "emptyLayer": true,
+          },
+          Object {
+            "author": "",
+            "comment": "",
+            "created": "2020-07-01T20:22:15.443854202Z",
+            "createdBy": "/bin/sh -c #(nop)  CMD [\\"node\\"]",
+            "emptyLayer": true,
+          },
+          Object {
+            "author": "",
+            "comment": "buildkit.dockerfile.v0",
+            "created": "2024-07-22T05:34:17.742435251Z",
+            "createdBy": "RUN /bin/sh -c mkdir /usr/goof/ /usr/goof2/ /usr/goof3/ # buildkit",
+            "emptyLayer": false,
+          },
+          Object {
+            "author": "",
+            "comment": "buildkit.dockerfile.v0",
+            "created": "2024-07-22T05:50:02.739420792Z",
+            "createdBy": "COPY node_modules/ /usr/goof/node_modules/ # buildkit",
+            "emptyLayer": false,
+          },
+          Object {
+            "author": "",
+            "comment": "buildkit.dockerfile.v0",
+            "created": "2024-07-22T14:05:29.547562959Z",
+            "createdBy": "COPY package.json /usr/goof/ # buildkit",
+            "emptyLayer": false,
+          },
+          Object {
+            "author": "",
+            "comment": "buildkit.dockerfile.v0",
+            "created": "2024-07-22T14:05:29.581219834Z",
+            "createdBy": "COPY package-lock.json /usr/goof2/ # buildkit",
+            "emptyLayer": false,
+          },
+          Object {
+            "author": "",
+            "comment": "buildkit.dockerfile.v0",
+            "created": "2024-07-22T14:05:29.659906418Z",
+            "createdBy": "COPY package.json /usr/goof2/ # buildkit",
+            "emptyLayer": false,
+          },
+          Object {
+            "author": "",
+            "comment": "buildkit.dockerfile.v0",
+            "created": "2024-07-22T14:05:29.829059334Z",
+            "createdBy": "COPY node_modules/ /usr/goof3/node_modules/ # buildkit",
+            "emptyLayer": false,
+          },
+          Object {
+            "author": "",
+            "comment": "buildkit.dockerfile.v0",
+            "created": "2024-07-22T14:05:29.829059334Z",
+            "createdBy": "EXPOSE map[9229/tcp:{}]",
+            "emptyLayer": true,
+          },
+          Object {
+            "author": "",
+            "comment": "buildkit.dockerfile.v0",
+            "created": "2024-07-22T14:05:29.829059334Z",
+            "createdBy": "ENTRYPOINT [\\"npm\\" \\"start\\"]",
+            "emptyLayer": true,
+          },
+        ],
+        "type": "history",
+      },
+      Object {
         "data": "2024-07-22T14:05:29.829059334Z",
         "type": "imageCreationTime",
       },
@@ -49816,6 +50516,14 @@ Array [
       Object {
         "data": "Alpine Linux v3.11",
         "type": "imageOsReleasePrettyName",
+      },
+      Object {
+        "data": "linux/amd64",
+        "type": "platform",
+      },
+      Object {
+        "data": "0.0.0",
+        "type": "pluginVersion",
       },
     ],
     "identity": Object {
@@ -51330,6 +52038,10 @@ Array [
       Object {
         "data": "sha256:d60c3644cc5048e48a45c9de94fec3f17ee2eb72eb835434dc13ec5b9d3c532b",
         "type": "imageId",
+      },
+      Object {
+        "data": "0.0.0",
+        "type": "pluginVersion",
       },
     ],
     "identity": Object {
@@ -51772,6 +52484,154 @@ Array [
         "type": "imageLayers",
       },
       Object {
+        "data": Object {
+          "argsEscaped": true,
+          "cmd": Array [],
+          "entrypoint": Array [
+            "npm",
+            "start",
+          ],
+          "env": Array [
+            "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            "NODE_VERSION=14.5.0",
+            "YARN_VERSION=1.22.4",
+          ],
+          "exposedPorts": Array [
+            "9229/tcp",
+          ],
+          "labels": Object {},
+          "stopSignal": "",
+          "user": "",
+          "volumes": Array [],
+          "workingDir": "",
+        },
+        "type": "containerConfig",
+      },
+      Object {
+        "data": Array [
+          Object {
+            "author": "",
+            "comment": "",
+            "created": "2020-04-24T01:05:03.608058404Z",
+            "createdBy": "/bin/sh -c #(nop) ADD file:b91adb67b670d3a6ff9463e48b7def903ed516be66fc4282d22c53e41512be49 in / ",
+            "emptyLayer": false,
+          },
+          Object {
+            "author": "",
+            "comment": "",
+            "created": "2020-04-24T01:05:03.92860976Z",
+            "createdBy": "/bin/sh -c #(nop)  CMD [\\"/bin/sh\\"]",
+            "emptyLayer": true,
+          },
+          Object {
+            "author": "",
+            "comment": "",
+            "created": "2020-07-01T20:22:05.757061857Z",
+            "createdBy": "/bin/sh -c #(nop)  ENV NODE_VERSION=14.5.0",
+            "emptyLayer": true,
+          },
+          Object {
+            "author": "",
+            "comment": "",
+            "created": "2020-07-01T20:22:12.282075773Z",
+            "createdBy": "/bin/sh -c addgroup -g 1000 node     && adduser -u 1000 -G node -s /bin/sh -D node     && apk add --no-cache         libstdc++     && apk add --no-cache --virtual .build-deps         curl     && ARCH= && alpineArch=\\"$(apk --print-arch)\\"       && case \\"\${alpineArch##*-}\\" in         x86_64)           ARCH='x64'           CHECKSUM=\\"06cd37ebff802dda592aee08c2ca015650d8a134dd95e945b7bd78c4b73a8bd5\\"           ;;         *) ;;       esac   && if [ -n \\"\${CHECKSUM}\\" ]; then     set -eu;     curl -fsSLO --compressed \\"https://unofficial-builds.nodejs.org/download/release/v$NODE_VERSION/node-v$NODE_VERSION-linux-$ARCH-musl.tar.xz\\";     echo \\"$CHECKSUM  node-v$NODE_VERSION-linux-$ARCH-musl.tar.xz\\" | sha256sum -c -       && tar -xJf \\"node-v$NODE_VERSION-linux-$ARCH-musl.tar.xz\\" -C /usr/local --strip-components=1 --no-same-owner       && ln -s /usr/local/bin/node /usr/local/bin/nodejs;   else     echo \\"Building from source\\"     && apk add --no-cache --virtual .build-deps-full         binutils-gold         g++         gcc         gnupg         libgcc         linux-headers         make         python     && for key in       94AE36675C464D64BAFA68DD7434390BDBE9B9C5       FD3A5288F042B6850C66B31F09FE44734EB7990E       71DCFD284A79C3B38668286BC97EC7A07EDE3FC1       DD8F2338BAE7501E3DD5AC78C273792F7D83545D       C4F0DFFF4E8C1A8236409D08E73BC641CC11F4C8       B9AE9905FFD7803F25714661B63B535A4C206CA9       77984A986EBC2AA786BC0F66B01FBB92821C587A       8FCCA13FEF1D0C2E91008E09770F7A9A5AE15600       4ED778F539E3634C779C87C6D7062848A1AB005C       A48C2BEE680E841632CD4E44F07496B3EB3C1762       B9E2F5981AA6E0CD28160D9FF13993A75599653C     ; do       gpg --batch --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys \\"$key\\" ||       gpg --batch --keyserver hkp://ipv4.pool.sks-keyservers.net --recv-keys \\"$key\\" ||       gpg --batch --keyserver hkp://pgp.mit.edu:80 --recv-keys \\"$key\\" ;     done     && curl -fsSLO --compressed \\"https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION.tar.xz\\"     && curl -fsSLO --compressed \\"https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc\\"     && gpg --batch --decrypt --output SHASUMS256.txt SHASUMS256.txt.asc     && grep \\" node-v$NODE_VERSION.tar.xz\\\\$\\" SHASUMS256.txt | sha256sum -c -     && tar -xf \\"node-v$NODE_VERSION.tar.xz\\"     && cd \\"node-v$NODE_VERSION\\"     && ./configure     && make -j$(getconf _NPROCESSORS_ONLN) V=     && make install     && apk del .build-deps-full     && cd ..     && rm -Rf \\"node-v$NODE_VERSION\\"     && rm \\"node-v$NODE_VERSION.tar.xz\\" SHASUMS256.txt.asc SHASUMS256.txt;   fi   && rm -f \\"node-v$NODE_VERSION-linux-$ARCH-musl.tar.xz\\"   && apk del .build-deps   && node --version   && npm --version",
+            "emptyLayer": false,
+          },
+          Object {
+            "author": "",
+            "comment": "",
+            "created": "2020-07-01T20:22:12.619187111Z",
+            "createdBy": "/bin/sh -c #(nop)  ENV YARN_VERSION=1.22.4",
+            "emptyLayer": true,
+          },
+          Object {
+            "author": "",
+            "comment": "",
+            "created": "2020-07-01T20:22:14.870399942Z",
+            "createdBy": "/bin/sh -c apk add --no-cache --virtual .build-deps-yarn curl gnupg tar   && for key in     6A010C5166006599AA17F08146C2130DFD2497F5   ; do     gpg --batch --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys \\"$key\\" ||     gpg --batch --keyserver hkp://ipv4.pool.sks-keyservers.net --recv-keys \\"$key\\" ||     gpg --batch --keyserver hkp://pgp.mit.edu:80 --recv-keys \\"$key\\" ;   done   && curl -fsSLO --compressed \\"https://yarnpkg.com/downloads/$YARN_VERSION/yarn-v$YARN_VERSION.tar.gz\\"   && curl -fsSLO --compressed \\"https://yarnpkg.com/downloads/$YARN_VERSION/yarn-v$YARN_VERSION.tar.gz.asc\\"   && gpg --batch --verify yarn-v$YARN_VERSION.tar.gz.asc yarn-v$YARN_VERSION.tar.gz   && mkdir -p /opt   && tar -xzf yarn-v$YARN_VERSION.tar.gz -C /opt/   && ln -s /opt/yarn-v$YARN_VERSION/bin/yarn /usr/local/bin/yarn   && ln -s /opt/yarn-v$YARN_VERSION/bin/yarnpkg /usr/local/bin/yarnpkg   && rm yarn-v$YARN_VERSION.tar.gz.asc yarn-v$YARN_VERSION.tar.gz   && apk del .build-deps-yarn   && yarn --version",
+            "emptyLayer": false,
+          },
+          Object {
+            "author": "",
+            "comment": "",
+            "created": "2020-07-01T20:22:15.092121491Z",
+            "createdBy": "/bin/sh -c #(nop) COPY file:238737301d47304174e4d24f4def935b29b3069c03c72ae8de97d94624382fce in /usr/local/bin/ ",
+            "emptyLayer": false,
+          },
+          Object {
+            "author": "",
+            "comment": "",
+            "created": "2020-07-01T20:22:15.256568685Z",
+            "createdBy": "/bin/sh -c #(nop)  ENTRYPOINT [\\"docker-entrypoint.sh\\"]",
+            "emptyLayer": true,
+          },
+          Object {
+            "author": "",
+            "comment": "",
+            "created": "2020-07-01T20:22:15.443854202Z",
+            "createdBy": "/bin/sh -c #(nop)  CMD [\\"node\\"]",
+            "emptyLayer": true,
+          },
+          Object {
+            "author": "",
+            "comment": "buildkit.dockerfile.v0",
+            "created": "2024-07-22T05:34:17.742435251Z",
+            "createdBy": "RUN /bin/sh -c mkdir /usr/goof/ /usr/goof2/ /usr/goof3/ # buildkit",
+            "emptyLayer": false,
+          },
+          Object {
+            "author": "",
+            "comment": "buildkit.dockerfile.v0",
+            "created": "2024-07-22T05:50:02.739420792Z",
+            "createdBy": "COPY node_modules/ /usr/goof/node_modules/ # buildkit",
+            "emptyLayer": false,
+          },
+          Object {
+            "author": "",
+            "comment": "buildkit.dockerfile.v0",
+            "created": "2024-07-22T14:05:29.547562959Z",
+            "createdBy": "COPY package.json /usr/goof/ # buildkit",
+            "emptyLayer": false,
+          },
+          Object {
+            "author": "",
+            "comment": "buildkit.dockerfile.v0",
+            "created": "2024-07-22T14:05:29.581219834Z",
+            "createdBy": "COPY package-lock.json /usr/goof2/ # buildkit",
+            "emptyLayer": false,
+          },
+          Object {
+            "author": "",
+            "comment": "buildkit.dockerfile.v0",
+            "created": "2024-07-22T14:05:29.659906418Z",
+            "createdBy": "COPY package.json /usr/goof2/ # buildkit",
+            "emptyLayer": false,
+          },
+          Object {
+            "author": "",
+            "comment": "buildkit.dockerfile.v0",
+            "created": "2024-07-22T14:05:29.829059334Z",
+            "createdBy": "COPY node_modules/ /usr/goof3/node_modules/ # buildkit",
+            "emptyLayer": false,
+          },
+          Object {
+            "author": "",
+            "comment": "buildkit.dockerfile.v0",
+            "created": "2024-07-22T14:05:29.829059334Z",
+            "createdBy": "EXPOSE map[9229/tcp:{}]",
+            "emptyLayer": true,
+          },
+          Object {
+            "author": "",
+            "comment": "buildkit.dockerfile.v0",
+            "created": "2024-07-22T14:05:29.829059334Z",
+            "createdBy": "ENTRYPOINT [\\"npm\\" \\"start\\"]",
+            "emptyLayer": true,
+          },
+        ],
+        "type": "history",
+      },
+      Object {
         "data": "2024-07-22T14:05:29.829059334Z",
         "type": "imageCreationTime",
       },
@@ -51793,6 +52653,14 @@ Array [
       Object {
         "data": "Alpine Linux v3.11",
         "type": "imageOsReleasePrettyName",
+      },
+      Object {
+        "data": "linux/amd64",
+        "type": "platform",
+      },
+      Object {
+        "data": "0.0.0",
+        "type": "pluginVersion",
       },
     ],
     "identity": Object {
@@ -53307,6 +54175,10 @@ Array [
       Object {
         "data": "sha256:d60c3644cc5048e48a45c9de94fec3f17ee2eb72eb835434dc13ec5b9d3c532b",
         "type": "imageId",
+      },
+      Object {
+        "data": "0.0.0",
+        "type": "pluginVersion",
       },
     ],
     "identity": Object {
@@ -54533,6 +55405,10 @@ Array [
         "data": "sha256:d60c3644cc5048e48a45c9de94fec3f17ee2eb72eb835434dc13ec5b9d3c532b",
         "type": "imageId",
       },
+      Object {
+        "data": "0.0.0",
+        "type": "pluginVersion",
+      },
     ],
     "identity": Object {
       "targetFile": "/usr/goof3/node_modules",
@@ -55721,6 +56597,10 @@ Array [
       Object {
         "data": "sha256:d60c3644cc5048e48a45c9de94fec3f17ee2eb72eb835434dc13ec5b9d3c532b",
         "type": "imageId",
+      },
+      Object {
+        "data": "0.0.0",
+        "type": "pluginVersion",
       },
     ],
     "identity": Object {
@@ -63006,6 +63886,10 @@ Array [
       Object {
         "data": "sha256:d60c3644cc5048e48a45c9de94fec3f17ee2eb72eb835434dc13ec5b9d3c532b",
         "type": "imageId",
+      },
+      Object {
+        "data": "0.0.0",
+        "type": "pluginVersion",
       },
     ],
     "identity": Object {

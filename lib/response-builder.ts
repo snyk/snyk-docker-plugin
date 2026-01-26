@@ -1,13 +1,11 @@
 import { legacy } from "@snyk/dep-graph";
 import { StaticAnalysis } from "./analyzer/types";
-import * as facts from "./facts";
-// Module that provides functions to collect and build response after all
-// analyses' are done.
-
 import { instructionDigest } from "./dockerfile";
 import { DockerFileAnalysis, DockerFilePackages } from "./dockerfile/types";
 import { OCIDistributionMetadata } from "./extractor/oci-distribution-metadata";
+import * as facts from "./facts";
 import * as types from "./types";
+import { PLUGIN_VERSION } from "./version";
 
 export { buildResponse };
 
@@ -79,6 +77,43 @@ async function buildResponse(
       data: depsAnalysis.imageLabels,
     };
     additionalFacts.push(imageLabels);
+  }
+
+  if (depsAnalysis.containerConfig) {
+    const containerConfigFact: facts.ContainerConfigFact = {
+      type: "containerConfig",
+      data: {
+        user: depsAnalysis.containerConfig.User || "",
+        exposedPorts: depsAnalysis.containerConfig.ExposedPorts
+          ? Object.keys(depsAnalysis.containerConfig.ExposedPorts)
+          : [],
+        env: depsAnalysis.containerConfig.Env || [],
+        entrypoint: depsAnalysis.containerConfig.Entrypoint || [],
+        cmd: depsAnalysis.containerConfig.Cmd || [],
+        volumes: depsAnalysis.containerConfig.Volumes
+          ? Object.keys(depsAnalysis.containerConfig.Volumes)
+          : [],
+        workingDir: depsAnalysis.containerConfig.WorkingDir || "",
+        labels: depsAnalysis.containerConfig.Labels || {},
+        stopSignal: depsAnalysis.containerConfig.StopSignal || "",
+        argsEscaped: depsAnalysis.containerConfig.ArgsEscaped || false,
+      },
+    };
+    additionalFacts.push(containerConfigFact);
+  }
+
+  if (depsAnalysis.history && depsAnalysis.history.length > 0) {
+    const historyFact: facts.HistoryFact = {
+      type: "history",
+      data: depsAnalysis.history.map((entry) => ({
+        created: entry.created || "",
+        author: entry.author || "",
+        createdBy: entry.created_by || "",
+        comment: entry.comment || "",
+        emptyLayer: entry.empty_layer || false,
+      })),
+    };
+    additionalFacts.push(historyFact);
   }
 
   if (depsAnalysis.imageCreationTime) {
@@ -158,6 +193,28 @@ async function buildResponse(
       appDepsScanResult.facts.push(imageIdFact);
     }
 
+    if (names && names.length > 0) {
+      const imageNamesFact: facts.ImageNamesFact = {
+        type: "imageNames",
+        data: { names },
+      };
+      appDepsScanResult.facts.push(imageNamesFact);
+    }
+
+    if (ociDistributionMetadata) {
+      const metadataFact: facts.OCIDistributionMetadataFact = {
+        type: "ociDistributionMetadata",
+        data: ociDistributionMetadata,
+      };
+      appDepsScanResult.facts.push(metadataFact);
+    }
+
+    const appPluginVersionFact: facts.PluginVersionFact = {
+      type: "pluginVersion",
+      data: PLUGIN_VERSION,
+    };
+    appDepsScanResult.facts.push(appPluginVersionFact);
+
     return {
       ...appDepsScanResult,
       target: {
@@ -198,6 +255,20 @@ async function buildResponse(
     };
     additionalFacts.push(metadataFact);
   }
+
+  if (depsAnalysis.platform) {
+    const platformFact: facts.PlatformFact = {
+      type: "platform",
+      data: depsAnalysis.platform,
+    };
+    additionalFacts.push(platformFact);
+  }
+
+  const pluginVersionFact: facts.PluginVersionFact = {
+    type: "pluginVersion",
+    data: PLUGIN_VERSION,
+  };
+  additionalFacts.push(pluginVersionFact);
 
   const scanResults: types.ScanResult[] = [
     {
