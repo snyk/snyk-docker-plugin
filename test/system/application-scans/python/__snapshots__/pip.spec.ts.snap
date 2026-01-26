@@ -50,6 +50,42 @@ Object {
           "type": "imageLayers",
         },
         Object {
+          "data": Object {
+            "argsEscaped": false,
+            "cmd": Array [],
+            "entrypoint": Array [],
+            "env": Array [
+              "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            ],
+            "exposedPorts": Array [],
+            "labels": Object {},
+            "stopSignal": "",
+            "user": "",
+            "volumes": Array [],
+            "workingDir": "/",
+          },
+          "type": "containerConfig",
+        },
+        Object {
+          "data": Array [
+            Object {
+              "author": "",
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2022-08-11T12:10:06.463200742Z",
+              "createdBy": "COPY /app/. /app/. # buildkit",
+              "emptyLayer": false,
+            },
+            Object {
+              "author": "",
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2022-08-11T12:10:06.844187544Z",
+              "createdBy": "COPY /usr/local/lib/python3.10/site-packages/. /usr/local/lib/python3.10/site-packages/. # buildkit",
+              "emptyLayer": false,
+            },
+          ],
+          "type": "history",
+        },
+        Object {
           "data": "2022-08-11T12:10:06.844187544Z",
           "type": "imageCreationTime",
         },
@@ -59,6 +95,14 @@ Object {
             "sha256:b59e235579c9b971248641b8b7316abdf85d783790de306e64228a58cd48e905",
           ],
           "type": "rootFs",
+        },
+        Object {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        Object {
+          "data": "0.0.0",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {
@@ -231,6 +275,10 @@ Object {
           "data": "sha256:aedf2e53ead6ec9a10802e76bb7b9d4ef6c98cabbc94f206624b297dfe36896c",
           "type": "imageId",
         },
+        Object {
+          "data": "0.0.0",
+          "type": "pluginVersion",
+        },
       ],
       "identity": Object {
         "targetFile": "/app/requirements.txt",
@@ -294,6 +342,42 @@ Object {
           "type": "imageLayers",
         },
         Object {
+          "data": Object {
+            "argsEscaped": false,
+            "cmd": Array [],
+            "entrypoint": Array [],
+            "env": Array [
+              "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            ],
+            "exposedPorts": Array [],
+            "labels": Object {},
+            "stopSignal": "",
+            "user": "",
+            "volumes": Array [],
+            "workingDir": "/",
+          },
+          "type": "containerConfig",
+        },
+        Object {
+          "data": Array [
+            Object {
+              "author": "",
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2023-01-10T12:06:10.017901754Z",
+              "createdBy": "COPY /app /app # buildkit",
+              "emptyLayer": false,
+            },
+            Object {
+              "author": "",
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2023-01-10T12:06:10.183855463Z",
+              "createdBy": "COPY /usr/local/lib/python3.10/site-packages/. /usr/local/lib/python3.10/dist-packages/. # buildkit",
+              "emptyLayer": false,
+            },
+          ],
+          "type": "history",
+        },
+        Object {
           "data": "2023-01-10T12:06:10.183855463Z",
           "type": "imageCreationTime",
         },
@@ -303,6 +387,14 @@ Object {
             "sha256:7bc258cc6ab05c1da5517e07e8de024ea560b5d713d4f8638984400485899de9",
           ],
           "type": "rootFs",
+        },
+        Object {
+          "data": "linux/arm64",
+          "type": "platform",
+        },
+        Object {
+          "data": "0.0.0",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {
@@ -474,6 +566,10 @@ Object {
         Object {
           "data": "sha256:436a467a4bbbe103e2417a965e290f27f4030b74c5de64a088f1e67c7b4caa10",
           "type": "imageId",
+        },
+        Object {
+          "data": "0.0.0",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {

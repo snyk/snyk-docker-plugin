@@ -335,6 +335,44 @@ Object {
           "type": "imageLayers",
         },
         Object {
+          "data": Object {
+            "argsEscaped": false,
+            "cmd": Array [],
+            "entrypoint": Array [
+              "/usr/bin/ls",
+            ],
+            "env": Array [
+              "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            ],
+            "exposedPorts": Array [],
+            "labels": Object {},
+            "stopSignal": "",
+            "user": "",
+            "volumes": Array [],
+            "workingDir": "/",
+          },
+          "type": "containerConfig",
+        },
+        Object {
+          "data": Array [
+            Object {
+              "author": "",
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2025-10-22T17:28:05.980889584Z",
+              "createdBy": "COPY /rootfs / # buildkit",
+              "emptyLayer": false,
+            },
+            Object {
+              "author": "",
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2025-10-22T17:28:05.980889584Z",
+              "createdBy": "ENTRYPOINT [\\"/usr/bin/ls\\"]",
+              "emptyLayer": true,
+            },
+          ],
+          "type": "history",
+        },
+        Object {
           "data": "2025-10-22T17:28:05.980889584Z",
           "type": "imageCreationTime",
         },
@@ -357,6 +395,14 @@ Object {
             ],
           },
           "type": "imageNames",
+        },
+        Object {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        Object {
+          "data": "0.0.0",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {

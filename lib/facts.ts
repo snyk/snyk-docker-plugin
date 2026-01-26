@@ -103,3 +103,40 @@ export interface OCIDistributionMetadataFact {
   type: "ociDistributionMetadata";
   data: OCIDistributionMetadata;
 }
+
+export interface PlatformFact {
+  type: "platform";
+  data: string;
+}
+
+export interface PluginVersionFact {
+  type: "pluginVersion";
+  data: string;
+}
+
+export interface ContainerConfigFact {
+  type: "containerConfig";
+  data: {
+    user?: string;
+    exposedPorts?: string[];
+    env?: string[];
+    entrypoint?: string[];
+    cmd?: string[];
+    volumes?: string[];
+    workingDir?: string;
+    labels?: { [key: string]: string };
+    stopSignal?: string;
+    argsEscaped?: boolean;
+  };
+}
+
+export interface HistoryFact {
+  type: "history";
+  data: Array<{
+    created?: string;
+    author?: string;
+    createdBy?: string;
+    comment?: string;
+    emptyLayer?: boolean;
+  }>;
+}

@@ -2147,6 +2147,64 @@ Object {
           "type": "imageLabels",
         },
         Object {
+          "data": Object {
+            "argsEscaped": false,
+            "cmd": Array [
+              "/bin/bash",
+            ],
+            "entrypoint": Array [],
+            "env": Array [],
+            "exposedPorts": Array [],
+            "labels": Object {
+              "com.suse.eula": "sle-bci",
+              "com.suse.image-type": "sle-bci",
+              "com.suse.lifecycle-url": "https://www.suse.com/lifecycle",
+              "com.suse.release-stage": "released",
+              "com.suse.sle.base.created": "2024-01-05T14:28:48.994014460Z",
+              "com.suse.sle.base.description": "Image for containers based on SUSE Linux Enterprise Server 15 SP3.",
+              "com.suse.sle.base.disturl": "obs://build.suse.de/SUSE:SLE-15-SP3:Update:CR/images/af82ed160b0cbc22f6f9a8903aef66e8-sles15-image",
+              "com.suse.sle.base.eula": "sle-bci",
+              "com.suse.sle.base.image-type": "sle-bci",
+              "com.suse.sle.base.lifecycle-url": "https://www.suse.com/lifecycle",
+              "com.suse.sle.base.reference": "registry.suse.com/suse/sle15:15.3.17.20.233",
+              "com.suse.sle.base.release-stage": "released",
+              "com.suse.sle.base.source": "https://sources.suse.com/SUSE:SLE-15-SP3:Update:CR/sles15-image/af82ed160b0cbc22f6f9a8903aef66e8/",
+              "com.suse.sle.base.supportlevel": "l3",
+              "com.suse.sle.base.title": "SUSE Linux Enterprise Server 15 SP3 Base Container Image",
+              "com.suse.sle.base.url": "https://www.suse.com/products/server/",
+              "com.suse.sle.base.vendor": "SUSE LLC",
+              "com.suse.sle.base.version": "15.3.17.20.233",
+              "com.suse.supportlevel": "l3",
+              "org.openbuildservice.disturl": "obs://build.suse.de/SUSE:SLE-15-SP3:Update:CR/images/af82ed160b0cbc22f6f9a8903aef66e8-sles15-image",
+              "org.opencontainers.image.created": "2024-01-05T14:28:48.994014460Z",
+              "org.opencontainers.image.description": "Image for containers based on SUSE Linux Enterprise Server 15 SP3.",
+              "org.opencontainers.image.source": "https://sources.suse.com/SUSE:SLE-15-SP3:Update:CR/sles15-image/af82ed160b0cbc22f6f9a8903aef66e8/",
+              "org.opencontainers.image.title": "SUSE Linux Enterprise Server 15 SP3 Base Container Image",
+              "org.opencontainers.image.url": "https://www.suse.com/products/server/",
+              "org.opencontainers.image.vendor": "SUSE LLC",
+              "org.opencontainers.image.version": "15.3.17.20.233",
+              "org.opensuse.reference": "registry.suse.com/suse/sle15:15.3.17.20.233",
+            },
+            "stopSignal": "",
+            "user": "",
+            "volumes": Array [],
+            "workingDir": "",
+          },
+          "type": "containerConfig",
+        },
+        Object {
+          "data": Array [
+            Object {
+              "author": "SUSE LINUX GmbH <https://www.suse.com/>",
+              "comment": "",
+              "created": "2024-01-05T14:29:00Z",
+              "createdBy": "KIWI 9.24.43",
+              "emptyLayer": false,
+            },
+          ],
+          "type": "history",
+        },
+        Object {
           "data": "2024-01-05T14:29:00Z",
           "type": "imageCreationTime",
         },
@@ -2167,6 +2225,14 @@ Object {
             ],
           },
           "type": "imageNames",
+        },
+        Object {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        Object {
+          "data": "0.0.0",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {
@@ -2272,6 +2338,18 @@ Object {
         Object {
           "data": "sha256:8c5d736566b6f5d7a92b48f4236678470ca48c9b6760a9ca87d0ae35f9a89b59",
           "type": "imageId",
+        },
+        Object {
+          "data": Object {
+            "names": Array [
+              "registry.suse.com/suse/sle15:15.3",
+            ],
+          },
+          "type": "imageNames",
+        },
+        Object {
+          "data": "0.0.0",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {
@@ -4293,6 +4371,52 @@ Object {
           "type": "imageLabels",
         },
         Object {
+          "data": Object {
+            "argsEscaped": false,
+            "cmd": Array [
+              "/bin/bash",
+            ],
+            "entrypoint": Array [],
+            "env": Array [],
+            "exposedPorts": Array [],
+            "labels": Object {
+              "com.suse.sle.base.created": "2020-09-22T16:49:04.451343660Z",
+              "com.suse.sle.base.description": "Image containing a minimal environment for containers based on SUSE Linux Enterprise Server 15 SP2.",
+              "com.suse.sle.base.disturl": "obs://build.suse.de/SUSE:SLE-15-SP2:Update:CR/images/4a8871be8078bcef2e2417e2a98fc3a0-sles15-image",
+              "com.suse.sle.base.reference": "registry.suse.com/suse/sle15:15.2.8.2.751",
+              "com.suse.sle.base.title": "SUSE Linux Enterprise Server 15 SP2 Base Container",
+              "com.suse.sle.base.url": "https://www.suse.com/products/server/",
+              "com.suse.sle.base.vendor": "SUSE LLC",
+              "com.suse.sle.base.version": "15.2.8.2.751",
+              "org.openbuildservice.disturl": "obs://build.suse.de/SUSE:SLE-15-SP2:Update:CR/images/4a8871be8078bcef2e2417e2a98fc3a0-sles15-image",
+              "org.opencontainers.image.created": "2020-09-22T16:49:04.451343660Z",
+              "org.opencontainers.image.description": "Image containing a minimal environment for containers based on SUSE Linux Enterprise Server 15 SP2.",
+              "org.opencontainers.image.title": "SUSE Linux Enterprise Server 15 SP2 Base Container",
+              "org.opencontainers.image.url": "https://www.suse.com/products/server/",
+              "org.opencontainers.image.vendor": "SUSE LLC",
+              "org.opencontainers.image.version": "15.2.8.2.751",
+              "org.opensuse.reference": "registry.suse.com/suse/sle15:15.2.8.2.751",
+            },
+            "stopSignal": "",
+            "user": "",
+            "volumes": Array [],
+            "workingDir": "",
+          },
+          "type": "containerConfig",
+        },
+        Object {
+          "data": Array [
+            Object {
+              "author": "",
+              "comment": "",
+              "created": "2020-09-22T16:49:18Z",
+              "createdBy": "KIWI 9.21.7",
+              "emptyLayer": false,
+            },
+          ],
+          "type": "history",
+        },
+        Object {
           "data": "2020-09-22T16:49:18Z",
           "type": "imageCreationTime",
         },
@@ -4313,6 +4437,14 @@ Object {
             ],
           },
           "type": "imageNames",
+        },
+        Object {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        Object {
+          "data": "0.0.0",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {
