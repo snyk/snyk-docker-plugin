@@ -3,7 +3,6 @@
   "description": "Snyk CLI docker plugin",
   "author": "snyk.io",
   "license": "Apache-2.0",
-  "version": "0.0.0",
   "homepage": "https://github.com/snyk/snyk-docker-plugin",
   "repository": {
     "type": "git",
