@@ -83,20 +83,20 @@ async function buildResponse(
     const containerConfigFact: facts.ContainerConfigFact = {
       type: "containerConfig",
       data: {
-        user: depsAnalysis.containerConfig.User || "",
+        user: depsAnalysis.containerConfig.User,
         exposedPorts: depsAnalysis.containerConfig.ExposedPorts
           ? Object.keys(depsAnalysis.containerConfig.ExposedPorts)
-          : [],
-        env: depsAnalysis.containerConfig.Env || [],
-        entrypoint: depsAnalysis.containerConfig.Entrypoint || [],
-        cmd: depsAnalysis.containerConfig.Cmd || [],
+          : undefined,
+        env: depsAnalysis.containerConfig.Env,
+        entrypoint: depsAnalysis.containerConfig.Entrypoint,
+        cmd: depsAnalysis.containerConfig.Cmd,
         volumes: depsAnalysis.containerConfig.Volumes
           ? Object.keys(depsAnalysis.containerConfig.Volumes)
-          : [],
-        workingDir: depsAnalysis.containerConfig.WorkingDir || "",
-        labels: depsAnalysis.containerConfig.Labels || {},
-        stopSignal: depsAnalysis.containerConfig.StopSignal || "",
-        argsEscaped: depsAnalysis.containerConfig.ArgsEscaped || false,
+          : undefined,
+        workingDir: depsAnalysis.containerConfig.WorkingDir,
+        labels: depsAnalysis.containerConfig.Labels,
+        stopSignal: depsAnalysis.containerConfig.StopSignal,
+        argsEscaped: depsAnalysis.containerConfig.ArgsEscaped,
       },
     };
     additionalFacts.push(containerConfigFact);
@@ -106,11 +106,11 @@ async function buildResponse(
     const historyFact: facts.HistoryFact = {
       type: "history",
       data: depsAnalysis.history.map((entry) => ({
-        created: entry.created || "",
-        author: entry.author || "",
-        createdBy: entry.created_by || "",
-        comment: entry.comment || "",
-        emptyLayer: entry.empty_layer || false,
+        created: entry.created,
+        author: entry.author,
+        createdBy: entry.created_by,
+        comment: entry.comment,
+        emptyLayer: entry.empty_layer,
       })),
     };
     additionalFacts.push(historyFact);
