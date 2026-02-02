@@ -1,5 +1,5 @@
-import { purl } from "../../../../lib/analyzer/package-sources/package-managers/apt";
-import type { AnalyzedPackageWithVersion } from "../../../../lib/analyzer/types";
+import { purl } from "../../../../../lib/analyzer/package-sources/package-managers/apt";
+import type { AnalyzedPackageWithVersion } from "../../../../../lib/analyzer/types";
 
 describe("purl()", () => {
   it.each([

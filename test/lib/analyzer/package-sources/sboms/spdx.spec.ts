@@ -1,6 +1,6 @@
-import { analyze } from "../../../../lib/analyzer/package-sources/sboms/spdx";
-import { AnalysisType } from "../../../../lib/analyzer/types";
-import { getTextFromFixture } from "../../../util";
+import { analyze } from "../../../../../lib/analyzer/package-sources/sboms/spdx";
+import { AnalysisType } from "../../../../../lib/analyzer/types";
+import { getTextFromFixture } from "../../../../util";
 
 describe("SPDX analyzer", () => {
   describe("analyze()", () => {

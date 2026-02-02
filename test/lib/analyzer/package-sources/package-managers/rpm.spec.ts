@@ -5,8 +5,8 @@ import {
   analyze,
   mapRpmSqlitePackages,
   parseSourceRPM,
-} from "../../../../lib/analyzer/package-sources/package-managers/rpm";
-import { SourcePackage } from "../../../../lib/analyzer/types";
+} from "../../../../../lib/analyzer/package-sources/package-managers/rpm";
+import { SourcePackage } from "../../../../../lib/analyzer/types";
 
 describe("RPM Package Version and Epoch Handling", () => {
   describe("formats version without epoch", () => {
@@ -272,7 +272,7 @@ describe("parseSourceRPM", () => {
   it("should correctly parse all valid source RPM strings from source_rpms.csv", () => {
     const csvFilePath = path.join(
       __dirname,
-      "../../../../test/fixtures/rpm/source_rpms.csv",
+      "../../../../../test/fixtures/rpm/source_rpms.csv",
     );
     let fileContent;
     try {
