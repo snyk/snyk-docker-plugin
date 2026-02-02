@@ -4267,7 +4267,7 @@ Object {
         },
         Object {
           "data": Array [
-            "57bc8f9e21de243ded5af46c274b1fe18d5a72b7f7acd1cc3bb24f69f17b78f8/layer.tar",
+            "sha256:0f350a1ede685e83e2220dd2ad17b7b1247cfa80eb6a9f0bbfed83d1e544ed45",
           ],
           "type": "imageLayers",
         },
@@ -4310,8 +4310,6 @@ Object {
           "data": Object {
             "names": Array [
               "registry.suse.com/suse/sle15:15.2.8.2.751",
-              "registry.suse.com/suse/sle15@sha256:7970cbc5a0827e5b963bd1f68758d83cd5331d1f4985b5bed78dc66ff0b28a9f",
-              "registry.suse.com/suse/sle15@sha256:640410951290a6d3aebbdfb8c8bd5d6223d2a277517c2f7b726b90f5f128561b",
             ],
           },
           "type": "imageNames",
