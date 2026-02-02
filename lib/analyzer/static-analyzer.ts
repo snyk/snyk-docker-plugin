@@ -72,17 +72,17 @@ import { pipFilesToScannedProjects } from "./applications/python";
 import { getApplicationFiles } from "./applications/runtime-common";
 import { AppDepsScanResultWithoutTarget } from "./applications/types";
 import * as osReleaseDetector from "./os-release";
-import { analyze as apkAnalyze } from "./package-managers/apk";
+import { analyze as apkAnalyze } from "./package-sources/package-managers/apk";
 import {
   analyze as aptAnalyze,
   analyzeDistroless as aptDistrolessAnalyze,
-} from "./package-managers/apt";
-import { analyze as chiselAnalyze } from "./package-managers/chisel";
+} from "./package-sources/package-managers/apt";
+import { analyze as chiselAnalyze } from "./package-sources/package-managers/chisel";
 import {
   analyze as rpmAnalyze,
   mapRpmSqlitePackages,
-} from "./package-managers/rpm";
-import { analyze as spdxAnalyze } from "./package-managers/spdx";
+} from "./package-sources/package-managers/rpm";
+import { analyze as spdxAnalyze } from "./package-sources/sboms/spdx";
 import {
   ImagePackagesAnalysis,
   OSRelease,

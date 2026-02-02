@@ -7,7 +7,7 @@ import {
   ImagePackagesAnalysis,
   OSRelease,
   SourcePackage,
-} from "../types";
+} from "../../types";
 
 export function analyze(
   targetImage: string,

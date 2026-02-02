@@ -1,4 +1,4 @@
-import { analyze } from "../../../../lib/analyzer/package-managers/chisel";
+import { analyze } from "../../../../lib/analyzer/package-sources/package-managers/chisel";
 import { AnalysisType, ChiselPackage } from "../../../../lib/analyzer/types";
 
 describe("chisel analyzer", () => {

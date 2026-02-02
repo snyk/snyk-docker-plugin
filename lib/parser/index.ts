@@ -19,7 +19,11 @@ export function parseAnalysisResults(
   analysis: StaticPackagesAnalysis,
 ): AnalysisInfo {
   let analysisResult = analysis.results.filter((res) => {
-    return res.Analysis && res.Analysis.length > 0;
+    return (
+      res.Analysis &&
+      res.Analysis.length > 0 &&
+      res.AnalyzeType !== AnalysisType.Spdx  // In the future, we may want to abstract this to be any supplemental analysis type
+    );
   })[0];
 
   if (!analysisResult) {

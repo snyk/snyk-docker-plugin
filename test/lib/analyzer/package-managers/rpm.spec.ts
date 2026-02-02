@@ -5,7 +5,7 @@ import {
   analyze,
   mapRpmSqlitePackages,
   parseSourceRPM,
-} from "../../../../lib/analyzer/package-managers/rpm";
+} from "../../../../lib/analyzer/package-sources/package-managers/rpm";
 import { SourcePackage } from "../../../../lib/analyzer/types";
 
 describe("RPM Package Version and Epoch Handling", () => {

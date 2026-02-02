@@ -1,4 +1,4 @@
-import { analyze } from "../../../../lib/analyzer/package-managers/spdx";
+import { analyze } from "../../../../lib/analyzer/package-sources/sboms/spdx";
 import { AnalysisType } from "../../../../lib/analyzer/types";
 import { getTextFromFixture } from "../../../util";
 

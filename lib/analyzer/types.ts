@@ -36,6 +36,15 @@ export interface ImagePackagesAnalysis extends ImageAnalysis {
   Analysis: AnalyzedPackageWithVersion[];
 }
 
+/**
+ * Represents the source of OS package data from static image analysis.
+ *
+ * Primary sources (Apk, Apt, Rpm, Chisel): Native package manager databases - source of truth
+ * Supplemental sources (Spdx): SBOMs that augment primary findings, never selected as primary
+ * Fallback (Linux): Used when no package source is detected
+ *
+ * See lib/analyzer/package-sources/ for implementations.
+ */
 export enum AnalysisType {
   Apk = "Apk",
   Apt = "Apt",

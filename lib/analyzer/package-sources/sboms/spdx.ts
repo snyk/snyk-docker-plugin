@@ -2,7 +2,7 @@ import {
   AnalysisType,
   AnalyzedPackageWithVersion,
   ImagePackagesAnalysis,
-} from "../types";
+} from "../../types";
 
 export function analyze(
   targetImage: string,
