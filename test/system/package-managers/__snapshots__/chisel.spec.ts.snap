@@ -330,25 +330,24 @@ Object {
         },
         Object {
           "data": Array [
-            "sha256:214740def7356fff18e642236c22109b81bf104c163f3c055b974e37682f67c1",
+            "sha256:90024d52c80c098e7ad0c4dfd4d2d7c3b9709d5bd2efe023b2bde587fa3ce139",
           ],
           "type": "imageLayers",
         },
         Object {
           "data": Object {
-            "argsEscaped": false,
-            "cmd": Array [],
+            "argsEscaped": undefined,
+            "cmd": undefined,
             "entrypoint": Array [
               "/usr/bin/ls",
             ],
             "env": Array [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
-            "exposedPorts": Array [],
-            "labels": Object {},
-            "stopSignal": "",
-            "user": "",
-            "volumes": Array [],
+            "exposedPorts": undefined,
+            "stopSignal": undefined,
+            "user": undefined,
+            "volumes": undefined,
             "workingDir": "/",
           },
           "type": "containerConfig",
@@ -356,14 +355,14 @@ Object {
         Object {
           "data": Array [
             Object {
-              "author": "",
+              "author": undefined,
               "comment": "buildkit.dockerfile.v0",
               "created": "2025-10-22T17:28:05.980889584Z",
               "createdBy": "COPY /rootfs / # buildkit",
-              "emptyLayer": false,
+              "emptyLayer": undefined,
             },
             Object {
-              "author": "",
+              "author": undefined,
               "comment": "buildkit.dockerfile.v0",
               "created": "2025-10-22T17:28:05.980889584Z",
               "createdBy": "ENTRYPOINT [\\"/usr/bin/ls\\"]",
@@ -390,8 +389,6 @@ Object {
           "data": Object {
             "names": Array [
               "snykgoof/dockerhub-goof:ubuntu-chisel-24.04",
-              "snykgoof/dockerhub-goof@sha256:6c33709164fe0c9bc20e3d13ba3c1f2fcd6fc7fcf6357b84fbc1c50c483a1178",
-              "snykgoof/dockerhub-goof@sha256:2f7f8c4bb123b101e4356a8955cf294c0a7354249e5d8cc7b8a4e7bb02271cbc",
             ],
           },
           "type": "imageNames",
@@ -401,7 +398,7 @@ Object {
           "type": "platform",
         },
         Object {
-          "data": "0.0.0",
+          "data": "0.0.0-local",
           "type": "pluginVersion",
         },
       ],

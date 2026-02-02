@@ -1706,15 +1706,14 @@ Object {
             "cmd": Array [
               "bash",
             ],
-            "entrypoint": Array [],
+            "entrypoint": null,
             "env": Array [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
-            "exposedPorts": Array [],
-            "labels": Object {},
-            "stopSignal": "",
+            "exposedPorts": undefined,
+            "stopSignal": undefined,
             "user": "",
-            "volumes": Array [],
+            "volumes": undefined,
             "workingDir": "",
           },
           "type": "containerConfig",
@@ -1722,15 +1721,15 @@ Object {
         Object {
           "data": Array [
             Object {
-              "author": "",
-              "comment": "",
+              "author": undefined,
+              "comment": undefined,
               "created": "2020-09-10T00:30:04.955834058Z",
               "createdBy": "/bin/sh -c #(nop) ADD file:d8d46fb9e0436b304449f4155e3b1a86d8fdfd809364286726e5b33746db53c0 in / ",
-              "emptyLayer": false,
+              "emptyLayer": undefined,
             },
             Object {
-              "author": "",
-              "comment": "",
+              "author": undefined,
+              "comment": undefined,
               "created": "2020-09-10T00:30:05.463804767Z",
               "createdBy": "/bin/sh -c #(nop)  CMD [\\"bash\\"]",
               "emptyLayer": true,
@@ -1765,7 +1764,7 @@ Object {
           "type": "platform",
         },
         Object {
-          "data": "0.0.0",
+          "data": "0.0.0-local",
           "type": "pluginVersion",
         },
       ],
