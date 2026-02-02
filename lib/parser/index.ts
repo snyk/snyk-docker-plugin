@@ -22,7 +22,7 @@ export function parseAnalysisResults(
     return (
       res.Analysis &&
       res.Analysis.length > 0 &&
-      res.AnalyzeType !== AnalysisType.Spdx  // In the future, we may want to abstract this to be any supplemental analysis type
+      res.AnalyzeType !== AnalysisType.Spdx // In the future, we may want to abstract this to be any supplemental analysis type
     );
   })[0];
 

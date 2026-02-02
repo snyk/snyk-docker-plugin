@@ -53,7 +53,9 @@ function parseSpdxFile(text: string): AnalyzedPackageWithVersion[] {
 function parseSpdxLine(pkg: any): AnalyzedPackageWithVersion {
   const { vendor, cleanName } = parseVendorName(pkg.name);
   const version = pkg.versionInfo;
-  const purl = extractPurl(pkg) || (vendor ? createPurl(cleanName, version, vendor) : undefined);
+  const purl =
+    extractPurl(pkg) ||
+    (vendor ? createPurl(cleanName, version, vendor) : undefined);
 
   return {
     Name: cleanName,
@@ -66,7 +68,10 @@ function parseSpdxLine(pkg: any): AnalyzedPackageWithVersion {
   };
 }
 
-function parseVendorName(name: string): { vendor: VendorPrefix | undefined; cleanName: string } {
+function parseVendorName(name: string): {
+  vendor: VendorPrefix | undefined;
+  cleanName: string;
+} {
   const match = name.match(VENDOR_PREFIX_PATTERN);
   if (match) {
     return {
@@ -87,6 +92,10 @@ function extractPurl(pkg: any): string | undefined {
   return purlRef?.referenceLocator;
 }
 
-function createPurl(name: string, version: string, vendor: VendorPrefix): string {
+function createPurl(
+  name: string,
+  version: string,
+  vendor: VendorPrefix,
+): string {
   return `pkg:${vendor}/${name}@${version}`;
 }
