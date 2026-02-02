@@ -4,6 +4,12 @@ import {
   ImagePackagesAnalysis,
 } from "../../types";
 
+// Supported hardened image vendor prefixes
+const VENDOR_PREFIXES = ["dhi"] as const;
+type VendorPrefix = (typeof VENDOR_PREFIXES)[number];
+
+const VENDOR_PREFIX_PATTERN = new RegExp(`^(${VENDOR_PREFIXES.join("|")})/`);
+
 export function analyze(
   targetImage: string,
   spdxFileContents: string[],
@@ -45,12 +51,12 @@ function parseSpdxFile(text: string): AnalyzedPackageWithVersion[] {
 }
 
 function parseSpdxLine(pkg: any): AnalyzedPackageWithVersion {
-  const name = stripDhiPrefix(pkg.name);
+  const { vendor, cleanName } = parseVendorName(pkg.name);
   const version = pkg.versionInfo;
-  const purl = extractPurl(pkg) || createDhiPurl(name, version);
+  const purl = extractPurl(pkg) || (vendor ? createPurl(cleanName, version, vendor) : undefined);
 
   return {
-    Name: name,
+    Name: cleanName,
     Version: version,
     Source: undefined,
     Provides: [],
@@ -60,8 +66,15 @@ function parseSpdxLine(pkg: any): AnalyzedPackageWithVersion {
   };
 }
 
-function stripDhiPrefix(name: string): string {
-  return name.replace(/^dhi\//, "");
+function parseVendorName(name: string): { vendor: VendorPrefix | undefined; cleanName: string } {
+  const match = name.match(VENDOR_PREFIX_PATTERN);
+  if (match) {
+    return {
+      vendor: match[1] as VendorPrefix,
+      cleanName: name.replace(VENDOR_PREFIX_PATTERN, ""),
+    };
+  }
+  return { vendor: undefined, cleanName: name };
 }
 
 function extractPurl(pkg: any): string | undefined {
@@ -74,6 +87,6 @@ function extractPurl(pkg: any): string | undefined {
   return purlRef?.referenceLocator;
 }
 
-function createDhiPurl(name: string, version: string): string {
-  return `pkg:dhi/${name}@${version}`;
+function createPurl(name: string, version: string, vendor: VendorPrefix): string {
+  return `pkg:${vendor}/${name}@${version}`;
 }

@@ -1164,17 +1164,17 @@ Object {
         },
         Object {
           "data": Array [
-            "sha256:62c4934e5eb385ee358a5be9db09d577da7b69f693630964b6d4951f45fd48f6",
-            "sha256:a5f6da52dd2b6a924287e3c2005bf2e825c0e95226332fcba63bbc188392ac2d",
-            "sha256:4f399afdd814d166d5cb3c2d4ca4c3753047ecc5f5a5ba9109c95f6ce6831481",
-            "sha256:0630b0839bcfcd0808ffc4f92c9ef660b58710eed55492dd04fe98aea4639f9f",
-            "sha256:cf85318006d0c750f3336ef6c8cdb997bc36bb5a654e78b499e61485a0eb4b2d",
-            "sha256:a698ccf181e248fad4715fb089927614853e32b41b5c8f734d549aea626eaebd",
-            "sha256:3974f70b2b33dcaf636e092ec8b3793f99482acafa9199ccde34de03c334a7d5",
-            "sha256:c20be7ba028069931ca5cfd8760cfba74f63ac8154fb9e1ac91cc2c603747961",
-            "sha256:e082dc465d6818b184733427de33e9a8ef668db3dedca267da84edf9a371fc3d",
-            "sha256:eda34620677dd351ef90e4fa8f6351252759d9cdd328497c9230132b8cc628b5",
-            "sha256:0cbb60e4dc94da630bcf48f42035626de5235dee85d0a154513ecf0271ef2cfd",
+            "sha256:57d32fd75729e1b177c3c7264caab5b0fec4522243a6703b9868abe0504dcbe6",
+            "sha256:8be87bfc8298139041b58d538f353c1168dbd8177ea0f615aca6882717b6858a",
+            "sha256:71ab714698cc723e7f156b3f8bc2d9ac7929dd9163760c376b026e00698b24b0",
+            "sha256:d50eaf0c0521d665b222fef18dfbd459e3da4b69573d931c7a25cc833cf36261",
+            "sha256:ce380be41cd0e6a3416220a5d17ee4c6074fb04e008039649dd0249a6cb7d272",
+            "sha256:ea43bad4a7680ded1753d924b4bfa0a30d927d94f10870a8ec42e7b120ea8f4c",
+            "sha256:b54115c7ceb292b133fc4f7c8d4af3b9bab5e2409d2c807781cae0066894a540",
+            "sha256:64aea272e7402c2b6d8a674f9239949f33fabf96db02d771a233fda3bb2624a7",
+            "sha256:d6a08dee0508a79f468b8cace027815ab051e8533251b8f958947136b2399598",
+            "sha256:154340e32930149af1da2d413a2b1951479dde8b146a2996dbdf66965f081c47",
+            "sha256:36405d9ceadaa54dc799328413dac44fd61a7100a348e70f1fd40bae519898c9",
           ],
           "type": "imageLayers",
         },
@@ -1216,6 +1216,8 @@ Object {
         Object {
           "data": Object {
             "names": Array [
+              "chainguard/bash@sha256:5d2f9b2be8e472c8b21bcebfd183c27d7abeaaaf0f5b7cc95e5d50e6cff5f0a2",
+              "chainguard/bash@sha256:642933df66209814502599053ca3dfa97cccf847badc4219d2b1fd6565f6559a",
               "chainguard/bash@sha256:642933df66209814502599053ca3dfa97cccf847badc4219d2b1fd6565f6559a",
             ],
           },

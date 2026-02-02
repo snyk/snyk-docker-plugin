@@ -3,7 +3,7 @@ import {
   AnalyzedPackageWithVersion,
   ChiselPackage,
   ImagePackagesAnalysis,
-} from "../types";
+} from "../../types";
 
 /**
  * Analyzes Ubuntu Chisel packages from a Docker image.

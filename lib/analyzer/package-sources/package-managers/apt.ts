@@ -6,7 +6,7 @@ import {
   IAptFiles,
   ImagePackagesAnalysis,
   OSRelease,
-} from "../types";
+} from "../../types";
 
 export function analyze(
   targetImage: string,

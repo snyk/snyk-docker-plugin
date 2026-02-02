@@ -1,5 +1,5 @@
-import { scan } from "../../../lib/index";
-import { execute } from "../../../lib/sub-process";
+import { scan } from "../../../../lib/index";
+import { execute } from "../../../../lib/sub-process";
 
 describe("apk package manager tests", () => {
   afterAll(async () => {

@@ -1,6 +1,6 @@
-import { Docker } from "../../../lib/docker";
-import { scan } from "../../../lib/index";
-import { execute } from "../../../lib/sub-process";
+import { Docker } from "../../../../lib/docker";
+import { scan } from "../../../../lib/index";
+import { execute } from "../../../../lib/sub-process";
 
 describe("rpm package manager tests", () => {
   beforeAll(() => {

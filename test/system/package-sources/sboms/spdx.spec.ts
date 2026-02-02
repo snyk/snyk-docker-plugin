@@ -1,11 +1,10 @@
 import * as path from "path";
-import { AnalysisType } from "../../../lib/analyzer/types";
-import { scan } from "../../../lib/index";
+import { scan } from "../../../../lib/index";
 
 describe("SPDX (Docker Hardened Images) package manager tests", () => {
   const imagePath = path.join(
     __dirname,
-    "../../fixtures/sbom/simple/dhi-test.tar",
+    "../../../fixtures/sbom/simple/dhi-test.tar",
   );
 
   it("should correctly analyze SPDX files from a Docker Hardened Image", async () => {

@@ -1,10 +1,10 @@
 import * as path from "path";
-import { scan } from "../../../lib/index";
+import { scan } from "../../../../lib/index";
 
 describe("SPDX deduplication with apt conflicts", () => {
   const imagePath = path.join(
     __dirname,
-    "../../fixtures/sbom/deduplication/spdx-conflict-test.tar.gz",
+    "../../../fixtures/sbom/deduplication/spdx-conflict-test.tar.gz",
   );
 
   it("should prioritize apt packages over SPDX when names conflict", async () => {
