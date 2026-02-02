@@ -207,7 +207,7 @@ jobs:
       - run: npm run build
       - run:
           name: Release on GitHub
-          command: npx semantic-release@19.0.5
+          command: npx semantic-release
 
 workflows:
   version: 2

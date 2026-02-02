@@ -50,17 +50,16 @@ Object {
         },
         Object {
           "data": Object {
-            "argsEscaped": false,
-            "cmd": Array [],
-            "entrypoint": Array [],
+            "argsEscaped": undefined,
+            "cmd": null,
+            "entrypoint": null,
             "env": Array [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
-            "exposedPorts": Array [],
-            "labels": Object {},
-            "stopSignal": "",
+            "exposedPorts": undefined,
+            "stopSignal": undefined,
             "user": "",
-            "volumes": Array [],
+            "volumes": undefined,
             "workingDir": "",
           },
           "type": "containerConfig",
@@ -68,11 +67,11 @@ Object {
         Object {
           "data": Array [
             Object {
-              "author": "",
-              "comment": "",
+              "author": undefined,
+              "comment": undefined,
               "created": "2020-03-24T13:05:21.8612979Z",
               "createdBy": "/bin/sh -c #(nop) COPY file:bce2cee6987787fb031d18e5a54b0be7f67e9075105d699f56a7ee7a85e13893 in . ",
-              "emptyLayer": false,
+              "emptyLayer": undefined,
             },
           ],
           "type": "history",
@@ -92,7 +91,7 @@ Object {
           "type": "platform",
         },
         Object {
-          "data": "0.0.0",
+          "data": "0.0.0-local",
           "type": "pluginVersion",
         },
       ],
@@ -127,7 +126,7 @@ Object {
           "type": "imageId",
         },
         Object {
-          "data": "0.0.0",
+          "data": "0.0.0-local",
           "type": "pluginVersion",
         },
       ],
@@ -171,7 +170,7 @@ Object {
           "type": "imageId",
         },
         Object {
-          "data": "0.0.0",
+          "data": "0.0.0-local",
           "type": "pluginVersion",
         },
       ],

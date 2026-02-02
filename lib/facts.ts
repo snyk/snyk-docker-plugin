@@ -124,7 +124,6 @@ export interface ContainerConfigFact {
     cmd?: string[];
     volumes?: string[];
     workingDir?: string;
-    labels?: { [key: string]: string };
     stopSignal?: string;
     argsEscaped?: boolean;
   };

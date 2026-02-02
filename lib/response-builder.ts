@@ -94,7 +94,6 @@ async function buildResponse(
           ? Object.keys(depsAnalysis.containerConfig.Volumes)
           : undefined,
         workingDir: depsAnalysis.containerConfig.WorkingDir,
-        labels: depsAnalysis.containerConfig.Labels,
         stopSignal: depsAnalysis.containerConfig.StopSignal,
         argsEscaped: depsAnalysis.containerConfig.ArgsEscaped,
       },

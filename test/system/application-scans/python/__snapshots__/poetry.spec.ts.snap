@@ -50,17 +50,16 @@ Object {
         },
         Object {
           "data": Object {
-            "argsEscaped": false,
-            "cmd": Array [],
-            "entrypoint": Array [],
+            "argsEscaped": undefined,
+            "cmd": undefined,
+            "entrypoint": undefined,
             "env": Array [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
-            "exposedPorts": Array [],
-            "labels": Object {},
-            "stopSignal": "",
-            "user": "",
-            "volumes": Array [],
+            "exposedPorts": undefined,
+            "stopSignal": undefined,
+            "user": undefined,
+            "volumes": undefined,
             "workingDir": "/",
           },
           "type": "containerConfig",
@@ -68,11 +67,11 @@ Object {
         Object {
           "data": Array [
             Object {
-              "author": "",
+              "author": undefined,
               "comment": "buildkit.dockerfile.v0",
               "created": "2022-08-04T13:17:10.411032291Z",
               "createdBy": "COPY /app/. /app/. # buildkit",
-              "emptyLayer": false,
+              "emptyLayer": undefined,
             },
           ],
           "type": "history",
@@ -92,7 +91,7 @@ Object {
           "type": "platform",
         },
         Object {
-          "data": "0.0.0",
+          "data": "0.0.0-local",
           "type": "pluginVersion",
         },
       ],
@@ -407,7 +406,7 @@ Object {
           "type": "imageId",
         },
         Object {
-          "data": "0.0.0",
+          "data": "0.0.0-local",
           "type": "pluginVersion",
         },
       ],

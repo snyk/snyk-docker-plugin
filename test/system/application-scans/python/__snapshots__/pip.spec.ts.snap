@@ -51,17 +51,16 @@ Object {
         },
         Object {
           "data": Object {
-            "argsEscaped": false,
-            "cmd": Array [],
-            "entrypoint": Array [],
+            "argsEscaped": undefined,
+            "cmd": undefined,
+            "entrypoint": undefined,
             "env": Array [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
-            "exposedPorts": Array [],
-            "labels": Object {},
-            "stopSignal": "",
-            "user": "",
-            "volumes": Array [],
+            "exposedPorts": undefined,
+            "stopSignal": undefined,
+            "user": undefined,
+            "volumes": undefined,
             "workingDir": "/",
           },
           "type": "containerConfig",
@@ -69,18 +68,18 @@ Object {
         Object {
           "data": Array [
             Object {
-              "author": "",
+              "author": undefined,
               "comment": "buildkit.dockerfile.v0",
               "created": "2022-08-11T12:10:06.463200742Z",
               "createdBy": "COPY /app/. /app/. # buildkit",
-              "emptyLayer": false,
+              "emptyLayer": undefined,
             },
             Object {
-              "author": "",
+              "author": undefined,
               "comment": "buildkit.dockerfile.v0",
               "created": "2022-08-11T12:10:06.844187544Z",
               "createdBy": "COPY /usr/local/lib/python3.10/site-packages/. /usr/local/lib/python3.10/site-packages/. # buildkit",
-              "emptyLayer": false,
+              "emptyLayer": undefined,
             },
           ],
           "type": "history",
@@ -101,7 +100,7 @@ Object {
           "type": "platform",
         },
         Object {
-          "data": "0.0.0",
+          "data": "0.0.0-local",
           "type": "pluginVersion",
         },
       ],
@@ -276,7 +275,7 @@ Object {
           "type": "imageId",
         },
         Object {
-          "data": "0.0.0",
+          "data": "0.0.0-local",
           "type": "pluginVersion",
         },
       ],
@@ -343,17 +342,16 @@ Object {
         },
         Object {
           "data": Object {
-            "argsEscaped": false,
-            "cmd": Array [],
-            "entrypoint": Array [],
+            "argsEscaped": undefined,
+            "cmd": undefined,
+            "entrypoint": undefined,
             "env": Array [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
-            "exposedPorts": Array [],
-            "labels": Object {},
-            "stopSignal": "",
-            "user": "",
-            "volumes": Array [],
+            "exposedPorts": undefined,
+            "stopSignal": undefined,
+            "user": undefined,
+            "volumes": undefined,
             "workingDir": "/",
           },
           "type": "containerConfig",
@@ -361,18 +359,18 @@ Object {
         Object {
           "data": Array [
             Object {
-              "author": "",
+              "author": undefined,
               "comment": "buildkit.dockerfile.v0",
               "created": "2023-01-10T12:06:10.017901754Z",
               "createdBy": "COPY /app /app # buildkit",
-              "emptyLayer": false,
+              "emptyLayer": undefined,
             },
             Object {
-              "author": "",
+              "author": undefined,
               "comment": "buildkit.dockerfile.v0",
               "created": "2023-01-10T12:06:10.183855463Z",
               "createdBy": "COPY /usr/local/lib/python3.10/site-packages/. /usr/local/lib/python3.10/dist-packages/. # buildkit",
-              "emptyLayer": false,
+              "emptyLayer": undefined,
             },
           ],
           "type": "history",
@@ -393,7 +391,7 @@ Object {
           "type": "platform",
         },
         Object {
-          "data": "0.0.0",
+          "data": "0.0.0-local",
           "type": "pluginVersion",
         },
       ],
@@ -568,7 +566,7 @@ Object {
           "type": "imageId",
         },
         Object {
-          "data": "0.0.0",
+          "data": "0.0.0-local",
           "type": "pluginVersion",
         },
       ],

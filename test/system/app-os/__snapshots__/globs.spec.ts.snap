@@ -1934,19 +1934,18 @@ Object {
         },
         Object {
           "data": Object {
-            "argsEscaped": false,
+            "argsEscaped": undefined,
             "cmd": Array [
               "bash",
             ],
-            "entrypoint": Array [],
+            "entrypoint": null,
             "env": Array [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
-            "exposedPorts": Array [],
-            "labels": Object {},
-            "stopSignal": "",
+            "exposedPorts": undefined,
+            "stopSignal": undefined,
             "user": "",
-            "volumes": Array [],
+            "volumes": undefined,
             "workingDir": "",
           },
           "type": "containerConfig",
@@ -1954,15 +1953,15 @@ Object {
         Object {
           "data": Array [
             Object {
-              "author": "",
-              "comment": "",
+              "author": undefined,
+              "comment": undefined,
               "created": "2020-11-17T20:20:58.572098259Z",
               "createdBy": "/bin/sh -c #(nop) ADD file:9a4fd72d749f4a791e75e0f6fc6028d0771e3381b6d84a8d0b07a4887bc7c641 in / ",
-              "emptyLayer": false,
+              "emptyLayer": undefined,
             },
             Object {
-              "author": "",
-              "comment": "",
+              "author": undefined,
+              "comment": undefined,
               "created": "2020-11-17T20:20:58.91197757Z",
               "createdBy": "/bin/sh -c #(nop)  CMD [\\"bash\\"]",
               "emptyLayer": true,
@@ -2007,7 +2006,7 @@ Object {
           "type": "platform",
         },
         Object {
-          "data": "0.0.0",
+          "data": "0.0.0-local",
           "type": "pluginVersion",
         },
       ],

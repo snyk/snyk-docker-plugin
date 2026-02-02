@@ -50,20 +50,19 @@ Object {
         },
         Object {
           "data": Object {
-            "argsEscaped": false,
+            "argsEscaped": undefined,
             "cmd": Array [
               "sh",
             ],
-            "entrypoint": Array [],
+            "entrypoint": undefined,
             "env": Array [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
-            "exposedPorts": Array [],
-            "labels": Object {},
-            "stopSignal": "",
-            "user": "",
-            "volumes": Array [],
-            "workingDir": "",
+            "exposedPorts": undefined,
+            "stopSignal": undefined,
+            "user": undefined,
+            "volumes": undefined,
+            "workingDir": undefined,
           },
           "type": "containerConfig",
         },
@@ -71,10 +70,10 @@ Object {
           "data": Array [
             Object {
               "author": "kaniko",
-              "comment": "",
+              "comment": undefined,
               "created": "0001-01-01T00:00:00Z",
               "createdBy": "ADD busybox.tar.gz /",
-              "emptyLayer": false,
+              "emptyLayer": undefined,
             },
           ],
           "type": "history",
@@ -94,7 +93,7 @@ Object {
           "type": "platform",
         },
         Object {
-          "data": "0.0.0",
+          "data": "0.0.0-local",
           "type": "pluginVersion",
         },
       ],
