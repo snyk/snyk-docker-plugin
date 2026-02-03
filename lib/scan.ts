@@ -46,12 +46,16 @@ async function getAnalysisParameters(
   if (!options.path) {
     throw new Error("No image identifier or path provided");
   }
-  
-// Validate nested-jars-depth / shaded-jars-depth options
+
+  // Validate nested-jars-depth / shaded-jars-depth options
   const useStrictMode = isTrue(options["use-strict-jars-depth"]);
 
   // Strict mode: reject both flags being set
-  if (useStrictMode && isDefined(options["shaded-jars-depth"]) && isDefined(options["nested-jars-depth"])) {
+  if (
+    useStrictMode &&
+    isDefined(options["shaded-jars-depth"]) &&
+    isDefined(options["nested-jars-depth"])
+  ) {
     throw new Error(
       "Cannot use --shaded-jars-depth together with --nested-jars-depth, please use the latter",
     );
@@ -76,7 +80,9 @@ async function getAnalysisParameters(
   // Validate the depth value
   const isInvalidValue = useStrictMode
     ? !isStrictNumber(nestedJarsDepth) && typeof nestedJarsDepth !== "undefined"
-    : !isNumber(nestedJarsDepth) && !isTrue(nestedJarsDepth) && typeof nestedJarsDepth !== "undefined";
+    : !isNumber(nestedJarsDepth) &&
+      !isTrue(nestedJarsDepth) &&
+      typeof nestedJarsDepth !== "undefined";
 
   if (isInvalidValue || Number(nestedJarsDepth) < 0) {
     throw new Error(
@@ -87,14 +93,25 @@ async function getAnalysisParameters(
   // Deprecation warnings (lenient mode only)
   if (!useStrictMode) {
     const warnings: string[] = [];
-    if (isDefined(options["shaded-jars-depth"]) && isDefined(options["nested-jars-depth"])) {
-      warnings.push("Using both --shaded-jars-depth and --nested-jars-depth is deprecated, use only --nested-jars-depth");
+    if (
+      isDefined(options["shaded-jars-depth"]) &&
+      isDefined(options["nested-jars-depth"])
+    ) {
+      warnings.push(
+        "Using both --shaded-jars-depth and --nested-jars-depth is deprecated, use only --nested-jars-depth",
+      );
+    } else if (isDefined(options["shaded-jars-depth"])) {
+      warnings.push(
+        "--shaded-jars-depth is deprecated, use --nested-jars-depth instead",
+      );
     }
-    else if (isDefined(options["shaded-jars-depth"])) {
-      warnings.push("--shaded-jars-depth is deprecated, use --nested-jars-depth instead");
-    }
-    if (!isStrictNumber(nestedJarsDepth) && typeof nestedJarsDepth !== "undefined") {
-      warnings.push("Non-numeric inputs for --nested-jars-depth are deprecated, replace with a numeric input");
+    if (
+      !isStrictNumber(nestedJarsDepth) &&
+      typeof nestedJarsDepth !== "undefined"
+    ) {
+      warnings.push(
+        "Non-numeric inputs for --nested-jars-depth are deprecated, replace with a numeric input",
+      );
     }
     warnings.forEach((msg) => console.warn(chalk.yellow(msg)));
   }
