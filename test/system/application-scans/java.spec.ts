@@ -145,15 +145,18 @@ describe("jar binaries scanning", () => {
             expect(fingerprints).not.toContainEqual(nestedJar);
           });
 
-          it(`should throw if ${flagName} flag is set to true`, async () => {
-            // Act + Assert
-            await expect(
-              scan({
-                path: imageNameAndTag,
-                "app-vulns": true,
-                [flagName]: true,
-              }),
-            ).rejects.toThrow();
+          it(`should accept ${flagName} flag set to true and treat as depth 1`, async () => {
+            // Default lenient mode accepts boolean true via isTrue()
+            const result = await scan({
+              path: imageNameAndTag,
+              "app-vulns": true,
+              [flagName]: true,
+            });
+
+            expect(result.scanResults).toBeDefined();
+            const fingerprints =
+              result.scanResults[1].facts[0].data.fingerprints;
+            expect(fingerprints).toContainEqual(nestedJar);
           });
 
           it(`should throw if ${flagName} flag is set to -1`, async () => {
@@ -167,15 +170,15 @@ describe("jar binaries scanning", () => {
             ).rejects.toThrow();
           });
 
-          it(`should throw if ${flagName} flag is set to ' '`, async () => {
-            // Act + Assert
-            await expect(
-              scan({
-                path: imageNameAndTag,
-                "app-vulns": true,
-                [flagName]: " ",
-              }),
-            ).rejects.toThrow();
+          it(`should accept ${flagName} flag set to ' ' and treat as depth 0`, async () => {
+            // Default lenient mode accepts whitespace (Number(' ') === 0)
+            const result = await scan({
+              path: imageNameAndTag,
+              "app-vulns": true,
+              [flagName]: " ",
+            });
+
+            expect(result.scanResults).toBeDefined();
           });
 
           it("should throw error if exclude-app-vulns flag is true", async () => {
@@ -494,16 +497,16 @@ describe("jar binaries scanning", () => {
       );
       const imageNameAndTag = `docker-archive:${fixturePath}`;
 
-      it(`should throw if both --shaded-jars-depth and --nested-jars-depth flags are set`, async () => {
-        // Act + Assert
-        await expect(
-          scan({
-            path: imageNameAndTag,
-            "app-vulns": true,
-            "shaded-jars-depth": "2",
-            "nested-jars-depth": "4",
-          }),
-        ).rejects.toThrow();
+      it(`should accept both --shaded-jars-depth and --nested-jars-depth flags and use nested-jars-depth`, async () => {
+        // Default lenient mode silently uses nested-jars-depth when both are set
+        const result = await scan({
+          path: imageNameAndTag,
+          "app-vulns": true,
+          "shaded-jars-depth": "2",
+          "nested-jars-depth": "1",
+        });
+
+        expect(result.scanResults).toBeDefined();
       });
     });
   });

@@ -230,7 +230,8 @@ export interface PluginOptions {
 
   /** Include system-level JARs and WARs from /usr/lib in scan results. The default is "false". */
   "include-system-jars": boolean | string;
-
+  /** Whether to use strict validation for the nested-jars-depth parameter. The default is "false". */
+  "use-strict-jars-depth": boolean | string;
   "target-reference": string;
 }
 
