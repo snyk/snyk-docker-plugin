@@ -152,3 +152,13 @@ export interface PluginWarningsFact {
     parameterChecks?: string[];
   };
 }
+
+export interface BaseRuntime {
+  type: string;
+  version: string;
+}
+
+export interface BaseRuntimesFact {
+  type: "baseRuntimes";
+  data: BaseRuntime[];
+}
