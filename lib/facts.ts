@@ -103,3 +103,13 @@ export interface OCIDistributionMetadataFact {
   type: "ociDistributionMetadata";
   data: OCIDistributionMetadata;
 }
+
+export interface BaseRuntime {
+  type: string;
+  version: string;
+}
+
+export interface BaseRuntimesFact {
+  type: "baseRuntimes";
+  data: BaseRuntime[];
+}

@@ -48,6 +48,13 @@ async function buildResponse(
     };
     additionalFacts.push(keyBinariesHashesFact);
   }
+  if (depsAnalysis.baseRuntimes && depsAnalysis.baseRuntimes.length > 0) {
+    const baseRuntimesFact: facts.BaseRuntimesFact = {
+      type: "baseRuntimes",
+      data: depsAnalysis.baseRuntimes,
+    };
+    additionalFacts.push(baseRuntimesFact);
+  }
 
   if (dockerfileAnalysis !== undefined) {
     const dockerfileAnalysisFact: facts.DockerfileAnalysisFact = {
