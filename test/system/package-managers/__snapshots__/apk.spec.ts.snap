@@ -369,6 +369,43 @@ Object {
           "type": "imageLayers",
         },
         Object {
+          "data": Object {
+            "argsEscaped": true,
+            "cmd": Array [
+              "/bin/sh",
+            ],
+            "entrypoint": null,
+            "env": Array [
+              "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            ],
+            "exposedPorts": undefined,
+            "stopSignal": undefined,
+            "user": "",
+            "volumes": undefined,
+            "workingDir": "",
+          },
+          "type": "containerConfig",
+        },
+        Object {
+          "data": Array [
+            Object {
+              "author": undefined,
+              "comment": undefined,
+              "created": "2020-05-29T21:19:46.192045972Z",
+              "createdBy": "/bin/sh -c #(nop) ADD file:c92c248239f8c7b9b3c067650954815f391b7bcb09023f984972c082ace2a8d0 in / ",
+              "emptyLayer": undefined,
+            },
+            Object {
+              "author": undefined,
+              "comment": undefined,
+              "created": "2020-05-29T21:19:46.363518345Z",
+              "createdBy": "/bin/sh -c #(nop)  CMD [\\"/bin/sh\\"]",
+              "emptyLayer": true,
+            },
+          ],
+          "type": "history",
+        },
+        Object {
           "data": "2020-05-29T21:19:46.363518345Z",
           "type": "imageCreationTime",
         },
@@ -389,6 +426,14 @@ Object {
             ],
           },
           "type": "imageNames",
+        },
+        Object {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        Object {
+          "data": "0.0.0-local",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {
@@ -1190,6 +1235,108 @@ Object {
           "type": "imageLabels",
         },
         Object {
+          "data": Object {
+            "argsEscaped": undefined,
+            "cmd": undefined,
+            "entrypoint": Array [
+              "/bin/bash",
+              "-c",
+            ],
+            "env": Array [
+              "PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/sbin:/sbin:/bin",
+              "SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt",
+            ],
+            "exposedPorts": undefined,
+            "stopSignal": undefined,
+            "user": "0",
+            "volumes": undefined,
+            "workingDir": undefined,
+          },
+          "type": "containerConfig",
+        },
+        Object {
+          "data": Array [
+            Object {
+              "author": "apko",
+              "comment": undefined,
+              "created": "2025-06-17T13:28:42Z",
+              "createdBy": "apko",
+              "emptyLayer": undefined,
+            },
+            Object {
+              "author": "apko",
+              "comment": undefined,
+              "created": "2025-06-17T13:28:42Z",
+              "createdBy": "apko",
+              "emptyLayer": undefined,
+            },
+            Object {
+              "author": "apko",
+              "comment": undefined,
+              "created": "2025-06-17T13:28:42Z",
+              "createdBy": "apko",
+              "emptyLayer": undefined,
+            },
+            Object {
+              "author": "apko",
+              "comment": undefined,
+              "created": "2025-06-17T13:28:42Z",
+              "createdBy": "apko",
+              "emptyLayer": undefined,
+            },
+            Object {
+              "author": "apko",
+              "comment": undefined,
+              "created": "2025-06-17T13:28:42Z",
+              "createdBy": "apko",
+              "emptyLayer": undefined,
+            },
+            Object {
+              "author": "apko",
+              "comment": undefined,
+              "created": "2025-06-17T13:28:42Z",
+              "createdBy": "apko",
+              "emptyLayer": undefined,
+            },
+            Object {
+              "author": "apko",
+              "comment": undefined,
+              "created": "2025-06-17T13:28:42Z",
+              "createdBy": "apko",
+              "emptyLayer": undefined,
+            },
+            Object {
+              "author": "apko",
+              "comment": undefined,
+              "created": "2025-06-17T13:28:42Z",
+              "createdBy": "apko",
+              "emptyLayer": undefined,
+            },
+            Object {
+              "author": "apko",
+              "comment": undefined,
+              "created": "2025-06-17T13:28:42Z",
+              "createdBy": "apko",
+              "emptyLayer": undefined,
+            },
+            Object {
+              "author": "apko",
+              "comment": undefined,
+              "created": "2025-06-17T13:28:42Z",
+              "createdBy": "apko",
+              "emptyLayer": undefined,
+            },
+            Object {
+              "author": "apko",
+              "comment": undefined,
+              "created": "2025-06-17T13:28:42Z",
+              "createdBy": "apko",
+              "emptyLayer": undefined,
+            },
+          ],
+          "type": "history",
+        },
+        Object {
           "data": "2025-06-17T13:28:42Z",
           "type": "imageCreationTime",
         },
@@ -1220,6 +1367,14 @@ Object {
             ],
           },
           "type": "imageNames",
+        },
+        Object {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        Object {
+          "data": "0.0.0-local",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {

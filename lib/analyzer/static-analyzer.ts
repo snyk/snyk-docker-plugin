@@ -161,6 +161,8 @@ export async function analyze(
     platform,
     imageLabels,
     imageCreationTime,
+    containerConfig,
+    history,
   } = await archiveExtractor.extractImageContent(
     imageType,
     imagePath,
@@ -315,6 +317,8 @@ export async function analyze(
     autoDetectedUserInstructions,
     imageLabels,
     imageCreationTime,
+    containerConfig,
+    history,
   };
 }
 

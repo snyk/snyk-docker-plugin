@@ -82,6 +82,25 @@ export interface StaticAnalysis {
   manifestFiles: ManifestFile[];
   imageLabels?: { [key: string]: string };
   imageCreationTime?: string;
+  containerConfig?: {
+    User?: string;
+    ExposedPorts?: { [port: string]: object };
+    Env?: string[];
+    Entrypoint?: string[];
+    Cmd?: string[];
+    Volumes?: { [path: string]: object };
+    WorkingDir?: string;
+    Labels?: { [key: string]: string };
+    StopSignal?: string;
+    ArgsEscaped?: boolean;
+  };
+  history?: Array<{
+    created?: string;
+    author?: string;
+    created_by?: string;
+    comment?: string;
+    empty_layer?: boolean;
+  }>;
 }
 
 export interface StaticPackagesAnalysis extends StaticAnalysis {

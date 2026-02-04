@@ -55,6 +55,7 @@ export type FactType =
   | "autoDetectedUserInstructions"
   | "depGraph"
   | "dockerfileAnalysis"
+  | "history"
   | "imageCreationTime"
   | "imageId"
   | "imageLabels"
@@ -71,6 +72,9 @@ export type FactType =
   | "keyBinariesHashes"
   | "loadedPackages"
   | "ociDistributionMetadata"
+  | "containerConfig"
+  | "platform"
+  | "pluginVersion"
   | "rootFs"
   // Used for application dependencies scanning; shows which files were used in the analysis of the dependencies.
   | "testedFiles"
