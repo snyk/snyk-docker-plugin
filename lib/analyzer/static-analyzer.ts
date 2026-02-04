@@ -56,8 +56,11 @@ import {
   getRpmSqliteDbFileContent,
   getRpmSqliteDbFileContentAction,
 } from "../inputs/rpm/static";
-import { resolveNestedJarsOption } from "../option-utils";
-import { isTrue } from "../option-utils";
+import {
+  getSpdxFileContentAction,
+  getSpdxFileContents,
+} from "../inputs/spdx/static";
+import { isTrue, resolveNestedJarsOption } from "../option-utils";
 import { ImageType, ManifestFile, PluginOptions } from "../types";
 import {
   nodeFilesToScannedProjects,
@@ -69,16 +72,17 @@ import { pipFilesToScannedProjects } from "./applications/python";
 import { getApplicationFiles } from "./applications/runtime-common";
 import { AppDepsScanResultWithoutTarget } from "./applications/types";
 import * as osReleaseDetector from "./os-release";
-import { analyze as apkAnalyze } from "./package-managers/apk";
+import { analyze as apkAnalyze } from "./package-sources/package-managers/apk";
 import {
   analyze as aptAnalyze,
   analyzeDistroless as aptDistrolessAnalyze,
-} from "./package-managers/apt";
-import { analyze as chiselAnalyze } from "./package-managers/chisel";
+} from "./package-sources/package-managers/apt";
+import { analyze as chiselAnalyze } from "./package-sources/package-managers/chisel";
 import {
   analyze as rpmAnalyze,
   mapRpmSqlitePackages,
-} from "./package-managers/rpm";
+} from "./package-sources/package-managers/rpm";
+import { analyze as spdxAnalyze } from "./package-sources/sboms/spdx";
 import {
   ImagePackagesAnalysis,
   OSRelease,
@@ -103,6 +107,7 @@ export async function analyze(
     getRpmSqliteDbFileContentAction,
     getRpmNdbFileContentAction,
     getChiselManifestAction,
+    getSpdxFileContentAction,
     ...getOsReleaseActions,
     getNodeBinariesFileContentAction,
     getOpenJDKBinariesFileContentAction,
@@ -185,6 +190,7 @@ export async function analyze(
   ]);
 
   const distrolessAptFiles = getAptFiles(extractedLayers);
+  const spdxFileContents = getSpdxFileContents(extractedLayers);
 
   const manifestFiles: ManifestFile[] = [];
   if (checkForGlobs) {
@@ -225,6 +231,7 @@ export async function analyze(
       ),
       aptDistrolessAnalyze(targetImage, distrolessAptFiles, osRelease),
       chiselAnalyze(targetImage, chiselPackages),
+      spdxAnalyze(targetImage, spdxFileContents),
     ]);
   } catch (err) {
     debug(`Could not detect installed OS packages: ${err.message}`);

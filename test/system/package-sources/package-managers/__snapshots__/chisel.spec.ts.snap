@@ -1,0 +1,374 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`chisel package manager tests should correctly analyze a chiseled Ubuntu image 1`] = `
+Object {
+  "scanResults": Array [
+    Object {
+      "facts": Array [
+        Object {
+          "data": Object {
+            "graph": Object {
+              "nodes": Array [
+                Object {
+                  "deps": Array [
+                    Object {
+                      "nodeId": "base-files@13ubuntu10.3",
+                    },
+                    Object {
+                      "nodeId": "coreutils@9.4-3ubuntu6.1",
+                    },
+                    Object {
+                      "nodeId": "dash@0.5.12-6ubuntu5",
+                    },
+                    Object {
+                      "nodeId": "gcc-14-base@14.2.0-4ubuntu2~24.04",
+                    },
+                    Object {
+                      "nodeId": "libacl1@2.3.2-1build1.1",
+                    },
+                    Object {
+                      "nodeId": "libattr1@1:2.5.2-1build1.1",
+                    },
+                    Object {
+                      "nodeId": "libaudit-common@1:3.1.2-2.1build1.1",
+                    },
+                    Object {
+                      "nodeId": "libaudit1@1:3.1.2-2.1build1.1",
+                    },
+                    Object {
+                      "nodeId": "libc6@2.39-0ubuntu8.6",
+                    },
+                    Object {
+                      "nodeId": "libcap-ng0@0.8.4-2build2",
+                    },
+                    Object {
+                      "nodeId": "libcap2@1:2.66-5ubuntu2.2",
+                    },
+                    Object {
+                      "nodeId": "libcrypt1@1:4.4.36-4build1",
+                    },
+                    Object {
+                      "nodeId": "libgcc-s1@14.2.0-4ubuntu2~24.04",
+                    },
+                    Object {
+                      "nodeId": "libgmp10@2:6.3.0+dfsg-2ubuntu6.1",
+                    },
+                    Object {
+                      "nodeId": "libpam0g@1.5.3-5ubuntu5.5",
+                    },
+                    Object {
+                      "nodeId": "libpcre2-8-0@10.42-4ubuntu2.1",
+                    },
+                    Object {
+                      "nodeId": "libselinux1@3.5-2ubuntu2.1",
+                    },
+                    Object {
+                      "nodeId": "libssl3t64@3.0.13-0ubuntu3.6",
+                    },
+                    Object {
+                      "nodeId": "tar@1.35+dfsg-3build1",
+                    },
+                  ],
+                  "nodeId": "root-node",
+                  "pkgId": "docker-image|snykgoof/dockerhub-goof@ubuntu-chisel-24.04",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "base-files@13ubuntu10.3",
+                  "pkgId": "base-files@13ubuntu10.3",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "coreutils@9.4-3ubuntu6.1",
+                  "pkgId": "coreutils@9.4-3ubuntu6.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "dash@0.5.12-6ubuntu5",
+                  "pkgId": "dash@0.5.12-6ubuntu5",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gcc-14-base@14.2.0-4ubuntu2~24.04",
+                  "pkgId": "gcc-14-base@14.2.0-4ubuntu2~24.04",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libacl1@2.3.2-1build1.1",
+                  "pkgId": "libacl1@2.3.2-1build1.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libattr1@1:2.5.2-1build1.1",
+                  "pkgId": "libattr1@1:2.5.2-1build1.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libaudit-common@1:3.1.2-2.1build1.1",
+                  "pkgId": "libaudit-common@1:3.1.2-2.1build1.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libaudit1@1:3.1.2-2.1build1.1",
+                  "pkgId": "libaudit1@1:3.1.2-2.1build1.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libc6@2.39-0ubuntu8.6",
+                  "pkgId": "libc6@2.39-0ubuntu8.6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libcap-ng0@0.8.4-2build2",
+                  "pkgId": "libcap-ng0@0.8.4-2build2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libcap2@1:2.66-5ubuntu2.2",
+                  "pkgId": "libcap2@1:2.66-5ubuntu2.2",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libcrypt1@1:4.4.36-4build1",
+                  "pkgId": "libcrypt1@1:4.4.36-4build1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libgcc-s1@14.2.0-4ubuntu2~24.04",
+                  "pkgId": "libgcc-s1@14.2.0-4ubuntu2~24.04",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libgmp10@2:6.3.0+dfsg-2ubuntu6.1",
+                  "pkgId": "libgmp10@2:6.3.0+dfsg-2ubuntu6.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libpam0g@1.5.3-5ubuntu5.5",
+                  "pkgId": "libpam0g@1.5.3-5ubuntu5.5",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libpcre2-8-0@10.42-4ubuntu2.1",
+                  "pkgId": "libpcre2-8-0@10.42-4ubuntu2.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libselinux1@3.5-2ubuntu2.1",
+                  "pkgId": "libselinux1@3.5-2ubuntu2.1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libssl3t64@3.0.13-0ubuntu3.6",
+                  "pkgId": "libssl3t64@3.0.13-0ubuntu3.6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "tar@1.35+dfsg-3build1",
+                  "pkgId": "tar@1.35+dfsg-3build1",
+                },
+              ],
+              "rootNodeId": "root-node",
+            },
+            "pkgManager": Object {
+              "name": "deb",
+              "repositories": Array [
+                Object {
+                  "alias": "ubuntu:24.04",
+                },
+              ],
+            },
+            "pkgs": Array [
+              Object {
+                "id": "docker-image|snykgoof/dockerhub-goof@ubuntu-chisel-24.04",
+                "info": Object {
+                  "name": "docker-image|snykgoof/dockerhub-goof",
+                  "version": "ubuntu-chisel-24.04",
+                },
+              },
+              Object {
+                "id": "base-files@13ubuntu10.3",
+                "info": Object {
+                  "name": "base-files",
+                  "version": "13ubuntu10.3",
+                },
+              },
+              Object {
+                "id": "coreutils@9.4-3ubuntu6.1",
+                "info": Object {
+                  "name": "coreutils",
+                  "version": "9.4-3ubuntu6.1",
+                },
+              },
+              Object {
+                "id": "dash@0.5.12-6ubuntu5",
+                "info": Object {
+                  "name": "dash",
+                  "version": "0.5.12-6ubuntu5",
+                },
+              },
+              Object {
+                "id": "gcc-14-base@14.2.0-4ubuntu2~24.04",
+                "info": Object {
+                  "name": "gcc-14-base",
+                  "version": "14.2.0-4ubuntu2~24.04",
+                },
+              },
+              Object {
+                "id": "libacl1@2.3.2-1build1.1",
+                "info": Object {
+                  "name": "libacl1",
+                  "version": "2.3.2-1build1.1",
+                },
+              },
+              Object {
+                "id": "libattr1@1:2.5.2-1build1.1",
+                "info": Object {
+                  "name": "libattr1",
+                  "version": "1:2.5.2-1build1.1",
+                },
+              },
+              Object {
+                "id": "libaudit-common@1:3.1.2-2.1build1.1",
+                "info": Object {
+                  "name": "libaudit-common",
+                  "version": "1:3.1.2-2.1build1.1",
+                },
+              },
+              Object {
+                "id": "libaudit1@1:3.1.2-2.1build1.1",
+                "info": Object {
+                  "name": "libaudit1",
+                  "version": "1:3.1.2-2.1build1.1",
+                },
+              },
+              Object {
+                "id": "libc6@2.39-0ubuntu8.6",
+                "info": Object {
+                  "name": "libc6",
+                  "version": "2.39-0ubuntu8.6",
+                },
+              },
+              Object {
+                "id": "libcap-ng0@0.8.4-2build2",
+                "info": Object {
+                  "name": "libcap-ng0",
+                  "version": "0.8.4-2build2",
+                },
+              },
+              Object {
+                "id": "libcap2@1:2.66-5ubuntu2.2",
+                "info": Object {
+                  "name": "libcap2",
+                  "version": "1:2.66-5ubuntu2.2",
+                },
+              },
+              Object {
+                "id": "libcrypt1@1:4.4.36-4build1",
+                "info": Object {
+                  "name": "libcrypt1",
+                  "version": "1:4.4.36-4build1",
+                },
+              },
+              Object {
+                "id": "libgcc-s1@14.2.0-4ubuntu2~24.04",
+                "info": Object {
+                  "name": "libgcc-s1",
+                  "version": "14.2.0-4ubuntu2~24.04",
+                },
+              },
+              Object {
+                "id": "libgmp10@2:6.3.0+dfsg-2ubuntu6.1",
+                "info": Object {
+                  "name": "libgmp10",
+                  "version": "2:6.3.0+dfsg-2ubuntu6.1",
+                },
+              },
+              Object {
+                "id": "libpam0g@1.5.3-5ubuntu5.5",
+                "info": Object {
+                  "name": "libpam0g",
+                  "version": "1.5.3-5ubuntu5.5",
+                },
+              },
+              Object {
+                "id": "libpcre2-8-0@10.42-4ubuntu2.1",
+                "info": Object {
+                  "name": "libpcre2-8-0",
+                  "version": "10.42-4ubuntu2.1",
+                },
+              },
+              Object {
+                "id": "libselinux1@3.5-2ubuntu2.1",
+                "info": Object {
+                  "name": "libselinux1",
+                  "version": "3.5-2ubuntu2.1",
+                },
+              },
+              Object {
+                "id": "libssl3t64@3.0.13-0ubuntu3.6",
+                "info": Object {
+                  "name": "libssl3t64",
+                  "version": "3.0.13-0ubuntu3.6",
+                },
+              },
+              Object {
+                "id": "tar@1.35+dfsg-3build1",
+                "info": Object {
+                  "name": "tar",
+                  "version": "1.35+dfsg-3build1",
+                },
+              },
+            ],
+            "schemaVersion": "1.3.0",
+          },
+          "type": "depGraph",
+        },
+        Object {
+          "data": "sha256:5262b11cd2c465ec76e4f8dc00522e7065c428786e7ee0f2f91ef59eed343dc0",
+          "type": "imageId",
+        },
+        Object {
+          "data": Array [
+            "sha256:214740def7356fff18e642236c22109b81bf104c163f3c055b974e37682f67c1",
+          ],
+          "type": "imageLayers",
+        },
+        Object {
+          "data": "2025-10-22T17:28:05.980889584Z",
+          "type": "imageCreationTime",
+        },
+        Object {
+          "data": Array [
+            "sha256:90024d52c80c098e7ad0c4dfd4d2d7c3b9709d5bd2efe023b2bde587fa3ce139",
+          ],
+          "type": "rootFs",
+        },
+        Object {
+          "data": "Ubuntu 24.04.3 LTS",
+          "type": "imageOsReleasePrettyName",
+        },
+        Object {
+          "data": Object {
+            "names": Array [
+              "snykgoof/dockerhub-goof:ubuntu-chisel-24.04",
+              "snykgoof/dockerhub-goof@sha256:6c33709164fe0c9bc20e3d13ba3c1f2fcd6fc7fcf6357b84fbc1c50c483a1178",
+              "snykgoof/dockerhub-goof@sha256:2f7f8c4bb123b101e4356a8955cf294c0a7354249e5d8cc7b8a4e7bb02271cbc",
+            ],
+          },
+          "type": "imageNames",
+        },
+      ],
+      "identity": Object {
+        "args": Object {
+          "platform": "linux/amd64",
+        },
+        "type": "deb",
+      },
+      "target": Object {
+        "image": "docker-image|snykgoof/dockerhub-goof",
+      },
+    },
+  ],
+}
+`;
