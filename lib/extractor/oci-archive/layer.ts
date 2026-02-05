@@ -51,7 +51,7 @@ export async function extractArchive(
 
     const layers: Record<string, ExtractedLayers> = {};
     const manifests: Record<string, OciArchiveManifest> = {};
-    const configs: ImageConfig[] = [];
+    const configs: Record<string, ImageConfig> = {};
     let mainIndexFile: OciImageIndex;
     const indexFiles: Record<string, OciImageIndex> = {};
 
@@ -85,7 +85,7 @@ export async function extractArchive(
           } else if (isImageIndexFile(manifest)) {
             indexFiles[digest] = manifest as OciImageIndex;
           } else if (isImageConfigFile(manifest)) {
-            configs.push(manifest as ImageConfig);
+            configs[digest] = manifest as ImageConfig;
           }
           if (layer !== undefined) {
             layers[digest] = layer as ExtractedLayers;
@@ -131,7 +131,7 @@ function getLayersContentAndArchiveManifest(
   imageIndex: OciImageIndex | undefined,
   manifestCollection: Record<string, OciArchiveManifest>,
   indexFiles: Record<string, OciImageIndex>,
-  configs: ImageConfig[],
+  configs: Record<string, ImageConfig>,
   layers: Record<string, ExtractedLayers>,
   options: Partial<PluginOptions>,
 ): {
@@ -139,7 +139,8 @@ function getLayersContentAndArchiveManifest(
   manifest: OciArchiveManifest;
   imageConfig: ImageConfig;
 } {
-  const filteredConfigs = configs.filter((config) => {
+  const allConfigs = Object.values(configs);
+  const filteredConfigs = allConfigs.filter((config) => {
     return config?.os !== "unknown" || config?.architecture !== "unknown";
   });
   const platform =
@@ -154,6 +155,7 @@ function getLayersContentAndArchiveManifest(
     imageIndex,
     manifestCollection,
     indexFiles,
+    configs,
     platformInfo,
   );
 
@@ -169,7 +171,7 @@ function getLayersContentAndArchiveManifest(
     throw new Error("We found no layers in the provided image");
   }
 
-  const imageConfig = getImageConfig(configs, platformInfo);
+  const imageConfig = getImageConfig(allConfigs, platformInfo);
 
   if (imageConfig === undefined) {
     throw new Error("Could not find the image config in the provided image");
@@ -186,6 +188,7 @@ function getManifest(
   imageIndex: OciImageIndex | undefined,
   manifestCollection: Record<string, OciArchiveManifest>,
   indexFiles: Record<string, OciImageIndex>,
+  configs: Record<string, ImageConfig>,
   platformInfo: OciPlatformInfo,
 ): OciArchiveManifest {
   if (!imageIndex) {
@@ -193,7 +196,12 @@ function getManifest(
   }
 
   const allManifests = getAllManifestsIndexItems(imageIndex, indexFiles);
-  const manifestInfo = getImageManifestInfo(allManifests, platformInfo);
+  const manifestInfo = getImageManifestInfo(
+    allManifests,
+    manifestCollection,
+    configs,
+    platformInfo,
+  );
 
   if (manifestInfo === undefined) {
     throw new Error(
@@ -266,6 +274,8 @@ function getOciPlatformInfoFromOptionString(platform: string): OciPlatformInfo {
 
 function getImageManifestInfo(
   manifests: OciManifestInfo[],
+  manifestCollection: Record<string, OciArchiveManifest>,
+  configs: Record<string, ImageConfig>,
   platformInfo: OciPlatformInfo,
 ): OciManifestInfo | undefined {
   // manifests do not always have a plaform, this is the case for OCI
@@ -278,11 +288,27 @@ function getImageManifestInfo(
     manifests,
     platformInfo,
     (target: OciManifestInfo): OciPlatformInfo => {
-      return {
-        os: target.platform?.os,
-        architecture: target.platform?.architecture,
-        variant: target.platform?.variant,
-      };
+      if (target.platform) {
+        return {
+          os: target.platform.os,
+          architecture: target.platform.architecture,
+          variant: target.platform.variant,
+        };
+      }
+
+      // try to resolve platform from config
+      const manifest = manifestCollection[target.digest];
+      if (manifest) {
+        const config = configs[manifest.config.digest];
+        if (config) {
+          return {
+            os: config.os,
+            architecture: config.architecture,
+          };
+        }
+      }
+
+      return {};
     },
   );
 }

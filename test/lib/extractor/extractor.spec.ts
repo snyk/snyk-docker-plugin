@@ -164,5 +164,25 @@ describe("extractImageContent", () => {
         ).resolves.not.toThrow();
       });
     });
+
+    describe("with multi-tag images missing platform info in index.json", () => {
+      it("extracts when platform is resolved from config blobs", async () => {
+        const fixture = getFixture("docker-oci-archives/busybox.multi-tag.tar");
+        const result = await extractImageContent(type, fixture, [], {
+          platform: "linux/arm64",
+        });
+        expect(result).toBeDefined();
+        expect(result.platform).toBe("linux/arm64");
+      });
+
+      it("fails when requested platform does not match any config blob", async () => {
+        const fixture = getFixture("docker-oci-archives/busybox.multi-tag.tar");
+        await expect(
+          extractImageContent(type, fixture, [], { platform: "linux/amd64" }),
+        ).rejects.toThrow(
+          "Unsupported archive type. Please use a Docker archive, OCI image layout, or Kaniko-compatible tarball.",
+        );
+      });
+    });
   });
 });
