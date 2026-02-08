@@ -1,9 +1,9 @@
+import { ContainerConfig, HistoryEntry } from "../../lib/extractor/types";
 import {
   isValidDockerImageReference,
   validateSizeConstraintsContainerConfig,
   validateSizeConstraintsHistory,
 } from "../../lib/utils";
-import { ContainerConfig, HistoryEntry } from "../../lib/extractor/types";
 
 describe("isValidDockerImageReference", () => {
   describe("valid image references", () => {
