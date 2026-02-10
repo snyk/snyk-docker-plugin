@@ -11,6 +11,7 @@ import { fullImageSavePath } from "./image-save-path";
 import { getArchivePath, getImageType } from "./image-type";
 import {
   isDefined,
+  isNumber,
   isStrictNumber,
   isTrue,
   resolveNestedJarsOption,
@@ -45,7 +46,12 @@ async function getAnalysisParameters(
     throw new Error("No image identifier or path provided");
   }
 
+  // Validate nested-jars-depth / shaded-jars-depth options
+  const useStrictMode = isTrue(options["use-strict-jars-depth"]);
+
+  // Strict mode: reject both flags being set
   if (
+    useStrictMode &&
     isDefined(options["shaded-jars-depth"]) &&
     isDefined(options["nested-jars-depth"])
   ) {
@@ -54,18 +60,30 @@ async function getAnalysisParameters(
     );
   }
 
-  const nestedJarsDepth = resolveNestedJarsOption(options);
-  if (isStrictNumber(nestedJarsDepth) && isTrue(options["exclude-app-vulns"])) {
+  // Resolve depth value based on mode
+  const nestedJarsDepth = useStrictMode
+    ? resolveNestedJarsOption(options)
+    : options["nested-jars-depth"] || options["shaded-jars-depth"];
+
+  // Check exclude-app-vulns conflict
+  const hasValidDepth = useStrictMode
+    ? isStrictNumber(nestedJarsDepth)
+    : isTrue(nestedJarsDepth) || isNumber(nestedJarsDepth);
+
+  if (hasValidDepth && isTrue(options["exclude-app-vulns"])) {
     throw new Error(
       "To use --nested-jars-depth, you must not use --exclude-app-vulns",
     );
   }
 
-  if (
-    (!isStrictNumber(nestedJarsDepth) &&
-      typeof nestedJarsDepth !== "undefined") ||
-    Number(nestedJarsDepth) < 0
-  ) {
+  // Validate the depth value
+  const isInvalidValue = useStrictMode
+    ? !isStrictNumber(nestedJarsDepth) && typeof nestedJarsDepth !== "undefined"
+    : !isNumber(nestedJarsDepth) &&
+      !isTrue(nestedJarsDepth) &&
+      typeof nestedJarsDepth !== "undefined";
+
+  if (isInvalidValue || Number(nestedJarsDepth) < 0) {
     throw new Error(
       "--nested-jars-depth accepts only numbers bigger than or equal to 0",
     );
