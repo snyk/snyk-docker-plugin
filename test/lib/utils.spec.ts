@@ -721,5 +721,26 @@ describe("truncateAdditionalFacts", () => {
         "history.data[*].author": { type: "string", count: 72 }, // Maximum across all history items
       });
     });
+
+    it("should pass through objects without matching limits unchanged", () => {
+      const complexObject = {
+        _internal: new Map([["key", "value"]]),
+        _graph: { nodes: [], edges: [] },
+        publicAPI: "should remain",
+      };
+
+      const facts = [
+        {
+          type: "depGraph",
+          data: complexObject,
+        },
+      ];
+
+      const result = truncateAdditionalFacts(facts);
+
+      expect(result).toHaveLength(1);
+      expect(result[0].data).toBe(complexObject); // Should be the exact same object reference
+      expect(result.find((f) => f.type === "pluginWarnings")).toBeUndefined();
+    });
   });
 });

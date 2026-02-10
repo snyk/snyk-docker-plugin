@@ -49,6 +49,9 @@ export function truncateAdditionalFacts(facts: any[]): any[] {
     if (!fact || !fact.type || !fact.data) {
       return fact;
     }
+    if (fact.type === "depGraph") {
+      return fact;
+    }
 
     const truncatedData = truncateDataValue(
       fact.data,
@@ -72,6 +75,13 @@ export function truncateAdditionalFacts(facts: any[]): any[] {
   return processedFacts;
 }
 
+function hasAnyLimitsForPath(factType: string, path: string): boolean {
+  const prefix = `${factType}.${path}`;
+  return Object.keys(RESPONSE_SIZE_LIMITS).some((limitKey) =>
+    limitKey.startsWith(prefix),
+  );
+}
+
 function truncateDataValue(
   value: any,
   factType: string,
@@ -84,6 +94,10 @@ function truncateDataValue(
   // directly truncate if there's a match
   if (limitConfig) {
     value = truncateValue(value, limitConfig, limitKey, truncationTracker);
+  }
+
+  if (!hasAnyLimitsForPath(factType, path)) {
+    return value;
   }
 
   if (Array.isArray(value)) {
@@ -118,16 +132,24 @@ function truncateDataValue(
       return item;
     });
   } else if (typeof value === "object" && value !== null) {
-    const truncatedObject = { ...value };
+    let hasChanges = false;
+    const truncatedObject: any = {};
+
     for (const [key, subValue] of Object.entries(value)) {
-      truncatedObject[key] = truncateDataValue(
+      const truncatedSubValue = truncateDataValue(
         subValue,
         factType,
         `${path}.${key}`,
         truncationTracker,
       );
+      truncatedObject[key] = truncatedSubValue;
+      if (truncatedSubValue !== subValue) {
+        hasChanges = true;
+      }
     }
-    return truncatedObject;
+
+    // Only return a new object if we actually made changes
+    return hasChanges ? truncatedObject : value;
   }
   return value;
 }
