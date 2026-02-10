@@ -5,6 +5,7 @@ import { DockerFileAnalysis, DockerFilePackages } from "./dockerfile/types";
 import { OCIDistributionMetadata } from "./extractor/oci-distribution-metadata";
 import * as facts from "./facts";
 import * as types from "./types";
+import { truncateAdditionalFacts } from "./utils";
 import { PLUGIN_VERSION } from "./version";
 
 export { buildResponse };
@@ -287,8 +288,13 @@ async function buildResponse(
     ...applicationDependenciesScanResults,
   ];
 
+  const truncatedScanResults = scanResults.map(result => ({
+    ...result,
+    facts: truncateAdditionalFacts(result.facts || []),
+  }));
+
   return {
-    scanResults,
+    scanResults: truncatedScanResults,
   };
 }
 

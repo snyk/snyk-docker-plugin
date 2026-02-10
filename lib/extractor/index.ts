@@ -5,10 +5,6 @@ import {
 } from "../dockerfile/instruction-parser";
 import { AutoDetectedUserInstructions, ImageType } from "../types";
 import { PluginOptions } from "../types";
-import {
-  validateSizeConstraintsContainerConfig,
-  validateSizeConstraintsHistory,
-} from "../utils";
 import * as dockerExtractor from "./docker-archive";
 import * as kanikoExtractor from "./kaniko-archive";
 import * as ociExtractor from "./oci-archive";
@@ -142,13 +138,6 @@ export async function extractImageContent(
     }
   }
 
-  const validatedContainerConfig = validateSizeConstraintsContainerConfig(
-    archiveContent.imageConfig.config,
-  );
-  const validatedHistory = validateSizeConstraintsHistory(
-    archiveContent.imageConfig.history,
-  );
-
   return {
     imageId: extractor.getImageIdFromManifest(archiveContent.manifest),
     manifestLayers: extractor.getManifestLayers(archiveContent.manifest),
@@ -160,8 +149,8 @@ export async function extractImageContent(
     ),
     platform: getPlatformFromConfig(archiveContent.imageConfig),
     imageLabels: archiveContent.imageConfig.config.Labels,
-    containerConfig: validatedContainerConfig,
-    history: validatedHistory,
+    containerConfig: archiveContent.imageConfig.config,
+    history: archiveContent.imageConfig.history,
   };
 }
 

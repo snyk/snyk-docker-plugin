@@ -1,5 +1,3 @@
-import { ContainerConfig, HistoryEntry } from "./extractor/types";
-
 /**
  * Validates a Docker image reference format using the official Docker reference regex.
  * @param imageReference The Docker image reference to validate
@@ -16,95 +14,88 @@ export function isValidDockerImageReference(imageReference: string): boolean {
   return dockerImageRegex.test(imageReference);
 }
 
-const SIZE_LIMITS = {
-  CONTAINER_CONFIG: {
-    EXPOSED_PORTS: 500,
-    ENV: 500,
-    ENTRYPOINT: 500,
-    CMD: 500,
-    VOLUMES: 500,
-  },
-  HISTORY: 1000,
+// array[*] indicates to truncate each element to the indicated size 
+const RESPONSE_SIZE_LIMITS = {
+  'containerConfig.data.user': { type: 'string', limit: 1024 },
+  'containerConfig.data.exposedPorts': { type: 'array', limit: 500 },
+  'containerConfig.data.exposedPorts[*]': { type: 'string', limit: 64 },
+  'containerConfig.data.env': { type: 'array', limit: 500 },
+  'containerConfig.data.env[*]': { type: 'string', limit: 1024 },
+  'containerConfig.data.entrypoint': { type: 'array', limit: 500 },
+  'containerConfig.data.entrypoint[*]': { type: 'string', limit: 1024 },
+  'containerConfig.data.cmd': { type: 'array', limit: 500 },
+  'containerConfig.data.cmd[*]': { type: 'string', limit: 1024 },
+  'containerConfig.data.volumes': { type: 'array', limit: 500 },
+  'containerConfig.data.volumes[*]': { type: 'string', limit: 1024 },
+  'containerConfig.data.workingDir': { type: 'string', limit: 1024 },
+  'containerConfig.data.stopSignal': { type: 'string', limit: 128 },
+  'history.data': { type: 'array', limit: 1000 },
+  'history.data[*].author': { type: 'string', limit: 128 },
+  'history.data[*].createdBy': { type: 'string', limit: 128 },
+  'history.data[*].comment': { type: 'string', limit: 4096 },
 } as const;
 
-export function validateSizeConstraintsContainerConfig(
-  config?: ContainerConfig,
-): ContainerConfig | undefined {
-  if (!config) {
-    return config;
-  }
-
-  const result = { ...config };
-  const { CONTAINER_CONFIG } = SIZE_LIMITS;
-
-  if (result.ExposedPorts) {
-    const exposedPortsKeys = Object.keys(result.ExposedPorts);
-    if (exposedPortsKeys.length > CONTAINER_CONFIG.EXPOSED_PORTS) {
-      console.warn(
-        `Container config exposedPorts truncated from ${exposedPortsKeys.length} to ${CONTAINER_CONFIG.EXPOSED_PORTS} items`,
-      );
-      const truncatedPorts: { [port: string]: object } = {};
-      exposedPortsKeys
-        .slice(0, CONTAINER_CONFIG.EXPOSED_PORTS)
-        .forEach((port) => {
-          truncatedPorts[port] = result.ExposedPorts![port];
-        });
-      result.ExposedPorts = truncatedPorts;
-    }
-  }
-  if (result.Env && result.Env.length > CONTAINER_CONFIG.ENV) {
-    console.warn(
-      `Container config env truncated from ${result.Env.length} to ${CONTAINER_CONFIG.ENV} items`,
-    );
-    result.Env = result.Env.slice(0, CONTAINER_CONFIG.ENV);
-  }
-
-  if (
-    result.Entrypoint &&
-    result.Entrypoint.length > CONTAINER_CONFIG.ENTRYPOINT
-  ) {
-    console.warn(
-      `Container config entrypoint truncated from ${result.Entrypoint.length} to ${CONTAINER_CONFIG.ENTRYPOINT} items`,
-    );
-    result.Entrypoint = result.Entrypoint.slice(0, CONTAINER_CONFIG.ENTRYPOINT);
-  }
-
-  if (result.Cmd && result.Cmd.length > CONTAINER_CONFIG.CMD) {
-    console.warn(
-      `Container config cmd truncated from ${result.Cmd.length} to ${CONTAINER_CONFIG.CMD} items`,
-    );
-    result.Cmd = result.Cmd.slice(0, CONTAINER_CONFIG.CMD);
-  }
-  if (result.Volumes) {
-    const volumeKeys = Object.keys(result.Volumes);
-    if (volumeKeys.length > CONTAINER_CONFIG.VOLUMES) {
-      console.warn(
-        `Container config volumes truncated from ${volumeKeys.length} to ${CONTAINER_CONFIG.VOLUMES} items`,
-      );
-      const truncatedVolumes: { [path: string]: object } = {};
-      volumeKeys.slice(0, CONTAINER_CONFIG.VOLUMES).forEach((volume) => {
-        truncatedVolumes[volume] = result.Volumes![volume];
-      });
-      result.Volumes = truncatedVolumes;
-    }
-  }
-
-  return result;
+export function truncateAdditionalFacts(facts: any[]): any[] {
+  return facts.map(fact => {
+    if (!fact || !fact.type || !fact.data) return fact;
+    
+    const truncatedData = truncateDataValue(fact.data, fact.type, 'data');
+    return { ...fact, data: truncatedData };
+  });
 }
 
-export function validateSizeConstraintsHistory(
-  history?: HistoryEntry[],
-): HistoryEntry[] | undefined {
-  if (!history) {
-    return history;
+function truncateDataValue(value: any, factType: string, path: string): any {
+  const limitKey = `${factType}.${path}`;
+  const limitConfig = RESPONSE_SIZE_LIMITS[limitKey];
+  
+  // directly truncate if there's a match
+  if (limitConfig) {
+    value = truncateValue(value, limitConfig, limitKey);
   }
-
-  if (history.length > SIZE_LIMITS.HISTORY) {
-    console.warn(
-      `History array truncated from ${history.length} to ${SIZE_LIMITS.HISTORY} items`,
-    );
-    return history.slice(0, SIZE_LIMITS.HISTORY);
+  
+  if (Array.isArray(value)) {
+    return value.map((item, index) => {
+      // truncate individual array elements if they have limits
+      const arrayElementLimitKey = `${factType}.${path}[*]`;
+      const arrayElementLimit = RESPONSE_SIZE_LIMITS[arrayElementLimitKey];
+      
+      if (arrayElementLimit) {
+        item = truncateValue(item, arrayElementLimit, `${arrayElementLimitKey}[${index}]`);
+      }
+      
+      // if the elements are objects that we need to check fields, recurse on each object in the array
+      // ie. recurse on each object within the History array fact. 
+      if (typeof item === 'object' && item !== null) {
+        const truncatedItem = { ...item };
+        for (const [itemKey, itemValue] of Object.entries(item)) {
+          truncatedItem[itemKey] = truncateDataValue(itemValue, factType, `${path}[*].${itemKey}`);
+        }
+        return truncatedItem;
+      }
+      return item;
+    });
+  } else if (typeof value === 'object' && value !== null) {
+    const truncatedObject = { ...value };
+    for (const [key, subValue] of Object.entries(value)) {
+      truncatedObject[key] = truncateDataValue(subValue, factType, `${path}.${key}`);
+    }
+    return truncatedObject;
   }
+  return value;
+}
 
-  return history;
+function truncateValue(value: any, limitConfig: any, fieldPath: string): any {
+  switch (limitConfig.type) {
+    case 'array':
+      if (Array.isArray(value) && value.length > limitConfig.limit) {
+        return value.slice(0, limitConfig.limit);
+      }
+      break;
+    case 'string':
+      if (typeof value === 'string' && value.length > limitConfig.limit) {
+        return value.substring(0, limitConfig.limit);
+      }
+      break;
+  }
+  return value;
 }
