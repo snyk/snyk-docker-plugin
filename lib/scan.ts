@@ -90,32 +90,6 @@ async function getAnalysisParameters(
     );
   }
 
-  // Deprecation warnings (lenient mode only)
-  if (!useStrictMode) {
-    const warnings: string[] = [];
-    if (
-      isDefined(options["shaded-jars-depth"]) &&
-      isDefined(options["nested-jars-depth"])
-    ) {
-      warnings.push(
-        "Using both --shaded-jars-depth and --nested-jars-depth is deprecated, use only --nested-jars-depth",
-      );
-    } else if (isDefined(options["shaded-jars-depth"])) {
-      warnings.push(
-        "--shaded-jars-depth is deprecated, use --nested-jars-depth instead",
-      );
-    }
-    if (
-      !isStrictNumber(nestedJarsDepth) &&
-      typeof nestedJarsDepth !== "undefined"
-    ) {
-      warnings.push(
-        "Non-numeric inputs for --nested-jars-depth are deprecated, replace with a numeric input",
-      );
-    }
-    warnings.forEach((msg) => console.warn(chalk.yellow(msg)));
-  }
-
   // TODO temporary solution to avoid double results for PHP if exists in `globsToFind`
   if (options.globsToFind) {
     options.globsToFind.include = options.globsToFind.include.filter(
