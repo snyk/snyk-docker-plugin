@@ -75,6 +75,7 @@ export type FactType =
   | "containerConfig"
   | "platform"
   | "pluginVersion"
+  | "pluginWarnings"
   | "rootFs"
   // Used for application dependencies scanning; shows which files were used in the analysis of the dependencies.
   | "testedFiles"

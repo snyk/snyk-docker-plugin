@@ -139,3 +139,15 @@ export interface HistoryFact {
     emptyLayer?: boolean;
   }>;
 }
+
+export interface PluginWarningsFact {
+  type: "pluginWarnings";
+  data: {
+    truncatedFacts: {
+      [key: string]: {
+        type: "array" | "string";
+        count: number;
+      };
+    };
+  };
+}

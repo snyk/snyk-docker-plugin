@@ -288,7 +288,7 @@ async function buildResponse(
     ...applicationDependenciesScanResults,
   ];
 
-  const truncatedScanResults = scanResults.map(result => ({
+  const truncatedScanResults = scanResults.map((result) => ({
     ...result,
     facts: truncateAdditionalFacts(result.facts || []),
   }));

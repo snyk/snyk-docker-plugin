@@ -90,7 +90,6 @@ describe("isValidDockerImageReference", () => {
 });
 
 describe("truncateAdditionalFacts", () => {
-
   describe("should handle edge cases", () => {
     it("should return empty array for empty input", () => {
       const result = truncateAdditionalFacts([]);
@@ -103,7 +102,7 @@ describe("truncateAdditionalFacts", () => {
         { type: "history", data: null },
         { type: "platform", data: undefined },
       ];
-      
+
       const result = truncateAdditionalFacts(facts);
       expect(result).toEqual(facts);
     });
@@ -147,11 +146,20 @@ describe("truncateAdditionalFacts", () => {
     });
 
     it("should truncate containerConfig arrays when they exceed limits", () => {
-      const largeEnv = Array.from({ length: 600 }, (_, i) => `VAR${i}=value${i}`);
+      const largeEnv = Array.from(
+        { length: 600 },
+        (_, i) => `VAR${i}=value${i}`,
+      );
       const largeCmd = Array.from({ length: 600 }, (_, i) => `arg${i}`);
-      const largeEntrypoint = Array.from({ length: 600 }, (_, i) => `entry${i}`);
+      const largeEntrypoint = Array.from(
+        { length: 600 },
+        (_, i) => `entry${i}`,
+      );
       const largeVolumes = Array.from({ length: 600 }, (_, i) => `/data${i}`);
-      const largeExposedPorts = Array.from({ length: 600 }, (_, i) => `${8000 + i}/tcp`);
+      const largeExposedPorts = Array.from(
+        { length: 600 },
+        (_, i) => `${8000 + i}/tcp`,
+      );
 
       const facts = [
         {
@@ -167,13 +175,13 @@ describe("truncateAdditionalFacts", () => {
       ];
 
       const result = truncateAdditionalFacts(facts);
-      
+
       expect(result[0].data.env).toHaveLength(500);
       expect(result[0].data.cmd).toHaveLength(500);
       expect(result[0].data.entrypoint).toHaveLength(500);
       expect(result[0].data.volumes).toHaveLength(500);
       expect(result[0].data.exposedPorts).toHaveLength(500);
-      
+
       // Verify truncated arrays contain the first N elements
       expect(result[0].data.env).toEqual(largeEnv.slice(0, 500));
       expect(result[0].data.cmd).toEqual(largeCmd.slice(0, 500));
@@ -196,11 +204,11 @@ describe("truncateAdditionalFacts", () => {
       ];
 
       const result = truncateAdditionalFacts(facts);
-      
+
       expect(result[0].data.user).toHaveLength(1024);
       expect(result[0].data.workingDir).toHaveLength(1024);
       expect(result[0].data.stopSignal).toHaveLength(128);
-      
+
       // Verify truncated strings contain the first N characters
       expect(result[0].data.user).toBe(longUser.substring(0, 1024));
       expect(result[0].data.workingDir).toBe(longWorkingDir.substring(0, 1024));
@@ -224,11 +232,11 @@ describe("truncateAdditionalFacts", () => {
       ];
 
       const result = truncateAdditionalFacts(facts);
-      
+
       expect(result[0].data.env[0]).toBe("SHORT_VAR=value"); // Unchanged
       expect(result[0].data.env[1]).toHaveLength(1024); // Truncated
       expect(result[0].data.env[2]).toHaveLength(1024); // Truncated
-      
+
       // Verify truncated elements contain the first N characters
       expect(result[0].data.env[1]).toBe(longEnvVars[1].substring(0, 1024));
       expect(result[0].data.env[2]).toBe(longEnvVars[2].substring(0, 1024));
@@ -253,25 +261,29 @@ describe("truncateAdditionalFacts", () => {
       ];
 
       const result = truncateAdditionalFacts(facts);
-      
+
       // Verify exposedPorts array elements (64 char limit)
       expect(result[0].data.exposedPorts[0]).toBe("80/tcp"); // Unchanged
       expect(result[0].data.exposedPorts[1]).toHaveLength(64); // Truncated
-      expect(result[0].data.exposedPorts[1]).toBe((longPort + "/tcp").substring(0, 64));
+      expect(result[0].data.exposedPorts[1]).toBe(
+        (longPort + "/tcp").substring(0, 64),
+      );
       expect(result[0].data.exposedPorts[2]).toBe("443/tcp"); // Unchanged
-      
+
       // Verify entrypoint array elements (1024 char limit)
       expect(result[0].data.entrypoint[0]).toBe("/bin/sh"); // Unchanged
       expect(result[0].data.entrypoint[1]).toHaveLength(1024); // Truncated
-      expect(result[0].data.entrypoint[1]).toBe(longEntrypoint.substring(0, 1024));
+      expect(result[0].data.entrypoint[1]).toBe(
+        longEntrypoint.substring(0, 1024),
+      );
       expect(result[0].data.entrypoint[2]).toBe("-c"); // Unchanged
-      
+
       // Verify cmd array elements (1024 char limit)
       expect(result[0].data.cmd[0]).toBe("echo"); // Unchanged
       expect(result[0].data.cmd[1]).toHaveLength(1024); // Truncated
       expect(result[0].data.cmd[1]).toBe(longCmd.substring(0, 1024));
       expect(result[0].data.cmd[2]).toBe("world"); // Unchanged
-      
+
       // Verify volumes array elements (1024 char limit)
       expect(result[0].data.volumes[0]).toBe("/data"); // Unchanged
       expect(result[0].data.volumes[1]).toHaveLength(1024); // Truncated
@@ -325,7 +337,7 @@ describe("truncateAdditionalFacts", () => {
       ];
 
       const result = truncateAdditionalFacts(facts);
-      
+
       expect(result[0].data).toHaveLength(1000);
       // Verify truncated array contains the first 1000 elements
       expect(result[0].data).toEqual(largeHistory.slice(0, 1000));
@@ -338,7 +350,7 @@ describe("truncateAdditionalFacts", () => {
           data: [
             {
               author: "a".repeat(200), // Exceeds 128 limit
-              createdBy: "b".repeat(200), // Exceeds 128 limit  
+              createdBy: "b".repeat(200), // Exceeds 128 limit
               comment: "c".repeat(5000), // Exceeds 4096 limit
             },
             {
@@ -351,16 +363,16 @@ describe("truncateAdditionalFacts", () => {
       ];
 
       const result = truncateAdditionalFacts(facts);
-      
+
       expect(result[0].data[0].author).toHaveLength(128);
       expect(result[0].data[0].createdBy).toHaveLength(128);
       expect(result[0].data[0].comment).toHaveLength(4096);
-      
+
       // Second item should be unchanged
       expect(result[0].data[1].author).toBe("short");
       expect(result[0].data[1].createdBy).toBe("also short");
       expect(result[0].data[1].comment).toBe("normal comment");
-      
+
       // Verify truncated strings contain the first N characters
       expect(result[0].data[0].author).toBe("a".repeat(128));
       expect(result[0].data[0].createdBy).toBe("b".repeat(128));
@@ -370,7 +382,10 @@ describe("truncateAdditionalFacts", () => {
 
   describe("multiple facts", () => {
     it("should handle multiple fact types correctly", () => {
-      const largeEnv = Array.from({ length: 600 }, (_, i) => `VAR${i}=value${i}`);
+      const largeEnv = Array.from(
+        { length: 600 },
+        (_, i) => `VAR${i}=value${i}`,
+      );
       const largeHistory = Array.from({ length: 1200 }, (_, i) => ({
         author: `author${i}`,
         createdBy: `RUN step${i}`,
@@ -385,7 +400,7 @@ describe("truncateAdditionalFacts", () => {
           },
         },
         {
-          type: "history", 
+          type: "history",
           data: largeHistory,
         },
         {
@@ -398,14 +413,14 @@ describe("truncateAdditionalFacts", () => {
       ];
 
       const result = truncateAdditionalFacts(facts);
-      
+
       // containerConfig should be truncated
       expect(result[0].data.env).toHaveLength(500);
       expect(result[0].data.user).toBe("root"); // Unchanged
-      
+
       // history should be truncated
       expect(result[1].data).toHaveLength(1000);
-      
+
       // platform should be unchanged (no limits defined)
       expect(result[2]).toEqual(facts[2]);
     });
@@ -484,7 +499,7 @@ describe("truncateAdditionalFacts", () => {
 
       // Verify history: only comment in first item should be truncated
       expect(result[1].data).toHaveLength(2); // Array length unchanged
-      
+
       // First history item
       expect(result[1].data[0].author).toBe(normalAuthor); // Unchanged
       expect(result[1].data[0].createdBy).toBe("RUN apt-get update"); // Unchanged
@@ -492,7 +507,7 @@ describe("truncateAdditionalFacts", () => {
       expect(result[1].data[0].comment).toBe(longComment.substring(0, 4096));
       expect(result[1].data[0].created).toBe("2023-01-01T00:00:00Z"); // Unchanged
       expect(result[1].data[0].emptyLayer).toBe(false); // Unchanged
-      
+
       // Second history item (all should remain unchanged)
       expect(result[1].data[1].author).toBe("another author");
       expect(result[1].data[1].createdBy).toBe("COPY . /app");
@@ -500,6 +515,211 @@ describe("truncateAdditionalFacts", () => {
 
       // Verify platform: everything should remain unchanged
       expect(result[2]).toEqual(facts[2]);
+    });
+  });
+
+  describe("pluginWarnings fact", () => {
+    it("should not add pluginWarnings fact when no truncation occurs", () => {
+      const facts = [
+        {
+          type: "containerConfig",
+          data: {
+            user: "root",
+            env: ["VAR1=value1", "VAR2=value2"],
+          },
+        },
+      ];
+
+      const result = truncateAdditionalFacts(facts);
+
+      expect(result).toHaveLength(1);
+      expect(result.find((f) => f.type === "pluginWarnings")).toBeUndefined();
+    });
+
+    it("should add pluginWarnings fact when array truncation occurs", () => {
+      const largeEnv = Array.from(
+        { length: 600 },
+        (_, i) => `VAR${i}=value${i}`,
+      );
+
+      const facts = [
+        {
+          type: "containerConfig",
+          data: {
+            env: largeEnv,
+          },
+        },
+      ];
+
+      const result = truncateAdditionalFacts(facts);
+
+      expect(result).toHaveLength(2);
+      const warningsFact = result.find((f) => f.type === "pluginWarnings");
+      expect(warningsFact).toBeDefined();
+      expect(warningsFact.data.truncatedFacts).toEqual({
+        "containerConfig.data.env": { type: "array", count: 100 },
+      });
+    });
+
+    it("should add pluginWarnings fact when string truncation occurs", () => {
+      const longUser = "a".repeat(2000);
+
+      const facts = [
+        {
+          type: "containerConfig",
+          data: {
+            user: longUser,
+          },
+        },
+      ];
+
+      const result = truncateAdditionalFacts(facts);
+
+      expect(result).toHaveLength(2);
+      const warningsFact = result.find((f) => f.type === "pluginWarnings");
+      expect(warningsFact).toBeDefined();
+      expect(warningsFact.data.truncatedFacts).toEqual({
+        "containerConfig.data.user": { type: "string", count: 976 },
+      });
+    });
+
+    it("should track maximum string truncation for array elements", () => {
+      const shortEnv = "SHORT=value";
+      const mediumEnv = "MEDIUM=" + "x".repeat(1500); // 1507 chars -> truncated to 1024 = 483 chars removed
+      const longEnv = "LONG=" + "x".repeat(2000); // 2005 chars -> truncated to 1024 = 981 chars removed
+
+      const facts = [
+        {
+          type: "containerConfig",
+          data: {
+            env: [shortEnv, mediumEnv, longEnv],
+          },
+        },
+      ];
+
+      const result = truncateAdditionalFacts(facts);
+
+      expect(result).toHaveLength(2);
+      const warningsFact = result.find((f) => f.type === "pluginWarnings");
+      expect(warningsFact).toBeDefined();
+      expect(warningsFact.data.truncatedFacts).toEqual({
+        "containerConfig.data.env[*]": { type: "string", count: 981 }, // Maximum truncation
+      });
+    });
+
+    it("should track multiple truncation types", () => {
+      const largeEnv = Array.from(
+        { length: 600 },
+        (_, i) => `VAR${i}=value${i}`,
+      );
+      const longUser = "a".repeat(2000);
+      const largeHistory = Array.from({ length: 1200 }, (_, i) => ({
+        created: `2023-01-01T00:00:${i.toString().padStart(2, "0")}Z`,
+        author: `author${i}`,
+        createdBy: `RUN echo step${i}`,
+        comment: `Step ${i}`,
+        emptyLayer: false,
+      }));
+
+      const facts = [
+        {
+          type: "containerConfig",
+          data: {
+            user: longUser,
+            env: largeEnv,
+          },
+        },
+        {
+          type: "history",
+          data: largeHistory,
+        },
+      ];
+
+      const result = truncateAdditionalFacts(facts);
+
+      expect(result).toHaveLength(3);
+      const warningsFact = result.find((f) => f.type === "pluginWarnings");
+      expect(warningsFact).toBeDefined();
+      expect(warningsFact.data.truncatedFacts).toEqual({
+        "containerConfig.data.user": { type: "string", count: 976 },
+        "containerConfig.data.env": { type: "array", count: 100 },
+        "history.data": { type: "array", count: 200 },
+      });
+    });
+
+    it("should track nested string truncation in history objects", () => {
+      const longAuthor = "a".repeat(200); // 200 chars -> truncated to 128 = 72 chars removed
+      const veryLongCreatedBy = "RUN " + "x".repeat(300); // 304 chars -> truncated to 128 = 176 chars removed
+      const longComment = "x".repeat(5000); // 5000 chars -> truncated to 4096 = 904 chars removed
+
+      const facts = [
+        {
+          type: "history",
+          data: [
+            {
+              created: "2023-01-01T00:00:00Z",
+              author: "short author", // Won't be truncated
+              createdBy: "RUN echo test", // Won't be truncated
+              comment: "short comment", // Won't be truncated
+              emptyLayer: false,
+            },
+            {
+              created: "2023-01-02T00:00:00Z",
+              author: longAuthor, // Will be truncated
+              createdBy: veryLongCreatedBy, // Will be truncated (this is the max)
+              comment: longComment, // Will be truncated (this is the max)
+              emptyLayer: true,
+            },
+          ],
+        },
+      ];
+
+      const result = truncateAdditionalFacts(facts);
+
+      expect(result).toHaveLength(2);
+      const warningsFact = result.find((f) => f.type === "pluginWarnings");
+      expect(warningsFact).toBeDefined();
+      expect(warningsFact.data.truncatedFacts).toEqual({
+        "history.data[*].author": { type: "string", count: 72 },
+        "history.data[*].createdBy": { type: "string", count: 176 },
+        "history.data[*].comment": { type: "string", count: 904 },
+      });
+    });
+
+    it("should track maximum truncation across multiple history objects", () => {
+      const mediumAuthor = "a".repeat(150); // 150 -> 128 = 22 chars removed
+      const longAuthor = "b".repeat(200); // 200 -> 128 = 72 chars removed (max)
+
+      const facts = [
+        {
+          type: "history",
+          data: [
+            {
+              created: "2023-01-01T00:00:00Z",
+              author: mediumAuthor,
+              createdBy: "RUN echo test1",
+              comment: "comment1",
+              emptyLayer: false,
+            },
+            {
+              created: "2023-01-02T00:00:00Z",
+              author: longAuthor, // This should be the max tracked
+              createdBy: "RUN echo test2",
+              comment: "comment2",
+              emptyLayer: true,
+            },
+          ],
+        },
+      ];
+
+      const result = truncateAdditionalFacts(facts);
+
+      expect(result).toHaveLength(2);
+      const warningsFact = result.find((f) => f.type === "pluginWarnings");
+      expect(warningsFact).toBeDefined();
+      expect(warningsFact.data.truncatedFacts).toEqual({
+        "history.data[*].author": { type: "string", count: 72 }, // Maximum across all history items
+      });
     });
   });
 });
