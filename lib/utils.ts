@@ -17,7 +17,7 @@ export function isValidDockerImageReference(imageReference: string): boolean {
 }
 
 // array[*] indicates to truncate each element to the indicated size
-const RESPONSE_SIZE_LIMITS = {
+export const RESPONSE_SIZE_LIMITS = {
   "containerConfig.data.user": { type: "string", limit: 1024 },
   "containerConfig.data.exposedPorts": { type: "array", limit: 500 },
   "containerConfig.data.exposedPorts[*]": { type: "string", limit: 64 },
@@ -33,13 +33,13 @@ const RESPONSE_SIZE_LIMITS = {
   "containerConfig.data.stopSignal": { type: "string", limit: 128 },
   "history.data": { type: "array", limit: 1000 },
   "history.data[*].author": { type: "string", limit: 128 },
-  "history.data[*].createdBy": { type: "string", limit: 128 },
+  "history.data[*].createdBy": { type: "string", limit: 4096 },
   "history.data[*].comment": { type: "string", limit: 4096 },
 } as const;
 
 interface TruncationInfo {
   type: "array" | "string";
-  count: number;
+  countAboveLimit: number;
 }
 
 export function truncateAdditionalFacts(facts: any[]): any[] {
@@ -114,42 +114,20 @@ function truncateDataValue(
           truncationTracker,
         );
       }
-
-      // if the elements are objects that we need to check fields, recurse on each object in the array
-      // ie. recurse on each object within the History array fact.
-      if (typeof item === "object" && item !== null) {
-        const truncatedItem = { ...item };
-        for (const [itemKey, itemValue] of Object.entries(item)) {
-          truncatedItem[itemKey] = truncateDataValue(
-            itemValue,
-            factType,
-            `${path}[*].${itemKey}`,
-            truncationTracker,
-          );
-        }
-        return truncatedItem;
-      }
-      return item;
+      return truncateDataValue(item, factType, `${path}[*]`, truncationTracker);
     });
   } else if (typeof value === "object" && value !== null) {
-    let hasChanges = false;
     const truncatedObject: any = {};
 
     for (const [key, subValue] of Object.entries(value)) {
-      const truncatedSubValue = truncateDataValue(
+      truncatedObject[key] = truncateDataValue(
         subValue,
         factType,
         `${path}.${key}`,
         truncationTracker,
       );
-      truncatedObject[key] = truncatedSubValue;
-      if (truncatedSubValue !== subValue) {
-        hasChanges = true;
-      }
     }
-
-    // Only return a new object if we actually made changes
-    return hasChanges ? truncatedObject : value;
+    return truncatedObject;
   }
   return value;
 }
@@ -165,7 +143,10 @@ function truncateValue(
       if (Array.isArray(value) && value.length > limitConfig.limit) {
         const truncatedCount = value.length - limitConfig.limit;
         // report how many elements were truncated
-        truncationTracker[fieldPath] = { type: "array", count: truncatedCount };
+        truncationTracker[fieldPath] = {
+          type: "array",
+          countAboveLimit: truncatedCount,
+        };
         return value.slice(0, limitConfig.limit);
       }
       break;
@@ -174,10 +155,10 @@ function truncateValue(
         const truncatedCount = value.length - limitConfig.limit;
         // report the maximum number of characters that were truncated for this field
         const existing = truncationTracker[fieldPath];
-        if (!existing || truncatedCount > existing.count) {
+        if (!existing || truncatedCount > existing.countAboveLimit) {
           truncationTracker[fieldPath] = {
             type: "string",
-            count: truncatedCount,
+            countAboveLimit: truncatedCount,
           };
         }
         return value.substring(0, limitConfig.limit);

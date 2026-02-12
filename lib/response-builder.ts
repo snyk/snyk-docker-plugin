@@ -84,19 +84,33 @@ async function buildResponse(
     const containerConfigFact: facts.ContainerConfigFact = {
       type: "containerConfig",
       data: {
-        user: depsAnalysis.containerConfig.User,
-        exposedPorts: depsAnalysis.containerConfig.ExposedPorts
-          ? Object.keys(depsAnalysis.containerConfig.ExposedPorts)
-          : undefined,
-        env: depsAnalysis.containerConfig.Env,
-        entrypoint: depsAnalysis.containerConfig.Entrypoint,
-        cmd: depsAnalysis.containerConfig.Cmd,
-        volumes: depsAnalysis.containerConfig.Volumes
-          ? Object.keys(depsAnalysis.containerConfig.Volumes)
-          : undefined,
-        workingDir: depsAnalysis.containerConfig.WorkingDir,
-        stopSignal: depsAnalysis.containerConfig.StopSignal,
-        argsEscaped: depsAnalysis.containerConfig.ArgsEscaped,
+        ...(depsAnalysis.containerConfig.User !== undefined && {
+          user: depsAnalysis.containerConfig.User,
+        }),
+        ...(depsAnalysis.containerConfig.ExposedPorts && {
+          exposedPorts: Object.keys(depsAnalysis.containerConfig.ExposedPorts),
+        }),
+        ...(depsAnalysis.containerConfig.Env !== undefined && {
+          env: depsAnalysis.containerConfig.Env,
+        }),
+        ...(depsAnalysis.containerConfig.Entrypoint !== undefined && {
+          entrypoint: depsAnalysis.containerConfig.Entrypoint,
+        }),
+        ...(depsAnalysis.containerConfig.Cmd !== undefined && {
+          cmd: depsAnalysis.containerConfig.Cmd,
+        }),
+        ...(depsAnalysis.containerConfig.Volumes && {
+          volumes: Object.keys(depsAnalysis.containerConfig.Volumes),
+        }),
+        ...(depsAnalysis.containerConfig.WorkingDir !== undefined && {
+          workingDir: depsAnalysis.containerConfig.WorkingDir,
+        }),
+        ...(depsAnalysis.containerConfig.StopSignal !== undefined && {
+          stopSignal: depsAnalysis.containerConfig.StopSignal,
+        }),
+        ...(depsAnalysis.containerConfig.ArgsEscaped !== undefined && {
+          argsEscaped: depsAnalysis.containerConfig.ArgsEscaped,
+        }),
       },
     };
     additionalFacts.push(containerConfigFact);
@@ -106,11 +120,13 @@ async function buildResponse(
     const historyFact: facts.HistoryFact = {
       type: "history",
       data: depsAnalysis.history.map((entry) => ({
-        created: entry.created,
-        author: entry.author,
-        createdBy: entry.created_by,
-        comment: entry.comment,
-        emptyLayer: entry.empty_layer,
+        ...(entry.created !== undefined && { created: entry.created }),
+        ...(entry.author !== undefined && { author: entry.author }),
+        ...(entry.created_by !== undefined && { createdBy: entry.created_by }),
+        ...(entry.comment !== undefined && { comment: entry.comment }),
+        ...(entry.empty_layer !== undefined && {
+          emptyLayer: entry.empty_layer,
+        }),
       })),
     };
     additionalFacts.push(historyFact);

@@ -146,7 +146,7 @@ export interface PluginWarningsFact {
     truncatedFacts: {
       [key: string]: {
         type: "array" | "string";
-        count: number;
+        countAboveLimit: number;
       };
     };
   };
