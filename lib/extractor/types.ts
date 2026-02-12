@@ -58,15 +58,15 @@ export interface DockerArchiveManifest {
 
 export interface ContainerConfig {
   User?: string | null;
-  ExposedPorts?: { [port: string]: object };
+  ExposedPorts?: { [port: string]: object } | null;
   Env?: string[] | null;
   Entrypoint?: string[] | null;
   Cmd?: string[] | null;
-  Volumes?: { [path: string]: object };
+  Volumes?: { [path: string]: object } | null;
   WorkingDir?: string | null;
   Labels?: { [key: string]: string };
   StopSignal?: string | null;
-  ArgsEscaped?: boolean;
+  ArgsEscaped?: boolean | null;
 }
 
 export interface HistoryEntry {
@@ -74,7 +74,7 @@ export interface HistoryEntry {
   author?: string | null;
   created_by?: string | null;
   comment?: string | null;
-  empty_layer?: boolean;
+  empty_layer?: boolean | null;
 }
 
 export interface ImageConfig {

@@ -125,7 +125,7 @@ export interface ContainerConfigFact {
     volumes?: string[] | null;
     workingDir?: string | null;
     stopSignal?: string | null;
-    argsEscaped?: boolean;
+    argsEscaped?: boolean | null;
   };
 }
 
@@ -136,7 +136,7 @@ export interface HistoryFact {
     author?: string | null;
     createdBy?: string | null;
     comment?: string | null;
-    emptyLayer?: boolean;
+    emptyLayer?: boolean | null;
   }>;
 }
 
