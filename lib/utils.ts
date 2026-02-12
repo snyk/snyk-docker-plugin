@@ -102,18 +102,6 @@ function truncateDataValue(
 
   if (Array.isArray(value)) {
     return value.map((item, index) => {
-      // truncate individual array elements if they have limits
-      const arrayElementLimitKey = `${factType}.${path}[*]`;
-      const arrayElementLimit = RESPONSE_SIZE_LIMITS[arrayElementLimitKey];
-
-      if (arrayElementLimit) {
-        item = truncateValue(
-          item,
-          arrayElementLimit,
-          arrayElementLimitKey,
-          truncationTracker,
-        );
-      }
       return truncateDataValue(item, factType, `${path}[*]`, truncationTracker);
     });
   } else if (typeof value === "object" && value !== null) {
