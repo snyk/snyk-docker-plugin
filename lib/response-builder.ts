@@ -87,8 +87,10 @@ async function buildResponse(
         ...(depsAnalysis.containerConfig.User !== undefined && {
           user: depsAnalysis.containerConfig.User,
         }),
-        ...(depsAnalysis.containerConfig.ExposedPorts && {
-          exposedPorts: Object.keys(depsAnalysis.containerConfig.ExposedPorts),
+        ...(depsAnalysis.containerConfig.ExposedPorts !== undefined && {
+          exposedPorts: depsAnalysis.containerConfig.ExposedPorts
+            ? Object.keys(depsAnalysis.containerConfig.ExposedPorts)
+            : null,
         }),
         ...(depsAnalysis.containerConfig.Env !== undefined && {
           env: depsAnalysis.containerConfig.Env,
@@ -99,8 +101,10 @@ async function buildResponse(
         ...(depsAnalysis.containerConfig.Cmd !== undefined && {
           cmd: depsAnalysis.containerConfig.Cmd,
         }),
-        ...(depsAnalysis.containerConfig.Volumes && {
-          volumes: Object.keys(depsAnalysis.containerConfig.Volumes),
+        ...(depsAnalysis.containerConfig.Volumes !== undefined && {
+          volumes: depsAnalysis.containerConfig.Volumes
+            ? Object.keys(depsAnalysis.containerConfig.Volumes)
+            : null,
         }),
         ...(depsAnalysis.containerConfig.WorkingDir !== undefined && {
           workingDir: depsAnalysis.containerConfig.WorkingDir,

@@ -79,6 +79,37 @@ describe("buildResponse", () => {
       expect(containerConfigFact!.data).not.toHaveProperty("workingDir");
     });
 
+    it("should include null values for string properties", async () => {
+      const containerConfig: any = {
+        User: null,
+        WorkingDir: null,
+        StopSignal: "SIGTERM",
+        Env: undefined,
+      };
+
+      const mockAnalysis = createMockAnalysis({
+        containerConfig,
+      });
+
+      const result = await buildResponse(mockAnalysis as any, undefined, false);
+
+      const containerConfigFact = result.scanResults
+        .flatMap((scanResult) => scanResult.facts || [])
+        .find((fact) => fact.type === "containerConfig");
+
+      expect(containerConfigFact).toBeDefined();
+      expect(containerConfigFact!.data).toEqual({
+        user: null,
+        workingDir: null,
+        stopSignal: "SIGTERM",
+      });
+
+      expect(containerConfigFact!.data).toHaveProperty("user", null);
+      expect(containerConfigFact!.data).toHaveProperty("workingDir", null);
+      expect(containerConfigFact!.data).toHaveProperty("stopSignal", "SIGTERM");
+      expect(containerConfigFact!.data).not.toHaveProperty("env");
+    });
+
     it("should handle ExposedPorts and Volumes", async () => {
       const testCases = [
         {
@@ -112,8 +143,10 @@ describe("buildResponse", () => {
           },
           expected: {
             user: "root",
+            exposedPorts: null,
+            volumes: null,
           },
-          shouldNotHave: ["exposedPorts", "volumes"],
+          shouldNotHave: [],
         },
         {
           name: "empty ExposedPorts and Volumes",

@@ -117,14 +117,14 @@ export interface PluginVersionFact {
 export interface ContainerConfigFact {
   type: "containerConfig";
   data: {
-    user?: string;
-    exposedPorts?: string[];
-    env?: string[];
-    entrypoint?: string[];
-    cmd?: string[];
-    volumes?: string[];
-    workingDir?: string;
-    stopSignal?: string;
+    user?: string | null;
+    exposedPorts?: string[] | null;
+    env?: string[] | null;
+    entrypoint?: string[] | null;
+    cmd?: string[] | null;
+    volumes?: string[] | null;
+    workingDir?: string | null;
+    stopSignal?: string | null;
     argsEscaped?: boolean;
   };
 }
@@ -132,10 +132,10 @@ export interface ContainerConfigFact {
 export interface HistoryFact {
   type: "history";
   data: Array<{
-    created?: string;
-    author?: string;
-    createdBy?: string;
-    comment?: string;
+    created?: string | null;
+    author?: string | null;
+    createdBy?: string | null;
+    comment?: string | null;
     emptyLayer?: boolean;
   }>;
 }

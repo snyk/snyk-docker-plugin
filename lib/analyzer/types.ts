@@ -83,22 +83,22 @@ export interface StaticAnalysis {
   imageLabels?: { [key: string]: string };
   imageCreationTime?: string;
   containerConfig?: {
-    User?: string;
+    User?: string | null;
     ExposedPorts?: { [port: string]: object };
-    Env?: string[];
-    Entrypoint?: string[];
-    Cmd?: string[];
+    Env?: string[] | null;
+    Entrypoint?: string[] | null;
+    Cmd?: string[] | null;
     Volumes?: { [path: string]: object };
-    WorkingDir?: string;
+    WorkingDir?: string | null;
     Labels?: { [key: string]: string };
-    StopSignal?: string;
+    StopSignal?: string | null;
     ArgsEscaped?: boolean;
   };
   history?: Array<{
-    created?: string;
-    author?: string;
-    created_by?: string;
-    comment?: string;
+    created?: string | null;
+    author?: string | null;
+    created_by?: string | null;
+    comment?: string | null;
     empty_layer?: boolean;
   }>;
 }
