@@ -9,12 +9,7 @@ import { ImageName } from "./extractor/image";
 import { ExtractAction, ExtractionResult } from "./extractor/types";
 import { fullImageSavePath } from "./image-save-path";
 import { getArchivePath, getImageType } from "./image-type";
-import {
-  isDefined,
-  isStrictNumber,
-  isTrue,
-  resolveNestedJarsOption,
-} from "./option-utils";
+import { isNumber, isTrue } from "./option-utils";
 import * as staticModule from "./static";
 import { ImageType, PluginOptions, PluginResponse } from "./types";
 import { isValidDockerImageReference } from "./utils";
@@ -45,24 +40,20 @@ async function getAnalysisParameters(
     throw new Error("No image identifier or path provided");
   }
 
+  const nestedJarsDepth =
+    options["nested-jars-depth"] || options["shaded-jars-depth"];
   if (
-    isDefined(options["shaded-jars-depth"]) &&
-    isDefined(options["nested-jars-depth"])
+    (isTrue(nestedJarsDepth) || isNumber(nestedJarsDepth)) &&
+    isTrue(options["exclude-app-vulns"])
   ) {
-    throw new Error(
-      "Cannot use --shaded-jars-depth together with --nested-jars-depth, please use the latter",
-    );
-  }
-
-  const nestedJarsDepth = resolveNestedJarsOption(options);
-  if (isStrictNumber(nestedJarsDepth) && isTrue(options["exclude-app-vulns"])) {
     throw new Error(
       "To use --nested-jars-depth, you must not use --exclude-app-vulns",
     );
   }
 
   if (
-    (!isStrictNumber(nestedJarsDepth) &&
+    (!isNumber(nestedJarsDepth) &&
+      !isTrue(nestedJarsDepth) &&
       typeof nestedJarsDepth !== "undefined") ||
     Number(nestedJarsDepth) < 0
   ) {
