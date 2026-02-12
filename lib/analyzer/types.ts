@@ -93,14 +93,14 @@ export interface StaticAnalysis {
     Labels?: { [key: string]: string };
     StopSignal?: string | null;
     ArgsEscaped?: boolean | null;
-  };
+  } | null;
   history?: Array<{
     created?: string | null;
     author?: string | null;
     created_by?: string | null;
     comment?: string | null;
     empty_layer?: boolean | null;
-  }>;
+  }> | null;
 }
 
 export interface StaticPackagesAnalysis extends StaticAnalysis {

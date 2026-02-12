@@ -110,6 +110,96 @@ describe("buildResponse", () => {
       expect(containerConfigFact!.data).not.toHaveProperty("env");
     });
 
+    it("should handle null containerConfig", async () => {
+      const mockAnalysis = createMockAnalysis({
+        containerConfig: null,
+      });
+
+      const result = await buildResponse(mockAnalysis as any, undefined, false);
+
+      const containerConfigFact = result.scanResults
+        .flatMap((scanResult) => scanResult.facts || [])
+        .find((fact) => fact.type === "containerConfig");
+
+      // Should create a containerConfig fact with null data when containerConfig is null
+      expect(containerConfigFact).toBeUndefined();
+    });
+
+    it("should handle null history", async () => {
+      const mockAnalysis = createMockAnalysis({
+        history: null,
+      });
+
+      const result = await buildResponse(mockAnalysis as any, undefined, false);
+
+      const historyFact = result.scanResults
+        .flatMap((scanResult) => scanResult.facts || [])
+        .find((fact) => fact.type === "history");
+
+      // Should create a history fact with null data when history is null
+      expect(historyFact).toBeUndefined();
+    });
+
+    it("should handle imageLabels when config is undefined vs defined", async () => {
+      // Test case 1: config is undefined - should not create imageLabels fact
+      const mockAnalysisUndefinedConfig = createMockAnalysis({
+        imageLabels: undefined,
+      });
+
+      const resultUndefined = await buildResponse(
+        mockAnalysisUndefinedConfig as any,
+        undefined,
+        false,
+      );
+
+      const imageLabelsFactUndefined = resultUndefined.scanResults
+        .flatMap((scanResult) => scanResult.facts || [])
+        .find((fact) => fact.type === "imageLabels");
+      expect(imageLabelsFactUndefined).toBeUndefined();
+
+      // Test case 2: config is defined with labels - should create imageLabels fact
+      const mockAnalysisWithLabels = createMockAnalysis({
+        imageLabels: {
+          maintainer: "test@example.com",
+          version: "1.0.0",
+        },
+      });
+
+      const resultWithLabels = await buildResponse(
+        mockAnalysisWithLabels as any,
+        undefined,
+        false,
+      );
+
+      const imageLabelsFactWithLabels = resultWithLabels.scanResults
+        .flatMap((scanResult) => scanResult.facts || [])
+        .find((fact) => fact.type === "imageLabels");
+
+      expect(imageLabelsFactWithLabels).toBeDefined();
+      expect(imageLabelsFactWithLabels!.data).toEqual({
+        maintainer: "test@example.com",
+        version: "1.0.0",
+      });
+
+      // Test case 3: config is defined but labels is empty object - should create imageLabels fact with empty object
+      const mockAnalysisEmptyLabels = createMockAnalysis({
+        imageLabels: {},
+      });
+
+      const resultEmptyLabels = await buildResponse(
+        mockAnalysisEmptyLabels as any,
+        undefined,
+        false,
+      );
+
+      const imageLabelsFactEmpty = resultEmptyLabels.scanResults
+        .flatMap((scanResult) => scanResult.facts || [])
+        .find((fact) => fact.type === "imageLabels");
+
+      expect(imageLabelsFactEmpty).toBeDefined();
+      expect(imageLabelsFactEmpty!.data).toEqual({});
+    });
+
     it("should handle ExposedPorts and Volumes", async () => {
       const testCases = [
         {

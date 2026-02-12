@@ -34,8 +34,8 @@ export interface ExtractionResult {
   platform?: string;
   imageLabels?: { [key: string]: string };
   imageCreationTime?: string;
-  containerConfig?: ContainerConfig;
-  history?: HistoryEntry[];
+  containerConfig?: ContainerConfig | null;
+  history?: HistoryEntry[] | null;
 }
 
 export interface ExtractedLayers {
@@ -81,9 +81,9 @@ export interface ImageConfig {
   architecture: string;
   os: string;
   rootfs: { diff_ids: string[] };
-  config: ContainerConfig;
+  config: ContainerConfig | null;
   created: string;
-  history?: HistoryEntry[];
+  history?: HistoryEntry[] | null;
 }
 
 export interface OciArchiveLayer {
