@@ -1,5 +1,5 @@
 import { buildResponse } from "../../lib/response-builder";
-import { RESPONSE_SIZE_LIMITS, truncateAdditionalFacts } from "../../lib/utils";
+import { RESPONSE_SIZE_LIMITS } from "../../lib/utils";
 
 describe("buildResponse", () => {
   const createMockAnalysis = (overrides = {}) => ({
@@ -520,235 +520,294 @@ describe("buildResponse", () => {
         expect(pluginWarningsFact).toBeUndefined();
       });
 
-      it("should handle multiple scan results correctly", async () => {
-        const mockAnalysis1 = createMockAnalysis({
+      it("should handle multiple scan results correctly with no truncation", async () => {
+        // Create mock analysis to get multiple scan results
+        const mockAnalysis = createMockAnalysis({
           containerConfig: {
-            User: "user1",
-            Env: ["ENV1=value1"],
+            User: "mainuser",
+            Env: ["MAIN_ENV=value"],
           },
-        });
-
-        const mockAnalysis2 = createMockAnalysis({
-          containerConfig: {
-            User: "user2",
-            Cmd: ["cmd2"],
-          },
-        });
-
-        // Simulate multiple scan results
-        const customResult = {
-          scanResults: [
+          applicationDependenciesScanResults: [
             {
               facts: [
-                {
-                  type: "containerConfig" as const,
-                  data: {
-                    user: "user1",
-                    env: ["ENV1=value1"],
-                  },
-                },
                 {
                   type: "depGraph" as const,
-                  data: mockAnalysis1.depTree,
+                  data: {} as any,
                 },
-              ],
-              identity: { type: "apk" as const },
-              target: { image: "test-image-1" },
-            },
-            {
-              facts: [
+                {
+                  type: "testedFiles" as const,
+                  data: "/app/package.json",
+                },
                 {
                   type: "containerConfig" as const,
                   data: {
-                    user: "user2",
-                    cmd: ["cmd2"],
+                    user: "npmuser",
+                    env: ["NODE_ENV=production", "PORT=3000"], // Within limits
+                    cmd: ["node", "server.js"],
+                    workingDir: "/app",
                   },
                 },
                 {
                   type: "history" as const,
                   data: [
                     {
-                      created: "2023-01-01T00:00:00Z",
-                      author: "test2",
+                      created: "2023-01-01T10:00:00Z",
+                      author: "npm-builder",
+                      createdBy: "RUN npm install",
+                      comment: "Install npm dependencies",
                     },
-                  ],
+                  ], // Within limits
                 },
               ],
-              identity: { type: "npm" as const },
-              target: { image: "test-image-2" },
+              identity: { type: "npm" },
+              target: { image: "test-app" },
+            },
+            {
+              facts: [
+                {
+                  type: "depGraph" as const,
+                  data: {} as any,
+                },
+                {
+                  type: "testedFiles" as const,
+                  data: "/app/requirements.txt",
+                },
+                {
+                  type: "containerConfig" as const, // wouldn't be in application project, but testing to make sure for future truncation rules
+                  data: {
+                    user: "pythonuser",
+                    env: ["PYTHONPATH=/app", "DEBUG=false"],
+                    entrypoint: ["python", "main.py"],
+                    workingDir: "/app",
+                  },
+                },
+                {
+                  type: "history" as const, // wouldn't be in application project, but testing to make sure for future truncation rules
+                  data: [
+                    {
+                      created: "2023-01-01T11:00:00Z",
+                      author: "python-builder",
+                      createdBy: "RUN pip install -r requirements.txt",
+                      comment: "Install Python dependencies",
+                    },
+                    {
+                      created: "2023-01-01T11:30:00Z",
+                      author: "python-builder",
+                      createdBy: "COPY . /app",
+                      comment: "Copy application code",
+                    },
+                  ], // Within limits
+                },
+              ],
+              identity: { type: "pip" },
+              target: { image: "test-app" },
             },
           ],
-        };
-
-        // Apply same truncation logic as response builder
-        const truncatedResult = {
-          scanResults: customResult.scanResults.map((result) => ({
-            ...result,
-            facts: result.facts || [],
-          })),
-        };
-
-        expect(truncatedResult.scanResults).toHaveLength(2);
-        // check first scan result
-        const firstScanResult = truncatedResult.scanResults[0];
-        expect(firstScanResult.identity.type).toBe("apk");
-        expect(firstScanResult.target.image).toBe("test-image-1");
-
-        const firstContainerConfig = firstScanResult.facts.find(
-          (fact) => fact.type === "containerConfig",
-        );
-        expect(firstContainerConfig?.data).toEqual({
-          user: "user1",
-          env: ["ENV1=value1"],
         });
 
-        // check second scan result
-        const secondScanResult = truncatedResult.scanResults[1];
-        expect(secondScanResult.identity.type).toBe("npm");
-        expect(secondScanResult.target.image).toBe("test-image-2");
+        const result = await buildResponse(
+          mockAnalysis as any,
+          undefined,
+          false,
+        );
 
-        const secondContainerConfig = secondScanResult.facts.find(
+        // Should have 3 scan results: 1 main + 2 application dependency results
+        expect(result.scanResults).toHaveLength(3);
+
+        // Verify main scan result (first one)
+        const mainScanResult = result.scanResults[0];
+        expect(mainScanResult.identity.type).toBe("test");
+        const mainContainerConfig = mainScanResult.facts?.find(
           (fact) => fact.type === "containerConfig",
         );
-        expect(secondContainerConfig?.data).toEqual({
-          user: "user2",
-          cmd: ["cmd2"],
+        expect(mainContainerConfig?.data).toEqual({
+          user: "mainuser",
+          env: ["MAIN_ENV=value"],
         });
 
-        const secondHistory = secondScanResult.facts.find(
+        // Verify first application dependency scan result (npm)
+        const firstAppResult = result.scanResults[1];
+        expect(firstAppResult.identity.type).toBe("npm");
+        const firstTestedFiles = firstAppResult.facts?.find(
+          (fact) => fact.type === "testedFiles",
+        );
+        const firstAppContainerConfig = firstAppResult.facts?.find(
+          (fact) => fact.type === "containerConfig",
+        );
+        const firstAppHistory = firstAppResult.facts?.find(
           (fact) => fact.type === "history",
         );
-        expect(secondHistory?.data).toEqual([
+
+        expect(firstTestedFiles?.data).toBe("/app/package.json");
+        expect(firstAppContainerConfig?.data).toEqual({
+          user: "npmuser",
+          env: ["NODE_ENV=production", "PORT=3000"],
+          cmd: ["node", "server.js"],
+          workingDir: "/app",
+        });
+        expect(firstAppHistory?.data).toEqual([
           {
-            created: "2023-01-01T00:00:00Z",
-            author: "test2",
+            created: "2023-01-01T10:00:00Z",
+            author: "npm-builder",
+            createdBy: "RUN npm install",
+            comment: "Install npm dependencies",
           },
         ]);
+
+        // Verify second application dependency scan result (pip)
+        const secondAppResult = result.scanResults[2];
+        expect(secondAppResult.identity.type).toBe("pip");
+        const secondTestedFiles = secondAppResult.facts?.find(
+          (fact) => fact.type === "testedFiles",
+        );
+        const secondAppContainerConfig = secondAppResult.facts?.find(
+          (fact) => fact.type === "containerConfig",
+        );
+        const secondAppHistory = secondAppResult.facts?.find(
+          (fact) => fact.type === "history",
+        );
+
+        expect(secondTestedFiles?.data).toBe("/app/requirements.txt");
+        expect(secondAppContainerConfig?.data).toEqual({
+          user: "pythonuser",
+          env: ["PYTHONPATH=/app", "DEBUG=false"],
+          entrypoint: ["python", "main.py"],
+          workingDir: "/app",
+        });
+        expect(secondAppHistory?.data).toEqual([
+          {
+            created: "2023-01-01T11:00:00Z",
+            author: "python-builder",
+            createdBy: "RUN pip install -r requirements.txt",
+            comment: "Install Python dependencies",
+          },
+          {
+            created: "2023-01-01T11:30:00Z",
+            author: "python-builder",
+            createdBy: "COPY . /app",
+            comment: "Copy application code",
+          },
+        ]);
+
+        // Verify NO pluginWarnings facts in any scan result (no truncation occurred)
+        const mainPluginWarnings = result.scanResults[0].facts?.find(
+          (fact) => fact.type === "pluginWarnings",
+        );
+        const firstAppPluginWarnings = result.scanResults[1].facts?.find(
+          (fact) => fact.type === "pluginWarnings",
+        );
+        const secondAppPluginWarnings = result.scanResults[2].facts?.find(
+          (fact) => fact.type === "pluginWarnings",
+        );
+        expect(mainPluginWarnings).toBeUndefined();
+        expect(firstAppPluginWarnings).toBeUndefined();
+        expect(secondAppPluginWarnings).toBeUndefined();
       });
 
       it("should handle mixed truncation across multiple scan results", async () => {
         const envLimit = RESPONSE_SIZE_LIMITS["containerConfig.data.env"].limit;
-
-        // Create scan result 1: Will be truncated (oversized env array)
         const oversizedEnv = Array.from(
           { length: envLimit + 50 },
           (_, i) => `VAR${i}=value${i}`,
         );
-        const scanResult1 = {
-          facts: [
-            {
-              type: "containerConfig" as const,
-              data: {
-                user: "user1",
-                env: oversizedEnv, // This will be truncated
-                cmd: ["nginx"],
-              },
-            },
-            {
-              type: "depGraph" as const,
-              data: {} as any,
-            },
-          ],
-          identity: { type: "apk" as const },
-          target: { image: "test-image-1" },
-        };
-
-        // Create scan result 2: Will NOT be truncated
         const normalEnv = ["PATH=/usr/bin", "HOME=/root"];
         const normalHistory = [
           {
             created: "2023-01-01T00:00:00Z",
             author: "test",
-            createdBy: "RUN echo test",
+            created_by: "RUN echo test",
           },
         ];
-        const scanResult2 = {
-          facts: [
+        // fact with no truncation rules
+        const ociDistributionMetadata = {
+          registryHost: "docker.io",
+          repository: "library/alpine",
+          manifestDigest:
+            "sha256:1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
+          imageTag: "latest",
+        };
+
+        const mockAnalysis = createMockAnalysis({
+          containerConfig: {
+            User: "mainuser",
+            Env: oversizedEnv, // This will be truncated in main scan result
+            Cmd: ["nginx"],
+          },
+          history: normalHistory,
+          applicationDependenciesScanResults: [
             {
-              type: "containerConfig" as const,
-              data: {
-                user: "user2",
-                env: normalEnv,
-                workingDir: "/app",
-              },
-            },
-            {
-              type: "history" as const,
-              data: normalHistory,
-            },
-            {
-              type: "ociDistributionMetadata" as const,
-              data: {
-                registryHost: "docker.io",
-                repository: "library/alpine",
-                manifestDigest:
-                  "sha256:1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
-                imageTag: "latest",
-              },
+              facts: [
+                {
+                  type: "depGraph" as const,
+                  data: {} as any,
+                },
+                {
+                  type: "containerConfig" as const, // this won't be in an application project, but testing for future functionality
+                  data: {
+                    user: "appuser",
+                    env: oversizedEnv,
+                    workingDir: "/app",
+                  },
+                },
+              ],
+              identity: { type: "npm" },
+              target: { image: "test-app" },
             },
           ],
-          identity: { type: "npm" as const },
-          target: { image: "test-image-2" },
-        };
+        });
 
-        // same truncation logic like buildResponse does
-        const result = {
-          scanResults: [scanResult1, scanResult2].map((scanResult) => ({
-            ...scanResult,
-            facts: truncateAdditionalFacts(scanResult.facts || []),
-          })),
-        };
+        // Build response using single buildResponse call
+        const result = await buildResponse(
+          mockAnalysis as any,
+          undefined,
+          false,
+          undefined,
+          ociDistributionMetadata,
+        );
 
+        // Should have 2 scan results: 1 main + 1 application dependency result
         expect(result.scanResults).toHaveLength(2);
 
-        // check scan result 1: Should be truncated and have pluginWarnings
-        const firstScanResult = result.scanResults[0];
-        const firstContainerConfig = firstScanResult.facts.find(
+        // Verify main scan result: Should be truncated and have pluginWarnings
+        const mainScanResult = result.scanResults[0];
+        const mainContainerConfig = mainScanResult.facts?.find(
           (fact) => fact.type === "containerConfig",
         );
-        const firstPluginWarnings = firstScanResult.facts.find(
+        const mainPluginWarnings = mainScanResult.facts?.find(
           (fact) => fact.type === "pluginWarnings",
         );
+        const mainHistory = mainScanResult.facts?.find(
+          (fact) => fact.type === "history",
+        );
+        const mainOciMetadata = mainScanResult.facts?.find(
+          (fact) => fact.type === "ociDistributionMetadata",
+        );
 
-        expect(firstContainerConfig?.data.env).toHaveLength(envLimit);
-        expect(firstContainerConfig?.data.env).toEqual(
+        expect(mainContainerConfig?.data.env).toHaveLength(envLimit);
+        expect(mainContainerConfig?.data.env).toEqual(
           oversizedEnv.slice(0, envLimit),
         );
-        expect(firstContainerConfig?.data.user).toBe("user1");
-        expect(firstContainerConfig?.data.cmd).toEqual(["nginx"]);
+        expect(mainContainerConfig?.data.user).toBe("mainuser");
+        expect(mainContainerConfig?.data.cmd).toEqual(["nginx"]);
 
         // Should have pluginWarnings for truncation
-        expect(firstPluginWarnings).toBeDefined();
-        expect(firstPluginWarnings?.data.truncatedFacts).toEqual({
+        expect(mainPluginWarnings).toBeDefined();
+        expect(mainPluginWarnings?.data.truncatedFacts).toEqual({
           "containerConfig.data.env": {
             type: "array",
             countAboveLimit: 50,
           },
         });
 
-        // check scan result 2: Should NOT be truncated and have NO pluginWarnings
-        const secondScanResult = result.scanResults[1];
-        const secondContainerConfig = secondScanResult.facts.find(
-          (fact) => fact.type === "containerConfig",
-        );
-        const secondHistory = secondScanResult.facts.find(
-          (fact) => fact.type === "history",
-        );
-        const secondOciMetadata = secondScanResult.facts.find(
-          (fact) => fact.type === "ociDistributionMetadata",
-        );
-        const secondPluginWarnings = secondScanResult.facts.find(
-          (fact) => fact.type === "pluginWarnings",
-        );
-
-        // Should pass through unchanged
-        expect(secondContainerConfig?.data).toEqual({
-          user: "user2",
-          env: normalEnv, // NOT truncated
-          workingDir: "/app",
-        });
-        expect(secondHistory?.data).toEqual(normalHistory);
-        expect(secondOciMetadata?.data).toEqual({
+        // Should have history and ociDistributionMetadata in main scan result
+        expect(mainHistory?.data).toEqual([
+          {
+            created: "2023-01-01T00:00:00Z",
+            author: "test",
+            createdBy: "RUN echo test",
+          },
+        ]);
+        expect(mainOciMetadata?.data).toEqual({
           registryHost: "docker.io",
           repository: "library/alpine",
           manifestDigest:
@@ -756,8 +815,41 @@ describe("buildResponse", () => {
           imageTag: "latest",
         });
 
-        // Should NOT have pluginWarnings
-        expect(secondPluginWarnings).toBeUndefined();
+        // Verify application dependency scan result: Should also be truncated and have a pluginWarnings fact
+        const appScanResult = result.scanResults[1];
+        const appContainerConfig = appScanResult.facts?.find(
+          (fact) => fact.type === "containerConfig",
+        );
+        const appOciMetadata = appScanResult.facts?.find(
+          (fact) => fact.type === "ociDistributionMetadata",
+        );
+        const appPluginWarnings = appScanResult.facts?.find(
+          (fact) => fact.type === "pluginWarnings",
+        );
+
+        expect(appContainerConfig?.data.env).toHaveLength(envLimit);
+        expect(appContainerConfig?.data.env).toEqual(
+          oversizedEnv.slice(0, envLimit),
+        );
+        expect(appContainerConfig?.data.user).toBe("appuser");
+        expect(appContainerConfig?.data.workingDir).toBe("/app");
+
+        expect(appOciMetadata?.data).toEqual({
+          registryHost: "docker.io",
+          repository: "library/alpine",
+          manifestDigest:
+            "sha256:1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
+          imageTag: "latest",
+        });
+
+        // Should ALSO have pluginWarnings for truncation in app scan result
+        expect(appPluginWarnings).toBeDefined();
+        expect(appPluginWarnings?.data.truncatedFacts).toEqual({
+          "containerConfig.data.env": {
+            type: "array",
+            countAboveLimit: 50,
+          },
+        });
       });
     });
   });
