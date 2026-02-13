@@ -50,19 +50,12 @@ Object {
         },
         Object {
           "data": Object {
-            "argsEscaped": undefined,
             "cmd": Array [
               "sh",
             ],
-            "entrypoint": undefined,
             "env": Array [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
-            "exposedPorts": undefined,
-            "stopSignal": undefined,
-            "user": undefined,
-            "volumes": undefined,
-            "workingDir": undefined,
           },
           "type": "containerConfig",
         },
@@ -70,10 +63,8 @@ Object {
           "data": Array [
             Object {
               "author": "kaniko",
-              "comment": undefined,
               "created": "0001-01-01T00:00:00Z",
               "createdBy": "ADD busybox.tar.gz /",
-              "emptyLayer": undefined,
             },
           ],
           "type": "history",

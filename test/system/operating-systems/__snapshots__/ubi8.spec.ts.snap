@@ -6105,9 +6105,8 @@ Object {
             "exposedPorts": Array [
               "8080/tcp",
             ],
-            "stopSignal": undefined,
             "user": "1001",
-            "volumes": undefined,
+            "volumes": null,
             "workingDir": "/opt/app-root/src",
           },
           "type": "containerConfig",
@@ -6115,39 +6114,21 @@ Object {
         Object {
           "data": Array [
             Object {
-              "author": undefined,
               "comment": "Imported from -",
               "created": "2020-07-14T12:20:53.26936033Z",
-              "createdBy": undefined,
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-07-14T12:21:03.708705Z",
-              "createdBy": undefined,
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-07-14T15:16:38.32694Z",
-              "createdBy": undefined,
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-07-14T15:37:10.175399Z",
-              "createdBy": undefined,
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
               "comment": "",
               "created": "2020-07-14T15:50:19.536953Z",
-              "createdBy": undefined,
-              "emptyLayer": undefined,
             },
           ],
           "type": "history",
@@ -19106,10 +19087,8 @@ Object {
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
               "container=oci",
             ],
-            "exposedPorts": undefined,
-            "stopSignal": undefined,
             "user": "",
-            "volumes": undefined,
+            "volumes": null,
             "workingDir": "",
           },
           "type": "containerConfig",
@@ -19117,18 +19096,12 @@ Object {
         Object {
           "data": Array [
             Object {
-              "author": undefined,
               "comment": "Imported from -",
               "created": "2020-09-01T19:43:59.076061829Z",
-              "createdBy": undefined,
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
               "comment": "",
               "created": "2020-09-01T19:44:12.470032Z",
-              "createdBy": undefined,
-              "emptyLayer": undefined,
             },
           ],
           "type": "history",

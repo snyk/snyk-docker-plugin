@@ -387,10 +387,8 @@ Object {
             "env": Array [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
-            "exposedPorts": undefined,
-            "stopSignal": undefined,
             "user": "",
-            "volumes": undefined,
+            "volumes": null,
             "workingDir": "/workdir",
           },
           "type": "containerConfig",
@@ -398,53 +396,35 @@ Object {
         Object {
           "data": Array [
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-05-29T21:19:46.192045972Z",
               "createdBy": "/bin/sh -c #(nop) ADD file:c92c248239f8c7b9b3c067650954815f391b7bcb09023f984972c082ace2a8d0 in / ",
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-05-29T21:19:46.363518345Z",
               "createdBy": "/bin/sh -c #(nop)  CMD [\\"/bin/sh\\"]",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-10-18T21:48:49.907055534Z",
               "createdBy": "/bin/sh -c #(nop) COPY file:42f1445482c3e904d73ed2f6101c01d74b2b27f8fbf59fb6241c7af943684f08 in /usr/bin/yq ",
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-10-18T21:48:51.263433138Z",
               "createdBy": "/bin/sh -c chmod +x /usr/bin/yq",
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-10-18T21:48:51.730468073Z",
               "createdBy": "/bin/sh -c #(nop)  ARG VERSION=none",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-10-18T21:48:52.127641923Z",
               "createdBy": "/bin/sh -c #(nop)  LABEL version=none",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-10-18T21:48:52.642510942Z",
               "createdBy": "/bin/sh -c #(nop) WORKDIR /workdir",
-              "emptyLayer": undefined,
             },
           ],
           "type": "history",
@@ -876,10 +856,8 @@ Object {
             "env": Array [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
-            "exposedPorts": undefined,
-            "stopSignal": undefined,
             "user": "",
-            "volumes": undefined,
+            "volumes": null,
             "workingDir": "/workdir",
           },
           "type": "containerConfig",
@@ -887,53 +865,35 @@ Object {
         Object {
           "data": Array [
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-05-29T21:19:46.192045972Z",
               "createdBy": "/bin/sh -c #(nop) ADD file:c92c248239f8c7b9b3c067650954815f391b7bcb09023f984972c082ace2a8d0 in / ",
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-05-29T21:19:46.363518345Z",
               "createdBy": "/bin/sh -c #(nop)  CMD [\\"/bin/sh\\"]",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-10-18T21:48:49.907055534Z",
               "createdBy": "/bin/sh -c #(nop) COPY file:42f1445482c3e904d73ed2f6101c01d74b2b27f8fbf59fb6241c7af943684f08 in /usr/bin/yq ",
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-10-18T21:48:51.263433138Z",
               "createdBy": "/bin/sh -c chmod +x /usr/bin/yq",
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-10-18T21:48:51.730468073Z",
               "createdBy": "/bin/sh -c #(nop)  ARG VERSION=none",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-10-18T21:48:52.127641923Z",
               "createdBy": "/bin/sh -c #(nop)  LABEL version=none",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-10-18T21:48:52.642510942Z",
               "createdBy": "/bin/sh -c #(nop) WORKDIR /workdir",
-              "emptyLayer": undefined,
             },
           ],
           "type": "history",
@@ -1319,14 +1279,9 @@ Object {
             "cmd": Array [
               "./testgo",
             ],
-            "entrypoint": undefined,
             "env": Array [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
-            "exposedPorts": undefined,
-            "stopSignal": undefined,
-            "user": undefined,
-            "volumes": undefined,
             "workingDir": "/",
           },
           "type": "containerConfig",
@@ -1334,14 +1289,11 @@ Object {
         Object {
           "data": Array [
             Object {
-              "author": undefined,
               "comment": "buildkit.dockerfile.v0",
               "created": "2022-07-10T08:39:42.311434047Z",
               "createdBy": "COPY /app/testgo ./ # buildkit",
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
               "comment": "buildkit.dockerfile.v0",
               "created": "2022-07-10T08:39:42.311434047Z",
               "createdBy": "CMD [\\"./testgo\\"]",
@@ -1634,14 +1586,9 @@ Object {
             "cmd": Array [
               "./testgo",
             ],
-            "entrypoint": undefined,
             "env": Array [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
-            "exposedPorts": undefined,
-            "stopSignal": undefined,
-            "user": undefined,
-            "volumes": undefined,
             "workingDir": "/",
           },
           "type": "containerConfig",
@@ -1649,14 +1596,11 @@ Object {
         Object {
           "data": Array [
             Object {
-              "author": undefined,
               "comment": "buildkit.dockerfile.v0",
               "created": "2022-07-10T08:41:36.652919824Z",
               "createdBy": "COPY /app/testgo ./ # buildkit",
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
               "comment": "buildkit.dockerfile.v0",
               "created": "2022-07-10T08:41:36.652919824Z",
               "createdBy": "CMD [\\"./testgo\\"]",
@@ -1949,14 +1893,9 @@ Object {
             "cmd": Array [
               "./testgo",
             ],
-            "entrypoint": undefined,
             "env": Array [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
-            "exposedPorts": undefined,
-            "stopSignal": undefined,
-            "user": undefined,
-            "volumes": undefined,
             "workingDir": "/",
           },
           "type": "containerConfig",
@@ -1964,14 +1903,11 @@ Object {
         Object {
           "data": Array [
             Object {
-              "author": undefined,
               "comment": "buildkit.dockerfile.v0",
               "created": "2022-07-10T08:49:54.881276343Z",
               "createdBy": "COPY /app/testgo ./ # buildkit",
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
               "comment": "buildkit.dockerfile.v0",
               "created": "2022-07-10T08:49:54.881276343Z",
               "createdBy": "CMD [\\"./testgo\\"]",

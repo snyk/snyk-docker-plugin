@@ -50,34 +50,22 @@ Object {
         },
         Object {
           "data": Object {
-            "argsEscaped": undefined,
             "cmd": Array [
               "sh",
             ],
-            "entrypoint": undefined,
             "env": Array [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
-            "exposedPorts": undefined,
-            "stopSignal": undefined,
-            "user": undefined,
-            "volumes": undefined,
-            "workingDir": undefined,
           },
           "type": "containerConfig",
         },
         Object {
           "data": Array [
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-06-02T21:19:57.100247864Z",
               "createdBy": "/bin/sh -c #(nop) ADD file:a84c53d2fe5207d17b5110e1eeeff0ab5d7ca831d743070eab1e87dc74129049 in / ",
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-06-02T21:19:57.279412246Z",
               "createdBy": "/bin/sh -c #(nop)  CMD [\\"sh\\"]",
               "emptyLayer": true,
@@ -488,34 +476,22 @@ Object {
         },
         Object {
           "data": Object {
-            "argsEscaped": undefined,
             "cmd": Array [
               "/bin/sh",
             ],
-            "entrypoint": undefined,
             "env": Array [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
-            "exposedPorts": undefined,
-            "stopSignal": undefined,
-            "user": undefined,
-            "volumes": undefined,
-            "workingDir": undefined,
           },
           "type": "containerConfig",
         },
         Object {
           "data": Array [
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-05-29T21:19:46.192045972Z",
               "createdBy": "/bin/sh -c #(nop) ADD file:c92c248239f8c7b9b3c067650954815f391b7bcb09023f984972c082ace2a8d0 in / ",
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-05-29T21:19:46.363518345Z",
               "createdBy": "/bin/sh -c #(nop)  CMD [\\"/bin/sh\\"]",
               "emptyLayer": true,
@@ -939,57 +915,39 @@ Object {
               "-c",
               "echo hello",
             ],
-            "entrypoint": undefined,
             "env": Array [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
-            "exposedPorts": undefined,
-            "stopSignal": undefined,
-            "user": undefined,
-            "volumes": undefined,
-            "workingDir": undefined,
           },
           "type": "containerConfig",
         },
         Object {
           "data": Array [
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2022-08-09T17:20:07.901188109Z",
               "createdBy": "/bin/sh -c #(nop) ADD file:b9bd10cf83356cb7281baa0fbaca5186cf27491f59eda87abe57f83a5aaf5ec1 in / ",
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2022-08-09T17:20:08.015648568Z",
               "createdBy": "/bin/sh -c #(nop)  CMD [\\"/bin/sh\\"]",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
               "comment": "buildkit.dockerfile.v0",
               "created": "2022-08-24T07:47:15.086347637Z",
               "createdBy": "RUN /bin/sh -c echo \\"dfsdfsd\\" >> t1.txt # buildkit",
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
               "comment": "buildkit.dockerfile.v0",
               "created": "2022-08-24T07:47:15.174100088Z",
               "createdBy": "RUN /bin/sh -c echo \\"fsdjfsd\\" >> t2.txt # buildkit",
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
               "comment": "buildkit.dockerfile.v0",
               "created": "2022-08-24T07:47:15.252640403Z",
               "createdBy": "RUN /bin/sh -c echo \\"fsdjfsd\\" >> t3.txt # buildkit",
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
               "comment": "buildkit.dockerfile.v0",
               "created": "2022-08-24T07:47:15.252640403Z",
               "createdBy": "CMD [\\"/bin/sh\\" \\"-c\\" \\"echo hello\\"]",

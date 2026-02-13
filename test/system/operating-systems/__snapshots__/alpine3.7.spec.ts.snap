@@ -360,10 +360,8 @@ Object {
             "env": Array [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
-            "exposedPorts": undefined,
-            "stopSignal": undefined,
             "user": "",
-            "volumes": undefined,
+            "volumes": null,
             "workingDir": "",
           },
           "type": "containerConfig",
@@ -371,15 +369,10 @@ Object {
         Object {
           "data": Array [
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2019-03-07T22:19:53.313789681Z",
               "createdBy": "/bin/sh -c #(nop) ADD file:aa17928040e31624cad9c7ed19ac277c5402c4b9ba39f834250affca40c4046e in / ",
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2019-03-07T22:19:53.447205048Z",
               "createdBy": "/bin/sh -c #(nop)  CMD [\\"/bin/sh\\"]",
               "emptyLayer": true,
@@ -792,10 +785,8 @@ Object {
             "env": Array [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
-            "exposedPorts": undefined,
-            "stopSignal": undefined,
             "user": "",
-            "volumes": undefined,
+            "volumes": null,
             "workingDir": "",
           },
           "type": "containerConfig",
@@ -803,15 +794,10 @@ Object {
         Object {
           "data": Array [
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2019-03-07T22:19:53.313789681Z",
               "createdBy": "/bin/sh -c #(nop) ADD file:aa17928040e31624cad9c7ed19ac277c5402c4b9ba39f834250affca40c4046e in / ",
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2019-03-07T22:19:53.447205048Z",
               "createdBy": "/bin/sh -c #(nop)  CMD [\\"/bin/sh\\"]",
               "emptyLayer": true,

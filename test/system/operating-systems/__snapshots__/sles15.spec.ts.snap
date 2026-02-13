@@ -2148,17 +2148,9 @@ Object {
         },
         Object {
           "data": Object {
-            "argsEscaped": undefined,
             "cmd": Array [
               "/bin/bash",
             ],
-            "entrypoint": undefined,
-            "env": undefined,
-            "exposedPorts": undefined,
-            "stopSignal": undefined,
-            "user": undefined,
-            "volumes": undefined,
-            "workingDir": undefined,
           },
           "type": "containerConfig",
         },
@@ -2166,10 +2158,8 @@ Object {
           "data": Array [
             Object {
               "author": "SUSE LINUX GmbH <https://www.suse.com/>",
-              "comment": undefined,
               "created": "2024-01-05T14:29:00Z",
               "createdBy": "KIWI 9.24.43",
-              "emptyLayer": undefined,
             },
           ],
           "type": "history",
@@ -4342,28 +4332,17 @@ Object {
         },
         Object {
           "data": Object {
-            "argsEscaped": undefined,
             "cmd": Array [
               "/bin/bash",
             ],
-            "entrypoint": undefined,
-            "env": undefined,
-            "exposedPorts": undefined,
-            "stopSignal": undefined,
-            "user": undefined,
-            "volumes": undefined,
-            "workingDir": undefined,
           },
           "type": "containerConfig",
         },
         Object {
           "data": Array [
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-09-22T16:49:18Z",
               "createdBy": "KIWI 9.21.7",
-              "emptyLayer": undefined,
             },
           ],
           "type": "history",

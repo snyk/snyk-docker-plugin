@@ -164,18 +164,10 @@ Object {
         },
         Object {
           "data": Object {
-            "argsEscaped": undefined,
-            "cmd": undefined,
-            "entrypoint": undefined,
             "env": Array [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
               "SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt",
             ],
-            "exposedPorts": undefined,
-            "stopSignal": undefined,
-            "user": undefined,
-            "volumes": undefined,
-            "workingDir": undefined,
           },
           "type": "containerConfig",
         },
@@ -183,17 +175,13 @@ Object {
           "data": Array [
             Object {
               "author": "Bazel",
-              "comment": undefined,
               "created": "1970-01-01T00:00:00Z",
               "createdBy": "bazel build ...",
-              "emptyLayer": undefined,
             },
             Object {
               "author": "Bazel",
-              "comment": undefined,
               "created": "1970-01-01T00:00:00Z",
               "createdBy": "bazel build ...",
-              "emptyLayer": undefined,
             },
           ],
           "type": "history",

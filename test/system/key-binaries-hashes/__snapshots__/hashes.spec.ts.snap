@@ -56,16 +56,13 @@ Object {
         },
         Object {
           "data": Object {
-            "argsEscaped": undefined,
             "cmd": null,
             "entrypoint": null,
             "env": Array [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
-            "exposedPorts": undefined,
-            "stopSignal": undefined,
             "user": "",
-            "volumes": undefined,
+            "volumes": null,
             "workingDir": "",
           },
           "type": "containerConfig",
@@ -73,11 +70,8 @@ Object {
         Object {
           "data": Array [
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-03-24T13:05:21.8612979Z",
               "createdBy": "/bin/sh -c #(nop) COPY file:bce2cee6987787fb031d18e5a54b0be7f67e9075105d699f56a7ee7a85e13893 in . ",
-              "emptyLayer": undefined,
             },
           ],
           "type": "history",
@@ -1941,16 +1935,13 @@ Object {
         },
         Object {
           "data": Object {
-            "argsEscaped": undefined,
             "cmd": null,
             "entrypoint": null,
             "env": Array [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
-            "exposedPorts": undefined,
-            "stopSignal": undefined,
             "user": "",
-            "volumes": undefined,
+            "volumes": null,
             "workingDir": "",
           },
           "type": "containerConfig",
@@ -1958,18 +1949,12 @@ Object {
         Object {
           "data": Array [
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-02-23T16:54:53.6276157Z",
               "createdBy": "/bin/sh -c #(nop) ADD dir:23b1ebedc7451f5a4f5eef92a496edf988a1bae26c22fc3118707b1fcd353c38 in . ",
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-02-24T11:06:57.2049514Z",
               "createdBy": "/bin/sh -c #(nop) ADD dir:17944137da0645e5b98d916b476edeb382d91e9857e72a30fda053af7117abe0 in . ",
-              "emptyLayer": undefined,
             },
           ],
           "type": "history",

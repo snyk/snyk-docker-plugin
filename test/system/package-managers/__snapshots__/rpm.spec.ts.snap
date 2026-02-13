@@ -2254,44 +2254,30 @@ Object {
         },
         Object {
           "data": Object {
-            "argsEscaped": undefined,
             "cmd": Array [
               "/bin/bash",
             ],
-            "entrypoint": undefined,
             "env": Array [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
-            "exposedPorts": undefined,
-            "stopSignal": undefined,
-            "user": undefined,
-            "volumes": undefined,
-            "workingDir": undefined,
           },
           "type": "containerConfig",
         },
         Object {
           "data": Array [
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2025-09-23T01:06:35.805454394Z",
               "createdBy": "/bin/sh -c #(nop) ADD file:3230f0439e379e85f19b30340b7fbc7504b34440faba46bf0d3949ec4166aa17 in / ",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2025-09-23T01:06:35.805531508Z",
               "createdBy": "/bin/sh -c #(nop) LABEL org.label-schema.schema-version=\\"1.0\\"     org.label-schema.name=\\"CentOS Stream 9 Base Image\\"     org.label-schema.vendor=\\"CentOS\\"     org.label-schema.license=\\"GPLv2\\"     org.label-schema.build-date=\\"20250923\\"",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2025-09-23T01:06:38.85634972Z",
               "createdBy": "/bin/sh -c #(nop) CMD [\\"/bin/bash\\"]",
-              "emptyLayer": undefined,
             },
           ],
           "type": "history",
@@ -4996,44 +4982,30 @@ Object {
         },
         Object {
           "data": Object {
-            "argsEscaped": undefined,
             "cmd": Array [
               "/bin/bash",
             ],
-            "entrypoint": undefined,
             "env": Array [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
-            "exposedPorts": undefined,
-            "stopSignal": undefined,
-            "user": undefined,
-            "volumes": undefined,
-            "workingDir": undefined,
           },
           "type": "containerConfig",
         },
         Object {
           "data": Array [
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2025-09-24T00:54:08.45238838Z",
               "createdBy": "/bin/sh -c #(nop) ADD file:2bc784415e15d3e680411b5a252ce1d2e3016512f0905c9b1b2b5977342e9abd in / ",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2025-09-24T00:54:08.452821225Z",
               "createdBy": "/bin/sh -c #(nop) LABEL org.label-schema.schema-version=\\"1.0\\"     org.label-schema.name=\\"CentOS Stream 10 Base Image\\"     org.label-schema.vendor=\\"CentOS\\"     org.label-schema.license=\\"GPLv2\\"     org.label-schema.build-date=\\"20250924\\"",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2025-09-24T00:54:11.900478147Z",
               "createdBy": "/bin/sh -c #(nop) CMD [\\"/bin/bash\\"]",
-              "emptyLayer": undefined,
             },
           ],
           "type": "history",
@@ -8136,19 +8108,13 @@ Object {
         },
         Object {
           "data": Object {
-            "argsEscaped": undefined,
             "cmd": Array [
               "/bin/bash",
             ],
-            "entrypoint": undefined,
             "env": Array [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
               "container=oci",
             ],
-            "exposedPorts": undefined,
-            "stopSignal": undefined,
-            "user": undefined,
-            "volumes": undefined,
             "workingDir": "/",
           },
           "type": "containerConfig",
@@ -8156,116 +8122,83 @@ Object {
         Object {
           "data": Array [
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2025-05-13T04:57:29.56031563Z",
               "createdBy": "/bin/sh -c #(nop) LABEL maintainer=\\"Red Hat, Inc.\\"       vendor=\\"Red Hat, Inc.\\"",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2025-05-13T04:57:29.578416968Z",
               "createdBy": "/bin/sh -c #(nop) LABEL url=\\"https://www.redhat.com\\"",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2025-05-13T04:57:29.596395481Z",
               "createdBy": "/bin/sh -c #(nop) LABEL com.redhat.component=\\"ubi9-container\\"       name=\\"ubi9\\"       version=\\"9.5\\"       distribution-scope=\\"public\\"",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2025-05-13T04:57:29.614274493Z",
               "createdBy": "/bin/sh -c #(nop) LABEL com.redhat.license_terms=\\"https://www.redhat.com/en/about/red-hat-end-user-license-agreements#UBI\\"",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2025-05-13T04:57:29.632140633Z",
               "createdBy": "/bin/sh -c #(nop) LABEL summary=\\"Provides the latest release of Red Hat Universal Base Image 9.\\"",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2025-05-13T04:57:29.64987101Z",
               "createdBy": "/bin/sh -c #(nop) LABEL description=\\"The Universal Base Image is designed and engineered to be the base layer for all of your containerized applications, middleware and utilities. This base image is freely redistributable, but Red Hat only supports Red Hat technologies through subscriptions for Red Hat products. This image is maintained by Red Hat and updated regularly.\\"",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2025-05-13T04:57:29.667194876Z",
               "createdBy": "/bin/sh -c #(nop) LABEL io.k8s.description=\\"The Universal Base Image is designed and engineered to be the base layer for all of your containerized applications, middleware and utilities. This base image is freely redistributable, but Red Hat only supports Red Hat technologies through subscriptions for Red Hat products. This image is maintained by Red Hat and updated regularly.\\"",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2025-05-13T04:57:29.68445438Z",
               "createdBy": "/bin/sh -c #(nop) LABEL io.k8s.display-name=\\"Red Hat Universal Base Image 9\\"",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2025-05-13T04:57:29.701494787Z",
               "createdBy": "/bin/sh -c #(nop) LABEL io.openshift.expose-services=\\"\\"",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2025-05-13T04:57:29.719317617Z",
               "createdBy": "/bin/sh -c #(nop) LABEL io.openshift.tags=\\"base rhel9\\"",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2025-05-13T04:57:29.737103705Z",
               "createdBy": "/bin/sh -c #(nop) ENV container oci",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2025-05-13T04:57:31.296243372Z",
               "createdBy": "/bin/sh -c #(nop) COPY dir:58f1fd7370bf1be7d595081ce89267556404935630c8266504f6865623b28c9f in / ",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2025-05-13T04:57:31.386230264Z",
               "createdBy": "/bin/sh -c #(nop) COPY file:b37d593713ee21ad52a4cd1424dc019a24f7966f85df0ac4b86d234302695328 in /etc/yum.repos.d/. ",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2025-05-13T04:57:31.404464235Z",
               "createdBy": "/bin/sh -c #(nop) CMD [\\"/bin/bash\\"]",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2025-05-13T04:57:31.495223578Z",
               "createdBy": "/bin/sh -c #(nop) COPY file:58cc94f5b3b2d60de2c77a6ed4b1797dcede502ccdb429a72e7a72d994235b3c in /usr/share/buildinfo/content-sets.json ",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2025-05-13T04:57:32.333837981Z",
               "createdBy": "/bin/sh -c #(nop) LABEL \\"build-date\\"=\\"2025-05-13T04:57:10\\" \\"architecture\\"=\\"x86_64\\" \\"vcs-type\\"=\\"git\\" \\"vcs-ref\\"=\\"0d3315aaa0c7b5560abd0b7de30e7d003d748698\\" \\"release\\"=\\"1747112166\\"",
-              "emptyLayer": undefined,
             },
           ],
           "type": "history",
@@ -11161,19 +11094,13 @@ Object {
         },
         Object {
           "data": Object {
-            "argsEscaped": undefined,
             "cmd": Array [
               "/bin/bash",
             ],
-            "entrypoint": undefined,
             "env": Array [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
               "container=oci",
             ],
-            "exposedPorts": undefined,
-            "stopSignal": undefined,
-            "user": undefined,
-            "volumes": undefined,
             "workingDir": "/",
           },
           "type": "containerConfig",
@@ -11181,116 +11108,83 @@ Object {
         Object {
           "data": Array [
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2025-03-11T07:02:07.285851102Z",
               "createdBy": "/bin/sh -c #(nop) LABEL maintainer=\\"Red Hat, Inc.\\"       vendor=\\"Red Hat, Inc.\\"",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2025-03-11T07:02:07.302956675Z",
               "createdBy": "/bin/sh -c #(nop) LABEL url=\\"https://www.redhat.com\\"",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2025-03-11T07:02:07.320847502Z",
               "createdBy": "/bin/sh -c #(nop) LABEL com.redhat.component=\\"ubi10-container\\"       name=\\"ubi10\\"       version=\\"10.0-beta\\"       distribution-scope=\\"public\\"",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2025-03-11T07:02:07.338807561Z",
               "createdBy": "/bin/sh -c #(nop) LABEL com.redhat.license_terms=\\"https://www.redhat.com/en/about/red-hat-end-user-license-agreements#UBI\\"",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2025-03-11T07:02:07.356098117Z",
               "createdBy": "/bin/sh -c #(nop) LABEL summary=\\"Provides the latest release of Red Hat Universal Base Image 10.\\"",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2025-03-11T07:02:07.374480073Z",
               "createdBy": "/bin/sh -c #(nop) LABEL description=\\"The Universal Base Image is designed and engineered to be the base layer for all of your containerized applications, middleware and utilities. This base image is freely redistributable, but Red Hat only supports Red Hat technologies through subscriptions for Red Hat products. This image is maintained by Red Hat and updated regularly.\\"",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2025-03-11T07:02:07.392634576Z",
               "createdBy": "/bin/sh -c #(nop) LABEL io.k8s.description=\\"The Universal Base Image is designed and engineered to be the base layer for all of your containerized applications, middleware and utilities. This base image is freely redistributable, but Red Hat only supports Red Hat technologies through subscriptions for Red Hat products. This image is maintained by Red Hat and updated regularly.\\"",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2025-03-11T07:02:07.41035992Z",
               "createdBy": "/bin/sh -c #(nop) LABEL io.k8s.display-name=\\"Red Hat Universal Base Image 10\\"",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2025-03-11T07:02:07.42732002Z",
               "createdBy": "/bin/sh -c #(nop) LABEL io.openshift.expose-services=\\"\\"",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2025-03-11T07:02:07.445712587Z",
               "createdBy": "/bin/sh -c #(nop) LABEL io.openshift.tags=\\"base rhel10\\"",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2025-03-11T07:02:07.462722448Z",
               "createdBy": "/bin/sh -c #(nop) ENV container oci",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2025-03-11T07:02:08.764635082Z",
               "createdBy": "/bin/sh -c #(nop) COPY dir:1a445415f1e46084ed107869b063f8ac148b8f9ac89b3bed347a9e72d7a27afb in / ",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2025-03-11T07:02:08.859408995Z",
               "createdBy": "/bin/sh -c #(nop) COPY file:6192e582bf96f2051240bfa3d022551f4c03d701d98b39d8aa709ddb4276e7a6 in /etc/yum.repos.d/. ",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2025-03-11T07:02:08.87712677Z",
               "createdBy": "/bin/sh -c #(nop) CMD [\\"/bin/bash\\"]",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2025-03-11T07:02:09.672723571Z",
               "createdBy": "/bin/sh -c #(nop) LABEL \\"build-date\\"=\\"2025-03-11T07:01:34\\" \\"architecture\\"=\\"x86_64\\" \\"vcs-type\\"=\\"git\\" \\"vcs-ref\\"=\\"eedd49665e8d30810907cf4ebb351ff15ebb8735\\" \\"release\\"=\\"1741674993\\"",
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
               "comment": "FROM quay.io/redhat-user-workloads/osci-rhel-containers-tenant/rhel-10-0-beta/ubi10-10-0-beta:eedd49665e8d30810907cf4ebb351ff15ebb8735-linux-x86-64",
               "created": "2025-03-11T07:02:24.000417951Z",
               "createdBy": "/bin/sh",
-              "emptyLayer": undefined,
             },
           ],
           "type": "history",
@@ -13065,10 +12959,8 @@ Object {
             "env": Array [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
-            "exposedPorts": undefined,
-            "stopSignal": undefined,
             "user": "",
-            "volumes": undefined,
+            "volumes": null,
             "workingDir": "",
           },
           "type": "containerConfig",
@@ -13076,15 +12968,10 @@ Object {
         Object {
           "data": Array [
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-07-31T22:19:45.666574485Z",
               "createdBy": "/bin/sh -c #(nop) ADD file:92220f428664788288d5cda805c94b48f6a5e957d4c7724085f3278d0a864f6d in / ",
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-07-31T22:19:46.006726038Z",
               "createdBy": "/bin/sh -c #(nop)  CMD [\\"/bin/bash\\"]",
               "emptyLayer": true,
@@ -15206,7 +15093,6 @@ Object {
         },
         Object {
           "data": Object {
-            "argsEscaped": undefined,
             "cmd": Array [
               "/bin/bash",
             ],
@@ -15214,10 +15100,8 @@ Object {
             "env": Array [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
-            "exposedPorts": undefined,
-            "stopSignal": undefined,
             "user": "",
-            "volumes": undefined,
+            "volumes": null,
             "workingDir": "",
           },
           "type": "containerConfig",
@@ -15225,15 +15109,10 @@ Object {
         Object {
           "data": Array [
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2022-05-12T22:53:16.711973069Z",
               "createdBy": "/bin/sh -c #(nop) ADD file:3f4e8a0a50db5cf56025980f5849c0c840ba9116680528c507adff04d9287c7e in / ",
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2022-05-12T22:53:17.484777476Z",
               "createdBy": "/bin/sh -c #(nop)  CMD [\\"/bin/bash\\"]",
               "emptyLayer": true,

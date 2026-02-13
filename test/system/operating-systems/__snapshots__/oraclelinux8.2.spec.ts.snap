@@ -2982,10 +2982,8 @@ Object {
             "env": Array [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
-            "exposedPorts": undefined,
-            "stopSignal": undefined,
             "user": "",
-            "volumes": undefined,
+            "volumes": null,
             "workingDir": "",
           },
           "type": "containerConfig",
@@ -2993,22 +2991,15 @@ Object {
         Object {
           "data": Array [
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-09-15T21:21:01.942772217Z",
               "createdBy": "/bin/sh -c #(nop)  LABEL org.opencontainers.image.authors=Oracle Linux Product Team <ol-ovm-info_ww@oracle.com> org.opencontainers.image.url=https://github.com/oracle/container-images org.opencontainers.image.source=https://github.com/oracle/container-images/tree/dist-amd64/8.2 org.opencontainers.image.vendor=Oracle America, Inc org.opencontainers.image.title=Oracle Linux 8 org.opencontainers.image.description=Oracle Linux is an open-source       operating system available under the GNU General Public License (GPLv2) and       is suitable for both general purpose or Oracle workloads.",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-09-15T21:21:12.827888302Z",
               "createdBy": "/bin/sh -c #(nop) ADD file:2a819d4d306fe14756f74012798619430645e989be5462c1363009c8920cea3b in / ",
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-09-15T21:21:13.371332071Z",
               "createdBy": "/bin/sh -c #(nop)  CMD [\\"/bin/bash\\"]",
               "emptyLayer": true,

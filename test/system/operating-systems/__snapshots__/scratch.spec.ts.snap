@@ -50,7 +50,6 @@ Object {
         },
         Object {
           "data": Object {
-            "argsEscaped": undefined,
             "cmd": null,
             "entrypoint": Array [
               "./scratch",
@@ -58,10 +57,8 @@ Object {
             "env": Array [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
-            "exposedPorts": undefined,
-            "stopSignal": undefined,
             "user": "",
-            "volumes": undefined,
+            "volumes": null,
             "workingDir": "",
           },
           "type": "containerConfig",
@@ -69,15 +66,10 @@ Object {
         Object {
           "data": Array [
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-09-26T20:05:17.4883466Z",
               "createdBy": "/bin/sh -c #(nop) COPY file:ba4d1800056e84a98eb53a8e70accfbba7fd0b9292f1cd09414ddb0f330b1aec in . ",
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-09-26T20:05:17.6183383Z",
               "createdBy": "/bin/sh -c #(nop)  ENTRYPOINT [\\"./scratch\\"]",
               "emptyLayer": true,

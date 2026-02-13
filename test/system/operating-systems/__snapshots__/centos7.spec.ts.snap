@@ -2425,10 +2425,8 @@ Object {
             "env": Array [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
-            "exposedPorts": undefined,
-            "stopSignal": undefined,
             "user": "",
-            "volumes": undefined,
+            "volumes": null,
             "workingDir": "",
           },
           "type": "containerConfig",
@@ -2436,22 +2434,15 @@ Object {
         Object {
           "data": Array [
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-05-05T21:20:34.391894085Z",
               "createdBy": "/bin/sh -c #(nop) ADD file:72b194edf3abedf51401947b23d2e530618a77ec9b5fe05bd185251d104e6f90 in / ",
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-05-05T21:20:34.726813065Z",
               "createdBy": "/bin/sh -c #(nop)  LABEL org.label-schema.schema-version=1.0 org.label-schema.name=CentOS Base Image org.label-schema.vendor=CentOS org.label-schema.license=GPLv2 org.label-schema.build-date=20200504 org.opencontainers.image.title=CentOS Base Image org.opencontainers.image.vendor=CentOS org.opencontainers.image.licenses=GPL-2.0-only org.opencontainers.image.created=2020-05-04 00:00:00+01:00",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-05-05T21:20:34.898381457Z",
               "createdBy": "/bin/sh -c #(nop)  CMD [\\"/bin/bash\\"]",
               "emptyLayer": true,
@@ -4929,10 +4920,8 @@ Object {
             "env": Array [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
-            "exposedPorts": undefined,
-            "stopSignal": undefined,
             "user": "",
-            "volumes": undefined,
+            "volumes": null,
             "workingDir": "",
           },
           "type": "containerConfig",
@@ -4940,22 +4929,15 @@ Object {
         Object {
           "data": Array [
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-05-05T21:20:34.391894085Z",
               "createdBy": "/bin/sh -c #(nop) ADD file:72b194edf3abedf51401947b23d2e530618a77ec9b5fe05bd185251d104e6f90 in / ",
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-05-05T21:20:34.726813065Z",
               "createdBy": "/bin/sh -c #(nop)  LABEL org.label-schema.schema-version=1.0 org.label-schema.name=CentOS Base Image org.label-schema.vendor=CentOS org.label-schema.license=GPLv2 org.label-schema.build-date=20200504 org.opencontainers.image.title=CentOS Base Image org.opencontainers.image.vendor=CentOS org.opencontainers.image.licenses=GPL-2.0-only org.opencontainers.image.created=2020-05-04 00:00:00+01:00",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-05-05T21:20:34.898381457Z",
               "createdBy": "/bin/sh -c #(nop)  CMD [\\"/bin/bash\\"]",
               "emptyLayer": true,

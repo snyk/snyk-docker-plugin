@@ -51,16 +51,9 @@ Object {
         },
         Object {
           "data": Object {
-            "argsEscaped": undefined,
-            "cmd": undefined,
-            "entrypoint": undefined,
             "env": Array [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
-            "exposedPorts": undefined,
-            "stopSignal": undefined,
-            "user": undefined,
-            "volumes": undefined,
             "workingDir": "/",
           },
           "type": "containerConfig",
@@ -68,18 +61,14 @@ Object {
         Object {
           "data": Array [
             Object {
-              "author": undefined,
               "comment": "buildkit.dockerfile.v0",
               "created": "2022-08-11T12:10:06.463200742Z",
               "createdBy": "COPY /app/. /app/. # buildkit",
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
               "comment": "buildkit.dockerfile.v0",
               "created": "2022-08-11T12:10:06.844187544Z",
               "createdBy": "COPY /usr/local/lib/python3.10/site-packages/. /usr/local/lib/python3.10/site-packages/. # buildkit",
-              "emptyLayer": undefined,
             },
           ],
           "type": "history",
@@ -342,16 +331,9 @@ Object {
         },
         Object {
           "data": Object {
-            "argsEscaped": undefined,
-            "cmd": undefined,
-            "entrypoint": undefined,
             "env": Array [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
-            "exposedPorts": undefined,
-            "stopSignal": undefined,
-            "user": undefined,
-            "volumes": undefined,
             "workingDir": "/",
           },
           "type": "containerConfig",
@@ -359,18 +341,14 @@ Object {
         Object {
           "data": Array [
             Object {
-              "author": undefined,
               "comment": "buildkit.dockerfile.v0",
               "created": "2023-01-10T12:06:10.017901754Z",
               "createdBy": "COPY /app /app # buildkit",
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
               "comment": "buildkit.dockerfile.v0",
               "created": "2023-01-10T12:06:10.183855463Z",
               "createdBy": "COPY /usr/local/lib/python3.10/site-packages/. /usr/local/lib/python3.10/dist-packages/. # buildkit",
-              "emptyLayer": undefined,
             },
           ],
           "type": "history",

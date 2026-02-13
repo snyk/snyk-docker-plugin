@@ -361,10 +361,8 @@ Object {
             "env": Array [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
-            "exposedPorts": undefined,
-            "stopSignal": undefined,
             "user": "",
-            "volumes": undefined,
+            "volumes": null,
             "workingDir": "",
           },
           "type": "containerConfig",
@@ -372,25 +370,17 @@ Object {
         Object {
           "data": Array [
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2019-03-07T22:20:00.434038891Z",
               "createdBy": "/bin/sh -c #(nop) ADD file:9714761bb81de664e431dec41f12db20f0438047615df2ecd9fdc88933d6c20f in / ",
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2019-03-07T22:20:00.563496859Z",
               "createdBy": "/bin/sh -c #(nop)  CMD [\\"/bin/sh\\"]",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-03-30T10:09:06.723677058Z",
               "createdBy": "/bin/sh -c #(nop) COPY multi:eb945c6b07d451ae4753032c5da5bb26dae2805ad6daf1932e73aff6a6ca2425 in /app/ ",
-              "emptyLayer": undefined,
             },
           ],
           "type": "history",
@@ -1079,10 +1069,8 @@ Object {
             "env": Array [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
-            "exposedPorts": undefined,
-            "stopSignal": undefined,
             "user": "",
-            "volumes": undefined,
+            "volumes": null,
             "workingDir": "",
           },
           "type": "containerConfig",
@@ -1090,25 +1078,17 @@ Object {
         Object {
           "data": Array [
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2019-03-07T22:20:00.434038891Z",
               "createdBy": "/bin/sh -c #(nop) ADD file:9714761bb81de664e431dec41f12db20f0438047615df2ecd9fdc88933d6c20f in / ",
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2019-03-07T22:20:00.563496859Z",
               "createdBy": "/bin/sh -c #(nop)  CMD [\\"/bin/sh\\"]",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-03-30T10:09:06.723677058Z",
               "createdBy": "/bin/sh -c #(nop) COPY multi:eb945c6b07d451ae4753032c5da5bb26dae2805ad6daf1932e73aff6a6ca2425 in /app/ ",
-              "emptyLayer": undefined,
             },
           ],
           "type": "history",

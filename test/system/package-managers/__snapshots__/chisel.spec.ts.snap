@@ -336,18 +336,12 @@ Object {
         },
         Object {
           "data": Object {
-            "argsEscaped": undefined,
-            "cmd": undefined,
             "entrypoint": Array [
               "/usr/bin/ls",
             ],
             "env": Array [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
-            "exposedPorts": undefined,
-            "stopSignal": undefined,
-            "user": undefined,
-            "volumes": undefined,
             "workingDir": "/",
           },
           "type": "containerConfig",
@@ -355,14 +349,11 @@ Object {
         Object {
           "data": Array [
             Object {
-              "author": undefined,
               "comment": "buildkit.dockerfile.v0",
               "created": "2025-10-22T17:28:05.980889584Z",
               "createdBy": "COPY /rootfs / # buildkit",
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
               "comment": "buildkit.dockerfile.v0",
               "created": "2025-10-22T17:28:05.980889584Z",
               "createdBy": "ENTRYPOINT [\\"/usr/bin/ls\\"]",
