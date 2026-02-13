@@ -29,13 +29,38 @@ describe("buildResponse", () => {
 
       const mockAnalysis = createMockAnalysis({
         containerConfig,
+        platform: "linux/amd64",
       });
 
-      const result = await buildResponse(mockAnalysis as any, undefined, false);
+      const result = await buildResponse(
+        mockAnalysis as any,
+        undefined,
+        false,
+        ["test-image:v1.0"],
+        undefined,
+        { "target-reference": "undefined-props-test" },
+      );
 
-      const containerConfigFact = result.scanResults
-        .flatMap((scanResult) => scanResult.facts || [])
-        .find((fact) => fact.type === "containerConfig");
+      expect(result.scanResults).toHaveLength(1);
+      const mainScanResult = result.scanResults[0];
+
+      // Verify scan result structure is preserved
+      expect(mainScanResult).toHaveProperty("facts");
+      expect(mainScanResult).toHaveProperty("target");
+      expect(mainScanResult).toHaveProperty("identity");
+      expect(mainScanResult).toHaveProperty("targetReference");
+      expect(mainScanResult).not.toHaveProperty("name");
+
+      expect(mainScanResult.target).toEqual({ image: "test" });
+      expect(mainScanResult.identity).toEqual({
+        type: "test",
+        args: { platform: "linux/amd64" },
+      });
+      expect(mainScanResult.targetReference).toBe("undefined-props-test");
+
+      const containerConfigFact = mainScanResult.facts?.find(
+        (fact) => fact.type === "containerConfig",
+      );
 
       expect(containerConfigFact).toBeDefined();
       expect(containerConfigFact!.data).toEqual({
@@ -61,13 +86,38 @@ describe("buildResponse", () => {
 
       const mockAnalysis = createMockAnalysis({
         containerConfig,
+        platform: "linux/arm64",
       });
 
-      const result = await buildResponse(mockAnalysis as any, undefined, false);
+      const result = await buildResponse(
+        mockAnalysis as any,
+        undefined,
+        false,
+        ["test-image:empty-strings"],
+        undefined,
+        { "target-reference": "empty-strings-test" },
+      );
 
-      const containerConfigFact = result.scanResults
-        .flatMap((scanResult) => scanResult.facts || [])
-        .find((fact) => fact.type === "containerConfig");
+      expect(result.scanResults).toHaveLength(1);
+      const mainScanResult = result.scanResults[0];
+
+      // Verify scan result structure is preserved
+      expect(mainScanResult).toHaveProperty("facts");
+      expect(mainScanResult).toHaveProperty("target");
+      expect(mainScanResult).toHaveProperty("identity");
+      expect(mainScanResult).toHaveProperty("targetReference");
+      expect(mainScanResult).not.toHaveProperty("name");
+
+      expect(mainScanResult.target).toEqual({ image: "test" });
+      expect(mainScanResult.identity).toEqual({
+        type: "test",
+        args: { platform: "linux/arm64" },
+      });
+      expect(mainScanResult.targetReference).toBe("empty-strings-test");
+
+      const containerConfigFact = mainScanResult.facts?.find(
+        (fact) => fact.type === "containerConfig",
+      );
 
       expect(containerConfigFact).toBeDefined();
       expect(containerConfigFact!.data).toEqual({
@@ -90,13 +140,38 @@ describe("buildResponse", () => {
 
       const mockAnalysis = createMockAnalysis({
         containerConfig,
+        platform: "linux/s390x",
       });
 
-      const result = await buildResponse(mockAnalysis as any, undefined, false);
+      const result = await buildResponse(
+        mockAnalysis as any,
+        undefined,
+        false,
+        ["test-image:null-values"],
+        undefined,
+        { "target-reference": "null-values-test" },
+      );
 
-      const containerConfigFact = result.scanResults
-        .flatMap((scanResult) => scanResult.facts || [])
-        .find((fact) => fact.type === "containerConfig");
+      expect(result.scanResults).toHaveLength(1);
+      const mainScanResult = result.scanResults[0];
+
+      // Verify scan result structure is preserved
+      expect(mainScanResult).toHaveProperty("facts");
+      expect(mainScanResult).toHaveProperty("target");
+      expect(mainScanResult).toHaveProperty("identity");
+      expect(mainScanResult).toHaveProperty("targetReference");
+      expect(mainScanResult).not.toHaveProperty("name");
+
+      expect(mainScanResult.target).toEqual({ image: "test" });
+      expect(mainScanResult.identity).toEqual({
+        type: "test",
+        args: { platform: "linux/s390x" },
+      });
+      expect(mainScanResult.targetReference).toBe("null-values-test");
+
+      const containerConfigFact = mainScanResult.facts?.find(
+        (fact) => fact.type === "containerConfig",
+      );
 
       expect(containerConfigFact).toBeDefined();
       expect(containerConfigFact!.data).toEqual({
@@ -111,50 +186,122 @@ describe("buildResponse", () => {
       expect(containerConfigFact!.data).not.toHaveProperty("env");
     });
 
-    it("should handle null containerConfig", async () => {
+    it("null containerConfig should produce no fact", async () => {
       const mockAnalysis = createMockAnalysis({
         containerConfig: null,
+        platform: "linux/ppc64le",
       });
 
-      const result = await buildResponse(mockAnalysis as any, undefined, false);
+      const result = await buildResponse(
+        mockAnalysis as any,
+        undefined,
+        false,
+        ["test-image:null-config"],
+        undefined,
+        { "target-reference": "null-config-test" },
+      );
 
-      const containerConfigFact = result.scanResults
-        .flatMap((scanResult) => scanResult.facts || [])
-        .find((fact) => fact.type === "containerConfig");
+      expect(result.scanResults).toHaveLength(1);
+      const mainScanResult = result.scanResults[0];
 
+      // Verify scan result structure is preserved
+      expect(mainScanResult).toHaveProperty("facts");
+      expect(mainScanResult).toHaveProperty("target");
+      expect(mainScanResult).toHaveProperty("identity");
+      expect(mainScanResult).toHaveProperty("targetReference");
+      expect(mainScanResult).not.toHaveProperty("name");
+
+      expect(mainScanResult.target).toEqual({ image: "test" });
+      expect(mainScanResult.identity).toEqual({
+        type: "test",
+        args: { platform: "linux/ppc64le" },
+      });
+      expect(mainScanResult.targetReference).toBe("null-config-test");
+
+      const containerConfigFact = mainScanResult.facts?.find(
+        (fact) => fact.type === "containerConfig",
+      );
+      // should be undefined if the entire fact is null
       expect(containerConfigFact).toBeUndefined();
     });
 
-    it("should handle null history", async () => {
+    it("null history should produce no fact", async () => {
       const mockAnalysis = createMockAnalysis({
         history: null,
+        platform: "linux/riscv64",
       });
 
-      const result = await buildResponse(mockAnalysis as any, undefined, false);
+      const result = await buildResponse(
+        mockAnalysis as any,
+        undefined,
+        false,
+        ["test-image:null-history"],
+        undefined,
+        { "target-reference": "null-history-test" },
+      );
 
-      const historyFact = result.scanResults
-        .flatMap((scanResult) => scanResult.facts || [])
-        .find((fact) => fact.type === "history");
+      expect(result.scanResults).toHaveLength(1);
+      const mainScanResult = result.scanResults[0];
 
-      // Should create a history fact with null data when history is null
+      // Verify scan result structure is preserved
+      expect(mainScanResult).toHaveProperty("facts");
+      expect(mainScanResult).toHaveProperty("target");
+      expect(mainScanResult).toHaveProperty("identity");
+      expect(mainScanResult).toHaveProperty("targetReference");
+      expect(mainScanResult).not.toHaveProperty("name");
+
+      expect(mainScanResult.target).toEqual({ image: "test" });
+      expect(mainScanResult.identity).toEqual({
+        type: "test",
+        args: { platform: "linux/riscv64" },
+      });
+      expect(mainScanResult.targetReference).toBe("null-history-test");
+
+      const historyFact = mainScanResult.facts?.find(
+        (fact) => fact.type === "history",
+      );
+      // should be undefined if the entire fact is null
       expect(historyFact).toBeUndefined();
     });
 
     it("should handle imageLabels when config is undefined vs defined", async () => {
-      // Test case 1: config is undefined - should not create imageLabels fact
+      // Test case 1: config and labels are both undefined - should not create imageLabels fact
       const mockAnalysisUndefinedConfig = createMockAnalysis({
         imageLabels: undefined,
+        platform: "linux/386",
       });
 
       const resultUndefined = await buildResponse(
         mockAnalysisUndefinedConfig as any,
         undefined,
         false,
+        ["test-image:undefined-labels"],
+        undefined,
+        { "target-reference": "undefined-labels-test" },
       );
 
-      const imageLabelsFactUndefined = resultUndefined.scanResults
-        .flatMap((scanResult) => scanResult.facts || [])
-        .find((fact) => fact.type === "imageLabels");
+      expect(resultUndefined.scanResults).toHaveLength(1);
+      const mainScanResultUndefined = resultUndefined.scanResults[0];
+
+      // Verify scan result structure is preserved
+      expect(mainScanResultUndefined).toHaveProperty("facts");
+      expect(mainScanResultUndefined).toHaveProperty("target");
+      expect(mainScanResultUndefined).toHaveProperty("identity");
+      expect(mainScanResultUndefined).toHaveProperty("targetReference");
+      expect(mainScanResultUndefined).not.toHaveProperty("name");
+
+      expect(mainScanResultUndefined.target).toEqual({ image: "test" });
+      expect(mainScanResultUndefined.identity).toEqual({
+        type: "test",
+        args: { platform: "linux/386" },
+      });
+      expect(mainScanResultUndefined.targetReference).toBe(
+        "undefined-labels-test",
+      );
+
+      const imageLabelsFactUndefined = mainScanResultUndefined.facts?.find(
+        (fact) => fact.type === "imageLabels",
+      );
       expect(imageLabelsFactUndefined).toBeUndefined();
 
       // Test case 2: config is defined with labels - should create imageLabels fact
@@ -163,17 +310,32 @@ describe("buildResponse", () => {
           maintainer: "test@example.com",
           version: "1.0.0",
         },
+        platform: "linux/mips64le",
       });
 
       const resultWithLabels = await buildResponse(
         mockAnalysisWithLabels as any,
         undefined,
         false,
+        ["test-image:with-labels"],
+        undefined,
+        { "target-reference": "with-labels-test" },
       );
 
-      const imageLabelsFactWithLabels = resultWithLabels.scanResults
-        .flatMap((scanResult) => scanResult.facts || [])
-        .find((fact) => fact.type === "imageLabels");
+      expect(resultWithLabels.scanResults).toHaveLength(1);
+      const mainScanResultWithLabels = resultWithLabels.scanResults[0];
+
+      // Verify scan result structure is preserved
+      expect(mainScanResultWithLabels.target).toEqual({ image: "test" });
+      expect(mainScanResultWithLabels.identity).toEqual({
+        type: "test",
+        args: { platform: "linux/mips64le" },
+      });
+      expect(mainScanResultWithLabels.targetReference).toBe("with-labels-test");
+
+      const imageLabelsFactWithLabels = mainScanResultWithLabels.facts?.find(
+        (fact) => fact.type === "imageLabels",
+      );
 
       expect(imageLabelsFactWithLabels).toBeDefined();
       expect(imageLabelsFactWithLabels!.data).toEqual({
@@ -184,17 +346,34 @@ describe("buildResponse", () => {
       // Test case 3: config is defined but labels is empty object - should create imageLabels fact with empty object
       const mockAnalysisEmptyLabels = createMockAnalysis({
         imageLabels: {},
+        platform: "linux/mips",
       });
 
       const resultEmptyLabels = await buildResponse(
         mockAnalysisEmptyLabels as any,
         undefined,
         false,
+        ["test-image:empty-labels"],
+        undefined,
+        { "target-reference": "empty-labels-test" },
       );
 
-      const imageLabelsFactEmpty = resultEmptyLabels.scanResults
-        .flatMap((scanResult) => scanResult.facts || [])
-        .find((fact) => fact.type === "imageLabels");
+      expect(resultEmptyLabels.scanResults).toHaveLength(1);
+      const mainScanResultEmptyLabels = resultEmptyLabels.scanResults[0];
+
+      // Verify scan result structure is preserved
+      expect(mainScanResultEmptyLabels.target).toEqual({ image: "test" });
+      expect(mainScanResultEmptyLabels.identity).toEqual({
+        type: "test",
+        args: { platform: "linux/mips" },
+      });
+      expect(mainScanResultEmptyLabels.targetReference).toBe(
+        "empty-labels-test",
+      );
+
+      const imageLabelsFactEmpty = mainScanResultEmptyLabels.facts?.find(
+        (fact) => fact.type === "imageLabels",
+      );
 
       expect(imageLabelsFactEmpty).toBeDefined();
       expect(imageLabelsFactEmpty!.data).toEqual({});
@@ -225,7 +404,7 @@ describe("buildResponse", () => {
           shouldNotHave: ["exposedPorts", "volumes"],
         },
         {
-          name: "null ExposedPorts and Volumes treat null as undefined for arrays",
+          name: "null ExposedPorts and Volumes shoudl be assigned null",
           containerConfig: {
             User: "root",
             ExposedPorts: null,
@@ -239,7 +418,7 @@ describe("buildResponse", () => {
           shouldNotHave: [],
         },
         {
-          name: "empty ExposedPorts and Volumes",
+          name: "empty ExposedPorts and Volumes should be empty arrays",
           containerConfig: {
             User: "root",
             ExposedPorts: {},
@@ -271,17 +450,44 @@ describe("buildResponse", () => {
       for (const testCase of testCases) {
         const mockAnalysis = createMockAnalysis({
           containerConfig: testCase.containerConfig,
+          platform: "linux/arm64",
         });
 
         const result = await buildResponse(
           mockAnalysis as any,
           undefined,
           false,
+          [`test-image:${testCase.name.replace(/\s+/g, "-").toLowerCase()}`],
+          undefined,
+          {
+            "target-reference": `${testCase.name
+              .replace(/\s+/g, "-")
+              .toLowerCase()}-test`,
+          },
         );
 
-        const containerConfigFact = result.scanResults
-          .flatMap((scanResult) => scanResult.facts || [])
-          .find((fact) => fact.type === "containerConfig");
+        expect(result.scanResults).toHaveLength(1);
+        const mainScanResult = result.scanResults[0];
+
+        // Verify scan result structure is preserved
+        expect(mainScanResult).toHaveProperty("facts");
+        expect(mainScanResult).toHaveProperty("target");
+        expect(mainScanResult).toHaveProperty("identity");
+        expect(mainScanResult).toHaveProperty("targetReference");
+        expect(mainScanResult).not.toHaveProperty("name");
+
+        expect(mainScanResult.target).toEqual({ image: "test" });
+        expect(mainScanResult.identity).toEqual({
+          type: "test",
+          args: { platform: "linux/arm64" },
+        });
+        expect(mainScanResult.targetReference).toBe(
+          `${testCase.name.replace(/\s+/g, "-").toLowerCase()}-test`,
+        );
+
+        const containerConfigFact = mainScanResult.facts?.find(
+          (fact) => fact.type === "containerConfig",
+        );
 
         expect(containerConfigFact).toBeDefined();
         expect(containerConfigFact!.data).toEqual(testCase.expected);
@@ -292,11 +498,12 @@ describe("buildResponse", () => {
       }
     });
 
-    it("should handle boolean undefined correctly", async () => {
+    it("should handle boolean undefined and null correctly", async () => {
       const testCases = [
         { ArgsEscaped: true, shouldInclude: true },
         { ArgsEscaped: false, shouldInclude: true },
         { ArgsEscaped: undefined, shouldInclude: false },
+        { ArgsEscaped: null, shouldInclude: true },
       ];
 
       for (const { ArgsEscaped, shouldInclude } of testCases) {
@@ -305,25 +512,46 @@ describe("buildResponse", () => {
             User: "root",
             ArgsEscaped,
           },
+          platform: "linux/amd64",
         });
 
         const result = await buildResponse(
           mockAnalysis as any,
           undefined,
           false,
+          [`test-image:boolean-${ArgsEscaped}`],
+          undefined,
+          { "target-reference": `boolean-${ArgsEscaped}-test` },
         );
 
-        const containerConfigFact = result.scanResults
-          .flatMap((scanResult) => scanResult.facts || [])
-          .find((fact) => fact.type === "containerConfig");
+        expect(result.scanResults).toHaveLength(1);
+        const mainScanResult = result.scanResults[0];
+
+        // Verify scan result structure is preserved
+        expect(mainScanResult).toHaveProperty("facts");
+        expect(mainScanResult).toHaveProperty("target");
+        expect(mainScanResult).toHaveProperty("identity");
+        expect(mainScanResult).toHaveProperty("targetReference");
+        expect(mainScanResult).not.toHaveProperty("name");
+
+        expect(mainScanResult.target).toEqual({ image: "test" });
+        expect(mainScanResult.identity).toEqual({
+          type: "test",
+          args: { platform: "linux/amd64" },
+        });
+        expect(mainScanResult.targetReference).toBe(
+          `boolean-${ArgsEscaped}-test`,
+        );
+
+        const containerConfigFact = mainScanResult.facts?.find(
+          (fact) => fact.type === "containerConfig",
+        );
 
         expect(containerConfigFact).toBeDefined();
 
         if (shouldInclude) {
-          expect(containerConfigFact!.data).toHaveProperty(
-            "argsEscaped",
-            ArgsEscaped,
-          );
+          expect(containerConfigFact!.data).toHaveProperty("argsEscaped");
+          expect(containerConfigFact!.data.argsEscaped).toBe(ArgsEscaped);
         } else {
           expect(containerConfigFact!.data).not.toHaveProperty("argsEscaped");
         }
@@ -351,13 +579,40 @@ describe("buildResponse", () => {
             author: "another-author",
           },
         ],
+        platform: "linux/sparc64",
       });
 
-      const result = await buildResponse(mockAnalysis as any, undefined, false);
+      const result = await buildResponse(
+        mockAnalysis as any,
+        undefined,
+        false,
+        ["test-image:undefined-history-props"],
+        undefined,
+        { "target-reference": "undefined-history-props-test" },
+      );
 
-      const historyFact = result.scanResults
-        .flatMap((scanResult) => scanResult.facts || [])
-        .find((fact) => fact.type === "history");
+      expect(result.scanResults).toHaveLength(1);
+      const mainScanResult = result.scanResults[0];
+
+      // Verify scan result structure is preserved
+      expect(mainScanResult).toHaveProperty("facts");
+      expect(mainScanResult).toHaveProperty("target");
+      expect(mainScanResult).toHaveProperty("identity");
+      expect(mainScanResult).toHaveProperty("targetReference");
+      expect(mainScanResult).not.toHaveProperty("name");
+
+      expect(mainScanResult.target).toEqual({ image: "test" });
+      expect(mainScanResult.identity).toEqual({
+        type: "test",
+        args: { platform: "linux/sparc64" },
+      });
+      expect(mainScanResult.targetReference).toBe(
+        "undefined-history-props-test",
+      );
+
+      const historyFact = mainScanResult.facts?.find(
+        (fact) => fact.type === "history",
+      );
 
       expect(historyFact).toBeDefined();
       expect(historyFact!.data).toHaveLength(3);
@@ -392,6 +647,7 @@ describe("buildResponse", () => {
         { empty_layer: true, shouldInclude: true },
         { empty_layer: false, shouldInclude: true },
         { empty_layer: undefined, shouldInclude: false },
+        { empty_layer: null, shouldInclude: true },
       ];
 
       for (const { empty_layer, shouldInclude } of testCases) {
@@ -403,23 +659,45 @@ describe("buildResponse", () => {
               empty_layer,
             },
           ],
+          platform: "linux/s390x",
         });
         const result = await buildResponse(
           mockAnalysis as any,
           undefined,
           false,
+          [`test-image:empty-layer-${empty_layer}`],
+          undefined,
+          { "target-reference": `empty-layer-${empty_layer}-test` },
         );
-        const historyFact = result.scanResults
-          .flatMap((scanResult) => scanResult.facts || [])
-          .find((fact) => fact.type === "history");
+
+        expect(result.scanResults).toHaveLength(1);
+        const mainScanResult = result.scanResults[0];
+
+        // Verify scan result structure is preserved
+        expect(mainScanResult).toHaveProperty("facts");
+        expect(mainScanResult).toHaveProperty("target");
+        expect(mainScanResult).toHaveProperty("identity");
+        expect(mainScanResult).toHaveProperty("targetReference");
+        expect(mainScanResult).not.toHaveProperty("name");
+
+        expect(mainScanResult.target).toEqual({ image: "test" });
+        expect(mainScanResult.identity).toEqual({
+          type: "test",
+          args: { platform: "linux/s390x" },
+        });
+        expect(mainScanResult.targetReference).toBe(
+          `empty-layer-${empty_layer}-test`,
+        );
+
+        const historyFact = mainScanResult.facts?.find(
+          (fact) => fact.type === "history",
+        );
 
         expect(historyFact).toBeDefined();
         expect(historyFact!.data).toHaveLength(1);
         if (shouldInclude) {
-          expect(historyFact!.data[0]).toHaveProperty(
-            "emptyLayer",
-            empty_layer,
-          );
+          expect(historyFact!.data[0]).toHaveProperty("emptyLayer");
+          expect(historyFact!.data[0].emptyLayer).toBe(empty_layer);
         } else {
           expect(historyFact!.data[0]).not.toHaveProperty("emptyLayer");
         }
@@ -450,6 +728,7 @@ describe("buildResponse", () => {
         const mockAnalysis = createMockAnalysis({
           containerConfig,
           history,
+          platform: "linux/amd64",
         });
 
         // Add ociDistributionMetadata which doesn't have any size limits
@@ -465,21 +744,39 @@ describe("buildResponse", () => {
           mockAnalysis as any,
           undefined,
           false,
-          undefined,
+          ["test-image:v1.0"],
           ociDistributionMetadata,
+          { "target-reference": "test-branch" },
         );
 
-        const containerConfigFact = result.scanResults
-          .flatMap((scanResult) => scanResult.facts || [])
-          .find((fact) => fact.type === "containerConfig");
+        expect(result.scanResults).toHaveLength(1);
+        const mainScanResult = result.scanResults[0];
 
-        const historyFact = result.scanResults
-          .flatMap((scanResult) => scanResult.facts || [])
-          .find((fact) => fact.type === "history");
+        // Verify scan result structure is preserved
+        expect(mainScanResult).toHaveProperty("facts");
+        expect(mainScanResult).toHaveProperty("target");
+        expect(mainScanResult).toHaveProperty("identity");
+        expect(mainScanResult).toHaveProperty("targetReference");
+        expect(mainScanResult).not.toHaveProperty("name");
 
-        const ociDistributionMetadataFact = result.scanResults
-          .flatMap((scanResult) => scanResult.facts || [])
-          .find((fact) => fact.type === "ociDistributionMetadata");
+        expect(mainScanResult.target).toEqual({ image: "test" });
+        expect(mainScanResult.identity).toEqual({
+          type: "test",
+          args: { platform: "linux/amd64" },
+        });
+        expect(mainScanResult.targetReference).toBe("test-branch");
+
+        const containerConfigFact = mainScanResult.facts?.find(
+          (fact) => fact.type === "containerConfig",
+        );
+
+        const historyFact = mainScanResult.facts?.find(
+          (fact) => fact.type === "history",
+        );
+
+        const ociDistributionMetadataFact = mainScanResult.facts?.find(
+          (fact) => fact.type === "ociDistributionMetadata",
+        );
 
         expect(containerConfigFact).toBeDefined();
         expect(containerConfigFact!.data).toEqual({
@@ -513,9 +810,9 @@ describe("buildResponse", () => {
         });
 
         // Should not create any pluginWarnings fact since no truncation occurred
-        const pluginWarningsFact = result.scanResults
-          .flatMap((scanResult) => scanResult.facts || [])
-          .find((fact) => fact.type === "pluginWarnings");
+        const pluginWarningsFact = mainScanResult.facts?.find(
+          (fact) => fact.type === "pluginWarnings",
+        );
 
         expect(pluginWarningsFact).toBeUndefined();
       });
@@ -527,6 +824,7 @@ describe("buildResponse", () => {
             User: "mainuser",
             Env: ["MAIN_ENV=value"],
           },
+          platform: "linux/amd64",
           applicationDependenciesScanResults: [
             {
               facts: [
@@ -542,7 +840,7 @@ describe("buildResponse", () => {
                   type: "containerConfig" as const,
                   data: {
                     user: "npmuser",
-                    env: ["NODE_ENV=production", "PORT=3000"], // Within limits
+                    env: ["NODE_ENV=production", "PORT=3000"],
                     cmd: ["node", "server.js"],
                     workingDir: "/app",
                   },
@@ -556,7 +854,7 @@ describe("buildResponse", () => {
                       createdBy: "RUN npm install",
                       comment: "Install npm dependencies",
                     },
-                  ], // Within limits
+                  ],
                 },
               ],
               identity: { type: "npm" },
@@ -596,7 +894,7 @@ describe("buildResponse", () => {
                       createdBy: "COPY . /app",
                       comment: "Copy application code",
                     },
-                  ], // Within limits
+                  ],
                 },
               ],
               identity: { type: "pip" },
@@ -609,14 +907,28 @@ describe("buildResponse", () => {
           mockAnalysis as any,
           undefined,
           false,
+          ["test-image:latest"],
+          undefined,
+          { "target-reference": "multi-test-branch" },
         );
 
         // Should have 3 scan results: 1 main + 2 application dependency results
         expect(result.scanResults).toHaveLength(3);
 
-        // Verify main scan result (first one)
+        // Verify main scan result structure and identity
         const mainScanResult = result.scanResults[0];
-        expect(mainScanResult.identity.type).toBe("test");
+        expect(mainScanResult).toHaveProperty("facts");
+        expect(mainScanResult).toHaveProperty("target");
+        expect(mainScanResult).toHaveProperty("identity");
+        expect(mainScanResult).toHaveProperty("targetReference");
+        expect(mainScanResult).not.toHaveProperty("name");
+
+        expect(mainScanResult.target).toEqual({ image: "test" });
+        expect(mainScanResult.identity).toEqual({
+          type: "test",
+          args: { platform: "linux/amd64" },
+        });
+        expect(mainScanResult.targetReference).toBe("multi-test-branch");
         const mainContainerConfig = mainScanResult.facts?.find(
           (fact) => fact.type === "containerConfig",
         );
@@ -625,9 +937,20 @@ describe("buildResponse", () => {
           env: ["MAIN_ENV=value"],
         });
 
-        // Verify first application dependency scan result (npm)
+        // Verify first application dependency scan result structure and identity
         const firstAppResult = result.scanResults[1];
-        expect(firstAppResult.identity.type).toBe("npm");
+        expect(firstAppResult).toHaveProperty("facts");
+        expect(firstAppResult).toHaveProperty("target");
+        expect(firstAppResult).toHaveProperty("identity");
+        expect(firstAppResult).toHaveProperty("targetReference");
+        expect(firstAppResult).not.toHaveProperty("name"); // No name in original
+
+        expect(firstAppResult.target).toEqual({ image: "test" }); // Overridden by buildResponse
+        expect(firstAppResult.identity).toEqual({
+          type: "npm",
+          args: undefined,
+        });
+        expect(firstAppResult.targetReference).toBe("multi-test-branch"); // Overridden by options
         const firstTestedFiles = firstAppResult.facts?.find(
           (fact) => fact.type === "testedFiles",
         );
@@ -654,9 +977,20 @@ describe("buildResponse", () => {
           },
         ]);
 
-        // Verify second application dependency scan result (pip)
+        // Verify second application dependency scan result structure and identity
         const secondAppResult = result.scanResults[2];
-        expect(secondAppResult.identity.type).toBe("pip");
+        expect(secondAppResult).toHaveProperty("facts");
+        expect(secondAppResult).toHaveProperty("target");
+        expect(secondAppResult).toHaveProperty("identity");
+        expect(secondAppResult).toHaveProperty("targetReference");
+        expect(secondAppResult).not.toHaveProperty("name"); // No name in original
+
+        expect(secondAppResult.target).toEqual({ image: "test" }); // Overridden by buildResponse
+        expect(secondAppResult.identity).toEqual({
+          type: "pip",
+          args: undefined,
+        });
+        expect(secondAppResult.targetReference).toBe("multi-test-branch"); // Overridden by options
         const secondTestedFiles = secondAppResult.facts?.find(
           (fact) => fact.type === "testedFiles",
         );
@@ -710,7 +1044,6 @@ describe("buildResponse", () => {
           { length: envLimit + 50 },
           (_, i) => `VAR${i}=value${i}`,
         );
-        const normalEnv = ["PATH=/usr/bin", "HOME=/root"];
         const normalHistory = [
           {
             created: "2023-01-01T00:00:00Z",
@@ -734,6 +1067,7 @@ describe("buildResponse", () => {
             Cmd: ["nginx"],
           },
           history: normalHistory,
+          platform: "linux/amd64",
           applicationDependenciesScanResults: [
             {
               facts: [
@@ -756,20 +1090,32 @@ describe("buildResponse", () => {
           ],
         });
 
-        // Build response using single buildResponse call
         const result = await buildResponse(
           mockAnalysis as any,
           undefined,
           false,
-          undefined,
+          ["test-image:mixed"],
           ociDistributionMetadata,
+          { "target-reference": "mixed-truncation-branch" },
         );
 
         // Should have 2 scan results: 1 main + 1 application dependency result
         expect(result.scanResults).toHaveLength(2);
 
-        // Verify main scan result: Should be truncated and have pluginWarnings
+        // Verify main scan result structure is preserved despite truncation (facts are modified, other properties unchanged)
         const mainScanResult = result.scanResults[0];
+        expect(mainScanResult).toHaveProperty("facts");
+        expect(mainScanResult).toHaveProperty("target");
+        expect(mainScanResult).toHaveProperty("identity");
+        expect(mainScanResult).toHaveProperty("targetReference");
+        expect(mainScanResult).not.toHaveProperty("name");
+
+        expect(mainScanResult.target).toEqual({ image: "test" });
+        expect(mainScanResult.identity).toEqual({
+          type: "test",
+          args: { platform: "linux/amd64" },
+        });
+        expect(mainScanResult.targetReference).toBe("mixed-truncation-branch");
         const mainContainerConfig = mainScanResult.facts?.find(
           (fact) => fact.type === "containerConfig",
         );
@@ -815,8 +1161,20 @@ describe("buildResponse", () => {
           imageTag: "latest",
         });
 
-        // Verify application dependency scan result: Should also be truncated and have a pluginWarnings fact
+        // Verify application dependency scan result structure is preserved despite truncation (facts are modified, other properties unchanged)
         const appScanResult = result.scanResults[1];
+        expect(appScanResult).toHaveProperty("facts");
+        expect(appScanResult).toHaveProperty("target");
+        expect(appScanResult).toHaveProperty("identity");
+        expect(appScanResult).toHaveProperty("targetReference");
+        expect(appScanResult).not.toHaveProperty("name"); // No name in original
+
+        expect(appScanResult.target).toEqual({ image: "test" }); // Overridden by buildResponse
+        expect(appScanResult.identity).toEqual({
+          type: "npm",
+          args: undefined,
+        });
+        expect(appScanResult.targetReference).toBe("mixed-truncation-branch"); // Overridden by options
         const appContainerConfig = appScanResult.facts?.find(
           (fact) => fact.type === "containerConfig",
         );
@@ -850,6 +1208,146 @@ describe("buildResponse", () => {
             countAboveLimit: 50,
           },
         });
+      });
+
+      it("should preserve scan result structure and only modify facts", async () => {
+        // Main scan result gets: facts, target, identity, targetReference (from options)
+        // Application scan results preserve: facts, identity, name but get target and targetReference overridden by buildResponse
+        const envLimit = RESPONSE_SIZE_LIMITS["containerConfig.data.env"].limit;
+        const oversizedEnv = Array.from(
+          { length: envLimit + 25 },
+          (_, i) => `TEST_VAR${i}=value${i}`,
+        );
+
+        const mockAnalysis = createMockAnalysis({
+          containerConfig: {
+            User: "testuser",
+            Env: oversizedEnv, // Will be truncated
+          },
+          platform: "linux/amd64",
+          imageId: "sha256:test-image-id",
+          applicationDependenciesScanResults: [
+            {
+              facts: [
+                {
+                  type: "depGraph" as const,
+                  data: {} as any,
+                },
+                {
+                  type: "testedFiles" as const,
+                  data: "/app/test.json",
+                },
+              ],
+              identity: {
+                type: "npm",
+                args: { platform: "linux/amd64" },
+              },
+              target: { image: "test-app:v1.0" },
+              name: "custom-project-name",
+              targetReference: "feature-branch",
+            },
+          ],
+        });
+
+        const result = await buildResponse(
+          mockAnalysis as any,
+          undefined,
+          false,
+          ["test-image:latest", "test-image:v1.0"],
+          undefined,
+          { "target-reference": "main-branch" },
+        );
+
+        expect(result.scanResults).toHaveLength(2);
+
+        // Verify main scan result structure is preserved
+        const mainScanResult = result.scanResults[0];
+        expect(mainScanResult).toHaveProperty("facts");
+        expect(mainScanResult).toHaveProperty("target");
+        expect(mainScanResult).toHaveProperty("identity");
+        expect(mainScanResult).toHaveProperty("targetReference");
+        expect(mainScanResult).not.toHaveProperty("name"); // Main scan result doesn't get a name only app projects
+
+        expect(mainScanResult.target).toEqual({
+          image: "test", // From depTree.rootPkg.name
+        });
+        expect(mainScanResult.identity).toEqual({
+          type: "test", // From packageFormat
+          args: { platform: "linux/amd64" }, // Platform from mock analysis
+        });
+        expect(mainScanResult.targetReference).toBe("main-branch");
+
+        // Verify facts were processed (truncated)
+        const mainContainerConfig = mainScanResult.facts?.find(
+          (fact) => fact.type === "containerConfig",
+        );
+        const mainPluginWarnings = mainScanResult.facts?.find(
+          (fact) => fact.type === "pluginWarnings",
+        );
+        expect(mainContainerConfig?.data.env).toHaveLength(envLimit); // Truncated
+        expect(mainPluginWarnings).toBeDefined(); // Created due to truncation
+
+        // Verify application scan result structure is preserved
+        const appScanResult = result.scanResults[1];
+        expect(appScanResult).toHaveProperty("facts");
+        expect(appScanResult).toHaveProperty("target");
+        expect(appScanResult).toHaveProperty("identity");
+        expect(appScanResult).toHaveProperty("name");
+        expect(appScanResult).toHaveProperty("targetReference");
+
+        // Some properties get overridden by buildResponse, others are preserved
+        expect(appScanResult.target).toEqual({
+          image: "test", // Overridden by buildResponse to depGraph.rootPkg.name
+        });
+        expect(appScanResult.identity).toEqual({
+          type: "npm", // Preserved from original
+          args: { platform: "linux/amd64" }, // Preserved from original
+        });
+        expect(appScanResult.name).toBe("custom-project-name"); // Preserved
+        expect(appScanResult.targetReference).toBe("main-branch"); // Overridden by options["target-reference"]
+
+        // Verify facts were processed but other facts preserved
+        const appTestedFiles = appScanResult.facts?.find(
+          (fact) => fact.type === "testedFiles",
+        );
+        const appImageId = appScanResult.facts?.find(
+          (fact) => fact.type === "imageId",
+        );
+        const appImageNames = appScanResult.facts?.find(
+          (fact) => fact.type === "imageNames",
+        );
+        const appPluginVersion = appScanResult.facts?.find(
+          (fact) => fact.type === "pluginVersion",
+        );
+
+        expect(appTestedFiles?.data).toBe("/app/test.json"); // Preserved
+        expect(appImageId).toBeDefined(); // Added by buildResponse
+        expect(appImageNames?.data).toEqual({
+          names: ["test-image:latest", "test-image:v1.0"],
+        }); // Added by buildResponse
+        expect(appPluginVersion).toBeDefined(); // Added by buildResponse
+
+        // Verify no unexpected properties were added or removed
+        const expectedMainKeys = [
+          "facts",
+          "target",
+          "identity",
+          "targetReference",
+        ];
+        const expectedAppKeys = [
+          "facts",
+          "target",
+          "identity",
+          "name",
+          "targetReference",
+        ];
+
+        expect(Object.keys(mainScanResult).sort()).toEqual(
+          expectedMainKeys.sort(),
+        );
+        expect(Object.keys(appScanResult).sort()).toEqual(
+          expectedAppKeys.sort(),
+        );
       });
     });
   });
