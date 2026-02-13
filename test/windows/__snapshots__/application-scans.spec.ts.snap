@@ -50,16 +50,9 @@ Object {
         },
         Object {
           "data": Object {
-            "argsEscaped": undefined,
-            "cmd": undefined,
-            "entrypoint": undefined,
             "env": Array [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
-            "exposedPorts": undefined,
-            "stopSignal": undefined,
-            "user": undefined,
-            "volumes": undefined,
             "workingDir": "/",
           },
           "type": "containerConfig",
@@ -67,11 +60,9 @@ Object {
         Object {
           "data": Array [
             Object {
-              "author": undefined,
               "comment": "buildkit.dockerfile.v0",
               "created": "2023-04-19T14:01:51.201404297Z",
               "createdBy": "COPY livenessprobe /livenessprobe # buildkit",
-              "emptyLayer": undefined,
             },
           ],
           "type": "history",
@@ -2358,14 +2349,9 @@ Object {
               "echo",
               "esbuild test image ready - vulnerability ONLY in esbuild path",
             ],
-            "entrypoint": undefined,
             "env": Array [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
-            "exposedPorts": undefined,
-            "stopSignal": undefined,
-            "user": undefined,
-            "volumes": undefined,
             "workingDir": "/app",
           },
           "type": "containerConfig",
@@ -2373,63 +2359,47 @@ Object {
         Object {
           "data": Array [
             Object {
-              "author": undefined,
               "comment": "buildkit.dockerfile.v0",
               "created": "2025-10-08T11:04:56Z",
               "createdBy": "ADD alpine-minirootfs-3.22.2-aarch64.tar.gz / # buildkit",
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
               "comment": "buildkit.dockerfile.v0",
               "created": "2025-10-08T11:04:56Z",
               "createdBy": "CMD [\\"/bin/sh\\"]",
               "emptyLayer": true,
             },
             Object {
-              "author": undefined,
               "comment": "buildkit.dockerfile.v0",
               "created": "2025-10-16T13:22:39.772318797Z",
               "createdBy": "RUN /bin/sh -c mkdir -p /app/node_modules/.pnpm/@esbuild+linux-x64@0.23.1/node_modules/@esbuild/linux-x64/bin # buildkit",
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
               "comment": "buildkit.dockerfile.v0",
               "created": "2025-10-21T21:00:44.334551376Z",
               "createdBy": "COPY /build-vulnerable/esbuild-vulnerable /app/node_modules/.pnpm/@esbuild+linux-x64@0.23.1/node_modules/@esbuild/linux-x64/bin/esbuild # buildkit",
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
               "comment": "buildkit.dockerfile.v0",
               "created": "2025-10-21T21:00:44.458638252Z",
               "createdBy": "RUN /bin/sh -c mkdir -p /usr/local/lib /usr/lib # buildkit",
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
               "comment": "buildkit.dockerfile.v0",
               "created": "2025-10-21T21:00:44.499040918Z",
               "createdBy": "COPY /build-clean/clean-binary /usr/local/lib/go-standard # buildkit",
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
               "comment": "buildkit.dockerfile.v0",
               "created": "2025-10-21T21:00:44.509860418Z",
               "createdBy": "COPY /build-clean/clean-binary /usr/lib/go-standard-2 # buildkit",
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
               "comment": "buildkit.dockerfile.v0",
               "created": "2025-10-21T21:00:44.51800796Z",
               "createdBy": "WORKDIR /app",
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
               "comment": "buildkit.dockerfile.v0",
               "created": "2025-10-21T21:00:44.51800796Z",
               "createdBy": "CMD [\\"echo\\" \\"esbuild test image ready - vulnerability ONLY in esbuild path\\"]",
@@ -2723,10 +2693,8 @@ Object {
             "env": Array [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
-            "exposedPorts": undefined,
-            "stopSignal": undefined,
             "user": "",
-            "volumes": undefined,
+            "volumes": null,
             "workingDir": "",
           },
           "type": "containerConfig",
@@ -2734,15 +2702,10 @@ Object {
         Object {
           "data": Array [
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-01-03T01:21:37.132606296Z",
               "createdBy": "/bin/sh -c #(nop) COPY file:7bf12aab75c3867a023fe3b8bd6d113d43a4fcc415f3cc27cbcf0fff37b65a02 in / ",
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-01-03T01:21:37.263809283Z",
               "createdBy": "/bin/sh -c #(nop)  CMD [\\"/hello\\"]",
               "emptyLayer": true,
@@ -4583,10 +4546,8 @@ Object {
             "env": Array [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
-            "exposedPorts": undefined,
-            "stopSignal": undefined,
             "user": "",
-            "volumes": undefined,
+            "volumes": null,
             "workingDir": "",
           },
           "type": "containerConfig",
@@ -4594,15 +4555,10 @@ Object {
         Object {
           "data": Array [
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-04-21T18:22:56.027865753Z",
               "createdBy": "/bin/sh -c #(nop) ADD file:c64a7d77d1e9f4364c8d2009059cb8668697d61f54f457215b6be6f0c9cded5b in / ",
-              "emptyLayer": undefined,
             },
             Object {
-              "author": undefined,
-              "comment": undefined,
               "created": "2020-04-21T18:22:56.403210733Z",
               "createdBy": "/bin/sh -c #(nop)  CMD [\\"/bin/bash\\"]",
               "emptyLayer": true,
