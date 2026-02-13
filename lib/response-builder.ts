@@ -1,9 +1,13 @@
 import { legacy } from "@snyk/dep-graph";
 import { StaticAnalysis } from "./analyzer/types";
+import * as facts from "./facts";
+// Module that provides functions to collect and build response after all
+// analyses' are done.
+
 import { instructionDigest } from "./dockerfile";
 import { DockerFileAnalysis, DockerFilePackages } from "./dockerfile/types";
 import { OCIDistributionMetadata } from "./extractor/oci-distribution-metadata";
-import * as facts from "./facts";
+
 import * as types from "./types";
 import { truncateAdditionalFacts } from "./utils";
 import { PLUGIN_VERSION } from "./version";

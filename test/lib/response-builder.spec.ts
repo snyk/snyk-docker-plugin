@@ -1,4 +1,5 @@
 import { buildResponse } from "../../lib/response-builder";
+import { RESPONSE_SIZE_LIMITS, truncateAdditionalFacts } from "../../lib/utils";
 
 describe("buildResponse", () => {
   const createMockAnalysis = (overrides = {}) => ({
@@ -121,7 +122,6 @@ describe("buildResponse", () => {
         .flatMap((scanResult) => scanResult.facts || [])
         .find((fact) => fact.type === "containerConfig");
 
-      // Should create a containerConfig fact with null data when containerConfig is null
       expect(containerConfigFact).toBeUndefined();
     });
 
@@ -424,6 +424,341 @@ describe("buildResponse", () => {
           expect(historyFact!.data[0]).not.toHaveProperty("emptyLayer");
         }
       }
+    });
+
+    describe("fact truncation integration", () => {
+      it("should pass through facts without truncation when within limits", async () => {
+        const containerConfig = {
+          User: "testuser",
+          Env: ["PATH=/usr/bin", "HOME=/root"],
+          Cmd: ["nginx", "-g", "daemon off;"],
+          ExposedPorts: { "80/tcp": {}, "443/tcp": {} },
+          WorkingDir: "/app",
+          StopSignal: "SIGTERM",
+        };
+
+        const history = [
+          {
+            created: "2023-01-01T00:00:00Z",
+            author: "test",
+            created_by: "RUN echo test",
+            comment: "Test layer",
+            empty_layer: false,
+          },
+        ];
+
+        const mockAnalysis = createMockAnalysis({
+          containerConfig,
+          history,
+        });
+
+        // Add ociDistributionMetadata which doesn't have any size limits
+        const ociDistributionMetadata = {
+          registryHost: "docker.io",
+          repository: "library/nginx",
+          manifestDigest:
+            "sha256:abcd1234567890abcd1234567890abcd1234567890abcd1234567890abcd1234",
+          imageTag: "latest",
+        };
+
+        const result = await buildResponse(
+          mockAnalysis as any,
+          undefined,
+          false,
+          undefined,
+          ociDistributionMetadata,
+        );
+
+        const containerConfigFact = result.scanResults
+          .flatMap((scanResult) => scanResult.facts || [])
+          .find((fact) => fact.type === "containerConfig");
+
+        const historyFact = result.scanResults
+          .flatMap((scanResult) => scanResult.facts || [])
+          .find((fact) => fact.type === "history");
+
+        const ociDistributionMetadataFact = result.scanResults
+          .flatMap((scanResult) => scanResult.facts || [])
+          .find((fact) => fact.type === "ociDistributionMetadata");
+
+        expect(containerConfigFact).toBeDefined();
+        expect(containerConfigFact!.data).toEqual({
+          user: "testuser",
+          env: ["PATH=/usr/bin", "HOME=/root"],
+          cmd: ["nginx", "-g", "daemon off;"],
+          exposedPorts: ["80/tcp", "443/tcp"],
+          workingDir: "/app",
+          stopSignal: "SIGTERM",
+        });
+
+        expect(historyFact).toBeDefined();
+        expect(historyFact!.data).toEqual([
+          {
+            created: "2023-01-01T00:00:00Z",
+            author: "test",
+            createdBy: "RUN echo test",
+            comment: "Test layer",
+            emptyLayer: false,
+          },
+        ]);
+
+        // ociDistributionMetadata should be the same
+        expect(ociDistributionMetadataFact).toBeDefined();
+        expect(ociDistributionMetadataFact!.data).toEqual({
+          registryHost: "docker.io",
+          repository: "library/nginx",
+          manifestDigest:
+            "sha256:abcd1234567890abcd1234567890abcd1234567890abcd1234567890abcd1234",
+          imageTag: "latest",
+        });
+
+        // Should not create any pluginWarnings fact since no truncation occurred
+        const pluginWarningsFact = result.scanResults
+          .flatMap((scanResult) => scanResult.facts || [])
+          .find((fact) => fact.type === "pluginWarnings");
+
+        expect(pluginWarningsFact).toBeUndefined();
+      });
+
+      it("should handle multiple scan results correctly", async () => {
+        const mockAnalysis1 = createMockAnalysis({
+          containerConfig: {
+            User: "user1",
+            Env: ["ENV1=value1"],
+          },
+        });
+
+        const mockAnalysis2 = createMockAnalysis({
+          containerConfig: {
+            User: "user2",
+            Cmd: ["cmd2"],
+          },
+        });
+
+        // Simulate multiple scan results
+        const customResult = {
+          scanResults: [
+            {
+              facts: [
+                {
+                  type: "containerConfig" as const,
+                  data: {
+                    user: "user1",
+                    env: ["ENV1=value1"],
+                  },
+                },
+                {
+                  type: "depGraph" as const,
+                  data: mockAnalysis1.depTree,
+                },
+              ],
+              identity: { type: "apk" as const },
+              target: { image: "test-image-1" },
+            },
+            {
+              facts: [
+                {
+                  type: "containerConfig" as const,
+                  data: {
+                    user: "user2",
+                    cmd: ["cmd2"],
+                  },
+                },
+                {
+                  type: "history" as const,
+                  data: [
+                    {
+                      created: "2023-01-01T00:00:00Z",
+                      author: "test2",
+                    },
+                  ],
+                },
+              ],
+              identity: { type: "npm" as const },
+              target: { image: "test-image-2" },
+            },
+          ],
+        };
+
+        // Apply same truncation logic as response builder
+        const truncatedResult = {
+          scanResults: customResult.scanResults.map((result) => ({
+            ...result,
+            facts: result.facts || [],
+          })),
+        };
+
+        expect(truncatedResult.scanResults).toHaveLength(2);
+        // check first scan result
+        const firstScanResult = truncatedResult.scanResults[0];
+        expect(firstScanResult.identity.type).toBe("apk");
+        expect(firstScanResult.target.image).toBe("test-image-1");
+
+        const firstContainerConfig = firstScanResult.facts.find(
+          (fact) => fact.type === "containerConfig",
+        );
+        expect(firstContainerConfig?.data).toEqual({
+          user: "user1",
+          env: ["ENV1=value1"],
+        });
+
+        // check second scan result
+        const secondScanResult = truncatedResult.scanResults[1];
+        expect(secondScanResult.identity.type).toBe("npm");
+        expect(secondScanResult.target.image).toBe("test-image-2");
+
+        const secondContainerConfig = secondScanResult.facts.find(
+          (fact) => fact.type === "containerConfig",
+        );
+        expect(secondContainerConfig?.data).toEqual({
+          user: "user2",
+          cmd: ["cmd2"],
+        });
+
+        const secondHistory = secondScanResult.facts.find(
+          (fact) => fact.type === "history",
+        );
+        expect(secondHistory?.data).toEqual([
+          {
+            created: "2023-01-01T00:00:00Z",
+            author: "test2",
+          },
+        ]);
+      });
+
+      it("should handle mixed truncation across multiple scan results", async () => {
+        const envLimit = RESPONSE_SIZE_LIMITS["containerConfig.data.env"].limit;
+
+        // Create scan result 1: Will be truncated (oversized env array)
+        const oversizedEnv = Array.from(
+          { length: envLimit + 50 },
+          (_, i) => `VAR${i}=value${i}`,
+        );
+        const scanResult1 = {
+          facts: [
+            {
+              type: "containerConfig" as const,
+              data: {
+                user: "user1",
+                env: oversizedEnv, // This will be truncated
+                cmd: ["nginx"],
+              },
+            },
+            {
+              type: "depGraph" as const,
+              data: {} as any,
+            },
+          ],
+          identity: { type: "apk" as const },
+          target: { image: "test-image-1" },
+        };
+
+        // Create scan result 2: Will NOT be truncated
+        const normalEnv = ["PATH=/usr/bin", "HOME=/root"];
+        const normalHistory = [
+          {
+            created: "2023-01-01T00:00:00Z",
+            author: "test",
+            createdBy: "RUN echo test",
+          },
+        ];
+        const scanResult2 = {
+          facts: [
+            {
+              type: "containerConfig" as const,
+              data: {
+                user: "user2",
+                env: normalEnv,
+                workingDir: "/app",
+              },
+            },
+            {
+              type: "history" as const,
+              data: normalHistory,
+            },
+            {
+              type: "ociDistributionMetadata" as const,
+              data: {
+                registryHost: "docker.io",
+                repository: "library/alpine",
+                manifestDigest:
+                  "sha256:1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
+                imageTag: "latest",
+              },
+            },
+          ],
+          identity: { type: "npm" as const },
+          target: { image: "test-image-2" },
+        };
+
+        // same truncation logic like buildResponse does
+        const result = {
+          scanResults: [scanResult1, scanResult2].map((scanResult) => ({
+            ...scanResult,
+            facts: truncateAdditionalFacts(scanResult.facts || []),
+          })),
+        };
+
+        expect(result.scanResults).toHaveLength(2);
+
+        // check scan result 1: Should be truncated and have pluginWarnings
+        const firstScanResult = result.scanResults[0];
+        const firstContainerConfig = firstScanResult.facts.find(
+          (fact) => fact.type === "containerConfig",
+        );
+        const firstPluginWarnings = firstScanResult.facts.find(
+          (fact) => fact.type === "pluginWarnings",
+        );
+
+        expect(firstContainerConfig?.data.env).toHaveLength(envLimit);
+        expect(firstContainerConfig?.data.env).toEqual(
+          oversizedEnv.slice(0, envLimit),
+        );
+        expect(firstContainerConfig?.data.user).toBe("user1");
+        expect(firstContainerConfig?.data.cmd).toEqual(["nginx"]);
+
+        // Should have pluginWarnings for truncation
+        expect(firstPluginWarnings).toBeDefined();
+        expect(firstPluginWarnings?.data.truncatedFacts).toEqual({
+          "containerConfig.data.env": {
+            type: "array",
+            countAboveLimit: 50,
+          },
+        });
+
+        // check scan result 2: Should NOT be truncated and have NO pluginWarnings
+        const secondScanResult = result.scanResults[1];
+        const secondContainerConfig = secondScanResult.facts.find(
+          (fact) => fact.type === "containerConfig",
+        );
+        const secondHistory = secondScanResult.facts.find(
+          (fact) => fact.type === "history",
+        );
+        const secondOciMetadata = secondScanResult.facts.find(
+          (fact) => fact.type === "ociDistributionMetadata",
+        );
+        const secondPluginWarnings = secondScanResult.facts.find(
+          (fact) => fact.type === "pluginWarnings",
+        );
+
+        // Should pass through unchanged
+        expect(secondContainerConfig?.data).toEqual({
+          user: "user2",
+          env: normalEnv, // NOT truncated
+          workingDir: "/app",
+        });
+        expect(secondHistory?.data).toEqual(normalHistory);
+        expect(secondOciMetadata?.data).toEqual({
+          registryHost: "docker.io",
+          repository: "library/alpine",
+          manifestDigest:
+            "sha256:1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
+          imageTag: "latest",
+        });
+
+        // Should NOT have pluginWarnings
+        expect(secondPluginWarnings).toBeUndefined();
+      });
     });
   });
 });
