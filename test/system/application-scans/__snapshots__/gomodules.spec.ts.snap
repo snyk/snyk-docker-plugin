@@ -378,6 +378,58 @@ Object {
           "type": "imageLabels",
         },
         Object {
+          "data": Object {
+            "argsEscaped": true,
+            "cmd": Array [
+              "/bin/sh",
+            ],
+            "entrypoint": null,
+            "env": Array [
+              "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            ],
+            "user": "",
+            "volumes": null,
+            "workingDir": "/workdir",
+          },
+          "type": "containerConfig",
+        },
+        Object {
+          "data": Array [
+            Object {
+              "created": "2020-05-29T21:19:46.192045972Z",
+              "createdBy": "/bin/sh -c #(nop) ADD file:c92c248239f8c7b9b3c067650954815f391b7bcb09023f984972c082ace2a8d0 in / ",
+            },
+            Object {
+              "created": "2020-05-29T21:19:46.363518345Z",
+              "createdBy": "/bin/sh -c #(nop)  CMD [\\"/bin/sh\\"]",
+              "emptyLayer": true,
+            },
+            Object {
+              "created": "2020-10-18T21:48:49.907055534Z",
+              "createdBy": "/bin/sh -c #(nop) COPY file:42f1445482c3e904d73ed2f6101c01d74b2b27f8fbf59fb6241c7af943684f08 in /usr/bin/yq ",
+            },
+            Object {
+              "created": "2020-10-18T21:48:51.263433138Z",
+              "createdBy": "/bin/sh -c chmod +x /usr/bin/yq",
+            },
+            Object {
+              "created": "2020-10-18T21:48:51.730468073Z",
+              "createdBy": "/bin/sh -c #(nop)  ARG VERSION=none",
+              "emptyLayer": true,
+            },
+            Object {
+              "created": "2020-10-18T21:48:52.127641923Z",
+              "createdBy": "/bin/sh -c #(nop)  LABEL version=none",
+              "emptyLayer": true,
+            },
+            Object {
+              "created": "2020-10-18T21:48:52.642510942Z",
+              "createdBy": "/bin/sh -c #(nop) WORKDIR /workdir",
+            },
+          ],
+          "type": "history",
+        },
+        Object {
           "data": "2020-10-18T21:48:52.642510942Z",
           "type": "imageCreationTime",
         },
@@ -393,6 +445,14 @@ Object {
         Object {
           "data": "Alpine Linux v3.12",
           "type": "imageOsReleasePrettyName",
+        },
+        Object {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        Object {
+          "data": "0.0.0-local",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {
@@ -787,6 +847,58 @@ Object {
           "type": "imageLabels",
         },
         Object {
+          "data": Object {
+            "argsEscaped": true,
+            "cmd": Array [
+              "/bin/sh",
+            ],
+            "entrypoint": null,
+            "env": Array [
+              "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            ],
+            "user": "",
+            "volumes": null,
+            "workingDir": "/workdir",
+          },
+          "type": "containerConfig",
+        },
+        Object {
+          "data": Array [
+            Object {
+              "created": "2020-05-29T21:19:46.192045972Z",
+              "createdBy": "/bin/sh -c #(nop) ADD file:c92c248239f8c7b9b3c067650954815f391b7bcb09023f984972c082ace2a8d0 in / ",
+            },
+            Object {
+              "created": "2020-05-29T21:19:46.363518345Z",
+              "createdBy": "/bin/sh -c #(nop)  CMD [\\"/bin/sh\\"]",
+              "emptyLayer": true,
+            },
+            Object {
+              "created": "2020-10-18T21:48:49.907055534Z",
+              "createdBy": "/bin/sh -c #(nop) COPY file:42f1445482c3e904d73ed2f6101c01d74b2b27f8fbf59fb6241c7af943684f08 in /usr/bin/yq ",
+            },
+            Object {
+              "created": "2020-10-18T21:48:51.263433138Z",
+              "createdBy": "/bin/sh -c chmod +x /usr/bin/yq",
+            },
+            Object {
+              "created": "2020-10-18T21:48:51.730468073Z",
+              "createdBy": "/bin/sh -c #(nop)  ARG VERSION=none",
+              "emptyLayer": true,
+            },
+            Object {
+              "created": "2020-10-18T21:48:52.127641923Z",
+              "createdBy": "/bin/sh -c #(nop)  LABEL version=none",
+              "emptyLayer": true,
+            },
+            Object {
+              "created": "2020-10-18T21:48:52.642510942Z",
+              "createdBy": "/bin/sh -c #(nop) WORKDIR /workdir",
+            },
+          ],
+          "type": "history",
+        },
+        Object {
           "data": "2020-10-18T21:48:52.642510942Z",
           "type": "imageCreationTime",
         },
@@ -802,6 +914,14 @@ Object {
         Object {
           "data": "Alpine Linux v3.12",
           "type": "imageOsReleasePrettyName",
+        },
+        Object {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        Object {
+          "data": "0.0.0-local",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {
@@ -1088,6 +1208,10 @@ Object {
           "data": "sha256:0809facff9bd760673e046192ad24a2ee08d451f6dbb6c22552293dc4b15e734",
           "type": "imageId",
         },
+        Object {
+          "data": "0.0.0-local",
+          "type": "pluginVersion",
+        },
       ],
       "identity": Object {
         "targetFile": "/usr/bin/yq",
@@ -1150,6 +1274,35 @@ Object {
           "type": "imageLayers",
         },
         Object {
+          "data": Object {
+            "argsEscaped": true,
+            "cmd": Array [
+              "./testgo",
+            ],
+            "env": Array [
+              "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            ],
+            "workingDir": "/",
+          },
+          "type": "containerConfig",
+        },
+        Object {
+          "data": Array [
+            Object {
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2022-07-10T08:39:42.311434047Z",
+              "createdBy": "COPY /app/testgo ./ # buildkit",
+            },
+            Object {
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2022-07-10T08:39:42.311434047Z",
+              "createdBy": "CMD [\\"./testgo\\"]",
+              "emptyLayer": true,
+            },
+          ],
+          "type": "history",
+        },
+        Object {
           "data": "2022-07-10T08:39:42.311434047Z",
           "type": "imageCreationTime",
         },
@@ -1158,6 +1311,14 @@ Object {
             "sha256:b3b29ea441a79462c8d942f597c0ef38960379046651c03659ea28d3729fa5ad",
           ],
           "type": "rootFs",
+        },
+        Object {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        Object {
+          "data": "0.0.0-local",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {
@@ -1353,6 +1514,10 @@ Object {
         Object {
           "data": "sha256:b5a5cea3c00c659a3bd14bf786644ec0deed22bc30e99260177aca1dc8600449",
           "type": "imageId",
+        },
+        Object {
+          "data": "0.0.0-local",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {
@@ -1416,6 +1581,35 @@ Object {
           "type": "imageLayers",
         },
         Object {
+          "data": Object {
+            "argsEscaped": true,
+            "cmd": Array [
+              "./testgo",
+            ],
+            "env": Array [
+              "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            ],
+            "workingDir": "/",
+          },
+          "type": "containerConfig",
+        },
+        Object {
+          "data": Array [
+            Object {
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2022-07-10T08:41:36.652919824Z",
+              "createdBy": "COPY /app/testgo ./ # buildkit",
+            },
+            Object {
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2022-07-10T08:41:36.652919824Z",
+              "createdBy": "CMD [\\"./testgo\\"]",
+              "emptyLayer": true,
+            },
+          ],
+          "type": "history",
+        },
+        Object {
           "data": "2022-07-10T08:41:36.652919824Z",
           "type": "imageCreationTime",
         },
@@ -1424,6 +1618,14 @@ Object {
             "sha256:b3b45e39a2de618d672de8395f83e78ef2cdf15c0a5d08e631bc46d4d5bff3dc",
           ],
           "type": "rootFs",
+        },
+        Object {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        Object {
+          "data": "0.0.0-local",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {
@@ -1620,6 +1822,10 @@ Object {
           "data": "sha256:b7f8424ea2e9e94dd34b972998957f3210b9caeb968cb53088dfadb775feefe1",
           "type": "imageId",
         },
+        Object {
+          "data": "0.0.0-local",
+          "type": "pluginVersion",
+        },
       ],
       "identity": Object {
         "targetFile": "/testgo",
@@ -1682,6 +1888,35 @@ Object {
           "type": "imageLayers",
         },
         Object {
+          "data": Object {
+            "argsEscaped": true,
+            "cmd": Array [
+              "./testgo",
+            ],
+            "env": Array [
+              "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            ],
+            "workingDir": "/",
+          },
+          "type": "containerConfig",
+        },
+        Object {
+          "data": Array [
+            Object {
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2022-07-10T08:49:54.881276343Z",
+              "createdBy": "COPY /app/testgo ./ # buildkit",
+            },
+            Object {
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2022-07-10T08:49:54.881276343Z",
+              "createdBy": "CMD [\\"./testgo\\"]",
+              "emptyLayer": true,
+            },
+          ],
+          "type": "history",
+        },
+        Object {
           "data": "2022-07-10T08:49:54.881276343Z",
           "type": "imageCreationTime",
         },
@@ -1690,6 +1925,14 @@ Object {
             "sha256:f3b3cf4596949f12573f1fe82d20c44d88cff630caef72661b5da451157082be",
           ],
           "type": "rootFs",
+        },
+        Object {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        Object {
+          "data": "0.0.0-local",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {
@@ -1885,6 +2128,10 @@ Object {
         Object {
           "data": "sha256:f12d5cc86a0c5c078e16dca419459a91cc555e8cd9ef5750a6b809f2db19a47f",
           "type": "imageId",
+        },
+        Object {
+          "data": "0.0.0-local",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {

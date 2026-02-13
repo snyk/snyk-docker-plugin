@@ -34,7 +34,7 @@ describe("php application scans", () => {
 
     expect(pluginResult).toMatchSnapshot();
     expect(pluginResult.scanResults).toHaveLength(2);
-    expect(pluginResult.scanResults[0].facts).toHaveLength(6);
+    expect(pluginResult.scanResults[0].facts).toHaveLength(10);
     const factTypes = pluginResult.scanResults[0].facts.map(
       (fact) => fact.type,
     );

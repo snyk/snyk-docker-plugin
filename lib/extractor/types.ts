@@ -34,6 +34,8 @@ export interface ExtractionResult {
   platform?: string;
   imageLabels?: { [key: string]: string };
   imageCreationTime?: string;
+  containerConfig?: ContainerConfig | null;
+  history?: HistoryEntry[] | null;
 }
 
 export interface ExtractedLayers {
@@ -54,14 +56,34 @@ export interface DockerArchiveManifest {
   Layers: string[];
 }
 
+export interface ContainerConfig {
+  User?: string | null;
+  ExposedPorts?: { [port: string]: object } | null;
+  Env?: string[] | null;
+  Entrypoint?: string[] | null;
+  Cmd?: string[] | null;
+  Volumes?: { [path: string]: object } | null;
+  WorkingDir?: string | null;
+  Labels?: { [key: string]: string };
+  StopSignal?: string | null;
+  ArgsEscaped?: boolean | null;
+}
+
+export interface HistoryEntry {
+  created?: string | null;
+  author?: string | null;
+  created_by?: string | null;
+  comment?: string | null;
+  empty_layer?: boolean | null;
+}
+
 export interface ImageConfig {
   architecture: string;
   os: string;
   rootfs: { diff_ids: string[] };
-  config: {
-    Labels: { [key: string]: string };
-  };
+  config: ContainerConfig | null;
   created: string;
+  history?: HistoryEntry[] | null;
 }
 
 export interface OciArchiveLayer {

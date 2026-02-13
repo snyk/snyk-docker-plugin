@@ -335,6 +335,34 @@ Object {
           "type": "imageLayers",
         },
         Object {
+          "data": Object {
+            "entrypoint": Array [
+              "/usr/bin/ls",
+            ],
+            "env": Array [
+              "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            ],
+            "workingDir": "/",
+          },
+          "type": "containerConfig",
+        },
+        Object {
+          "data": Array [
+            Object {
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2025-10-22T17:28:05.980889584Z",
+              "createdBy": "COPY /rootfs / # buildkit",
+            },
+            Object {
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2025-10-22T17:28:05.980889584Z",
+              "createdBy": "ENTRYPOINT [\\"/usr/bin/ls\\"]",
+              "emptyLayer": true,
+            },
+          ],
+          "type": "history",
+        },
+        Object {
           "data": "2025-10-22T17:28:05.980889584Z",
           "type": "imageCreationTime",
         },
@@ -357,6 +385,14 @@ Object {
             ],
           },
           "type": "imageNames",
+        },
+        Object {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        Object {
+          "data": "0.0.0-local",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {

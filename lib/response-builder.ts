@@ -7,7 +7,10 @@ import * as facts from "./facts";
 import { instructionDigest } from "./dockerfile";
 import { DockerFileAnalysis, DockerFilePackages } from "./dockerfile/types";
 import { OCIDistributionMetadata } from "./extractor/oci-distribution-metadata";
+
 import * as types from "./types";
+import { truncateAdditionalFacts } from "./utils";
+import { PLUGIN_VERSION } from "./version";
 
 export { buildResponse };
 
@@ -79,6 +82,62 @@ async function buildResponse(
       data: depsAnalysis.imageLabels,
     };
     additionalFacts.push(imageLabels);
+  }
+
+  if (depsAnalysis.containerConfig) {
+    const containerConfigFact: facts.ContainerConfigFact = {
+      type: "containerConfig",
+      data: {
+        ...(depsAnalysis.containerConfig.User !== undefined && {
+          user: depsAnalysis.containerConfig.User,
+        }),
+        ...(depsAnalysis.containerConfig.ExposedPorts !== undefined && {
+          exposedPorts: depsAnalysis.containerConfig.ExposedPorts
+            ? Object.keys(depsAnalysis.containerConfig.ExposedPorts)
+            : null,
+        }),
+        ...(depsAnalysis.containerConfig.Env !== undefined && {
+          env: depsAnalysis.containerConfig.Env,
+        }),
+        ...(depsAnalysis.containerConfig.Entrypoint !== undefined && {
+          entrypoint: depsAnalysis.containerConfig.Entrypoint,
+        }),
+        ...(depsAnalysis.containerConfig.Cmd !== undefined && {
+          cmd: depsAnalysis.containerConfig.Cmd,
+        }),
+        ...(depsAnalysis.containerConfig.Volumes !== undefined && {
+          volumes: depsAnalysis.containerConfig.Volumes
+            ? Object.keys(depsAnalysis.containerConfig.Volumes)
+            : null,
+        }),
+        ...(depsAnalysis.containerConfig.WorkingDir !== undefined && {
+          workingDir: depsAnalysis.containerConfig.WorkingDir,
+        }),
+        ...(depsAnalysis.containerConfig.StopSignal !== undefined && {
+          stopSignal: depsAnalysis.containerConfig.StopSignal,
+        }),
+        ...(depsAnalysis.containerConfig.ArgsEscaped !== undefined && {
+          argsEscaped: depsAnalysis.containerConfig.ArgsEscaped,
+        }),
+      },
+    };
+    additionalFacts.push(containerConfigFact);
+  }
+
+  if (depsAnalysis.history && depsAnalysis.history.length > 0) {
+    const historyFact: facts.HistoryFact = {
+      type: "history",
+      data: depsAnalysis.history.map((entry) => ({
+        ...(entry.created !== undefined && { created: entry.created }),
+        ...(entry.author !== undefined && { author: entry.author }),
+        ...(entry.created_by !== undefined && { createdBy: entry.created_by }),
+        ...(entry.comment !== undefined && { comment: entry.comment }),
+        ...(entry.empty_layer !== undefined && {
+          emptyLayer: entry.empty_layer,
+        }),
+      })),
+    };
+    additionalFacts.push(historyFact);
   }
 
   if (depsAnalysis.imageCreationTime) {
@@ -158,6 +217,28 @@ async function buildResponse(
       appDepsScanResult.facts.push(imageIdFact);
     }
 
+    if (names && names.length > 0) {
+      const imageNamesFact: facts.ImageNamesFact = {
+        type: "imageNames",
+        data: { names },
+      };
+      appDepsScanResult.facts.push(imageNamesFact);
+    }
+
+    if (ociDistributionMetadata) {
+      const metadataFact: facts.OCIDistributionMetadataFact = {
+        type: "ociDistributionMetadata",
+        data: ociDistributionMetadata,
+      };
+      appDepsScanResult.facts.push(metadataFact);
+    }
+
+    const appPluginVersionFact: facts.PluginVersionFact = {
+      type: "pluginVersion",
+      data: PLUGIN_VERSION,
+    };
+    appDepsScanResult.facts.push(appPluginVersionFact);
+
     return {
       ...appDepsScanResult,
       target: {
@@ -199,6 +280,20 @@ async function buildResponse(
     additionalFacts.push(metadataFact);
   }
 
+  if (depsAnalysis.platform) {
+    const platformFact: facts.PlatformFact = {
+      type: "platform",
+      data: depsAnalysis.platform,
+    };
+    additionalFacts.push(platformFact);
+  }
+
+  const pluginVersionFact: facts.PluginVersionFact = {
+    type: "pluginVersion",
+    data: PLUGIN_VERSION,
+  };
+  additionalFacts.push(pluginVersionFact);
+
   const scanResults: types.ScanResult[] = [
     {
       facts: [depGraphFact, ...additionalFacts],
@@ -217,8 +312,13 @@ async function buildResponse(
     ...applicationDependenciesScanResults,
   ];
 
+  const truncatedScanResults = scanResults.map((result) => ({
+    ...result,
+    facts: truncateAdditionalFacts(result.facts || []),
+  }));
+
   return {
-    scanResults,
+    scanResults: truncatedScanResults,
   };
 }
 

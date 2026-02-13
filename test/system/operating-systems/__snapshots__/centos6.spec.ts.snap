@@ -3204,6 +3204,132 @@ Object {
           "type": "imageLabels",
         },
         Object {
+          "data": Object {
+            "argsEscaped": true,
+            "cmd": Array [
+              "/sbin/init",
+            ],
+            "env": Array [
+              "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            ],
+          },
+          "type": "containerConfig",
+        },
+        Object {
+          "data": Array [
+            Object {
+              "author": "https://github.com/CentOS/sig-cloud-instance-images",
+              "created": "2018-10-09T18:20:03.816986835Z",
+              "createdBy": "/bin/sh -c #(nop)  MAINTAINER https://github.com/CentOS/sig-cloud-instance-images",
+              "emptyLayer": true,
+            },
+            Object {
+              "author": "https://github.com/CentOS/sig-cloud-instance-images",
+              "created": "2019-03-14T21:20:10.936939354Z",
+              "createdBy": "/bin/sh -c #(nop) ADD file:0065316a41144e95bcb133567cc86816b8368a823cc067d741e06ded59849fd8 in / ",
+            },
+            Object {
+              "author": "https://github.com/CentOS/sig-cloud-instance-images",
+              "created": "2019-03-14T21:20:11.322700622Z",
+              "createdBy": "/bin/sh -c #(nop)  LABEL org.label-schema.schema-version=1.0 org.label-schema.name=CentOS Base Image org.label-schema.vendor=CentOS org.label-schema.license=GPLv2 org.label-schema.build-date=20181006",
+              "emptyLayer": true,
+            },
+            Object {
+              "author": "https://github.com/CentOS/sig-cloud-instance-images",
+              "created": "2019-03-14T21:20:11.486358099Z",
+              "createdBy": "/bin/sh -c #(nop)  CMD [\\"/bin/bash\\"]",
+              "emptyLayer": true,
+            },
+            Object {
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2021-03-13T00:01:24.824097128Z",
+              "createdBy": "LABEL maintainer=sean@sean.io",
+              "emptyLayer": true,
+            },
+            Object {
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2021-03-13T00:01:24.824097128Z",
+              "createdBy": "ARG BUILD_DATE",
+              "emptyLayer": true,
+            },
+            Object {
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2021-03-13T00:01:24.824097128Z",
+              "createdBy": "ARG VCS_REF",
+              "emptyLayer": true,
+            },
+            Object {
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2021-03-13T00:01:24.824097128Z",
+              "createdBy": "LABEL org.label-schema.schema-version=1.0",
+              "emptyLayer": true,
+            },
+            Object {
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2021-03-13T00:01:24.824097128Z",
+              "createdBy": "LABEL org.label-schema.build-date=2021-03-13T00:01:13Z",
+              "emptyLayer": true,
+            },
+            Object {
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2021-03-13T00:01:24.824097128Z",
+              "createdBy": "LABEL org.label-schema.name=test-kitechen/dokken-images",
+              "emptyLayer": true,
+            },
+            Object {
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2021-03-13T00:01:24.824097128Z",
+              "createdBy": "LABEL org.label-schema.description=A Docker container for testing centos-6",
+              "emptyLayer": true,
+            },
+            Object {
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2021-03-13T00:01:24.824097128Z",
+              "createdBy": "LABEL org.label-schema.vcs-url=https://github.com/test-kitechen/dokken-images",
+              "emptyLayer": true,
+            },
+            Object {
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2021-03-13T00:01:24.824097128Z",
+              "createdBy": "LABEL org.label-schema.vcs-ref=d546b246",
+              "emptyLayer": true,
+            },
+            Object {
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2021-03-13T00:01:24.824097128Z",
+              "createdBy": "LABEL org.label-schema.vendor=test-kitchen",
+              "emptyLayer": true,
+            },
+            Object {
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2021-03-13T00:01:24.824097128Z",
+              "createdBy": "RUN |2 BUILD_DATE=2021-03-13T00:01:13Z VCS_REF=d546b246 /bin/sh -c sed -i '/mirrorlist/d' /etc/yum.repos.d/*.repo # buildkit",
+            },
+            Object {
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2021-03-13T00:01:24.964586828Z",
+              "createdBy": "RUN |2 BUILD_DATE=2021-03-13T00:01:13Z VCS_REF=d546b246 /bin/sh -c sed -i -e 's/#baseurl/baseurl/g' /etc/yum.repos.d/*.repo # buildkit",
+            },
+            Object {
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2021-03-13T00:01:25.063720584Z",
+              "createdBy": "RUN |2 BUILD_DATE=2021-03-13T00:01:13Z VCS_REF=d546b246 /bin/sh -c sed -i -e 's/mirror.centos.org\\\\/centos\\\\/\\\\$releasever/vault.centos.org\\\\/6.10/g' /etc/yum.repos.d/*.repo # buildkit",
+            },
+            Object {
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2021-03-13T00:03:32.777698465Z",
+              "createdBy": "RUN |2 BUILD_DATE=2021-03-13T00:01:13Z VCS_REF=d546b246 /bin/sh -c yum -y install     ca-certificates     cronie     curl     dmidecode     gnupg2     initscripts     iptables     iputils     lsof     nc     net-tools     nmap     openssl     passwd     procps     redhat-lsb-core     strace     sudo     tcpdump     telnet     upstart     util-linux     vim-minimal     wget     which &&     yum clean all &&     rm -rf /var/cache/yum &&     rm -rf /var/log/* # buildkit",
+            },
+            Object {
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2021-03-13T00:03:32.777698465Z",
+              "createdBy": "CMD [\\"/sbin/init\\"]",
+              "emptyLayer": true,
+            },
+          ],
+          "type": "history",
+        },
+        Object {
           "data": "2021-03-13T00:03:32.777698465Z",
           "type": "imageCreationTime",
         },
@@ -3224,6 +3350,14 @@ Object {
             ],
           },
           "type": "imageNames",
+        },
+        Object {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        Object {
+          "data": "0.0.0-local",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {
@@ -6444,6 +6578,132 @@ Object {
           "type": "imageLabels",
         },
         Object {
+          "data": Object {
+            "argsEscaped": true,
+            "cmd": Array [
+              "/sbin/init",
+            ],
+            "env": Array [
+              "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            ],
+          },
+          "type": "containerConfig",
+        },
+        Object {
+          "data": Array [
+            Object {
+              "author": "https://github.com/CentOS/sig-cloud-instance-images",
+              "created": "2018-10-09T18:20:03.816986835Z",
+              "createdBy": "/bin/sh -c #(nop)  MAINTAINER https://github.com/CentOS/sig-cloud-instance-images",
+              "emptyLayer": true,
+            },
+            Object {
+              "author": "https://github.com/CentOS/sig-cloud-instance-images",
+              "created": "2019-03-14T21:20:10.936939354Z",
+              "createdBy": "/bin/sh -c #(nop) ADD file:0065316a41144e95bcb133567cc86816b8368a823cc067d741e06ded59849fd8 in / ",
+            },
+            Object {
+              "author": "https://github.com/CentOS/sig-cloud-instance-images",
+              "created": "2019-03-14T21:20:11.322700622Z",
+              "createdBy": "/bin/sh -c #(nop)  LABEL org.label-schema.schema-version=1.0 org.label-schema.name=CentOS Base Image org.label-schema.vendor=CentOS org.label-schema.license=GPLv2 org.label-schema.build-date=20181006",
+              "emptyLayer": true,
+            },
+            Object {
+              "author": "https://github.com/CentOS/sig-cloud-instance-images",
+              "created": "2019-03-14T21:20:11.486358099Z",
+              "createdBy": "/bin/sh -c #(nop)  CMD [\\"/bin/bash\\"]",
+              "emptyLayer": true,
+            },
+            Object {
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2021-03-13T00:01:24.824097128Z",
+              "createdBy": "LABEL maintainer=sean@sean.io",
+              "emptyLayer": true,
+            },
+            Object {
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2021-03-13T00:01:24.824097128Z",
+              "createdBy": "ARG BUILD_DATE",
+              "emptyLayer": true,
+            },
+            Object {
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2021-03-13T00:01:24.824097128Z",
+              "createdBy": "ARG VCS_REF",
+              "emptyLayer": true,
+            },
+            Object {
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2021-03-13T00:01:24.824097128Z",
+              "createdBy": "LABEL org.label-schema.schema-version=1.0",
+              "emptyLayer": true,
+            },
+            Object {
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2021-03-13T00:01:24.824097128Z",
+              "createdBy": "LABEL org.label-schema.build-date=2021-03-13T00:01:13Z",
+              "emptyLayer": true,
+            },
+            Object {
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2021-03-13T00:01:24.824097128Z",
+              "createdBy": "LABEL org.label-schema.name=test-kitechen/dokken-images",
+              "emptyLayer": true,
+            },
+            Object {
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2021-03-13T00:01:24.824097128Z",
+              "createdBy": "LABEL org.label-schema.description=A Docker container for testing centos-6",
+              "emptyLayer": true,
+            },
+            Object {
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2021-03-13T00:01:24.824097128Z",
+              "createdBy": "LABEL org.label-schema.vcs-url=https://github.com/test-kitechen/dokken-images",
+              "emptyLayer": true,
+            },
+            Object {
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2021-03-13T00:01:24.824097128Z",
+              "createdBy": "LABEL org.label-schema.vcs-ref=d546b246",
+              "emptyLayer": true,
+            },
+            Object {
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2021-03-13T00:01:24.824097128Z",
+              "createdBy": "LABEL org.label-schema.vendor=test-kitchen",
+              "emptyLayer": true,
+            },
+            Object {
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2021-03-13T00:01:24.824097128Z",
+              "createdBy": "RUN |2 BUILD_DATE=2021-03-13T00:01:13Z VCS_REF=d546b246 /bin/sh -c sed -i '/mirrorlist/d' /etc/yum.repos.d/*.repo # buildkit",
+            },
+            Object {
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2021-03-13T00:01:24.964586828Z",
+              "createdBy": "RUN |2 BUILD_DATE=2021-03-13T00:01:13Z VCS_REF=d546b246 /bin/sh -c sed -i -e 's/#baseurl/baseurl/g' /etc/yum.repos.d/*.repo # buildkit",
+            },
+            Object {
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2021-03-13T00:01:25.063720584Z",
+              "createdBy": "RUN |2 BUILD_DATE=2021-03-13T00:01:13Z VCS_REF=d546b246 /bin/sh -c sed -i -e 's/mirror.centos.org\\\\/centos\\\\/\\\\$releasever/vault.centos.org\\\\/6.10/g' /etc/yum.repos.d/*.repo # buildkit",
+            },
+            Object {
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2021-03-13T00:03:32.777698465Z",
+              "createdBy": "RUN |2 BUILD_DATE=2021-03-13T00:01:13Z VCS_REF=d546b246 /bin/sh -c yum -y install     ca-certificates     cronie     curl     dmidecode     gnupg2     initscripts     iptables     iputils     lsof     nc     net-tools     nmap     openssl     passwd     procps     redhat-lsb-core     strace     sudo     tcpdump     telnet     upstart     util-linux     vim-minimal     wget     which &&     yum clean all &&     rm -rf /var/cache/yum &&     rm -rf /var/log/* # buildkit",
+            },
+            Object {
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2021-03-13T00:03:32.777698465Z",
+              "createdBy": "CMD [\\"/sbin/init\\"]",
+              "emptyLayer": true,
+            },
+          ],
+          "type": "history",
+        },
+        Object {
           "data": "2021-03-13T00:03:32.777698465Z",
           "type": "imageCreationTime",
         },
@@ -6464,6 +6724,14 @@ Object {
             ],
           },
           "type": "imageNames",
+        },
+        Object {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        Object {
+          "data": "0.0.0-local",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {
@@ -6495,6 +6763,18 @@ Object {
         Object {
           "data": "sha256:37eec09741b0048d83af1a40ac621bb5f591f28e8f322317ffe22a41dc7ffadd",
           "type": "imageId",
+        },
+        Object {
+          "data": Object {
+            "names": Array [
+              "dokken/centos-6@sha256:494b9b280814f1e661597b48e229156e4dccb60dce198d9210f7572ff22626d2",
+            ],
+          },
+          "type": "imageNames",
+        },
+        Object {
+          "data": "0.0.0-local",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {

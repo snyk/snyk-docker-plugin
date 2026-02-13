@@ -163,6 +163,30 @@ Object {
           "type": "imageLayers",
         },
         Object {
+          "data": Object {
+            "env": Array [
+              "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+              "SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt",
+            ],
+          },
+          "type": "containerConfig",
+        },
+        Object {
+          "data": Array [
+            Object {
+              "author": "Bazel",
+              "created": "1970-01-01T00:00:00Z",
+              "createdBy": "bazel build ...",
+            },
+            Object {
+              "author": "Bazel",
+              "created": "1970-01-01T00:00:00Z",
+              "createdBy": "bazel build ...",
+            },
+          ],
+          "type": "history",
+        },
+        Object {
           "data": "1970-01-01T00:00:00Z",
           "type": "imageCreationTime",
         },
@@ -184,6 +208,14 @@ Object {
             ],
           },
           "type": "imageNames",
+        },
+        Object {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        Object {
+          "data": "0.0.0-local",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {

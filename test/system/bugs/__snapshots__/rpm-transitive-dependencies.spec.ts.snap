@@ -2702,6 +2702,60 @@ Object {
           "type": "imageLabels",
         },
         Object {
+          "data": Object {
+            "cmd": Array [
+              "node",
+            ],
+            "entrypoint": null,
+            "env": Array [
+              "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+              "NODE_VER=10.15.3-1nodesource",
+              "npm_config_unsafe_perm=true",
+            ],
+            "user": "",
+            "volumes": null,
+            "workingDir": "",
+          },
+          "type": "containerConfig",
+        },
+        Object {
+          "data": Array [
+            Object {
+              "created": "2020-05-05T21:20:06.628576585Z",
+              "createdBy": "/bin/sh -c #(nop) ADD file:38e2d2a1a0cd8694bd5086f257fdf7504f0c2481bf4f746c9bd1c8d9f3f6430d in / ",
+            },
+            Object {
+              "created": "2020-05-05T21:20:06.986794764Z",
+              "createdBy": "/bin/sh -c #(nop)  LABEL org.label-schema.schema-version=1.0 org.label-schema.name=CentOS Base Image org.label-schema.vendor=CentOS org.label-schema.license=GPLv2 org.label-schema.build-date=20200504 org.opencontainers.image.title=CentOS Base Image org.opencontainers.image.vendor=CentOS org.opencontainers.image.licenses=GPL-2.0-only org.opencontainers.image.created=2020-05-04 00:00:00+01:00",
+              "emptyLayer": true,
+            },
+            Object {
+              "created": "2020-05-05T21:20:07.182447994Z",
+              "createdBy": "/bin/sh -c #(nop)  CMD [\\"/bin/bash\\"]",
+              "emptyLayer": true,
+            },
+            Object {
+              "created": "2020-06-17T09:12:29.5827533Z",
+              "createdBy": "/bin/sh -c curl -fsSL https://rpm.nodesource.com/setup_10.x | bash -   && curl -fsSLo /etc/yum.repos.d/yarn.repo https://dl.yarnpkg.com/rpm/yarn.repo   && yum clean all",
+            },
+            Object {
+              "created": "2020-06-17T09:12:29.7606288Z",
+              "createdBy": "/bin/sh -c #(nop)  ENV NODE_VER=10.15.3-1nodesource npm_config_unsafe_perm=true",
+              "emptyLayer": true,
+            },
+            Object {
+              "created": "2020-06-17T09:15:02.363588Z",
+              "createdBy": "/bin/sh -c yum install -y \\"nodejs-\${NODE_VER}\\" yarn make gcc-c++   && yum clean all",
+            },
+            Object {
+              "created": "2020-06-17T09:15:02.8859064Z",
+              "createdBy": "/bin/sh -c #(nop)  CMD [\\"node\\"]",
+              "emptyLayer": true,
+            },
+          ],
+          "type": "history",
+        },
+        Object {
           "data": "2020-06-17T09:15:02.8859064Z",
           "type": "imageCreationTime",
         },
@@ -2744,6 +2798,14 @@ Object {
             },
           },
           "type": "autoDetectedUserInstructions",
+        },
+        Object {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        Object {
+          "data": "0.0.0-local",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {

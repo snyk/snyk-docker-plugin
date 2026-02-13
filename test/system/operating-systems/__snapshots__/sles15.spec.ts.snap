@@ -2147,6 +2147,24 @@ Object {
           "type": "imageLabels",
         },
         Object {
+          "data": Object {
+            "cmd": Array [
+              "/bin/bash",
+            ],
+          },
+          "type": "containerConfig",
+        },
+        Object {
+          "data": Array [
+            Object {
+              "author": "SUSE LINUX GmbH <https://www.suse.com/>",
+              "created": "2024-01-05T14:29:00Z",
+              "createdBy": "KIWI 9.24.43",
+            },
+          ],
+          "type": "history",
+        },
+        Object {
           "data": "2024-01-05T14:29:00Z",
           "type": "imageCreationTime",
         },
@@ -2167,6 +2185,14 @@ Object {
             ],
           },
           "type": "imageNames",
+        },
+        Object {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        Object {
+          "data": "0.0.0-local",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {
@@ -2272,6 +2298,18 @@ Object {
         Object {
           "data": "sha256:8c5d736566b6f5d7a92b48f4236678470ca48c9b6760a9ca87d0ae35f9a89b59",
           "type": "imageId",
+        },
+        Object {
+          "data": Object {
+            "names": Array [
+              "registry.suse.com/suse/sle15:15.3",
+            ],
+          },
+          "type": "imageNames",
+        },
+        Object {
+          "data": "0.0.0-local",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {
@@ -4293,6 +4331,23 @@ Object {
           "type": "imageLabels",
         },
         Object {
+          "data": Object {
+            "cmd": Array [
+              "/bin/bash",
+            ],
+          },
+          "type": "containerConfig",
+        },
+        Object {
+          "data": Array [
+            Object {
+              "created": "2020-09-22T16:49:18Z",
+              "createdBy": "KIWI 9.21.7",
+            },
+          ],
+          "type": "history",
+        },
+        Object {
           "data": "2020-09-22T16:49:18Z",
           "type": "imageCreationTime",
         },
@@ -4313,6 +4368,14 @@ Object {
             ],
           },
           "type": "imageNames",
+        },
+        Object {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        Object {
+          "data": "0.0.0-local",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {

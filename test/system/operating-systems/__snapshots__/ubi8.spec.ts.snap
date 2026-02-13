@@ -6076,6 +6076,64 @@ Object {
           "type": "imageLabels",
         },
         Object {
+          "data": Object {
+            "argsEscaped": true,
+            "cmd": Array [
+              "/bin/sh",
+              "-c",
+              "$STI_SCRIPTS_PATH/usage",
+            ],
+            "entrypoint": Array [
+              "container-entrypoint",
+            ],
+            "env": Array [
+              "PATH=/opt/app-root/src/node_modules/.bin/:/opt/app-root/src/.npm-global/bin/:/opt/app-root/src/bin:/opt/app-root/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+              "container=oci",
+              "SUMMARY=Platform for building and running Node.js 10 applications",
+              "DESCRIPTION=Node.js 10 available as container is a base platform for building and running various Node.js 10 applications and frameworks. Node.js is a platform built on Chrome's JavaScript runtime for easily building fast, scalable network applications. Node.js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient, perfect for data-intensive real-time applications that run across distributed devices.",
+              "STI_SCRIPTS_URL=image:///usr/libexec/s2i",
+              "STI_SCRIPTS_PATH=/usr/libexec/s2i",
+              "APP_ROOT=/opt/app-root",
+              "HOME=/opt/app-root/src",
+              "PLATFORM=el8",
+              "NODEJS_VER=10",
+              "NODEJS_VERSION=10",
+              "NPM_RUN=start",
+              "NAME=nodejs",
+              "NPM_CONFIG_PREFIX=/opt/app-root/src/.npm-global",
+            ],
+            "exposedPorts": Array [
+              "8080/tcp",
+            ],
+            "user": "1001",
+            "volumes": null,
+            "workingDir": "/opt/app-root/src",
+          },
+          "type": "containerConfig",
+        },
+        Object {
+          "data": Array [
+            Object {
+              "comment": "Imported from -",
+              "created": "2020-07-14T12:20:53.26936033Z",
+            },
+            Object {
+              "created": "2020-07-14T12:21:03.708705Z",
+            },
+            Object {
+              "created": "2020-07-14T15:16:38.32694Z",
+            },
+            Object {
+              "created": "2020-07-14T15:37:10.175399Z",
+            },
+            Object {
+              "comment": "",
+              "created": "2020-07-14T15:50:19.536953Z",
+            },
+          ],
+          "type": "history",
+        },
+        Object {
           "data": "2020-07-14T15:50:19.536953Z",
           "type": "imageCreationTime",
         },
@@ -6100,6 +6158,14 @@ Object {
             ],
           },
           "type": "imageNames",
+        },
+        Object {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        Object {
+          "data": "0.0.0-local",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {
@@ -16046,6 +16112,18 @@ Object {
           "data": "sha256:bd9170226033c453a1bf655548bf9f418e48b9f054bc86695acaec25934caa61",
           "type": "imageId",
         },
+        Object {
+          "data": Object {
+            "names": Array [
+              "registry.access.redhat.com/ubi8/nodejs-10@sha256:d344ac95abeeb0d5e2b2897caca0c806fae925b12f82242fc34e0a9d2eb785ca",
+            ],
+          },
+          "type": "imageNames",
+        },
+        Object {
+          "data": "0.0.0-local",
+          "type": "pluginVersion",
+        },
       ],
       "identity": Object {
         "targetFile": "/usr/lib/node_modules",
@@ -18999,6 +19077,36 @@ Object {
           "type": "imageLabels",
         },
         Object {
+          "data": Object {
+            "argsEscaped": true,
+            "cmd": Array [
+              "/bin/bash",
+            ],
+            "entrypoint": null,
+            "env": Array [
+              "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+              "container=oci",
+            ],
+            "user": "",
+            "volumes": null,
+            "workingDir": "",
+          },
+          "type": "containerConfig",
+        },
+        Object {
+          "data": Array [
+            Object {
+              "comment": "Imported from -",
+              "created": "2020-09-01T19:43:59.076061829Z",
+            },
+            Object {
+              "comment": "",
+              "created": "2020-09-01T19:44:12.470032Z",
+            },
+          ],
+          "type": "history",
+        },
+        Object {
           "data": "2020-09-01T19:44:12.470032Z",
           "type": "imageCreationTime",
         },
@@ -19020,6 +19128,14 @@ Object {
             ],
           },
           "type": "imageNames",
+        },
+        Object {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        Object {
+          "data": "0.0.0-local",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {
