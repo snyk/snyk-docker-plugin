@@ -39,7 +39,7 @@ async function getAnalysisParameters(
   if (!options.path) {
     throw new Error("No image identifier or path provided");
   }
-
+  // keeping this validation logic
   const nestedJarsDepth =
     options["nested-jars-depth"] || options["shaded-jars-depth"];
   if (
