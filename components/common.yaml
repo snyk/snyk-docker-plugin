@@ -37,6 +37,11 @@ schemas:
       - rootFs
       - testedFiles
       - workloadMetadata
+      - containerConfig
+      - history
+      - platform
+      - pluginVersion
+      - pluginWarnings
   Identity:
     type: object
     description: Identity defines "what" you found.
