@@ -273,7 +273,7 @@ describe("node application scans", () => {
     const result = await extractContent([getNodeAppFileContentAction], {
       path: imageNameAndTag,
     });
-    expect(Object.keys(result.extractedLayers).length).toEqual(608);
+    expect(Object.keys(result.extractedLayers).length).toEqual(610);
     Object.keys(result.extractedLayers).forEach((fileName) => {
       expect(
         fileName.endsWith("/package.json") ||
