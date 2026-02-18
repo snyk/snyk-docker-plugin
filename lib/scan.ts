@@ -9,7 +9,7 @@ import { ImageName } from "./extractor/image";
 import { ExtractAction, ExtractionResult } from "./extractor/types";
 import { fullImageSavePath } from "./image-save-path";
 import { getArchivePath, getImageType } from "./image-type";
-import { isNumber, isTrue } from "./option-utils";
+import { isDefined, isNumber, isStrictNumber, isTrue, resolveNestedJarsOption } from "./option-utils";
 import * as staticModule from "./static";
 import { ImageType, PluginOptions, PluginResponse } from "./types";
 import { isValidDockerImageReference } from "./utils";
@@ -40,8 +40,30 @@ async function getAnalysisParameters(
     throw new Error("No image identifier or path provided");
   }
 
-  const nestedJarsDepth =
-    options["nested-jars-depth"] || options["shaded-jars-depth"];
+  const nestedJarsDepth = resolveNestedJarsOption(options);
+  const parameterWarnings: string[] = [];
+  if (
+    isDefined(options["shaded-jars-depth"]) &&
+    isDefined(options["nested-jars-depth"])
+  ) {
+    parameterWarnings.push(
+      "Using both --shaded-jars-depth and --nested-jars-depth is deprecated, use only --nested-jars-depth",
+    );
+  } else if (isDefined(options["shaded-jars-depth"])) {
+    parameterWarnings.push(
+      "--shaded-jars-depth is deprecated, use --nested-jars-depth instead",
+    );
+  }
+  if (
+    !isStrictNumber(nestedJarsDepth) &&
+    typeof nestedJarsDepth !== "undefined"
+  ) {
+    parameterWarnings.push(
+      "Non-numeric inputs for --nested-jars-depth are deprecated, replace with a numeric input",
+    );
+  }
+  options.parameterWarnings = parameterWarnings;
+
   if (
     (isTrue(nestedJarsDepth) || isNumber(nestedJarsDepth)) &&
     isTrue(options["exclude-app-vulns"])
