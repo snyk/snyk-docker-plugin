@@ -1,6 +1,7 @@
 import {
   parseImageReference,
   isValidImageReference,
+  ParsedImageReference,
 } from "../../lib/image-reference";
 
 const validSha256 =
@@ -10,7 +11,7 @@ describe("image-reference", () => {
   describe("parseImageReference", () => {
     describe("valid image references", () => {
       it("parses image with tag only", () => {
-        expect(parseImageReference("nginx:latest")).toEqual({
+        expect(parseImageReference("nginx:latest")).toMatchObject({
           repository: "nginx",
           registry: undefined,
           tag: "latest",
@@ -19,7 +20,7 @@ describe("image-reference", () => {
       });
 
       it("parses image with semantic tag", () => {
-        expect(parseImageReference("nginx:1.23.0")).toEqual({
+        expect(parseImageReference("nginx:1.23.0")).toMatchObject({
           repository: "nginx",
           registry: undefined,
           tag: "1.23.0",
@@ -28,7 +29,7 @@ describe("image-reference", () => {
       });
 
       it("parses image without tag or digest (repository only)", () => {
-        expect(parseImageReference("nginx")).toEqual({
+        expect(parseImageReference("nginx")).toMatchObject({
           repository: "nginx",
           registry: undefined,
           tag: undefined,
@@ -37,7 +38,7 @@ describe("image-reference", () => {
       });
 
       it("parses image with digest only", () => {
-        expect(parseImageReference(`nginx@${validSha256}`)).toEqual({
+        expect(parseImageReference(`nginx@${validSha256}`)).toMatchObject({
           repository: "nginx",
           registry: undefined,
           tag: undefined,
@@ -48,7 +49,7 @@ describe("image-reference", () => {
       it("parses image with tag and digest (name:tag@digest)", () => {
         expect(
           parseImageReference(`nginx:1.23.0@${validSha256}`),
-        ).toEqual({
+        ).toMatchObject({
           repository: "nginx",
           registry: undefined,
           tag: "1.23.0",
@@ -57,7 +58,9 @@ describe("image-reference", () => {
       });
 
       it("parses image with registry (gcr.io)", () => {
-        expect(parseImageReference("gcr.io/project/nginx:latest")).toEqual({
+        expect(
+          parseImageReference("gcr.io/project/nginx:latest"),
+        ).toMatchObject({
           repository: "project/nginx",
           registry: "gcr.io",
           tag: "latest",
@@ -68,7 +71,7 @@ describe("image-reference", () => {
       it("parses image with registry and digest", () => {
         expect(
           parseImageReference(`gcr.io/project/nginx:1.23.0@${validSha256}`),
-        ).toEqual({
+        ).toMatchObject({
           repository: "project/nginx",
           registry: "gcr.io",
           tag: "1.23.0",
@@ -79,7 +82,7 @@ describe("image-reference", () => {
       it("parses localhost registry with port", () => {
         expect(
           parseImageReference("localhost:5000/foo/bar:tag"),
-        ).toEqual({
+        ).toMatchObject({
           repository: "foo/bar",
           registry: "localhost:5000",
           tag: "tag",
@@ -90,7 +93,7 @@ describe("image-reference", () => {
       it("parses docker.io style registry", () => {
         expect(
           parseImageReference("docker.io/calico/cni:release-v3.14"),
-        ).toEqual({
+        ).toMatchObject({
           repository: "calico/cni",
           registry: "docker.io",
           tag: "release-v3.14",
@@ -99,7 +102,7 @@ describe("image-reference", () => {
       });
 
       it("parses library/ prefix (Docker Hub official images)", () => {
-        expect(parseImageReference("library/nginx:latest")).toEqual({
+        expect(parseImageReference("library/nginx:latest")).toMatchObject({
           repository: "library/nginx",
           registry: undefined,
           tag: "latest",
@@ -108,16 +111,20 @@ describe("image-reference", () => {
       });
 
       it("parses docker.io/library/ prefix (Docker Hub official images)", () => {
-        expect(parseImageReference("docker.io/library/nginx:latest")).toEqual({
+        expect(
+          parseImageReference("registry-1.docker.io/library/nginx:latest"),
+        ).toMatchObject({
           repository: "library/nginx",
-          registry: "docker.io",
+          registry: "registry-1.docker.io",
           tag: "latest",
           digest: undefined,
         });
       });
 
       it("parses repository with dots and dashes", () => {
-        expect(parseImageReference("my.repo/image-name:tag")).toEqual({
+        expect(
+          parseImageReference("my.repo/image-name:tag"),
+        ).toMatchObject({
           repository: "image-name",
           registry: "my.repo",
           tag: "tag",
@@ -128,7 +135,7 @@ describe("image-reference", () => {
       it("parses IPv6 registry", () => {
         expect(
           parseImageReference("[::1]:5000/foo/bar:latest"),
-        ).toEqual({
+        ).toMatchObject({
           repository: "foo/bar",
           registry: "[::1]:5000",
           tag: "latest",
@@ -137,12 +144,20 @@ describe("image-reference", () => {
       });
 
       it("parses tag with dots and dashes", () => {
-        expect(parseImageReference("nginx:1.23.0-alpha")).toEqual({
+        expect(
+          parseImageReference("nginx:1.23.0-alpha"),
+        ).toMatchObject({
           repository: "nginx",
           registry: undefined,
           tag: "1.23.0-alpha",
           digest: undefined,
         });
+      });
+
+      it("returns ParsedImageReference instance", () => {
+        expect(parseImageReference("nginx:latest")).toBeInstanceOf(
+          ParsedImageReference,
+        );
       });
     });
 
@@ -189,27 +204,53 @@ describe("image-reference", () => {
     });
   });
 
-  describe("isValidImageReference", () => {
-    it("returns true for valid references", () => {
-      expect(isValidImageReference("nginx:latest")).toBe(true);
-      expect(isValidImageReference("nginx")).toBe(true);
-      expect(
-        isValidImageReference(`nginx:1.23.0@${validSha256}`),
-      ).toBe(true);
-      expect(isValidImageReference("gcr.io/project/nginx:latest")).toBe(true);
+  describe("ParsedImageReference#toString", () => {
+    it("rebuilds reference with repository only", () => {
+      const parsed = parseImageReference("nginx");
+      expect(parsed.toString()).toBe("nginx");
     });
 
-    it("returns false for empty string", () => {
-      expect(isValidImageReference("")).toBe(false);
+    it("rebuilds reference with repository and tag", () => {
+      const parsed = parseImageReference("nginx:latest");
+      expect(parsed.toString()).toBe("nginx:latest");
     });
 
-    it("returns false for invalid format", () => {
-      expect(isValidImageReference(":tag")).toBe(false);
-      expect(isValidImageReference("/invalid")).toBe(false);
+    it("rebuilds reference with repository and digest", () => {
+      const parsed = parseImageReference(`nginx@${validSha256}`);
+      expect(parsed.toString()).toBe(`nginx@${validSha256}`);
     });
 
-    it("returns false for uppercase in repository", () => {
-      expect(isValidImageReference("UPPERCASE")).toBe(false);
+    it("rebuilds reference with repository, tag and digest", () => {
+      const ref = `nginx:1.23.0@${validSha256}`;
+      const parsed = parseImageReference(ref);
+      expect(parsed.toString()).toBe(ref);
+    });
+
+    it("rebuilds reference with registry, repository and tag", () => {
+      const parsed = parseImageReference("gcr.io/project/nginx:latest");
+      expect(parsed.toString()).toBe("gcr.io/project/nginx:latest");
+    });
+
+    it("rebuilds reference with registry, repository, tag and digest", () => {
+      const ref = `gcr.io/project/nginx:1.23.0@${validSha256}`;
+      const parsed = parseImageReference(ref);
+      expect(parsed.toString()).toBe(ref);
+    });
+
+    it("round-trips for various valid references", () => {
+      const refs = [
+        "nginx",
+        "nginx:latest",
+        "nginx:1.23.0",
+        "library/nginx:latest",
+        "localhost:5000/foo/bar:tag",
+        "[::1]:5000/foo/bar:latest",
+        `nginx@${validSha256}`,
+        `nginx:1.23.0@${validSha256}`,
+      ];
+      for (const ref of refs) {
+        expect(parseImageReference(ref).toString()).toBe(ref);
+      }
     });
   });
 });

@@ -13,15 +13,64 @@ const imageReferenceRegex = new RegExp(imageReferencePattern);
 const imageRegistryPattern = String.raw`^((?:(?:[a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9])(?:\.(?:[a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]))+|\[(?:[a-fA-F0-9:]+)\]|localhost)(?::[0-9]+)?)(?:/|@)`;
 const imageRegistryRegex = new RegExp(imageRegistryPattern);
 
-export interface ParsedImageReference {
+export class ParsedImageReference {
   /** Repository path (e.g. nginx, library/nginx) */
-  repository: string;
+  readonly repository: string;
   /** Registry hostname (e.g. gcr.io, registry-1.docker.io); undefined if none */
-  registry?: string;
+  readonly registry?: string;
   /** Tag (e.g. latest, 1.23.0); undefined if only digest or neither */
-  tag?: string;
+  readonly tag?: string;
   /** Inline digest (e.g. sha256:abc...); undefined if not present */
-  digest?: string;
+  readonly digest?: string;
+
+  constructor(params: {
+    repository: string;
+    registry?: string;
+    tag?: string;
+    digest?: string;
+  }) {
+    this.repository = params.repository;
+    this.registry = params.registry;
+    this.tag = params.tag;
+    this.digest = params.digest;
+  }
+
+  /**
+   * Rebuilds the image reference string from repository, registry, tag, and digest.
+   * Format: [registry/]repository[:tag][@digest]
+   */
+  toString(): string {
+    let ref = "";
+    if (this.registry) {
+      ref += this.registry + "/";
+    }
+    ref += this.repository;
+    if (this.tag) {
+      ref += ":" + this.tag;
+    }
+    if (this.digest) {
+      ref += "@" + this.digest;
+    }
+    return ref;
+  }
+
+  /**
+   * The registry to use for pulling the image.
+   * If the registry is not set, use Docker Hub.
+   */
+  get registryForPull(): string {
+    return this.registry ?? "registry-1.docker.io";
+  }
+
+  /**
+   * The tail reference to use for pulling the image.
+   * If the digest is set, use the digest.
+   * If the tag is set, use the tag.
+   * If neither are set, use "latest".
+   */
+  get tailReferenceForPull(): string {
+    return this.digest ?? this.tag ?? "latest";
+  }
 }
 
 /**
@@ -58,12 +107,12 @@ export function parseImageReference(reference: string): ParsedImageReference {
     repository = repository.slice(registry.length + 1);
   }
 
-  return {
+  return new ParsedImageReference({
     repository,
     registry,
     tag: tag ?? undefined,
     digest: digest ?? undefined,
-  };
+  });
 }
 
 /**
