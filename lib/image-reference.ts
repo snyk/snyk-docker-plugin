@@ -55,11 +55,19 @@ export class ParsedImageReference {
   }
 
   /**
+   * Whether the image is from Docker Hub.
+   * This is true if the registry is "registry-1.docker.io" or "docker.io" or undefined.
+   */
+  get isDockerHub(): boolean {
+    return this.registry === "registry-1.docker.io" || this.registry === "docker.io" || this.registry === undefined;
+  }
+
+  /**
    * The registry to use for pulling the image.
    * If the registry is not set, use Docker Hub.
    */
   get registryForPull(): string {
-    if (this.registry === "docker.io" || this.registry === undefined) {
+    if (this.isDockerHub || this.registry === undefined) {
       return "registry-1.docker.io";
     }
     return this.registry;
@@ -73,6 +81,17 @@ export class ParsedImageReference {
    */
   get tailReferenceForPull(): string {
     return this.digest ?? this.tag ?? "latest";
+  }
+
+  /**
+   * The normalized repository name.
+   * If the image is from Docker Hub and the repository does not have a namespace, add the default namespace "library".
+   */
+  get normalizedRepository(): string {
+    if (this.isDockerHub && !this.repository.includes("/")) {
+      return "library/" + this.repository;
+    }
+    return this.repository;
   }
 }
 

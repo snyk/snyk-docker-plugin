@@ -1,4 +1,4 @@
-import { parseAll } from "@swimlane/docker-reference";
+import { parseImageReference } from "../image-reference";
 
 export interface OCIDistributionMetadata {
   // Must be a valid host, including port if one was used to pull the image.
@@ -32,17 +32,15 @@ export function constructOCIDisributionMetadata({
   | OCIDistributionMetadata
   | undefined {
   try {
-    const ref = parseAll(imageName);
-    if (!ref.domain || !ref.repository) {
-      return;
-    }
-
+    const parsed = parseImageReference(imageName);
+    // Normalize the hostname. Note this function uses slightly different logic from the one in the image-reference.ts file.
+    const hostname = parsed.registry ? parsed.registry : "docker.io";
     const metadata: OCIDistributionMetadata = {
-      registryHost: ref.domain,
-      repository: ref.repository,
+      registryHost: hostname,
+      repository: parsed.normalizedRepository,
       manifestDigest,
       indexDigest,
-      imageTag: ref.tag,
+      imageTag: parsed.tag,
     };
 
     if (!ociDistributionMetadataIsValid(metadata)) {

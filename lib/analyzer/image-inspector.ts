@@ -268,14 +268,11 @@ async function getImageArchive(
 
 function extractImageDetails(targetImage: string): ImageDetails {
   const parsed = parseImageReference(targetImage);
-  const hostname = parsed.registryForPull;
-  const isDockerHub = hostname === "registry-1.docker.io";
-  const imageName =
-    isDockerHub && !parsed.repository.includes("/")
-      ? "library/" + parsed.repository
-      : parsed.repository;
-  const tag = parsed.tailReferenceForPull;
-  return { hostname, imageName, tag };
+  return {
+    hostname: parsed.registryForPull,
+    imageName: parsed.normalizedRepository,
+    tag: parsed.tailReferenceForPull,
+  };
 }
 
 function isLocalImageSameArchitecture(
