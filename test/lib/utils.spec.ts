@@ -841,6 +841,42 @@ describe("truncateAdditionalFacts", () => {
       });
     });
 
+    it("should merge truncatedFacts into an existing pluginWarnings fact", () => {
+      const envLimit = RESPONSE_SIZE_LIMITS["containerConfig.data.env"].limit;
+      const largeEnv = Array.from(
+        { length: envLimit + 100 },
+        (_, i) => `VAR${i}=value${i}`,
+      );
+
+      const facts = [
+        {
+          type: "containerConfig",
+          data: {
+            env: largeEnv,
+          },
+        },
+        {
+          type: "pluginWarnings",
+          data: {
+            parameterChecks: ["some warning about a parameter"],
+          },
+        },
+      ];
+
+      const result = truncateAdditionalFacts(facts);
+
+      const warningsFacts = result.filter((f) => f.type === "pluginWarnings");
+      expect(warningsFacts).toHaveLength(1);
+
+      const warningsFact = warningsFacts[0];
+      expect(warningsFact.data.parameterChecks).toEqual([
+        "some warning about a parameter",
+      ]);
+      expect(warningsFact.data.truncatedFacts).toEqual({
+        "containerConfig.data.env": { type: "array", countAboveLimit: 100 },
+      });
+    });
+
     it("should pass through objects without matching limits unchanged", () => {
       const complexObject = {
         _internal: new Map([["key", "value"]]),

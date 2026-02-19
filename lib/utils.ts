@@ -63,13 +63,21 @@ export function truncateAdditionalFacts(facts: any[]): any[] {
   });
 
   if (Object.keys(truncationTracker).length > 0) {
-    const pluginWarningsFact: PluginWarningsFact = {
-      type: "pluginWarnings",
-      data: {
-        truncatedFacts: truncationTracker,
-      },
-    };
-    processedFacts.push(pluginWarningsFact);
+    const existingWarnings = processedFacts.find(
+      (f) => f.type === "pluginWarnings",
+    ) as PluginWarningsFact | undefined;
+
+    if (existingWarnings) {
+      existingWarnings.data.truncatedFacts = truncationTracker;
+    } else {
+      const pluginWarningsFact: PluginWarningsFact = {
+        type: "pluginWarnings",
+        data: {
+          truncatedFacts: truncationTracker,
+        },
+      };
+      processedFacts.push(pluginWarningsFact);
+    }
   }
 
   return processedFacts;
