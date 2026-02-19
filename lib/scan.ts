@@ -12,7 +12,7 @@ import { getArchivePath, getImageType } from "./image-type";
 import { isNumber, isTrue } from "./option-utils";
 import * as staticModule from "./static";
 import { ImageType, PluginOptions, PluginResponse } from "./types";
-import { isValidDockerImageReference } from "./utils";
+import { isValidImageReference } from "./image-reference";
 
 // Registry credentials may also be provided by env vars. When both are set, flags take precedence.
 export function mergeEnvVarsIntoCredentials(
@@ -178,7 +178,7 @@ async function imageIdentifierAnalysis(
   // Validate Docker image reference format to catch malformed references early. We implement initial validation here
   // in lieu of simply sending to the docker daemon since some invalid references can result in unknown or invalid API
   // paths to the Docker daemon, sometimes producing confusing error results (like redirects) instead of the not found response.
-  if (!isValidDockerImageReference(targetImage)) {
+  if (!isValidImageReference(targetImage)) {
     throw new Error(`invalid image reference format: ${targetImage}`);
   }
 

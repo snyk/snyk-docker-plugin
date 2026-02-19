@@ -59,7 +59,10 @@ export class ParsedImageReference {
    * If the registry is not set, use Docker Hub.
    */
   get registryForPull(): string {
-    return this.registry ?? "registry-1.docker.io";
+    if (this.registry === "docker.io" || this.registry === undefined) {
+      return "registry-1.docker.io";
+    }
+    return this.registry;
   }
 
   /**
