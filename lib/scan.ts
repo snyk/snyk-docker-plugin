@@ -9,7 +9,13 @@ import { ImageName } from "./extractor/image";
 import { ExtractAction, ExtractionResult } from "./extractor/types";
 import { fullImageSavePath } from "./image-save-path";
 import { getArchivePath, getImageType } from "./image-type";
-import { isDefined, isNumber, isStrictNumber, isTrue, resolveNestedJarsOption } from "./option-utils";
+import {
+  isDefined,
+  isNumber,
+  isStrictNumber,
+  isTrue,
+  resolveNestedJarsOption,
+} from "./option-utils";
 import * as staticModule from "./static";
 import { ImageType, PluginOptions, PluginResponse } from "./types";
 import { isValidDockerImageReference } from "./utils";
