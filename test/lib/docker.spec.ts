@@ -211,7 +211,7 @@ describe("docker", () => {
     });
 
     test("promise rejects when image doesn't exist", async () => {
-      const image = "someImage:latest";
+      const image = "some-non-existent-image:latest";
       const destination = "/tmp/image.tar";
 
       const result = docker.save(image, destination);
