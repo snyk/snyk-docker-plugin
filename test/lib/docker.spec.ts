@@ -217,7 +217,18 @@ describe("docker", () => {
       const result = docker.save(image, destination);
 
       //  rejects with expected error
-      await expect(result).rejects.toThrowError("server error");
+      await expect(result).rejects.toThrowError("not found");
+      expect(existsSync(destination)).toBeFalsy();
+    });
+
+    test("promise rejects when image is invalid", async () => {
+      const image = "someImage:latest";
+      const destination = "/tmp/image.tar";
+
+      const result = docker.save(image, destination);
+
+      //  rejects with expected error
+      await expect(result).rejects.toThrowError("bad request");
       expect(existsSync(destination)).toBeFalsy();
     });
 
