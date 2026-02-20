@@ -7,11 +7,7 @@ import { DockerFileAnalysis } from "./dockerfile/types";
 import { extractImageContent } from "./extractor";
 import { ImageName } from "./extractor/image";
 import { ExtractAction, ExtractionResult } from "./extractor/types";
-import {
-  isValidImageReference,
-  ParsedImageReference,
-  parseImageReference,
-} from "./image-reference";
+import { isValidImageReference, parseImageReference } from "./image-reference";
 import { fullImageSavePath } from "./image-save-path";
 import { getArchivePath, getImageType } from "./image-type";
 import { isNumber, isTrue } from "./option-utils";

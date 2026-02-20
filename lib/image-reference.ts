@@ -165,12 +165,3 @@ export function isValidImageReference(reference: string): boolean {
     return false;
   }
 }
-
-// Regular Expression Source: OCI Image Spec V1
-// https://github.com/opencontainers/image-spec/blob/d60099175f88c47cd379c4738d158884749ed235/descriptor.md?plain=1#L143
-const digestIsValid = (digest: string) => /^sha256:[a-f0-9]{64}$/.test(digest);
-
-// Regular Expression Source: OCI Image Spec V1
-// https://github.com/opencontainers/distribution-spec/blob/3940529fe6c0a068290b27fb3cd797cf0528bed6/spec.md?plain=1#L160
-const tagIsValid = (tag: string) =>
-  /^[a-zA-Z0-9_][a-zA-Z0-9._-]{0,127}$/.test(tag);
