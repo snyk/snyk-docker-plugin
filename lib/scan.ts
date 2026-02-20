@@ -12,7 +12,7 @@ import { getArchivePath, getImageType } from "./image-type";
 import { isNumber, isTrue } from "./option-utils";
 import * as staticModule from "./static";
 import { ImageType, PluginOptions, PluginResponse } from "./types";
-import { isValidImageReference } from "./image-reference";
+import { isValidImageReference, ParsedImageReference, parseImageReference } from "./image-reference";
 
 // Registry credentials may also be provided by env vars. When both are set, flags take precedence.
 export function mergeEnvVarsIntoCredentials(
@@ -214,13 +214,16 @@ async function imageIdentifierAnalysis(
 }
 
 export function appendLatestTagIfMissing(targetImage: string): string {
-  if (
-    getImageType(targetImage) === ImageType.Identifier &&
-    !targetImage.includes(":")
-  ) {
-    return `${targetImage}:latest`;
+  if (getImageType(targetImage) !== ImageType.Identifier) {
+    return targetImage;
   }
-  return targetImage;
+  try {
+    const parsed = parseImageReference(targetImage);
+    if (parsed.tag !== undefined || parsed.digest !== undefined) {
+      return parsed.toString();
+    }
+    return parsed.toString() + ':latest';
+  } catch { return targetImage; }
 }
 
 export async function extractContent(

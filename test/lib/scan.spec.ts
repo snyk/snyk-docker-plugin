@@ -30,22 +30,22 @@ describe("mergeEnvVarsIntoCredentials", () => {
     ${FLAG_USER} | ${ENV_VAR_USER} |  ${FLAG_USER}
         
   `("should set username to $expectedUsername when flag is $usernameFlag and envvar is $usernameEnvVar",
-  ({
-        usernameFlag,
-        usernameEnvVar,
-        expectedUsername,
-      }) => {
-        if (usernameEnvVar) {
-            process.env.SNYK_REGISTRY_USERNAME = usernameEnvVar;
-        }
-        const options = {
-            username: usernameFlag,
-        };
+    ({
+      usernameFlag,
+      usernameEnvVar,
+      expectedUsername,
+    }) => {
+      if (usernameEnvVar) {
+        process.env.SNYK_REGISTRY_USERNAME = usernameEnvVar;
+      }
+      const options = {
+        username: usernameFlag,
+      };
 
-        mergeEnvVarsIntoCredentials(options);
+      mergeEnvVarsIntoCredentials(options);
 
-        expect(options.username).toEqual(expectedUsername);
-  });
+      expect(options.username).toEqual(expectedUsername);
+    });
 
   // prettier-ignore
   it.each`
@@ -59,10 +59,10 @@ describe("mergeEnvVarsIntoCredentials", () => {
         
   `("should set password to $expectedPassword when flag is $passwordFlag and envvar is $passwordEnvVar",
     ({
-       passwordFlag,
-       passwordEnvVar,
-       expectedPassword,
-     }) => {
+      passwordFlag,
+      passwordEnvVar,
+      expectedPassword,
+    }) => {
       if (passwordEnvVar) {
         process.env.SNYK_REGISTRY_PASSWORD = passwordEnvVar;
       }
@@ -84,9 +84,19 @@ describe("appendLatestTagIfMissing", () => {
     );
   });
 
-  it("does not append latest to docker archive path", () => {
+  it("does not append latest to oci archive path", () => {
     const ociArchivePath = "oci-archive:some/path/image.tar";
     expect(appendLatestTagIfMissing(ociArchivePath)).toEqual(ociArchivePath);
+  });
+
+  it("does not append latest to kaniko-archive path", () => {
+    const path = "kaniko-archive:some/path/image.tar";
+    expect(appendLatestTagIfMissing(path)).toEqual(path);
+  });
+
+  it("does not append latest to unspecified archive path (.tar)", () => {
+    const path = "/tmp/nginx.tar";
+    expect(appendLatestTagIfMissing(path)).toEqual(path);
   });
 
   it("does not append latest if tag exists", () => {
@@ -94,16 +104,46 @@ describe("appendLatestTagIfMissing", () => {
     expect(appendLatestTagIfMissing(imageWithTag)).toEqual(imageWithTag);
   });
 
-  it("does not modify targetImage with sha", () => {
-    const imageWithSha =
-      "snyk container test nginx@sha256:56ea7092e72db3e9f84d58d583370d59b842de02ea9e1f836c3f3afc7ce408c1";
-    expect(appendLatestTagIfMissing(imageWithSha)).toEqual(imageWithSha);
+  it("does not append latest if digest exists (digest-only reference)", () => {
+    const imageWithDigest =
+      "nginx@sha256:56ea7092e72db3e9f84d58d583370d59b842de02ea9e1f836c3f3afc7ce408c1";
+    expect(appendLatestTagIfMissing(imageWithDigest)).toEqual(
+      imageWithDigest,
+    );
   });
 
-  it("appends latest if no tag exists", () => {
-    const imageWithoutTag = "image";
-    expect(appendLatestTagIfMissing(imageWithoutTag)).toEqual(
-      `${imageWithoutTag}:latest`,
+  it("does not append latest if both tag and digest exist", () => {
+    const imageWithTagAndDigest =
+      "nginx:1.23@sha256:56ea7092e72db3e9f84d58d583370d59b842de02ea9e1f836c3f3afc7ce408c1";
+    expect(appendLatestTagIfMissing(imageWithTagAndDigest)).toEqual(
+      imageWithTagAndDigest,
     );
+  });
+
+  it("appends latest for repository-only reference", () => {
+    expect(appendLatestTagIfMissing("image")).toEqual("image:latest");
+  });
+
+  it("appends latest for repository with namespace", () => {
+    expect(appendLatestTagIfMissing("library/nginx")).toEqual(
+      "library/nginx:latest",
+    );
+  });
+
+  it("appends latest for registry with port and no tag", () => {
+    expect(appendLatestTagIfMissing("localhost:5000/foo/bar")).toEqual(
+      "localhost:5000/foo/bar:latest",
+    );
+  });
+
+  it("appends latest for custom registry without tag", () => {
+    expect(appendLatestTagIfMissing("gcr.io/project/nginx")).toEqual(
+      "gcr.io/project/nginx:latest",
+    );
+  });
+
+  it("returns unchanged for invalid image reference", () => {
+    const invalid = "/test:unknown";
+    expect(appendLatestTagIfMissing(invalid)).toEqual(invalid);
   });
 });
