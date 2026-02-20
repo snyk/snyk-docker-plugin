@@ -228,7 +228,7 @@ describe("docker", () => {
       const result = docker.save(image, destination);
 
       //  rejects with expected error
-      await expect(result).rejects.toThrowError("bad request");
+      await expect(result).rejects.toThrowError("server error");
       expect(existsSync(destination)).toBeFalsy();
     });
 
