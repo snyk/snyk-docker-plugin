@@ -13,6 +13,10 @@ const imageReferenceRegex = new RegExp(imageReferencePattern);
 const imageRegistryPattern = String.raw`^((?:(?:[a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9])(?:\.(?:[a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]))+|\[(?:[a-fA-F0-9:]+)\]|localhost)(?::[0-9]+)?)(?:/|@)`;
 const imageRegistryRegex = new RegExp(imageRegistryPattern);
 
+// Digest regex. Anchored to the start and end of the string.
+const digestPattern = String.raw`^[A-Za-z][A-Za-z0-9]*(?:[-_+.][A-Za-z][A-Za-z0-9]*)*[:][a-fA-F0-9]{32,}$`;
+const digestRegex = new RegExp(digestPattern);
+
 export class ParsedImageReference {
   /** Repository path (e.g. nginx, library/nginx) */
   public readonly repository: string;
@@ -164,4 +168,14 @@ export function isValidImageReference(reference: string): boolean {
   } catch {
     return false;
   }
+}
+
+/**
+ * Validate a digest string.
+ *
+ * @param digest - Digest string to validate
+ * @returns true if the digest is valid, false otherwise
+ */
+export function isValidDigest(digest: string): boolean {
+  return digestRegex.test(digest);
 }

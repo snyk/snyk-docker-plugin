@@ -1,4 +1,4 @@
-import { parseImageReference } from "../image-reference";
+import { isValidDigest, parseImageReference } from "../image-reference";
 
 export interface OCIDistributionMetadata {
   // Must be a valid host, including port if one was used to pull the image.
@@ -44,14 +44,7 @@ export function constructOCIDisributionMetadata({
       imageTag: parsed.tag,
     };
 
-    // 255 byte limit is enforced by RFC 1035.
-    if (Buffer.byteLength(metadata.registryHost) > 255) {
-      return;
-    }
-
-    // 2048 byte limit is enforced by Snyk for platform stability.
-    // Longer strings may be valid, but nothing close to this limit has been observed by Snyk at time of writing.
-    if (Buffer.byteLength(metadata.repository) > 2048) {
+    if (!ociDistributionMetadataIsValid(metadata)) {
       return;
     }
 
@@ -59,4 +52,29 @@ export function constructOCIDisributionMetadata({
   } catch {
     return;
   }
+}
+
+function ociDistributionMetadataIsValid(
+  data: OCIDistributionMetadata,
+): boolean {
+  // 255 byte limit is enforced by RFC 1035.
+  if (Buffer.byteLength(data.registryHost) > 255) {
+    return false;
+  }
+
+  // 2048 byte limit is enforced by Snyk for platform stability.
+  // Longer strings may be valid, but nothing close to this limit has been observed by Snyk at time of writing.
+  if (Buffer.byteLength(data.repository) > 2048) {
+    return false;
+  }
+
+  if (!isValidDigest(data.manifestDigest)) {
+    return false;
+  }
+
+  if (data.indexDigest && !isValidDigest(data.indexDigest)) {
+    return false;
+  }
+
+  return true;
 }
