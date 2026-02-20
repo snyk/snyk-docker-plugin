@@ -1,7 +1,4 @@
-import {
-  RESPONSE_SIZE_LIMITS,
-  truncateAdditionalFacts,
-} from "../../lib/utils";
+import { RESPONSE_SIZE_LIMITS, truncateAdditionalFacts } from "../../lib/utils";
 
 describe("truncateAdditionalFacts", () => {
   describe("should handle edge cases", () => {

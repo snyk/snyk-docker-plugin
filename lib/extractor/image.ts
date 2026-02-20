@@ -12,7 +12,9 @@ class ImageName {
     digests: { manifest?: string; index?: string } = {},
   ) {
     const parsed = parseImageReference(targetImage);
-    this.name = parsed.registry ? parsed.registry + "/" + parsed.repository : parsed.repository;
+    this.name = parsed.registry
+      ? parsed.registry + "/" + parsed.repository
+      : parsed.repository;
 
     // If the image name has a tag, use it. If the image name has
     // nether a tag nor a digest, use "latest".
@@ -27,8 +29,12 @@ class ImageName {
     }
 
     // If the image name has a digest, and it's not the same as the manifest or index digest, add it as the unknown digest.
-    if (parsed.digest && !this.digests.manifest?.equals(parsed.digest) && !this.digests.index?.equals(parsed.digest)) {
-        this.digests.unknown = new ImageDigest(parsed.digest);
+    if (
+      parsed.digest &&
+      !this.digests.manifest?.equals(parsed.digest) &&
+      !this.digests.index?.equals(parsed.digest)
+    ) {
+      this.digests.unknown = new ImageDigest(parsed.digest);
     }
   }
 

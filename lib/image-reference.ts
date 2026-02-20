@@ -15,13 +15,13 @@ const imageRegistryRegex = new RegExp(imageRegistryPattern);
 
 export class ParsedImageReference {
   /** Repository path (e.g. nginx, library/nginx) */
-  readonly repository: string;
+  public readonly repository: string;
   /** Registry hostname (e.g. gcr.io, registry-1.docker.io); undefined if none */
-  readonly registry?: string;
+  public readonly registry?: string;
   /** Tag (e.g. latest, 1.23.0); undefined if only digest or neither */
-  readonly tag?: string;
+  public readonly tag?: string;
   /** Inline digest (e.g. sha256:abc...); undefined if not present */
-  readonly digest?: string;
+  public readonly digest?: string;
 
   constructor(params: {
     repository: string;
@@ -39,7 +39,7 @@ export class ParsedImageReference {
    * Rebuilds the image reference string from repository, registry, tag, and digest.
    * Format: [registry/]repository[:tag][@digest]
    */
-  toString(): string {
+  public toString(): string {
     let ref = "";
     if (this.registry) {
       ref += this.registry + "/";

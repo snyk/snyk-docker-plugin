@@ -1,7 +1,7 @@
 import {
-  parseImageReference,
   isValidImageReference,
   ParsedImageReference,
+  parseImageReference,
 } from "../../lib/image-reference";
 
 const validSha256 =
@@ -80,14 +80,14 @@ describe("image-reference", () => {
       });
 
       it("parses localhost registry with port", () => {
-        expect(
-          parseImageReference("localhost:5000/foo/bar:tag"),
-        ).toMatchObject({
-          repository: "foo/bar",
-          registry: "localhost:5000",
-          tag: "tag",
-          digest: undefined,
-        });
+        expect(parseImageReference("localhost:5000/foo/bar:tag")).toMatchObject(
+          {
+            repository: "foo/bar",
+            registry: "localhost:5000",
+            tag: "tag",
+            digest: undefined,
+          },
+        );
       });
 
       it("parses docker.io style registry", () => {
@@ -122,9 +122,7 @@ describe("image-reference", () => {
       });
 
       it("parses repository with dots and dashes", () => {
-        expect(
-          parseImageReference("my.repo/image-name:tag"),
-        ).toMatchObject({
+        expect(parseImageReference("my.repo/image-name:tag")).toMatchObject({
           repository: "image-name",
           registry: "my.repo",
           tag: "tag",
@@ -133,9 +131,7 @@ describe("image-reference", () => {
       });
 
       it("parses IPv6 registry", () => {
-        expect(
-          parseImageReference("[::1]:5000/foo/bar:latest"),
-        ).toMatchObject({
+        expect(parseImageReference("[::1]:5000/foo/bar:latest")).toMatchObject({
           repository: "foo/bar",
           registry: "[::1]:5000",
           tag: "latest",
@@ -144,9 +140,7 @@ describe("image-reference", () => {
       });
 
       it("parses tag with dots and dashes", () => {
-        expect(
-          parseImageReference("nginx:1.23.0-alpha"),
-        ).toMatchObject({
+        expect(parseImageReference("nginx:1.23.0-alpha")).toMatchObject({
           repository: "nginx",
           registry: undefined,
           tag: "1.23.0-alpha",
@@ -191,9 +185,9 @@ describe("image-reference", () => {
       });
 
       it("throws for invalid digest (too short)", () => {
-        expect(() =>
-          parseImageReference("nginx@sha256:abc"),
-        ).toThrow("invalid image reference format");
+        expect(() => parseImageReference("nginx@sha256:abc")).toThrow(
+          "invalid image reference format",
+        );
       });
 
       it("throws for malformed reference", () => {

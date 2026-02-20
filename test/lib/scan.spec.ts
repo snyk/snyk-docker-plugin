@@ -107,9 +107,7 @@ describe("appendLatestTagIfMissing", () => {
   it("does not append latest if digest exists (digest-only reference)", () => {
     const imageWithDigest =
       "nginx@sha256:56ea7092e72db3e9f84d58d583370d59b842de02ea9e1f836c3f3afc7ce408c1";
-    expect(appendLatestTagIfMissing(imageWithDigest)).toEqual(
-      imageWithDigest,
-    );
+    expect(appendLatestTagIfMissing(imageWithDigest)).toEqual(imageWithDigest);
   });
 
   it("does not append latest if both tag and digest exist", () => {

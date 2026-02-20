@@ -33,7 +33,8 @@ export function constructOCIDisributionMetadata({
   | undefined {
   try {
     const parsed = parseImageReference(imageName);
-    // Normalize the hostname. Note this function uses slightly different logic from the one in the image-reference.ts file.
+    // Extract the registry hostname, using "docker.io" as the default for Docker Hub images.
+    // Note this is different from registryForPull, which defaults to "registry-1.docker.io" for Docker Hub images.
     const hostname = parsed.registry ? parsed.registry : "docker.io";
     const metadata: OCIDistributionMetadata = {
       registryHost: hostname,
