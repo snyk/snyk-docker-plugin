@@ -7,7 +7,20 @@ on:
 jobs:
   pr-title-check:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
     steps:
+      - name: Rename Snyk PR
+        if: startsWith(github.event.pull_request.title, '[Snyk]')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          # Convert to lowercase, replace '[snyk]' with 'fix: snyk'
+          NEW_TITLE=$(echo "$PR_TITLE" | tr '[:upper:]' '[:lower:]' | sed 's/^\[snyk\]/fix: snyk/')
+          gh pr edit ${{ github.event.pull_request.number }} --title "$NEW_TITLE" --repo ${{ github.repository }}
+
       - name: Check PR Title
         uses: amannn/action-semantic-pull-request@v5
         env:
