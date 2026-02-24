@@ -11,6 +11,10 @@ jobs:
       pull-requests: write
       contents: read
     steps:
+      # Snyk automated PRs typically start with '[Snyk]'.
+      # Our repository requires conventional commits (e.g. 'fix: ...').
+      # This step renames Snyk PRs so they pass the semantic pull request check,
+      # making it easier to automatically merge vulnerability fixes.
       - name: Rename Snyk PR
         if: startsWith(github.event.pull_request.title, '[Snyk]')
         env:
