@@ -334,7 +334,7 @@ async function extractLayers(
  * Non-blob files like oci-layout should be skipped.
  */
 function isBlobPath(normalizedPath: string): boolean {
-  const parts = normalizedPath.split(pathSeparator);
+  const parts = normalizedPath.split(pathSeparator).filter(Boolean);
   return parts[0] === "blobs" && parts.length >= 3;
 }
 
@@ -345,7 +345,7 @@ function isBlobPath(normalizedPath: string): boolean {
  * Caller should verify isBlobPath() first.
  */
 function getDigestFromPath(normalizedPath: string): string {
-  const headerParts = normalizedPath.split(pathSeparator);
+  const headerParts = normalizedPath.split(pathSeparator).filter(Boolean);
   const algorithm = headerParts[1];
   const hash = headerParts[headerParts.length - 1];
   return `${algorithm}:${hash}`;
@@ -356,7 +356,6 @@ function resolveManifestAndConfig(
   options: Partial<PluginOptions>,
 ): {
   manifest: OciArchiveManifest;
-  platformInfo: OciPlatformInfo;
   imageConfig: ImageConfig;
 } {
   const filteredConfigs = metadata.configs.filter((config) => {
@@ -392,7 +391,7 @@ function resolveManifestAndConfig(
     );
   }
 
-  return { manifest, platformInfo, imageConfig };
+  return { manifest, imageConfig };
 }
 
 function getManifest(
