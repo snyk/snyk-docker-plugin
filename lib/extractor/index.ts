@@ -1,3 +1,4 @@
+import * as Debug from "debug";
 import path = require("path");
 import {
   getLayersFromPackages,
@@ -19,6 +20,8 @@ import {
   ImageConfig,
   OciArchiveManifest,
 } from "./types";
+
+const debug = Debug("snyk");
 
 export class InvalidArchiveError extends Error {
   constructor(message) {
@@ -157,10 +160,14 @@ export async function extractImageContent(
 async function extractArchiveContentFallback(
   extractors: Map<ImageType, ArchiveExtractor>,
 ): Promise<[ExtractedLayersAndManifest, ArchiveExtractor]> {
-  for (const extractor of extractors.values()) {
+  for (const [imageType, extractor] of extractors.entries()) {
     try {
       return [await extractor.getLayersAndManifest(), extractor];
     } catch (error) {
+      // imageType is a string enum value like "docker-archive", "oci-archive"
+      debug(
+        `Error getting layers and manifest content from ${imageType} archive: ${error.message}`,
+      );
       continue;
     }
   }
