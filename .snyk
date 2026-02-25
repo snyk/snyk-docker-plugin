@@ -3,7 +3,7 @@ version: v1.25.0
 # ignores vulnerabilities until expiry date; change duration by modifying expiry date
 ignore:
   SNYK-JS-TAR-15307072:
-    - '* > tar@6.2.1':
-        reason: No fix available yet
-        expires: 2026-05-25T00:00:00.000Z
+    - 'snyk-nodejs-lockfile-parser > @yarnpkg/core > tar':
+        reason: 'Indirect dependency from snyk-nodejs-lockfile-parser, waiting for upstream fix'
+        expires: 2026-03-26T00:00:00.000Z
 patch: {}
