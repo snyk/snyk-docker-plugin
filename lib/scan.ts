@@ -48,14 +48,7 @@ async function getAnalysisParameters(
 
   const nestedJarsDepth = resolveNestedJarsOption(options);
   const parameterWarnings: string[] = [];
-  if (
-    isDefined(options["shaded-jars-depth"]) &&
-    isDefined(options["nested-jars-depth"])
-  ) {
-    parameterWarnings.push(
-      "Using both --shaded-jars-depth and --nested-jars-depth is deprecated, use only --nested-jars-depth",
-    );
-  } else if (isDefined(options["shaded-jars-depth"])) {
+  if (isDefined(options["shaded-jars-depth"])) {
     parameterWarnings.push(
       "--shaded-jars-depth is deprecated, use --nested-jars-depth instead",
     );
