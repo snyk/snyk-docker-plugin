@@ -294,6 +294,16 @@ async function buildResponse(
   };
   additionalFacts.push(pluginVersionFact);
 
+  if (options?.parameterWarnings && options.parameterWarnings.length > 0) {
+    const pluginWarningsFact: facts.PluginWarningsFact = {
+      type: "pluginWarnings",
+      data: {
+        parameterChecks: options.parameterWarnings,
+      },
+    };
+    additionalFacts.push(pluginWarningsFact);
+  }
+
   const scanResults: types.ScanResult[] = [
     {
       facts: [depGraphFact, ...additionalFacts],
