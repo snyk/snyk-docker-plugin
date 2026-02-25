@@ -67,10 +67,14 @@ export async function extractArchive(
           stream.pipe(layerStream);
 
           const promises = [
-            streamToJson(jsonStream).catch(() => undefined),
-            extractImageLayer(layerStream, extractActions).catch(
-              () => undefined,
-            ),
+            streamToJson(jsonStream).catch(() => {
+              jsonStream.destroy();
+              return undefined;
+            }),
+            extractImageLayer(layerStream, extractActions).catch(() => {
+              layerStream.destroy();
+              return undefined;
+            }),
           ];
           const [manifest, layer] = await Promise.all(promises);
 

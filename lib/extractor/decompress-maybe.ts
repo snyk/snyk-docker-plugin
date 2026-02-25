@@ -40,13 +40,16 @@ export function decompressMaybe(): Transform {
           compressionType = "gzip";
           headerRead = true;
 
-          // Setup gzip decompressor
           gzipStream = createGunzip();
           gzipStream.on("data", (data: Buffer) => transform.push(data));
           gzipStream.on("error", (err: Error) => transform.destroy(err));
 
-          // Write buffered data
-          gzipStream.write(combined);
+          try {
+            gzipStream.write(combined);
+          } catch (err) {
+            callback(err instanceof Error ? err : new Error(String(err)));
+            return;
+          }
           buffer.length = 0;
           callback();
         }
@@ -61,14 +64,12 @@ export function decompressMaybe(): Transform {
           compressionType = "zstd";
           headerRead = true;
 
-          // Setup zstd decompressor with streaming API
           zstdStream = new ZstdDecompress(
             (data: Uint8Array, final?: boolean) => {
               transform.push(Buffer.from(data));
             },
           );
 
-          // Write buffered data
           try {
             zstdStream.push(new Uint8Array(combined), false);
           } catch (err) {
@@ -100,7 +101,12 @@ export function decompressMaybe(): Transform {
       } else {
         // Header already read
         if (compressionType === "gzip" && gzipStream) {
-          gzipStream.write(chunk);
+          try {
+            gzipStream.write(chunk);
+          } catch (err) {
+            callback(err instanceof Error ? err : new Error(String(err)));
+            return;
+          }
           callback();
         } else if (compressionType === "zstd" && zstdStream) {
           try {
@@ -122,12 +128,12 @@ export function decompressMaybe(): Transform {
       }
     },
 
-    async flush(callback) {
+    flush(callback) {
       if (compressionType === "gzip" && gzipStream) {
         gzipStream.once("end", () => callback());
+        gzipStream.once("error", (err) => callback(err));
         gzipStream.end();
       } else if (compressionType === "zstd" && zstdStream) {
-        // Signal end of zstd stream
         try {
           zstdStream.push(new Uint8Array(0), true);
           callback();
