@@ -9,7 +9,8 @@ export function nameAndVersionFromTargetImage(targetImage: string): {
   let imageName: string;
   let imageVersion: string;
 
-  if (!targetImage.endsWith(".tar")) {
+  const finalSlash = targetImage.lastIndexOf("/");
+  if (finalSlash >= 0 && targetImage.slice(finalSlash).includes(".tar")) {
     try {
       const parsed = parseImageReference(targetImage);
       return {
@@ -25,7 +26,6 @@ export function nameAndVersionFromTargetImage(targetImage: string): {
   // check any colon separator after the final '/'. If there are no '/',
   // which is common when using Docker's official images such as
   // "debian:stretch", just check for ':'
-  const finalSlash = targetImage.lastIndexOf("/");
   const hasVersion =
     (finalSlash >= 0 && targetImage.slice(finalSlash).includes(":")) ||
     targetImage.includes(":");
