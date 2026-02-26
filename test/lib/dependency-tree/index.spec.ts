@@ -1,5 +1,8 @@
 import { AnalyzedPackageWithVersion } from "../../../lib/analyzer/types";
-import { buildTree } from "../../../lib/dependency-tree";
+import {
+  buildTree,
+  nameAndVersionFromTargetImage,
+} from "../../../lib/dependency-tree";
 
 const targetImage = "snyk/deptree-test@1.0.0";
 const targetOS = {
@@ -72,6 +75,164 @@ describe("dependency-tree", () => {
         const fixture = buildFreqDepsList(100);
         const tree = buildTree(targetImage, "snyk", fixture, targetOS);
         expect(tree.dependencies["meta-common-packages"]).toBeTruthy();
+      });
+    });
+  });
+});
+
+const validSha256 =
+  "sha256:56ea7092e72db3e9f84d58d583370d59b842de02ea9e1f836c3f3afc7ce408c1";
+
+describe("nameAndVersionFromTargetImage", () => {
+  describe("handles valid image references", () => {
+    it("with repository only", () => {
+      expect(nameAndVersionFromTargetImage("nginx")).toEqual({
+        name: "nginx",
+        version: "latest",
+      });
+    });
+
+    it("with tag", () => {
+      expect(nameAndVersionFromTargetImage("nginx:1.23")).toEqual({
+        name: "nginx",
+        version: "1.23",
+      });
+    });
+
+    it("with digest", () => {
+      expect(nameAndVersionFromTargetImage(`nginx@${validSha256}`)).toEqual({
+        name: "nginx",
+        version: "",
+      });
+    });
+
+    it("with tag and digest", () => {
+      expect(
+        nameAndVersionFromTargetImage(`nginx:1.23@${validSha256}`),
+      ).toEqual({
+        name: "nginx",
+        version: "1.23",
+      });
+    });
+
+    it("with registry", () => {
+      expect(nameAndVersionFromTargetImage("gcr.io/project/nginx")).toEqual({
+        name: "gcr.io/project/nginx",
+        version: "latest",
+      });
+    });
+
+    it("with registry and port", () => {
+      expect(nameAndVersionFromTargetImage("localhost:5000/foo/bar")).toEqual({
+        name: "localhost:5000/foo/bar",
+        version: "latest",
+      });
+    });
+
+    it("with registry and port and tag", () => {
+      expect(
+        nameAndVersionFromTargetImage("localhost:5000/foo/bar:tag"),
+      ).toEqual({
+        name: "localhost:5000/foo/bar",
+        version: "tag",
+      });
+    });
+
+    it("with registry and port and digest", () => {
+      expect(
+        nameAndVersionFromTargetImage(`localhost:5000/foo/bar@${validSha256}`),
+      ).toEqual({
+        name: "localhost:5000/foo/bar",
+        version: "",
+      });
+    });
+
+    it("with registry, port, digest and tag", () => {
+      expect(
+        nameAndVersionFromTargetImage(
+          `localhost:5000/foo/bar:tag@${validSha256}`,
+        ),
+      ).toEqual({
+        name: "localhost:5000/foo/bar",
+        version: "tag",
+      });
+    });
+
+    it("with library/ namespace", () => {
+      expect(nameAndVersionFromTargetImage("library/nginx:latest")).toEqual({
+        name: "library/nginx",
+        version: "latest",
+      });
+    });
+
+    it("with dots and dashes in the tag", () => {
+      expect(nameAndVersionFromTargetImage("nginx:1.23.0-alpha")).toEqual({
+        name: "nginx",
+        version: "1.23.0-alpha",
+      });
+    });
+  });
+
+  // These tests are to verify that the previous logic is still working as expected for
+  // references that cannot be parsed by the new parseImageReference function.
+  // They are not necessarily asserting that this is the correct parsing logic.
+  describe("handles file-based reference strings", () => {
+    it("with a simple image name", () => {
+      expect(nameAndVersionFromTargetImage("image.tar")).toEqual({
+        name: "image.tar",
+        version: "",
+      });
+    });
+
+    it("with a longer path", () => {
+      expect(nameAndVersionFromTargetImage("path/to/archive.tar")).toEqual({
+        name: "path/to/archive.tar",
+        version: "",
+      });
+    });
+
+    it("with a tag", () => {
+      expect(nameAndVersionFromTargetImage("path/to/archive.tar:tag")).toEqual({
+        name: "path/to/archive.tar",
+        version: "tag",
+      });
+    });
+
+    it("with a digest", () => {
+      expect(
+        nameAndVersionFromTargetImage(`archive.tar@${validSha256}`),
+      ).toEqual({
+        name: "archive.tar",
+        version: "",
+      });
+    });
+
+    it("with a tag and digest", () => {
+      expect(
+        nameAndVersionFromTargetImage(`path/to/archive.tar:tag@${validSha256}`),
+      ).toEqual({
+        name: "path/to/archive.tar",
+        version: "tag",
+      });
+    });
+
+    it("with a tag and specific image name", () => {
+      expect(
+        nameAndVersionFromTargetImage("path/to/archive.tar:image:tag"),
+      ).toEqual({
+        name: "path/to/archive.tar:image",
+        version: "tag",
+      });
+    });
+
+    it("with a tag and specific image name and digest", () => {
+      expect(
+        nameAndVersionFromTargetImage(
+          `path/to/archive.tar:image:tag@${validSha256}`,
+        ),
+      ).toEqual({
+        name: "path/to/archive.tar:image:tag",
+        version: "",
       });
     });
   });

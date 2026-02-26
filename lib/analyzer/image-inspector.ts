@@ -5,6 +5,7 @@ import * as path from "path";
 
 import { Docker, DockerOptions } from "../docker";
 import { ImageName } from "../extractor/image";
+import { parseImageReference } from "../image-reference";
 
 import type { DockerPullResult } from "@snyk/snyk-docker-pull";
 import type {
@@ -265,100 +266,13 @@ async function getImageArchive(
   }
 }
 
-function isImagePartOfURL(targetImage): boolean {
-  // Based on the Docker spec, if the image contains a hostname, then the hostname should contain
-  // a `.` or `:` before the first instance of a `/`. ref: https://stackoverflow.com/a/37867949
-  if (!targetImage.includes("/")) {
-    return false;
-  }
-
-  const partBeforeFirstForwardSlash = targetImage.split("/")[0];
-
-  return (
-    partBeforeFirstForwardSlash.includes(".") ||
-    partBeforeFirstForwardSlash.includes(":") ||
-    partBeforeFirstForwardSlash === "localhost"
-  );
-}
-
-function extractHostnameFromTargetImage(targetImage: string): {
-  hostname: string;
-  remainder: string;
-} {
-  // We need to detect if the `targetImage` is part of a URL. If not, the default hostname will be
-  // used (registry-1.docker.io). ref: https://stackoverflow.com/a/37867949
-  const defaultHostname = "registry-1.docker.io";
-
-  if (!isImagePartOfURL(targetImage)) {
-    return { hostname: defaultHostname, remainder: targetImage };
-  }
-
-  const dockerFriendlyRegistryHostname = "docker.io/";
-  if (targetImage.startsWith(dockerFriendlyRegistryHostname)) {
-    return {
-      hostname: defaultHostname,
-      remainder: targetImage.substring(dockerFriendlyRegistryHostname.length),
-    };
-  }
-
-  const i = targetImage.indexOf("/");
-  return {
-    hostname: targetImage.substring(0, i),
-    remainder: targetImage.substring(i + 1),
-  };
-}
-
-function extractImageNameAndTag(
-  remainder: string,
-  targetImage: string,
-): { imageName: string; tag: string } {
-  const defaultTag = "latest";
-
-  if (!remainder.includes("@")) {
-    const [imageName, tag] = remainder.split(":");
-
-    return {
-      imageName: appendDefaultRepoPrefixIfRequired(imageName, targetImage),
-      tag: tag || defaultTag,
-    };
-  }
-
-  const [imageName, tag] = remainder.split("@");
-
-  return {
-    imageName: appendDefaultRepoPrefixIfRequired(
-      dropTagIfSHAIsPresent(imageName),
-      targetImage,
-    ),
-    tag: tag || defaultTag,
-  };
-}
-
-function appendDefaultRepoPrefixIfRequired(
-  imageName: string,
-  targetImage: string,
-): string {
-  const defaultRepoPrefix = "library/";
-
-  if (isImagePartOfURL(targetImage) || imageName.includes("/")) {
-    return imageName;
-  }
-
-  return defaultRepoPrefix + imageName;
-}
-
-function dropTagIfSHAIsPresent(imageName: string): string {
-  if (!imageName.includes(":")) {
-    return imageName;
-  }
-
-  return imageName.split(":")[0];
-}
-
 function extractImageDetails(targetImage: string): ImageDetails {
-  const { hostname, remainder } = extractHostnameFromTargetImage(targetImage);
-  const { imageName, tag } = extractImageNameAndTag(remainder, targetImage);
-  return { hostname, imageName, tag };
+  const parsed = parseImageReference(targetImage);
+  return {
+    hostname: parsed.registryForPull,
+    imageName: parsed.normalizedRepository,
+    tag: parsed.tailReferenceForPull,
+  };
 }
 
 function isLocalImageSameArchitecture(

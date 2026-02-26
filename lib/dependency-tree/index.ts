@@ -1,13 +1,31 @@
 import { AnalyzedPackageWithVersion, OSRelease } from "../analyzer/types";
+import { parseImageReference } from "../image-reference";
 import { DepTree, DepTreeDep } from "../types";
 
-/** @deprecated Should implement a new function to build a dependency graph instead. */
-export function buildTree(
-  targetImage: string,
-  packageFormat: string,
-  depInfosList: AnalyzedPackageWithVersion[],
-  targetOS: OSRelease,
-): DepTree {
+export function nameAndVersionFromTargetImage(targetImage: string): {
+  name: string;
+  version: string;
+} {
+  let imageName: string;
+  let imageVersion: string;
+
+  // TODO: this logic is not sufficient for OCI image references that end
+  // in .tar (e.g. image:version.tar), which is a valid image name.
+  // Additionally, the fallback parsing does not fully capture the information
+  // availble in a valid archive name.
+  // ref: https://github.com/containers/container-libs/blob/main/image/docs/containers-transports.5.md#containers-storagestorage-specifierimage-iddocker-referenceimage-id
+  if (!targetImage.endsWith(".tar")) {
+    try {
+      const parsed = parseImageReference(targetImage);
+      return {
+        name: parsed.fullName,
+        version: parsed.tag ? parsed.tag : parsed.digest ? "" : "latest",
+      };
+    } catch {
+      // Fallback to manual parsing
+    }
+  }
+
   // A tag can only occur in the last section of a docker image name, so
   // check any colon separator after the final '/'. If there are no '/',
   // which is common when using Docker's official images such as
@@ -18,8 +36,8 @@ export function buildTree(
     targetImage.includes(":");
 
   // Defaults for simple images from dockerhub, like "node" or "centos"
-  let imageName = targetImage;
-  let imageVersion = "latest";
+  imageName = targetImage;
+  imageVersion = "latest";
 
   // If we have a version, split on the last ':' to avoid the optional
   // port on a hostname (i.e. localhost:5000)
@@ -39,6 +57,19 @@ export function buildTree(
     imageName = imageName.slice(0, imageName.length - shaString.length);
     imageVersion = "";
   }
+
+  return { name: imageName, version: imageVersion };
+}
+
+/** @deprecated Should implement a new function to build a dependency graph instead. */
+export function buildTree(
+  targetImage: string,
+  packageFormat: string,
+  depInfosList: AnalyzedPackageWithVersion[],
+  targetOS: OSRelease,
+): DepTree {
+  const { name: imageName, version: imageVersion } =
+    nameAndVersionFromTargetImage(targetImage);
 
   const root: DepTree = {
     // don't use the real image name to avoid scanning it as an issue
