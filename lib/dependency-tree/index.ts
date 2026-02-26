@@ -9,8 +9,12 @@ export function nameAndVersionFromTargetImage(targetImage: string): {
   let imageName: string;
   let imageVersion: string;
 
-  const finalSlash = targetImage.lastIndexOf("/");
-  if (finalSlash >= 0 && targetImage.slice(finalSlash).includes(".tar")) {
+  // TODO: this logic is not sufficient for OCI image references that end
+  // in .tar (e.g. image:version.tar), which is a valid image name.
+  // Additionally, the fallback parsing does not fully capture the information
+  // availble in a valid archive name.
+  // ref: https://github.com/containers/container-libs/blob/main/image/docs/containers-transports.5.md#containers-storagestorage-specifierimage-iddocker-referenceimage-id
+  if (!targetImage.endsWith(".tar")) {
     try {
       const parsed = parseImageReference(targetImage);
       return {
@@ -26,6 +30,7 @@ export function nameAndVersionFromTargetImage(targetImage: string): {
   // check any colon separator after the final '/'. If there are no '/',
   // which is common when using Docker's official images such as
   // "debian:stretch", just check for ':'
+  const finalSlash = targetImage.lastIndexOf("/");
   const hasVersion =
     (finalSlash >= 0 && targetImage.slice(finalSlash).includes(":")) ||
     targetImage.includes(":");
