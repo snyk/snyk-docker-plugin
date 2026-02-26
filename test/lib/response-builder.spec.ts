@@ -1351,4 +1351,118 @@ describe("buildResponse", () => {
       });
     });
   });
+
+  describe("supports exclude-base-image-vulns flag", () => {
+    const defaultAnalysis = createMockAnalysis();
+    const baseDepTree = {
+      ...defaultAnalysis.depTree,
+      targetOS: {
+        name: "alpine",
+        version: "3.12",
+        prettyName: "Alpine 3.12",
+      },
+      dependencies: {
+        basePkg: {
+          name: "basePkg",
+          version: "1.0.0",
+          dependencies: {},
+        },
+        dockerfilePkg: {
+          name: "dockerfilePkg",
+          version: "2.0.0",
+          dependencies: {},
+        },
+      },
+    };
+
+    const dockerfileAnalysisWithDockerfilePkgOnly = {
+      baseImage: "alpine:3.12",
+      dockerfilePackages: {
+        dockerfilePkg: {
+          instruction: "RUN apk add dockerfilePkg",
+          installCommand: "apk add dockerfilePkg",
+        },
+      },
+      dockerfileLayers: {},
+    };
+
+    function getDepPkgNames(scanResult: {
+      facts?: Array<{ type: string; data: any }>;
+    }): string[] {
+      const depGraphFact = scanResult.facts?.find((f) => f.type === "depGraph");
+      const depGraph = depGraphFact?.data;
+      if (!depGraph || typeof depGraph.getPkgs !== "function") {
+        return [];
+      }
+      return depGraph.getPkgs().map((p: { name: string }) => p.name);
+    }
+
+    const rootPkgName = defaultAnalysis.depTree.name;
+
+    it("includes all dependencies in depGraph when excludeBaseImageVulns is false", async () => {
+      const mockAnalysis = createMockAnalysis({
+        depTree: JSON.parse(JSON.stringify(baseDepTree)),
+        packageFormat: "apk",
+      });
+
+      const result = await buildResponse(
+        mockAnalysis as any,
+        dockerfileAnalysisWithDockerfilePkgOnly as any,
+        false,
+        undefined,
+        undefined,
+        undefined,
+      );
+
+      const pkgNames = getDepPkgNames(result.scanResults[0]);
+      expect(pkgNames).toContain(rootPkgName);
+      expect(pkgNames).toContain("basePkg");
+      expect(pkgNames).toContain("dockerfilePkg");
+      expect(pkgNames).toHaveLength(3);
+    });
+
+    it("includes only dockerfile-introduced dependencies in depGraph when excludeBaseImageVulns is true", async () => {
+      const mockAnalysis = createMockAnalysis({
+        depTree: JSON.parse(JSON.stringify(baseDepTree)),
+        packageFormat: "apk",
+      });
+
+      const result = await buildResponse(
+        mockAnalysis as any,
+        dockerfileAnalysisWithDockerfilePkgOnly as any,
+        true,
+        undefined,
+        undefined,
+        undefined,
+      );
+
+      const pkgNames = getDepPkgNames(result.scanResults[0]);
+      expect(pkgNames).toContain(rootPkgName);
+      expect(pkgNames).toContain("dockerfilePkg");
+      expect(pkgNames).not.toContain("basePkg");
+      expect(pkgNames).toHaveLength(2);
+    });
+
+    it("includes all dependencies when excludeBaseImageVulns is true but dockerfileAnalysis is undefined", async () => {
+      const mockAnalysis = createMockAnalysis({
+        depTree: JSON.parse(JSON.stringify(baseDepTree)),
+        packageFormat: "apk",
+      });
+
+      const result = await buildResponse(
+        mockAnalysis as any,
+        undefined,
+        true,
+        undefined,
+        undefined,
+        undefined,
+      );
+
+      const pkgNames = getDepPkgNames(result.scanResults[0]);
+      expect(pkgNames).toContain(rootPkgName);
+      expect(pkgNames).toContain("basePkg");
+      expect(pkgNames).toContain("dockerfilePkg");
+      expect(pkgNames).toHaveLength(3);
+    });
+  });
 });
