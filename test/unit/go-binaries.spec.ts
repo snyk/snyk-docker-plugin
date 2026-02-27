@@ -8,6 +8,7 @@ import {
   determinePaths,
   extractModuleInformation,
   GoBinary,
+  readRawBuildInfo,
 } from "../../lib/go-parser/go-binary";
 import { GoModule } from "../../lib/go-parser/go-module";
 import { LineTable } from "../../lib/go-parser/pclntab";
@@ -428,7 +429,131 @@ describe("test stdlib bin project name", () => {
   });
 });
 
-describe("test binary without pcln table", () => {
+describe("test Go version extraction", () => {
+  it("extracts Go version from buildinfo", () => {
+    const binary = elf.parse(
+      readFileSync(
+        path.join(__dirname, "../fixtures/go-binaries/go1.20.0_normal"),
+      ),
+    );
+    const buildInfo = readRawBuildInfo(binary);
+    expect(buildInfo.version).toMatch(/^go1\.\d+/);
+    expect(buildInfo.mod).toBeTruthy();
+  });
+
+  it("returns parsed Go version from extractModuleInformation", () => {
+    const binary = elf.parse(
+      readFileSync(
+        path.join(__dirname, "../fixtures/go-binaries/go1.20.0_normal"),
+      ),
+    );
+    const [, , goVersion] = extractModuleInformation(binary);
+    expect(goVersion).toBeDefined();
+    expect(goVersion).toMatch(/^\d+\.\d+/);
+  });
+
+  it("sets goVersion on GoBinary", () => {
+    const goBin = new GoBinary(
+      elf.parse(
+        readFileSync(
+          path.join(__dirname, "../fixtures/go-binaries/go1.20.0_normal"),
+        ),
+      ),
+    );
+    expect(goBin.goVersion).toBeDefined();
+    expect(goBin.goVersion).toMatch(/^\d+\.\d+/);
+  });
+});
+
+describe("test stdlib packages in dep graph", () => {
+  it("includes std/* packages for non-trimmed binaries", async () => {
+    const goBin = new GoBinary(
+      elf.parse(
+        readFileSync(
+          path.join(__dirname, "../fixtures/go-binaries/go1.20.0_normal"),
+        ),
+      ),
+    );
+    const graph = await goBin.depGraph();
+    const pkgs = graph.getPkgs();
+    const stdlibPkgs = pkgs.filter((p) => p.name.startsWith("std/"));
+
+    expect(stdlibPkgs.length).toBeGreaterThan(0);
+
+    // All stdlib packages should use the Go compiler version
+    for (const pkg of stdlibPkgs) {
+      expect(pkg.version).toMatch(/^\d+\.\d+/);
+      expect(pkg.version).toBe(goBin.goVersion);
+    }
+  });
+
+  it("includes std/io for binaries that use the io package", async () => {
+    const goBin = new GoBinary(
+      elf.parse(
+        readFileSync(
+          path.join(__dirname, "../fixtures/go-binaries/go1.20.0_normal"),
+        ),
+      ),
+    );
+    const graph = await goBin.depGraph();
+    const pkgs = graph.getPkgs();
+
+    expect(pkgs).toContainEqual({
+      name: "std/io",
+      version: goBin.goVersion,
+    });
+  });
+
+  it("does not include Go-vendored deps as stdlib", async () => {
+    const goBin = new GoBinary(
+      elf.parse(
+        readFileSync(
+          path.join(__dirname, "../fixtures/go-binaries/go1.13.15_normal"),
+        ),
+      ),
+    );
+    const graph = await goBin.depGraph();
+    const pkgs = graph.getPkgs();
+    const vendoredStdlib = pkgs.filter(
+      (p) => p.name.startsWith("std/vendor/"),
+    );
+    expect(vendoredStdlib).toHaveLength(0);
+  });
+
+  it("still includes external deps alongside stdlib", async () => {
+    const goBin = new GoBinary(
+      elf.parse(
+        readFileSync(
+          path.join(__dirname, "../fixtures/go-binaries/go1.20.0_normal"),
+        ),
+      ),
+    );
+    const graph = await goBin.depGraph();
+    const pkgs = graph.getPkgs();
+
+    // External deps should still be present
+    const externalPkgs = pkgs.filter(
+      (p) => !p.name.startsWith("std/") && p.name !== goBin.name,
+    );
+    expect(externalPkgs.length).toBeGreaterThan(0);
+  });
+});
+
+describe("test stdlib in stripped binary (no pcln table)", () => {
+  it("adds a single stdlib node for stripped binaries", async () => {
+    const fileName = path.join(
+      __dirname,
+      "../fixtures/go-binaries/no-pcln-tab",
+    );
+    const goBin = new GoBinary(elf.parse(readFileSync(fileName)));
+    const graph = await goBin.depGraph();
+    const pkgs = graph.getPkgs();
+
+    const stdlibPkg = pkgs.find((p) => p.name === "stdlib");
+    expect(stdlibPkg).toBeDefined();
+    expect(stdlibPkg!.version).toMatch(/^\d+\.\d+/);
+  });
+
   it("does not fail if Go binary does not contain PCLN table", async () => {
     const fileName = path.join(
       __dirname,
@@ -439,6 +564,29 @@ describe("test binary without pcln table", () => {
         fileName: elf.parse(readFileSync(fileName)),
       }),
     ).resolves.not.toThrow();
+  });
+});
+
+describe("test stdlib in Go distribution binary", () => {
+  it("includes stdlib packages for Go distribution binaries", async () => {
+    const goBin = new GoBinary(
+      elf.parse(
+        readFileSync(
+          path.join(__dirname, "../fixtures/go-binaries/stdlib_pack"),
+        ),
+      ),
+    );
+
+    expect(goBin.goVersion).toBeDefined();
+    expect(goBin.modules).toHaveLength(0);
+
+    const graph = await goBin.depGraph();
+    const pkgs = graph.getPkgs();
+    const stdlibPkgs = pkgs.filter((p) => p.name.startsWith("std/"));
+
+    // Go distribution binaries are 100% stdlib, so they should have
+    // stdlib packages in the dep graph even with no external modules
+    expect(stdlibPkgs.length).toBeGreaterThan(0);
   });
 });
 

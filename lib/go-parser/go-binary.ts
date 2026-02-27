@@ -44,10 +44,17 @@ const debug = Debug("snyk");
 export class GoBinary {
   public name: string;
   public modules: GoModule[];
+  public goVersion: string | undefined;
   private hasPclnTab: boolean;
+  private stdlibModule: GoModule | undefined;
 
   constructor(goElfBinary: Elf) {
-    [this.name, this.modules] = extractModuleInformation(goElfBinary);
+    [this.name, this.modules, this.goVersion] =
+      extractModuleInformation(goElfBinary);
+
+    if (this.goVersion) {
+      this.stdlibModule = new GoModule("stdlib", this.goVersion);
+    }
 
     const pclnTab = goElfBinary.body.sections.find(
       (section) => section.name === ".gopclntab",
@@ -108,6 +115,27 @@ export class GoBinary {
       // else: pclnTab exists but module has no packages - don't report anything
     }
 
+    // Add stdlib packages when available from .gopclntab file mapping
+    if (this.stdlibModule && this.stdlibModule.packages.length > 0) {
+      for (const pkg of this.stdlibModule.packages) {
+        const nodeId = `${pkg}@${this.stdlibModule.version}`;
+        goModulesDepGraph.addPkgNode(
+          { name: pkg, version: this.stdlibModule.version },
+          nodeId,
+        );
+        goModulesDepGraph.connectDep(goModulesDepGraph.rootNodeId, nodeId);
+      }
+    } else if (!this.hasPclnTab && this.goVersion) {
+      // For stripped binaries without .gopclntab, we can't enumerate individual
+      // stdlib packages but still know the Go compiler version from .go.buildinfo.
+      const nodeId = `stdlib@${this.goVersion}`;
+      goModulesDepGraph.addPkgNode(
+        { name: "stdlib", version: this.goVersion },
+        nodeId,
+      );
+      goModulesDepGraph.connectDep(goModulesDepGraph.rootNodeId, nodeId);
+    }
+
     return goModulesDepGraph.build();
   }
 
@@ -133,10 +161,45 @@ export class GoBinary {
         moduleName = (mod: GoModule): string => mod.fullName();
         pkgFile = trimPrefix(fileName, modCachePath);
       } else if (!vendorPath && !modCachePath) {
-        // is trimmed
+        // No module paths detected - either trimmed or no external modules.
+        // Check for absolute GOROOT paths before falling through to module matching.
+        if (this.stdlibModule) {
+          const goSrcMatch = fileName.match(/^(.*\/go[^/]*\/src\/)/);
+          if (goSrcMatch) {
+            const relPath = trimPrefix(fileName, goSrcMatch[1]);
+            if (!relPath.startsWith("vendor/")) {
+              const dirName = path.parse(relPath).dir;
+              if (dirName && dirName !== path.sep) {
+                const stdPkgName = `std/${dirName}`;
+                if (!this.stdlibModule.packages.includes(stdPkgName)) {
+                  this.stdlibModule.packages.push(stdPkgName);
+                }
+              }
+            }
+            continue;
+          }
+        }
         pkgFile = fileName;
       } else {
-        // skip file, probably a file from the Go source.
+        // File doesn't match vendor or modcache paths in a non-trimmed binary.
+        // Detect Go stdlib source files by matching <GOROOT>/src/ patterns
+        // (e.g. /usr/local/go/src/net/http/server.go).
+        if (this.stdlibModule) {
+          const goSrcMatch = fileName.match(/^(.*\/go[^/]*\/src\/)/);
+          if (goSrcMatch) {
+            const relPath = trimPrefix(fileName, goSrcMatch[1]);
+            // Skip Go's own vendored dependencies (e.g. vendor/golang.org/x/net)
+            if (!relPath.startsWith("vendor/")) {
+              const dirName = path.parse(relPath).dir;
+              if (dirName && dirName !== path.sep) {
+                const stdPkgName = `std/${dirName}`;
+                if (!this.stdlibModule.packages.includes(stdPkgName)) {
+                  this.stdlibModule.packages.push(stdPkgName);
+                }
+              }
+            }
+          }
+        }
         continue;
       }
 
@@ -186,13 +249,16 @@ interface GoFileNameError extends Error {
 
 export function extractModuleInformation(
   binary: Elf,
-): [name: string, deps: GoModule[]] {
-  const mod = readRawBuildInfo(binary);
-  if (!mod) {
+): [name: string, deps: GoModule[], goVersion: string | undefined] {
+  const buildInfo = readRawBuildInfo(binary);
+  if (!buildInfo.mod) {
     throw Error("binary contains empty module info");
   }
 
-  const [pathDirective, mainModuleLine, ...versionsLines] = mod
+  const goVersionMatch = buildInfo.version.match(/^go(\d+\.\d+(?:\.\d+)?)/);
+  const goVersion = goVersionMatch ? goVersionMatch[1] : undefined;
+
+  const [pathDirective, mainModuleLine, ...versionsLines] = buildInfo.mod
     .replace("\r", "")
     .split("\n");
   const lineSplit = mainModuleLine.split("\t");
@@ -224,7 +290,7 @@ export function extractModuleInformation(
     }
   });
 
-  return [name, modules];
+  return [name, modules, goVersion];
 }
 
 // Source
@@ -234,7 +300,9 @@ export function extractModuleInformation(
  * module version information in the executable binary
  * @param binary
  */
-export function readRawBuildInfo(binary: Elf): string {
+export function readRawBuildInfo(
+  binary: Elf,
+): { version: string; mod: string } {
   const buildInfoMagic = "\xff Go buildinf:";
   // Read the first 64kB of dataAddr to find the build info blob.
   // On some platforms, the blob will be in its own section, and DataStart
@@ -272,9 +340,9 @@ export function readRawBuildInfo(binary: Elf): string {
   const ptrSize = data[14];
   if ((data[15] & 2) !== 0) {
     data = data.subarray(32);
-    [, data] = decodeString(data);
-    const [mod] = decodeString(data);
-    return mod;
+    const [version, rest] = decodeString(data);
+    const [mod] = decodeString(rest);
+    return { version, mod };
   } else {
     const bigEndian = data[15] !== 0;
 
@@ -326,7 +394,7 @@ export function readRawBuildInfo(binary: Elf): string {
     // First 16 bytes are unicodes as last 16
     // Mirrors go version source code
     if (mod.length >= 33 && mod[mod.length - 17] === "\n") {
-      return mod.slice(16, mod.length - 16);
+      return { version, mod: mod.slice(16, mod.length - 16) };
     } else {
       throw Error("binary is not built with go module support");
     }
