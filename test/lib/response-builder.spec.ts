@@ -1400,9 +1400,7 @@ describe("buildResponse", () => {
         },
       },
       dockerfileLayers: {
-        [encodedInstruction]: {
-          instruction: instruction,
-        },
+        [encodedInstruction]: { instruction },
       },
     };
 
