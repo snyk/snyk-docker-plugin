@@ -1457,7 +1457,7 @@ describe("buildResponse", () => {
       expect(pkgNames).toHaveLength(2);
     });
 
-    it("should annotate direct dockerfile dependencies with layer IDs", async () => {
+    it("should annotate dockerfile dependencies with layer IDs", async () => {
       const result = await buildResponse(
         defaultAnalysis as any,
         dockerfileAnalysis as any,
@@ -1471,12 +1471,22 @@ describe("buildResponse", () => {
         (f: { type: string }) => f.type === "depGraph",
       )?.data;
       const pkgs = getDepPkgs(result.scanResults[0]);
-      const directDockerfilePkg = pkgs.find((p) => p.name === "dockerfilepkg");
-      const nodeInfo = depGraph?.getPkgNodes(directDockerfilePkg);
-      const nodeHasMatchingLayerId = nodeInfo.some(
-        (n) => n.info?.labels?.dockerLayerId === encodedInstruction,
+      const dockerfilePkgs = pkgs.filter((p) => p.name.includes("dockerfile"));
+      expect(dockerfilePkgs).toHaveLength(2);
+
+      const dockerfilePkgNodes = dockerfilePkgs.map((p) =>
+        depGraph?.getPkgNodes(p),
       );
-      expect(nodeHasMatchingLayerId).toBeTruthy();
+      expect(dockerfilePkgNodes).toHaveLength(2);
+
+      // Every dockerfile node should have some label named dockerLayerId that
+      // matches the encoded layer instruction.
+      const pkgsAreAnnotated = dockerfilePkgNodes.every((nodeArray) =>
+        nodeArray.some(
+          (n) => n.info?.labels?.dockerLayerId === encodedInstruction,
+        ),
+      );
+      expect(pkgsAreAnnotated).toBeTruthy();
     });
   });
 });

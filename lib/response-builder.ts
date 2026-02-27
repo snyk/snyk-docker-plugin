@@ -366,22 +366,22 @@ function getUserInstructionDeps(
     [depName: string]: types.DepTreeDep;
   },
 ): DockerFilePackages {
-  const result = { ...dockerfilePackages };
+  for (const dependencyName in dependencies) {
+    if (dependencies.hasOwnProperty(dependencyName)) {
+      const sourceOrName = packageNameSegment(dependencyName);
+      const dockerfilePackage = dockerfilePackages[sourceOrName];
 
-  for (const depKey of Object.keys(dependencies)) {
-    const pkg = dockerfilePackages[packageNameSegment(depKey)];
-    if (!pkg) {
-      continue;
-    }
-
-    const dep = dependencies[depKey];
-    for (const transitiveDepKey of collectDeps(dep)) {
-      const transitivePkg = packageNameSegment[transitiveDepKey];
-      result[transitivePkg] = { ...pkg };
+      if (dockerfilePackage) {
+        for (const dep of collectDeps(dependencies[dependencyName])) {
+          dockerfilePackages[packageNameSegment(dep)] = {
+            ...dockerfilePackage,
+          };
+        }
+      }
     }
   }
 
-  return result;
+  return dockerfilePackages;
 }
 
 function collectDeps(pkg) {
