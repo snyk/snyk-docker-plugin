@@ -348,6 +348,14 @@ function collectDockerfilePkgs(
   return getUserInstructionDeps(dockerAnalysis.dockerfilePackages, deps);
 }
 
+// Dep tree keys may be "name" or "name/version" (e.g. from OS package managers).
+// Dockerfile package maps are keyed by package name only. All lookups must use
+// the first segment of the dep key so that e.g. "openssl/1.1.1k-r0" matches
+// dockerfilePackages["openssl"].
+function packageNameSegment(depKey: string): string {
+  return depKey.split("/")[0];
+}
+
 // Iterate over the dependencies list; if one is introduced by the dockerfile,
 // flatten its dependencies and append them to the list of dockerfile
 // packages. This gives us a reference of all transitive deps installed via
@@ -360,12 +368,14 @@ function getUserInstructionDeps(
 ): DockerFilePackages {
   for (const dependencyName in dependencies) {
     if (dependencies.hasOwnProperty(dependencyName)) {
-      const sourceOrName = dependencyName.split("/")[0];
+      const sourceOrName = packageNameSegment(dependencyName);
       const dockerfilePackage = dockerfilePackages[sourceOrName];
 
       if (dockerfilePackage) {
         for (const dep of collectDeps(dependencies[dependencyName])) {
-          dockerfilePackages[dep.split("/")[0]] = { ...dockerfilePackage };
+          dockerfilePackages[packageNameSegment(dep)] = {
+            ...dockerfilePackage,
+          };
         }
       }
     }
@@ -409,7 +419,7 @@ function extractDockerfileDeps(
   dockerfilePkgs: DockerFilePackages,
 ) {
   return Object.keys(allDeps)
-    .filter((depName) => dockerfilePkgs[depName])
+    .filter((depName) => dockerfilePkgs[packageNameSegment(depName)])
     .reduce((extractedDeps, depName) => {
       extractedDeps[depName] = allDeps[depName];
       return extractedDeps;
@@ -423,7 +433,7 @@ function annotateLayerIds(deps, dockerfilePkgs) {
 
   for (const dep of Object.keys(deps)) {
     const pkg = deps[dep];
-    const dockerfilePkg = dockerfilePkgs[dep];
+    const dockerfilePkg = dockerfilePkgs[packageNameSegment(dep)];
     if (dockerfilePkg) {
       pkg.labels = {
         ...(pkg.labels || {}),

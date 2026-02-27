@@ -1353,116 +1353,140 @@ describe("buildResponse", () => {
   });
 
   describe("supports exclude-base-image-vulns flag", () => {
-    const defaultAnalysis = createMockAnalysis();
-    const baseDepTree = {
-      ...defaultAnalysis.depTree,
+    const depTreeWithOsAndFilePkgs = {
+      name: "test",
+      version: "1.0.0",
+      packageFormatVersion: "1.0.0",
       targetOS: {
         name: "alpine",
         version: "3.12",
         prettyName: "Alpine 3.12",
       },
       dependencies: {
-        basePkg: {
-          name: "basePkg",
+        ospkg: {
+          name: "ospkg/1.0.0",
           version: "1.0.0",
-          dependencies: {},
+          dependencies: {
+            ostransitive: {
+              name: "ostransitive/1.2.3",
+              version: "1.2.3",
+              dependencies: {},
+            },
+          },
         },
-        dockerfilePkg: {
-          name: "dockerfilePkg",
+        dockerfilepkg: {
+          name: "dockerfilepkg/2.0.0",
           version: "2.0.0",
-          dependencies: {},
+          dependencies: {
+            dockerfiletransitive: {
+              name: "dockerfiletransitive/7.5.1",
+              version: "7.5.1",
+              dependencies: {},
+            },
+          },
         },
       },
     };
 
-    const dockerfileAnalysisWithDockerfilePkgOnly = {
+    const instruction = "RUN apk add dockerfilepkg";
+    const encodedInstruction = Buffer.from(instruction).toString("base64");
+
+    const dockerfileAnalysis = {
       baseImage: "alpine:3.12",
       dockerfilePackages: {
-        dockerfilePkg: {
-          instruction: "RUN apk add dockerfilePkg",
-          installCommand: "apk add dockerfilePkg",
+        dockerfilepkg: {
+          instruction: "RUN apk add dockerfilepkg",
+          installCommand: "apk add dockerfilepkg",
         },
       },
-      dockerfileLayers: {},
+      dockerfileLayers: {
+        [encodedInstruction]: { instruction },
+      },
     };
 
-    function getDepPkgNames(scanResult: {
+    const defaultAnalysis = createMockAnalysis({
+      depTree: depTreeWithOsAndFilePkgs,
+      packageFormat: "apk",
+    });
+
+    function getDepPkgs(scanResult: {
       facts?: Array<{ type: string; data: any }>;
     }): string[] {
-      const depGraphFact = scanResult.facts?.find((f) => f.type === "depGraph");
-      const depGraph = depGraphFact?.data;
-      if (!depGraph || typeof depGraph.getPkgs !== "function") {
+      const depGraph = scanResult.facts?.find(
+        (f) => f.type === "depGraph",
+      )?.data;
+      if (!depGraph || typeof depGraph.getDepPkgs !== "function") {
         return [];
       }
-      return depGraph.getPkgs().map((p: { name: string }) => p.name);
+      return depGraph.getDepPkgs();
     }
 
-    const rootPkgName = defaultAnalysis.depTree.name;
-
-    it("includes all dependencies in depGraph when excludeBaseImageVulns is false", async () => {
-      const mockAnalysis = createMockAnalysis({
-        depTree: JSON.parse(JSON.stringify(baseDepTree)),
-        packageFormat: "apk",
-      });
-
+    it("should include base image and dockerfile dependencies when excludeBaseImageVulns is false", async () => {
       const result = await buildResponse(
-        mockAnalysis as any,
-        dockerfileAnalysisWithDockerfilePkgOnly as any,
+        defaultAnalysis as any,
+        dockerfileAnalysis as any,
         false,
         undefined,
         undefined,
         undefined,
       );
 
-      const pkgNames = getDepPkgNames(result.scanResults[0]);
-      expect(pkgNames).toContain(rootPkgName);
-      expect(pkgNames).toContain("basePkg");
-      expect(pkgNames).toContain("dockerfilePkg");
-      expect(pkgNames).toHaveLength(3);
+      const pkgs = getDepPkgs(result.scanResults[0]);
+      const pkgNames = pkgs.map((p: { name: string }) => p.name);
+      expect(pkgNames).toContain("ospkg");
+      expect(pkgNames).toContain("ostransitive");
+      expect(pkgNames).toContain("dockerfilepkg");
+      expect(pkgNames).toContain("dockerfiletransitive");
+      expect(pkgNames).toHaveLength(4);
     });
 
-    it("includes only dockerfile-introduced dependencies in depGraph when excludeBaseImageVulns is true", async () => {
-      const mockAnalysis = createMockAnalysis({
-        depTree: JSON.parse(JSON.stringify(baseDepTree)),
-        packageFormat: "apk",
-      });
-
+    it("should include dockerfile dependencies when excludeBaseImageVulns is true", async () => {
       const result = await buildResponse(
-        mockAnalysis as any,
-        dockerfileAnalysisWithDockerfilePkgOnly as any,
+        defaultAnalysis as any,
+        dockerfileAnalysis as any,
         true,
         undefined,
         undefined,
         undefined,
       );
 
-      const pkgNames = getDepPkgNames(result.scanResults[0]);
-      expect(pkgNames).toContain(rootPkgName);
-      expect(pkgNames).toContain("dockerfilePkg");
-      expect(pkgNames).not.toContain("basePkg");
+      const pkgs = getDepPkgs(result.scanResults[0]);
+      const pkgNames = pkgs.map((p: { name: string }) => p.name);
+      expect(pkgNames).toContain("dockerfilepkg");
+      expect(pkgNames).toContain("dockerfiletransitive");
       expect(pkgNames).toHaveLength(2);
     });
 
-    it("includes all dependencies when excludeBaseImageVulns is true but dockerfileAnalysis is undefined", async () => {
-      const mockAnalysis = createMockAnalysis({
-        depTree: JSON.parse(JSON.stringify(baseDepTree)),
-        packageFormat: "apk",
-      });
-
+    it("should annotate dockerfile dependencies with layer IDs", async () => {
       const result = await buildResponse(
-        mockAnalysis as any,
-        undefined,
-        true,
+        defaultAnalysis as any,
+        dockerfileAnalysis as any,
+        false,
         undefined,
         undefined,
         undefined,
       );
 
-      const pkgNames = getDepPkgNames(result.scanResults[0]);
-      expect(pkgNames).toContain(rootPkgName);
-      expect(pkgNames).toContain("basePkg");
-      expect(pkgNames).toContain("dockerfilePkg");
-      expect(pkgNames).toHaveLength(3);
+      const depGraph = result.scanResults[0].facts?.find(
+        (f: { type: string }) => f.type === "depGraph",
+      )?.data;
+      const pkgs = getDepPkgs(result.scanResults[0]);
+      const dockerfilePkgs = pkgs.filter((p) => p.name.includes("dockerfile"));
+      expect(dockerfilePkgs).toHaveLength(2);
+
+      const dockerfilePkgNodes = dockerfilePkgs.map((p) =>
+        depGraph?.getPkgNodes(p),
+      );
+      expect(dockerfilePkgNodes).toHaveLength(2);
+
+      // Every dockerfile node should have some label named dockerLayerId that
+      // matches the encoded layer instruction.
+      const pkgsAreAnnotated = dockerfilePkgNodes.every((nodeArray) =>
+        nodeArray.some(
+          (n) => n.info?.labels?.dockerLayerId === encodedInstruction,
+        ),
+      );
+      expect(pkgsAreAnnotated).toBeTruthy();
     });
   });
 });
