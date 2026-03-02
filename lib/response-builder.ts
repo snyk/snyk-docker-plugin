@@ -343,7 +343,7 @@ function packageSource(depKey: string): string {
   return depKey.split("/")[0];
 }
 
-function collectTransitiveDepKeys(pkg: DepTreeDep): string[] {
+function collectTransitiveDepKeys(pkg: types.DepTreeDep): string[] {
   if (!pkg.dependencies || Object.keys(pkg.dependencies).length === 0) {
     return [];
   }
@@ -362,14 +362,14 @@ function collectTransitiveDepKeys(pkg: DepTreeDep): string[] {
 // installed package to that package's instruction.
 export function mapDepTreeToDockerfilePackages(
   dockerfilePkgs: DockerFilePackages,
-  dependencies: { [depName: string]: DepTreeDep },
+  deps: { [depName: string]: types.DepTreeDep },
 ): DockerFilePackages {
   if (!dockerfilePkgs) {
     return {};
   }
 
   const res: DockerFilePackages = {};
-  for (const rootKey of Object.keys(dependencies)) {
+  for (const rootKey of Object.keys(deps)) {
     const source = packageSource(rootKey);
     const instruction = dockerfilePkgs[rootKey] || dockerfilePkgs[source];
     if (!instruction) {
@@ -379,7 +379,7 @@ export function mapDepTreeToDockerfilePackages(
     // Add the root package (by its full key) to the resulting DockerfilePackages.
     // Then add all transitive dependencies of this root package.
     res[rootKey] = instruction;
-    const transitiveKeys = collectTransitiveDepKeys(dependencies[rootKey]);
+    const transitiveKeys = collectTransitiveDepKeys(deps[rootKey]);
     for (const key of transitiveKeys) {
       res[key] = instruction;
     }
@@ -446,7 +446,7 @@ function annotateLayerIds(
 }
 
 function annotateSubtreeWithLayerId(
-  deps: { [depName: string]: DepTreeDep },
+  deps: { [depName: string]: types.DepTreeDep },
   dockerLayerId: string,
 ): void {
   for (const depKey of Object.keys(deps)) {
