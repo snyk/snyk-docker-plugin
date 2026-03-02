@@ -375,10 +375,10 @@ export function mapDepTreeToDockerfilePackages(
       continue;
     }
 
-    // If package source was found in the tree, add it to the package object.
-    if (!dockerfilePkgs[rootKey] && dockerfilePkgs[source]) {
-      dockerfilePkgs[source] = instruction;
-    }
+    // Ensure the instruction data is stored under the key that matches the
+    // dependency tree.
+    dockerfilePkgs[rootKey] = instruction;
+
     const transitiveKeys = collectTransitiveDepKeys(deps[rootKey]);
     for (const key of transitiveKeys) {
       dockerfilePkgs[key] = instruction;

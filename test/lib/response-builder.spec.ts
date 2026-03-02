@@ -1581,6 +1581,10 @@ describe("buildResponse", () => {
         dockerfileLayers,
       );
       expect(autoDetectedFact!.data.dockerfilePackages).toEqual({
+        dockerfilepkg: {
+          instruction: "RUN apk add dockerfilepkg",
+          installCommand: "apk add dockerfilepkg",
+        },
         "dockerfilepkg/libdockerfilepkg-dev": {
           instruction: "RUN apk add dockerfilepkg",
           installCommand: "apk add dockerfilepkg",
