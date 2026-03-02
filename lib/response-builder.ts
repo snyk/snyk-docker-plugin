@@ -368,7 +368,6 @@ export function mapDepTreeToDockerfilePackages(
     return {};
   }
 
-  const res: DockerFilePackages = {};
   for (const rootKey of Object.keys(deps)) {
     const source = packageSource(rootKey);
     const instruction = dockerfilePkgs[rootKey] || dockerfilePkgs[source];
@@ -376,16 +375,17 @@ export function mapDepTreeToDockerfilePackages(
       continue;
     }
 
-    // Add the root package (by its full key) to the resulting DockerfilePackages.
-    // Then add all transitive dependencies of this root package.
-    res[rootKey] = instruction;
+    // If package source was found in the tree, add it to the package object.
+    if (!dockerfilePkgs[rootKey] && dockerfilePkgs[source]) {
+      dockerfilePkgs[source] = instruction;
+    }
     const transitiveKeys = collectTransitiveDepKeys(deps[rootKey]);
     for (const key of transitiveKeys) {
-      res[key] = instruction;
+      dockerfilePkgs[key] = instruction;
     }
   }
 
-  return res;
+  return dockerfilePkgs;
 }
 
 // If excludeBaseImageVulns is true, only retain dependencies that are
