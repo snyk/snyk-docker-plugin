@@ -26,14 +26,19 @@ async function buildResponse(
   options?: Partial<types.PluginOptions>,
 ): Promise<types.PluginResponse> {
   const deps = depsAnalysis.depTree.dependencies;
-  const dockerfilePkgs = collectDockerfilePkgs(dockerfileAnalysis, deps);
+  const dockerfilePkgs = dockerfileAnalysis?.dockerfilePackages ?? {};
+
+  /** WARNING! Mutates the depTree.dependencies! */
+  annotateLayerIds(deps, dockerfilePkgs);
+
   const finalDeps = excludeBaseImageDeps(
     deps,
     dockerfilePkgs,
     excludeBaseImageVulns,
   );
-  /** WARNING! Mutates the depTree.dependencies! */
-  annotateLayerIds(finalDeps, dockerfilePkgs);
+
+  // Apply the filtered dependencies back to the depTree
+  depsAnalysis.depTree.dependencies = finalDeps;
 
   /** This must be called after all final changes to the DependencyTree. */
   const depGraph = await legacy.depTreeToGraph(
@@ -197,7 +202,7 @@ async function buildResponse(
     autoDetectedLayers &&
     Object.keys(autoDetectedLayers).length > 0
   ) {
-    const autoDetectedPackagesWithChildren = getUserInstructionDeps(
+    const autoDetectedPackagesWithChildren = mapDepTreeToDockerfilePackages(
       autoDetectedPackages,
       deps,
     );
@@ -339,59 +344,59 @@ async function buildResponse(
   };
 }
 
-function collectDockerfilePkgs(
-  dockerAnalysis: DockerFileAnalysis | undefined,
-  deps: {
-    [depName: string]: types.DepTreeDep;
-  },
-) {
-  if (!dockerAnalysis) {
-    return;
-  }
-
-  return getUserInstructionDeps(dockerAnalysis.dockerfilePackages, deps);
+// Returns the package source name from a dependency key. A package source refers
+// to the top-level Linux package name, such as "bzip2" in "bzip2/libbz2-dev".
+function packageSource(depKey: string): string {
+  return depKey.split("/")[0];
 }
 
-// Iterate over the dependencies list; if one is introduced by the dockerfile,
-// flatten its dependencies and append them to the list of dockerfile
-// packages. This gives us a reference of all transitive deps installed via
-// the dockerfile, and the instruction that installed it.
-function getUserInstructionDeps(
-  dockerfilePackages: DockerFilePackages,
-  dependencies: {
-    [depName: string]: types.DepTreeDep;
-  },
-): DockerFilePackages {
-  for (const dependencyName in dependencies) {
-    if (dependencies.hasOwnProperty(dependencyName)) {
-      const sourceOrName = dependencyName.split("/")[0];
-      const dockerfilePackage = dockerfilePackages[sourceOrName];
+function collectTransitiveDepKeys(pkg: types.DepTreeDep): string[] {
+  if (!pkg.dependencies || Object.keys(pkg.dependencies).length === 0) {
+    return [];
+  }
+  const keys = Object.keys(pkg.dependencies);
+  const nested: string[] = [];
+  for (const key of keys) {
+    const childKeys = collectTransitiveDepKeys(pkg.dependencies![key]);
+    for (const childKey of childKeys) {
+      nested.push(childKey);
+    }
+  }
+  return keys.concat(nested);
+}
 
-      if (dockerfilePackage) {
-        for (const dep of collectDeps(dependencies[dependencyName])) {
-          dockerfilePackages[dep.split("/")[0]] = { ...dockerfilePackage };
-        }
-      }
+// Maps each dependency key (and its transitives) that matches a dockerfile-
+// installed package to that package's instruction.
+export function mapDepTreeToDockerfilePackages(
+  dockerfilePkgs: DockerFilePackages,
+  deps: { [depName: string]: types.DepTreeDep },
+): DockerFilePackages {
+  if (!dockerfilePkgs) {
+    return {};
+  }
+
+  for (const rootKey of Object.keys(deps)) {
+    const source = packageSource(rootKey);
+    const instruction = dockerfilePkgs[rootKey] || dockerfilePkgs[source];
+    if (!instruction) {
+      continue;
+    }
+
+    // Ensure the instruction data is stored under the key that matches the
+    // dependency tree.
+    dockerfilePkgs[rootKey] = instruction;
+
+    const transitiveKeys = collectTransitiveDepKeys(deps[rootKey]);
+    for (const key of transitiveKeys) {
+      dockerfilePkgs[key] = instruction;
     }
   }
 
-  return dockerfilePackages;
+  return dockerfilePkgs;
 }
 
-function collectDeps(pkg) {
-  // ES5 doesn't have Object.values, so replace with Object.keys() and map()
-  return pkg.dependencies
-    ? Object.keys(pkg.dependencies)
-        .map((name) => pkg.dependencies[name])
-        .reduce((allDeps, pkg) => {
-          return [...allDeps, ...collectDeps(pkg)];
-        }, Object.keys(pkg.dependencies))
-    : [];
-}
-
-// Skip processing if option disabled or dockerfilePkgs is undefined. We
-// can't exclude anything in that case, because we can't tell which deps are
-// from dockerfile and which from base image.
+// If excludeBaseImageVulns is true, only retain dependencies that are
+// dockerfile-introduced, as defined by dockerfilePkgs.
 function excludeBaseImageDeps(
   deps: {
     [depName: string]: types.DepTreeDep;
@@ -403,39 +408,62 @@ function excludeBaseImageDeps(
     return deps;
   }
 
-  return extractDockerfileDeps(deps, dockerfilePkgs);
-}
-
-function extractDockerfileDeps(
-  allDeps: {
-    [depName: string]: types.DepTreeDep;
-  },
-  dockerfilePkgs: DockerFilePackages,
-) {
-  return Object.keys(allDeps)
-    .filter((depName) => dockerfilePkgs[depName])
+  return Object.keys(deps)
+    .filter(
+      (depName) =>
+        dockerfilePkgs[depName] || dockerfilePkgs[packageSource(depName)],
+    )
     .reduce((extractedDeps, depName) => {
-      extractedDeps[depName] = allDeps[depName];
+      extractedDeps[depName] = deps[depName];
       return extractedDeps;
     }, {});
 }
 
-function annotateLayerIds(deps, dockerfilePkgs) {
+// Annotates dockerfile-introduced dependencies and sub-dependencies with the
+// instruction ID. A dependency is identified as dockerfile-introduced if the
+// dependency key or source was found in a dockerfile installation instruction.
+function annotateLayerIds(
+  deps: { [depName: string]: types.DepTreeDep },
+  dockerfilePkgs: DockerFilePackages | undefined,
+): void {
   if (!dockerfilePkgs) {
     return;
   }
 
-  for (const dep of Object.keys(deps)) {
-    const pkg = deps[dep];
-    const dockerfilePkg = dockerfilePkgs[dep];
-    if (dockerfilePkg) {
-      pkg.labels = {
-        ...(pkg.labels || {}),
-        dockerLayerId: instructionDigest(dockerfilePkg.instruction),
-      };
+  for (const rootKey of Object.keys(deps)) {
+    const source = packageSource(rootKey);
+    const dockerfileEntry = dockerfilePkgs[rootKey] || dockerfilePkgs[source];
+    if (!dockerfileEntry) {
+      continue;
     }
-    if (pkg.dependencies) {
-      annotateLayerIds(pkg.dependencies, dockerfilePkgs);
+
+    const rootNode = deps[rootKey];
+    const layerId = instructionDigest(dockerfileEntry.instruction);
+    rootNode.labels = {
+      ...(rootNode.labels || {}),
+      dockerLayerId: layerId,
+    };
+    if (
+      rootNode.dependencies &&
+      Object.keys(rootNode.dependencies).length > 0
+    ) {
+      annotateSubtreeWithLayerId(rootNode.dependencies, layerId);
+    }
+  }
+}
+
+function annotateSubtreeWithLayerId(
+  deps: { [depName: string]: types.DepTreeDep },
+  dockerLayerId: string,
+): void {
+  for (const depKey of Object.keys(deps)) {
+    const node = deps[depKey];
+    node.labels = {
+      ...(node.labels || {}),
+      dockerLayerId,
+    };
+    if (node.dependencies && Object.keys(node.dependencies).length > 0) {
+      annotateSubtreeWithLayerId(node.dependencies, dockerLayerId);
     }
   }
 }

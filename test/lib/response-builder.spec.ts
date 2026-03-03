@@ -1351,4 +1351,249 @@ describe("buildResponse", () => {
       });
     });
   });
+
+  describe("supports exclude-base-image-vulns flag", () => {
+    // Warning: this object will be mutated by the test code.
+    const depTreeWithOsAndFilePkgs = {
+      name: "test",
+      version: "1.0.0",
+      packageFormatVersion: "1.0.0",
+      targetOS: {
+        name: "alpine",
+        version: "3.12",
+        prettyName: "Alpine 3.12",
+      },
+      dependencies: {
+        ospkg: {
+          name: "ospkg",
+          version: "1.0.0",
+          dependencies: {
+            ostransitive: {
+              name: "ostransitive",
+              version: "1.2.3",
+              dependencies: {},
+            },
+          },
+        },
+        "commonsource/package-a": {
+          name: "commonsource/package-a",
+          version: "1.0.0",
+          dependencies: {},
+        },
+        dockerfilepkg: {
+          name: "dockerfilepkg",
+          version: "2.0.0",
+          dependencies: {
+            dockerfiletransitive: {
+              name: "dockerfiletransitive/7.5.1",
+              version: "7.5.1",
+              dependencies: {},
+            },
+            "commonsource/package-b": {
+              name: "commonsource/package-b",
+              version: "6.1.7",
+              dependencies: {},
+            },
+          },
+        },
+      },
+    };
+    const mockAnalysis = createMockAnalysis({
+      depTree: depTreeWithOsAndFilePkgs,
+      packageFormat: "apk",
+    });
+
+    const instruction = "RUN apk add dockerfilepkg";
+    const encodedInstruction = Buffer.from(instruction).toString("base64");
+    const expectedDockerfilePkgs = [
+      "dockerfilepkg",
+      "dockerfiletransitive",
+      "commonsource/package-b",
+    ];
+
+    const dockerfileAnalysis = {
+      baseImage: "alpine:3.12",
+      dockerfilePackages: {
+        dockerfilepkg: {
+          instruction: "RUN apk add dockerfilepkg",
+          installCommand: "apk add dockerfilepkg",
+        },
+      },
+      dockerfileLayers: {
+        [encodedInstruction]: { instruction },
+      },
+    };
+
+    function getDepPkgs(scanResult: {
+      facts?: Array<{ type: string; data: any }>;
+    }): string[] {
+      const depGraph = scanResult.facts?.find(
+        (f) => f.type === "depGraph",
+      )?.data;
+      if (!depGraph || typeof depGraph.getDepPkgs !== "function") {
+        return [];
+      }
+      return depGraph.getDepPkgs();
+    }
+
+    it("should include base image and dockerfile dependencies when excludeBaseImageVulns is false", async () => {
+      const result = await buildResponse(
+        mockAnalysis as any,
+        dockerfileAnalysis as any,
+        false,
+        undefined,
+        undefined,
+        undefined,
+      );
+
+      const pkgs = getDepPkgs(result.scanResults[0]);
+      const pkgNames = pkgs.map((p: { name: string }) => p.name);
+      expect(pkgNames).toContain("ospkg");
+      expect(pkgNames).toContain("ostransitive");
+      expect(pkgNames).toContain("dockerfilepkg");
+      expect(pkgNames).toContain("dockerfiletransitive");
+      expect(pkgNames).toContain("commonsource/package-a");
+      expect(pkgNames).toContain("commonsource/package-b");
+      expect(pkgNames).toHaveLength(6);
+    });
+
+    it("should annotate dockerfile dependencies with layer IDs", async () => {
+      const result = await buildResponse(
+        mockAnalysis as any,
+        dockerfileAnalysis as any,
+        false,
+        undefined,
+        undefined,
+        undefined,
+      );
+
+      const pkgs = getDepPkgs(result.scanResults[0]);
+      const depGraph = result.scanResults[0].facts?.find(
+        (f: { type: string }) => f.type === "depGraph",
+      )?.data;
+
+      const dockerfilePkgNodes = pkgs
+        .filter((p) => expectedDockerfilePkgs.includes(p.name))
+        .map((p) => depGraph?.getPkgNodes(p));
+
+      // Every dockerfile node should have some label named dockerLayerId that
+      // matches the encoded layer instruction.
+      const dockerfilePkgsAreAnnotated = dockerfilePkgNodes.every((nodeArray) =>
+        nodeArray.some(
+          (n) => n.info?.labels?.dockerLayerId === encodedInstruction,
+        ),
+      );
+      expect(dockerfilePkgsAreAnnotated).toBeTruthy();
+
+      const baseOsPkgNodes = pkgs
+        .filter((p) => !expectedDockerfilePkgs.includes(p.name))
+        .map((p) => depGraph?.getPkgNodes(p));
+
+      // No base OS packages should be annotated with a layer ID
+      const osPkgsAreNotAnnotated = baseOsPkgNodes.every((nodeArray) =>
+        nodeArray.every((n) => !n.info?.labels?.dockerLayerId),
+      );
+      expect(osPkgsAreNotAnnotated).toBeTruthy();
+    });
+
+    it("should include dockerfile dependencies when excludeBaseImageVulns is true", async () => {
+      const result = await buildResponse(
+        mockAnalysis as any,
+        dockerfileAnalysis as any,
+        true,
+        undefined,
+        undefined,
+        undefined,
+      );
+
+      const pkgs = getDepPkgs(result.scanResults[0]);
+      const pkgNames = pkgs.map((p: { name: string }) => p.name);
+      expect(pkgNames.sort()).toEqual(expectedDockerfilePkgs.sort());
+    });
+  });
+
+  describe("supports autoDetectedUserInstructions", () => {
+    it("should create autoDetectedUserInstructions fact when auto detected packages are provided", async () => {
+      const instruction = "RUN apk add dockerfilepkg";
+      const encodedInstruction = Buffer.from(instruction).toString("base64");
+      const dockerfilePackages = {
+        dockerfilepkg: {
+          instruction,
+          installCommand: "apk add dockerfilepkg",
+        },
+      };
+      const dockerfileLayers = {
+        [encodedInstruction]: { instruction },
+      };
+
+      const mockAnalysis = createMockAnalysis({
+        depTree: {
+          dependencies: {
+            "dockerfilepkg/libdockerfilepkg-dev": {
+              name: "dockerfilepkg/libdockerfilepkg-dev",
+              version: "1.0.0",
+              dependencies: {
+                transitivepkg: {
+                  name: "transitivepkg",
+                  version: "2.0.0",
+                  dependencies: {},
+                },
+              },
+            },
+            ospkg: {
+              name: "ospkg",
+              version: "3.0.0",
+              dependencies: {},
+            },
+          },
+          name: "test",
+          version: "1.0.0",
+          packageFormatVersion: "1.0.0",
+          targetOS: { prettyName: "Test OS" },
+        },
+        autoDetectedUserInstructions: {
+          dockerfileLayers,
+          dockerfilePackages,
+        },
+        packageFormat: "apk",
+        platform: "linux/amd64",
+      });
+
+      const result = await buildResponse(
+        mockAnalysis as any,
+        undefined,
+        false,
+        ["test-image:auto-detected"],
+        undefined,
+        { "target-reference": "auto-detected-test" },
+      );
+
+      expect(result.scanResults).toHaveLength(1);
+      const mainScanResult = result.scanResults[0];
+      const autoDetectedFact = mainScanResult.facts?.find(
+        (fact) => fact.type === "autoDetectedUserInstructions",
+      );
+
+      expect(autoDetectedFact).toBeDefined();
+      expect(autoDetectedFact!.type).toBe("autoDetectedUserInstructions");
+      expect(autoDetectedFact!.data).toHaveProperty(
+        "dockerfileLayers",
+        dockerfileLayers,
+      );
+      expect(autoDetectedFact!.data.dockerfilePackages).toEqual({
+        dockerfilepkg: {
+          instruction: "RUN apk add dockerfilepkg",
+          installCommand: "apk add dockerfilepkg",
+        },
+        "dockerfilepkg/libdockerfilepkg-dev": {
+          instruction: "RUN apk add dockerfilepkg",
+          installCommand: "apk add dockerfilepkg",
+        },
+        transitivepkg: {
+          instruction: "RUN apk add dockerfilepkg",
+          installCommand: "apk add dockerfilepkg",
+        },
+      });
+    });
+  });
 });
