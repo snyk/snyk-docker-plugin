@@ -254,6 +254,8 @@ async function unpackJars(
 /**
  * Packages with inaccurate pom.properties files return null so that the JAR
  * will be resolved using the SHA lookup instead.
+ * 
+ * Long-term solution: resolve all JARs via maven-deps to remove the need for overrides.
  */
 const POM_PROPERTIES_OVERRIDES = new Set([
   "com.microsoft.sqlserver:mssql-jdbc",
