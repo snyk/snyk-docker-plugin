@@ -1963,12 +1963,12 @@ Object {
         },
         Object {
           "data": Array [
-            "sha256:d0fe97fa8b8cefdffcef1d62b65aba51a6c87b6679628a2b50fc6a7a579f764c",
-            "sha256:832f21763c8e6b070314e619ebb9ba62f815580da6d0eaec8a1b080bd01575f7",
-            "sha256:223b15010c47044b6bab9611c7a322e8da7660a8268949e18edde9c6e3ea3700",
-            "sha256:a1a4c1d0c191cee2ac3912696fe57cf9ad84cbfaf3d13f314061bd89fe73cabb",
-            "sha256:e9acf707b7fe3eef2f7c6bd127b3b34b262889cb670013adfb46883a49a4ac8e",
-            "sha256:b854b24feeee6cbd8fc5d6401f5f1b4a3d40c483444e6c4b06a2b7b31f347b40",
+            "sha256:bb79b6b2107fea8e8a47133a660b78e3a546998fcf0427be39ac9a0af4a97e90",
+            "sha256:1ed3521a5dcbd05214eb7f35b952ecf018d5a6610c32ba4e315028c556f45e94",
+            "sha256:5999b99cee8f2875d391d64df20b6296b63f23951a7d41749f028375e887cd05",
+            "sha256:f99a38f44786b9434af817ff56fd90f9d75238546317c49c46b3c9759ccba941",
+            "sha256:d6fc863042e2c63ac7bdca3ce8d5b88ef6d96ab1a827bad3ff97c4dedd2e4dd5",
+            "sha256:9bd1af4eae13aa3ef99901fcb1fb86ee8b778f0ead82a6aac53573b0b236568b",
           ],
           "type": "rootFs",
         },
