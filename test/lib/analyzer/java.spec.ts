@@ -114,4 +114,12 @@ describe("getCoordsFromPomProperties function", () => {
     const coords = getCoordsFromPomProperties(fixture);
     expect(coords).toBeNull();
   });
+
+  it("returns null for packages with inaccurate pom.properties (e.g. mssql-jdbc omits version classifier)", () => {
+    const fixture = getTextFromFixture(
+      "pom-properties/mssql-jdbc.pom.properties",
+    );
+    const coords = getCoordsFromPomProperties(fixture);
+    expect(coords).toBeNull();
+  });
 });
