@@ -466,7 +466,7 @@ describe("test Go version extraction", () => {
 });
 
 describe("test stdlib packages in dep graph", () => {
-  it("includes std/* packages for non-trimmed binaries", async () => {
+  it("includes std/* packages under a stdlib pseudo-dependency", async () => {
     const goBin = new GoBinary(
       elf.parse(
         readFileSync(
@@ -484,6 +484,46 @@ describe("test stdlib packages in dep graph", () => {
     for (const pkg of stdlibPkgs) {
       expect(pkg.version).toMatch(/^\d+\.\d+/);
       expect(pkg.version).toBe(goBin.goVersion);
+    }
+
+    // The stdlib pseudo-dependency parent node should exist
+    const stdlibParent = pkgs.find((p) => p.name === "stdlib");
+    expect(stdlibParent).toBeDefined();
+    expect(stdlibParent!.version).toBe(goBin.goVersion);
+  });
+
+  it("groups std/* packages as children of stdlib, not root", async () => {
+    const goBin = new GoBinary(
+      elf.parse(
+        readFileSync(
+          path.join(__dirname, "../fixtures/go-binaries/go1.20.0_normal"),
+        ),
+      ),
+    );
+    const graph = await goBin.depGraph();
+    const graphJson = graph.toJSON();
+    const nodes = graphJson.graph.nodes;
+
+    // stdlib should be a direct dep of root
+    const rootNode = nodes.find((n: any) => n.nodeId === "root-node");
+    expect(rootNode.deps).toContainEqual(
+      expect.objectContaining({ nodeId: `stdlib@${goBin.goVersion}` }),
+    );
+
+    // std/* packages should NOT be direct deps of root
+    const rootStdDeps = rootNode.deps.filter((d: any) =>
+      d.nodeId.startsWith("std/"),
+    );
+    expect(rootStdDeps).toHaveLength(0);
+
+    // std/* packages should be deps of the stdlib node
+    const stdlibNode = nodes.find(
+      (n: any) => n.nodeId === `stdlib@${goBin.goVersion}`,
+    );
+    expect(stdlibNode).toBeDefined();
+    expect(stdlibNode.deps.length).toBeGreaterThan(0);
+    for (const dep of stdlibNode.deps) {
+      expect(dep.nodeId).toMatch(/^std\//);
     }
   });
 
@@ -531,29 +571,29 @@ describe("test stdlib packages in dep graph", () => {
     const graph = await goBin.depGraph();
     const pkgs = graph.getPkgs();
 
-    // External deps should still be present
+    // External deps should still be present and NOT be children of stdlib
     const externalPkgs = pkgs.filter(
-      (p) => !p.name.startsWith("std/") && p.name !== goBin.name,
+      (p) =>
+        !p.name.startsWith("std/") &&
+        p.name !== "stdlib" &&
+        p.name !== goBin.name,
     );
     expect(externalPkgs.length).toBeGreaterThan(0);
+
+    // External deps should be direct deps of root, not stdlib
+    const graphJson = graph.toJSON();
+    const rootNode = graphJson.graph.nodes.find(
+      (n: any) => n.nodeId === "root-node",
+    );
+    const rootExtDeps = rootNode.deps.filter(
+      (d: any) =>
+        !d.nodeId.startsWith("stdlib@") && !d.nodeId.startsWith("std/"),
+    );
+    expect(rootExtDeps.length).toBeGreaterThan(0);
   });
 });
 
-describe("test stdlib in stripped binary (no pcln table)", () => {
-  it("adds a single stdlib node for stripped binaries", async () => {
-    const fileName = path.join(
-      __dirname,
-      "../fixtures/go-binaries/no-pcln-tab",
-    );
-    const goBin = new GoBinary(elf.parse(readFileSync(fileName)));
-    const graph = await goBin.depGraph();
-    const pkgs = graph.getPkgs();
-
-    const stdlibPkg = pkgs.find((p) => p.name === "stdlib");
-    expect(stdlibPkg).toBeDefined();
-    expect(stdlibPkg!.version).toMatch(/^\d+\.\d+/);
-  });
-
+describe("test stripped and trimmed binaries (no stdlib enumeration)", () => {
   it("does not fail if Go binary does not contain PCLN table", async () => {
     const fileName = path.join(
       __dirname,
@@ -564,6 +604,22 @@ describe("test stdlib in stripped binary (no pcln table)", () => {
         fileName: elf.parse(readFileSync(fileName)),
       }),
     ).resolves.not.toThrow();
+  });
+
+  it("does not add stdlib node when packages cannot be enumerated", async () => {
+    const fileName = path.join(
+      __dirname,
+      "../fixtures/go-binaries/no-pcln-tab",
+    );
+    const goBin = new GoBinary(elf.parse(readFileSync(fileName)));
+    const graph = await goBin.depGraph();
+    const pkgs = graph.getPkgs();
+
+    const stdlibPkg = pkgs.find((p) => p.name === "stdlib");
+    expect(stdlibPkg).toBeUndefined();
+
+    const stdPkgs = pkgs.filter((p) => p.name.startsWith("std/"));
+    expect(stdPkgs).toHaveLength(0);
   });
 });
 

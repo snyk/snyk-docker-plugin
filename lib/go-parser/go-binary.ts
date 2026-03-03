@@ -115,25 +115,24 @@ export class GoBinary {
       // else: pclnTab exists but module has no packages - don't report anything
     }
 
-    // Add stdlib packages when available from .gopclntab file mapping
+    // Add stdlib as a pseudo-dependency that groups all std/* packages,
+    // keeping them separate from external Go modules in the dep graph.
     if (this.stdlibModule && this.stdlibModule.packages.length > 0) {
+      const stdlibNodeId = `stdlib@${this.stdlibModule.version}`;
+      goModulesDepGraph.addPkgNode(
+        { name: "stdlib", version: this.stdlibModule.version },
+        stdlibNodeId,
+      );
+      goModulesDepGraph.connectDep(goModulesDepGraph.rootNodeId, stdlibNodeId);
+
       for (const pkg of this.stdlibModule.packages) {
         const nodeId = `${pkg}@${this.stdlibModule.version}`;
         goModulesDepGraph.addPkgNode(
           { name: pkg, version: this.stdlibModule.version },
           nodeId,
         );
-        goModulesDepGraph.connectDep(goModulesDepGraph.rootNodeId, nodeId);
+        goModulesDepGraph.connectDep(stdlibNodeId, nodeId);
       }
-    } else if (!this.hasPclnTab && this.goVersion) {
-      // For stripped binaries without .gopclntab, we can't enumerate individual
-      // stdlib packages but still know the Go compiler version from .go.buildinfo.
-      const nodeId = `stdlib@${this.goVersion}`;
-      goModulesDepGraph.addPkgNode(
-        { name: "stdlib", version: this.goVersion },
-        nodeId,
-      );
-      goModulesDepGraph.connectDep(goModulesDepGraph.rootNodeId, nodeId);
     }
 
     return goModulesDepGraph.build();
