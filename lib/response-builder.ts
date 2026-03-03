@@ -35,9 +35,6 @@ async function buildResponse(
   /** WARNING! Mutates the depTree.dependencies! */
   annotateLayerIds(finalDeps, dockerfilePkgs);
 
-  // Apply the filtered dependencies back to the depTree
-  depsAnalysis.depTree.dependencies = finalDeps;
-
   /** This must be called after all final changes to the DependencyTree. */
   const depGraph = await legacy.depTreeToGraph(
     depsAnalysis.depTree,
