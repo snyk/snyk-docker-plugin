@@ -1,4 +1,4 @@
-import { parseJavaRuntimeRelease } from "../../lib/analyzer/java-runtime/parser";
+import { parseJavaRuntimeRelease } from "../../lib/analyzer/base-runtimes/parser";
 
 describe("java runtime release parser", () => {
   it("parses a valid Java release file with JAVA_VERSION", () => {

@@ -15,6 +15,7 @@ import {
   getDpkgFileContentAction,
   getExtFileContentAction,
 } from "../inputs/apt/static";
+import { getJavaRuntimeReleaseAction } from "../inputs/base-runtimes/static";
 import {
   getBinariesHashes,
   getNodeBinariesFileContentAction,
@@ -29,7 +30,6 @@ import {
   getDpkgPackageFileContentAction,
 } from "../inputs/distroless/static";
 import * as filePatternStatic from "../inputs/file-pattern/static";
-import { getJavaRuntimeReleaseAction } from "../inputs/java-runtime/static";
 import {
   getJarFileContentAction,
   getUsrLibJarFileContentAction,
@@ -68,7 +68,7 @@ import { jarFilesToScannedResults } from "./applications/java";
 import { pipFilesToScannedProjects } from "./applications/python";
 import { getApplicationFiles } from "./applications/runtime-common";
 import { AppDepsScanResultWithoutTarget } from "./applications/types";
-import { detectJavaRuntime } from "./java-runtime";
+import { detectJavaRuntime } from "./base-runtimes";
 import * as osReleaseDetector from "./os-release";
 import { analyze as apkAnalyze } from "./package-managers/apk";
 import {
