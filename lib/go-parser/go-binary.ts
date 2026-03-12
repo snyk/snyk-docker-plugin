@@ -118,7 +118,9 @@ export class GoBinary {
       );
       goModulesDepGraph.connectDep(goModulesDepGraph.rootNodeId, stdlibNodeId);
     } else {
-      debug(`Skipping stdlib node for ${this.name}: could not parse Go version`);
+      debug(
+        `Skipping stdlib node for ${this.name}: could not parse Go version`,
+      );
     }
 
     return goModulesDepGraph.build();
