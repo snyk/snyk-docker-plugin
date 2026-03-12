@@ -117,6 +117,8 @@ export class GoBinary {
         stdlibNodeId,
       );
       goModulesDepGraph.connectDep(goModulesDepGraph.rootNodeId, stdlibNodeId);
+    } else {
+      debug(`Skipping stdlib node for ${this.name}: could not parse Go version`);
     }
 
     return goModulesDepGraph.build();
@@ -204,7 +206,10 @@ export function parseGoVersion(rawVersion: string): string {
   if (!match) {
     return "";
   }
-  return match[1];
+  const ver = match[1];
+  // Ensure three-segment semver (e.g., "1.19" → "1.19.0") because
+  // @snyk/vuln uses node's semver library which requires three segments.
+  return ver.includes(".", ver.indexOf(".") + 1) ? ver : ver + ".0";
 }
 
 export function extractModuleInformation(

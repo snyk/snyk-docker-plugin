@@ -547,13 +547,13 @@ describe("parseGoVersion", () => {
     expect(parseGoVersion("go1.21.0")).toBe("1.21.0");
   });
 
-  it("handles version without patch number", () => {
-    expect(parseGoVersion("go1.21")).toBe("1.21");
+  it("handles version without patch number by appending .0", () => {
+    expect(parseGoVersion("go1.21")).toBe("1.21.0");
   });
 
-  it("extracts version from RC/beta strings", () => {
-    expect(parseGoVersion("go1.21rc1")).toBe("1.21");
-    expect(parseGoVersion("go1.22beta2")).toBe("1.22");
+  it("extracts version from RC/beta strings and normalizes to three segments", () => {
+    expect(parseGoVersion("go1.21rc1")).toBe("1.21.0");
+    expect(parseGoVersion("go1.22beta2")).toBe("1.22.0");
   });
 
   it("returns empty string for devel versions", () => {
@@ -571,17 +571,12 @@ describe("parseGoVersion", () => {
 
 describe("extractModuleInformation returns goVersion", () => {
   it("returns a valid Go version from a real binary", () => {
-    const files = readdirSync(path.join(__dirname, "../fixtures/go-binaries"));
-    const file = files.find((f) => f.match(/^go1\.[0-9]{1,2}\.[0-9]{1,2}_.*/));
-    if (!file) {
-      return;
-    }
     const fileContent = readFileSync(
-      path.join(__dirname, "../fixtures/go-binaries/", file),
+      path.join(__dirname, "../fixtures/go-binaries/go1.18.5_normal"),
     );
     const elfBinary = elf.parse(fileContent);
     const [, , goVersion] = extractModuleInformation(elfBinary);
-    expect(goVersion).toMatch(/^\d+\.\d+(\.\d+)?$/);
+    expect(goVersion).toBe("1.18.5");
   });
 });
 
