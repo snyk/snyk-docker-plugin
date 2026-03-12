@@ -44,7 +44,7 @@ Object {
         },
         Object {
           "data": Array [
-            "2d0714e906bed2c04c0df856b8928376970d0f163c7dc63cf99bc681d7e668fa\\\\layer.tar",
+            "2d0714e906bed2c04c0df856b8928376970d0f163c7dc63cf99bc681d7e668fa/layer.tar",
           ],
           "type": "imageLayers",
         },
@@ -459,7 +459,7 @@ Object {
                       "nodeId": "k8s.io/klog/v2@v2.80.1",
                     },
                     Object {
-                      "nodeId": "stdlib@1.19",
+                      "nodeId": "stdlib@1.19.0",
                     },
                   ],
                   "nodeId": "root-node",
@@ -1057,8 +1057,8 @@ Object {
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "stdlib@1.19",
-                  "pkgId": "stdlib@1.19",
+                  "nodeId": "stdlib@1.19.0",
+                  "pkgId": "stdlib@1.19.0",
                 },
               ],
               "rootNodeId": "root-node",
@@ -1900,10 +1900,10 @@ Object {
                 },
               },
               Object {
-                "id": "stdlib@1.19",
+                "id": "stdlib@1.19.0",
                 "info": Object {
                   "name": "stdlib",
-                  "version": "1.19",
+                  "version": "1.19.0",
                 },
               },
             ],
@@ -1921,7 +1921,7 @@ Object {
         },
       ],
       "identity": Object {
-        "targetFile": "\\\\livenessprobe",
+        "targetFile": "/livenessprobe",
         "type": "gomodules",
       },
       "target": Object {
@@ -2517,7 +2517,7 @@ Object {
         },
       ],
       "identity": Object {
-        "targetFile": "\\\\usr\\\\lib\\\\go-standard-2",
+        "targetFile": "/usr/lib/go-standard-2",
         "type": "gomodules",
       },
       "target": Object {
@@ -2579,7 +2579,7 @@ Object {
         },
       ],
       "identity": Object {
-        "targetFile": "\\\\usr\\\\local\\\\lib\\\\go-standard",
+        "targetFile": "/usr/local/lib/go-standard",
         "type": "gomodules",
       },
       "target": Object {
@@ -2686,7 +2686,7 @@ Object {
         },
       ],
       "identity": Object {
-        "targetFile": "\\\\app\\\\node_modules\\\\.pnpm\\\\@esbuild+linux-x64@0.23.1\\\\node_modules\\\\@esbuild\\\\linux-x64\\\\bin\\\\esbuild",
+        "targetFile": "/app/node_modules/.pnpm/@esbuild+linux-x64@0.23.1/node_modules/@esbuild/linux-x64/bin/esbuild",
         "type": "gomodules",
       },
       "target": Object {
@@ -2741,7 +2741,7 @@ Object {
         },
         Object {
           "data": Array [
-            "c8f25f0787b14b09638a294eab0b30b81c82295b8aa5e1df3fb36796fa6d0179\\\\layer.tar",
+            "c8f25f0787b14b09638a294eab0b30b81c82295b8aa5e1df3fb36796fa6d0179/layer.tar",
           ],
           "type": "imageLayers",
         },
@@ -2812,11 +2812,11 @@ Object {
               Object {
                 "dependencies": Array [],
                 "digest": "485de3a253e23f645037828c07f1d7f1af40763a",
-                "location": "\\\\app\\\\activation-1.1.1.jar",
+                "location": "/app/activation-1.1.1.jar",
               },
             ],
             "origin": "java-windows.tar",
-            "path": "\\\\app",
+            "path": "/app",
           },
           "type": "jarFingerprints",
         },
@@ -2830,7 +2830,7 @@ Object {
         },
       ],
       "identity": Object {
-        "targetFile": "\\\\app",
+        "targetFile": "/app",
         "type": "maven",
       },
       "target": Object {
@@ -2847,7 +2847,7 @@ Object {
                 "dependencies": Array [],
                 "digest": null,
                 "groupId": "org.glassfish.hk2.external",
-                "location": "\\\\libs\\\\aopalliance-repackaged-2.5.0.jar",
+                "location": "/libs/aopalliance-repackaged-2.5.0.jar",
                 "version": "2.5.0",
               },
               Object {
@@ -2855,12 +2855,12 @@ Object {
                 "dependencies": Array [],
                 "digest": null,
                 "groupId": "org.apache.yetus",
-                "location": "\\\\libs\\\\audience-annotations-0.5.0.jar",
+                "location": "/libs/audience-annotations-0.5.0.jar",
                 "version": "0.5.0",
               },
             ],
             "origin": "java-windows.tar",
-            "path": "\\\\libs",
+            "path": "/libs",
           },
           "type": "jarFingerprints",
         },
@@ -2874,7 +2874,7 @@ Object {
         },
       ],
       "identity": Object {
-        "targetFile": "\\\\libs",
+        "targetFile": "/libs",
         "type": "maven",
       },
       "target": Object {
@@ -4750,7 +4750,7 @@ Object {
         },
       ],
       "identity": Object {
-        "targetFile": "\\\\srv\\\\npm-app\\\\package.json",
+        "targetFile": "/srv/npm-app/package.json",
         "type": "npm",
       },
       "target": Object {
@@ -15044,7 +15044,7 @@ Object {
         },
       ],
       "identity": Object {
-        "targetFile": "\\\\srv\\\\yarn-app\\\\package.json",
+        "targetFile": "/srv/yarn-app/package.json",
         "type": "yarn",
       },
       "target": Object {
