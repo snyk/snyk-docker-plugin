@@ -223,6 +223,25 @@ export function parseGoVersion(rawVersion: string): string {
   return ver.includes(".", ver.indexOf(".") + 1) ? ver : ver + ".0";
 }
 
+/**
+ * Strips the "go" prefix from a Go version string and validates the format.
+ * Returns the cleaned version (e.g., "1.21.0") or empty string if invalid.
+ * Rejects RC/beta/devel versions since we cannot accurately match vulnerabilities
+ * against pre-release builds.
+ */
+export function parseGoVersion(rawVersion: string): string {
+  // Only match release versions (e.g., "go1.21" or "go1.21.5").
+  // Reject RC/beta (go1.21rc1, go1.22beta2) and devel builds.
+  const match = rawVersion.match(/^go(\d+\.\d+(?:\.\d+)?)$/);
+  if (!match) {
+    return "";
+  }
+  const ver = match[1];
+  // Ensure three-segment semver (e.g., "1.19" → "1.19.0") because
+  // @snyk/vuln uses node's semver library which requires three segments.
+  return ver.includes(".", ver.indexOf(".") + 1) ? ver : ver + ".0";
+}
+
 export function extractModuleInformation(
   binary: Elf,
 ): [name: string, deps: GoModule[], goVersion: string] {
