@@ -1221,6 +1221,11 @@ Object {
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "bzip2/libbz2-dev@1.0.6-7+b3",
                   "pkgId": "bzip2/libbz2-dev@1.0.6-7+b3",
                 },
@@ -1818,7 +1823,7 @@ Object {
                 Object {
                   "deps": Array [
                     Object {
-                      "nodeId": "lsb/lsb-base@4.1+Debian13+nmu1",
+                      "nodeId": "lsb/lsb-base@4.1+Debian13+nmu1|2",
                     },
                     Object {
                       "nodeId": "ncurses/libncurses5@5.9+20140913-1+deb8u2",
@@ -1899,11 +1904,6 @@ Object {
                 },
                 Object {
                   "deps": Array [],
-                  "info": Object {
-                    "labels": Object {
-                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
-                    },
-                  },
                   "nodeId": "fontconfig@2.11.0-6.3+deb8u1",
                   "pkgId": "fontconfig@2.11.0-6.3+deb8u1",
                 },
@@ -1949,11 +1949,6 @@ Object {
                 },
                 Object {
                   "deps": Array [],
-                  "info": Object {
-                    "labels": Object {
-                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
-                    },
-                  },
                   "nodeId": "gcc-4.9@4.9.2-10+deb8u1|1",
                   "pkgId": "gcc-4.9@4.9.2-10+deb8u1",
                 },
@@ -1981,11 +1976,6 @@ Object {
                       "nodeId": "mpfr4/libmpfr4@3.1.2-2",
                     },
                   ],
-                  "info": Object {
-                    "labels": Object {
-                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
-                    },
-                  },
                   "nodeId": "gcc-4.9@4.9.2-10+deb8u1|2",
                   "pkgId": "gcc-4.9@4.9.2-10+deb8u1",
                 },
@@ -2020,7 +2010,7 @@ Object {
                       "nodeId": "gcc-4.9/libcilkrts5@4.9.2-10+deb8u1",
                     },
                     Object {
-                      "nodeId": "gcc-4.9/libgomp1@4.9.2-10+deb8u1",
+                      "nodeId": "gcc-4.9/libgomp1@4.9.2-10+deb8u1|2",
                     },
                     Object {
                       "nodeId": "gcc-4.9/libitm1@4.9.2-10+deb8u1",
@@ -2251,6 +2241,11 @@ Object {
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "glib2.0/libglib2.0-dev@2.42.1-1+b1|1",
                   "pkgId": "glib2.0/libglib2.0-dev@2.42.1-1+b1",
                 },
@@ -2266,6 +2261,11 @@ Object {
                       "nodeId": "pkg-config@0.28-1",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "glib2.0/libglib2.0-dev@2.42.1-1+b1|2",
                   "pkgId": "glib2.0/libglib2.0-dev@2.42.1-1+b1",
                 },
@@ -2331,6 +2331,11 @@ Object {
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "imagemagick/libmagickcore-6.q16-2@8:6.8.9.9-5+deb8u12|1",
                   "pkgId": "imagemagick/libmagickcore-6.q16-2@8:6.8.9.9-5+deb8u12",
                 },
@@ -2340,7 +2345,7 @@ Object {
                       "nodeId": "fftw3/libfftw3-double3@3.3.4-2",
                     },
                     Object {
-                      "nodeId": "gcc-4.9/libgomp1@4.9.2-10+deb8u1",
+                      "nodeId": "gcc-4.9/libgomp1@4.9.2-10+deb8u1|1",
                     },
                     Object {
                       "nodeId": "imagemagick/imagemagick-common@8:6.8.9.9-5+deb8u12",
@@ -2355,21 +2360,31 @@ Object {
                       "nodeId": "libtool/libltdl7@2.4.2-1.11+b1",
                     },
                     Object {
-                      "nodeId": "libxml2@2.9.1+dfsg1-5+deb8u6",
+                      "nodeId": "libxml2@2.9.1+dfsg1-5+deb8u6|1",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "imagemagick/libmagickcore-6.q16-2@8:6.8.9.9-5+deb8u12|2",
                   "pkgId": "imagemagick/libmagickcore-6.q16-2@8:6.8.9.9-5+deb8u12",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "imagemagick/libmagickwand-6.q16-2@8:6.8.9.9-5+deb8u12|1",
                   "pkgId": "imagemagick/libmagickwand-6.q16-2@8:6.8.9.9-5+deb8u12",
                 },
                 Object {
                   "deps": Array [
                     Object {
-                      "nodeId": "gcc-4.9/libgomp1@4.9.2-10+deb8u1",
+                      "nodeId": "gcc-4.9/libgomp1@4.9.2-10+deb8u1|1",
                     },
                     Object {
                       "nodeId": "imagemagick/imagemagick-common@8:6.8.9.9-5+deb8u12",
@@ -2378,6 +2393,11 @@ Object {
                       "nodeId": "imagemagick/libmagickcore-6.q16-2@8:6.8.9.9-5+deb8u12|1",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "imagemagick/libmagickwand-6.q16-2@8:6.8.9.9-5+deb8u12|2",
                   "pkgId": "imagemagick/libmagickwand-6.q16-2@8:6.8.9.9-5+deb8u12",
                 },
@@ -2393,6 +2413,11 @@ Object {
                       "nodeId": "imagemagick/libmagickwand-6.q16-2@8:6.8.9.9-5+deb8u12|1",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "imagemagick/imagemagick-6.q16@8:6.8.9.9-5+deb8u12",
                   "pkgId": "imagemagick/imagemagick-6.q16@8:6.8.9.9-5+deb8u12",
                 },
@@ -2412,6 +2437,11 @@ Object {
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "djvulibre/libdjvulibre21@3.5.25.4-4+b1|1",
                   "pkgId": "djvulibre/libdjvulibre21@3.5.25.4-4+b1",
                 },
@@ -2421,11 +2451,21 @@ Object {
                       "nodeId": "djvulibre/libdjvulibre-text@3.5.25.4-4",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "djvulibre/libdjvulibre21@3.5.25.4-4+b1|2",
                   "pkgId": "djvulibre/libdjvulibre21@3.5.25.4-4+b1",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "libjpeg-turbo/libjpeg62-turbo-dev@1:1.3.1-12",
                   "pkgId": "libjpeg-turbo/libjpeg62-turbo-dev@1:1.3.1-12",
                 },
@@ -2435,11 +2475,21 @@ Object {
                       "nodeId": "libjpeg-turbo/libjpeg62-turbo-dev@1:1.3.1-12",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "libjpeg-turbo/libjpeg-dev@1:1.3.1-12|1",
                   "pkgId": "libjpeg-turbo/libjpeg-dev@1:1.3.1-12",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "libjpeg-turbo/libjpeg-dev@1:1.3.1-12|2",
                   "pkgId": "libjpeg-turbo/libjpeg-dev@1:1.3.1-12",
                 },
@@ -2452,11 +2502,21 @@ Object {
                       "nodeId": "libjpeg-turbo/libjpeg-dev@1:1.3.1-12|1",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "djvulibre/libdjvulibre-dev@3.5.25.4-4+b1",
                   "pkgId": "djvulibre/libdjvulibre-dev@3.5.25.4-4+b1",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "libpng/libpng12-dev@1.2.50-2+deb8u3",
                   "pkgId": "libpng/libpng12-dev@1.2.50-2+deb8u3",
                 },
@@ -2466,21 +2526,41 @@ Object {
                       "nodeId": "libpng/libpng12-dev@1.2.50-2+deb8u3",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "freetype/libfreetype6-dev@2.5.2-3+deb8u2|1",
                   "pkgId": "freetype/libfreetype6-dev@2.5.2-3+deb8u2",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "freetype/libfreetype6-dev@2.5.2-3+deb8u2|2",
                   "pkgId": "freetype/libfreetype6-dev@2.5.2-3+deb8u2",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "expat/libexpat1-dev@2.1.0-6+deb8u4",
                   "pkgId": "expat/libexpat1-dev@2.1.0-6+deb8u4",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "graphviz/libcdt5@2.38.0-7",
                   "pkgId": "graphviz/libcdt5@2.38.0-7",
                 },
@@ -2490,31 +2570,61 @@ Object {
                       "nodeId": "graphviz/libcdt5@2.38.0-7",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "graphviz/libcgraph6@2.38.0-7|1",
                   "pkgId": "graphviz/libcgraph6@2.38.0-7",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "graphviz/libcgraph6@2.38.0-7|2",
                   "pkgId": "graphviz/libcgraph6@2.38.0-7",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "graphviz/libpathplan4@2.38.0-7",
                   "pkgId": "graphviz/libpathplan4@2.38.0-7",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "graphviz/libxdot4@2.38.0-7",
                   "pkgId": "graphviz/libxdot4@2.38.0-7",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "libvpx/libvpx1@1.3.0-3+deb8u1",
                   "pkgId": "libvpx/libvpx1@1.3.0-3+deb8u1",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "libxpm/libxpm4@1:3.5.12-0+deb8u1",
                   "pkgId": "libxpm/libxpm4@1:3.5.12-0+deb8u1",
                 },
@@ -2527,16 +2637,31 @@ Object {
                       "nodeId": "libxpm/libxpm4@1:3.5.12-0+deb8u1",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "libgd2/libgd3@2.1.0-5+deb8u11",
                   "pkgId": "libgd2/libgd3@2.1.0-5+deb8u11",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "libtool/libltdl7@2.4.2-1.11+b1",
                   "pkgId": "libtool/libltdl7@2.4.2-1.11+b1",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "pango1.0/libpangocairo-1.0-0@1.36.8-3|1",
                   "pkgId": "pango1.0/libpangocairo-1.0-0@1.36.8-3",
                 },
@@ -2546,11 +2671,21 @@ Object {
                       "nodeId": "pango1.0/libpangoft2-1.0-0@1.36.8-3|2",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "pango1.0/libpangocairo-1.0-0@1.36.8-3|2",
                   "pkgId": "pango1.0/libpangocairo-1.0-0@1.36.8-3",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "pango1.0/libpangoft2-1.0-0@1.36.8-3|1",
                   "pkgId": "pango1.0/libpangoft2-1.0-0@1.36.8-3",
                 },
@@ -2560,6 +2695,11 @@ Object {
                       "nodeId": "harfbuzz/libharfbuzz0b@0.9.35-2",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "pango1.0/libpangoft2-1.0-0@1.36.8-3|2",
                   "pkgId": "pango1.0/libpangoft2-1.0-0@1.36.8-3",
                 },
@@ -2590,6 +2730,11 @@ Object {
                       "nodeId": "pango1.0/libpangoft2-1.0-0@1.36.8-3|1",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "graphviz/libgvc6@2.38.0-7",
                   "pkgId": "graphviz/libgvc6@2.38.0-7",
                 },
@@ -2602,6 +2747,11 @@ Object {
                       "nodeId": "graphviz/libcgraph6@2.38.0-7|2",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "graphviz/libgvpr2@2.38.0-7",
                   "pkgId": "graphviz/libgvpr2@2.38.0-7",
                 },
@@ -2611,11 +2761,21 @@ Object {
                       "nodeId": "libtool/libltdl7@2.4.2-1.11+b1",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "libtool/libltdl-dev@2.4.2-1.11+b1|1",
                   "pkgId": "libtool/libltdl-dev@2.4.2-1.11+b1",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "libtool/libltdl-dev@2.4.2-1.11+b1|2",
                   "pkgId": "libtool/libltdl-dev@2.4.2-1.11+b1",
                 },
@@ -2646,11 +2806,21 @@ Object {
                       "nodeId": "libtool/libltdl-dev@2.4.2-1.11+b1|1",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "graphviz/libgraphviz-dev@2.38.0-7",
                   "pkgId": "graphviz/libgraphviz-dev@2.38.0-7",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "imagemagick/imagemagick-common@8:6.8.9.9-5+deb8u12",
                   "pkgId": "imagemagick/imagemagick-common@8:6.8.9.9-5+deb8u12",
                 },
@@ -2660,6 +2830,11 @@ Object {
                       "nodeId": "imagemagick/imagemagick-common@8:6.8.9.9-5+deb8u12",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "imagemagick/libmagickcore-6-arch-config@8:6.8.9.9-5+deb8u12",
                   "pkgId": "imagemagick/libmagickcore-6-arch-config@8:6.8.9.9-5+deb8u12",
                 },
@@ -2669,35 +2844,70 @@ Object {
                       "nodeId": "imagemagick/libmagickcore-6-arch-config@8:6.8.9.9-5+deb8u12",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "imagemagick/libmagickcore-6-headers@8:6.8.9.9-5+deb8u12|1",
                   "pkgId": "imagemagick/libmagickcore-6-headers@8:6.8.9.9-5+deb8u12",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "imagemagick/libmagickcore-6-headers@8:6.8.9.9-5+deb8u12|2",
                   "pkgId": "imagemagick/libmagickcore-6-headers@8:6.8.9.9-5+deb8u12",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "gcc-4.9/libgomp1@4.9.2-10+deb8u1",
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
+                  "nodeId": "gcc-4.9/libgomp1@4.9.2-10+deb8u1|1",
+                  "pkgId": "gcc-4.9/libgomp1@4.9.2-10+deb8u1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "gcc-4.9/libgomp1@4.9.2-10+deb8u1|2",
                   "pkgId": "gcc-4.9/libgomp1@4.9.2-10+deb8u1",
                 },
                 Object {
                   "deps": Array [
                     Object {
-                      "nodeId": "gcc-4.9/libgomp1@4.9.2-10+deb8u1",
+                      "nodeId": "gcc-4.9/libgomp1@4.9.2-10+deb8u1|1",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "fftw3/libfftw3-double3@3.3.4-2",
                   "pkgId": "fftw3/libfftw3-double3@3.3.4-2",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "lcms2/liblcms2-2@2.6-3+deb8u1",
                   "pkgId": "lcms2/liblcms2-2@2.6-3+deb8u1",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "liblqr/liblqr-1-0@0.4.2-2",
                   "pkgId": "liblqr/liblqr-1-0@0.4.2-2",
                 },
@@ -2708,21 +2918,41 @@ Object {
                       "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
                     },
                   },
-                  "nodeId": "libxml2@2.9.1+dfsg1-5+deb8u6",
+                  "nodeId": "libxml2@2.9.1+dfsg1-5+deb8u6|1",
                   "pkgId": "libxml2@2.9.1+dfsg1-5+deb8u6",
                 },
                 Object {
                   "deps": Array [],
+                  "nodeId": "libxml2@2.9.1+dfsg1-5+deb8u6|2",
+                  "pkgId": "libxml2@2.9.1+dfsg1-5+deb8u6",
+                },
+                Object {
+                  "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "djvulibre/libdjvulibre-text@3.5.25.4-4",
                   "pkgId": "djvulibre/libdjvulibre-text@3.5.25.4-4",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "gdk-pixbuf/libgdk-pixbuf2.0-common@2.31.1-2+deb8u7",
                   "pkgId": "gdk-pixbuf/libgdk-pixbuf2.0-common@2.31.1-2+deb8u7",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "jasper/libjasper1@1.900.1-debian1-2.4+deb8u3",
                   "pkgId": "jasper/libjasper1@1.900.1-debian1-2.4+deb8u3",
                 },
@@ -2735,20 +2965,35 @@ Object {
                       "nodeId": "jasper/libjasper1@1.900.1-debian1-2.4+deb8u3",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "gdk-pixbuf/libgdk-pixbuf2.0-0@2.31.1-2+deb8u7|1",
                   "pkgId": "gdk-pixbuf/libgdk-pixbuf2.0-0@2.31.1-2+deb8u7",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "gdk-pixbuf/libgdk-pixbuf2.0-0@2.31.1-2+deb8u7|2",
                   "pkgId": "gdk-pixbuf/libgdk-pixbuf2.0-0@2.31.1-2+deb8u7",
                 },
                 Object {
                   "deps": Array [
                     Object {
-                      "nodeId": "libxml2@2.9.1+dfsg1-5+deb8u6",
+                      "nodeId": "libxml2@2.9.1+dfsg1-5+deb8u6|1",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "libcroco/libcroco3@0.6.8-3+b1",
                   "pkgId": "libcroco/libcroco3@0.6.8-3+b1",
                 },
@@ -2761,17 +3006,27 @@ Object {
                       "nodeId": "libcroco/libcroco3@0.6.8-3+b1",
                     },
                     Object {
-                      "nodeId": "libxml2@2.9.1+dfsg1-5+deb8u6",
+                      "nodeId": "libxml2@2.9.1+dfsg1-5+deb8u6|1",
                     },
                     Object {
                       "nodeId": "pango1.0/libpangocairo-1.0-0@1.36.8-3|1",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "librsvg/librsvg2-2@2.40.5-1+deb8u2|1",
                   "pkgId": "librsvg/librsvg2-2@2.40.5-1+deb8u2",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "librsvg/librsvg2-2@2.40.5-1+deb8u2|2",
                   "pkgId": "librsvg/librsvg2-2@2.40.5-1+deb8u2",
                 },
@@ -2781,16 +3036,31 @@ Object {
                       "nodeId": "gdk-pixbuf/libgdk-pixbuf2.0-0@2.31.1-2+deb8u7|2",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "libwmf/libwmf0.2-7@0.2.8.4-10.3+deb8u2|1",
                   "pkgId": "libwmf/libwmf0.2-7@0.2.8.4-10.3+deb8u2",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "libwmf/libwmf0.2-7@0.2.8.4-10.3+deb8u2|2",
                   "pkgId": "libwmf/libwmf0.2-7@0.2.8.4-10.3+deb8u2",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "ilmbase/libilmbase6@1.0.1-6.1",
                   "pkgId": "ilmbase/libilmbase6@1.0.1-6.1",
                 },
@@ -2800,16 +3070,31 @@ Object {
                       "nodeId": "ilmbase/libilmbase6@1.0.1-6.1",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "openexr/libopenexr6@1.6.1-8|1",
                   "pkgId": "openexr/libopenexr6@1.6.1-8",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "openexr/libopenexr6@1.6.1-8|2",
                   "pkgId": "openexr/libopenexr6@1.6.1-8",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "graphite2/libgraphite2-3@1.3.10-1~deb8u1",
                   "pkgId": "graphite2/libgraphite2-3@1.3.10-1~deb8u1",
                 },
@@ -2819,6 +3104,11 @@ Object {
                       "nodeId": "graphite2/libgraphite2-3@1.3.10-1~deb8u1",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "harfbuzz/libharfbuzz0b@0.9.35-2",
                   "pkgId": "harfbuzz/libharfbuzz0b@0.9.35-2",
                 },
@@ -2840,7 +3130,7 @@ Object {
                       "nodeId": "libwmf/libwmf0.2-7@0.2.8.4-10.3+deb8u2|1",
                     },
                     Object {
-                      "nodeId": "libxml2@2.9.1+dfsg1-5+deb8u6",
+                      "nodeId": "libxml2@2.9.1+dfsg1-5+deb8u6|1",
                     },
                     Object {
                       "nodeId": "openexr/libopenexr6@1.6.1-8|1",
@@ -2849,11 +3139,21 @@ Object {
                       "nodeId": "pango1.0/libpangocairo-1.0-0@1.36.8-3|2",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "imagemagick/libmagickcore-6.q16-2-extra@8:6.8.9.9-5+deb8u12|1",
                   "pkgId": "imagemagick/libmagickcore-6.q16-2-extra@8:6.8.9.9-5+deb8u12",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "imagemagick/libmagickcore-6.q16-2-extra@8:6.8.9.9-5+deb8u12|2",
                   "pkgId": "imagemagick/libmagickcore-6.q16-2-extra@8:6.8.9.9-5+deb8u12",
                 },
@@ -2863,6 +3163,11 @@ Object {
                       "nodeId": "jasper/libjasper1@1.900.1-debian1-2.4+deb8u3",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "jasper/libjasper-dev@1.900.1-debian1-2.4+deb8u3",
                   "pkgId": "jasper/libjasper-dev@1.900.1-debian1-2.4+deb8u3",
                 },
@@ -2872,16 +3177,31 @@ Object {
                       "nodeId": "lcms2/liblcms2-2@2.6-3+deb8u1",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "lcms2/liblcms2-dev@2.6-3+deb8u1",
                   "pkgId": "lcms2/liblcms2-dev@2.6-3+deb8u1",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "jquery/libjs-jquery@1.7.2+dfsg-3.2",
                   "pkgId": "jquery/libjs-jquery@1.7.2+dfsg-3.2",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "libexif/libexif12@0.6.21-2",
                   "pkgId": "libexif/libexif12@0.6.21-2",
                 },
@@ -2894,6 +3214,11 @@ Object {
                       "nodeId": "libexif/libexif12@0.6.21-2",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "libexif/libexif-dev@0.6.21-2",
                   "pkgId": "libexif/libexif-dev@0.6.21-2",
                 },
@@ -2903,16 +3228,31 @@ Object {
                       "nodeId": "liblqr/liblqr-1-0@0.4.2-2",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "liblqr/liblqr-1-0-dev@0.4.2-2",
                   "pkgId": "liblqr/liblqr-1-0-dev@0.4.2-2",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "cairo/libcairo-gobject2@1.14.0-2.1+deb8u2",
                   "pkgId": "cairo/libcairo-gobject2@1.14.0-2.1+deb8u2",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "lzo2/liblzo2-2@2.08-1.2",
                   "pkgId": "lzo2/liblzo2-2@2.08-1.2",
                 },
@@ -2922,6 +3262,11 @@ Object {
                       "nodeId": "lzo2/liblzo2-2@2.08-1.2",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "cairo/libcairo-script-interpreter2@1.14.0-2.1+deb8u2",
                   "pkgId": "cairo/libcairo-script-interpreter2@1.14.0-2.1+deb8u2",
                 },
@@ -2947,11 +3292,21 @@ Object {
                       "nodeId": "pkg-config@0.28-1",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "fontconfig/libfontconfig1-dev@2.11.0-6.3+deb8u1",
                   "pkgId": "fontconfig/libfontconfig1-dev@2.11.0-6.3+deb8u1",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "libice/libice6@2:1.0.9-1+b1|1",
                   "pkgId": "libice/libice6@2:1.0.9-1+b1",
                 },
@@ -2961,6 +3316,11 @@ Object {
                       "nodeId": "xorg/x11-common@1:7.7+7",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "libice/libice6@2:1.0.9-1+b1|2",
                   "pkgId": "libice/libice6@2:1.0.9-1+b1",
                 },
@@ -2970,20 +3330,40 @@ Object {
                       "nodeId": "libice/libice6@2:1.0.9-1+b1|1",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "libice/libice-dev@2:1.0.9-1+b1",
                   "pkgId": "libice/libice-dev@2:1.0.9-1+b1",
                 },
                 Object {
                   "deps": Array [],
-                  "nodeId": "lsb/lsb-base@4.1+Debian13+nmu1",
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
+                  "nodeId": "lsb/lsb-base@4.1+Debian13+nmu1|1",
+                  "pkgId": "lsb/lsb-base@4.1+Debian13+nmu1",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "lsb/lsb-base@4.1+Debian13+nmu1|2",
                   "pkgId": "lsb/lsb-base@4.1+Debian13+nmu1",
                 },
                 Object {
                   "deps": Array [
                     Object {
-                      "nodeId": "lsb/lsb-base@4.1+Debian13+nmu1",
+                      "nodeId": "lsb/lsb-base@4.1+Debian13+nmu1|1",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "xorg/x11-common@1:7.7+7",
                   "pkgId": "xorg/x11-common@1:7.7+7",
                 },
@@ -2993,11 +3373,21 @@ Object {
                       "nodeId": "libice/libice6@2:1.0.9-1+b1|2",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "libsm/libsm6@2:1.2.2-1+b1|1",
                   "pkgId": "libsm/libsm6@2:1.2.2-1+b1",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "libsm/libsm6@2:1.2.2-1+b1|2",
                   "pkgId": "libsm/libsm6@2:1.2.2-1+b1",
                 },
@@ -3010,16 +3400,31 @@ Object {
                       "nodeId": "libsm/libsm6@2:1.2.2-1+b1|1",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "libsm/libsm-dev@2:1.2.2-1+b1|1",
                   "pkgId": "libsm/libsm-dev@2:1.2.2-1+b1",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "libsm/libsm-dev@2:1.2.2-1+b1|2",
                   "pkgId": "libsm/libsm-dev@2:1.2.2-1+b1",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "libx11/libx11-dev@2:1.6.2-3+deb8u1|1",
                   "pkgId": "libx11/libx11-dev@2:1.6.2-3+deb8u1",
                 },
@@ -3038,11 +3443,21 @@ Object {
                       "nodeId": "xtrans/xtrans-dev@1.3.4-1",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "libx11/libx11-dev@2:1.6.2-3+deb8u1|2",
                   "pkgId": "libx11/libx11-dev@2:1.6.2-3+deb8u1",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "libxcb/libxcb1-dev@1.10-3+b1|1",
                   "pkgId": "libxcb/libxcb1-dev@1.10-3+b1",
                 },
@@ -3052,6 +3467,11 @@ Object {
                       "nodeId": "libpthread-stubs/libpthread-stubs0-dev@0.3-4",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "libxcb/libxcb1-dev@1.10-3+b1|2",
                   "pkgId": "libxcb/libxcb1-dev@1.10-3+b1",
                 },
@@ -3061,6 +3481,11 @@ Object {
                       "nodeId": "libxcb/libxcb1-dev@1.10-3+b1|1",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "libxcb/libxcb-render0-dev@1.10-3+b1",
                   "pkgId": "libxcb/libxcb-render0-dev@1.10-3+b1",
                 },
@@ -3070,11 +3495,21 @@ Object {
                       "nodeId": "libxcb/libxcb1-dev@1.10-3+b1|1",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "libxcb/libxcb-shm0-dev@1.10-3+b1",
                   "pkgId": "libxcb/libxcb-shm0-dev@1.10-3+b1",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "x11proto-input/x11proto-input-dev@2.3.1-1",
                   "pkgId": "x11proto-input/x11proto-input-dev@2.3.1-1",
                 },
@@ -3084,6 +3519,11 @@ Object {
                       "nodeId": "x11proto-input/x11proto-input-dev@2.3.1-1",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "x11proto-xext/x11proto-xext-dev@7.3.0-1",
                   "pkgId": "x11proto-xext/x11proto-xext-dev@7.3.0-1",
                 },
@@ -3096,16 +3536,31 @@ Object {
                       "nodeId": "x11proto-xext/x11proto-xext-dev@7.3.0-1",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "libxext/libxext-dev@2:1.3.3-1|1",
                   "pkgId": "libxext/libxext-dev@2:1.3.3-1",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "libxext/libxext-dev@2:1.3.3-1|2",
                   "pkgId": "libxext/libxext-dev@2:1.3.3-1",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "x11proto-render/x11proto-render-dev@2:0.11.1-2",
                   "pkgId": "x11proto-render/x11proto-render-dev@2:0.11.1-2",
                 },
@@ -3118,11 +3573,21 @@ Object {
                       "nodeId": "x11proto-render/x11proto-render-dev@2:0.11.1-2",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "libxrender/libxrender-dev@1:0.9.8-1+b1",
                   "pkgId": "libxrender/libxrender-dev@1:0.9.8-1+b1",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "pixman/libpixman-1-dev@0.32.6-3",
                   "pkgId": "pixman/libpixman-1-dev@0.32.6-3",
                 },
@@ -3171,11 +3636,21 @@ Object {
                       "nodeId": "pixman/libpixman-1-dev@0.32.6-3",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "cairo/libcairo2-dev@1.14.0-2.1+deb8u2",
                   "pkgId": "cairo/libcairo2-dev@1.14.0-2.1+deb8u2",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "gdk-pixbuf/gir1.2-gdkpixbuf-2.0@2.31.1-2+deb8u7|1",
                   "pkgId": "gdk-pixbuf/gir1.2-gdkpixbuf-2.0@2.31.1-2+deb8u7",
                 },
@@ -3188,28 +3663,48 @@ Object {
                       "nodeId": "gobject-introspection/gir1.2-glib-2.0@1.42.0-2.2|1",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "gdk-pixbuf/gir1.2-gdkpixbuf-2.0@2.31.1-2+deb8u7|2",
                   "pkgId": "gdk-pixbuf/gir1.2-gdkpixbuf-2.0@2.31.1-2+deb8u7",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "libpthread-stubs/libpthread-stubs0-dev@0.3-4",
                   "pkgId": "libpthread-stubs/libpthread-stubs0-dev@0.3-4",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "x11proto-kb/x11proto-kb-dev@1.0.6-2",
                   "pkgId": "x11proto-kb/x11proto-kb-dev@1.0.6-2",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "xtrans/xtrans-dev@1.3.4-1",
                   "pkgId": "xtrans/xtrans-dev@1.3.4-1",
                 },
                 Object {
                   "deps": Array [
                     Object {
-                      "nodeId": "libxml2@2.9.1+dfsg1-5+deb8u6",
+                      "nodeId": "libxml2@2.9.1+dfsg1-5+deb8u6|1",
                     },
                   ],
                   "info": Object {
@@ -3241,16 +3736,31 @@ Object {
                       "nodeId": "shared-mime-info@1.3-1",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "gdk-pixbuf/libgdk-pixbuf2.0-dev@2.31.1-2+deb8u7",
                   "pkgId": "gdk-pixbuf/libgdk-pixbuf2.0-dev@2.31.1-2+deb8u7",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "glib2.0/libglib2.0-data@2.42.1-1",
                   "pkgId": "glib2.0/libglib2.0-data@2.42.1-1",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "libelf/libelfg0@0.8.13-5",
                   "pkgId": "libelf/libelfg0@0.8.13-5",
                 },
@@ -3263,11 +3773,21 @@ Object {
                       "nodeId": "libelf/libelfg0@0.8.13-5",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "glib2.0/libglib2.0-bin@2.42.1-1+b1",
                   "pkgId": "glib2.0/libglib2.0-bin@2.42.1-1+b1",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "pcre3/libpcrecpp0@2:8.35-3.3+deb8u4",
                   "pkgId": "pcre3/libpcrecpp0@2:8.35-3.3+deb8u4",
                 },
@@ -3277,11 +3797,21 @@ Object {
                       "nodeId": "pcre3/libpcrecpp0@2:8.35-3.3+deb8u4",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "pcre3/libpcre3-dev@2:8.35-3.3+deb8u4",
                   "pkgId": "pcre3/libpcre3-dev@2:8.35-3.3+deb8u4",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "gobject-introspection/gir1.2-glib-2.0@1.42.0-2.2|1",
                   "pkgId": "gobject-introspection/gir1.2-glib-2.0@1.42.0-2.2",
                 },
@@ -3291,11 +3821,21 @@ Object {
                       "nodeId": "gobject-introspection/libgirepository-1.0-1@1.42.0-2.2",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "gobject-introspection/gir1.2-glib-2.0@1.42.0-2.2|2",
                   "pkgId": "gobject-introspection/gir1.2-glib-2.0@1.42.0-2.2",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "gobject-introspection/libgirepository-1.0-1@1.42.0-2.2",
                   "pkgId": "gobject-introspection/libgirepository-1.0-1@1.42.0-2.2",
                 },
@@ -3311,6 +3851,11 @@ Object {
                       "nodeId": "gobject-introspection/libgirepository-1.0-1@1.42.0-2.2",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "gobject-introspection/gir1.2-freedesktop@1.42.0-2.2",
                   "pkgId": "gobject-introspection/gir1.2-freedesktop@1.42.0-2.2",
                 },
@@ -3332,6 +3877,11 @@ Object {
                       "nodeId": "librsvg/librsvg2-2@2.40.5-1+deb8u2|2",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "librsvg/gir1.2-rsvg-2.0@2.40.5-1+deb8u2",
                   "pkgId": "librsvg/gir1.2-rsvg-2.0@2.40.5-1+deb8u2",
                 },
@@ -3344,6 +3894,11 @@ Object {
                       "nodeId": "librsvg/librsvg2-2@2.40.5-1+deb8u2|2",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "librsvg/librsvg2-common@2.40.5-1+deb8u2",
                   "pkgId": "librsvg/librsvg2-common@2.40.5-1+deb8u2",
                 },
@@ -3368,6 +3923,11 @@ Object {
                       "nodeId": "librsvg/librsvg2-common@2.40.5-1+deb8u2",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "librsvg/librsvg2-dev@2.40.5-1+deb8u2",
                   "pkgId": "librsvg/librsvg2-dev@2.40.5-1+deb8u2",
                 },
@@ -3383,21 +3943,41 @@ Object {
                       "nodeId": "libx11/libx11-dev@2:1.6.2-3+deb8u1|1",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "libwmf/libwmf-dev@0.2.8.4-10.3+deb8u2",
                   "pkgId": "libwmf/libwmf-dev@0.2.8.4-10.3+deb8u2",
                 },
                 Object {
                   "deps": Array [
                     Object {
-                      "nodeId": "libxml2@2.9.1+dfsg1-5+deb8u6",
+                      "nodeId": "libxml2@2.9.1+dfsg1-5+deb8u6|1",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "libxml2/libxml2-dev@2.9.1+dfsg1-5+deb8u6|1",
                   "pkgId": "libxml2/libxml2-dev@2.9.1+dfsg1-5+deb8u6",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "libxml2/libxml2-dev@2.9.1+dfsg1-5+deb8u6|2",
+                  "pkgId": "libxml2/libxml2-dev@2.9.1+dfsg1-5+deb8u6",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "libxml2/libxml2-dev@2.9.1+dfsg1-5+deb8u6|3",
                   "pkgId": "libxml2/libxml2-dev@2.9.1+dfsg1-5+deb8u6",
                 },
                 Object {
@@ -3409,6 +3989,11 @@ Object {
                       "nodeId": "libsm/libsm6@2:1.2.2-1+b1|2",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "libxt/libxt6@1:1.1.4-1+b1",
                   "pkgId": "libxt/libxt6@1:1.1.4-1+b1",
                 },
@@ -3424,6 +4009,11 @@ Object {
                       "nodeId": "libxt/libxt6@1:1.1.4-1+b1",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "libxt/libxt-dev@1:1.1.4-1+b1",
                   "pkgId": "libxt/libxt-dev@1:1.1.4-1+b1",
                 },
@@ -3433,6 +4023,11 @@ Object {
                       "nodeId": "ilmbase/libilmbase6@1.0.1-6.1",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "ilmbase/libilmbase-dev@1.0.1-6.1",
                   "pkgId": "ilmbase/libilmbase-dev@1.0.1-6.1",
                 },
@@ -3445,21 +4040,41 @@ Object {
                       "nodeId": "openexr/libopenexr6@1.6.1-8|2",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "openexr/libopenexr-dev@1.6.1-8",
                   "pkgId": "openexr/libopenexr-dev@1.6.1-8",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "jbigkit/libjbig-dev@2.1-3.1",
                   "pkgId": "jbigkit/libjbig-dev@2.1-3.1",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "tiff/libtiffxx5@4.0.3-12.3+deb8u5",
                   "pkgId": "tiff/libtiffxx5@4.0.3-12.3+deb8u5",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "xz-utils/liblzma-dev@5.1.1alpha+20120614-2+b3",
                   "pkgId": "xz-utils/liblzma-dev@5.1.1alpha+20120614-2+b3",
                 },
@@ -3478,6 +4093,11 @@ Object {
                       "nodeId": "xz-utils/liblzma-dev@5.1.1alpha+20120614-2+b3",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "tiff/libtiff5-dev@4.0.3-12.3+deb8u5",
                   "pkgId": "tiff/libtiff5-dev@4.0.3-12.3+deb8u5",
                 },
@@ -3553,11 +4173,21 @@ Object {
                       "nodeId": "tiff/libtiff5-dev@4.0.3-12.3+deb8u5",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "imagemagick/libmagickcore-6.q16-dev@8:6.8.9.9-5+deb8u12|1",
                   "pkgId": "imagemagick/libmagickcore-6.q16-dev@8:6.8.9.9-5+deb8u12",
                 },
                 Object {
                   "deps": Array [],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "imagemagick/libmagickcore-6.q16-dev@8:6.8.9.9-5+deb8u12|2",
                   "pkgId": "imagemagick/libmagickcore-6.q16-dev@8:6.8.9.9-5+deb8u12",
                 },
@@ -3567,6 +4197,11 @@ Object {
                       "nodeId": "imagemagick/libmagickcore-6.q16-dev@8:6.8.9.9-5+deb8u12|1",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "imagemagick/libmagickcore-dev@8:6.8.9.9-5+deb8u12",
                   "pkgId": "imagemagick/libmagickcore-dev@8:6.8.9.9-5+deb8u12",
                 },
@@ -3576,6 +4211,11 @@ Object {
                       "nodeId": "imagemagick/libmagickcore-6-headers@8:6.8.9.9-5+deb8u12|2",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "imagemagick/libmagickwand-6-headers@8:6.8.9.9-5+deb8u12",
                   "pkgId": "imagemagick/libmagickwand-6-headers@8:6.8.9.9-5+deb8u12",
                 },
@@ -3597,6 +4237,11 @@ Object {
                       "nodeId": "pkg-config@0.28-1",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "imagemagick/libmagickwand-6.q16-dev@8:6.8.9.9-5+deb8u12",
                   "pkgId": "imagemagick/libmagickwand-6.q16-dev@8:6.8.9.9-5+deb8u12",
                 },
@@ -3606,6 +4251,11 @@ Object {
                       "nodeId": "imagemagick/libmagickwand-6.q16-dev@8:6.8.9.9-5+deb8u12",
                     },
                   ],
+                  "info": Object {
+                    "labels": Object {
+                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
+                    },
+                  },
                   "nodeId": "imagemagick/libmagickwand-dev@8:6.8.9.9-5+deb8u12",
                   "pkgId": "imagemagick/libmagickwand-dev@8:6.8.9.9-5+deb8u12",
                 },
@@ -3702,7 +4352,7 @@ Object {
                 Object {
                   "deps": Array [
                     Object {
-                      "nodeId": "lsb/lsb-base@4.1+Debian13+nmu1",
+                      "nodeId": "lsb/lsb-base@4.1+Debian13+nmu1|2",
                     },
                     Object {
                       "nodeId": "sysvinit/sysv-rc@2.88dsf-59|1",
@@ -3809,7 +4459,7 @@ Object {
                 Object {
                   "deps": Array [
                     Object {
-                      "nodeId": "lsb/lsb-base@4.1+Debian13+nmu1",
+                      "nodeId": "lsb/lsb-base@4.1+Debian13+nmu1|2",
                     },
                     Object {
                       "nodeId": "ncurses/libncurses5@5.9+20140913-1+deb8u2",
@@ -3841,7 +4491,7 @@ Object {
                       "nodeId": "kmod/libkmod2@18-3",
                     },
                     Object {
-                      "nodeId": "lsb/lsb-base@4.1+Debian13+nmu1",
+                      "nodeId": "lsb/lsb-base@4.1+Debian13+nmu1|2",
                     },
                     Object {
                       "nodeId": "procps@2:3.3.9-9+deb8u1|1",
@@ -4233,11 +4883,6 @@ Object {
                       "nodeId": "gcc-defaults/gcc@4:4.9.2-2|2",
                     },
                   ],
-                  "info": Object {
-                    "labels": Object {
-                      "dockerLayerId": "UlVOIGFwdC1nZXQgaW5zdGFsbCAteSBpbWFnZW1hZ2ljaw==",
-                    },
-                  },
                   "nodeId": "libtool@2.4.2-1.11",
                   "pkgId": "libtool@2.4.2-1.11",
                 },
@@ -4340,7 +4985,7 @@ Object {
                       "nodeId": "libgcrypt20@1.6.3-2+deb8u4|2",
                     },
                     Object {
-                      "nodeId": "libxml2@2.9.1+dfsg1-5+deb8u6",
+                      "nodeId": "libxml2@2.9.1+dfsg1-5+deb8u6|2",
                     },
                   ],
                   "nodeId": "libxslt/libxslt1.1@1.1.28-2+deb8u3",
@@ -4349,7 +4994,7 @@ Object {
                 Object {
                   "deps": Array [
                     Object {
-                      "nodeId": "libxml2/libxml2-dev@2.9.1+dfsg1-5+deb8u6|2",
+                      "nodeId": "libxml2/libxml2-dev@2.9.1+dfsg1-5+deb8u6|3",
                     },
                     Object {
                       "nodeId": "libxslt/libxslt1.1@1.1.28-2+deb8u3",
@@ -4482,7 +5127,7 @@ Object {
                 Object {
                   "deps": Array [
                     Object {
-                      "nodeId": "lsb/lsb-base@4.1+Debian13+nmu1",
+                      "nodeId": "lsb/lsb-base@4.1+Debian13+nmu1|2",
                     },
                   ],
                   "nodeId": "netbase@5.3",
@@ -7931,59 +8576,127 @@ Object {
               },
             },
             "dockerfilePackages": Object {
-              "bzip2": Object {
+              "bzip2/libbz2-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "cairo": Object {
+              "cairo/libcairo-gobject2": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "djvulibre": Object {
+              "cairo/libcairo-script-interpreter2": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "expat": Object {
+              "cairo/libcairo2-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "fftw3": Object {
+              "djvulibre/libdjvulibre-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "fontconfig": Object {
+              "djvulibre/libdjvulibre-text": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "freetype": Object {
+              "djvulibre/libdjvulibre21": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "gcc-4.9": Object {
+              "expat/libexpat1-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "gdk-pixbuf": Object {
+              "fftw3/libfftw3-double3": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "glib2.0": Object {
+              "fontconfig/libfontconfig1-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "gobject-introspection": Object {
+              "freetype/libfreetype6-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "graphite2": Object {
+              "gcc-4.9/libgomp1": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "graphviz": Object {
+              "gdk-pixbuf/gir1.2-gdkpixbuf-2.0": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "harfbuzz": Object {
+              "gdk-pixbuf/libgdk-pixbuf2.0-0": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "gdk-pixbuf/libgdk-pixbuf2.0-common": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "gdk-pixbuf/libgdk-pixbuf2.0-dev": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "glib2.0/libglib2.0-bin": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "glib2.0/libglib2.0-data": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "glib2.0/libglib2.0-dev": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "gobject-introspection/gir1.2-freedesktop": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "gobject-introspection/gir1.2-glib-2.0": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "gobject-introspection/libgirepository-1.0-1": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "graphite2/libgraphite2-3": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "graphviz/libcdt5": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "graphviz/libcgraph6": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "graphviz/libgraphviz-dev": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "graphviz/libgvc6": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "graphviz/libgvpr2": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "graphviz/libpathplan4": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "graphviz/libxdot4": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "harfbuzz/libharfbuzz0b": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
@@ -7991,7 +8704,11 @@ Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "ilmbase": Object {
+              "ilmbase/libilmbase-dev": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "ilmbase/libilmbase6": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
@@ -7999,87 +8716,191 @@ Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "jasper": Object {
+              "imagemagick/imagemagick-6.q16": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "jbigkit": Object {
+              "imagemagick/imagemagick-common": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "jquery": Object {
+              "imagemagick/libmagickcore-6-arch-config": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "lcms2": Object {
+              "imagemagick/libmagickcore-6-headers": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "libcroco": Object {
+              "imagemagick/libmagickcore-6.q16-2": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "libelf": Object {
+              "imagemagick/libmagickcore-6.q16-2-extra": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "libexif": Object {
+              "imagemagick/libmagickcore-6.q16-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "libgd2": Object {
+              "imagemagick/libmagickcore-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "libice": Object {
+              "imagemagick/libmagickwand-6-headers": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "libjpeg-turbo": Object {
+              "imagemagick/libmagickwand-6.q16-2": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "liblqr": Object {
+              "imagemagick/libmagickwand-6.q16-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "libpng": Object {
+              "imagemagick/libmagickwand-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "libpthread-stubs": Object {
+              "jasper/libjasper-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "librsvg": Object {
+              "jasper/libjasper1": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "libsm": Object {
+              "jbigkit/libjbig-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "libtool": Object {
+              "jquery/libjs-jquery": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "libvpx": Object {
+              "lcms2/liblcms2-2": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "libwmf": Object {
+              "lcms2/liblcms2-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "libx11": Object {
+              "libcroco/libcroco3": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "libxcb": Object {
+              "libelf/libelfg0": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "libxext": Object {
+              "libexif/libexif-dev": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "libexif/libexif12": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "libgd2/libgd3": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "libice/libice-dev": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "libice/libice6": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "libjpeg-turbo/libjpeg-dev": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "libjpeg-turbo/libjpeg62-turbo-dev": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "liblqr/liblqr-1-0": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "liblqr/liblqr-1-0-dev": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "libpng/libpng12-dev": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "libpthread-stubs/libpthread-stubs0-dev": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "librsvg/gir1.2-rsvg-2.0": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "librsvg/librsvg2-2": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "librsvg/librsvg2-common": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "librsvg/librsvg2-dev": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "libsm/libsm-dev": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "libsm/libsm6": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "libtool/libltdl-dev": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "libtool/libltdl7": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "libvpx/libvpx1": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "libwmf/libwmf-dev": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "libwmf/libwmf0.2-7": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "libx11/libx11-dev": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "libxcb/libxcb-render0-dev": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "libxcb/libxcb-shm0-dev": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "libxcb/libxcb1-dev": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "libxext/libxext-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
@@ -8087,39 +8908,59 @@ Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "libxpm": Object {
+              "libxml2/libxml2-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "libxrender": Object {
+              "libxpm/libxpm4": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "libxt": Object {
+              "libxrender/libxrender-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "lsb": Object {
+              "libxt/libxt-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "lzo2": Object {
+              "libxt/libxt6": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "openexr": Object {
+              "lsb/lsb-base": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "pango1.0": Object {
+              "lzo2/liblzo2-2": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "pcre3": Object {
+              "openexr/libopenexr-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "pixman": Object {
+              "openexr/libopenexr6": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "pango1.0/libpangocairo-1.0-0": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "pango1.0/libpangoft2-1.0-0": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "pcre3/libpcre3-dev": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "pcre3/libpcrecpp0": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "pixman/libpixman-1-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
@@ -8131,35 +8972,39 @@ Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "tiff": Object {
+              "tiff/libtiff5-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "x11proto-input": Object {
+              "tiff/libtiffxx5": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "x11proto-kb": Object {
+              "x11proto-input/x11proto-input-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "x11proto-render": Object {
+              "x11proto-kb/x11proto-kb-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "x11proto-xext": Object {
+              "x11proto-render/x11proto-render-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "xorg": Object {
+              "x11proto-xext/x11proto-xext-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "xtrans": Object {
+              "xorg/x11-common": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
-              "xz-utils": Object {
+              "xtrans/xtrans-dev": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "RUN apt-get install -y imagemagick",
+              },
+              "xz-utils/liblzma-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "RUN apt-get install -y imagemagick",
               },
@@ -8295,59 +9140,127 @@ Object {
               },
             },
             "dockerfilePackages": Object {
-              "bzip2": Object {
+              "bzip2/libbz2-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "cairo": Object {
+              "cairo/libcairo-gobject2": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "djvulibre": Object {
+              "cairo/libcairo-script-interpreter2": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "expat": Object {
+              "cairo/libcairo2-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "fftw3": Object {
+              "djvulibre/libdjvulibre-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "fontconfig": Object {
+              "djvulibre/libdjvulibre-text": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "freetype": Object {
+              "djvulibre/libdjvulibre21": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "gcc-4.9": Object {
+              "expat/libexpat1-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "gdk-pixbuf": Object {
+              "fftw3/libfftw3-double3": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "glib2.0": Object {
+              "fontconfig/libfontconfig1-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "gobject-introspection": Object {
+              "freetype/libfreetype6-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "graphite2": Object {
+              "gcc-4.9/libgomp1": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "graphviz": Object {
+              "gdk-pixbuf/gir1.2-gdkpixbuf-2.0": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "harfbuzz": Object {
+              "gdk-pixbuf/libgdk-pixbuf2.0-0": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "gdk-pixbuf/libgdk-pixbuf2.0-common": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "gdk-pixbuf/libgdk-pixbuf2.0-dev": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "glib2.0/libglib2.0-bin": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "glib2.0/libglib2.0-data": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "glib2.0/libglib2.0-dev": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "gobject-introspection/gir1.2-freedesktop": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "gobject-introspection/gir1.2-glib-2.0": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "gobject-introspection/libgirepository-1.0-1": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "graphite2/libgraphite2-3": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "graphviz/libcdt5": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "graphviz/libcgraph6": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "graphviz/libgraphviz-dev": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "graphviz/libgvc6": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "graphviz/libgvpr2": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "graphviz/libpathplan4": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "graphviz/libxdot4": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "harfbuzz/libharfbuzz0b": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
@@ -8355,7 +9268,11 @@ Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "ilmbase": Object {
+              "ilmbase/libilmbase-dev": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "ilmbase/libilmbase6": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
@@ -8363,87 +9280,191 @@ Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "jasper": Object {
+              "imagemagick/imagemagick-6.q16": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "jbigkit": Object {
+              "imagemagick/imagemagick-common": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "jquery": Object {
+              "imagemagick/libmagickcore-6-arch-config": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "lcms2": Object {
+              "imagemagick/libmagickcore-6-headers": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "libcroco": Object {
+              "imagemagick/libmagickcore-6.q16-2": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "libelf": Object {
+              "imagemagick/libmagickcore-6.q16-2-extra": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "libexif": Object {
+              "imagemagick/libmagickcore-6.q16-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "libgd2": Object {
+              "imagemagick/libmagickcore-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "libice": Object {
+              "imagemagick/libmagickwand-6-headers": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "libjpeg-turbo": Object {
+              "imagemagick/libmagickwand-6.q16-2": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "liblqr": Object {
+              "imagemagick/libmagickwand-6.q16-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "libpng": Object {
+              "imagemagick/libmagickwand-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "libpthread-stubs": Object {
+              "jasper/libjasper-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "librsvg": Object {
+              "jasper/libjasper1": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "libsm": Object {
+              "jbigkit/libjbig-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "libtool": Object {
+              "jquery/libjs-jquery": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "libvpx": Object {
+              "lcms2/liblcms2-2": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "libwmf": Object {
+              "lcms2/liblcms2-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "libx11": Object {
+              "libcroco/libcroco3": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "libxcb": Object {
+              "libelf/libelfg0": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "libxext": Object {
+              "libexif/libexif-dev": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "libexif/libexif12": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "libgd2/libgd3": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "libice/libice-dev": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "libice/libice6": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "libjpeg-turbo/libjpeg-dev": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "libjpeg-turbo/libjpeg62-turbo-dev": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "liblqr/liblqr-1-0": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "liblqr/liblqr-1-0-dev": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "libpng/libpng12-dev": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "libpthread-stubs/libpthread-stubs0-dev": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "librsvg/gir1.2-rsvg-2.0": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "librsvg/librsvg2-2": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "librsvg/librsvg2-common": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "librsvg/librsvg2-dev": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "libsm/libsm-dev": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "libsm/libsm6": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "libtool/libltdl-dev": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "libtool/libltdl7": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "libvpx/libvpx1": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "libwmf/libwmf-dev": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "libwmf/libwmf0.2-7": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "libx11/libx11-dev": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "libxcb/libxcb-render0-dev": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "libxcb/libxcb-shm0-dev": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "libxcb/libxcb1-dev": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "libxext/libxext-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
@@ -8451,39 +9472,59 @@ Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "libxpm": Object {
+              "libxml2/libxml2-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "libxrender": Object {
+              "libxpm/libxpm4": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "libxt": Object {
+              "libxrender/libxrender-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "lsb": Object {
+              "libxt/libxt-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "lzo2": Object {
+              "libxt/libxt6": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "openexr": Object {
+              "lsb/lsb-base": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "pango1.0": Object {
+              "lzo2/liblzo2-2": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "pcre3": Object {
+              "openexr/libopenexr-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "pixman": Object {
+              "openexr/libopenexr6": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "pango1.0/libpangocairo-1.0-0": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "pango1.0/libpangoft2-1.0-0": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "pcre3/libpcre3-dev": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "pcre3/libpcrecpp0": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "pixman/libpixman-1-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
@@ -8495,35 +9536,39 @@ Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "tiff": Object {
+              "tiff/libtiff5-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "x11proto-input": Object {
+              "tiff/libtiffxx5": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "x11proto-kb": Object {
+              "x11proto-input/x11proto-input-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "x11proto-render": Object {
+              "x11proto-kb/x11proto-kb-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "x11proto-xext": Object {
+              "x11proto-render/x11proto-render-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "xorg": Object {
+              "x11proto-xext/x11proto-xext-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "xtrans": Object {
+              "xorg/x11-common": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
-              "xz-utils": Object {
+              "xtrans/xtrans-dev": Object {
+                "installCommand": "apt-get install -y imagemagick",
+                "instruction": "/bin/sh -c apt-get install -y imagemagick",
+              },
+              "xz-utils/liblzma-dev": Object {
                 "installCommand": "apt-get install -y imagemagick",
                 "instruction": "/bin/sh -c apt-get install -y imagemagick",
               },
