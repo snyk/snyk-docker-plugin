@@ -44,10 +44,12 @@ const debug = Debug("snyk");
 export class GoBinary {
   public name: string;
   public modules: GoModule[];
+  public goVersion: string;
   private hasPclnTab: boolean;
 
   constructor(goElfBinary: Elf) {
-    [this.name, this.modules] = extractModuleInformation(goElfBinary);
+    [this.name, this.modules, this.goVersion] =
+      extractModuleInformation(goElfBinary);
 
     const pclnTab = goElfBinary.body.sections.find(
       (section) => section.name === ".gopclntab",
@@ -106,6 +108,19 @@ export class GoBinary {
         goModulesDepGraph.connectDep(goModulesDepGraph.rootNodeId, nodeId);
       }
       // else: pclnTab exists but module has no packages - don't report anything
+    }
+
+    if (this.goVersion) {
+      const stdlibNodeId = `stdlib@${this.goVersion}`;
+      goModulesDepGraph.addPkgNode(
+        { name: "stdlib", version: this.goVersion },
+        stdlibNodeId,
+      );
+      goModulesDepGraph.connectDep(goModulesDepGraph.rootNodeId, stdlibNodeId);
+    } else {
+      debug(
+        `Skipping stdlib node for ${this.name}: could not parse Go version`,
+      );
     }
 
     return goModulesDepGraph.build();
@@ -184,15 +199,36 @@ interface GoFileNameError extends Error {
   moduleName: string;
 }
 
+/**
+ * Strips the "go" prefix from a Go version string and validates the format.
+ * Returns the cleaned version (e.g., "1.21.0") or empty string if invalid.
+ * Rejects RC/beta/devel versions since we cannot accurately match vulnerabilities
+ * against pre-release builds.
+ */
+export function parseGoVersion(rawVersion: string): string {
+  // Only match release versions (e.g., "go1.21" or "go1.21.5").
+  // Reject RC/beta (go1.21rc1, go1.22beta2) and devel builds.
+  const match = rawVersion.match(/^go(\d+\.\d+(?:\.\d+)?)$/);
+  if (!match) {
+    return "";
+  }
+  const ver = match[1];
+  // Ensure three-segment semver (e.g., "1.19" → "1.19.0") because
+  // @snyk/vuln uses node's semver library which requires three segments.
+  return ver.includes(".", ver.indexOf(".") + 1) ? ver : ver + ".0";
+}
+
 export function extractModuleInformation(
   binary: Elf,
-): [name: string, deps: GoModule[]] {
-  const mod = readRawBuildInfo(binary);
-  if (!mod) {
+): [name: string, deps: GoModule[], goVersion: string] {
+  const { goVersion: rawGoVersion, modInfo } = readRawBuildInfo(binary);
+  if (!modInfo) {
     throw Error("binary contains empty module info");
   }
 
-  const [pathDirective, mainModuleLine, ...versionsLines] = mod
+  const goVersion = parseGoVersion(rawGoVersion);
+
+  const [pathDirective, mainModuleLine, ...versionsLines] = modInfo
     .replace("\r", "")
     .split("\n");
   const lineSplit = mainModuleLine.split("\t");
@@ -224,7 +260,7 @@ export function extractModuleInformation(
     }
   });
 
-  return [name, modules];
+  return [name, modules, goVersion];
 }
 
 // Source
@@ -234,7 +270,12 @@ export function extractModuleInformation(
  * module version information in the executable binary
  * @param binary
  */
-export function readRawBuildInfo(binary: Elf): string {
+export interface RawBuildInfo {
+  goVersion: string;
+  modInfo: string;
+}
+
+export function readRawBuildInfo(binary: Elf): RawBuildInfo {
   const buildInfoMagic = "\xff Go buildinf:";
   // Read the first 64kB of dataAddr to find the build info blob.
   // On some platforms, the blob will be in its own section, and DataStart
@@ -272,9 +313,9 @@ export function readRawBuildInfo(binary: Elf): string {
   const ptrSize = data[14];
   if ((data[15] & 2) !== 0) {
     data = data.subarray(32);
-    [, data] = decodeString(data);
-    const [mod] = decodeString(data);
-    return mod;
+    const [goVersion, rest] = decodeString(data);
+    const [mod] = decodeString(rest);
+    return { goVersion, modInfo: mod };
   } else {
     const bigEndian = data[15] !== 0;
 
@@ -326,7 +367,7 @@ export function readRawBuildInfo(binary: Elf): string {
     // First 16 bytes are unicodes as last 16
     // Mirrors go version source code
     if (mod.length >= 33 && mod[mod.length - 17] === "\n") {
-      return mod.slice(16, mod.length - 16);
+      return { goVersion: version, modInfo: mod.slice(16, mod.length - 16) };
     } else {
       throw Error("binary is not built with go module support");
     }
