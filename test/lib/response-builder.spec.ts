@@ -1879,7 +1879,7 @@ describe("excludeBaseImageDeps", () => {
     const result = excludeBaseImageDeps(deps, dockerfilePkgs, true);
 
     expect(Object.keys(result)).toEqual(["foo"]);
-    expect(result["foo"].dependencies!["bar"]).toBeDefined();
+    expect(result.foo.dependencies!.bar).toBeDefined();
   });
 });
 
@@ -1920,10 +1920,8 @@ describe("annotateWithLayerIds", () => {
     const expandedPkgs = expandDockerfilePackages(dockerfilePkgs, deps);
     annotateWithLayerIds(deps, dockerfilePkgs);
 
-    expect(deps["foo"].labels?.dockerLayerId).toBe(expectedDigest);
-    expect(
-      deps["foo"].dependencies!["bar"].labels?.dockerLayerId,
-    ).toBeUndefined();
+    expect(deps.foo.labels?.dockerLayerId).toBe(expectedDigest);
+    expect(deps.foo.dependencies!.bar.labels?.dockerLayerId).toBeUndefined();
   });
 
   it("should not annotate dependencies if dockerfilePkgs is undefined", () => {
