@@ -2028,9 +2028,6 @@ Object {
                     Object {
                       "nodeId": "gopkg.in/yaml.v2@v2.4.0",
                     },
-                    Object {
-                      "nodeId": "stdlib@1.19.0",
-                    },
                   ],
                   "nodeId": "root-node",
                   "pkgId": "testgo@",
@@ -2084,11 +2081,6 @@ Object {
                   "deps": Array [],
                   "nodeId": "gopkg.in/yaml.v2@v2.4.0",
                   "pkgId": "gopkg.in/yaml.v2@v2.4.0",
-                },
-                Object {
-                  "deps": Array [],
-                  "nodeId": "stdlib@1.19.0",
-                  "pkgId": "stdlib@1.19.0",
                 },
               ],
               "rootNodeId": "root-node",
@@ -2171,13 +2163,6 @@ Object {
                 "info": Object {
                   "name": "gopkg.in/yaml.v2",
                   "version": "v2.4.0",
-                },
-              },
-              Object {
-                "id": "stdlib@1.19.0",
-                "info": Object {
-                  "name": "stdlib",
-                  "version": "1.19.0",
                 },
               },
             ],
