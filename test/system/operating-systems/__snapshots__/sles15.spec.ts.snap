@@ -2225,6 +2225,9 @@ Object {
                     Object {
                       "nodeId": "github.com/xrash/smetrics@v0.0.0-20201216005158-039620a65673",
                     },
+                    Object {
+                      "nodeId": "stdlib@1.21.5",
+                    },
                   ],
                   "nodeId": "root-node",
                   "pkgId": "github.com/SUSE/container-suseconnect@",
@@ -2248,6 +2251,11 @@ Object {
                   "deps": Array [],
                   "nodeId": "github.com/xrash/smetrics@v0.0.0-20201216005158-039620a65673",
                   "pkgId": "github.com/xrash/smetrics@v0.0.0-20201216005158-039620a65673",
+                },
+                Object {
+                  "deps": Array [],
+                  "nodeId": "stdlib@1.21.5",
+                  "pkgId": "stdlib@1.21.5",
                 },
               ],
               "rootNodeId": "root-node",
@@ -2288,6 +2296,13 @@ Object {
                 "info": Object {
                   "name": "github.com/xrash/smetrics",
                   "version": "v0.0.0-20201216005158-039620a65673",
+                },
+              },
+              Object {
+                "id": "stdlib@1.21.5",
+                "info": Object {
+                  "name": "stdlib",
+                  "version": "1.21.5",
                 },
               },
             ],
