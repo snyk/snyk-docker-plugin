@@ -202,9 +202,13 @@ interface GoFileNameError extends Error {
 /**
  * Strips the "go" prefix from a Go version string and validates the format.
  * Returns the cleaned version (e.g., "1.21.0") or empty string if invalid.
+ * Rejects RC/beta/devel versions since we cannot accurately match vulnerabilities
+ * against pre-release builds.
  */
 export function parseGoVersion(rawVersion: string): string {
-  const match = rawVersion.match(/^go(\d+\.\d+(?:\.\d+)?)/);
+  // Only match release versions (e.g., "go1.21" or "go1.21.5").
+  // Reject RC/beta (go1.21rc1, go1.22beta2) and devel builds.
+  const match = rawVersion.match(/^go(\d+\.\d+(?:\.\d+)?)$/);
   if (!match) {
     return "";
   }

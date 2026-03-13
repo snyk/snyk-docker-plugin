@@ -551,9 +551,9 @@ describe("parseGoVersion", () => {
     expect(parseGoVersion("go1.21")).toBe("1.21.0");
   });
 
-  it("extracts version from RC/beta strings and normalizes to three segments", () => {
-    expect(parseGoVersion("go1.21rc1")).toBe("1.21.0");
-    expect(parseGoVersion("go1.22beta2")).toBe("1.22.0");
+  it("returns empty string for RC/beta versions", () => {
+    expect(parseGoVersion("go1.21rc1")).toBe("");
+    expect(parseGoVersion("go1.22beta2")).toBe("");
   });
 
   it("returns empty string for devel versions", () => {
