@@ -82,14 +82,15 @@
   },
   "release": {
     "branches": [
-      "main"
+      "main",
+      "9.1.x"
     ],
     "plugins": [
-      "@semantic-release/commit-analyzer",
       "@semantic-release/release-notes-generator",
       [
         "@semantic-release/exec",
         {
+          "analyzeCommitsCmd": "echo patch",
           "prepareCmd": "./scripts/update-version.sh ${nextRelease.version}"
         }
       ],
