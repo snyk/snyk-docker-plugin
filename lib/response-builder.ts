@@ -429,12 +429,12 @@ function excludeBaseImageDeps(
 }
 
 /**
- * Annotates the dependencies with the layer ID of the Dockerfile 
+ * Annotates the dependencies with the layer ID of the Dockerfile
  * instruction that installed them.
- * 
+ *
  * @important
  * mutates the provided `deps` object.
-
+ *
  * @param deps - The dependencies of the image.
  * @param dockerfilePkgs - The expanded packages attributed to the Dockerfile.
  */
