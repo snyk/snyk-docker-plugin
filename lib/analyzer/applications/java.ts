@@ -252,6 +252,16 @@ async function unpackJars(
 }
 
 /**
+ * Packages with inaccurate pom.properties files return null so that the JAR
+ * will be resolved using the SHA lookup instead.
+ *
+ * Long-term solution: resolve all JARs via maven-deps to remove the need for overrides.
+ */
+const POM_PROPERTIES_OVERRIDES = new Set([
+  "com.microsoft.sqlserver:mssql-jdbc",
+]);
+
+/**
  * Gets coords from the contents of a pom.properties file
  * @param {string} fileContent
  * @param {string} jarPath
@@ -260,6 +270,10 @@ export function getCoordsFromPomProperties(
   fileContent: string,
 ): JarCoords | null {
   const coords = parsePomProperties(fileContent);
+
+  if (POM_PROPERTIES_OVERRIDES.has(`${coords.groupId}:${coords.artifactId}`)) {
+    return null;
+  }
 
   // we need all of these props to allow us to inject the package
   // into the depGraph
