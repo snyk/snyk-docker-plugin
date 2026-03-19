@@ -12,12 +12,7 @@ import * as types from "./types";
 import { truncateAdditionalFacts } from "./utils";
 import { PLUGIN_VERSION } from "./version";
 
-export {
-  buildResponse,
-  annotateWithLayerIds,
-  expandDockerfilePackages,
-  excludeBaseImageDeps,
-};
+export { buildResponse };
 
 async function buildResponse(
   depsAnalysis: StaticAnalysis & {
@@ -32,24 +27,30 @@ async function buildResponse(
 ): Promise<types.PluginResponse> {
   const deps = depsAnalysis.depTree.dependencies;
 
-  const inputDockerfilePkgs =
+  // Expand dockerfile packages and auto detected user instructions if
+  // they are provided. These objects are mutated in place, ensuring the
+  // expanded packages are used in the subsequent steps and fact building.
+  if (dockerfileAnalysis?.dockerfilePackages) {
+    getUserInstructionDeps(dockerfileAnalysis.dockerfilePackages, deps);
+  }
+  if (depsAnalysis.autoDetectedUserInstructions?.dockerfilePackages) {
+    getUserInstructionDeps(
+      depsAnalysis.autoDetectedUserInstructions.dockerfilePackages,
+      deps,
+    );
+  }
+
+  const dockerfilePkgs =
     dockerfileAnalysis?.dockerfilePackages ??
     depsAnalysis.autoDetectedUserInstructions?.dockerfilePackages;
 
-  if (inputDockerfilePkgs) {
-    const expandedDockerfilePkgs = expandDockerfilePackages(
-      inputDockerfilePkgs,
-      deps,
-    );
-
+  if (dockerfilePkgs) {
     const finalDeps = excludeBaseImageDeps(
       deps,
-      expandedDockerfilePkgs,
+      dockerfilePkgs,
       excludeBaseImageVulns,
     );
-    annotateWithLayerIds(finalDeps, expandedDockerfilePkgs);
-
-    // Assign the final dependencies to the dependency tree.
+    annotateLayerIds(finalDeps, dockerfilePkgs);
     depsAnalysis.depTree.dependencies = finalDeps;
   }
 
@@ -78,9 +79,6 @@ async function buildResponse(
   }
 
   if (dockerfileAnalysis !== undefined) {
-    // Use legacy expansion function to maintain downstream compatibility.
-    getUserInstructionDeps(dockerfileAnalysis.dockerfilePackages, deps);
-
     const dockerfileAnalysisFact: facts.DockerfileAnalysisFact = {
       type: "dockerfileAnalysis",
       data: dockerfileAnalysis,
@@ -218,17 +216,12 @@ async function buildResponse(
     autoDetectedLayers &&
     Object.keys(autoDetectedLayers).length > 0
   ) {
-    const autoDetectedPackagesWithChildren = getUserInstructionDeps(
-      autoDetectedPackages,
-      deps,
-    );
-
     const autoDetectedUserInstructionsFact: facts.AutoDetectedUserInstructionsFact =
       {
         type: "autoDetectedUserInstructions",
         data: {
           dockerfileLayers: autoDetectedLayers,
-          dockerfilePackages: autoDetectedPackagesWithChildren!,
+          dockerfilePackages: autoDetectedPackages,
         },
       };
     additionalFacts.push(autoDetectedUserInstructionsFact);
@@ -361,7 +354,6 @@ async function buildResponse(
 }
 
 /**
- * @deprecated  This function is deprecated and will be removed in a future version.
  * Expands the provided dockerfile packages to include transitive dependencies.
  * Transitive dependencies are keyed by their source segments.
  *
@@ -390,7 +382,6 @@ function getUserInstructionDeps(
 
       if (dockerfilePackage) {
         for (const dep of collectDeps(dependencies[dependencyName])) {
-          // Transitive dependencies are keyed by their source segments.
           dockerfilePackages[dep.split("/")[0]] = { ...dockerfilePackage };
         }
       }
@@ -409,59 +400,6 @@ function collectDeps(pkg) {
           return [...allDeps, ...collectDeps(pkg)];
         }, Object.keys(pkg.dependencies))
     : [];
-}
-
-/**
- * Returns the package source name from a full dependency name.
- *
- * A package source refers to the top-level package name, such as "foo" in "foo/foo-dev".
- *
- * @param depName - The full dependency name.
- * @returns The package source name.
- */
-function packageSource(depName: string): string {
-  return depName.split("/")[0];
-}
-
-/**
- * Expands the list of packages explicitly requested in the Dockerfile to include all transitive dependencies.
- * The returned package map is keyed by the full dependency names.
- *
- * @param dockerfilePackages - The packages explicitly requested in a Dockerfile.
- * @param deps - The dependencies of the image.
- * @returns A map of packages attributed to the Dockerfile.
- */
-function expandDockerfilePackages(
-  dockerfilePackages: DockerFilePackages,
-  deps: { [depName: string]: types.DepTreeDep },
-): DockerFilePackages {
-  const expandedPkgs = {};
-
-  function collectChildPackages(node: types.DepTreeDep, parentEntry: any) {
-    if (!node.dependencies) {
-      return;
-    }
-    for (const childKey of Object.keys(node.dependencies)) {
-      if (!expandedPkgs[childKey]) {
-        expandedPkgs[childKey] = parentEntry;
-        collectChildPackages(node.dependencies[childKey], parentEntry);
-      }
-    }
-  }
-
-  for (const rootKey of Object.keys(deps)) {
-    const source = packageSource(rootKey);
-    const dockerfileEntry =
-      dockerfilePackages[rootKey] || dockerfilePackages[source];
-    if (dockerfileEntry) {
-      // All keys in the expanded packages are the full dependency names.
-      expandedPkgs[rootKey] = dockerfileEntry;
-
-      collectChildPackages(deps[rootKey], dockerfileEntry);
-    }
-  }
-
-  return expandedPkgs;
 }
 
 /**
@@ -484,7 +422,13 @@ function excludeBaseImageDeps(
   }
 
   return Object.keys(deps)
-    .filter((depName) => dockerfilePkgs[depName])
+    .filter((depName) => {
+      if (dockerfilePkgs[depName] !== undefined) {
+        return true;
+      }
+      const source = depName.split("/")[0];
+      return dockerfilePkgs[source] !== undefined;
+    })
     .reduce((extractedDeps, depName) => {
       extractedDeps[depName] = deps[depName];
       return extractedDeps;
@@ -492,42 +436,37 @@ function excludeBaseImageDeps(
 }
 
 /**
- * Annotates the dependency tree with layer IDs.
- *
+ * Annotates the dependencies with the layer ID of the Dockerfile 
+ * instruction that installed them.
+ * 
  * @important
  * mutates the provided `deps` object.
- *
+
  * @param deps - The dependencies of the image.
  * @param dockerfilePkgs - The expanded packages attributed to the Dockerfile.
  */
-function annotateWithLayerIds(
-  deps: { [depName: string]: types.DepTreeDep },
+function annotateLayerIds(
+  deps: {
+    [depName: string]: types.DepTreeDep;
+  },
   dockerfilePkgs: DockerFilePackages | undefined,
-): void {
+) {
   if (!dockerfilePkgs) {
     return;
   }
 
-  function annotateRecursive(currentDeps: {
-    [depName: string]: types.DepTreeDep;
-  }) {
-    for (const depKey of Object.keys(currentDeps)) {
-      const node = currentDeps[depKey];
-      const dockerfileEntry = dockerfilePkgs![depKey];
-
-      if (dockerfileEntry) {
-        node.labels = {
-          ...(node.labels || {}),
-          dockerLayerId: instructionDigest(dockerfileEntry.instruction),
-        };
-
-        // Only progress down the dependency tree if the current node is a dockerfile package.
-        if (node.dependencies) {
-          annotateRecursive(node.dependencies);
-        }
-      }
+  for (const dep of Object.keys(deps)) {
+    const pkg = deps[dep];
+    const pkgSource = dep.split("/")[0];
+    const dockerfilePkg = dockerfilePkgs[dep] || dockerfilePkgs[pkgSource];
+    if (dockerfilePkg) {
+      pkg.labels = {
+        ...(pkg.labels || {}),
+        dockerLayerId: instructionDigest(dockerfilePkg.instruction),
+      };
+    }
+    if (pkg.dependencies) {
+      annotateLayerIds(pkg.dependencies, dockerfilePkgs);
     }
   }
-
-  annotateRecursive(deps);
 }

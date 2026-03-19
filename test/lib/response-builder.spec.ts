@@ -1,9 +1,4 @@
-import {
-  annotateWithLayerIds,
-  buildResponse,
-  excludeBaseImageDeps,
-  expandDockerfilePackages,
-} from "../../lib/response-builder";
+import { buildResponse } from "../../lib/response-builder";
 import { DepTreeDep } from "../../lib/types";
 import { RESPONSE_SIZE_LIMITS } from "../../lib/utils";
 
@@ -1422,11 +1417,11 @@ describe("buildResponse", () => {
     };
 
     const depsWithBaseAndUser = {
-      "docker-image|alpine-base": node("docker-image|alpine-base").build(),
+      "docker-image|my-image": node("docker-image|my-image").build(),
       foo: node("foo")
         .withChild(node("foo/foo-dev").withChild("foo/foo-lib"))
         .build(),
-      "glibc/libc6": node("glibc/libc6").build(),
+      "base/base": node("base/base").build(),
     };
 
     it("only user-installed packages are retained when excludeBaseImageVulns=true and dockerfileAnalysis is provided", async () => {
@@ -1455,11 +1450,10 @@ describe("buildResponse", () => {
       expect(pkgNames).toContain("foo");
       expect(pkgNames).toContain("foo/foo-dev");
       expect(pkgNames).toContain("foo/foo-lib");
-      expect(pkgNames).not.toContain("docker-image|alpine-base");
-      expect(pkgNames).not.toContain("glibc/libc6");
+      expect(pkgNames).not.toContain("docker-image|my-image");
+      expect(pkgNames).not.toContain("base/base");
 
-      // Validate downstream compatibility by asserting that the dockerfileAnalysis
-      // fact is present and only contains packages keyed by source segment.
+      // Assert that the dockerfileAnalysis fact is present and only contains packages keyed by source segment.
       const dockerfileFact = result.scanResults[0].facts?.find(
         (f) => f.type === "dockerfileAnalysis",
       );
@@ -1495,8 +1489,8 @@ describe("buildResponse", () => {
 
       const pkgNames = getDepPkgs(result.scanResults[0]).map((p) => p.name);
       expect(pkgNames).toContain("foo");
-      expect(pkgNames).toContain("docker-image|alpine-base");
-      expect(pkgNames).toContain("glibc/libc6");
+      expect(pkgNames).toContain("docker-image|my-image");
+      expect(pkgNames).toContain("base/base");
     });
 
     it("only user-installed packages are retained when excludeBaseImageVulns=true and autoDetectedUserInstructions is provided", async () => {
@@ -1532,11 +1526,10 @@ describe("buildResponse", () => {
 
       const pkgNames = getDepPkgs(result.scanResults[0]).map((p) => p.name);
       expect(pkgNames).toContain("foo");
-      expect(pkgNames).not.toContain("docker-image|alpine-base");
-      expect(pkgNames).not.toContain("glibc/libc6");
+      expect(pkgNames).not.toContain("docker-image|my-image");
+      expect(pkgNames).not.toContain("base/base");
 
-      // Validate downstream compatibility by asserting that the autoDetectedUserInstructions
-      // fact is present and only contains packages keyed by source segment.
+      // Assert that the autoDetectedUserInstructions fact is present and only contains packages keyed by source segment.
       const autoFact = result.scanResults[0].facts?.find(
         (f) => f.type === "autoDetectedUserInstructions",
       );
@@ -1567,7 +1560,7 @@ describe("buildResponse", () => {
       const deps = {
         foo: node("foo").build(),
         bar: node("bar").build(),
-        "glibc/libc6": node("glibc/libc6").build(),
+        "base/base": node("base/base").build(),
       };
 
       const analysis = createMockAnalysis({
@@ -1595,7 +1588,7 @@ describe("buildResponse", () => {
       const pkgNames = getDepPkgs(result.scanResults[0]).map((p) => p.name);
       expect(pkgNames).toContain("foo");
       expect(pkgNames).not.toContain("bar");
-      expect(pkgNames).not.toContain("glibc/libc6");
+      expect(pkgNames).not.toContain("base/base");
     });
 
     it("all packages are retained when no dockerfileAnalysis or autoDetectedUserInstructions provided", async () => {
@@ -1617,9 +1610,9 @@ describe("buildResponse", () => {
       const result = await buildResponse(analysis as any, undefined, true);
 
       const pkgNames = getDepPkgs(result.scanResults[0]).map((p) => p.name);
-      expect(pkgNames).toContain("docker-image|alpine-base");
+      expect(pkgNames).toContain("docker-image|my-image");
       expect(pkgNames).toContain("foo");
-      expect(pkgNames).toContain("glibc/libc6");
+      expect(pkgNames).toContain("base/base");
 
       expect(
         result.scanResults[0].facts?.find(
@@ -1632,351 +1625,138 @@ describe("buildResponse", () => {
         ),
       ).toBeUndefined();
     });
-  });
-});
 
-describe("expandDockerfilePackages", () => {
-  it("should correctly collect nested transitive children", () => {
-    // As shown by this example, there is ambiguity in this attribution logic if a dependency
-    // is both a transitive dependency of a dockerfile package and a root-level package.
-    // From the perspective of the user, the vulnerability will be attributed to the dockerfile package.
-    // If the dockerfile is updated to remove the dependency, the vulnerability will be attributed to
-    // the base image on the next scan.
-    const dockerfilePkgs = {
-      foo: {
-        instruction: "RUN apk add foo",
-        installCommand: "apk add foo",
-      },
-    };
+    it("over-attributes base deps that share a source segment with a transitive of a Dockerfile package", async () => {
+      /**
+       * This test case demonstrates how getUserInstructionDeps can over-attribute base deps that
+       * share a source segment with a transitive of a Dockerfile package.
+       *
+       * Assume the following dep tree:
+       *
+       * docker-image|my-image
+       * ├── foo/foo
+       * │   ├── foo/foo-dev
+       * │   └── common-src/pkg-a
+       * └── common-src/pkg-b
+       *     ├── common-src/pkg-c
+       *     │   └── bar/bar
+       *     └── baz/baz
+       *
+       * getUserInstructionDeps adds transitive source segments from foo/foo, including
+       * `common-src` from common-src/pkg-a. That makes the later top-level base dep
+       * common-src/pkg-b match dockerfilePackages["common-src"], so bar/ and baz/
+       * segments are also added and excludeBaseImageVulns keeps the entire graph — an
+       * over-attribution of base-only packages to the Dockerfile install.
+       */
+      const depsSharedSourceSegment = {
+        "foo/foo": node("foo/foo")
+          .withChild("foo/foo-dev")
+          .withChild("common-src/pkg-a")
+          .build(),
+        "common-src/pkg-b": node("common-src/pkg-b")
+          .withChild(node("common-src/pkg-c").withChild("bar/bar"))
+          .withChild("baz/baz")
+          .build(),
+      };
 
-    const deps = {
-      "docker-image|alpine-base": node("docker-image|alpine-base").build(),
-      foo: node("foo")
-        .withChild(node("foo/foo-dev").withChild(node("foo/foo-lib")))
-        .withChild("bar")
-        .build(),
-      bar: node("bar").build(),
-    };
+      const analysis = createMockAnalysis({
+        depTree: {
+          dependencies: structuredClone(depsSharedSourceSegment),
+          name: "my-image",
+          version: "1.0.0",
+          packageFormatVersion: "apk:0.0.1",
+          targetOS: {
+            name: "alpine",
+            prettyName: "Alpine 3.18",
+            version: "3.18",
+          },
+        },
+        packageFormat: "apk",
+      });
 
-    const result = expandDockerfilePackages(dockerfilePkgs, deps);
+      const result = await buildResponse(
+        analysis as any,
+        structuredClone(dockerfileAnalysis) as any,
+        true,
+      );
 
-    expect(Object.keys(result).sort()).toEqual(
-      ["foo", "foo/foo-dev", "foo/foo-lib", "bar"].sort(),
-    );
-    expect(result["foo/foo-lib"].instruction).toBe("RUN apk add foo");
-  });
+      const pkgNames = getDepPkgs(result.scanResults[0]).map((p) => p.name);
+      expect(pkgNames).toEqual(
+        expect.arrayContaining([
+          "foo/foo",
+          "foo/foo-dev",
+          "common-src/pkg-a",
+          "common-src/pkg-b",
+          "common-src/pkg-c",
+          "bar/bar",
+          "baz/baz",
+        ]),
+      );
+    });
 
-  it("should avoid cascade matching due to mutation while iterating", () => {
-    const dockerfilePkgs = {
-      foo: {
-        instruction: "RUN apk add foo",
-        installCommand: "apk add foo",
-      },
-    };
+    it("attributes base deps that share a source segment with a transitive of a Dockerfile package when the transitive is source only", async () => {
+      /**
+       * This test case is nearly identical to the previous test case, but the transitive package has been changed to only be single
+       * segment name. In this case it is ambiguous whether "common-src/pkg-b" is a dependency of "foo/foo" or a base image package.
+       * In this case it should **not** be considered an error to attribute all packages in the tree to the Dockerfile install.
+       *
+       * This test uses the following dep tree:
+       *
+       * docker-image|my-image
+       * ├── foo/foo
+       * │   ├── foo/foo-dev
+       * │   └── common-src   <-- single segment name
+       * └── common-src/pkg-b
+       *     ├── common-src/pkg-c
+       *     │   └── bar/bar
+       *     └── baz/baz
+       *
+       */
+      const depsSharedSourceSegment = {
+        "foo/foo": node("foo/foo")
+          .withChild("foo/foo-dev")
+          .withChild("common-src")
+          .build(),
+        "common-src/pkg-b": node("common-src/pkg-b")
+          .withChild(node("common-src/pkg-c").withChild("bar/bar"))
+          .withChild("baz/baz")
+          .build(),
+      };
 
-    const deps = {
-      foo: node("foo").withChild("bar/package-a").build(),
-      "bar/package-b": node("bar/package-b").withChild("baz/package-c").build(),
-    };
+      const analysis = createMockAnalysis({
+        depTree: {
+          dependencies: structuredClone(depsSharedSourceSegment),
+          name: "my-image",
+          version: "1.0.0",
+          packageFormatVersion: "apk:0.0.1",
+          targetOS: {
+            name: "alpine",
+            prettyName: "Alpine 3.18",
+            version: "3.18",
+          },
+        },
+        packageFormat: "apk",
+      });
 
-    const result = expandDockerfilePackages(dockerfilePkgs, deps);
+      const result = await buildResponse(
+        analysis as any,
+        structuredClone(dockerfileAnalysis) as any,
+        true,
+      );
 
-    expect(Object.keys(result).sort()).toEqual(["foo", "bar/package-a"].sort());
-    expect(result["bar/package-b"]).toBeUndefined();
-    expect(result["baz/package-c"]).toBeUndefined();
-  });
-
-  it("should store only the full dependency name as the key of the expanded packages", () => {
-    const dockerfilePkgs = {
-      foo: {
-        instruction: "RUN apk add foo",
-        installCommand: "apk add foo",
-      },
-    };
-    const deps = {
-      "foo/foo": node("foo/foo").withChild("foo/foo-dev").build(),
-    };
-    const result = expandDockerfilePackages(dockerfilePkgs, deps);
-    expect(Object.keys(result).sort()).toEqual(
-      ["foo/foo", "foo/foo-dev"].sort(),
-    );
-    expect(result["foo/foo"].instruction).toBe("RUN apk add foo");
-  });
-
-  it("should include root-level deps in expanded map if they share a segment with a dockerfile package (potential over-inclusion)", () => {
-    // In this scenario, we are unable to distinguish if the root-level package
-    // that shares a source segement with an installed package is part of that
-    // install command or a base image package.
-    const dockerfilePkgs = {
-      foo: {
-        instruction: "RUN apt-get install -y foo",
-        installCommand: "apt-get install -y foo",
-      },
-    };
-
-    const deps = {
-      "foo/foo": node("foo/foo").withChild("foo/package-a").build(),
-      "foo/package-b": node("foo/package-b").build(),
-      bar: node("bar").build(),
-    };
-
-    const result = expandDockerfilePackages(dockerfilePkgs, deps);
-
-    expect(Object.keys(result).sort()).toEqual(
-      ["foo/foo", "foo/package-a", "foo/package-b"].sort(),
-    );
-    expect(result["foo/package-b"].instruction).toBe(
-      "RUN apt-get install -y foo",
-    );
-  });
-});
-
-describe("excludeBaseImageDeps", () => {
-  it("should return the original tree if excludeBaseImageVulns is false", () => {
-    const deps = {
-      "docker-image|alpine-base": node("docker-image|alpine-base").build(),
-    };
-    const result = excludeBaseImageDeps(deps, { foo: {} } as any, false);
-    expect(result).toBe(deps);
-  });
-
-  it("should exclude dependencies that are not in the expanded dockerfile packages list", () => {
-    const dockerfilePkgs = {
-      foo: {
-        instruction: "RUN apk add foo",
-        installCommand: "apk add foo",
-      },
-    };
-
-    const deps = {
-      "docker-image|alpine-base": node("docker-image|alpine-base").build(),
-      "foo/foo": node("foo/foo").withChild("foo/foo-dev").build(),
-      bar: node("bar").withChild("foo/foo-lib").build(),
-    };
-
-    const expandedPkgs = expandDockerfilePackages(dockerfilePkgs, deps);
-    const result = excludeBaseImageDeps(deps, expandedPkgs, true);
-
-    const remainingKeys = Object.keys(result).sort();
-    expect(remainingKeys).toEqual(["foo/foo"]);
-    expect(remainingKeys).not.toContain("docker-image|alpine-base");
-    expect(remainingKeys).not.toContain("bar");
-  });
-
-  it("should return original deps when excludeBaseImageVulns is true but dockerfilePkgs is undefined", () => {
-    const deps = {
-      "docker-image|alpine-base": node("docker-image|alpine-base").build(),
-      foo: node("foo").build(),
-    };
-    const result = excludeBaseImageDeps(deps, undefined, true);
-    expect(result).toBe(deps);
-  });
-
-  it("should return empty deps when no packages match any dockerfile package", () => {
-    const dockerfilePkgs = {
-      unrelated: {
-        instruction: "RUN apk add unrelated",
-        installCommand: "apk add unrelated",
-      },
-    };
-
-    const deps = {
-      "docker-image|alpine-base": node("docker-image|alpine-base").build(),
-      foo: node("foo").withChild("foo/foo-dev").build(),
-    };
-
-    const result = excludeBaseImageDeps(deps, dockerfilePkgs, true);
-    expect(Object.keys(result)).toEqual([]);
-  });
-
-  it("should retain deps from multiple dockerfile packages", () => {
-    const dockerfilePkgs = {
-      foo: {
-        instruction: "RUN apk add foo",
-        installCommand: "apk add foo",
-      },
-      bar: {
-        instruction: "RUN apk add bar",
-        installCommand: "apk add bar",
-      },
-    };
-
-    const deps = {
-      "docker-image|alpine-base": node("docker-image|alpine-base").build(),
-      foo: node("foo").build(),
-      bar: node("bar").build(),
-      baz: node("baz").build(),
-    };
-
-    const expandedPkgs = expandDockerfilePackages(dockerfilePkgs, deps);
-    const result = excludeBaseImageDeps(deps, expandedPkgs, true);
-
-    expect(Object.keys(result).sort()).toEqual(["bar", "foo"]);
-  });
-
-  it("should retain sub-packages whose source matches a dockerfile package", () => {
-    const dockerfilePkgs = {
-      foo: {
-        instruction: "RUN apk add foo",
-        installCommand: "apk add foo",
-      },
-    };
-
-    const deps = {
-      "docker-image|alpine-base": node("docker-image|alpine-base").build(),
-      foo: node("foo").build(),
-      "foo/foo-dev": node("foo/foo-dev").build(),
-    };
-
-    const expandedPkgs = expandDockerfilePackages(dockerfilePkgs, deps);
-    const result = excludeBaseImageDeps(deps, expandedPkgs, true);
-
-    expect(Object.keys(result).sort()).toEqual(["foo", "foo/foo-dev"]);
-  });
-
-  it("should not false-positive on substring source names", () => {
-    const dockerfilePkgs = {
-      foo: {
-        instruction: "RUN apk add foo",
-        installCommand: "apk add foo",
-      },
-    };
-
-    const deps = {
-      foo: node("foo").build(),
-      "foo/foo": node("foo/foo").build(),
-      "foo/foo-dev": node("foo/foo-dev").build(),
-      "foo-lib": node("foo-lib").build(),
-    };
-
-    const expandedPkgs = expandDockerfilePackages(dockerfilePkgs, deps);
-    const result = excludeBaseImageDeps(deps, expandedPkgs, true);
-
-    expect(Object.keys(result)).toEqual(["foo", "foo/foo", "foo/foo-dev"]);
-    expect(Object.keys(result)).not.toContain("foo-lib");
-  });
-
-  it("should retain all children of a package in dockerfilePkgs, even if the children are not in dockerfilePkgs", () => {
-    const dockerfilePkgs = {
-      foo: {
-        instruction: "RUN apk add foo",
-        installCommand: "apk add foo",
-      },
-    };
-
-    const deps = {
-      foo: node("foo").withChild("bar").build(),
-    };
-
-    const result = excludeBaseImageDeps(deps, dockerfilePkgs, true);
-
-    expect(Object.keys(result)).toEqual(["foo"]);
-    expect((result as any).foo.dependencies?.bar).toBeDefined();
-  });
-
-  it("should exclude base image deps that share a source segment with a transitive dependency of a dockerfile package", () => {
-    const dockerfilePkgs = {
-      foo: {
-        instruction: "RUN apk add foo",
-        installCommand: "apk add foo",
-      },
-    };
-
-    const deps = {
-      foo: node("foo").withChild("bar/package-a").build(),
-      "bar/package-b": node("bar/package-b").build(),
-    };
-
-    const result = excludeBaseImageDeps(deps, dockerfilePkgs, true);
-    expect(Object.keys(result)).toEqual(["foo"]);
-    expect(Object.keys(result)).not.toContain("bar/package-b");
-    expect((result as any).foo.dependencies?.["bar/package-a"]).toBeDefined();
-  });
-});
-
-describe("annotateWithLayerIds", () => {
-  const dockerfilePkgs = {
-    foo: {
-      instruction: "RUN apk add foo",
-      installCommand: "apk add foo",
-    },
-  };
-
-  const expectedDigest = Buffer.from("RUN apk add foo").toString("base64");
-
-  it("should annotate all reachable dockerfile packages and their children with the layer id", () => {
-    const deps = {
-      "docker-image|alpine-base": node("docker-image|alpine-base").build(),
-      "foo/foo": node("foo/foo").withChild("foo/foo-dev").build(),
-    };
-
-    const expandedPkgs = expandDockerfilePackages(dockerfilePkgs, deps);
-    annotateWithLayerIds(deps, expandedPkgs);
-
-    expect(
-      deps["docker-image|alpine-base"].labels?.dockerLayerId,
-    ).toBeUndefined();
-
-    expect(deps["foo/foo"].labels?.dockerLayerId).toBe(expectedDigest);
-    expect(
-      deps["foo/foo"].dependencies!["foo/foo-dev"].labels?.dockerLayerId,
-    ).toBe(expectedDigest);
-  });
-
-  it("should not annotate dependencies that are not in the dockerfile packages list", () => {
-    const deps = {
-      foo: node("foo").withChild("bar").build(),
-    };
-
-    const expandedPkgs = expandDockerfilePackages(dockerfilePkgs, deps);
-    annotateWithLayerIds(deps, dockerfilePkgs);
-
-    expect(deps.foo.labels?.dockerLayerId).toBe(expectedDigest);
-    expect(deps.foo.dependencies!.bar.labels?.dockerLayerId).toBeUndefined();
-  });
-
-  it("should not annotate root-level deps that share a source segment with a transitive dependency of a dockerfile package", () => {
-    // Note: This provides precise labeling, but CLI and registry only attribute dependencies by source segment. If the user
-    // has not excluded base image vulns, "bar/package-b" will be labeled as installed by the "foo" instruction.
-    const dockerfilePkgs = {
-      foo: {
-        instruction: "RUN apk add foo",
-        installCommand: "apk add foo",
-      },
-    };
-
-    const deps = {
-      foo: node("foo").withChild("bar/package-a").build(),
-      "bar/package-b": node("bar/package-b").build(),
-    };
-
-    const result = excludeBaseImageDeps(deps, dockerfilePkgs, true);
-    expect(Object.keys(result)).toEqual(["foo"]);
-    expect(Object.keys(result)).not.toContain("bar/package-b");
-    expect((result as any).foo.dependencies?.["bar/package-a"]).toBeDefined();
-  });
-
-  it("should not annotate dependencies if dockerfilePkgs is undefined", () => {
-    const deps = {
-      "docker-image|alpine-base": node("docker-image|alpine-base").build(),
-      "foo/foo": node("foo/foo").withChild("foo/foo-dev").build(),
-    };
-
-    annotateWithLayerIds(deps, undefined);
-    expect(
-      deps["docker-image|alpine-base"].labels?.dockerLayerId,
-    ).toBeUndefined();
-  });
-
-  it("should not annotate dependencies if dockerfilePkgs is empty", () => {
-    const deps = {
-      "docker-image|alpine-base": node("docker-image|alpine-base").build(),
-      "foo/foo": node("foo/foo").withChild("foo/foo-dev").build(),
-    };
-
-    annotateWithLayerIds(deps, {});
-    expect(
-      deps["docker-image|alpine-base"].labels?.dockerLayerId,
-    ).toBeUndefined();
+      const pkgNames = getDepPkgs(result.scanResults[0]).map((p) => p.name);
+      console.dir(pkgNames, { depth: null });
+      expect(pkgNames).toEqual(
+        expect.arrayContaining([
+          "foo/foo",
+          "foo/foo-dev",
+          "common-src",
+          "common-src/pkg-b",
+          "common-src/pkg-c",
+          "bar/bar",
+          "baz/baz",
+        ]),
+      );
+    });
   });
 });
