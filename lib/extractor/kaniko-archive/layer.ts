@@ -109,6 +109,7 @@ function getLayersContentAndArchiveManifest(
     layers: filteredLayers,
     manifest,
     imageConfig,
+    repoTags: manifest.RepoTags,
   };
 }
 

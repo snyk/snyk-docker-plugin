@@ -48,6 +48,28 @@ function obj2array(obj) {
 
 describe("dependency-tree", () => {
   describe("buildTree", () => {
+    describe("CN-928 digest-only and bare config digest", () => {
+      const hex64 = "a".repeat(64);
+      const bareDigest = `sha256:${hex64}`;
+
+      it("uses full sha256 digest as root name when target is only @sha256:… (no registry/repo)", () => {
+        const tree = buildTree(
+          `@sha256:${hex64}`,
+          "deb",
+          [],
+          targetOS,
+        );
+        expect(tree.name).toEqual(`docker-image|${bareDigest}`);
+        expect(tree.version).toEqual("");
+      });
+
+      it("uses full sha256 digest as root name when target is bare config digest", () => {
+        const tree = buildTree(bareDigest, "deb", [], targetOS);
+        expect(tree.name).toEqual(`docker-image|${bareDigest}`);
+        expect(tree.version).toEqual("");
+      });
+    });
+
     describe("Linux Package Managers", () => {
       it("should attach frequent deps to parent when threshold is exceeded", () => {
         const fixture = buildFreqDepsList(100);

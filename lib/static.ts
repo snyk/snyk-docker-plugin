@@ -12,6 +12,47 @@ import { parseAnalysisResults } from "./parser";
 import { buildResponse } from "./response-builder";
 import { DepTree, ImageType, PluginOptions, PluginResponse } from "./types";
 
+function isArchiveImageType(imageType: ImageType): boolean {
+  return (
+    imageType === ImageType.DockerArchive ||
+    imageType === ImageType.OciArchive ||
+    imageType === ImageType.KanikoArchive ||
+    imageType === ImageType.UnspecifiedArchiveType
+  );
+}
+
+function hasUsableRepoTags(repoTags: string[] | undefined): boolean {
+  if (!repoTags || repoTags.length === 0) {
+    return false;
+  }
+  return repoTags.some((t) => t && t.trim() !== "");
+}
+
+/**
+ * When scanning a TAR/OCI archive with no registry/repo tags, use the config digest
+ * (imageId) as the project root identity so the CLI shows the full sha256:… (CN-928).
+ */
+function resolveEffectiveTargetImage(
+  targetImage: string,
+  imageType: ImageType,
+  imageId: string | undefined,
+  repoTags: string[] | undefined,
+  options: Partial<PluginOptions>,
+): string {
+  if (options.imageNameAndTag) {
+    return targetImage;
+  }
+  if (
+    isArchiveImageType(imageType) &&
+    imageId &&
+    /^sha256:[a-f0-9]{64}$/i.test(imageId) &&
+    !hasUsableRepoTags(repoTags)
+  ) {
+    return imageId;
+  }
+  return targetImage;
+}
+
 export async function analyzeStatically(
   targetImage: string,
   dockerfileAnalysis: DockerFileAnalysis | undefined,
@@ -30,14 +71,22 @@ export async function analyzeStatically(
     options,
   );
 
-  const parsedAnalysisResult = parseAnalysisResults(
+  const effectiveTargetImage = resolveEffectiveTargetImage(
     targetImage,
+    imageType,
+    staticAnalysis.imageId,
+    staticAnalysis.repoTags,
+    options,
+  );
+
+  const parsedAnalysisResult = parseAnalysisResults(
+    effectiveTargetImage,
     staticAnalysis,
   );
 
   /** @deprecated Should try to build a dependency graph instead. */
   const dependenciesTree = buildTree(
-    targetImage,
+    effectiveTargetImage,
     parsedAnalysisResult.packageFormat,
     parsedAnalysisResult.depInfosList,
     parsedAnalysisResult.targetOS,
@@ -56,7 +105,14 @@ export async function analyzeStatically(
 
   const excludeBaseImageVulns = isTrue(options["exclude-base-image-vulns"]);
 
-  const names = getImageNames(options, imageName);
+  let names = getImageNames(options, imageName);
+  if (
+    names.length === 0 &&
+    effectiveTargetImage === staticAnalysis.imageId &&
+    staticAnalysis.imageId
+  ) {
+    names = [staticAnalysis.imageId];
+  }
   let ociDistributionMetadata: OCIDistributionMetadata | undefined;
   if (options.imageNameAndTag && options.digests?.manifest) {
     ociDistributionMetadata = constructOCIDisributionMetadata({

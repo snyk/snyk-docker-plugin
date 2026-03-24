@@ -1,6 +1,11 @@
 import { AnalyzedPackageWithVersion, OSRelease } from "../analyzer/types";
 import { DepTree, DepTreeDep } from "../types";
 
+/** Bare image config digest (sha256:64hex) — no registry/repo prefix. */
+function isBareConfigDigestReference(targetImage: string): boolean {
+  return /^sha256:[a-f0-9]{64}$/i.test(targetImage);
+}
+
 /** @deprecated Should implement a new function to build a dependency graph instead. */
 export function buildTree(
   targetImage: string,
@@ -8,6 +13,18 @@ export function buildTree(
   depInfosList: AnalyzedPackageWithVersion[],
   targetOS: OSRelease,
 ): DepTree {
+  // CN-928: when the identity is only a config digest (e.g. TAR with no RepoTags),
+  // do not split on ':' inside "sha256:…" — use the full digest as the display name.
+  if (isBareConfigDigestReference(targetImage)) {
+    return buildTreeRoot(
+      targetImage,
+      "",
+      packageFormat,
+      depInfosList,
+      targetOS,
+    );
+  }
+
   // A tag can only occur in the last section of a docker image name, so
   // check any colon separator after the final '/'. If there are no '/',
   // which is common when using Docker's official images such as
@@ -36,10 +53,33 @@ export function buildTree(
   const shaString = "@sha256";
 
   if (imageName.endsWith(shaString)) {
+    const digestHex = imageVersion;
     imageName = imageName.slice(0, imageName.length - shaString.length);
-    imageVersion = "";
+    if (imageName === "" && digestHex) {
+      // CN-928: digest-only reference (no registry/repo) — use full sha256:… as name, no "@"
+      imageName = `sha256:${digestHex}`;
+      imageVersion = "";
+    } else {
+      imageVersion = "";
+    }
   }
 
+  return buildTreeRoot(
+    imageName,
+    imageVersion,
+    packageFormat,
+    depInfosList,
+    targetOS,
+  );
+}
+
+function buildTreeRoot(
+  imageName: string,
+  imageVersion: string,
+  packageFormat: string,
+  depInfosList: AnalyzedPackageWithVersion[],
+  targetOS: OSRelease,
+): DepTree {
   const root: DepTree = {
     // don't use the real image name to avoid scanning it as an issue
     name: "docker-image|" + imageName,

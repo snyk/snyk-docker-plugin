@@ -101,6 +101,8 @@ export interface StaticAnalysis {
     comment?: string | null;
     empty_layer?: boolean | null;
   }> | null;
+  /** From Docker/Kaniko archive manifest; absent for OCI layout archives. */
+  repoTags?: string[];
 }
 
 export interface StaticPackagesAnalysis extends StaticAnalysis {

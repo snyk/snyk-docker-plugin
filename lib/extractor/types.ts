@@ -36,6 +36,8 @@ export interface ExtractionResult {
   imageCreationTime?: string;
   containerConfig?: ContainerConfig | null;
   history?: HistoryEntry[] | null;
+  /** Docker-/Kaniko-style archive manifest RepoTags; OCI archives may omit. */
+  repoTags?: string[];
 }
 
 export interface ExtractedLayers {
@@ -46,6 +48,7 @@ export interface ExtractedLayersAndManifest {
   layers: ExtractedLayers[];
   manifest: DockerArchiveManifest | OciArchiveManifest;
   imageConfig: ImageConfig;
+  repoTags?: string[];
 }
 
 export interface DockerArchiveManifest {
@@ -139,6 +142,7 @@ export interface KanikoExtractedLayersAndManifest {
   layers: KanikoExtractedLayers[];
   manifest: KanikoArchiveManifest;
   imageConfig: ImageConfig;
+  repoTags?: string[];
 }
 
 export interface ExtractAction {
