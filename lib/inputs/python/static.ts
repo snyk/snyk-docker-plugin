@@ -1,12 +1,13 @@
-import { basename } from "path";
+import { basename, sep } from "path";
 
 import { ExtractAction } from "../../extractor/types";
 import { streamToString } from "../../stream-utils";
 
 const poetryManifestFiles = ["pyproject.toml", "poetry.lock"];
 const pipManifestFiles = ["requirements.txt"];
+// Match both forward slashes (POSIX/macOS/Linux) and backslashes (Windows)
 const pythonMetadataFilesRegex =
-  /\/lib\/python.*?\/(?:dist|site)-packages\/.*?\.dist-info\/METADATA/;
+  /[\/\\]lib[\/\\]python.*?[\/\\](?:dist|site)-packages[\/\\].*?\.dist-info[\/\\]METADATA/;
 const deletedPoetryAppFiles = poetryManifestFiles.map((file) => ".wh." + file);
 const deletedPipAppFiles = pipManifestFiles.map((file) => ".wh." + file);
 const pythonApplicationFileSuffixes = [".py", "requirements.txt", "Pipfile"];
@@ -42,10 +43,9 @@ export const getPipAppFileContentAction: ExtractAction = {
 
 function pythonApplicationFilePathMatches(filePath: string): boolean {
   return (
-    !filePath.includes("/site-packages/") &&
-    !filePath.includes("/dist-packages/") &&
-    // "/usr/" should not include 1st party code
-    !filePath.startsWith("/usr/") &&
+    !filePath.includes(`${sep}site-packages${sep}`) &&
+    !filePath.includes(`${sep}dist-packages${sep}`) &&
+    !filePath.startsWith(`${sep}usr${sep}`) &&
     pythonApplicationFileSuffixes.some((suffix) => filePath.endsWith(suffix))
   );
 }
