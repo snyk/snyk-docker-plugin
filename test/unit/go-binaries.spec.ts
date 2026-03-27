@@ -8,6 +8,7 @@ import {
   determinePaths,
   extractModuleInformation,
   GoBinary,
+  GoFileNameError,
   parseGoVersion,
 } from "../../lib/go-parser/go-binary";
 import { GoModule } from "../../lib/go-parser/go-module";
@@ -657,5 +658,79 @@ describe("test path determination", () => {
     const { modCachePath, vendorPath } = determinePaths(modules, files);
     expect(modCachePath).toBe("");
     expect(vendorPath).toBe("");
+  });
+});
+
+describe("GoFileNameError", () => {
+  // Construct a GoBinary from any real fixture so we have a valid instance to
+  // call matchFilesToModules on. We then overwrite modules directly.
+  const goBin = new GoBinary(
+    elf.parse(
+      readFileSync(
+        path.join(__dirname, "../fixtures/go-binaries/go1.13.15_normal"),
+      ),
+    ),
+  );
+
+  const moduleName = "github.com/foo/bar";
+  const moduleVersion = "v1.0.0";
+
+  // Crafting a file path where the module's fullName appears twice causes
+  // pkgFile.split(modFullName) to produce 3 parts, triggering the throw.
+  const duplicatedPath = `${moduleName}@${moduleVersion}/${moduleName}@${moduleVersion}/file.go`;
+
+  beforeEach(() => {
+    goBin.modules = [new GoModule(moduleName, moduleVersion)];
+  });
+
+  it("throws GoFileNameError when a file path cannot be matched to a module", () => {
+    expect(() => goBin.matchFilesToModules([duplicatedPath])).toThrow(
+      GoFileNameError,
+    );
+  });
+
+  it("thrown error is an instance of Error", () => {
+    expect(() => goBin.matchFilesToModules([duplicatedPath])).toThrow(Error);
+  });
+
+  it("thrown error has a non-empty message containing the file and module names", () => {
+    try {
+      goBin.matchFilesToModules([duplicatedPath]);
+    } catch (err) {
+      expect(err).toBeInstanceOf(GoFileNameError);
+      expect((err as GoFileNameError).message).toBeTruthy();
+      expect((err as GoFileNameError).message).toContain(duplicatedPath);
+      expect((err as GoFileNameError).message).toContain(
+        `${moduleName}@${moduleVersion}`,
+      );
+    }
+  });
+
+  it("thrown error has a stack trace", () => {
+    try {
+      goBin.matchFilesToModules([duplicatedPath]);
+    } catch (err) {
+      expect((err as GoFileNameError).stack).toBeDefined();
+    }
+  });
+
+  it("thrown error carries fileName and moduleName properties", () => {
+    try {
+      goBin.matchFilesToModules([duplicatedPath]);
+    } catch (err) {
+      expect(err).toBeInstanceOf(GoFileNameError);
+      expect((err as GoFileNameError).fileName).toBe(duplicatedPath);
+      expect((err as GoFileNameError).moduleName).toBe(
+        `${moduleName}@${moduleVersion}`,
+      );
+    }
+  });
+
+  it("thrown error has name set to GoFileNameError", () => {
+    try {
+      goBin.matchFilesToModules([duplicatedPath]);
+    } catch (err) {
+      expect((err as GoFileNameError).name).toBe("GoFileNameError");
+    }
   });
 });
