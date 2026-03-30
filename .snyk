@@ -2,16 +2,21 @@
 version: v1.25.0
 # ignores vulnerabilities until expiry date; change duration by modifying expiry date
 ignore:
+  SNYK-JS-BRACEEXPANSION-15789759:
+    - 'minimatch > *':
+        reason: >-
+          Minimatch does not intend to resolve this vulnerability in the near term.
+          Risk must be managed by preventing untrused input to minimatch globs.
   SNYK-JS-TAR-15307072:
     - 'snyk-nodejs-lockfile-parser > @yarnpkg/core > tar':
         reason: 'Indirect dependency from snyk-nodejs-lockfile-parser, waiting for upstream fix'
-        expires: 2026-03-26T00:00:00.000Z
+        expires: 2026-04-26T00:00:00.000Z
   SNYK-JS-TAR-15416075:
     - 'snyk-nodejs-lockfile-parser > @yarnpkg/core > tar':
         reason: 'Indirect dependency from snyk-nodejs-lockfile-parser, waiting for upstream fix'
-        expires: 2026-03-26T00:00:00.000Z
+        expires: 2026-04-26T00:00:00.000Z
   SNYK-JS-TAR-15456201:
     - 'snyk-nodejs-lockfile-parser > @yarnpkg/core > tar':
         reason: 'Indirect dependency from snyk-nodejs-lockfile-parser, waiting for upstream fix'
-        expires: 2026-03-26T00:00:00.000Z
+        expires: 2026-04-26T00:00:00.000Z
 patch: {}
