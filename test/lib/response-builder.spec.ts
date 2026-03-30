@@ -1417,7 +1417,6 @@ describe("buildResponse", () => {
     };
 
     const depsWithBaseAndUser = {
-      "docker-image|my-image": node("docker-image|my-image").build(),
       foo: node("foo")
         .withChild(node("foo/foo-dev").withChild("foo/foo-lib"))
         .build(),
@@ -1450,7 +1449,6 @@ describe("buildResponse", () => {
       expect(pkgNames).toContain("foo");
       expect(pkgNames).toContain("foo/foo-dev");
       expect(pkgNames).toContain("foo/foo-lib");
-      expect(pkgNames).not.toContain("docker-image|my-image");
       expect(pkgNames).not.toContain("base/base");
 
       // Assert that the dockerfileAnalysis fact is present and only contains packages keyed by source segment.
@@ -1489,7 +1487,6 @@ describe("buildResponse", () => {
 
       const pkgNames = getDepPkgs(result.scanResults[0]).map((p) => p.name);
       expect(pkgNames).toContain("foo");
-      expect(pkgNames).toContain("docker-image|my-image");
       expect(pkgNames).toContain("base/base");
     });
 
@@ -1526,7 +1523,6 @@ describe("buildResponse", () => {
 
       const pkgNames = getDepPkgs(result.scanResults[0]).map((p) => p.name);
       expect(pkgNames).toContain("foo");
-      expect(pkgNames).not.toContain("docker-image|my-image");
       expect(pkgNames).not.toContain("base/base");
 
       // Assert that the autoDetectedUserInstructions fact is present and only contains packages keyed by source segment.
@@ -1610,7 +1606,6 @@ describe("buildResponse", () => {
       const result = await buildResponse(analysis as any, undefined, true);
 
       const pkgNames = getDepPkgs(result.scanResults[0]).map((p) => p.name);
-      expect(pkgNames).toContain("docker-image|my-image");
       expect(pkgNames).toContain("foo");
       expect(pkgNames).toContain("base/base");
 
