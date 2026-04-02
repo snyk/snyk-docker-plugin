@@ -211,6 +211,17 @@ describe("docker", () => {
     });
 
     test("promise rejects when image doesn't exist", async () => {
+      const image = "some-non-existent-image:latest";
+      const destination = "/tmp/image.tar";
+
+      const result = docker.save(image, destination);
+
+      //  rejects with expected error
+      await expect(result).rejects.toThrowError("not found");
+      expect(existsSync(destination)).toBeFalsy();
+    });
+
+    test("promise rejects when image is invalid", async () => {
       const image = "someImage:latest";
       const destination = "/tmp/image.tar";
 
