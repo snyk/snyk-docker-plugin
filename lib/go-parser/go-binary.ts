@@ -169,10 +169,7 @@ export class GoBinary {
           // result in the package name "github.com/my/pkg/a".
           const parts = pkgFile.split(modFullName);
           if (parts.length !== 2 || parts[0] !== "") {
-            throw {
-              fileName: pkgFile,
-              moduleName: modFullName,
-            } as GoFileNameError;
+            throw new GoFileNameError(pkgFile, modFullName);
           }
 
           // for files in the "root" of a module
@@ -194,9 +191,17 @@ export class GoBinary {
   }
 }
 
-interface GoFileNameError extends Error {
-  fileName: string;
-  moduleName: string;
+export class GoFileNameError extends Error {
+  public readonly fileName: string;
+  public readonly moduleName: string;
+
+  constructor(fileName: string, moduleName: string) {
+    super();
+    this.name = "GoFileNameError";
+    this.message = `Failed to match Go file "${fileName}" to module "${moduleName}"`;
+    this.fileName = fileName;
+    this.moduleName = moduleName;
+  }
 }
 
 /**
