@@ -1,4 +1,5 @@
 import { ImageName } from "../extractor/image";
+import { BaseRuntime } from "../facts";
 import { AutoDetectedUserInstructions, ManifestFile } from "../types";
 import {
   AppDepsScanResultWithoutTarget,
@@ -75,6 +76,7 @@ export interface StaticAnalysis {
   osRelease: OSRelease;
   results: ImageAnalysis[];
   binaries: string[];
+  baseRuntimes?: BaseRuntime[];
   imageLayers: string[];
   rootFsLayers?: string[];
   autoDetectedUserInstructions?: AutoDetectedUserInstructions;
