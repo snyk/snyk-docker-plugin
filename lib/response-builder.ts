@@ -26,14 +26,33 @@ async function buildResponse(
   options?: Partial<types.PluginOptions>,
 ): Promise<types.PluginResponse> {
   const deps = depsAnalysis.depTree.dependencies;
-  const dockerfilePkgs = collectDockerfilePkgs(dockerfileAnalysis, deps);
-  const finalDeps = excludeBaseImageDeps(
-    deps,
-    dockerfilePkgs,
-    excludeBaseImageVulns,
-  );
-  /** WARNING! Mutates the depTree.dependencies! */
-  annotateLayerIds(finalDeps, dockerfilePkgs);
+
+  // Expand dockerfile packages and auto detected user instructions if
+  // they are provided. These objects are mutated in place, ensuring the
+  // expanded packages are used in the subsequent steps and fact building.
+  if (dockerfileAnalysis?.dockerfilePackages) {
+    getUserInstructionDeps(dockerfileAnalysis.dockerfilePackages, deps);
+  }
+  if (depsAnalysis.autoDetectedUserInstructions?.dockerfilePackages) {
+    getUserInstructionDeps(
+      depsAnalysis.autoDetectedUserInstructions.dockerfilePackages,
+      deps,
+    );
+  }
+
+  const dockerfilePkgs =
+    dockerfileAnalysis?.dockerfilePackages ??
+    depsAnalysis.autoDetectedUserInstructions?.dockerfilePackages;
+
+  if (dockerfilePkgs) {
+    const finalDeps = excludeBaseImageDeps(
+      deps,
+      dockerfilePkgs,
+      excludeBaseImageVulns,
+    );
+    annotateLayerIds(finalDeps, dockerfilePkgs);
+    depsAnalysis.depTree.dependencies = finalDeps;
+  }
 
   /** This must be called after all final changes to the DependencyTree. */
   const depGraph = await legacy.depTreeToGraph(
@@ -190,17 +209,12 @@ async function buildResponse(
     autoDetectedLayers &&
     Object.keys(autoDetectedLayers).length > 0
   ) {
-    const autoDetectedPackagesWithChildren = getUserInstructionDeps(
-      autoDetectedPackages,
-      deps,
-    );
-
     const autoDetectedUserInstructionsFact: facts.AutoDetectedUserInstructionsFact =
       {
         type: "autoDetectedUserInstructions",
         data: {
           dockerfileLayers: autoDetectedLayers,
-          dockerfilePackages: autoDetectedPackagesWithChildren!,
+          dockerfilePackages: autoDetectedPackages,
         },
       };
     additionalFacts.push(autoDetectedUserInstructionsFact);
@@ -332,23 +346,22 @@ async function buildResponse(
   };
 }
 
-function collectDockerfilePkgs(
-  dockerAnalysis: DockerFileAnalysis | undefined,
-  deps: {
-    [depName: string]: types.DepTreeDep;
-  },
-) {
-  if (!dockerAnalysis) {
-    return;
-  }
-
-  return getUserInstructionDeps(dockerAnalysis.dockerfilePackages, deps);
-}
-
-// Iterate over the dependencies list; if one is introduced by the dockerfile,
-// flatten its dependencies and append them to the list of dockerfile
-// packages. This gives us a reference of all transitive deps installed via
-// the dockerfile, and the instruction that installed it.
+/**
+ * Expands the provided dockerfile packages to include transitive dependencies.
+ * Transitive dependencies are keyed by their source segments.
+ *
+ * @important
+ * mutates the provided `dockerfilePackages` object.
+ *
+ * @warning
+ * **Known Issue:** In some scenarios, this function can cause over-attribution of
+ * dependencies to the dockerfile because the `dockerfilePackages` object is mutated
+ * while iterating. This behavior is retained for downstream compatibility.
+ *
+ * @param dockerfilePackages - The dockerfile packages to expand.
+ * @param dependencies - The dependencies of the image.
+ * @returns The expanded dockerfile packages.
+ */
 function getUserInstructionDeps(
   dockerfilePackages: DockerFilePackages,
   dependencies: {
@@ -382,9 +395,14 @@ function collectDeps(pkg) {
     : [];
 }
 
-// Skip processing if option disabled or dockerfilePkgs is undefined. We
-// can't exclude anything in that case, because we can't tell which deps are
-// from dockerfile and which from base image.
+/**
+ * Excludes base image dependencies from the dependency tree if excludeBaseImageVulns is true.
+ *
+ * @param deps - The dependencies of the image.
+ * @param dockerfilePkgs - The expanded packages attributed to the Dockerfile.
+ * @param excludeBaseImageVulns - Whether to exclude base image dependencies.
+ * @returns The dependencies of the image.
+ */
 function excludeBaseImageDeps(
   deps: {
     [depName: string]: types.DepTreeDep;
@@ -396,31 +414,44 @@ function excludeBaseImageDeps(
     return deps;
   }
 
-  return extractDockerfileDeps(deps, dockerfilePkgs);
-}
-
-function extractDockerfileDeps(
-  allDeps: {
-    [depName: string]: types.DepTreeDep;
-  },
-  dockerfilePkgs: DockerFilePackages,
-) {
-  return Object.keys(allDeps)
-    .filter((depName) => dockerfilePkgs[depName])
+  return Object.keys(deps)
+    .filter((depName) => {
+      if (dockerfilePkgs[depName] !== undefined) {
+        return true;
+      }
+      const source = depName.split("/")[0];
+      return dockerfilePkgs[source] !== undefined;
+    })
     .reduce((extractedDeps, depName) => {
-      extractedDeps[depName] = allDeps[depName];
+      extractedDeps[depName] = deps[depName];
       return extractedDeps;
     }, {});
 }
 
-function annotateLayerIds(deps, dockerfilePkgs) {
+/**
+ * Annotates the dependencies with the layer ID of the Dockerfile
+ * instruction that installed them.
+ *
+ * @important
+ * mutates the provided `deps` object.
+ *
+ * @param deps - The dependencies of the image.
+ * @param dockerfilePkgs - The expanded packages attributed to the Dockerfile.
+ */
+function annotateLayerIds(
+  deps: {
+    [depName: string]: types.DepTreeDep;
+  },
+  dockerfilePkgs: DockerFilePackages | undefined,
+) {
   if (!dockerfilePkgs) {
     return;
   }
 
   for (const dep of Object.keys(deps)) {
     const pkg = deps[dep];
-    const dockerfilePkg = dockerfilePkgs[dep];
+    const pkgSource = dep.split("/")[0];
+    const dockerfilePkg = dockerfilePkgs[dep] || dockerfilePkgs[pkgSource];
     if (dockerfilePkg) {
       pkg.labels = {
         ...(pkg.labels || {}),
