@@ -7,8 +7,36 @@ on:
 jobs:
   pr-title-check:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
     steps:
+      # Snyk automated PRs typically start with '[Snyk]'.
+      # Our repository requires conventional commits (e.g. 'fix: ...').
+      # This step renames Snyk PRs so they pass the semantic pull request check,
+      # making it easier to automatically merge vulnerability fixes.
+      - name: Rename Snyk PR
+        if: startsWith(github.event.pull_request.title, '[Snyk]')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          # Conventional commits require a specific format (e.g., 'fix: ...'). 
+          # TITLE_NO_PREFIX isolates the core message so we can reformat just the start 
+          # of the title while ensuring technical casing (like CVE IDs or dependency names) 
+          # elsewhere in the string remains intact and accurate.
+          TITLE_NO_PREFIX=$(echo "$PR_TITLE" | sed -E 's/^\[Snyk\][[:space:]]*//i')
+          
+          # We only lowercase the first character of the next word to satisfy linter requirements 
+          # for lowercase subjects without losing intentional casing in technical acronyms or identifiers.
+          FIRST_CHAR=$(echo "${TITLE_NO_PREFIX:0:1}" | tr '[:upper:]' '[:lower:]')
+          REMAINDER="${TITLE_NO_PREFIX:1}"
+          
+          NEW_TITLE="fix: snyk $FIRST_CHAR$REMAINDER"
+          gh pr edit ${{ github.event.pull_request.number }} --title "$NEW_TITLE" --repo ${{ github.repository }}
+
       - name: Check PR Title
+        if: ${{ !startsWith(github.event.pull_request.title, '[Snyk]') }}
         uses: amannn/action-semantic-pull-request@v5
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
