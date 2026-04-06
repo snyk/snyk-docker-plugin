@@ -377,7 +377,7 @@ function isLocalImageSameArchitecture(
   return platformArchitecture === inspectResultArchitecture;
 }
 
-async function pullIfNotLocal(targetImage: string, options?: DockerOptions) {
+async function pullIfNotLocal(targetImage: string, _options?: DockerOptions) {
   const docker = new Docker();
   try {
     await docker.inspectImage(targetImage);

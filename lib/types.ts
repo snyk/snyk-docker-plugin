@@ -222,7 +222,7 @@ export interface PluginOptions {
    * Alias: shaded-jars-depth
    * TODO remove shaded-jars-depth
    * A shaded JAR is when you unpack all JAR files, then repack them into a single JAR, while
-   * renaming (i.e., "shading") all packages of all dependencies.
+   * renaming (i.e., "shading") all packages of all dependencies.
    */
   "nested-jars-depth": boolean | string;
   "shaded-jars-depth": boolean | string;

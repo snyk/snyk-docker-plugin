@@ -420,7 +420,6 @@ describe("jar binaries scanning", () => {
 
             fingerprints =
               pluginResult.scanResults[1].facts[0].data.fingerprints;
-            // tslint:disable-next-line:no-console
             console.log("🚀 ~ fingerprints", fingerprints);
           });
 

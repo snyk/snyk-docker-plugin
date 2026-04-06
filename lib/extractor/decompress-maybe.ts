@@ -63,7 +63,7 @@ export function decompressMaybe(): Transform {
 
           // Setup zstd decompressor with streaming API
           zstdStream = new ZstdDecompress(
-            (data: Uint8Array, final?: boolean) => {
+            (data: Uint8Array, _final?: boolean) => {
               transform.push(Buffer.from(data));
             },
           );

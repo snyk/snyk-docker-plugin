@@ -21,7 +21,7 @@ describe("docker", () => {
       const docker = new Docker();
       const imagePath = path.join(__dirname, "save");
       await mkdirSync(imagePath, { recursive: true });
-      const resp = await docker.pull(
+      await docker.pull(
         "registry-1.docker.io",
         "library/debian",
         "12.0",
@@ -52,7 +52,7 @@ describe("docker", () => {
       const docker = new Docker();
       const imagePath = path.join(__dirname, "save");
       await mkdirSync(imagePath, { recursive: true });
-      const resp = await docker.pull(
+      await docker.pull(
         "registry-1.docker.io",
         "library/debian",
         "12.0",
@@ -86,7 +86,7 @@ describe("docker", () => {
       const docker = new Docker();
       const imagePath = path.join(__dirname, "save");
       await mkdirSync(imagePath, { recursive: true });
-      const resp = await docker.pull(
+      await docker.pull(
         "registry-1.docker.io",
         "library/debian",
         "12.0",

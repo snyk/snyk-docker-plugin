@@ -15,7 +15,7 @@ describe("plugin", () => {
       const pluginResult = await plugin.scan({
         path: imagePath,
       });
-      const depGraph: DepGraph = pluginResult.scanResults[0].facts.find(
+      pluginResult.scanResults[0].facts.find(
         (fact) => fact.type === "depGraph",
       )!.data;
     });
@@ -30,7 +30,7 @@ describe("plugin", () => {
       const pluginResult = await plugin.scan({
         path: imagePath,
       });
-      const depGraph: DepGraph = pluginResult.scanResults[0].facts.find(
+      pluginResult.scanResults[0].facts.find(
         (fact) => fact.type === "depGraph",
       )!.data;
     });
@@ -44,7 +44,7 @@ describe("plugin", () => {
       const pluginResult = await plugin.scan({
         path: imagePath,
       });
-      const depGraph: DepGraph = pluginResult.scanResults[0].facts.find(
+      pluginResult.scanResults[0].facts.find(
         (fact) => fact.type === "depGraph",
       )!.data;
     });
@@ -128,7 +128,7 @@ describe("plugin", () => {
 
     test("should successfully scan a local image loaded from a tar archive", async () => {
       const pluginResult = await plugin.scan({ path: imageNameWithTag });
-      const depGraph: DepGraph = pluginResult.scanResults[0].facts.find(
+      pluginResult.scanResults[0].facts.find(
         (fact) => fact.type === "depGraph",
       )!.data;
 
