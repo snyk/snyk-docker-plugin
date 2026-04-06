@@ -49,6 +49,35 @@ Object {
           "type": "imageLayers",
         },
         Object {
+          "data": Object {
+            "cmd": null,
+            "entrypoint": Array [
+              "./scratch",
+            ],
+            "env": Array [
+              "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            ],
+            "user": "",
+            "volumes": null,
+            "workingDir": "",
+          },
+          "type": "containerConfig",
+        },
+        Object {
+          "data": Array [
+            Object {
+              "created": "2020-09-26T20:05:17.4883466Z",
+              "createdBy": "/bin/sh -c #(nop) COPY file:ba4d1800056e84a98eb53a8e70accfbba7fd0b9292f1cd09414ddb0f330b1aec in . ",
+            },
+            Object {
+              "created": "2020-09-26T20:05:17.6183383Z",
+              "createdBy": "/bin/sh -c #(nop)  ENTRYPOINT [\\"./scratch\\"]",
+              "emptyLayer": true,
+            },
+          ],
+          "type": "history",
+        },
+        Object {
           "data": "2020-09-26T20:05:17.6183383Z",
           "type": "imageCreationTime",
         },
@@ -65,6 +94,14 @@ Object {
             ],
           },
           "type": "imageNames",
+        },
+        Object {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        Object {
+          "data": "0.0.0-local",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {

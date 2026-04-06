@@ -20,6 +20,8 @@
     "lint:commit": "commitlint --from=HEAD~1",
     "format": "prettier --loglevel warn --write '{lib,test}/**/*.ts' && tslint --fix --format stylish '{lib,test}/**/*.ts'",
     "test": "npm run test-jest",
+    "test:unit": "jest --ci --maxWorkers=3 --logHeapUsage --colors --testPathPattern='test/(lib|unit)/'",
+    "test:system": "jest --ci --maxWorkers=3 --logHeapUsage --colors --testPathPattern='test/system/'",
     "test-jest": "jest --ci --maxWorkers=3 --logHeapUsage --colors",
     "test-jest-windows": "jest --ci --maxWorkers=3 --config test/windows/jest.config.js --logHeapUsage",
     "prepare": "npm run build"
@@ -29,28 +31,30 @@
   },
   "dependencies": {
     "@snyk/composer-lockfile-parser": "^1.4.1",
-    "@snyk/dep-graph": "^2.8.1",
-    "@snyk/docker-registry-v2-client": "^2.22.0",
-    "@snyk/rpm-parser": "^3.4.0",
-    "@snyk/snyk-docker-pull": "^3.15.0",
+    "@snyk/dep-graph": "^2.12.1",
+    "@snyk/docker-registry-v2-client": "^2.24.2",
+    "@snyk/rpm-parser": "^3.4.1",
+    "@snyk/snyk-docker-pull": "^3.15.1",
     "@swimlane/docker-reference": "^2.0.1",
-    "adm-zip": "^0.5.16",
+    "adm-zip": "^0.5.17",
     "chalk": "^2.4.2",
-    "debug": "^4.4.1",
+    "debug": "^4.4.3",
     "docker-modem": "^3.0.8",
     "dockerfile-ast": "^0.7.1",
     "elfy": "^1.0.0",
     "event-loop-spinner": "^2.3.2",
+    "fzstd": "^0.1.1",
     "gunzip-maybe": "^1.4.2",
+    "minimatch": "^3.1.5",
     "mkdirp": "^1.0.4",
     "packageurl-js": "1.2.0",
-    "semver": "^7.7.2",
-    "shescape": "^2.1.6",
+    "semver": "^7.7.3",
+    "shescape": "^2.1.7",
     "snyk-nodejs-lockfile-parser": "^2.2.2",
-    "snyk-poetry-lockfile-parser": "1.9.0",
+    "snyk-poetry-lockfile-parser": "1.9.1",
     "snyk-resolve-deps": "^4.9.1",
-    "tar-stream": "^2.1.0",
-    "tmp": "^0.2.4",
+    "tar-stream": "^2.2.0",
+    "tmp": "^0.2.5",
     "tslib": "^1",
     "uuid": "^8.2.0",
     "varint": "^6.0.0"
@@ -58,6 +62,9 @@
   "devDependencies": {
     "@commitlint/cli": "^17.0.2",
     "@commitlint/config-conventional": "^17.0.2",
+    "@mongodb-js/zstd": "^2.0.1",
+    "@semantic-release/exec": "^6.0.3",
+    "semantic-release": "^19.0.5",
     "@types/adm-zip": "^0.4.34",
     "@types/debug": "^4.1.5",
     "@types/jest": "^29.5.5",
@@ -78,6 +85,18 @@
   "release": {
     "branches": [
       "main"
+    ],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      [
+        "@semantic-release/exec",
+        {
+          "prepareCmd": "./scripts/update-version.sh ${nextRelease.version}"
+        }
+      ],
+      "@semantic-release/npm",
+      "@semantic-release/github"
     ]
   }
 }

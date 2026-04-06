@@ -2,7 +2,12 @@ import { basename } from "path";
 import { ExtractAction } from "../../extractor/types";
 import { streamToString } from "../../stream-utils";
 
-const nodeAppFiles = ["package.json", "package-lock.json", "yarn.lock"];
+const nodeAppFiles = [
+  "package.json",
+  "package-lock.json",
+  "yarn.lock",
+  "pnpm-lock.yaml",
+];
 const deletedAppFiles = nodeAppFiles.map((file) => ".wh." + file);
 
 const nodeJsTsAppFileSuffixes = [

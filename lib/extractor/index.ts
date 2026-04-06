@@ -1,3 +1,4 @@
+import * as Debug from "debug";
 import path = require("path");
 import {
   getLayersFromPackages,
@@ -19,6 +20,8 @@ import {
   ImageConfig,
   OciArchiveManifest,
 } from "./types";
+
+const debug = Debug("snyk");
 
 export class InvalidArchiveError extends Error {
   constructor(message) {
@@ -117,21 +120,24 @@ export async function extractImageContent(
   let archiveContent: ExtractedLayersAndManifest;
 
   if (!extractors.has(imageType)) {
-    // default to Docker extractor if image type is unknown
-    imageType = ImageType.DockerArchive;
-  }
-  extractor = extractors.get(imageType) as ArchiveExtractor;
+    // Unknown image type - try all extractors to auto-detect format
+    [archiveContent, extractor] = await extractArchiveContentFallback(
+      extractors,
+    );
+  } else {
+    extractor = extractors.get(imageType) as ArchiveExtractor;
 
-  try {
-    archiveContent = await extractor.getLayersAndManifest();
-  } catch (err) {
-    if (err instanceof InvalidArchiveError) {
-      // fallback to the other extractor if layer extraction failed
-      [archiveContent, extractor] = await extractArchiveContentFallback(
-        extractors,
-      );
-    } else {
-      throw err;
+    try {
+      archiveContent = await extractor.getLayersAndManifest();
+    } catch (err) {
+      if (err instanceof InvalidArchiveError) {
+        // fallback to the other extractor if layer extraction failed
+        [archiveContent, extractor] = await extractArchiveContentFallback(
+          extractors,
+        );
+      } else {
+        throw err;
+      }
     }
   }
 
@@ -145,17 +151,23 @@ export async function extractImageContent(
       archiveContent.imageConfig,
     ),
     platform: getPlatformFromConfig(archiveContent.imageConfig),
-    imageLabels: archiveContent.imageConfig.config.Labels,
+    imageLabels: archiveContent.imageConfig.config?.Labels,
+    containerConfig: archiveContent.imageConfig.config,
+    history: archiveContent.imageConfig.history,
   };
 }
 
 async function extractArchiveContentFallback(
   extractors: Map<ImageType, ArchiveExtractor>,
 ): Promise<[ExtractedLayersAndManifest, ArchiveExtractor]> {
-  for (const extractor of extractors.values()) {
+  for (const [imageType, extractor] of extractors.entries()) {
     try {
       return [await extractor.getLayersAndManifest(), extractor];
     } catch (error) {
+      // imageType is a string enum value like "docker-archive", "oci-archive"
+      debug(
+        `Error getting layers and manifest content from ${imageType} archive: ${error.message}`,
+      );
       continue;
     }
   }
@@ -198,7 +210,7 @@ export function getUserInstructionLayersFromConfig(imageConfig) {
   const maxDiffInHours = 5;
 
   const history = imageConfig.history;
-  if (!history) {
+  if (!history || history.length === 0) {
     return [];
   }
   const lastInstructionTime = new Date(history.slice(-1)[0].created);

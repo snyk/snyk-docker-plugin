@@ -1,4 +1,4 @@
-import { DepGraph, legacy } from "@snyk/dep-graph";
+import { DepGraph, DepGraphBuilder, legacy } from "@snyk/dep-graph";
 import * as Debug from "debug";
 import * as path from "path";
 import * as lockFileParser from "snyk-nodejs-lockfile-parser";
@@ -95,6 +95,18 @@ async function depGraphFromNodeModules(
 ): Promise<AppDepsScanResultWithoutTarget[]> {
   const scanResults: AppDepsScanResultWithoutTarget[] = [];
   for (const project of nodeProjects) {
+    // First, try to build dep graph from pnpm virtual store if present
+    const pnpmResult = await tryBuildDepGraphFromPnpmStore(
+      project,
+      filePathToContent,
+      fileNamesGroupedByDirectory,
+    );
+    if (pnpmResult) {
+      scanResults.push(pnpmResult);
+      continue;
+    }
+
+    // Fallback to snyk-resolve-deps for non-pnpm projects
     const { tempDir, tempProjectPath, manifestPath } = await persistNodeModules(
       project,
       filePathToContent,
@@ -159,6 +171,103 @@ async function depGraphFromNodeModules(
   return scanResults;
 }
 
+/**
+ * Builds a dependency graph from pnpm's .pnpm directory.
+ * snyk-resolve-deps doesn't understand pnpm's virtual store structure,
+ * so we parse the package.json files directly.
+ */
+async function tryBuildDepGraphFromPnpmStore(
+  project: string,
+  filePathToContent: FilePathToContent,
+  fileNamesGroupedByDirectory: FilesByDirMap,
+): Promise<AppDepsScanResultWithoutTarget | null> {
+  const projectFiles = fileNamesGroupedByDirectory.get(project);
+  if (!projectFiles) {
+    return null;
+  }
+
+  // Find all package.json files inside .pnpm directories
+  const pnpmPackageJsons = Array.from(projectFiles).filter(
+    (f) => f.includes("/node_modules/.pnpm/") && f.endsWith("/package.json"),
+  );
+  if (pnpmPackageJsons.length === 0) {
+    return null;
+  }
+
+  // Find the root package.json (parent of node_modules/.pnpm)
+  const pnpmMatch = pnpmPackageJsons[0].match(/^(.+?)\/node_modules\/\.pnpm\//);
+  if (!pnpmMatch) {
+    return null;
+  }
+  const rootManifestPath = path.posix.join(pnpmMatch[1], "package.json");
+  const rootManifestContent = filePathToContent[rootManifestPath];
+  if (!rootManifestContent) {
+    return null;
+  }
+
+  let rootPkg: { name?: string; version?: string };
+  try {
+    rootPkg = JSON.parse(rootManifestContent);
+  } catch {
+    return null;
+  }
+  if (!rootPkg.name) {
+    return null;
+  }
+
+  debug(`Building pnpm dep graph for ${rootPkg.name} from .pnpm directory`);
+
+  // Parse all packages from .pnpm and add them as direct dependencies
+  const builder = new DepGraphBuilder(
+    { name: "pnpm" },
+    { name: rootPkg.name, version: rootPkg.version || "0.0.0" },
+  );
+
+  const seen = new Set<string>();
+  for (const pkgJsonPath of pnpmPackageJsons) {
+    const content = filePathToContent[pkgJsonPath];
+    if (!content) {
+      continue;
+    }
+
+    try {
+      const pkg: { name?: string; version?: string } = JSON.parse(content);
+      if (!pkg.name || !pkg.version) {
+        continue;
+      }
+
+      const nodeId = `${pkg.name}@${pkg.version}`;
+      if (seen.has(nodeId)) {
+        continue;
+      }
+      seen.add(nodeId);
+
+      builder.addPkgNode({ name: pkg.name, version: pkg.version }, nodeId);
+      builder.connectDep(builder.rootNodeId, nodeId);
+    } catch {
+      // Skip unparseable files
+    }
+  }
+
+  if (seen.size === 0) {
+    return null;
+  }
+
+  const depGraph = builder.build();
+  debug(`Built pnpm dep graph with ${depGraph.getPkgs().length} packages`);
+
+  return {
+    facts: [
+      { type: "depGraph", data: depGraph },
+      { type: "testedFiles", data: rootManifestPath },
+    ],
+    identity: {
+      type: "pnpm",
+      targetFile: rootManifestPath,
+    },
+  };
+}
+
 async function depGraphFromManifestFiles(
   filePathToContent: FilePathToContent,
   manifestFilePairs: ManifestLockPathPair[],
@@ -215,6 +324,33 @@ async function depGraphFromManifestFiles(
   return scanResults;
 }
 
+export interface LockFileInfo {
+  path: string;
+  type: lockFileParser.LockfileType;
+}
+
+export function detectLockFile(
+  directoryPath: string,
+  filesInDirectory: Set<string>,
+): LockFileInfo | null {
+  const lockFiles: Array<{
+    filename: string;
+    type: lockFileParser.LockfileType;
+  }> = [
+    { filename: "package-lock.json", type: lockFileParser.LockfileType.npm },
+    { filename: "yarn.lock", type: lockFileParser.LockfileType.yarn },
+    { filename: "pnpm-lock.yaml", type: lockFileParser.LockfileType.pnpm },
+  ];
+
+  for (const { filename, type } of lockFiles) {
+    const lockPath = path.join(directoryPath, filename);
+    if (filesInDirectory.has(lockPath)) {
+      return { path: lockPath, type };
+    }
+  }
+  return null;
+}
+
 function findManifestLockPairsInSameDirectory(
   fileNamesGroupedByDirectory: FilesByDirMap,
 ): ManifestLockPathPair[] {
@@ -231,26 +367,21 @@ function findManifestLockPairsInSameDirectory(
     }
 
     const expectedManifest = path.join(directoryPath, "package.json");
-    const expectedNpmLockFile = path.join(directoryPath, "package-lock.json");
-    const expectedYarnLockFile = path.join(directoryPath, "yarn.lock");
-
-    const hasManifestFile = filesInDirectory.has(expectedManifest);
-    const hasLockFile =
-      filesInDirectory.has(expectedNpmLockFile) ||
-      filesInDirectory.has(expectedYarnLockFile);
-
-    if (hasManifestFile && hasLockFile) {
-      manifestLockPathPairs.push({
-        manifest: expectedManifest,
-        // TODO: correlate filtering action with expected lockfile types
-        lock: filesInDirectory.has(expectedNpmLockFile)
-          ? expectedNpmLockFile
-          : expectedYarnLockFile,
-        lockType: filesInDirectory.has(expectedNpmLockFile)
-          ? lockFileParser.LockfileType.npm
-          : lockFileParser.LockfileType.yarn,
-      });
+    if (!filesInDirectory.has(expectedManifest)) {
+      continue;
     }
+
+    // TODO: correlate filtering action with expected lockfile types
+    const lockFile = detectLockFile(directoryPath, filesInDirectory);
+    if (!lockFile) {
+      continue;
+    }
+
+    manifestLockPathPairs.push({
+      manifest: expectedManifest,
+      lock: lockFile.path,
+      lockType: lockFile.type,
+    });
   }
 
   return manifestLockPathPairs;
@@ -269,13 +400,9 @@ function findManifestNodeModulesFilesInSameDirectory(
     }
 
     const expectedManifest = path.join(directoryPath, "package.json");
-    const expectedNpmLockFile = path.join(directoryPath, "package-lock.json");
-    const expectedYarnLockFile = path.join(directoryPath, "yarn.lock");
-
     const hasManifestFile = filesInDirectory.has(expectedManifest);
     const hasLockFile =
-      filesInDirectory.has(expectedNpmLockFile) ||
-      filesInDirectory.has(expectedYarnLockFile);
+      detectLockFile(directoryPath, filesInDirectory) !== null;
 
     if (hasManifestFile && hasLockFile) {
       continue;
@@ -347,6 +474,21 @@ async function buildDepGraph(
           strictOutOfSync: shouldBeStrictForManifestAndLockfileOutOfSync,
         },
       );
+    case NodeLockfileVersion.PnpmLockV5:
+    case NodeLockfileVersion.PnpmLockV6:
+    case NodeLockfileVersion.PnpmLockV9:
+      return await lockFileParser.parsePnpmProject(
+        manifestFileContents,
+        lockFileContents,
+        {
+          includeDevDeps: shouldIncludeDevDependencies,
+          includeOptionalDeps: true,
+          includePeerDeps: false,
+          pruneWithinTopLevelDeps: true,
+          strictOutOfSync: shouldBeStrictForManifestAndLockfileOutOfSync,
+        },
+        lockfileVersion,
+      );
   }
   throw new Error(
     "Failed to build dep graph from current project, unknown lockfile version : " +
@@ -401,6 +543,9 @@ export function shouldBuildDepTree(lockfileVersion: NodeLockfileVersion) {
     lockfileVersion === NodeLockfileVersion.YarnLockV1 ||
     lockfileVersion === NodeLockfileVersion.YarnLockV2 ||
     lockfileVersion === NodeLockfileVersion.NpmLockV2 ||
-    lockfileVersion === NodeLockfileVersion.NpmLockV3
+    lockfileVersion === NodeLockfileVersion.NpmLockV3 ||
+    lockfileVersion === NodeLockfileVersion.PnpmLockV5 ||
+    lockfileVersion === NodeLockfileVersion.PnpmLockV6 ||
+    lockfileVersion === NodeLockfileVersion.PnpmLockV9
   );
 }

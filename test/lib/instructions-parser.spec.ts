@@ -32,6 +32,15 @@ describe("getPackagesFromRunInstructions", () => {
     ],
     [["apt install 389-admin"], ["389-admin"]],
     [["apt install apache2=2.3.35-4ubuntu1"], ["apache2"]],
+    [["dnf install curl"], ["curl"]],
+    [["dnf install -y curl"], ["curl"]],
+    [["dnf -y install curl"], ["curl"]],
+    [["dnf --nodocs install -y curl"], ["curl"]],
+    [["dnf install -y curl wget vim"], ["vim", "curl", "wget"]],
+    [["dnf install -y curl && dnf install -y wget"], ["curl", "wget"]],
+    [["microdnf install curl"], ["curl"]],
+    [["microdnf install --nodocs curl"], ["curl"]],
+    [["microdnf install -y curl && microdnf clean all"], ["curl"]],
   ];
 
   describe("Verify package detection", () => {
@@ -78,6 +87,7 @@ describe("getPackagesFromDockerFile", () => {
     ["library/nginx"],
     ["with-args-package"],
     ["with-multiple-run-instructions"],
+    ["with-dnf-installation"],
   ];
 
   test.each(dockerfileFixtures)(

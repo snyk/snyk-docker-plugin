@@ -8,6 +8,7 @@ import * as Debug from "debug";
 import * as Modem from "docker-modem";
 import { createWriteStream } from "fs";
 import { Stream } from "stream";
+import { DockerInspectOutput } from "./analyzer/types";
 import * as subProcess from "./sub-process";
 
 export { Docker, DockerOptions };
@@ -23,6 +24,18 @@ interface DockerOptions {
 }
 
 const debug = Debug("snyk");
+
+/**
+ * Type guard to validate that an object conforms to the DockerInspectOutput interface
+ */
+function isValidDockerInspectOutput(data: any): data is DockerInspectOutput {
+  return (
+    data &&
+    typeof data === "object" &&
+    !Array.isArray(data) &&
+    typeof data.Architecture === "string"
+  );
+}
 
 class Docker {
   public static async binaryExists(): Promise<boolean> {
@@ -135,7 +148,38 @@ class Docker {
     });
   }
 
-  public async inspectImage(targetImage: string) {
-    return subProcess.execute("docker", ["inspect", targetImage]);
+  public async inspectImage(targetImage: string): Promise<DockerInspectOutput> {
+    const request = {
+      path: `/images/${targetImage}/json`,
+      method: "GET",
+      statusCodes: {
+        200: true,
+        404: "not found",
+        500: "server error",
+      },
+    };
+
+    debug(`Docker.inspectImage: targetImage: ${targetImage}`);
+
+    const modem = new Modem();
+
+    return new Promise<DockerInspectOutput>((resolve, reject) => {
+      modem.dial(request, (err, data) => {
+        if (err) {
+          return reject(err);
+        }
+
+        // Validate that the response conforms to DockerInspectOutput interface
+        if (!isValidDockerInspectOutput(data)) {
+          return reject(
+            new Error(
+              `Invalid Docker inspect response for image ${targetImage}: expected DockerInspectOutput format`,
+            ),
+          );
+        }
+
+        resolve(data);
+      });
+    });
   }
 }

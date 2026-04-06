@@ -34,7 +34,8 @@ export function parseAnalysisResults(
 
   let packageFormat: string;
   switch (analysisResult.AnalyzeType) {
-    case AnalysisType.Apt: {
+    case AnalysisType.Apt:
+    case AnalysisType.Chisel: {
       packageFormat = "deb";
       break;
     }

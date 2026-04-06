@@ -49,6 +49,36 @@ Object {
           "type": "imageLayers",
         },
         Object {
+          "data": Object {
+            "argsEscaped": true,
+            "cmd": Array [
+              "sh",
+            ],
+            "entrypoint": null,
+            "env": Array [
+              "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            ],
+            "user": "",
+            "volumes": null,
+            "workingDir": "",
+          },
+          "type": "containerConfig",
+        },
+        Object {
+          "data": Array [
+            Object {
+              "created": "2020-09-09T01:38:21.590803313Z",
+              "createdBy": "/bin/sh -c #(nop) ADD file:67d02d04892c4f330712de5cb4405a29ee6b12812ccb314d9d6af74f9348d1b2 in / ",
+            },
+            Object {
+              "created": "2020-09-09T01:38:21.750425221Z",
+              "createdBy": "/bin/sh -c #(nop)  CMD [\\"sh\\"]",
+              "emptyLayer": true,
+            },
+          ],
+          "type": "history",
+        },
+        Object {
           "data": "2020-09-09T01:38:21.750425221Z",
           "type": "imageCreationTime",
         },
@@ -65,6 +95,14 @@ Object {
             ],
           },
           "type": "imageNames",
+        },
+        Object {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        Object {
+          "data": "0.0.0-local",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {

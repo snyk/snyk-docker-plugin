@@ -198,7 +198,7 @@ Object {
                 "id": "basesystem@11-13.el9",
                 "info": Object {
                   "name": "basesystem",
-                  "purl": "pkg:rpm/rhel/basesystem@11-13.el9?distro=rhel-9.3&repositories=rhel-9-for-x86_64-baseos-rpms%2Crhel-9-for-x86_64-appstream-rpms&upstream=basesystem%4011",
+                  "purl": "pkg:rpm/rhel/basesystem@11-13.el9?distro=rhel-9.3&repositories=rhel-9-for-x86_64-baseos-rpms%2Crhel-9-for-x86_64-appstream-rpms&upstream=basesystem%4011-13.el9",
                   "version": "11-13.el9",
                 },
               },
@@ -206,7 +206,7 @@ Object {
                 "id": "bash@5.1.8-6.el9_1",
                 "info": Object {
                   "name": "bash",
-                  "purl": "pkg:rpm/rhel/bash@5.1.8-6.el9_1?distro=rhel-9.3&repositories=rhel-9-for-x86_64-baseos-rpms%2Crhel-9-for-x86_64-appstream-rpms&upstream=bash%405.1.8",
+                  "purl": "pkg:rpm/rhel/bash@5.1.8-6.el9_1?distro=rhel-9.3&repositories=rhel-9-for-x86_64-baseos-rpms%2Crhel-9-for-x86_64-appstream-rpms&upstream=bash%405.1.8-6.el9_1",
                   "version": "5.1.8-6.el9_1",
                 },
               },
@@ -214,7 +214,7 @@ Object {
                 "id": "coreutils-single@8.32-34.el9",
                 "info": Object {
                   "name": "coreutils-single",
-                  "purl": "pkg:rpm/rhel/coreutils-single@8.32-34.el9?distro=rhel-9.3&repositories=rhel-9-for-x86_64-baseos-rpms%2Crhel-9-for-x86_64-appstream-rpms&upstream=coreutils%408.32",
+                  "purl": "pkg:rpm/rhel/coreutils-single@8.32-34.el9?distro=rhel-9.3&repositories=rhel-9-for-x86_64-baseos-rpms%2Crhel-9-for-x86_64-appstream-rpms&upstream=coreutils%408.32-34.el9",
                   "version": "8.32-34.el9",
                 },
               },
@@ -222,7 +222,7 @@ Object {
                 "id": "filesystem@3.16-2.el9",
                 "info": Object {
                   "name": "filesystem",
-                  "purl": "pkg:rpm/rhel/filesystem@3.16-2.el9?distro=rhel-9.3&repositories=rhel-9-for-x86_64-baseos-rpms%2Crhel-9-for-x86_64-appstream-rpms&upstream=filesystem%403.16",
+                  "purl": "pkg:rpm/rhel/filesystem@3.16-2.el9?distro=rhel-9.3&repositories=rhel-9-for-x86_64-baseos-rpms%2Crhel-9-for-x86_64-appstream-rpms&upstream=filesystem%403.16-2.el9",
                   "version": "3.16-2.el9",
                 },
               },
@@ -230,7 +230,7 @@ Object {
                 "id": "glibc@2.34-83.el9_3.12",
                 "info": Object {
                   "name": "glibc",
-                  "purl": "pkg:rpm/rhel/glibc@2.34-83.el9_3.12?distro=rhel-9.3&repositories=rhel-9-for-x86_64-baseos-rpms%2Crhel-9-for-x86_64-appstream-rpms&upstream=glibc%402.34",
+                  "purl": "pkg:rpm/rhel/glibc@2.34-83.el9_3.12?distro=rhel-9.3&repositories=rhel-9-for-x86_64-baseos-rpms%2Crhel-9-for-x86_64-appstream-rpms&upstream=glibc%402.34-83.el9_3.12",
                   "version": "2.34-83.el9_3.12",
                 },
               },
@@ -238,7 +238,7 @@ Object {
                 "id": "glibc-common@2.34-83.el9_3.12",
                 "info": Object {
                   "name": "glibc-common",
-                  "purl": "pkg:rpm/rhel/glibc-common@2.34-83.el9_3.12?distro=rhel-9.3&repositories=rhel-9-for-x86_64-baseos-rpms%2Crhel-9-for-x86_64-appstream-rpms&upstream=glibc%402.34",
+                  "purl": "pkg:rpm/rhel/glibc-common@2.34-83.el9_3.12?distro=rhel-9.3&repositories=rhel-9-for-x86_64-baseos-rpms%2Crhel-9-for-x86_64-appstream-rpms&upstream=glibc%402.34-83.el9_3.12",
                   "version": "2.34-83.el9_3.12",
                 },
               },
@@ -246,7 +246,7 @@ Object {
                 "id": "glibc-minimal-langpack@2.34-83.el9_3.12",
                 "info": Object {
                   "name": "glibc-minimal-langpack",
-                  "purl": "pkg:rpm/rhel/glibc-minimal-langpack@2.34-83.el9_3.12?distro=rhel-9.3&repositories=rhel-9-for-x86_64-baseos-rpms%2Crhel-9-for-x86_64-appstream-rpms&upstream=glibc%402.34",
+                  "purl": "pkg:rpm/rhel/glibc-minimal-langpack@2.34-83.el9_3.12?distro=rhel-9.3&repositories=rhel-9-for-x86_64-baseos-rpms%2Crhel-9-for-x86_64-appstream-rpms&upstream=glibc%402.34-83.el9_3.12",
                   "version": "2.34-83.el9_3.12",
                 },
               },
@@ -254,7 +254,7 @@ Object {
                 "id": "libacl@2.3.1-3.el9",
                 "info": Object {
                   "name": "libacl",
-                  "purl": "pkg:rpm/rhel/libacl@2.3.1-3.el9?distro=rhel-9.3&repositories=rhel-9-for-x86_64-baseos-rpms%2Crhel-9-for-x86_64-appstream-rpms&upstream=acl%402.3.1",
+                  "purl": "pkg:rpm/rhel/libacl@2.3.1-3.el9?distro=rhel-9.3&repositories=rhel-9-for-x86_64-baseos-rpms%2Crhel-9-for-x86_64-appstream-rpms&upstream=acl%402.3.1-3.el9",
                   "version": "2.3.1-3.el9",
                 },
               },
@@ -262,7 +262,7 @@ Object {
                 "id": "libattr@2.5.1-3.el9",
                 "info": Object {
                   "name": "libattr",
-                  "purl": "pkg:rpm/rhel/libattr@2.5.1-3.el9?distro=rhel-9.3&repositories=rhel-9-for-x86_64-baseos-rpms%2Crhel-9-for-x86_64-appstream-rpms&upstream=attr%402.5.1",
+                  "purl": "pkg:rpm/rhel/libattr@2.5.1-3.el9?distro=rhel-9.3&repositories=rhel-9-for-x86_64-baseos-rpms%2Crhel-9-for-x86_64-appstream-rpms&upstream=attr%402.5.1-3.el9",
                   "version": "2.5.1-3.el9",
                 },
               },
@@ -270,7 +270,7 @@ Object {
                 "id": "libcap@2.48-9.el9_2",
                 "info": Object {
                   "name": "libcap",
-                  "purl": "pkg:rpm/rhel/libcap@2.48-9.el9_2?distro=rhel-9.3&repositories=rhel-9-for-x86_64-baseos-rpms%2Crhel-9-for-x86_64-appstream-rpms&upstream=libcap%402.48",
+                  "purl": "pkg:rpm/rhel/libcap@2.48-9.el9_2?distro=rhel-9.3&repositories=rhel-9-for-x86_64-baseos-rpms%2Crhel-9-for-x86_64-appstream-rpms&upstream=libcap%402.48-9.el9_2",
                   "version": "2.48-9.el9_2",
                 },
               },
@@ -278,7 +278,7 @@ Object {
                 "id": "libgcc@11.4.1-2.1.el9",
                 "info": Object {
                   "name": "libgcc",
-                  "purl": "pkg:rpm/rhel/libgcc@11.4.1-2.1.el9?distro=rhel-9.3&repositories=rhel-9-for-x86_64-baseos-rpms%2Crhel-9-for-x86_64-appstream-rpms&upstream=gcc%4011.4.1",
+                  "purl": "pkg:rpm/rhel/libgcc@11.4.1-2.1.el9?distro=rhel-9.3&repositories=rhel-9-for-x86_64-baseos-rpms%2Crhel-9-for-x86_64-appstream-rpms&upstream=gcc%4011.4.1-2.1.el9",
                   "version": "11.4.1-2.1.el9",
                 },
               },
@@ -286,7 +286,7 @@ Object {
                 "id": "libselinux@3.5-1.el9",
                 "info": Object {
                   "name": "libselinux",
-                  "purl": "pkg:rpm/rhel/libselinux@3.5-1.el9?distro=rhel-9.3&repositories=rhel-9-for-x86_64-baseos-rpms%2Crhel-9-for-x86_64-appstream-rpms&upstream=libselinux%403.5",
+                  "purl": "pkg:rpm/rhel/libselinux@3.5-1.el9?distro=rhel-9.3&repositories=rhel-9-for-x86_64-baseos-rpms%2Crhel-9-for-x86_64-appstream-rpms&upstream=libselinux%403.5-1.el9",
                   "version": "3.5-1.el9",
                 },
               },
@@ -294,7 +294,7 @@ Object {
                 "id": "libsepol@3.5-1.el9",
                 "info": Object {
                   "name": "libsepol",
-                  "purl": "pkg:rpm/rhel/libsepol@3.5-1.el9?distro=rhel-9.3&repositories=rhel-9-for-x86_64-baseos-rpms%2Crhel-9-for-x86_64-appstream-rpms&upstream=libsepol%403.5",
+                  "purl": "pkg:rpm/rhel/libsepol@3.5-1.el9?distro=rhel-9.3&repositories=rhel-9-for-x86_64-baseos-rpms%2Crhel-9-for-x86_64-appstream-rpms&upstream=libsepol%403.5-1.el9",
                   "version": "3.5-1.el9",
                 },
               },
@@ -302,7 +302,7 @@ Object {
                 "id": "ncurses-base@6.2-10.20210508.el9",
                 "info": Object {
                   "name": "ncurses-base",
-                  "purl": "pkg:rpm/rhel/ncurses-base@6.2-10.20210508.el9?distro=rhel-9.3&repositories=rhel-9-for-x86_64-baseos-rpms%2Crhel-9-for-x86_64-appstream-rpms&upstream=ncurses%406.2",
+                  "purl": "pkg:rpm/rhel/ncurses-base@6.2-10.20210508.el9?distro=rhel-9.3&repositories=rhel-9-for-x86_64-baseos-rpms%2Crhel-9-for-x86_64-appstream-rpms&upstream=ncurses%406.2-10.20210508.el9",
                   "version": "6.2-10.20210508.el9",
                 },
               },
@@ -310,7 +310,7 @@ Object {
                 "id": "ncurses-libs@6.2-10.20210508.el9",
                 "info": Object {
                   "name": "ncurses-libs",
-                  "purl": "pkg:rpm/rhel/ncurses-libs@6.2-10.20210508.el9?distro=rhel-9.3&repositories=rhel-9-for-x86_64-baseos-rpms%2Crhel-9-for-x86_64-appstream-rpms&upstream=ncurses%406.2",
+                  "purl": "pkg:rpm/rhel/ncurses-libs@6.2-10.20210508.el9?distro=rhel-9.3&repositories=rhel-9-for-x86_64-baseos-rpms%2Crhel-9-for-x86_64-appstream-rpms&upstream=ncurses%406.2-10.20210508.el9",
                   "version": "6.2-10.20210508.el9",
                 },
               },
@@ -318,7 +318,7 @@ Object {
                 "id": "pcre2@10.40-2.el9",
                 "info": Object {
                   "name": "pcre2",
-                  "purl": "pkg:rpm/rhel/pcre2@10.40-2.el9?distro=rhel-9.3&repositories=rhel-9-for-x86_64-baseos-rpms%2Crhel-9-for-x86_64-appstream-rpms&upstream=pcre2%4010.40",
+                  "purl": "pkg:rpm/rhel/pcre2@10.40-2.el9?distro=rhel-9.3&repositories=rhel-9-for-x86_64-baseos-rpms%2Crhel-9-for-x86_64-appstream-rpms&upstream=pcre2%4010.40-2.el9",
                   "version": "10.40-2.el9",
                 },
               },
@@ -326,7 +326,7 @@ Object {
                 "id": "pcre2-syntax@10.40-2.el9",
                 "info": Object {
                   "name": "pcre2-syntax",
-                  "purl": "pkg:rpm/rhel/pcre2-syntax@10.40-2.el9?distro=rhel-9.3&repositories=rhel-9-for-x86_64-baseos-rpms%2Crhel-9-for-x86_64-appstream-rpms&upstream=pcre2%4010.40",
+                  "purl": "pkg:rpm/rhel/pcre2-syntax@10.40-2.el9?distro=rhel-9.3&repositories=rhel-9-for-x86_64-baseos-rpms%2Crhel-9-for-x86_64-appstream-rpms&upstream=pcre2%4010.40-2.el9",
                   "version": "10.40-2.el9",
                 },
               },
@@ -334,7 +334,7 @@ Object {
                 "id": "redhat-release@9.3-0.5.el9",
                 "info": Object {
                   "name": "redhat-release",
-                  "purl": "pkg:rpm/rhel/redhat-release@9.3-0.5.el9?distro=rhel-9.3&repositories=rhel-9-for-x86_64-baseos-rpms%2Crhel-9-for-x86_64-appstream-rpms&upstream=redhat-release%409.3",
+                  "purl": "pkg:rpm/rhel/redhat-release@9.3-0.5.el9?distro=rhel-9.3&repositories=rhel-9-for-x86_64-baseos-rpms%2Crhel-9-for-x86_64-appstream-rpms&upstream=redhat-release%409.3-0.5.el9",
                   "version": "9.3-0.5.el9",
                 },
               },
@@ -342,7 +342,7 @@ Object {
                 "id": "setup@2.13.7-9.el9",
                 "info": Object {
                   "name": "setup",
-                  "purl": "pkg:rpm/rhel/setup@2.13.7-9.el9?distro=rhel-9.3&repositories=rhel-9-for-x86_64-baseos-rpms%2Crhel-9-for-x86_64-appstream-rpms&upstream=setup%402.13.7",
+                  "purl": "pkg:rpm/rhel/setup@2.13.7-9.el9?distro=rhel-9.3&repositories=rhel-9-for-x86_64-baseos-rpms%2Crhel-9-for-x86_64-appstream-rpms&upstream=setup%402.13.7-9.el9",
                   "version": "2.13.7-9.el9",
                 },
               },
@@ -350,7 +350,7 @@ Object {
                 "id": "tzdata@2024a-1.el9",
                 "info": Object {
                   "name": "tzdata",
-                  "purl": "pkg:rpm/rhel/tzdata@2024a-1.el9?distro=rhel-9.3&repositories=rhel-9-for-x86_64-baseos-rpms%2Crhel-9-for-x86_64-appstream-rpms&upstream=tzdata%402024a",
+                  "purl": "pkg:rpm/rhel/tzdata@2024a-1.el9?distro=rhel-9.3&repositories=rhel-9-for-x86_64-baseos-rpms%2Crhel-9-for-x86_64-appstream-rpms&upstream=tzdata%402024a-1.el9",
                   "version": "2024a-1.el9",
                 },
               },
@@ -394,6 +394,103 @@ Object {
           "type": "imageLabels",
         },
         Object {
+          "data": Object {
+            "cmd": Array [
+              "/bin/sh",
+              "-c",
+              "/bin/sh",
+            ],
+            "env": Array [
+              "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            ],
+          },
+          "type": "containerConfig",
+        },
+        Object {
+          "data": Array [
+            Object {
+              "created": "2024-02-29T16:07:20.218705955Z",
+              "createdBy": "/bin/sh -c #(nop) LABEL maintainer=\\"Red Hat, Inc.\\"",
+              "emptyLayer": true,
+            },
+            Object {
+              "created": "2024-02-29T16:07:20.218786517Z",
+              "createdBy": "/bin/sh -c #(nop) LABEL com.redhat.component=\\"ubi9-micro-container\\"",
+              "emptyLayer": true,
+            },
+            Object {
+              "created": "2024-02-29T16:07:20.218808072Z",
+              "createdBy": "/bin/sh -c #(nop) LABEL name=\\"ubi9/ubi-micro\\"",
+              "emptyLayer": true,
+            },
+            Object {
+              "created": "2024-02-29T16:07:20.218828286Z",
+              "createdBy": "/bin/sh -c #(nop) LABEL version=\\"9.3\\"",
+              "emptyLayer": true,
+            },
+            Object {
+              "created": "2024-02-29T16:07:20.218861341Z",
+              "createdBy": "/bin/sh -c #(nop) LABEL com.redhat.license_terms=\\"https://www.redhat.com/en/about/red-hat-end-user-license-agreements#UBI\\"",
+              "emptyLayer": true,
+            },
+            Object {
+              "created": "2024-02-29T16:07:20.21888892Z",
+              "createdBy": "/bin/sh -c #(nop) LABEL summary=\\"ubi9 micro image\\"",
+              "emptyLayer": true,
+            },
+            Object {
+              "created": "2024-02-29T16:07:20.21891808Z",
+              "createdBy": "/bin/sh -c #(nop) LABEL description=\\"Very small image which doesn't install the package manager.\\"",
+              "emptyLayer": true,
+            },
+            Object {
+              "created": "2024-02-29T16:07:20.218950406Z",
+              "createdBy": "/bin/sh -c #(nop) LABEL io.k8s.display-name=\\"Ubi9-micro\\"",
+              "emptyLayer": true,
+            },
+            Object {
+              "created": "2024-02-29T16:07:20.218967151Z",
+              "createdBy": "/bin/sh -c #(nop) LABEL io.openshift.expose-services=\\"\\"",
+              "emptyLayer": true,
+            },
+            Object {
+              "created": "2024-02-29T16:07:20.77367295Z",
+              "createdBy": "/bin/sh -c #(nop) COPY dir:6145aafe55bb190e856aae2727aa2725110cd7b0843da3d004986102bf1c937b in / ",
+              "emptyLayer": true,
+            },
+            Object {
+              "created": "2024-02-29T16:07:21.06370135Z",
+              "createdBy": "/bin/sh -c #(nop) COPY file:eec73f859c6e7f6c8a9427ecc5249504fe89ae54dc3a1521b442674a90497d32 in /etc/yum.repos.d/ubi.repo ",
+              "emptyLayer": true,
+            },
+            Object {
+              "created": "2024-02-29T16:07:21.063746934Z",
+              "createdBy": "/bin/sh -c #(nop) CMD /bin/sh",
+              "emptyLayer": true,
+            },
+            Object {
+              "created": "2024-02-29T16:07:21.063853609Z",
+              "createdBy": "/bin/sh -c #(nop) LABEL release=15",
+              "emptyLayer": true,
+            },
+            Object {
+              "created": "2024-02-29T16:07:21.318104494Z",
+              "createdBy": "/bin/sh -c #(nop) ADD file:3b220cd51a397d1576895383c8f71312a3318d7d8a55044e0e55eca321aa8ace in /root/buildinfo/content_manifests/ubi9-micro-container-9.3-15.json ",
+              "emptyLayer": true,
+            },
+            Object {
+              "created": "2024-02-29T16:07:21.551483487Z",
+              "createdBy": "/bin/sh -c #(nop) ADD file:24783417f2a36df09be1b8148e62244b629292112a7fee58d47c9143c784bd67 in /root/buildinfo/Dockerfile-ubi9-ubi-micro-9.3-15 ",
+              "emptyLayer": true,
+            },
+            Object {
+              "created": "2024-02-29T16:07:21.717312639Z",
+              "createdBy": "/bin/sh -c #(nop) LABEL \\"distribution-scope\\"=\\"public\\" \\"vendor\\"=\\"Red Hat, Inc.\\" \\"build-date\\"=\\"2024-02-29T16:04:33\\" \\"architecture\\"=\\"x86_64\\" \\"vcs-type\\"=\\"git\\" \\"vcs-ref\\"=\\"303dc144996db01765d69e8ea45d2d617d953e42\\" \\"io.k8s.description\\"=\\"Very small image which doesn't install the package manager.\\" \\"url\\"=\\"https://access.redhat.com/containers/#/registry.access.redhat.com/ubi9/ubi-micro/images/9.3-15\\"",
+            },
+          ],
+          "type": "history",
+        },
+        Object {
           "data": "2024-02-29T16:07:21.552785209Z",
           "type": "imageCreationTime",
         },
@@ -414,6 +511,14 @@ Object {
             ],
           },
           "type": "imageNames",
+        },
+        Object {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        Object {
+          "data": "0.0.0-local",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {

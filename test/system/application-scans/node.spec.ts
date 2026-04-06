@@ -6,6 +6,7 @@ import { NodeLockfileVersion } from "snyk-nodejs-lockfile-parser";
 import * as resolveDeps from "snyk-resolve-deps";
 import { extractContent, scan } from "../../../lib";
 import {
+  detectLockFile,
   getLockFileVersion,
   shouldBuildDepTree,
 } from "../../../lib/analyzer/applications/node";
@@ -105,6 +106,44 @@ describe("node application scans", () => {
     );
     expect(pluginResultNpmV2).toMatchSnapshot();
     expect(pluginResultNpmV3).toMatchSnapshot();
+  });
+
+  it("should correctly return depgraph for pnpm lockfiles V6 and V9", async () => {
+    const fixturePathPnpmV6 = getFixture("/pnpm/pnpmlockv6.tar");
+    const fixturePathPnpmV9 = getFixture("/pnpm/pnpmlockv9.tar");
+    const imageNameAndTagV6 = `docker-archive:${fixturePathPnpmV6}`;
+    const imageNameAndTagV9 = `docker-archive:${fixturePathPnpmV9}`;
+
+    const pluginResultPnpmV6 = await scan({
+      path: imageNameAndTagV6,
+      "app-vulns": true,
+    });
+
+    const pluginResultPnpmV9 = await scan({
+      path: imageNameAndTagV9,
+      "app-vulns": true,
+    });
+
+    const depGraphPnpmV6: DepGraph =
+      pluginResultPnpmV6.scanResults[1].facts.find(
+        (fact) => fact.type === "depGraph",
+      )!.data;
+
+    const depGraphPnpmV9: DepGraph =
+      pluginResultPnpmV9.scanResults[1].facts.find(
+        (fact) => fact.type === "depGraph",
+      )!.data;
+
+    expect(depGraphPnpmV6.pkgManager.name).toEqual("pnpm");
+    expect(depGraphPnpmV9.pkgManager.name).toEqual("pnpm");
+    expect(depGraphPnpmV6.getPkgs().length).toEqual(
+      depGraphPnpmV9.getPkgs().length,
+    );
+    expect(depGraphPnpmV6.getDepPkgs().length).toEqual(
+      depGraphPnpmV9.getDepPkgs().length,
+    );
+    expect(pluginResultPnpmV6).toMatchSnapshot();
+    expect(pluginResultPnpmV9).toMatchSnapshot();
   });
 
   it("should correctly return depgraph when container contains an invalid manifest", async () => {
@@ -239,7 +278,8 @@ describe("node application scans", () => {
       expect(
         fileName.endsWith("/package.json") ||
           fileName.endsWith("/package-lock.json") ||
-          fileName.endsWith("/yarn.lock"),
+          fileName.endsWith("/yarn.lock") ||
+          fileName.endsWith("/pnpm-lock.yaml"),
       ).toBeTruthy();
       expect("node-app-files" in result.extractedLayers[fileName]).toBeTruthy();
     });
@@ -446,11 +486,13 @@ describe("shouldBuildDepTree", () => {
     expect(shouldBuildDepTree(NodeLockfileVersion.YarnLockV2)).toBe(false);
     expect(shouldBuildDepTree(NodeLockfileVersion.NpmLockV2)).toBe(false);
     expect(shouldBuildDepTree(NodeLockfileVersion.NpmLockV3)).toBe(false);
+    expect(shouldBuildDepTree(NodeLockfileVersion.PnpmLockV5)).toBe(false);
+    expect(shouldBuildDepTree(NodeLockfileVersion.PnpmLockV6)).toBe(false);
+    expect(shouldBuildDepTree(NodeLockfileVersion.PnpmLockV9)).toBe(false);
   });
 
   it("should return true for lockfile versions that need to be converted to a deptree before creating a depgraph", () => {
-    expect(shouldBuildDepTree(NodeLockfileVersion.PnpmLockV6)).toBe(true);
-    expect(shouldBuildDepTree(NodeLockfileVersion.PnpmLockV9)).toBe(true);
+    expect(shouldBuildDepTree(NodeLockfileVersion.NpmLockV1)).toBe(true);
   });
 });
 
@@ -504,6 +546,15 @@ describe("getLockFileVersion", () => {
   });
 
   it("should return the correct lockfile version for pnpm-lock.yaml files", () => {
+    const lockFileContentsV5 = `
+    lockfileVersion: 5.4
+    dependencies:
+      debug: 4.3.1
+    `;
+    expect(getLockFileVersion("pnpm-lock.yaml", lockFileContentsV5)).toBe(
+      NodeLockfileVersion.PnpmLockV5,
+    );
+
     const lockFileContentsV6 = `
     lockfileVersion: 6
     dependencies:
@@ -531,6 +582,68 @@ describe("getLockFileVersion", () => {
     expect(() =>
       getLockFileVersion("unknown.lock", lockFileContents),
     ).toThrowError(InvalidUserInputError);
+  });
+});
+
+describe("detectLockFile", () => {
+  it("should return npm lockfile when present", () => {
+    const files = new Set(["/app/package.json", "/app/package-lock.json"]);
+    const result = detectLockFile("/app", files);
+    expect(result).toEqual({
+      path: "/app/package-lock.json",
+      type: lockFileParser.LockfileType.npm,
+    });
+  });
+
+  it("should return yarn lockfile when present", () => {
+    const files = new Set(["/app/package.json", "/app/yarn.lock"]);
+    const result = detectLockFile("/app", files);
+    expect(result).toEqual({
+      path: "/app/yarn.lock",
+      type: lockFileParser.LockfileType.yarn,
+    });
+  });
+
+  it("should return pnpm lockfile when present", () => {
+    const files = new Set(["/app/package.json", "/app/pnpm-lock.yaml"]);
+    const result = detectLockFile("/app", files);
+    expect(result).toEqual({
+      path: "/app/pnpm-lock.yaml",
+      type: lockFileParser.LockfileType.pnpm,
+    });
+  });
+
+  it("should return null when no lockfile is present", () => {
+    const files = new Set(["/app/package.json"]);
+    const result = detectLockFile("/app", files);
+    expect(result).toBeNull();
+  });
+
+  it("should prioritize npm over yarn over pnpm when multiple lockfiles exist", () => {
+    const files = new Set([
+      "/app/package.json",
+      "/app/package-lock.json",
+      "/app/yarn.lock",
+      "/app/pnpm-lock.yaml",
+    ]);
+    const result = detectLockFile("/app", files);
+    expect(result).toEqual({
+      path: "/app/package-lock.json",
+      type: lockFileParser.LockfileType.npm,
+    });
+  });
+
+  it("should prioritize yarn over pnpm when both exist", () => {
+    const files = new Set([
+      "/app/package.json",
+      "/app/yarn.lock",
+      "/app/pnpm-lock.yaml",
+    ]);
+    const result = detectLockFile("/app", files);
+    expect(result).toEqual({
+      path: "/app/yarn.lock",
+      type: lockFileParser.LockfileType.yarn,
+    });
   });
 });
 
@@ -638,11 +751,17 @@ describe("node application files grouping", () => {
         "",
       "~/.pnpm-store/54321098765432109876543210987654321098765432109876543210987654321/package.json":
         "",
+      "~/.pnpm-store/54321098765432109876543210987654321098765432109876543210987654321/pnpm-lock.yaml":
+        "",
       "~/.pnpm-store/54321098765432109876543210987654321098765432109876543210987654321/node_modules/@scope/package-a@1.2.3/package.json":
         "",
       "C:\\Users\\username\\AppData\\Roaming\\pnpm-store\\54321098765432109876543210987654321098765432109876543210987654321\\package.json":
         "",
+      "C:\\Users\\username\\AppData\\Roaming\\pnpm-store\\54321098765432109876543210987654321098765432109876543210987654321\\pnpm-lock.yaml":
+        "",
       "C:\\Users\\username\\AppData\\Roaming\\pnpm\\store\\54321098765432109876543210987654321098765432109876543210987654321\\package.json":
+        "",
+      "C:\\Users\\username\\AppData\\Roaming\\pnpm\\store\\54321098765432109876543210987654321098765432109876543210987654321\\pnpm-lock.yaml":
         "",
     };
 

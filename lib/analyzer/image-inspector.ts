@@ -23,7 +23,7 @@ async function getInspectResult(
   targetImage: string,
 ): Promise<DockerInspectOutput> {
   const info = await docker.inspectImage(targetImage);
-  return JSON.parse(info.stdout)[0];
+  return info;
 }
 
 function cleanupCallback(imageFolderPath: string, imageName: string) {
@@ -59,7 +59,8 @@ async function pullWithDockerBinary(
     return true;
   } catch (err) {
     debug(`couldn't pull ${targetImage} using docker binary: ${err.message}`);
-    handleDockerPullError(err.stderr, platform);
+    const errorMessage = err.stderr || err.message || err.toString();
+    handleDockerPullError(errorMessage, platform);
 
     return false;
   }

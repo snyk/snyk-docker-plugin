@@ -49,6 +49,25 @@ Object {
           "type": "imageLayers",
         },
         Object {
+          "data": Object {
+            "env": Array [
+              "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            ],
+            "workingDir": "/",
+          },
+          "type": "containerConfig",
+        },
+        Object {
+          "data": Array [
+            Object {
+              "comment": "buildkit.dockerfile.v0",
+              "created": "2022-08-04T13:17:10.411032291Z",
+              "createdBy": "COPY /app/. /app/. # buildkit",
+            },
+          ],
+          "type": "history",
+        },
+        Object {
           "data": "2022-08-04T13:17:10.411032291Z",
           "type": "imageCreationTime",
         },
@@ -57,6 +76,14 @@ Object {
             "sha256:1a94d0e60a13af7e273a428cb3f439f1f8872c806a70c41895bfd95de875c4c4",
           ],
           "type": "rootFs",
+        },
+        Object {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        Object {
+          "data": "0.0.0-local",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {
@@ -368,6 +395,10 @@ Object {
         Object {
           "data": "sha256:83878e4a19e2c44d6efc14d3aa75b0cda05a44927575480cf3cef8889efa26f9",
           "type": "imageId",
+        },
+        Object {
+          "data": "0.0.0-local",
+          "type": "pluginVersion",
         },
       ],
       "identity": Object {

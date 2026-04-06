@@ -9,9 +9,16 @@ import { ImageName } from "./extractor/image";
 import { ExtractAction, ExtractionResult } from "./extractor/types";
 import { fullImageSavePath } from "./image-save-path";
 import { getArchivePath, getImageType } from "./image-type";
-import { isNumber, isTrue } from "./option-utils";
+import {
+  isDefined,
+  isNumber,
+  isStrictNumber,
+  isTrue,
+  resolveNestedJarsOption,
+} from "./option-utils";
 import * as staticModule from "./static";
 import { ImageType, PluginOptions, PluginResponse } from "./types";
+import { isValidDockerImageReference } from "./utils";
 
 // Registry credentials may also be provided by env vars. When both are set, flags take precedence.
 export function mergeEnvVarsIntoCredentials(
@@ -39,8 +46,23 @@ async function getAnalysisParameters(
     throw new Error("No image identifier or path provided");
   }
 
-  const nestedJarsDepth =
-    options["nested-jars-depth"] || options["shaded-jars-depth"];
+  const nestedJarsDepth = resolveNestedJarsOption(options);
+  const parameterWarnings: string[] = [];
+  if (isDefined(options["shaded-jars-depth"])) {
+    parameterWarnings.push(
+      "--shaded-jars-depth is deprecated, use --nested-jars-depth instead",
+    );
+  }
+  if (
+    !isStrictNumber(nestedJarsDepth) &&
+    typeof nestedJarsDepth !== "undefined"
+  ) {
+    parameterWarnings.push(
+      "Non-numeric inputs for --nested-jars-depth are deprecated, replace with a numeric input",
+    );
+  }
+  options.parameterWarnings = parameterWarnings;
+
   if (
     (isTrue(nestedJarsDepth) || isNumber(nestedJarsDepth)) &&
     isTrue(options["exclude-app-vulns"])
@@ -174,6 +196,13 @@ async function imageIdentifierAnalysis(
   dockerfileAnalysis: DockerFileAnalysis | undefined,
   options: Partial<PluginOptions>,
 ): Promise<PluginResponse> {
+  // Validate Docker image reference format to catch malformed references early. We implement initial validation here
+  // in lieu of simply sending to the docker daemon since some invalid references can result in unknown or invalid API
+  // paths to the Docker daemon, sometimes producing confusing error results (like redirects) instead of the not found response.
+  if (!isValidDockerImageReference(targetImage)) {
+    throw new Error(`invalid image reference format: ${targetImage}`);
+  }
+
   const globToFind = {
     include: options.globsToFind?.include || [],
     exclude: options.globsToFind?.exclude || [],

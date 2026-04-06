@@ -21,11 +21,18 @@ import {
   getOpenJDKBinariesFileContentAction,
 } from "../inputs/binaries/static";
 import {
+  getChiselManifestAction,
+  getChiselManifestContent,
+} from "../inputs/chisel/static";
+import {
   getAptFiles,
   getDpkgPackageFileContentAction,
 } from "../inputs/distroless/static";
 import * as filePatternStatic from "../inputs/file-pattern/static";
-import { getJarFileContentAction } from "../inputs/java/static";
+import {
+  getJarFileContentAction,
+  getUsrLibJarFileContentAction,
+} from "../inputs/java/static";
 import {
   getNodeAppFileContentAction,
   getNodeJsTsAppFileContentAction,
@@ -66,6 +73,7 @@ import {
   analyze as aptAnalyze,
   analyzeDistroless as aptDistrolessAnalyze,
 } from "./package-managers/apt";
+import { analyze as chiselAnalyze } from "./package-managers/chisel";
 import {
   analyze as rpmAnalyze,
   mapRpmSqlitePackages,
@@ -93,6 +101,7 @@ export async function analyze(
     getRpmDbFileContentAction,
     getRpmSqliteDbFileContentAction,
     getRpmNdbFileContentAction,
+    getChiselManifestAction,
     ...getOsReleaseActions,
     getNodeBinariesFileContentAction,
     getOpenJDKBinariesFileContentAction,
@@ -116,13 +125,20 @@ export async function analyze(
   const collectApplicationFiles = isTrue(options["collect-application-files"]);
 
   if (appScan) {
+    const jarActions = [getJarFileContentAction];
+
+    // Include system JARs from /usr/lib if flag is enabled
+    if (isTrue(options["include-system-jars"])) {
+      jarActions.push(getUsrLibJarFileContentAction);
+    }
+
     staticAnalysisActions.push(
       ...[
         getNodeAppFileContentAction,
         getPhpAppFileContentAction,
         getPoetryAppFileContentAction,
         getPipAppFileContentAction,
-        getJarFileContentAction,
+        ...jarActions,
         getGoModulesContentAction,
       ],
     );
@@ -144,6 +160,8 @@ export async function analyze(
     platform,
     imageLabels,
     imageCreationTime,
+    containerConfig,
+    history,
   } = await archiveExtractor.extractImageContent(
     imageType,
     imagePath,
@@ -157,12 +175,14 @@ export async function analyze(
     rpmDbFileContent,
     rpmSqliteDbFileContent,
     rpmNdbFileContent,
+    chiselPackages,
   ] = await Promise.all([
     getApkDbFileContent(extractedLayers),
     getAptDbFileContent(extractedLayers),
     getRpmDbFileContent(extractedLayers),
     getRpmSqliteDbFileContent(extractedLayers),
     getRpmNdbFileContent(extractedLayers),
+    getChiselManifestContent(extractedLayers),
   ]);
 
   const distrolessAptFiles = getAptFiles(extractedLayers);
@@ -205,6 +225,7 @@ export async function analyze(
         osRelease,
       ),
       aptDistrolessAnalyze(targetImage, distrolessAptFiles, osRelease),
+      chiselAnalyze(targetImage, chiselPackages),
     ]);
   } catch (err) {
     debug(`Could not detect installed OS packages: ${err.message}`);
@@ -295,6 +316,8 @@ export async function analyze(
     autoDetectedUserInstructions,
     imageLabels,
     imageCreationTime,
+    containerConfig,
+    history,
   };
 }
 

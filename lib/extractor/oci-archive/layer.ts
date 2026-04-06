@@ -1,12 +1,12 @@
 import * as Debug from "debug";
 import { createReadStream } from "fs";
-import * as gunzip from "gunzip-maybe";
 import { normalize as normalizePath, sep as pathSeparator } from "path";
-import { PassThrough } from "stream";
+import { Readable } from "stream";
 import { extract, Extract } from "tar-stream";
 import { getPlatformFromConfig, InvalidArchiveError } from "..";
 import { streamToJson } from "../../stream-utils";
 import { PluginOptions } from "../../types";
+import { decompressMaybe } from "../decompress-maybe";
 import { extractImageLayer } from "../layer";
 import {
   ExtractAction,
@@ -28,8 +28,20 @@ const MEDIATYPE_OCI_MANIFEST_V1 = "application/vnd.oci.image.manifest.v1+json";
 const MEDIATYPE_OCI_MANIFEST_LIST_V1 =
   "application/vnd.oci.image.index.v1+json";
 
+// Maximum size for JSON metadata files. Matches the limit in streamToJson.
+// Files larger than this are layer blobs, not JSON metadata.
+const MAX_JSON_SIZE_BYTES = 2 * 1024 * 1024;
+
 /**
  * Retrieve the products of files content from the specified oci-archive.
+ *
+ * Uses a two-pass approach:
+ * 1. First pass: Parse JSON metadata (manifests, configs, indexes) to determine
+ *    which layers are needed for the target platform.
+ * 2. Second pass: Extract only the required layer blobs.
+ *
+ * This avoids memory issues from buffering large layer blobs unnecessarily.
+ *
  * @param ociArchiveFilesystemPath Path to image file saved in oci-archive format.
  * @param extractActions Array of pattern-callbacks pairs.
  * @param options PluginOptions
@@ -40,133 +52,62 @@ export async function extractArchive(
   extractActions: ExtractAction[],
   options: PluginOptions,
 ): Promise<ExtractedLayersAndManifest> {
-  return new Promise((resolve, reject) => {
-    const tarExtractor: Extract = extract();
+  // Pass 1: Extract JSON metadata
+  const metadata = await extractMetadata(ociArchiveFilesystemPath);
 
-    const layers: Record<string, ExtractedLayers> = {};
-    const manifests: Record<string, OciArchiveManifest> = {};
-    const configs: ImageConfig[] = [];
-    let mainIndexFile: OciImageIndex;
-    const indexFiles: Record<string, OciImageIndex> = {};
+  // Determine which manifest and layers we need
+  const { manifest, imageConfig } = resolveManifestAndConfig(metadata, options);
 
-    tarExtractor.on("entry", async (header, stream, next) => {
-      if (header.type === "file") {
-        const normalizedHeaderName = normalizePath(header.name);
-        if (isMainIndexFile(normalizedHeaderName)) {
-          mainIndexFile = await streamToJson<OciImageIndex>(stream);
-        } else {
-          const jsonStream = new PassThrough();
-          const layerStream = new PassThrough();
-          stream.pipe(jsonStream);
-          stream.pipe(layerStream);
-
-          const promises = [
-            streamToJson(jsonStream).catch(() => undefined),
-            extractImageLayer(layerStream, extractActions).catch(
-              () => undefined,
-            ),
-          ];
-          const [manifest, layer] = await Promise.all(promises);
-
-          // header format is /blobs/hash_name/hash_value
-          // we're extracting hash_name:hash_value format to match manifest digest
-          const headerParts = normalizedHeaderName.split(pathSeparator);
-          const hashName = headerParts[1];
-          const hashValue = headerParts[headerParts.length - 1];
-          const digest = `${hashName}:${hashValue}`;
-          if (isArchiveManifest(manifest)) {
-            manifests[digest] = manifest;
-          } else if (isImageIndexFile(manifest)) {
-            indexFiles[digest] = manifest as OciImageIndex;
-          } else if (isImageConfigFile(manifest)) {
-            configs.push(manifest);
-          }
-          if (layer !== undefined) {
-            layers[digest] = layer as ExtractedLayers;
-          }
-        }
-      }
-
-      stream.resume(); // auto drain the stream
-      next(); // ready for next entry
-    });
-
-    tarExtractor.on("finish", () => {
-      try {
-        resolve(
-          getLayersContentAndArchiveManifest(
-            mainIndexFile,
-            manifests,
-            indexFiles,
-            configs,
-            layers,
-            options,
-          ),
-        );
-      } catch (error) {
-        debug(
-          `Error getting layers and manifest content from oci archive: '${error.message}'`,
-        );
-        reject(new InvalidArchiveError("Invalid OCI archive"));
-      }
-    });
-
-    tarExtractor.on("error", (error) => {
-      reject(error);
-    });
-
-    createReadStream(ociArchiveFilesystemPath)
-      .pipe(gunzip())
-      .pipe(tarExtractor);
-  });
-}
-
-function getLayersContentAndArchiveManifest(
-  imageIndex: OciImageIndex | undefined,
-  manifestCollection: Record<string, OciArchiveManifest>,
-  indexFiles: Record<string, OciImageIndex>,
-  configs: ImageConfig[],
-  layers: Record<string, ExtractedLayers>,
-  options: Partial<PluginOptions>,
-): {
-  layers: ExtractedLayers[];
-  manifest: OciArchiveManifest;
-  imageConfig: ImageConfig;
-} {
-  const filteredConfigs = configs.filter((config) => {
-    return config?.os !== "unknown" || config?.architecture !== "unknown";
-  });
-  const platform =
-    options?.platform ||
-    (filteredConfigs.length === 1
-      ? getPlatformFromConfig(filteredConfigs[0])
-      : "linux/amd64");
-  const platformInfo = getOciPlatformInfoFromOptionString(platform as string);
-
-  // get manifest file first
-  const manifest = getManifest(
-    imageIndex,
-    manifestCollection,
-    indexFiles,
-    platformInfo,
+  // Get the list of layer digests we need to extract
+  const requiredLayerDigests = new Set(
+    manifest.layers.map((layer) => layer.digest),
   );
 
-  // filter empty layers
-  // get the layers content without the name
-  // reverse layers order from last to first
+  // Pass 2: Extract the required layers
+  const { layers, failedDigests } = await extractLayers(
+    ociArchiveFilesystemPath,
+    requiredLayerDigests,
+    extractActions,
+  );
+
+  // Report any layer extraction failures
+  if (failedDigests.size > 0) {
+    const failures = Array.from(failedDigests.entries())
+      .map(([digest, error]) => `${digest}: ${error}`)
+      .join("; ");
+    debug(`Failed to extract ${failedDigests.size} layer(s): ${failures}`);
+  }
+
+  // Build the result
   const filteredLayers = manifest.layers
     .filter((layer) => layers[layer.digest])
     .map((layer) => layers[layer.digest])
     .reverse();
 
   if (filteredLayers.length === 0) {
-    throw new Error("We found no layers in the provided image");
+    // Provide more context about why extraction failed
+    if (failedDigests.size > 0) {
+      const failedList = Array.from(failedDigests.keys()).join(", ");
+      throw new InvalidArchiveError(
+        `Failed to extract any layers from the image. ` +
+          `${failedDigests.size} layer(s) failed: ${failedList}`,
+      );
+    }
+    throw new InvalidArchiveError(
+      "We found no layers in the provided image. " +
+        "The archive may be corrupted or in an unsupported format.",
+    );
   }
 
-  const imageConfig = getImageConfig(configs, platformInfo);
-
-  if (imageConfig === undefined) {
-    throw new Error("Could not find the image config in the provided image");
+  // Warn if some but not all layers failed (partial extraction)
+  const missingLayers = manifest.layers.filter(
+    (layer) => !layers[layer.digest],
+  );
+  if (missingLayers.length > 0) {
+    debug(
+      `Warning: ${missingLayers.length} layer(s) from manifest were not extracted: ` +
+        missingLayers.map((l) => l.digest).join(", "),
+    );
   }
 
   return {
@@ -176,12 +117,289 @@ function getLayersContentAndArchiveManifest(
   };
 }
 
+interface ArchiveMetadata {
+  mainIndexFile?: OciImageIndex;
+  manifests: Record<string, OciArchiveManifest>;
+  indexFiles: Record<string, OciImageIndex>;
+  configs: ImageConfig[];
+}
+
+/**
+ * Pass 1: Extract only JSON metadata from the archive.
+ *
+ * Skips large files (> MAX_JSON_SIZE_BYTES) since they're layer blobs, not JSON.
+ * For small files, attempts JSON parse; binary data fails fast on the first byte check.
+ */
+async function extractMetadata(
+  ociArchiveFilesystemPath: string,
+): Promise<ArchiveMetadata> {
+  return new Promise((resolve, reject) => {
+    const tarExtractor: Extract = extract();
+
+    const manifests: Record<string, OciArchiveManifest> = {};
+    const configs: ImageConfig[] = [];
+    let mainIndexFile: OciImageIndex | undefined;
+    const indexFiles: Record<string, OciImageIndex> = {};
+
+    tarExtractor.on("entry", async (header, stream, next) => {
+      try {
+        if (header.type === "file") {
+          const normalizedHeaderName = normalizePath(header.name);
+
+          if (isMainIndexFile(normalizedHeaderName)) {
+            mainIndexFile = await streamToJson<OciImageIndex>(stream);
+          } else if (
+            isBlobPath(normalizedHeaderName) &&
+            (header.size === undefined || header.size <= MAX_JSON_SIZE_BYTES)
+          ) {
+            // Small blob file - try to parse as JSON metadata
+            // Large files and non-blob files (oci-layout, etc.) are skipped
+            const jsonContent = await tryParseJsonMetadata(stream);
+
+            if (jsonContent !== undefined) {
+              const digest = getDigestFromPath(normalizedHeaderName);
+              if (isArchiveManifest(jsonContent)) {
+                manifests[digest] = jsonContent;
+              } else if (isImageIndexFile(jsonContent)) {
+                indexFiles[digest] = jsonContent as OciImageIndex;
+              } else if (isImageConfigFile(jsonContent)) {
+                configs.push(jsonContent as ImageConfig);
+              }
+            }
+          }
+          // All other files (non-blob, large blobs) are drained below
+        }
+      } catch (err) {
+        debug(
+          `Error processing OCI archive entry ${header.name}: ${err.message}`,
+        );
+      }
+
+      stream.resume(); // Drain the stream
+      next();
+    });
+
+    tarExtractor.on("finish", () => {
+      resolve({ mainIndexFile, manifests, indexFiles, configs });
+    });
+
+    tarExtractor.on("error", (error) => {
+      reject(error);
+    });
+
+    createReadStream(ociArchiveFilesystemPath)
+      .pipe(decompressMaybe())
+      .pipe(tarExtractor);
+  });
+}
+
+/**
+ * Attempts to parse a stream as JSON metadata.
+ * Returns undefined if the stream doesn't contain valid JSON (e.g., it's a layer blob).
+ *
+ * Uses a fast-fail check: if the first byte isn't '{' or '[', it's not JSON.
+ * Note: This doesn't handle JSON with leading whitespace, which is technically valid
+ * but never produced by standard OCI tooling.
+ */
+async function tryParseJsonMetadata(stream: Readable): Promise<unknown> {
+  return new Promise((resolve) => {
+    let firstChunk = true;
+    const chunks: string[] = [];
+    let bytes = 0;
+    let resolved = false;
+
+    const cleanup = () => {
+      stream.removeAllListeners("data");
+      stream.removeAllListeners("end");
+      // Keep a no-op error handler to prevent unhandled error events
+      // when the stream is drained after fast-fail
+      stream.removeAllListeners("error");
+      // tslint:disable-next-line:no-empty
+      stream.on("error", () => {});
+    };
+
+    stream.on("data", (chunk: Buffer) => {
+      if (firstChunk) {
+        firstChunk = false;
+        // Fast-fail: JSON must start with { or [
+        const firstByte = chunk[0];
+        if (firstByte !== 0x7b && firstByte !== 0x5b) {
+          // 0x7b = '{', 0x5b = '['
+          resolved = true;
+          cleanup();
+          resolve(undefined);
+          return;
+        }
+      }
+
+      bytes += chunk.length;
+      if (bytes <= MAX_JSON_SIZE_BYTES) {
+        chunks.push(chunk.toString("utf8"));
+      }
+    });
+
+    stream.on("end", () => {
+      if (resolved) {
+        return;
+      }
+      if (chunks.length === 0) {
+        resolve(undefined);
+        return;
+      }
+      try {
+        resolve(JSON.parse(chunks.join("")));
+      } catch {
+        resolve(undefined);
+      }
+    });
+
+    stream.on("error", () => {
+      if (!resolved) {
+        resolve(undefined);
+      }
+    });
+  });
+}
+
+interface LayerExtractionResult {
+  layers: Record<string, ExtractedLayers>;
+  failedDigests: Map<string, string>;
+}
+
+/**
+ * Pass 2: Extract only the specified layer blobs.
+ *
+ * Tracks extraction failures so the caller can report which layers failed
+ * rather than silently returning incomplete results.
+ */
+async function extractLayers(
+  ociArchiveFilesystemPath: string,
+  requiredDigests: Set<string>,
+  extractActions: ExtractAction[],
+): Promise<LayerExtractionResult> {
+  return new Promise((resolve, reject) => {
+    const tarExtractor: Extract = extract();
+    const layers: Record<string, ExtractedLayers> = {};
+    const failedDigests: Map<string, string> = new Map();
+
+    tarExtractor.on("entry", async (header, stream, next) => {
+      try {
+        if (header.type === "file") {
+          const normalizedHeaderName = normalizePath(header.name);
+
+          if (
+            !isMainIndexFile(normalizedHeaderName) &&
+            isBlobPath(normalizedHeaderName)
+          ) {
+            const digest = getDigestFromPath(normalizedHeaderName);
+
+            if (requiredDigests.has(digest)) {
+              // This is a layer we need - extract it
+              try {
+                const layer = await extractImageLayer(stream, extractActions);
+                layers[digest] = layer;
+              } catch (error) {
+                const errorMessage =
+                  error instanceof Error ? error.message : String(error);
+                debug(`Failed to extract layer ${digest}: ${errorMessage}`);
+                failedDigests.set(digest, errorMessage);
+              }
+            }
+          }
+        }
+      } catch (err) {
+        debug(`Error processing archive entry ${header.name}: ${err.message}`);
+      }
+
+      stream.resume();
+      next();
+    });
+
+    tarExtractor.on("finish", () => {
+      resolve({ layers, failedDigests });
+    });
+
+    tarExtractor.on("error", (error) => {
+      reject(error);
+    });
+
+    createReadStream(ociArchiveFilesystemPath)
+      .pipe(decompressMaybe())
+      .pipe(tarExtractor);
+  });
+}
+
+/**
+ * Checks if a path is in the blobs directory (blobs/<algo>/<hash>).
+ * Non-blob files like oci-layout should be skipped.
+ */
+function isBlobPath(normalizedPath: string): boolean {
+  const parts = normalizedPath.split(pathSeparator).filter(Boolean);
+  return parts[0] === "blobs" && parts.length >= 3;
+}
+
+/**
+ * Extracts digest from a blob path in the format blobs/<algo>/<hash>.
+ * Returns the digest as <algo>:<hash> to match manifest digest format.
+ *
+ * Caller should verify isBlobPath() first.
+ */
+function getDigestFromPath(normalizedPath: string): string {
+  const headerParts = normalizedPath.split(pathSeparator).filter(Boolean);
+  const algorithm = headerParts[1];
+  const hash = headerParts[headerParts.length - 1];
+  return `${algorithm}:${hash}`;
+}
+
+function resolveManifestAndConfig(
+  metadata: ArchiveMetadata,
+  options: Partial<PluginOptions>,
+): {
+  manifest: OciArchiveManifest;
+  imageConfig: ImageConfig;
+} {
+  const filteredConfigs = metadata.configs.filter((config) => {
+    return config?.os !== "unknown" || config?.architecture !== "unknown";
+  });
+
+  const platform =
+    options?.platform ||
+    (filteredConfigs.length === 1
+      ? getPlatformFromConfig(filteredConfigs[0])
+      : "linux/amd64");
+
+  const platformInfo = getOciPlatformInfoFromOptionString(platform as string);
+
+  const manifest = getManifest(
+    metadata.mainIndexFile,
+    metadata.manifests,
+    metadata.indexFiles,
+    platformInfo,
+  );
+
+  if (!manifest) {
+    throw new InvalidArchiveError(
+      `Could not find manifest for platform ${platformInfo.os}/${platformInfo.architecture} in archive`,
+    );
+  }
+
+  const imageConfig = getImageConfig(metadata.configs, platformInfo);
+
+  if (imageConfig === undefined) {
+    throw new InvalidArchiveError(
+      "Could not find the image config in the provided image",
+    );
+  }
+
+  return { manifest, imageConfig };
+}
+
 function getManifest(
   imageIndex: OciImageIndex | undefined,
   manifestCollection: Record<string, OciArchiveManifest>,
   indexFiles: Record<string, OciImageIndex>,
   platformInfo: OciPlatformInfo,
-): OciArchiveManifest {
+): OciArchiveManifest | undefined {
   if (!imageIndex) {
     return manifestCollection[Object.keys(manifestCollection)[0]];
   }
@@ -190,8 +408,8 @@ function getManifest(
   const manifestInfo = getImageManifestInfo(allManifests, platformInfo);
 
   if (manifestInfo === undefined) {
-    throw new Error(
-      "Image does not support type of CPU architecture or operating system",
+    throw new InvalidArchiveError(
+      "Image does not support the requested CPU architecture or operating system",
     );
   }
 
@@ -216,7 +434,9 @@ function getAllManifestsIndexItems(
     ) {
       // nested index
       const index = indexFiles[manifest.digest];
-      allManifestsInfo.push(...getAllManifestsIndexItems(index, indexFiles));
+      if (index) {
+        allManifestsInfo.push(...getAllManifestsIndexItems(index, indexFiles));
+      }
     }
   }
   return allManifestsInfo;

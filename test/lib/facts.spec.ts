@@ -60,6 +60,44 @@ describe("Facts", () => {
       type: "imageCreationTime",
       data: "",
     };
+    const imageNamesFact: facts.ImageNamesFact = {
+      type: "imageNames",
+      data: {} as any,
+    };
+    const imageLabels: facts.ImageLabels = {
+      type: "imageLabels",
+      data: {},
+    };
+    const imageSizeBytesFact: facts.ImageSizeBytesFact = {
+      type: "imageSizeBytes",
+      data: 0,
+    };
+    const ociDistributionMetadataFact: facts.OCIDistributionMetadataFact = {
+      type: "ociDistributionMetadata",
+      data: {} as any,
+    };
+    const platformFact: facts.PlatformFact = {
+      type: "platform",
+      data: "",
+    };
+    const pluginVersionFact: facts.PluginVersionFact = {
+      type: "pluginVersion",
+      data: "",
+    };
+    const containerConfigFact: facts.ContainerConfigFact = {
+      type: "containerConfig",
+      data: {},
+    };
+    const historyFact: facts.HistoryFact = {
+      type: "history",
+      data: [],
+    };
+    const pluginWarningsFact: facts.PluginWarningsFact = {
+      type: "pluginWarnings",
+      data: {
+        truncatedFacts: {},
+      },
+    };
 
     // This would catch compilation errors.
     const allFacts: Fact[] = [
@@ -77,6 +115,15 @@ describe("Facts", () => {
       autoDetectedUserInstructionsFact,
       imageCreationTimeFact,
       loadedPackagesFact,
+      imageNamesFact,
+      imageLabels,
+      imageSizeBytesFact,
+      ociDistributionMetadataFact,
+      platformFact,
+      pluginVersionFact,
+      containerConfigFact,
+      historyFact,
+      pluginWarningsFact,
     ];
     expect(allFacts).toBeDefined();
 

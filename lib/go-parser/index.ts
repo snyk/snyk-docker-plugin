@@ -37,10 +37,15 @@ export const DEP_GRAPH_TYPE = "gomodules";
 function filePathMatches(filePath: string): boolean {
   const normalizedPath = path.normalize(filePath);
   const dirName = path.dirname(normalizedPath);
-  return (
-    !path.parse(normalizedPath).ext &&
-    !ignoredPaths.some((ignorePath) => dirName.startsWith(ignorePath))
+  const forwardSlashedPath = filePath.replace(/\\/g, "/");
+
+  // Fix backslash path extension detection false positives: path.parse().ext incorrectly detects extensions in paths with backslashes (usually on Windows)
+  const hasExtension = !!path.posix.parse(forwardSlashedPath).ext;
+  const isInIgnoredPath = ignoredPaths.some((ignorePath) =>
+    dirName.startsWith(ignorePath),
   );
+
+  return !hasExtension && !isInIgnoredPath;
 }
 
 export const getGoModulesContentAction: ExtractAction = {
@@ -61,13 +66,13 @@ async function findGoBinaries(
     // ELF section headers and so ".go.buildinfo" & ".note.go.buildid" blobs are available in the first 64kb
     const elfBuildInfoSize = 64 * 1024;
 
-    const buffer: Buffer = Buffer.alloc(streamSize ?? elfBuildInfoSize);
+    let buffer: Buffer | null = null;
     let bytesWritten = 0;
 
     stream.on("end", () => {
       try {
         // Discard
-        if (bytesWritten === 0) {
+        if (!buffer || bytesWritten === 0) {
           return resolve(undefined);
         }
 
@@ -131,13 +136,39 @@ async function findGoBinaries(
       const first4Bytes = chunk.toString(encoding, 0, 4);
 
       if (first4Bytes === elfHeaderMagic) {
-        Buffer.from(chunk).copy(buffer, bytesWritten, 0);
-        bytesWritten += chunk.length;
+        // Now that we know it's an ELF file, allocate the buffer
+        // If the streamSize is larger than node.js's max buffer length
+        // we should cap the size at that value. The liklihood
+        // of a node module being this size is near zero, so we should
+        // be okay doing this
+        const bufferSize = Math.min(
+          streamSize ?? elfBuildInfoSize,
+          require("buffer").constants.MAX_LENGTH,
+        );
+        buffer = Buffer.alloc(bufferSize);
+
+        bytesWritten += Buffer.from(chunk).copy(buffer, bytesWritten, 0);
+
         // Listen to next chunks only if it's an ELF executable
         stream.addListener("data", (chunk) => {
-          Buffer.from(chunk).copy(buffer, bytesWritten, 0);
-          bytesWritten += chunk.length;
+          if (buffer && bytesWritten < buffer.length) {
+            // Make sure we don't exceed the buffer capacity. Don't copy more
+            // than the buffer can handle, and don't exceed the chunk length
+            const bytesToWrite = Math.min(
+              buffer.length - bytesWritten,
+              chunk.length,
+            );
+            bytesWritten += Buffer.from(chunk).copy(
+              buffer,
+              bytesWritten,
+              0,
+              bytesToWrite,
+            );
+          }
         });
+      } else {
+        // Not an ELF file, exit early without allocating memory
+        return resolve(undefined);
       }
     });
   });
