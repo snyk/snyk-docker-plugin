@@ -152,7 +152,7 @@ describe("getImageArchive", () => {
 
   describe("from remote registry with binary", () => {
     it("should produce the expected state", async () => {
-      const customPath = os.tmpdir();
+      const customPath = fs.mkdtempSync(path.join(os.tmpdir(), "snyk-"));
       const imageSavePath = path.join(customPath, crypto.randomUUID());
       const registryPullSpy = jest.spyOn(Docker.prototype, "pull");
 
@@ -180,10 +180,11 @@ describe("getImageArchive", () => {
       expect(customPathExistsOnDisk).toBe(true);
 
       await subProcess.execute("docker", ["image", "rm", targetImage]);
+      fs.rmdirSync(customPath);
     });
 
     it("should fail correctly when manifest is not found for given tag", async () => {
-      const customPath = os.tmpdir();
+      const customPath = fs.mkdtempSync(path.join(os.tmpdir(), "snyk-"));
       const imageSavePath = path.join(customPath, crypto.randomUUID());
       const dockerPullCliSpy = jest
         .spyOn(Docker.prototype, "pullCli")
@@ -209,6 +210,8 @@ describe("getImageArchive", () => {
 
       expect(dockerPullCliSpy).toHaveBeenCalled();
       expect(dockerPullSpy).not.toHaveBeenCalled();
+
+      fs.rmdirSync(customPath);
     });
   });
 

@@ -122,6 +122,7 @@ describe("docker", () => {
 
     const docker = new Docker();
     let expectedChecksum;
+    let tempFilesToCleanup: string[] = [];
 
     beforeAll(async () => {
       const loadImage = path.join(
@@ -138,6 +139,12 @@ describe("docker", () => {
       if (existsSync(TEST_TARGET_IMAGE_DESTINATION)) {
         unlinkSync(TEST_TARGET_IMAGE_DESTINATION);
       }
+      for (const file of tempFilesToCleanup) {
+        if (existsSync(file)) {
+          unlinkSync(file);
+        }
+      }
+      tempFilesToCleanup = [];
     });
 
     async function calculateImageSHA256(tarFilePath: string): Promise<string> {
@@ -167,8 +174,8 @@ describe("docker", () => {
           os.tmpdir(),
           `snyk-docker-plugin-test-${crypto.randomUUID()}.tar`,
         );
+        tempFilesToCleanup.push(tempFilePath);
         const output = createWriteStream(tempFilePath);
-
         extract.on("entry", (header, stream, next) => {
           // Normalize the header
           header.mtime = new Date(0); // Set modification time to the epoch
