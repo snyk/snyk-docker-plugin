@@ -236,13 +236,16 @@ function layersWithLatestFileModifications(
 
   // TODO: This removes the information about the layer name, maybe we would need it in the future?
   for (const layer of layers) {
+    // Collect opaque whiteout dirs from this layer, but don't apply them yet —
+    // they should only affect older layers, not files in the same layer.
+    const layerOpaqueDirs: Set<string> = new Set();
+
     // go over extracted files products found in this layer
     for (const filename of Object.keys(layer)) {
       // if finding a deleted file - trimming to its original file name for excluding it from extractedLayers
       // + not adding this file
       if (isOpaqueWhiteout(filename)) {
-        // Opaque whiteout: all files in this directory from older layers should be ignored
-        opaqueWhiteoutDirs.add(path.dirname(filename));
+        layerOpaqueDirs.add(path.dirname(filename));
         continue;
       }
       if (isWhitedOutFile(filename)) {
@@ -265,6 +268,11 @@ function layersWithLatestFileModifications(
       if (!Reflect.has(extractedLayers, filename)) {
         extractedLayers[filename] = layer[filename];
       }
+    }
+
+    // Apply this layer's opaque whiteouts for subsequent (older) layers
+    for (const dir of layerOpaqueDirs) {
+      opaqueWhiteoutDirs.add(dir);
     }
   }
   return extractedLayers;
