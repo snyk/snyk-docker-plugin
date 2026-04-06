@@ -1,5 +1,6 @@
 import {
   getContentAsString,
+  isOpaqueWhiteout,
   isWhitedOutFile,
   removeWhiteoutPrefix,
 } from "../../../lib/extractor";
@@ -57,6 +58,32 @@ describe("isWhitedOutFile", () => {
     expect(isWhitedOutFile("end.wh.")).toBe(false);
     expect(isWhitedOutFile("/deeply/nested/path/.wh.present")).toBe(true);
     expect(isWhitedOutFile("/the/.wh./in/path/present")).toBe(false);
+  });
+});
+
+describe("isOpaqueWhiteout", () => {
+  test("should return true for opaque whiteout files", () => {
+    expect(isOpaqueWhiteout("/etc/.wh..wh..opq")).toBe(true);
+    expect(isOpaqueWhiteout("/.wh..wh..opq")).toBe(true);
+    expect(isOpaqueWhiteout(".wh..wh..opq")).toBe(true);
+    expect(isOpaqueWhiteout("/deeply/nested/path/.wh..wh..opq")).toBe(true);
+  });
+
+  test("should return false for regular whiteout files", () => {
+    expect(isOpaqueWhiteout("/etc/.wh.hosts")).toBe(false);
+    expect(isOpaqueWhiteout("/.wh.config")).toBe(false);
+  });
+
+  test("should return false for non-whiteout files", () => {
+    expect(isOpaqueWhiteout("/etc/hosts")).toBe(false);
+    expect(isOpaqueWhiteout("")).toBe(false);
+    expect(isOpaqueWhiteout("/")).toBe(false);
+  });
+
+  test("should return false for similar but incorrect patterns", () => {
+    expect(isOpaqueWhiteout("/etc/.wh..wh..opq.extra")).toBe(false);
+    expect(isOpaqueWhiteout("/etc/.wh..opq")).toBe(false);
+    expect(isOpaqueWhiteout("/etc/.WH..WH..OPQ")).toBe(false);
   });
 });
 

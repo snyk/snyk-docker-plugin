@@ -2,7 +2,7 @@ import * as Debug from "debug";
 import * as path from "path";
 import { Readable } from "stream";
 import { extract, Extract } from "tar-stream";
-import { isWhitedOutFile } from ".";
+import { isOpaqueWhiteout, isWhitedOutFile } from ".";
 import { applyCallbacks, isResultEmpty } from "./callbacks";
 import { decompressMaybe } from "./decompress-maybe";
 import { ExtractAction, ExtractedLayers } from "./types";
@@ -32,7 +32,10 @@ export async function extractImageLayer(
         const matchedActions = extractActions.filter((action) =>
           action.filePathMatches(absoluteFileName),
         );
-        if (matchedActions.length > 0) {
+        if (isOpaqueWhiteout(absoluteFileName)) {
+          // Opaque whiteout: record it so layersWithLatestFileModifications can process it
+          result[absoluteFileName] = {};
+        } else if (matchedActions.length > 0) {
           try {
             const callbackResult = await applyCallbacks(
               matchedActions,

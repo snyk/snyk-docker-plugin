@@ -232,6 +232,7 @@ function layersWithLatestFileModifications(
 ): ExtractedLayers {
   const extractedLayers: ExtractedLayers = {};
   const removedFilesToIgnore: Set<string> = new Set();
+  const opaqueWhiteoutDirs: Set<string> = new Set();
 
   // TODO: This removes the information about the layer name, maybe we would need it in the future?
   for (const layer of layers) {
@@ -239,6 +240,11 @@ function layersWithLatestFileModifications(
     for (const filename of Object.keys(layer)) {
       // if finding a deleted file - trimming to its original file name for excluding it from extractedLayers
       // + not adding this file
+      if (isOpaqueWhiteout(filename)) {
+        // Opaque whiteout: all files in this directory from older layers should be ignored
+        opaqueWhiteoutDirs.add(path.dirname(filename));
+        continue;
+      }
       if (isWhitedOutFile(filename)) {
         removedFilesToIgnore.add(removeWhiteoutPrefix(filename));
         continue;
@@ -249,6 +255,10 @@ function layersWithLatestFileModifications(
       }
       // not adding path that has removed path as parent
       if (isFileInARemovedFolder(filename, removedFilesToIgnore)) {
+        continue;
+      }
+      // not adding files in directories covered by an opaque whiteout from a newer layer
+      if (isFileInOpaqueDir(filename, opaqueWhiteoutDirs)) {
         continue;
       }
       // file not already in extractedLayers
@@ -267,7 +277,38 @@ function layersWithLatestFileModifications(
  * https://github.com/opencontainers/image-spec/blob/main/layer.md#whiteouts
  */
 export function isWhitedOutFile(filename: string): boolean {
-  return path.basename(filename).startsWith(".wh.");
+  return getBasename(filename).startsWith(".wh.");
+}
+
+/**
+ * Check if a file is an opaque whiteout (.wh..wh..opq).
+ * Opaque whiteouts mean "delete everything in this directory from lower layers."
+ * https://github.com/opencontainers/image-spec/blob/main/layer.md#opaque-whiteout
+ */
+export function isOpaqueWhiteout(filename: string): boolean {
+  return getBasename(filename) === ".wh..wh..opq";
+}
+
+/**
+ * Extract the basename from a path, handling both Unix and Windows separators
+ * regardless of the current platform.
+ */
+function getBasename(filename: string): string {
+  const lastSlash = Math.max(filename.lastIndexOf("/"), filename.lastIndexOf("\\"));
+  return lastSlash === -1 ? filename : filename.substring(lastSlash + 1);
+}
+
+function isFileInOpaqueDir(
+  filename: string,
+  opaqueWhiteoutDirs: Set<string>,
+): boolean {
+  const dir = path.dirname(filename);
+  for (const opaqueDir of opaqueWhiteoutDirs) {
+    if (dir === opaqueDir || dir.startsWith(opaqueDir + path.sep)) {
+      return true;
+    }
+  }
+  return false;
 }
 
 /**
