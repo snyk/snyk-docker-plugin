@@ -10,7 +10,6 @@ import {
 import * as os from "os";
 import * as path from "path";
 import * as tar from "tar-stream";
-import * as tmp from "tmp";
 import { Docker } from "../../lib/docker";
 import { CmdOutput } from "../../lib/sub-process";
 import * as subProcess from "../../lib/sub-process";
@@ -164,8 +163,11 @@ describe("docker", () => {
       return new Promise((resolve, reject) => {
         const extract = tar.extract();
         const pack = tar.pack();
-        const tempFile = tmp.fileSync();
-        const output = createWriteStream(tempFile.name);
+        const tempFilePath = path.join(
+          os.tmpdir(),
+          `snyk-docker-plugin-test-${crypto.randomUUID()}.tar`,
+        );
+        const output = createWriteStream(tempFilePath);
 
         extract.on("entry", (header, stream, next) => {
           // Normalize the header
@@ -183,7 +185,7 @@ describe("docker", () => {
         });
 
         output.on("finish", () => {
-          resolve(tempFile.name);
+          resolve(tempFilePath);
         });
 
         extract.on("error", (err) => {
