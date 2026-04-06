@@ -266,26 +266,17 @@ function layersWithLatestFileModifications(
  * https://www.madebymikal.com/interpreting-whiteout-files-in-docker-image-layers
  * https://github.com/opencontainers/image-spec/blob/main/layer.md#whiteouts
  */
-export function isWhitedOutFile(filename: string) {
-  const lastSlashIndex = filename.lastIndexOf("/");
-
-  if (lastSlashIndex === -1) {
-    // it's a file name, not a path
-    return filename.startsWith(".wh.");
-  } else {
-    // it's a path, so check the last part
-    const filenameToCheck = filename.substring(lastSlashIndex + 1);
-    return filenameToCheck.startsWith(".wh.");
-  }
+export function isWhitedOutFile(filename: string): boolean {
+  return path.basename(filename).startsWith(".wh.");
 }
 
 /**
  * Remove the .wh. prefix from a whiteout file to get the original filename
  */
 export function removeWhiteoutPrefix(filename: string): string {
-  // Replace .wh. that appears at the start or after the last slash,
-  // and ensure no slashes come after .wh.
-  return filename.replace(/^(.*\/)?\.wh\.([^\/]*)$/, "$1$2");
+  // Replace .wh. that appears at the start or after the last slash/backslash,
+  // and ensure no slashes/backends come after .wh.
+  return filename.replace(/^(.*[\/\\])?\.wh\.([^\/\\]*)$/, "$1$2");
 }
 
 function isBufferType(type: FileContent): type is Buffer {
