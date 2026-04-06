@@ -236,8 +236,8 @@ function layersWithLatestFileModifications(
 
   // TODO: This removes the information about the layer name, maybe we would need it in the future?
   for (const layer of layers) {
-    // Collect opaque whiteout dirs from this layer, but don't apply them yet —
-    // they should only affect older layers, not files in the same layer.
+    // Collect opaque whiteout dirs from this layer, but don't apply yet —
+    // they only affect older layers, not the current one.
     const layerOpaqueDirs: Set<string> = new Set();
 
     // go over extracted files products found in this layer
@@ -270,7 +270,7 @@ function layersWithLatestFileModifications(
       }
     }
 
-    // Apply this layer's opaque whiteouts for subsequent (older) layers
+    // Apply this layer's opaque whiteouts to older layers
     for (const dir of layerOpaqueDirs) {
       opaqueWhiteoutDirs.add(dir);
     }
@@ -279,8 +279,7 @@ function layersWithLatestFileModifications(
 }
 
 /**
- * check if a file is 'whited out', which is shown by
- * prefixing the filename with a .wh.
+ * check if a file is 'whited out' (filename starts with .wh.)
  * https://www.madebymikal.com/interpreting-whiteout-files-in-docker-image-layers
  * https://github.com/opencontainers/image-spec/blob/main/layer.md#whiteouts
  */
@@ -298,11 +297,13 @@ export function isOpaqueWhiteout(filename: string): boolean {
 }
 
 /**
- * Extract the basename from a path, handling both Unix and Windows separators
- * regardless of the current platform.
+ * Extract the basename from a path, handling both / and \ separators cross-platform.
  */
 function getBasename(filename: string): string {
-  const lastSlash = Math.max(filename.lastIndexOf("/"), filename.lastIndexOf("\\"));
+  const lastSlash = Math.max(
+    filename.lastIndexOf("/"),
+    filename.lastIndexOf("\\"),
+  );
   return lastSlash === -1 ? filename : filename.substring(lastSlash + 1);
 }
 
@@ -310,21 +311,17 @@ function isFileInOpaqueDir(
   filename: string,
   opaqueWhiteoutDirs: Set<string>,
 ): boolean {
-  const dir = path.dirname(filename);
-  for (const opaqueDir of opaqueWhiteoutDirs) {
-    if (dir === opaqueDir || dir.startsWith(opaqueDir + path.sep)) {
-      return true;
-    }
-  }
-  return false;
+  return Array.from(opaqueWhiteoutDirs).some((opaqueDir) =>
+    isFileInFolder(filename, opaqueDir),
+  );
 }
 
 /**
  * Remove the .wh. prefix from a whiteout file to get the original filename
  */
 export function removeWhiteoutPrefix(filename: string): string {
-  // Replace .wh. that appears at the start or after the last slash/backslash,
-  // and ensure no slashes/backends come after .wh.
+  // Replace .wh. at the start or after the last slash/backslash.
+  // Don't match if there are slashes after .wh.
   return filename.replace(/^(.*[\/\\])?\.wh\.([^\/\\]*)$/, "$1$2");
 }
 
