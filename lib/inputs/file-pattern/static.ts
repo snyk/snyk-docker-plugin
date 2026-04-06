@@ -1,4 +1,4 @@
-import * as minimatch from "minimatch";
+import { minimatch } from "minimatch";
 import * as path from "path";
 
 import { ExtractAction, ExtractedLayers } from "../../extractor/types";
