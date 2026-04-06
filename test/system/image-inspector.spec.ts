@@ -180,7 +180,7 @@ describe("getImageArchive", () => {
       expect(customPathExistsOnDisk).toBe(true);
 
       await subProcess.execute("docker", ["image", "rm", targetImage]);
-      fs.rmdirSync(customPath);
+      fs.rmSync(customPath, { recursive: true, force: true });
     });
 
     it("should fail correctly when manifest is not found for given tag", async () => {
@@ -211,7 +211,7 @@ describe("getImageArchive", () => {
       expect(dockerPullCliSpy).toHaveBeenCalled();
       expect(dockerPullSpy).not.toHaveBeenCalled();
 
-      fs.rmdirSync(customPath);
+      fs.rmSync(customPath, { recursive: true, force: true });
     });
   });
 
