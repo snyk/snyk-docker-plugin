@@ -35,7 +35,6 @@
     "@snyk/docker-registry-v2-client": "^2.24.2",
     "@snyk/rpm-parser": "^3.4.1",
     "@snyk/snyk-docker-pull": "^3.15.1",
-    "@swimlane/docker-reference": "^2.0.1",
     "adm-zip": "^0.5.17",
     "chalk": "^2.4.2",
     "debug": "^4.4.3",
