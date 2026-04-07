@@ -21,16 +21,12 @@ import {
   ImageConfig,
   OciArchiveManifest,
 } from "./types";
+import { isWhitedOutFile } from "./layer";
+import { InvalidArchiveError } from "./generic-archive-extractor";
 
 const debug = Debug("snyk");
 
-export class InvalidArchiveError extends Error {
-  constructor(message) {
-    super();
-    this.name = "InvalidArchiveError";
-    this.message = message;
-  }
-}
+export { InvalidArchiveError } from "./generic-archive-extractor";
 class ArchiveExtractor {
   private extractor: Extractor;
   private fileSystemPath: string;
@@ -263,9 +259,7 @@ function layersWithLatestFileModifications(
   return extractedLayers;
 }
 
-export function isWhitedOutFile(filename: string) {
-  return filename.match(/.wh./gm);
-}
+export { isWhitedOutFile } from "./layer";
 
 function isBufferType(type: FileContent): type is Buffer {
   return (type as Buffer).buffer !== undefined;
