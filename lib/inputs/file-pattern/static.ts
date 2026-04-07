@@ -1,4 +1,4 @@
-import * as minimatch from "minimatch";
+import { minimatch, MinimatchOptions } from "minimatch";
 import * as path from "path";
 
 import { ExtractAction, ExtractedLayers } from "../../extractor/types";
@@ -13,12 +13,17 @@ function generatePathMatcher(
   globsInclude: string[],
   globsExclude: string[],
 ): (filePath: string) => boolean {
+  const matchOptions: MinimatchOptions = {
+    windowsPathsNoEscape: true,
+    optimizationLevel: 0,
+  };
+
   return (filePath: string): boolean => {
-    if (globsExclude.some((glob) => minimatch(filePath, glob))) {
+    if (globsExclude.some((glob) => minimatch(filePath, glob, matchOptions))) {
       return false;
     }
 
-    return globsInclude.some((glob) => minimatch(filePath, glob));
+    return globsInclude.some((glob) => minimatch(filePath, glob, matchOptions));
   };
 }
 
