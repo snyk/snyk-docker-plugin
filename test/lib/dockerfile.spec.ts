@@ -245,6 +245,28 @@ describe("readDockerfileAndAnalyse() correctly parses...", () => {
         },
       },
     ],
+    [
+      "a Dockerfile with a microdnf installation instruction",
+      {
+        fixture: "with-dnf-installation",
+        expected: {
+          baseImage: "registry.access.redhat.com/ubi9/ubi-minimal:latest",
+          dockerfilePackages: {
+            curl: {
+              instruction: "RUN microdnf install -y curl && microdnf clean all",
+            },
+          },
+          dockerfileLayers: {
+            "UlVOIG1pY3JvZG5mIGluc3RhbGwgLXkgY3VybCAmJiBtaWNyb2RuZiBjbGVhbiBhbGw=":
+              {
+                instruction:
+                  "RUN microdnf install -y curl && microdnf clean all",
+              },
+          },
+          error: undefined,
+        },
+      },
+    ],
   ];
   // tslint:disable-next-line: variable-name
   test.each<TestCaseTuple>(cases)("%s", async (_description, item) => {

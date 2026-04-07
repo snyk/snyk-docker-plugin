@@ -132,17 +132,30 @@ jobs:
       - attach_workspace:
           at: ~/snyk-docker-plugin
       - run: npm run lint
-  test:
+  test_unit:
+    <<: *defaults
+    resource_class: medium
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/snyk-docker-plugin
+      - run: npm run test:unit > test-unit-logs.txt 2>&1
+      - store_artifacts:
+          path: test-unit-logs.txt
+          destination: test-unit-logs
+  test_system:
     <<: *defaults
     steps:
       - checkout
       - setup_remote_docker
       - attach_workspace:
           at: ~/snyk-docker-plugin
-      - run: npm run test-jest > test-logs.txt 2>&1
+      - run:
+          command: npm run test:system > test-system-logs.txt 2>&1
+          no_output_timeout: 20m
       - store_artifacts:
-          path: test-logs.txt
-          destination: test-logs
+          path: test-system-logs.txt
+          destination: test-system-logs
   test_jest_windows_with_docker:
     <<: *windows_big
     steps:
@@ -252,8 +265,17 @@ workflows:
           context: infrasec_container
           post-steps:
             - *slack-fail-notify
-      - test:
-          name: Test
+      - test_unit:
+          name: Unit Test
+          context:
+            - nodejs-install
+            - snyk-bot-slack
+          requires:
+            - Build
+          post-steps:
+            - *slack-fail-notify
+      - test_system:
+          name: System Test
           context:
             - nodejs-install
             - snyk-bot-slack
@@ -303,7 +325,8 @@ workflows:
             - Lint
             - Build
             - Security Scans
-            - Test
+            - Unit Test
+            - System Test
             - Test Jest Windows with Docker
             - Test Jest Windows no Docker
           post-steps:

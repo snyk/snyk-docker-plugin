@@ -8,6 +8,8 @@ import {
   determinePaths,
   extractModuleInformation,
   GoBinary,
+  GoFileNameError,
+  parseGoVersion,
 } from "../../lib/go-parser/go-binary";
 import { GoModule } from "../../lib/go-parser/go-module";
 import { LineTable } from "../../lib/go-parser/pclntab";
@@ -375,6 +377,13 @@ describe("test from binaries", () => {
         testCase.depGraphPackages().forEach((pkg) => {
           expect(pkgs).toContainEqual(pkg);
         });
+
+        // stdlib node should always be present with a valid Go version
+        expect(goBin.goVersion).toMatch(/^\d+\.\d+(\.\d+)?$/);
+        expect(pkgs).toContainEqual({
+          name: "stdlib",
+          version: goBin.goVersion,
+        });
       });
 
       // ensures that the mapping process is correct on arbitrary data. For this
@@ -414,7 +423,7 @@ describe("test from binaries", () => {
 });
 
 describe("test stdlib bin project name", () => {
-  it("has correct project name even if mod directive is missing", () => {
+  it("has correct project name even if mod directive is missing", async () => {
     const goBin = new GoBinary(
       elf.parse(
         readFileSync(
@@ -425,6 +434,14 @@ describe("test stdlib bin project name", () => {
     expect(goBin.name).toBe("go-distribution@cmd/pack");
     // binaries from the standard library usually don't have external deps.
     expect(goBin.modules).toHaveLength(0);
+
+    // stdlib node should still be present even with no external deps
+    expect(goBin.goVersion).toMatch(/^\d+\.\d+(\.\d+)?$/);
+    const graph = await goBin.depGraph();
+    expect(graph.getPkgs()).toContainEqual({
+      name: "stdlib",
+      version: goBin.goVersion,
+    });
   });
 });
 
@@ -440,6 +457,20 @@ describe("test binary without pcln table", () => {
       }),
     ).resolves.not.toThrow();
   });
+
+  it("still reports stdlib for stripped binaries", async () => {
+    const fileName = path.join(
+      __dirname,
+      "../fixtures/go-binaries/no-pcln-tab",
+    );
+    const goBin = new GoBinary(elf.parse(readFileSync(fileName)));
+    expect(goBin.goVersion).toMatch(/^\d+\.\d+(\.\d+)?$/);
+    const graph = await goBin.depGraph();
+    expect(graph.getPkgs()).toContainEqual({
+      name: "stdlib",
+      version: goBin.goVersion,
+    });
+  });
 });
 
 // The Go stdlib contains a vendored module, `golang.org/x/net`. If a binary
@@ -454,9 +485,8 @@ describe("test stdlib vendor", () => {
       __dirname,
       "../fixtures/go-binaries/fake-vendor",
     );
-    const graph = await new GoBinary(
-      elf.parse(readFileSync(fileName)),
-    ).depGraph();
+    const goBin = new GoBinary(elf.parse(readFileSync(fileName)));
+    const graph = await goBin.depGraph();
 
     expect(graph.getPkgs()).toContainEqual({
       name: "golang.org/x/net/http/httpguts",
@@ -467,6 +497,12 @@ describe("test stdlib vendor", () => {
       version: "v1.6.1",
     });
     expect(graph.rootPkg.name).toBe("github.com/myrepo/partvend");
+
+    // stdlib should be present
+    expect(graph.getPkgs()).toContainEqual({
+      name: "stdlib",
+      version: goBin.goVersion,
+    });
   });
 });
 
@@ -504,6 +540,44 @@ describe("test replace directive", () => {
       name: "github.com/gorilla/mux",
       version: "v1.6.0",
     });
+  });
+});
+
+describe("parseGoVersion", () => {
+  it("strips go prefix from standard version", () => {
+    expect(parseGoVersion("go1.21.0")).toBe("1.21.0");
+  });
+
+  it("handles version without patch number by appending .0", () => {
+    expect(parseGoVersion("go1.21")).toBe("1.21.0");
+  });
+
+  it("returns empty string for RC/beta versions", () => {
+    expect(parseGoVersion("go1.21rc1")).toBe("");
+    expect(parseGoVersion("go1.22beta2")).toBe("");
+  });
+
+  it("returns empty string for devel versions", () => {
+    expect(parseGoVersion("devel +abc123")).toBe("");
+  });
+
+  it("returns empty string for empty input", () => {
+    expect(parseGoVersion("")).toBe("");
+  });
+
+  it("returns empty string for garbage input", () => {
+    expect(parseGoVersion("not-a-version")).toBe("");
+  });
+});
+
+describe("extractModuleInformation returns goVersion", () => {
+  it("returns a valid Go version from a real binary", () => {
+    const fileContent = readFileSync(
+      path.join(__dirname, "../fixtures/go-binaries/go1.18.5_normal"),
+    );
+    const elfBinary = elf.parse(fileContent);
+    const [, , goVersion] = extractModuleInformation(elfBinary);
+    expect(goVersion).toBe("1.18.5");
   });
 });
 
@@ -584,5 +658,79 @@ describe("test path determination", () => {
     const { modCachePath, vendorPath } = determinePaths(modules, files);
     expect(modCachePath).toBe("");
     expect(vendorPath).toBe("");
+  });
+});
+
+describe("GoFileNameError", () => {
+  // Construct a GoBinary from any real fixture so we have a valid instance to
+  // call matchFilesToModules on. We then overwrite modules directly.
+  const goBin = new GoBinary(
+    elf.parse(
+      readFileSync(
+        path.join(__dirname, "../fixtures/go-binaries/go1.13.15_normal"),
+      ),
+    ),
+  );
+
+  const moduleName = "github.com/foo/bar";
+  const moduleVersion = "v1.0.0";
+
+  // Crafting a file path where the module's fullName appears twice causes
+  // pkgFile.split(modFullName) to produce 3 parts, triggering the throw.
+  const duplicatedPath = `${moduleName}@${moduleVersion}/${moduleName}@${moduleVersion}/file.go`;
+
+  beforeEach(() => {
+    goBin.modules = [new GoModule(moduleName, moduleVersion)];
+  });
+
+  it("throws GoFileNameError when a file path cannot be matched to a module", () => {
+    expect(() => goBin.matchFilesToModules([duplicatedPath])).toThrow(
+      GoFileNameError,
+    );
+  });
+
+  it("thrown error is an instance of Error", () => {
+    expect(() => goBin.matchFilesToModules([duplicatedPath])).toThrow(Error);
+  });
+
+  it("thrown error has a non-empty message containing the file and module names", () => {
+    try {
+      goBin.matchFilesToModules([duplicatedPath]);
+    } catch (err) {
+      expect(err).toBeInstanceOf(GoFileNameError);
+      expect((err as GoFileNameError).message).toBeTruthy();
+      expect((err as GoFileNameError).message).toContain(duplicatedPath);
+      expect((err as GoFileNameError).message).toContain(
+        `${moduleName}@${moduleVersion}`,
+      );
+    }
+  });
+
+  it("thrown error has a stack trace", () => {
+    try {
+      goBin.matchFilesToModules([duplicatedPath]);
+    } catch (err) {
+      expect((err as GoFileNameError).stack).toBeDefined();
+    }
+  });
+
+  it("thrown error carries fileName and moduleName properties", () => {
+    try {
+      goBin.matchFilesToModules([duplicatedPath]);
+    } catch (err) {
+      expect(err).toBeInstanceOf(GoFileNameError);
+      expect((err as GoFileNameError).fileName).toBe(duplicatedPath);
+      expect((err as GoFileNameError).moduleName).toBe(
+        `${moduleName}@${moduleVersion}`,
+      );
+    }
+  });
+
+  it("thrown error has name set to GoFileNameError", () => {
+    try {
+      goBin.matchFilesToModules([duplicatedPath]);
+    } catch (err) {
+      expect((err as GoFileNameError).name).toBe("GoFileNameError");
+    }
   });
 });

@@ -4,11 +4,11 @@ import * as tmp from "tmp";
 import { v4 as uuidv4 } from "uuid";
 
 import { DockerPullResult } from "@snyk/snyk-docker-pull";
-import * as plugin from "../../../lib";
-import * as imageInspector from "../../../lib/analyzer/image-inspector";
-import { ArchiveResult } from "../../../lib/analyzer/types";
-import { Docker } from "../../../lib/docker";
-import * as subProcess from "../../../lib/sub-process";
+import * as plugin from "../../lib";
+import * as imageInspector from "../../lib/analyzer/image-inspector";
+import { ArchiveResult } from "../../lib/analyzer/types";
+import { Docker } from "../../lib/docker";
+import * as subProcess from "../../lib/sub-process";
 
 function rmdirRecursive(customPath: string[]): void {
   if (customPath.length < 2) {
@@ -118,7 +118,7 @@ describe("getImageArchive", () => {
       const dockerPullSpy = jest.spyOn(Docker.prototype, "pull");
       const loadImage = path.join(
         __dirname,
-        "../../fixtures/docker-archives",
+        "../fixtures/docker-archives",
         "docker-save/hello-world.tar",
       );
       await subProcess.execute("docker", ["load", "--input", loadImage]);

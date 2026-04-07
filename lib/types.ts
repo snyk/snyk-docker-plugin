@@ -237,6 +237,8 @@ export interface PluginOptions {
   "include-system-jars": boolean | string;
 
   "target-reference": string;
+
+  parameterWarnings?: string[];
 }
 
 export interface DepTreeDep {

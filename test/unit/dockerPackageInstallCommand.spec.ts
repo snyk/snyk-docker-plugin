@@ -15,6 +15,12 @@ describe("valid package install commands", () => {
     { command: "apt install curl", pkg: "curl" },
     { command: "yum install curl", pkg: "curl" },
     { command: "aptitude install curl", pkg: "curl" },
+    { command: "dnf install curl", pkg: "curl" },
+    { command: "dnf -y install curl", pkg: "curl" },
+    { command: "dnf --assumeyes install curl", pkg: "curl" },
+    { command: "dnf --nodocs install curl", pkg: "curl" },
+    { command: "microdnf install curl", pkg: "curl" },
+    { command: "microdnf --nodocs install curl", pkg: "curl" },
   ];
 
   testCases.forEach(({ command, pkg }) => {

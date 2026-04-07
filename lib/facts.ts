@@ -143,11 +143,12 @@ export interface HistoryFact {
 export interface PluginWarningsFact {
   type: "pluginWarnings";
   data: {
-    truncatedFacts: {
+    truncatedFacts?: {
       [key: string]: {
         type: "array" | "string";
         countAboveLimit: number;
       };
     };
+    parameterChecks?: string[];
   };
 }

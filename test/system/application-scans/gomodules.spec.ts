@@ -155,7 +155,8 @@ describe("Stripped Go binary without .gopclntab: no-pcln-tab fixture", () => {
       expect(found).toBeDefined();
     });
 
-    expect(deps.length).toBe(expectedDepsNoPcln.length);
+    // +1 for stdlib pseudo-dependency when goVersion is present
+    expect(deps.length).toBe(expectedDepsNoPcln.length + 1);
     expect(depGraph.rootPkg.name).toBe(
       "github.com/rootless-containers/rootlesskit",
     );
@@ -231,7 +232,8 @@ describe("Stripped and CGo Go binaries detection scan handler test", () => {
     });
 
     if (detectedBinaries.fleetServer) {
-      expect(detectedBinaries.fleetServer.moduleCount).toEqual(76);
+      // +1 for stdlib pseudo-dependency when goVersion is present
+      expect(detectedBinaries.fleetServer.moduleCount).toEqual(77);
     } else {
       fail("fleet-server not detected");
     }
