@@ -42,6 +42,11 @@ export class ParsedImageReference {
   /**
    * Rebuilds the image reference string from repository, registry, tag, and digest.
    * Format: [registry/]repository[:tag][@digest]
+   *
+   * Note: This does not normalize the reference for pulling. Specifically, it does not
+   * add the default "library/" namespace or the "registry-1.docker.io" registry for
+   * Docker Hub images. To get the components for pulling, use `registryForPull`,
+   * `normalizedRepository`, and `tailReferenceForPull`.
    */
   public toString(): string {
     let ref = "";
@@ -147,12 +152,21 @@ export function parseImageReference(reference: string): ParsedImageReference {
     repository = repository.slice(registry.length + 1);
   }
 
-  return new ParsedImageReference({
+  const parsed = new ParsedImageReference({
     repository,
     registry,
     tag: tag ?? undefined,
     digest: digest ?? undefined,
   });
+
+  // According to the OCI distribution specification: "Many clients impose a limit of
+  // 255 characters on the length of the concatenation of the registry hostname
+  // (and optional port), `/`, and `<name>` value."
+  if (parsed.fullName.length > 255) {
+    throw new Error("image repository name is more than 255 characters");
+  }
+
+  return parsed;
 }
 
 /**

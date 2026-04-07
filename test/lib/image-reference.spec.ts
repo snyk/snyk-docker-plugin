@@ -184,6 +184,33 @@ describe("image-reference", () => {
         );
       });
 
+      it("throws for registry and repository name exceeding 255 characters", () => {
+        const registry = "example.com/";
+        const longName = "a".repeat(256 - registry.length);
+        expect(() => parseImageReference(registry + longName)).toThrow(
+          "image repository name is more than 255 characters",
+        );
+      });
+
+      it("allows registry and repository name of exactly 255 characters", () => {
+        const registry = "example.com/";
+        const name = "a".repeat(255 - registry.length);
+        expect(parseImageReference(registry + name)).toMatchObject({
+          registry: "example.com",
+          repository: name,
+        });
+      });
+
+      it("allows registry and repository name of exactly 255 characters with a digest", () => {
+        const registry = "example.com/";
+        const name = "a".repeat(255 - registry.length);
+        const digest = "@" + validSha256;
+        expect(parseImageReference(registry + name + digest)).toMatchObject({
+          registry: "example.com",
+          repository: name,
+        });
+      });
+
       it("throws for invalid digest (too short)", () => {
         expect(() => parseImageReference("nginx@sha256:abc")).toThrow(
           "invalid image reference format",
