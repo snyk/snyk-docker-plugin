@@ -50,8 +50,10 @@ export interface TarArchiveManifest {
   Layers: string[];
 }
 
+// tslint:disable-next-line:no-empty-interface
 export interface DockerArchiveManifest extends TarArchiveManifest {}
 
+// tslint:disable-next-line:no-empty-interface
 export interface KanikoArchiveManifest extends TarArchiveManifest {}
 
 export interface ExtractedLayersAndManifest {

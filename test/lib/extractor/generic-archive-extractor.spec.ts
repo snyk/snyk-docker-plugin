@@ -1,11 +1,14 @@
 import {
   createExtractArchive,
   createGetImageIdFromManifest,
-  getManifestLayers,
   dockerArchiveConfig,
+  getManifestLayers,
   kanikoArchiveConfig,
 } from "../../../lib/extractor/generic-archive-extractor";
-import { DockerArchiveManifest, KanikoArchiveManifest } from "../../../lib/extractor/types";
+import {
+  DockerArchiveManifest,
+  KanikoArchiveManifest,
+} from "../../../lib/extractor/types";
 import { getFixture } from "../../util/index";
 
 describe("generic archive extractor", () => {
@@ -46,9 +49,8 @@ describe("generic archive extractor", () => {
 
   describe("createGetImageIdFromManifest", () => {
     describe("with docker archive config (strips .json extension)", () => {
-      const getImageIdFromManifest = createGetImageIdFromManifest(
-        dockerArchiveConfig,
-      );
+      const getImageIdFromManifest =
+        createGetImageIdFromManifest(dockerArchiveConfig);
 
       it("strips .json and returns imageId with sha256: prefix when prefix is present", () => {
         const manifest: DockerArchiveManifest = {
@@ -76,9 +78,8 @@ describe("generic archive extractor", () => {
     });
 
     describe("with kaniko archive config (uses Config value directly)", () => {
-      const getImageIdFromManifest = createGetImageIdFromManifest(
-        kanikoArchiveConfig,
-      );
+      const getImageIdFromManifest =
+        createGetImageIdFromManifest(kanikoArchiveConfig);
 
       it("returns imageId as-is when sha256: prefix is present", () => {
         const manifest: KanikoArchiveManifest = {
@@ -106,9 +107,8 @@ describe("generic archive extractor", () => {
     });
 
     it("throws when Config is missing", () => {
-      const getImageIdFromManifest = createGetImageIdFromManifest(
-        dockerArchiveConfig,
-      );
+      const getImageIdFromManifest =
+        createGetImageIdFromManifest(dockerArchiveConfig);
       const manifest = { Config: undefined, RepoTags: [], Layers: [] } as any;
       expect(() => getImageIdFromManifest(manifest)).toThrow(
         "Failed to extract image ID from archive manifest",

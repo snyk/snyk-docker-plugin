@@ -8,6 +8,5 @@ export { extractArchive } from "./layer";
 
 export { getManifestLayers };
 
-export const getImageIdFromManifest = createGetImageIdFromManifest(
-  dockerArchiveConfig,
-);
+export const getImageIdFromManifest =
+  createGetImageIdFromManifest(dockerArchiveConfig);

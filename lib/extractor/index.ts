@@ -8,7 +8,9 @@ import { getErrorMessage } from "../error-utils";
 import { AutoDetectedUserInstructions, ImageType } from "../types";
 import { PluginOptions } from "../types";
 import * as dockerExtractor from "./docker-archive";
+import { InvalidArchiveError } from "./generic-archive-extractor";
 import * as kanikoExtractor from "./kaniko-archive";
+import { isWhitedOutFile } from "./layer";
 import * as ociExtractor from "./oci-archive";
 import {
   DockerArchiveManifest,
@@ -21,8 +23,6 @@ import {
   ImageConfig,
   OciArchiveManifest,
 } from "./types";
-import { isWhitedOutFile } from "./layer";
-import { InvalidArchiveError } from "./generic-archive-extractor";
 
 const debug = Debug("snyk");
 

@@ -35,8 +35,7 @@ export interface ArchiveConfig {
 
 export const dockerArchiveConfig: ArchiveConfig = {
   isLayerFile: (name) => basename(name).endsWith(".tar"),
-  isImageConfigFile: (name) =>
-    new RegExp("[A-Fa-f0-9]{64}\\.json").test(name),
+  isImageConfigFile: (name) => new RegExp("[A-Fa-f0-9]{64}\\.json").test(name),
   formatLabel: "Docker",
   layerErrorType: "tar",
   extractImageId: (configValue) => configValue.split(".")[0],
@@ -44,8 +43,7 @@ export const dockerArchiveConfig: ArchiveConfig = {
 
 export const kanikoArchiveConfig: ArchiveConfig = {
   isLayerFile: (name) => basename(name).endsWith(".tar.gz"),
-  isImageConfigFile: (name) =>
-    new RegExp("sha256:[A-Fa-f0-9]{64}").test(name),
+  isImageConfigFile: (name) => new RegExp("sha256:[A-Fa-f0-9]{64}").test(name),
   formatLabel: "Kaniko",
   layerErrorType: "tar.gz",
   extractImageId: (configValue) => configValue,
@@ -77,14 +75,13 @@ export function createExtractArchive(
             } catch (error) {
               debug(`Error extracting layer content from: '${error.message}'`);
               reject(
-                new Error(
-                  `Error reading ${config.layerErrorType} archive`,
-                ),
+                new Error(`Error reading ${config.layerErrorType} archive`),
               );
             }
           } else if (isManifestFile(normalizedName)) {
-            const manifestArray =
-              await getManifestFile<TarArchiveManifest[]>(stream);
+            const manifestArray = await getManifestFile<TarArchiveManifest[]>(
+              stream,
+            );
             manifest = manifestArray[0];
           } else if (config.isImageConfigFile(normalizedName)) {
             imageConfig = await getManifestFile<ImageConfig>(stream);
@@ -97,9 +94,7 @@ export function createExtractArchive(
 
       tarExtractor.on("finish", () => {
         try {
-          resolve(
-            assembleLayersAndManifest(manifest, imageConfig, layers),
-          );
+          resolve(assembleLayersAndManifest(manifest, imageConfig, layers));
         } catch (error) {
           debug(
             `Error getting layers and manifest content from ${config.formatLabel} archive: ${error.message}`,
