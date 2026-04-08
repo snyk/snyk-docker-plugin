@@ -136,7 +136,7 @@ async function depGraphFromNodeModules(
       }
 
       const depGraph = await legacy.depTreeToGraph(
-        pkgTree,
+        pkgTree as any,
         pkgTree.type || "npm",
       );
 
@@ -417,7 +417,7 @@ function stripUndefinedLabels(
   parserResult: lockFileParser.PkgTree,
 ): lockFileParser.PkgTree {
   const optionalLabels = parserResult.labels;
-  const mandatoryLabels: Record<string, string> = {};
+  const mandatoryLabels: Record<string, any> = {};
   if (optionalLabels) {
     for (const currentLabelName of Object.keys(optionalLabels)) {
       if (optionalLabels[currentLabelName] !== undefined) {
@@ -428,7 +428,7 @@ function stripUndefinedLabels(
   const parserResultWithProperLabels = Object.assign({}, parserResult, {
     labels: mandatoryLabels,
   });
-  return parserResultWithProperLabels;
+  return parserResultWithProperLabels as lockFileParser.PkgTree;
 }
 
 async function buildDepGraph(
@@ -513,7 +513,10 @@ async function buildDepGraphFromDepTree(
     // Don't provide a default manifest file name, prefer the parser to infer it.
   );
   const strippedLabelsParserResult = stripUndefinedLabels(parserResult);
-  return await legacy.depTreeToGraph(strippedLabelsParserResult, lockfileType);
+  return await legacy.depTreeToGraph(
+    strippedLabelsParserResult as any,
+    lockfileType,
+  );
 }
 
 export function getLockFileVersion(
