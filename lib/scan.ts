@@ -7,6 +7,7 @@ import { DockerFileAnalysis } from "./dockerfile/types";
 import { extractImageContent } from "./extractor";
 import { ImageName } from "./extractor/image";
 import { ExtractAction, ExtractionResult } from "./extractor/types";
+import { isValidImageReference, parseImageReference } from "./image-reference";
 import { fullImageSavePath } from "./image-save-path";
 import { getArchivePath, getImageType } from "./image-type";
 import {
@@ -18,7 +19,6 @@ import {
 } from "./option-utils";
 import * as staticModule from "./static";
 import { ImageType, PluginOptions, PluginResponse } from "./types";
-import { isValidDockerImageReference } from "./utils";
 
 // Registry credentials may also be provided by env vars. When both are set, flags take precedence.
 export function mergeEnvVarsIntoCredentials(
@@ -199,7 +199,7 @@ async function imageIdentifierAnalysis(
   // Validate Docker image reference format to catch malformed references early. We implement initial validation here
   // in lieu of simply sending to the docker daemon since some invalid references can result in unknown or invalid API
   // paths to the Docker daemon, sometimes producing confusing error results (like redirects) instead of the not found response.
-  if (!isValidDockerImageReference(targetImage)) {
+  if (!isValidImageReference(targetImage)) {
     throw new Error(`invalid image reference format: ${targetImage}`);
   }
 
@@ -235,13 +235,18 @@ async function imageIdentifierAnalysis(
 }
 
 export function appendLatestTagIfMissing(targetImage: string): string {
-  if (
-    getImageType(targetImage) === ImageType.Identifier &&
-    !targetImage.includes(":")
-  ) {
-    return `${targetImage}:latest`;
+  if (getImageType(targetImage) !== ImageType.Identifier) {
+    return targetImage;
   }
-  return targetImage;
+  try {
+    const parsed = parseImageReference(targetImage);
+    if (parsed.tag !== undefined || parsed.digest !== undefined) {
+      return parsed.toString();
+    }
+    return parsed.toString() + ":latest";
+  } catch {
+    return targetImage;
+  }
 }
 
 export async function extractContent(

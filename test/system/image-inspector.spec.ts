@@ -30,9 +30,9 @@ describe("extractImageDetails", () => {
       imageName: "library/hello-world",
       tag: "latest",
     }}
-    ${"gcr.io/kubernetes/someImage:alpine"} | ${{
+    ${"gcr.io/kubernetes/some-image:alpine"} | ${{
       hostname: "gcr.io",
-      imageName: "kubernetes/someImage",
+      imageName: "kubernetes/some-image",
       tag: "alpine",
     }}
     ${"nginx:1.18"} | ${{
@@ -50,9 +50,9 @@ describe("extractImageDetails", () => {
       imageName: "calico/cni",
       tag: "release-v3.14",
     }}
-    ${"gcr.io:3000/kubernetes/someImage:alpine"} | ${{
+    ${"gcr.io:3000/kubernetes/some-image:alpine"} | ${{
       hostname: "gcr.io:3000",
-      imageName: "kubernetes/someImage",
+      imageName: "kubernetes/some-image",
       tag: "alpine",
     }}
     ${"localhost/alpine"} | ${{
@@ -60,9 +60,9 @@ describe("extractImageDetails", () => {
       imageName: "alpine",
       tag: "latest",
     }}
-    ${"localhost:1337/kubernetes/someImage:alpine"} | ${{
+    ${"localhost:1337/kubernetes/some-image:alpine"} | ${{
       hostname: "localhost:1337",
-      imageName: "kubernetes/someImage",
+      imageName: "kubernetes/some-image",
       tag: "alpine",
     }}
     ${"gcr.io/distroless/base-debian10@sha256:8756a25c4c5e902c4fe20322cc69d510a0517b51eab630c614efbd612ed568bf"} | ${{

@@ -1,4 +1,4 @@
-import { parseAll } from "@swimlane/docker-reference";
+import { isValidDigest, parseImageReference } from "../image-reference";
 
 export interface OCIDistributionMetadata {
   // Must be a valid host, including port if one was used to pull the image.
@@ -32,17 +32,16 @@ export function constructOCIDisributionMetadata({
   | OCIDistributionMetadata
   | undefined {
   try {
-    const ref = parseAll(imageName);
-    if (!ref.domain || !ref.repository) {
-      return;
-    }
-
+    const parsed = parseImageReference(imageName);
+    // Extract the registry hostname, using "docker.io" as the default for Docker Hub images.
+    // Note this is different from registryForPull, which defaults to "registry-1.docker.io" for Docker Hub images.
+    const hostname = parsed.registry ? parsed.registry : "docker.io";
     const metadata: OCIDistributionMetadata = {
-      registryHost: ref.domain,
-      repository: ref.repository,
+      registryHost: hostname,
+      repository: parsed.normalizedRepository,
       manifestDigest,
       indexDigest,
-      imageTag: ref.tag,
+      imageTag: parsed.tag,
     };
 
     if (!ociDistributionMetadataIsValid(metadata)) {
@@ -65,40 +64,17 @@ function ociDistributionMetadataIsValid(
 
   // 2048 byte limit is enforced by Snyk for platform stability.
   // Longer strings may be valid, but nothing close to this limit has been observed by Snyk at time of writing.
-  if (
-    Buffer.byteLength(data.repository) > 2048 ||
-    !repositoryNameIsValid(data.repository)
-  ) {
+  if (Buffer.byteLength(data.repository) > 2048) {
     return false;
   }
 
-  if (!digestIsValid(data.manifestDigest)) {
+  if (!isValidDigest(data.manifestDigest)) {
     return false;
   }
 
-  if (data.indexDigest && !digestIsValid(data.indexDigest)) {
-    return false;
-  }
-
-  if (data.imageTag && !tagIsValid(data.imageTag)) {
+  if (data.indexDigest && !isValidDigest(data.indexDigest)) {
     return false;
   }
 
   return true;
 }
-
-// Regular Expression Source: OCI Distribution Spec V1
-// https://github.com/opencontainers/distribution-spec/blob/570d0262abe8ec5e59d8e3fbbd7be4bd784b200e/spec.md?plain=1#L141
-const repositoryNameIsValid = (name: string) =>
-  /^[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*$/.test(
-    name,
-  );
-
-// Regular Expression Source: OCI Image Spec V1
-// https://github.com/opencontainers/image-spec/blob/d60099175f88c47cd379c4738d158884749ed235/descriptor.md?plain=1#L143
-const digestIsValid = (digest: string) => /^sha256:[a-f0-9]{64}$/.test(digest);
-
-// Regular Expression Source: OCI Image Spec V1
-// https://github.com/opencontainers/distribution-spec/blob/3940529fe6c0a068290b27fb3cd797cf0528bed6/spec.md?plain=1#L160
-const tagIsValid = (tag: string) =>
-  /^[a-zA-Z0-9_][a-zA-Z0-9._-]{0,127}$/.test(tag);
