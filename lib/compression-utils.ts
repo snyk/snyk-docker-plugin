@@ -1,4 +1,5 @@
 import { Decompress as ZstdDecompress } from "fzstd";
+import { getErrorMessage } from "./error-utils";
 
 /**
  * Decompresses zstd-compressed data from a buffer.
@@ -22,10 +23,6 @@ export function decompressZstd(compressed: Buffer): Buffer {
 
     return Buffer.concat(chunks);
   } catch (error) {
-    throw new Error(
-      `Zstd decompression failed: ${
-        error instanceof Error ? error.message : String(error)
-      }`,
-    );
+    throw new Error(`Zstd decompression failed: ${getErrorMessage(error)}`);
   }
 }

@@ -2,6 +2,7 @@ import * as Debug from "debug";
 import * as fs from "fs";
 import * as mkdirp from "mkdirp";
 import * as path from "path";
+import { getErrorMessage } from "../error-utils";
 
 import { Docker, DockerOptions } from "../docker";
 import { ImageName } from "../extractor/image";
@@ -35,7 +36,11 @@ function cleanupCallback(imageFolderPath: string, imageName: string) {
     try {
       fs.rmdirSync(imageFolderPath);
     } catch (err) {
-      debug(`Can't remove folder ${imageFolderPath}, got error ${err.message}`);
+      debug(
+        `Can't remove folder ${imageFolderPath}, got error ${getErrorMessage(
+          err,
+        )}`,
+      );
     }
   };
 }
@@ -58,8 +63,15 @@ async function pullWithDockerBinary(
     await docker.save(targetImage, saveLocation);
     return true;
   } catch (err) {
-    debug(`couldn't pull ${targetImage} using docker binary: ${err.message}`);
-    const errorMessage = err.stderr || err.message || err.toString();
+    debug(
+      `couldn't pull ${targetImage} using docker binary: ${getErrorMessage(
+        err,
+      )}`,
+    );
+    const errorMessage =
+      err instanceof Error && "stderr" in err
+        ? (err as Error & { stderr: string }).stderr
+        : getErrorMessage(err);
     handleDockerPullError(errorMessage, platform);
 
     return false;
@@ -126,7 +138,7 @@ async function pullFromContainerRegistry(
       platform,
     );
   } catch (err) {
-    handleDockerPullError(err.message);
+    handleDockerPullError(getErrorMessage(err));
     throw err;
   }
 }
@@ -213,7 +225,7 @@ async function getImageArchive(
   } catch (error) {
     debug(
       `${targetImage} does not exist locally, proceeding to pull image.`,
-      error.stack || error,
+      getErrorMessage(error),
     );
   }
 
@@ -370,7 +382,7 @@ function isLocalImageSameArchitecture(
     // Note: this is using the same flag/input pattern as the new Docker buildx: eg. linux/arm64/v8
     platformArchitecture = platformOption.split("/")[1];
   } catch (error) {
-    debug(`Error parsing platform flag: '${error.message}'`);
+    debug(`Error parsing platform flag: '${getErrorMessage(error)}'`);
     return false;
   }
 

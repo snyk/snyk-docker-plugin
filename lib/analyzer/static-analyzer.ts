@@ -1,5 +1,6 @@
 import * as Debug from "debug";
 import { DockerFileAnalysis } from "../dockerfile";
+import { getErrorMessage } from "../error-utils";
 import * as archiveExtractor from "../extractor";
 import {
   getGoModulesContentAction,
@@ -203,7 +204,7 @@ export async function analyze(
       dockerfileAnalysis,
     );
   } catch (err) {
-    debug(`Could not detect OS release: ${err.message}`);
+    debug(`Could not detect OS release: ${getErrorMessage(err)}`);
     throw new Error("Failed to detect OS release");
   }
 
@@ -231,7 +232,7 @@ export async function analyze(
       chiselAnalyze(targetImage, chiselPackages),
     ]);
   } catch (err) {
-    debug(`Could not detect installed OS packages: ${err.message}`);
+    debug(`Could not detect installed OS packages: ${getErrorMessage(err)}`);
     throw new Error("Failed to detect installed OS packages");
   }
 

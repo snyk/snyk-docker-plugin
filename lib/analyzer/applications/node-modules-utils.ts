@@ -1,6 +1,7 @@
 import * as Debug from "debug";
 import { mkdir, mkdtemp, rm, stat, writeFile } from "fs/promises";
 import * as path from "path";
+import { getErrorMessage } from "../../error-utils";
 import { FilePathToContent, FilesByDirMap } from "./types";
 const debug = Debug("snyk");
 
@@ -51,7 +52,9 @@ async function createSyntheticManifest(
     await writeFile(tempRootManifestPath, "{}", "utf-8");
   } catch (error) {
     debug(
-      `Error while writing file ${tempRootManifestPath} : ${error.message}`,
+      `Error while writing file ${tempRootManifestPath} : ${getErrorMessage(
+        error,
+      )}`,
     );
   }
 }
@@ -113,7 +116,9 @@ async function persistNodeModules(
     return result;
   } catch (error) {
     debug(
-      `Failed to copy the application manifest files locally: ${error.message}`,
+      `Failed to copy the application manifest files locally: ${getErrorMessage(
+        error,
+      )}`,
     );
     return {
       tempDir: tmpDir,
@@ -127,7 +132,7 @@ async function createFile(filePath, fileContent): Promise<void> {
     await mkdir(path.dirname(filePath), { recursive: true });
     await writeFile(filePath, fileContent, "utf-8");
   } catch (error) {
-    debug(`Error while creating file ${filePath} : ${error.message}`);
+    debug(`Error while creating file ${filePath} : ${getErrorMessage(error)}`);
   }
 }
 
@@ -241,6 +246,6 @@ async function cleanupAppNodeModules(appRootDir: string): Promise<void> {
   try {
     await rm(appRootDir, { recursive: true });
   } catch (error) {
-    debug(`Error while removing ${appRootDir} : ${error.message}`);
+    debug(`Error while removing ${appRootDir} : ${getErrorMessage(error)}`);
   }
 }

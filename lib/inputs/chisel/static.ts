@@ -2,6 +2,7 @@ import * as Debug from "debug";
 import { normalize as normalizePath } from "path";
 import { ChiselPackage } from "../../analyzer/types";
 import { decompressZstd } from "../../compression-utils";
+import { getErrorMessage } from "../../error-utils";
 import { getContentAsBuffer } from "../../extractor";
 import { ExtractAction, ExtractedLayers } from "../../extractor/types";
 import { streamToBuffer } from "../../stream-utils";
@@ -89,11 +90,9 @@ export function getChiselManifestContent(
       } catch (parseError) {
         // Skip malformed JSON lines - manifest may be corrupted or have trailing newlines
         debug(
-          `Failed to parse Chisel manifest line: ${
-            parseError instanceof Error
-              ? parseError.message
-              : String(parseError)
-          }`,
+          `Failed to parse Chisel manifest line: ${getErrorMessage(
+            parseError,
+          )}`,
         );
         continue;
       }
@@ -102,11 +101,7 @@ export function getChiselManifestContent(
     debug(`Found ${packages.length} Chisel packages in manifest`);
     return packages;
   } catch (error) {
-    debug(
-      `Failed to process Chisel manifest: ${
-        error instanceof Error ? error.message : String(error)
-      }`,
-    );
+    debug(`Failed to process Chisel manifest: ${getErrorMessage(error)}`);
     return [];
   }
 }

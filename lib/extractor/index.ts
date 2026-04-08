@@ -4,6 +4,7 @@ import {
   getLayersFromPackages,
   getPackagesFromRunInstructions,
 } from "../dockerfile/instruction-parser";
+import { getErrorMessage } from "../error-utils";
 import { AutoDetectedUserInstructions, ImageType } from "../types";
 import { PluginOptions } from "../types";
 import * as dockerExtractor from "./docker-archive";
@@ -166,7 +167,9 @@ async function extractArchiveContentFallback(
     } catch (error) {
       // imageType is a string enum value like "docker-archive", "oci-archive"
       debug(
-        `Error getting layers and manifest content from ${imageType} archive: ${error.message}`,
+        `Error getting layers and manifest content from ${imageType} archive: ${getErrorMessage(
+          error,
+        )}`,
       );
       continue;
     }

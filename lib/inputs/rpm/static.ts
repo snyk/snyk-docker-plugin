@@ -7,6 +7,7 @@ import { PackageInfo } from "@snyk/rpm-parser/lib/rpm/types";
 import { Response } from "@snyk/rpm-parser/lib/types";
 import * as Debug from "debug";
 import { normalize as normalizePath } from "path";
+import { getErrorMessage } from "../../error-utils";
 import { getContentAsBuffer } from "../../extractor";
 import { ExtractAction, ExtractedLayers } from "../../extractor/types";
 import { streamToBuffer } from "../../stream-utils";
@@ -36,7 +37,11 @@ export async function getRpmDbFileContent(
     }
     return parserResponse.response;
   } catch (error) {
-    debug(`An error occurred while analysing RPM packages: ${error.message}`);
+    debug(
+      `An error occurred while analysing RPM packages: ${getErrorMessage(
+        error,
+      )}`,
+    );
     return [];
   }
 }
@@ -60,7 +65,11 @@ export async function getRpmSqliteDbFileContent(
     }
     return results.response;
   } catch (error) {
-    debug(`An error occurred while analysing RPM packages: ${error.message}`);
+    debug(
+      `An error occurred while analysing RPM packages: ${getErrorMessage(
+        error,
+      )}`,
+    );
     return [];
   }
 }
@@ -91,7 +100,7 @@ export async function getRpmNdbFileContent(
   } catch (error) {
     debug(
       `An error occurred while analysing RPM NDB packages:`,
-      error.stack || error,
+      getErrorMessage(error),
     );
     return [];
   }
