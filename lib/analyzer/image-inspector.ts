@@ -68,12 +68,14 @@ async function pullWithDockerBinary(
         err,
       )}`,
     );
-    const errorMessage =
-      err instanceof Error &&
-      "stderr" in err &&
-      (err as Error & { stderr: string }).stderr
-        ? (err as Error & { stderr: string }).stderr
-        : getErrorMessage(err);
+    const stderrValue =
+      err !== null &&
+      typeof err === "object" &&
+      "stderr" in (err as object) &&
+      (err as { stderr: unknown }).stderr;
+    const errorMessage = stderrValue
+      ? String(stderrValue)
+      : getErrorMessage(err);
     handleDockerPullError(errorMessage, platform);
 
     return false;
