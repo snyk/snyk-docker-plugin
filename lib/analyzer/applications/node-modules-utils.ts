@@ -125,7 +125,10 @@ async function persistNodeModules(
   }
 }
 
-async function createFile(filePath: string, fileContent: string): Promise<void> {
+async function createFile(
+  filePath: string,
+  fileContent: string,
+): Promise<void> {
   try {
     await mkdir(path.dirname(filePath), { recursive: true });
     await writeFile(filePath, fileContent, "utf-8");
