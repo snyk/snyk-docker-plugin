@@ -141,16 +141,94 @@ describe("analyzeStatically", () => {
       },
     });
 
-    // Should not crash
-    await expect(
-      analyzeStatically(
-        "test-image",
-        undefined,
-        "docker-archive",
-        "test-path",
-        { include: [], exclude: [] },
-        {},
-      ),
-    ).resolves.toBeDefined();
+    await analyzeStatically(
+      "test-image",
+      undefined,
+      "docker-archive",
+      "test-path",
+      { include: [], exclude: [] },
+      {},
+    );
+
+    const buildResponseCall = (
+      responseBuilder.buildResponse as jest.Mock
+    ).mock.calls[0];
+    // Second argument is dockerfileAnalysis
+    expect(buildResponseCall[1]).toMatchObject({ baseImage: "alpine:latest" });
+  });
+
+  it("creates synthetic dockerfileAnalysis when dockerfileAnalysis is undefined and OCI labels present", async () => {
+    (analyzer.analyzeStatically as jest.Mock).mockResolvedValue({
+      osRelease: { name: "test", version: "1" },
+      imageLabels: {
+        "org.opencontainers.image.base.name": "alpine:latest",
+      },
+    });
+
+    await analyzeStatically(
+      "test-image",
+      undefined,
+      "docker-archive",
+      "test-path",
+      { include: [], exclude: [] },
+      {},
+    );
+
+    const buildResponseCall = (
+      responseBuilder.buildResponse as jest.Mock
+    ).mock.calls[0];
+    expect(buildResponseCall[1]).toEqual({
+      baseImage: "alpine:latest",
+      dockerfilePackages: {},
+      dockerfileLayers: {},
+    });
+  });
+
+  it("passes excludeBaseImageVulns as false when dockerfileAnalysis is synthetic", async () => {
+    (analyzer.analyzeStatically as jest.Mock).mockResolvedValue({
+      osRelease: { name: "test", version: "1" },
+      imageLabels: {
+        "org.opencontainers.image.base.name": "alpine:latest",
+      },
+    });
+
+    await analyzeStatically(
+      "test-image",
+      undefined,
+      "docker-archive",
+      "test-path",
+      { include: [], exclude: [] },
+      { "exclude-base-image-vulns": "true" },
+    );
+
+    const buildResponseCall = (
+      responseBuilder.buildResponse as jest.Mock
+    ).mock.calls[0];
+    // Third argument is excludeBaseImageVulns
+    expect(buildResponseCall[2]).toBe(false);
+  });
+
+  it("passes excludeBaseImageVulns as true when dockerfileAnalysis is real", async () => {
+    (analyzer.analyzeStatically as jest.Mock).mockResolvedValue({
+      osRelease: { name: "test", version: "1" },
+      imageLabels: {
+        "org.opencontainers.image.base.name": "alpine:latest",
+      },
+    });
+
+    await analyzeStatically(
+      "test-image",
+      { dockerfilePackages: {}, dockerfileLayers: {}, baseImage: undefined },
+      "docker-archive",
+      "test-path",
+      { include: [], exclude: [] },
+      { "exclude-base-image-vulns": "true" },
+    );
+
+    const buildResponseCall = (
+      responseBuilder.buildResponse as jest.Mock
+    ).mock.calls[0];
+    // Third argument is excludeBaseImageVulns
+    expect(buildResponseCall[2]).toBe(true);
   });
 });
