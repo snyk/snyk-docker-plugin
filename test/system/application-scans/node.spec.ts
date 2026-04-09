@@ -403,7 +403,7 @@ describe("node application scans", () => {
       noFromArrays: true,
     });
 
-    const depGraph = await legacy.depTreeToGraph(depRes, "npm");
+    const depGraph = await legacy.depTreeToGraph(depRes as any, "npm");
 
     expect(depGraph.rootPkg.name).toEqual("app");
     expect(depGraph.rootPkg.version).toBe(undefined);
