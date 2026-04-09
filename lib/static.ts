@@ -54,6 +54,22 @@ export async function analyzeStatically(
     packageFormat: parsedAnalysisResult.packageFormat,
   };
 
+  // If no Dockerfile was provided (or it couldn't detect the base image),
+  // try to detect the base image from OCI standard labels.
+  // Many modern images (Chainguard, Bitnami, official images) include
+  // org.opencontainers.image.base.name in their labels.
+  if (
+    (!dockerfileAnalysis || !dockerfileAnalysis.baseImage) &&
+    staticAnalysis.imageLabels
+  ) {
+    const baseImageLabel =
+      staticAnalysis.imageLabels["org.opencontainers.image.base.name"] ||
+      staticAnalysis.imageLabels["org.opencontainers.image.base.digest"];
+    if (baseImageLabel && dockerfileAnalysis) {
+      dockerfileAnalysis.baseImage = baseImageLabel;
+    }
+  }
+
   const excludeBaseImageVulns = isTrue(options["exclude-base-image-vulns"]);
 
   const names = getImageNames(options, imageName);
