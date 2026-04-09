@@ -76,20 +76,23 @@ async function persistNodeModules(
   fileNamesGroupedByDirectory: FilesByDirMap,
 ): Promise<ScanPaths> {
   const modules = fileNamesGroupedByDirectory.get(project);
-  const tmpDir: string = "";
-  const tempProjectRoot: string = "";
 
   if (!modules || modules.size === 0) {
     debug(`Empty application directory tree.`);
-
-    return {
-      tempDir: tmpDir,
-      tempProjectPath: tempProjectRoot,
-    };
+    return { tempDir: "", tempProjectPath: "" };
   }
 
+  // Create the temp directory first so we can return it in the catch block
+  // for cleanup. Previously, the outer tmpDir/tempProjectRoot were always
+  // empty strings, meaning any temp directory created before a failure in
+  // saveOnDisk or later steps would be leaked (caller couldn't clean it up).
+  let tmpDir = "";
+  let tempProjectRoot = "";
+
   try {
-    const { tmpDir, tempProjectRoot } = await createTempProjectDir(project);
+    const created = await createTempProjectDir(project);
+    tmpDir = created.tmpDir;
+    tempProjectRoot = created.tempProjectRoot;
 
     await saveOnDisk(tmpDir, modules, filePathToContent);
 
@@ -122,7 +125,7 @@ async function persistNodeModules(
   }
 }
 
-async function createFile(filePath, fileContent): Promise<void> {
+async function createFile(filePath: string, fileContent: string): Promise<void> {
   try {
     await mkdir(path.dirname(filePath), { recursive: true });
     await writeFile(filePath, fileContent, "utf-8");
