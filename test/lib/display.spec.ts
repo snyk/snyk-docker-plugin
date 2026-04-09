@@ -2,10 +2,18 @@ import { readFile } from "fs";
 import { join } from "path";
 
 import { DepGraphData } from "@snyk/dep-graph";
-import { display } from "../../lib";
 import { Options, ScanResult, TestResult } from "../../lib/types";
 
 describe("display", () => {
+  let display: typeof import("../../lib").display;
+
+  beforeAll(() => {
+    // Fixture files include chalk ANSI sequences; load `display` after env is set so chalk enables color.
+    process.env.FORCE_COLOR = "1";
+    delete process.env.NO_COLOR;
+    display = require("../../lib").display;
+  });
+
   test("shows text mode when there is no issues", async () => {
     const expectedDisplay = await readFixture(
       "display/output",
@@ -138,6 +146,112 @@ describe("display", () => {
 
     //  the display is as expected
     expect(result).toEqual(expectedDisplay);
+  });
+
+  describe("image digest metadata", () => {
+    test("includes full digest when imageId fact is at most 24 characters", async () => {
+      const debDepGraphData: DepGraphData = JSON.parse(
+        await readFixture("display", "deb-dep-graph.json"),
+      );
+      const rpmImageScanResult: ScanResult = JSON.parse(
+        await readFixture("display/scan-results", "rpm.json"),
+      );
+      const shortDigest = "sha256:abc123456789012"; // 22 chars
+      rpmImageScanResult.facts.push({
+        type: "imageId",
+        data: shortDigest,
+      });
+      const scanResults: ScanResult[] = [rpmImageScanResult];
+      const testResults: TestResult[] = [
+        {
+          org: "org-test",
+          licensesPolicy: null,
+          docker: {},
+          issues: [],
+          issuesData: {},
+          depGraphData: debDepGraphData,
+        },
+      ];
+      const errors: string[] = [];
+      const options: Options = {
+        path: "snyk/kubernetes-monitor",
+        config: { disableSuggestions: "true" },
+      } as Options;
+
+      const result = await display(scanResults, testResults, errors, options);
+
+      expect(result).toContain(shortDigest);
+      expect(result).toContain("Image digest:");
+    });
+
+    test("truncates digest to first 15 and last 8 characters when longer than 24", async () => {
+      const debDepGraphData: DepGraphData = JSON.parse(
+        await readFixture("display", "deb-dep-graph.json"),
+      );
+      const rpmImageScanResult: ScanResult = JSON.parse(
+        await readFixture("display/scan-results", "rpm.json"),
+      );
+      const longDigest =
+        "sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef";
+      rpmImageScanResult.facts.push({
+        type: "imageId",
+        data: longDigest,
+      });
+      const scanResults: ScanResult[] = [rpmImageScanResult];
+      const testResults: TestResult[] = [
+        {
+          org: "org-test",
+          licensesPolicy: null,
+          docker: {},
+          issues: [],
+          issuesData: {},
+          depGraphData: debDepGraphData,
+        },
+      ];
+      const errors: string[] = [];
+      const options: Options = {
+        path: "snyk/kubernetes-monitor",
+        config: { disableSuggestions: "true" },
+      } as Options;
+
+      const result = await display(scanResults, testResults, errors, options);
+
+      expect(result).toContain("sha256:01234567...89abcdef");
+      expect(result).not.toContain(longDigest);
+    });
+
+    test("omits image digest line when imageId fact has no data", async () => {
+      const debDepGraphData: DepGraphData = JSON.parse(
+        await readFixture("display", "deb-dep-graph.json"),
+      );
+      const rpmImageScanResult: ScanResult = JSON.parse(
+        await readFixture("display/scan-results", "rpm.json"),
+      );
+      rpmImageScanResult.facts.push({
+        type: "imageId",
+        data: "",
+      });
+      const scanResults: ScanResult[] = [rpmImageScanResult];
+      const testResults: TestResult[] = [
+        {
+          org: "org-test",
+          licensesPolicy: null,
+          docker: {},
+          issues: [],
+          issuesData: {},
+          depGraphData: debDepGraphData,
+        },
+      ];
+      const errors: string[] = [];
+      const options: Options = {
+        path: "snyk/kubernetes-monitor",
+        config: { disableSuggestions: "true" },
+      } as Options;
+
+      const result = await display(scanResults, testResults, errors, options);
+
+      expect(result).not.toContain("Image digest:");
+    });
   });
 
   function readFixture(fixture: string, filename: string): Promise<string> {

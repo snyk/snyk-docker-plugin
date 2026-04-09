@@ -161,6 +161,16 @@ function formatMetadataSection(
     result.push(formatMetadataLine("Platform:", platform));
   }
 
+  // Show image digest for audit traceability
+  const imageIdFact = scanResult.facts?.find((f) => f.type === "imageId");
+  if (imageIdFact?.data) {
+    const digest = String(imageIdFact.data);
+    // Truncate long digests for display but keep enough for identification
+    const displayDigest =
+      digest.length > 24 ? digest.substring(0, 15) + '...' + digest.substring(digest.length - 8) : digest;
+    result.push(formatMetadataLine("Image digest:", displayDigest));
+  }
+
   return result.join(BREAK_LINE);
 }
 
