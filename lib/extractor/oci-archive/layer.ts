@@ -214,7 +214,6 @@ async function tryParseJsonMetadata(stream: Readable): Promise<unknown> {
       // Keep a no-op error handler to prevent unhandled error events
       // when the stream is drained after fast-fail
       stream.removeAllListeners("error");
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
       stream.on("error", () => {});
     };
 

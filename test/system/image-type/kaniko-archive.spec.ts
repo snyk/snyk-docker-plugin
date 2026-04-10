@@ -1,4 +1,4 @@
-import { scan } from "../../../lib";
+import { extractContent, scan } from "../../../lib";
 import { getFixture } from "../../util";
 
 describe("kaniko archive scanning", () => {
@@ -11,5 +11,14 @@ describe("kaniko archive scanning", () => {
     });
 
     expect(pluginResult).toMatchSnapshot();
+  });
+
+  it("should extract content from a kaniko archive without throwing", async () => {
+    const fixturePath = getFixture("kaniko-archives/kaniko-busybox.tar");
+    const imageNameAndTag = `kaniko-archive:${fixturePath}`;
+
+    await expect(
+      extractContent([], { path: imageNameAndTag }),
+    ).resolves.not.toThrow();
   });
 });

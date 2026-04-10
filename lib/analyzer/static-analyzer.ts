@@ -15,6 +15,7 @@ import {
   getDpkgFileContentAction,
   getExtFileContentAction,
 } from "../inputs/apt/static";
+import { getJavaRuntimeReleaseAction } from "../inputs/base-runtimes/static";
 import {
   getBinariesHashes,
   getNodeBinariesFileContentAction,
@@ -67,6 +68,7 @@ import { jarFilesToScannedResults } from "./applications/java";
 import { pipFilesToScannedProjects } from "./applications/python";
 import { getApplicationFiles } from "./applications/runtime-common";
 import { AppDepsScanResultWithoutTarget } from "./applications/types";
+import { detectJavaRuntime } from "./base-runtimes";
 import * as osReleaseDetector from "./os-release";
 import { analyze as apkAnalyze } from "./package-managers/apk";
 import {
@@ -105,6 +107,7 @@ export async function analyze(
     ...getOsReleaseActions,
     getNodeBinariesFileContentAction,
     getOpenJDKBinariesFileContentAction,
+    getJavaRuntimeReleaseAction,
     getDpkgPackageFileContentAction,
     getRedHatRepositoriesContentAction,
   ];
@@ -233,6 +236,8 @@ export async function analyze(
   }
 
   const binaries = getBinariesHashes(extractedLayers);
+  const javaRuntime = detectJavaRuntime(extractedLayers);
+  const baseRuntimes = javaRuntime ? [javaRuntime] : undefined;
 
   const applicationDependenciesScanResults: AppDepsScanResultWithoutTarget[] =
     [];
@@ -309,6 +314,7 @@ export async function analyze(
     platform,
     results,
     binaries,
+    baseRuntimes,
     imageLayers: manifestLayers,
     rootFsLayers,
     applicationDependenciesScanResults,

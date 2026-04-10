@@ -293,7 +293,6 @@ export function readRawBuildInfo(binary: Elf): RawBuildInfo {
   const buildInfoAlign = 16;
   const buildInfoSize = 32;
 
-  // eslint-disable-next-line no-constant-condition
   while (true) {
     const i = data.toString("binary").indexOf(buildInfoMagic);
     if (i < 0 || data.length - i < buildInfoSize) {
