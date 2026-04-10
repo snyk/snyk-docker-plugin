@@ -1,4 +1,5 @@
 import { ImageName } from "../extractor/image";
+import { ProvenanceAttestation } from "../extractor/types";
 import { BaseRuntime } from "../facts";
 import { AutoDetectedUserInstructions, ManifestFile } from "../types";
 import {
@@ -103,6 +104,7 @@ export interface StaticAnalysis {
     comment?: string | null;
     empty_layer?: boolean | null;
   }> | null;
+  provenanceAttestations?: ProvenanceAttestation[];
 }
 
 export interface StaticPackagesAnalysis extends StaticAnalysis {
