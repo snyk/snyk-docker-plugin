@@ -150,9 +150,8 @@ describe("analyzeStatically", () => {
       {},
     );
 
-    const buildResponseCall = (
-      responseBuilder.buildResponse as jest.Mock
-    ).mock.calls[0];
+    const buildResponseCall = (responseBuilder.buildResponse as jest.Mock).mock
+      .calls[0];
     // Second argument is dockerfileAnalysis
     expect(buildResponseCall[1]).toMatchObject({ baseImage: "alpine:latest" });
   });
@@ -174,9 +173,8 @@ describe("analyzeStatically", () => {
       {},
     );
 
-    const buildResponseCall = (
-      responseBuilder.buildResponse as jest.Mock
-    ).mock.calls[0];
+    const buildResponseCall = (responseBuilder.buildResponse as jest.Mock).mock
+      .calls[0];
     expect(buildResponseCall[1]).toEqual({
       baseImage: "alpine:latest",
       dockerfilePackages: {},
@@ -201,9 +199,8 @@ describe("analyzeStatically", () => {
       { "exclude-base-image-vulns": "true" },
     );
 
-    const buildResponseCall = (
-      responseBuilder.buildResponse as jest.Mock
-    ).mock.calls[0];
+    const buildResponseCall = (responseBuilder.buildResponse as jest.Mock).mock
+      .calls[0];
     // Third argument is excludeBaseImageVulns
     expect(buildResponseCall[2]).toBe(false);
   });
@@ -225,9 +222,8 @@ describe("analyzeStatically", () => {
       { "exclude-base-image-vulns": "true" },
     );
 
-    const buildResponseCall = (
-      responseBuilder.buildResponse as jest.Mock
-    ).mock.calls[0];
+    const buildResponseCall = (responseBuilder.buildResponse as jest.Mock).mock
+      .calls[0];
     // Third argument is excludeBaseImageVulns
     expect(buildResponseCall[2]).toBe(true);
   });
