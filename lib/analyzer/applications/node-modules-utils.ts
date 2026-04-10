@@ -1,5 +1,6 @@
 import * as Debug from "debug";
 import { mkdir, mkdtemp, rm, stat, writeFile } from "fs/promises";
+import * as os from "os";
 import * as path from "path";
 import { FilePathToContent, FilesByDirMap } from "./types";
 const debug = Debug("snyk");
@@ -22,7 +23,7 @@ interface ScanPaths {
 async function createTempProjectDir(
   projectDir: string,
 ): Promise<{ tmpDir: string; tempProjectRoot: string }> {
-  const tmpDir = await mkdtemp("snyk");
+  const tmpDir = await mkdtemp(path.join(os.tmpdir(), "snyk-"));
 
   const tempProjectRoot = path.join(tmpDir, projectDir);
 

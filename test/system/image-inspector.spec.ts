@@ -1,7 +1,7 @@
+import * as crypto from "crypto";
 import * as fs from "fs";
+import * as os from "os";
 import * as path from "path";
-import * as tmp from "tmp";
-import { v4 as uuidv4 } from "uuid";
 
 import { DockerPullResult } from "@snyk/snyk-docker-pull";
 import * as plugin from "../../lib";
@@ -114,7 +114,7 @@ describe("getImageArchive", () => {
     });
 
     it("should produce the expected state", async () => {
-      const imageSavePath = path.join(customPath, uuidv4());
+      const imageSavePath = path.join(customPath, crypto.randomUUID());
       const dockerPullSpy = jest.spyOn(Docker.prototype, "pull");
       const loadImage = path.join(
         __dirname,
@@ -152,8 +152,8 @@ describe("getImageArchive", () => {
 
   describe("from remote registry with binary", () => {
     it("should produce the expected state", async () => {
-      const customPath = tmp.dirSync().name;
-      const imageSavePath = path.join(customPath, uuidv4());
+      const customPath = fs.mkdtempSync(path.join(os.tmpdir(), "snyk-"));
+      const imageSavePath = path.join(customPath, crypto.randomUUID());
       const registryPullSpy = jest.spyOn(Docker.prototype, "pull");
 
       const archiveLocation: ArchiveResult =
@@ -180,11 +180,12 @@ describe("getImageArchive", () => {
       expect(customPathExistsOnDisk).toBe(true);
 
       await subProcess.execute("docker", ["image", "rm", targetImage]);
+      fs.rmSync(customPath, { recursive: true, force: true });
     });
 
     it("should fail correctly when manifest is not found for given tag", async () => {
-      const customPath = tmp.dirSync().name;
-      const imageSavePath = path.join(customPath, uuidv4());
+      const customPath = fs.mkdtempSync(path.join(os.tmpdir(), "snyk-"));
+      const imageSavePath = path.join(customPath, crypto.randomUUID());
       const dockerPullCliSpy = jest
         .spyOn(Docker.prototype, "pullCli")
         .mockImplementation(() => {
@@ -209,6 +210,8 @@ describe("getImageArchive", () => {
 
       expect(dockerPullCliSpy).toHaveBeenCalled();
       expect(dockerPullSpy).not.toHaveBeenCalled();
+
+      fs.rmSync(customPath, { recursive: true, force: true });
     });
   });
 
@@ -220,7 +223,7 @@ describe("getImageArchive", () => {
     });
 
     it("should produce the expected state", async () => {
-      const imageSavePath = path.join(customPath, uuidv4());
+      const imageSavePath = path.join(customPath, crypto.randomUUID());
       // we simulate the Docker CLI being so old that the `--platform` flag is not supported at all.
       const dockerPullCliSpy = jest
         .spyOn(Docker.prototype, "pullCli")
@@ -258,7 +261,7 @@ describe("getImageArchive", () => {
     });
 
     it("should produce the expected state", async () => {
-      const imageSavePath = path.join(customPath, uuidv4());
+      const imageSavePath = path.join(customPath, crypto.randomUUID());
       const dockerPullCliSpy = jest
         .spyOn(Docker.prototype, "pullCli")
         .mockImplementation(() => {
@@ -296,7 +299,7 @@ describe("getImageArchive", () => {
     });
 
     it("should produce the expected state", async () => {
-      const imageSavePath = path.join(customPath, uuidv4());
+      const imageSavePath = path.join(customPath, crypto.randomUUID());
       const dockerPullSpy = jest.spyOn(Docker.prototype, "pull");
       jest.spyOn(subProcess, "execute").mockImplementation(() => {
         throw new Error();
@@ -334,7 +337,7 @@ describe("getImageArchive", () => {
     });
 
     it("should produce the expected state", async () => {
-      const imageSavePath = path.join(customPath, uuidv4());
+      const imageSavePath = path.join(customPath, crypto.randomUUID());
       const dockerPullSpy = jest
         .spyOn(Docker.prototype, "pull")
         .mockImplementation((_1, _2, _3, imageSavePath) => {

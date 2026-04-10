@@ -46,7 +46,6 @@
     "fzstd": "^0.1.1",
     "gunzip-maybe": "^1.4.2",
     "minimatch": "^9.0.0",
-    "mkdirp": "^1.0.4",
     "packageurl-js": "1.2.0",
     "semver": "^7.7.3",
     "shescape": "^2.1.7",
@@ -54,9 +53,7 @@
     "snyk-poetry-lockfile-parser": "1.9.1",
     "snyk-resolve-deps": "^4.9.1",
     "tar-stream": "^2.2.0",
-    "tmp": "^0.2.5",
     "tslib": "^1",
-    "uuid": "^8.2.0",
     "varint": "^6.0.0"
   },
   "devDependencies": {
@@ -70,7 +67,6 @@
     "@types/jest": "^29.5.5",
     "@types/node": "^20.19.1",
     "@types/tar-stream": "^1.6.1",
-    "@types/tmp": "^0.2.0",
     "@eslint/js": "^10.0.0",
     "eslint": "^10.0.0",
     "eslint-config-prettier": "^10.0.0",

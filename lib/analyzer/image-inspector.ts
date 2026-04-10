@@ -1,6 +1,5 @@
 import * as Debug from "debug";
 import * as fs from "fs";
-import * as mkdirp from "mkdirp";
 import * as path from "path";
 
 import { Docker, DockerOptions } from "../docker";
@@ -200,7 +199,7 @@ async function getImageArchive(
   platform?: string,
 ): Promise<ArchiveResult> {
   const docker = new Docker();
-  mkdirp.sync(imageSavePath);
+  fs.mkdirSync(imageSavePath, { recursive: true });
   const destination: DestinationDir = {
     name: imageSavePath,
     removeCallback: cleanupCallback(imageSavePath, "image.tar"),

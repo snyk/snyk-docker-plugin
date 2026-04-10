@@ -10,7 +10,6 @@ import {
 import * as os from "os";
 import * as path from "path";
 import * as tar from "tar-stream";
-import * as tmp from "tmp";
 import { Docker } from "../../lib/docker";
 import { CmdOutput } from "../../lib/sub-process";
 import * as subProcess from "../../lib/sub-process";
@@ -123,6 +122,7 @@ describe("docker", () => {
 
     const docker = new Docker();
     let expectedChecksum;
+    let tempFilesToCleanup: string[] = [];
 
     beforeAll(async () => {
       const loadImage = path.join(
@@ -139,6 +139,12 @@ describe("docker", () => {
       if (existsSync(TEST_TARGET_IMAGE_DESTINATION)) {
         unlinkSync(TEST_TARGET_IMAGE_DESTINATION);
       }
+      for (const file of tempFilesToCleanup) {
+        if (existsSync(file)) {
+          unlinkSync(file);
+        }
+      }
+      tempFilesToCleanup = [];
     });
 
     async function calculateImageSHA256(tarFilePath: string): Promise<string> {
@@ -164,9 +170,12 @@ describe("docker", () => {
       return new Promise((resolve, reject) => {
         const extract = tar.extract();
         const pack = tar.pack();
-        const tempFile = tmp.fileSync();
-        const output = createWriteStream(tempFile.name);
-
+        const tempFilePath = path.join(
+          os.tmpdir(),
+          `snyk-docker-plugin-test-${crypto.randomUUID()}.tar`,
+        );
+        tempFilesToCleanup.push(tempFilePath);
+        const output = createWriteStream(tempFilePath);
         extract.on("entry", (header, stream, next) => {
           // Normalize the header
           header.mtime = new Date(0); // Set modification time to the epoch
@@ -183,7 +192,7 @@ describe("docker", () => {
         });
 
         output.on("finish", () => {
-          resolve(tempFile.name);
+          resolve(tempFilePath);
         });
 
         extract.on("error", (err) => {
