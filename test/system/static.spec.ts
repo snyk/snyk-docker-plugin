@@ -273,4 +273,25 @@ describe("static", () => {
     //  expected number of direct deps
     expect(depGraph.getDepPkgs()).toHaveLength(125);
   });
+
+  test("static scanning an image sets baseImage from OCI standard labels", async () => {
+    const dockerfilePath = path.join(
+      __dirname,
+      "../fixtures/dockerfiles/empty-dockerfile",
+    );
+    const fixturePath = getFixture("docker-save/oci-labels.tar");
+    const imagePath = `docker-archive:${fixturePath}`;
+
+    const pluginResultStatic = await plugin.scan({
+      path: imagePath,
+      file: dockerfilePath,
+    });
+
+    const dockerfileAnalysis: DockerFileAnalysis =
+      pluginResultStatic.scanResults[0].facts.find(
+        (fact) => fact.type === "dockerfileAnalysis",
+      )!.data;
+
+    expect(dockerfileAnalysis.baseImage).toEqual("alpine:latest");
+  });
 });

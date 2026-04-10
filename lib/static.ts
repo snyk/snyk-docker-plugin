@@ -54,7 +54,38 @@ export async function analyzeStatically(
     packageFormat: parsedAnalysisResult.packageFormat,
   };
 
-  const excludeBaseImageVulns = isTrue(options["exclude-base-image-vulns"]);
+  let syntheticDockerfileAnalysis = false;
+
+  // If no Dockerfile was provided (or it couldn't detect the base image),
+  // try to detect the base image from OCI standard labels.
+  // Many modern images (Chainguard, Bitnami, official images) include
+  // org.opencontainers.image.base.name in their labels.
+  if (
+    (!dockerfileAnalysis || !dockerfileAnalysis.baseImage) &&
+    staticAnalysis.imageLabels
+  ) {
+    const baseImageLabel =
+      staticAnalysis.imageLabels["org.opencontainers.image.base.name"] ||
+      staticAnalysis.imageLabels["org.opencontainers.image.base.digest"];
+    if (baseImageLabel) {
+      if (dockerfileAnalysis) {
+        dockerfileAnalysis.baseImage = baseImageLabel;
+      } else {
+        dockerfileAnalysis = {
+          baseImage: baseImageLabel,
+          dockerfilePackages: {},
+          dockerfileLayers: {},
+        };
+        syntheticDockerfileAnalysis = true;
+      }
+    }
+  }
+
+  // When dockerfileAnalysis was synthetically created from OCI labels (no real
+  // Dockerfile was provided), we have no package data — so excluding base image
+  // vulns would silently strip all vulnerabilities. Disable it in that case.
+  const excludeBaseImageVulns =
+    isTrue(options["exclude-base-image-vulns"]) && !syntheticDockerfileAnalysis;
 
   const names = getImageNames(options, imageName);
   let ociDistributionMetadata: OCIDistributionMetadata | undefined;
