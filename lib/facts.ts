@@ -3,6 +3,7 @@ import { ApplicationFiles } from "./analyzer/applications/types";
 import { JarFingerprint } from "./analyzer/types";
 import { DockerFileAnalysis } from "./dockerfile/types";
 import { OCIDistributionMetadata } from "./extractor/oci-distribution-metadata";
+import { ProvenanceAttestation } from "./extractor/types";
 import {
   AutoDetectedUserInstructions,
   ImageNameInfo,
@@ -102,6 +103,11 @@ export interface LoadedPackagesFact {
 export interface OCIDistributionMetadataFact {
   type: "ociDistributionMetadata";
   data: OCIDistributionMetadata;
+}
+
+export interface ProvenanceAttestationsFact {
+  type: "provenanceAttestations";
+  data: ProvenanceAttestation[];
 }
 
 export interface PlatformFact {
