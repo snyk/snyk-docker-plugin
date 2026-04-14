@@ -1,4 +1,5 @@
 import * as fsPromises from "fs/promises";
+import * as os from "os";
 import * as path from "path";
 import { persistNodeModules } from "../../../../lib/analyzer/applications/node-modules-utils";
 import {
@@ -84,7 +85,7 @@ describe("node-modules-utils", () => {
         ),
       });
 
-      expect(mockMkdtemp).toHaveBeenCalledWith("snyk");
+      expect(mockMkdtemp).toHaveBeenCalledWith(path.join(os.tmpdir(), "snyk-"));
       expect(mockMkdir).toHaveBeenCalledWith(expectedTempProjectPath, {
         recursive: true,
       });
