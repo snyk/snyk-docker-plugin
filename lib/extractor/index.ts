@@ -232,15 +232,24 @@ function layersWithLatestFileModifications(
 ): ExtractedLayers {
   const extractedLayers: ExtractedLayers = {};
   const removedFilesToIgnore: Set<string> = new Set();
+  const opaqueWhiteoutDirs: Set<string> = new Set();
 
   // TODO: This removes the information about the layer name, maybe we would need it in the future?
   for (const layer of layers) {
+    // Collect opaque whiteout dirs from this layer, but don't apply yet —
+    // they only affect older layers, not the current one.
+    const layerOpaqueDirs: Set<string> = new Set();
+
     // go over extracted files products found in this layer
     for (const filename of Object.keys(layer)) {
       // if finding a deleted file - trimming to its original file name for excluding it from extractedLayers
       // + not adding this file
+      if (isOpaqueWhiteout(filename)) {
+        layerOpaqueDirs.add(path.dirname(filename));
+        continue;
+      }
       if (isWhitedOutFile(filename)) {
-        removedFilesToIgnore.add(filename.replace(/.wh./, ""));
+        removedFilesToIgnore.add(removeWhiteoutPrefix(filename));
         continue;
       }
       // not adding previously found to be whited out files to extractedLayers
@@ -251,17 +260,69 @@ function layersWithLatestFileModifications(
       if (isFileInARemovedFolder(filename, removedFilesToIgnore)) {
         continue;
       }
+      // not adding files in directories covered by an opaque whiteout from a newer layer
+      if (isFileInOpaqueDir(filename, opaqueWhiteoutDirs)) {
+        continue;
+      }
       // file not already in extractedLayers
       if (!Reflect.has(extractedLayers, filename)) {
         extractedLayers[filename] = layer[filename];
       }
     }
+
+    // Apply this layer's opaque whiteouts to older layers
+    for (const dir of layerOpaqueDirs) {
+      opaqueWhiteoutDirs.add(dir);
+    }
   }
   return extractedLayers;
 }
 
-export function isWhitedOutFile(filename: string) {
-  return filename.match(/.wh./gm);
+/**
+ * check if a file is 'whited out' (filename starts with .wh.)
+ * https://www.madebymikal.com/interpreting-whiteout-files-in-docker-image-layers
+ * https://github.com/opencontainers/image-spec/blob/main/layer.md#whiteouts
+ */
+export function isWhitedOutFile(filename: string): boolean {
+  return getBasename(filename).startsWith(".wh.");
+}
+
+/**
+ * Check if a file is an opaque whiteout (.wh..wh..opq).
+ * Opaque whiteouts mean "delete everything in this directory from lower layers."
+ * https://github.com/opencontainers/image-spec/blob/main/layer.md#opaque-whiteout
+ */
+export function isOpaqueWhiteout(filename: string): boolean {
+  return getBasename(filename) === ".wh..wh..opq";
+}
+
+/**
+ * Extract the basename from a path, handling both / and \ separators cross-platform.
+ */
+function getBasename(filename: string): string {
+  const lastSlash = Math.max(
+    filename.lastIndexOf("/"),
+    filename.lastIndexOf("\\"),
+  );
+  return lastSlash === -1 ? filename : filename.substring(lastSlash + 1);
+}
+
+function isFileInOpaqueDir(
+  filename: string,
+  opaqueWhiteoutDirs: Set<string>,
+): boolean {
+  return Array.from(opaqueWhiteoutDirs).some((opaqueDir) =>
+    isFileInFolder(filename, opaqueDir),
+  );
+}
+
+/**
+ * Remove the .wh. prefix from a whiteout file to get the original filename
+ */
+export function removeWhiteoutPrefix(filename: string): string {
+  // Replace .wh. at the start or after the last slash/backslash.
+  // Don't match if there are slashes after .wh.
+  return filename.replace(/^(.*[\/\\])?\.wh\.([^\/\\]*)$/, "$1$2");
 }
 
 function isBufferType(type: FileContent): type is Buffer {
