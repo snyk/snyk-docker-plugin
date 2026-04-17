@@ -4,6 +4,7 @@ import * as gunzip from "gunzip-maybe";
 import { basename, normalize as normalizePath } from "path";
 import { Readable } from "stream";
 import { extract, Extract } from "tar-stream";
+import { getErrorMessage } from "../error-utils";
 import { streamToJson } from "../stream-utils";
 
 export class InvalidArchiveError extends Error {
@@ -73,7 +74,7 @@ export function createExtractArchive(
                 extractActions,
               );
             } catch (error) {
-              debug(`Error extracting layer content from: '${error.message}'`);
+              debug(`Error extracting layer content from: '${getErrorMessage(error)}'`);
               reject(
                 new Error(`Error reading ${config.layerErrorType} archive`),
               );
@@ -97,7 +98,7 @@ export function createExtractArchive(
           resolve(assembleLayersAndManifest(manifest, imageConfig, layers));
         } catch (error) {
           debug(
-            `Error getting layers and manifest content from ${config.formatLabel} archive: ${error.message}`,
+            `Error getting layers and manifest content from ${config.formatLabel} archive: ${getErrorMessage(error)}`,
           );
           reject(
             new InvalidArchiveError(`Invalid ${config.formatLabel} archive`),
