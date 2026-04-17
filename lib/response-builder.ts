@@ -301,6 +301,17 @@ async function buildResponse(
     additionalFacts.push(metadataFact);
   }
 
+  if (
+    depsAnalysis.provenanceAttestations &&
+    depsAnalysis.provenanceAttestations.length > 0
+  ) {
+    const provenanceAttestationsFact: facts.ProvenanceAttestationsFact = {
+      type: "provenanceAttestations",
+      data: depsAnalysis.provenanceAttestations,
+    };
+    additionalFacts.push(provenanceAttestationsFact);
+  }
+
   if (depsAnalysis.platform) {
     const platformFact: facts.PlatformFact = {
       type: "platform",
