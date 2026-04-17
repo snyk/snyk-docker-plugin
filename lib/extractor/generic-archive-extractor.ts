@@ -74,7 +74,11 @@ export function createExtractArchive(
                 extractActions,
               );
             } catch (error) {
-              debug(`Error extracting layer content from: '${getErrorMessage(error)}'`);
+              debug(
+                `Error extracting layer content from: '${getErrorMessage(
+                  error,
+                )}'`,
+              );
               reject(
                 new Error(`Error reading ${config.layerErrorType} archive`),
               );
@@ -98,7 +102,9 @@ export function createExtractArchive(
           resolve(assembleLayersAndManifest(manifest, imageConfig, layers));
         } catch (error) {
           debug(
-            `Error getting layers and manifest content from ${config.formatLabel} archive: ${getErrorMessage(error)}`,
+            `Error getting layers and manifest content from ${
+              config.formatLabel
+            } archive: ${getErrorMessage(error)}`,
           );
           reject(
             new InvalidArchiveError(`Invalid ${config.formatLabel} archive`),
