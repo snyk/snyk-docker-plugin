@@ -5,6 +5,7 @@ import { eventLoopSpinner } from "event-loop-spinner";
 // This makes it easier to ignore differences between Linux and Windows.
 import { posix as path } from "path";
 import * as varint from "varint";
+import { getErrorMessage } from "../error-utils";
 
 import { DEP_GRAPH_TYPE } from "./";
 import { GoModule } from "./go-module";
@@ -66,7 +67,10 @@ export class GoBinary {
       try {
         this.matchFilesToModules(new LineTable(pclnTab.data).go12MapFiles());
       } catch (err) {
-        debug(`Failed to parse .gopclntab in ${this.name}`, err.stack || err);
+        debug(
+          `Failed to parse .gopclntab in ${this.name}`,
+          getErrorMessage(err),
+        );
       }
     }
   }

@@ -5,6 +5,7 @@ import { basename, normalize as normalizePath } from "path";
 import { Readable } from "stream";
 import { extract, Extract } from "tar-stream";
 import { InvalidArchiveError } from "..";
+import { getErrorMessage } from "../../error-utils";
 import { streamToJson } from "../../stream-utils";
 import { PluginOptions } from "../../types";
 import { extractImageLayer } from "../layer";
@@ -46,7 +47,11 @@ export async function extractArchive(
               extractActions,
             );
           } catch (error) {
-            debug(`Error extracting layer content from: '${error.message}'`);
+            debug(
+              `Error extracting layer content from: '${getErrorMessage(
+                error,
+              )}'`,
+            );
             reject(new Error("Error reading tar archive"));
           }
         } else if (isManifestFile(normalizedName)) {
@@ -70,7 +75,9 @@ export async function extractArchive(
         );
       } catch (error) {
         debug(
-          `Error getting layers and manifest content from docker archive: ${error.message}`,
+          `Error getting layers and manifest content from docker archive: ${getErrorMessage(
+            error,
+          )}`,
         );
         reject(new InvalidArchiveError("Invalid Docker archive"));
       }

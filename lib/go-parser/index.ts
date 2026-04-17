@@ -5,6 +5,7 @@ import { eventLoopSpinner } from "event-loop-spinner";
 // This makes it easier to ignore differences between Linux and Windows.
 import { posix as path } from "path";
 import { Readable } from "stream";
+import { getErrorMessage } from "../error-utils";
 
 import {
   AppDepsScanResultWithoutTarget,
@@ -212,7 +213,9 @@ export async function goModulesToScannedProjects(
         },
       });
     } catch (err) {
-      debug(`Go binary scan for file ${filePath} failed: ${err.message}`);
+      debug(
+        `Go binary scan for file ${filePath} failed: ${getErrorMessage(err)}`,
+      );
     }
   }
 

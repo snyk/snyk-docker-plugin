@@ -1,5 +1,6 @@
 import * as Debug from "debug";
 import { normalize as normalizePath } from "path";
+import { getErrorMessage } from "../../error-utils";
 
 import { DockerFileAnalysis } from "../../dockerfile/types";
 import { ExtractedLayers } from "../../extractor/types";
@@ -74,7 +75,7 @@ export async function detect(
     try {
       osRelease = await handler(osReleaseFile);
     } catch (err) {
-      debug(`Malformed OS release file: ${err.message}`);
+      debug(`Malformed OS release file: ${getErrorMessage(err)}`);
     }
     if (osRelease) {
       break;

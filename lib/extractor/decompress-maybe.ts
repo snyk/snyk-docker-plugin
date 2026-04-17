@@ -1,6 +1,7 @@
 import { Decompress as ZstdDecompress } from "fzstd";
 import { Transform } from "stream";
 import { createGunzip } from "zlib";
+import { getErrorMessage } from "../error-utils";
 
 /**
  * Creates a transform stream that automatically detects and decompresses data based on magic numbers.
@@ -73,11 +74,7 @@ export function decompressMaybe(): Transform {
             zstdStream.push(new Uint8Array(combined), false);
           } catch (err) {
             callback(
-              new Error(
-                `zstd decompression failed: ${
-                  err instanceof Error ? err.message : String(err)
-                }`,
-              ),
+              new Error(`zstd decompression failed: ${getErrorMessage(err)}`),
             );
             return;
           }
@@ -108,11 +105,7 @@ export function decompressMaybe(): Transform {
             callback();
           } catch (err) {
             callback(
-              new Error(
-                `zstd decompression failed: ${
-                  err instanceof Error ? err.message : String(err)
-                }`,
-              ),
+              new Error(`zstd decompression failed: ${getErrorMessage(err)}`),
             );
           }
         } else {
@@ -133,11 +126,7 @@ export function decompressMaybe(): Transform {
           callback();
         } catch (err) {
           callback(
-            new Error(
-              `zstd decompression failed: ${
-                err instanceof Error ? err.message : String(err)
-              }`,
-            ),
+            new Error(`zstd decompression failed: ${getErrorMessage(err)}`),
           );
         }
       } else if (!headerRead && buffer.length > 0) {
