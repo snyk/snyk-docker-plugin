@@ -162,3 +162,17 @@ export interface BaseRuntimesFact {
   type: "baseRuntimes";
   data: BaseRuntime[];
 }
+
+export interface LayerAttributionEntry {
+  layerIndex: number;
+  diffID: string;
+  digest?: string;
+  instruction?: string;
+  packages: string[];
+  removedPackages?: string[];
+}
+
+export interface LayerPackageAttributionFact {
+  type: "layerPackageAttribution";
+  data: LayerAttributionEntry[];
+}
