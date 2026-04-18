@@ -87,6 +87,7 @@ import {
   mapRpmSqlitePackages,
 } from "./package-managers/rpm";
 import {
+  AnalysisType,
   ImagePackagesAnalysis,
   OSRelease,
   StaticPackagesAnalysis,
@@ -246,22 +247,35 @@ export async function analyze(
   if (
     isTrue(options["layer-attribution"]) &&
     rootFsLayers &&
+    orderedLayers &&
     orderedLayers.length > 0
   ) {
     const resultsWithPackages = results.filter((r) => r.Analysis.length > 0);
     if (resultsWithPackages.length > 0) {
       const allEntries: LayerAttributionEntry[] = [];
+      const attributionCache = new Map<
+        AnalysisType,
+        Map<string, { layerIndex: number; diffID: string }>
+      >();
       for (const result of resultsWithPackages) {
         try {
-          const { entries, pkgLayerMap } = await computeLayerAttribution(
-            orderedLayers,
-            result.AnalyzeType,
-            rootFsLayers,
-            manifestLayers,
-            history,
-            targetImage,
-          );
-          allEntries.push(...entries);
+          let pkgLayerMap: Map<string, { layerIndex: number; diffID: string }>;
+          if (attributionCache.has(result.AnalyzeType)) {
+            pkgLayerMap = attributionCache.get(result.AnalyzeType)!;
+          } else {
+            const { entries, pkgLayerMap: computed } =
+              await computeLayerAttribution(
+                orderedLayers,
+                result.AnalyzeType,
+                rootFsLayers,
+                manifestLayers,
+                history,
+                targetImage,
+              );
+            allEntries.push(...entries);
+            attributionCache.set(result.AnalyzeType, computed);
+            pkgLayerMap = computed;
+          }
           for (const pkg of result.Analysis) {
             const key = `${pkg.Name}@${pkg.Version}`;
             const attr = pkgLayerMap.get(key);

@@ -5,6 +5,7 @@ import {
   getPackagesFromRunInstructions,
 } from "../dockerfile/instruction-parser";
 import { getErrorMessage } from "../error-utils";
+import { isTrue } from "../option-utils";
 import { AutoDetectedUserInstructions, ImageType } from "../types";
 import { PluginOptions } from "../types";
 import * as dockerExtractor from "./docker-archive";
@@ -147,7 +148,9 @@ export async function extractImageContent(
     manifestLayers: extractor.getManifestLayers(archiveContent.manifest),
     imageCreationTime: archiveContent.imageConfig.created,
     extractedLayers: layersWithLatestFileModifications(archiveContent.layers),
-    orderedLayers: archiveContent.layers,
+    orderedLayers: isTrue(options?.["layer-attribution"])
+      ? archiveContent.layers
+      : undefined,
     rootFsLayers: getRootFsLayersFromConfig(archiveContent.imageConfig),
     autoDetectedUserInstructions: getDetectedLayersInfoFromConfig(
       archiveContent.imageConfig,
