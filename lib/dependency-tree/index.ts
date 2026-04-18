@@ -121,11 +121,19 @@ export function buildTree(
     };
 
     for (const depInfo of tooFrequentDeps) {
+      const freqLabels: { [key: string]: string } = {};
+      if (depInfo.layerDiffId !== undefined) {
+        freqLabels.layerDiffId = depInfo.layerDiffId;
+      }
+      if (depInfo.layerIndex !== undefined) {
+        freqLabels.layerIndex = String(depInfo.layerIndex);
+      }
       const pkg: DepTreeDep = {
         name: depFullName(depInfo),
         version: depInfo.Version,
         sourceVersion: depInfo.SourceVersion,
         dependencies: {},
+        ...(Object.keys(freqLabels).length > 0 ? { labels: freqLabels } : {}),
       };
 
       // The existence of the "meta" package breaks upgrade
@@ -172,11 +180,20 @@ function buildTreeRecursive(
     return null;
   }
 
+  const labels: { [key: string]: string } = {};
+  if (depInfo.layerDiffId !== undefined) {
+    labels.layerDiffId = depInfo.layerDiffId;
+  }
+  if (depInfo.layerIndex !== undefined) {
+    labels.layerIndex = String(depInfo.layerIndex);
+  }
+
   const tree: DepTreeDep = {
     name: fullName,
     version: depInfo.Version,
     purl: depInfo.Purl,
     dependencies: {},
+    ...(Object.keys(labels).length > 0 ? { labels } : {}),
   };
   if (depInfo._visited) {
     return tree;
