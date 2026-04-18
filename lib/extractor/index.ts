@@ -147,6 +147,7 @@ export async function extractImageContent(
     manifestLayers: extractor.getManifestLayers(archiveContent.manifest),
     imageCreationTime: archiveContent.imageConfig.created,
     extractedLayers: layersWithLatestFileModifications(archiveContent.layers),
+    orderedLayers: archiveContent.layers,
     rootFsLayers: getRootFsLayersFromConfig(archiveContent.imageConfig),
     autoDetectedUserInstructions: getDetectedLayersInfoFromConfig(
       archiveContent.imageConfig,

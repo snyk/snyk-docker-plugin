@@ -2,6 +2,7 @@ import * as Debug from "debug";
 import { DockerFileAnalysis } from "../dockerfile";
 import { getErrorMessage } from "../error-utils";
 import * as archiveExtractor from "../extractor";
+import { LayerAttributionEntry } from "../facts";
 import {
   getGoModulesContentAction,
   goModulesToScannedProjects,
@@ -70,6 +71,10 @@ import { pipFilesToScannedProjects } from "./applications/python";
 import { getApplicationFiles } from "./applications/runtime-common";
 import { AppDepsScanResultWithoutTarget } from "./applications/types";
 import { detectJavaRuntime } from "./base-runtimes";
+import {
+  computeLayerAttribution,
+  mergeLayerAttributionEntries,
+} from "./layer-attribution";
 import * as osReleaseDetector from "./os-release";
 import { analyze as apkAnalyze } from "./package-managers/apk";
 import {
@@ -159,6 +164,7 @@ export async function analyze(
     imageId,
     manifestLayers,
     extractedLayers,
+    orderedLayers,
     rootFsLayers,
     autoDetectedUserInstructions,
     platform,
@@ -234,6 +240,42 @@ export async function analyze(
   } catch (err) {
     debug(`Could not detect installed OS packages: ${getErrorMessage(err)}`);
     throw new Error("Failed to detect installed OS packages");
+  }
+
+  let layerPackageAttribution: LayerAttributionEntry[] | undefined;
+  if (
+    isTrue(options["layer-attribution"]) &&
+    rootFsLayers &&
+    orderedLayers.length > 0
+  ) {
+    const resultsWithPackages = results.filter((r) => r.Analysis.length > 0);
+    if (resultsWithPackages.length > 0) {
+      const allEntries: LayerAttributionEntry[] = [];
+      for (const result of resultsWithPackages) {
+        try {
+          const { entries, pkgLayerMap } = await computeLayerAttribution(
+            orderedLayers,
+            result.AnalyzeType,
+            rootFsLayers,
+            manifestLayers,
+            history,
+            targetImage,
+          );
+          allEntries.push(...entries);
+          for (const pkg of result.Analysis) {
+            const key = `${pkg.Name}@${pkg.Version}`;
+            const attr = pkgLayerMap.get(key);
+            if (attr) {
+              pkg.layerIndex = attr.layerIndex;
+              pkg.layerDiffId = attr.diffID;
+            }
+          }
+        } catch (err) {
+          debug(`Could not compute layer attribution: ${getErrorMessage(err)}`);
+        }
+      }
+      layerPackageAttribution = mergeLayerAttributionEntries(allEntries);
+    }
   }
 
   const binaries = getBinariesHashes(extractedLayers);
@@ -318,6 +360,7 @@ export async function analyze(
     baseRuntimes,
     imageLayers: manifestLayers,
     rootFsLayers,
+    layerPackageAttribution,
     applicationDependenciesScanResults,
     manifestFiles,
     autoDetectedUserInstructions,

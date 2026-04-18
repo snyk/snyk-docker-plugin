@@ -29,6 +29,7 @@ export interface ExtractionResult {
   imageId: string;
   manifestLayers: string[];
   extractedLayers: ExtractedLayers;
+  orderedLayers: ExtractedLayers[];
   rootFsLayers?: string[];
   autoDetectedUserInstructions?: AutoDetectedUserInstructions;
   platform?: string;
