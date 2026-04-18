@@ -31,6 +31,16 @@ export interface LayerAttributionResult {
   pkgLayerMap: Map<string, { layerIndex: number; diffID: string }>;
 }
 
+/**
+ * Returns the Dockerfile instruction strings for all non-empty history entries,
+ * in order. The resulting array aligns 1:1 with `rootFsLayers` — each index
+ * corresponds to the real filesystem layer at that position.
+ *
+ * This differs intentionally from `getUserInstructionLayersFromConfig` in
+ * extractor/index.ts, which uses a timestamp heuristic to select only the
+ * *user-added* layers for Dockerfile attribution. Here we need instructions
+ * for every layer so we can annotate each attribution entry correctly.
+ */
 function buildHistoryInstructions(
   history: HistoryEntry[] | null | undefined,
 ): string[] {
