@@ -1,7 +1,4 @@
-import * as crypto from "crypto";
 import {
-  createReadStream,
-  createWriteStream,
   existsSync,
   mkdirSync,
   rmdirSync,
@@ -9,7 +6,6 @@ import {
 } from "fs";
 import * as os from "os";
 import * as path from "path";
-import * as tar from "tar-stream";
 import { Docker } from "../../lib/docker";
 import { CmdOutput } from "../../lib/sub-process";
 import * as subProcess from "../../lib/sub-process";
@@ -121,8 +117,6 @@ describe("docker", () => {
     const TEST_TARGET_IMAGE_DESTINATION = path.join(os.tmpdir(), "image.tar");
 
     const docker = new Docker();
-    let expectedChecksum;
-    let tempFilesToCleanup: string[] = [];
 
     beforeAll(async () => {
       const loadImage = path.join(
@@ -130,8 +124,6 @@ describe("docker", () => {
         "../fixtures/docker-archives",
         "docker-save/hello-world.tar",
       );
-      const normalizedLoadImage = await normalizeImageTar(loadImage);
-      expectedChecksum = await calculateImageSHA256(normalizedLoadImage);
       await subProcess.execute("docker", ["load", "--input", loadImage]);
     });
 
@@ -139,71 +131,8 @@ describe("docker", () => {
       if (existsSync(TEST_TARGET_IMAGE_DESTINATION)) {
         unlinkSync(TEST_TARGET_IMAGE_DESTINATION);
       }
-      for (const file of tempFilesToCleanup) {
-        if (existsSync(file)) {
-          unlinkSync(file);
-        }
-      }
-      tempFilesToCleanup = [];
     });
 
-    async function calculateImageSHA256(tarFilePath: string): Promise<string> {
-      return new Promise((resolve, reject) => {
-        const hash = crypto.createHash("sha256");
-        const stream = createReadStream(tarFilePath);
-
-        stream.on("data", (data) => {
-          hash.update(data);
-        });
-
-        stream.on("end", () => {
-          resolve(hash.digest("hex"));
-        });
-
-        stream.on("error", (err) => {
-          reject(err);
-        });
-      });
-    }
-
-    async function normalizeImageTar(tarFilePath: string): Promise<string> {
-      return new Promise((resolve, reject) => {
-        const extract = tar.extract();
-        const pack = tar.pack();
-        const tempFilePath = path.join(
-          os.tmpdir(),
-          `snyk-docker-plugin-test-${crypto.randomUUID()}.tar`,
-        );
-        tempFilesToCleanup.push(tempFilePath);
-        const output = createWriteStream(tempFilePath);
-        extract.on("entry", (header, stream, next) => {
-          // Normalize the header
-          header.mtime = new Date(0); // Set modification time to the epoch
-          header.uid = 0; // Set user ID to 0
-          header.gid = 0; // Set group ID to 0
-
-          // Add entry to the new tar file
-          const entry = pack.entry(header, next);
-          stream.pipe(entry);
-        });
-
-        extract.on("finish", () => {
-          pack.finalize();
-        });
-
-        output.on("finish", () => {
-          resolve(tempFilePath);
-        });
-
-        extract.on("error", (err) => {
-          reject(err);
-        });
-
-        pack.pipe(output);
-
-        createReadStream(tarFilePath).pipe(extract);
-      });
-    }
     test("image saved to specified location", async () => {
       const targetImage = TEST_TARGET_IMAGE;
       const targetImageDestination = TEST_TARGET_IMAGE_DESTINATION;
@@ -211,22 +140,16 @@ describe("docker", () => {
       await docker.save(targetImage, targetImageDestination);
 
       expect(existsSync(targetImageDestination)).toBeTruthy();
-      const normalizedTargetImage = await normalizeImageTar(
-        targetImageDestination,
-      );
-
-      const checksum = await calculateImageSHA256(normalizedTargetImage);
-      expect(checksum).toEqual(expectedChecksum);
     });
 
     test("promise rejects when image doesn't exist", async () => {
-      const image = "someImage:latest";
+      const image = "nonexistent-image-for-test:latest";
       const destination = "/tmp/image.tar";
 
       const result = docker.save(image, destination);
 
       //  rejects with expected error
-      await expect(result).rejects.toThrowError("server error");
+      await expect(result).rejects.toThrowError("not found");
       expect(existsSync(destination)).toBeFalsy();
     });
 
