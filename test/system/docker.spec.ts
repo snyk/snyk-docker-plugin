@@ -1,9 +1,4 @@
-import {
-  existsSync,
-  mkdirSync,
-  rmdirSync,
-  unlinkSync,
-} from "fs";
+import { existsSync, mkdirSync, rmdirSync, unlinkSync } from "fs";
 import * as os from "os";
 import * as path from "path";
 import { Docker } from "../../lib/docker";
