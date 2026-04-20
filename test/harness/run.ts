@@ -70,7 +70,7 @@ function parseArgs(argv: string[]): Args {
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
     const next = () => {
-      if (i + 1 >= args.length || args[i + 1].startsWith("--")) {
+      if (i + 1 >= args.length) {
         throw new Error(`${arg} requires a value`);
       }
       return args[++i];

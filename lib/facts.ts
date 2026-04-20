@@ -168,7 +168,9 @@ export interface LayerAttributionEntry {
   diffID: string;
   digest?: string;
   instruction?: string;
+  /** OS packages introduced in this layer, each formatted as "name@version". */
   packages: string[];
+  /** OS packages removed in this layer, each formatted as "name@version". */
   removedPackages?: string[];
 }
 
