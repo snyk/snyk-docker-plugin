@@ -271,6 +271,8 @@ export async function analyze(
                 manifestLayers,
                 history,
                 targetImage,
+                osRelease,
+                redHatRepositories,
               );
             allEntries.push(...entries);
             attributionCache.set(result.AnalyzeType, computed);
