@@ -261,6 +261,10 @@ export async function analyze(
         try {
           let pkgLayerMap: Map<string, { layerIndex: number; diffID: string }>;
           if (attributionCache.has(result.AnalyzeType)) {
+            // Cache hit: all analyzers that share an AnalysisType (e.g. aptAnalyze
+            // and aptDistrolessAnalyze both return AnalysisType.Apt) parse the same
+            // underlying package DB format, so a single parse pass covers all of them.
+            // Entries were already pushed on the first pass; we only need the pkgLayerMap.
             pkgLayerMap = attributionCache.get(result.AnalyzeType)!;
           } else {
             const { entries, pkgLayerMap: computed } =
@@ -288,6 +292,9 @@ export async function analyze(
           }
         } catch (err) {
           debug(`Could not compute layer attribution: ${getErrorMessage(err)}`);
+          // Prevent O(n) retries for a broken AnalysisType by caching an empty
+          // map so subsequent results of the same type skip recomputation.
+          attributionCache.set(result.AnalyzeType, new Map());
         }
       }
       layerPackageAttribution = mergeLayerAttributionEntries(allEntries);

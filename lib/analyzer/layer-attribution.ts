@@ -46,11 +46,13 @@ export interface LayerAttributionResult {
  */
 function buildHistoryInstructions(
   history: HistoryEntry[] | null | undefined,
-): string[] {
+): Array<string | undefined> {
   if (!history) {
     return [];
   }
-  return history.filter((h) => !h.empty_layer).map((h) => h.created_by ?? "");
+  return history
+    .filter((h) => !h.empty_layer)
+    .map((h) => h.created_by?.trim() || undefined);
 }
 
 function pkgKey(name: string, version: string): string {
@@ -117,6 +119,9 @@ async function parseLayerPackages(
     if (!hasBdb && !hasNdb && !hasSqlite) {
       return null;
     }
+    // Fetch only the formats present in this layer; absent formats resolve to [].
+    // BDB/NDB go through rpmAnalyze; SQLite goes through mapRpmSqlitePackages —
+    // matching the main analysis path so package keys are identical.
     const [bdbPkgs, ndbPkgs, sqlitePkgs] = await Promise.all([
       hasBdb ? getRpmDbFileContent(layer) : Promise.resolve([]),
       hasNdb ? getRpmNdbFileContent(layer) : Promise.resolve([]),
@@ -225,7 +230,7 @@ export async function computeLayerAttribution(
       if (digest) {
         entry.digest = digest;
       }
-      if (instruction) {
+      if (instruction !== undefined) {
         entry.instruction = instruction;
       }
       if (removedPkgs.length > 0) {
