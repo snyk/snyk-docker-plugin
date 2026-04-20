@@ -23,8 +23,11 @@ import {
 import { analyze as apkAnalyze } from "./package-managers/apk";
 import { analyze as aptAnalyze } from "./package-managers/apt";
 import { analyze as chiselAnalyze } from "./package-managers/chisel";
-import { analyze as rpmAnalyze } from "./package-managers/rpm";
-import { AnalysisType } from "./types";
+import {
+  analyze as rpmAnalyze,
+  mapRpmSqlitePackages,
+} from "./package-managers/rpm";
+import { AnalysisType, OSRelease } from "./types";
 
 export interface LayerAttributionResult {
   entries: LayerAttributionEntry[];
@@ -75,6 +78,8 @@ async function parseLayerPackages(
   layer: ExtractedLayers,
   analysisType: AnalysisType,
   targetImage: string,
+  osRelease: OSRelease | undefined,
+  redHatRepositories: string[],
 ): Promise<Set<string> | null> {
   if (analysisType === AnalysisType.Apk) {
     if (!layerHasAction(layer, getApkDbFileContentAction.actionName)) {
@@ -94,7 +99,7 @@ async function parseLayerPackages(
       return null;
     }
     const aptFiles = getAptDbFileContent(layer);
-    const analysis = await aptAnalyze(targetImage, aptFiles);
+    const analysis = await aptAnalyze(targetImage, aptFiles, osRelease);
     const result = new Set<string>();
     for (const pkg of analysis.Analysis) {
       result.add(pkgKey(pkg.Name, pkg.Version));
@@ -117,14 +122,28 @@ async function parseLayerPackages(
       hasNdb ? getRpmNdbFileContent(layer) : Promise.resolve([]),
       hasSqlite ? getRpmSqliteDbFileContent(layer) : Promise.resolve([]),
     ]);
-    const analysis = await rpmAnalyze(
-      targetImage,
-      [...bdbPkgs, ...ndbPkgs, ...sqlitePkgs],
-      [],
-    );
     const result = new Set<string>();
-    for (const pkg of analysis.Analysis) {
-      result.add(pkgKey(pkg.Name, pkg.Version));
+    if (hasBdb || hasNdb) {
+      const analysis = await rpmAnalyze(
+        targetImage,
+        [...bdbPkgs, ...ndbPkgs],
+        redHatRepositories,
+        osRelease,
+      );
+      for (const pkg of analysis.Analysis) {
+        result.add(pkgKey(pkg.Name, pkg.Version));
+      }
+    }
+    if (hasSqlite) {
+      const sqliteAnalysis = mapRpmSqlitePackages(
+        targetImage,
+        sqlitePkgs,
+        redHatRepositories,
+        osRelease,
+      );
+      for (const pkg of sqliteAnalysis.Analysis) {
+        result.add(pkgKey(pkg.Name, pkg.Version));
+      }
     }
     return result;
   }
@@ -152,6 +171,8 @@ export async function computeLayerAttribution(
   manifestLayers: string[],
   history: HistoryEntry[] | null | undefined,
   targetImage: string,
+  osRelease: OSRelease | undefined,
+  redHatRepositories: string[],
 ): Promise<LayerAttributionResult> {
   const instructions = buildHistoryInstructions(history);
   const entries: LayerAttributionEntry[] = [];
@@ -171,6 +192,8 @@ export async function computeLayerAttribution(
       orderedLayers[i],
       analysisType,
       targetImage,
+      osRelease,
+      redHatRepositories,
     );
     if (currentPkgs === null) {
       // Layer has no package DB file (e.g. COPY/ENV/LABEL instruction).

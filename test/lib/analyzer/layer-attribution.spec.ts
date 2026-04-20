@@ -40,6 +40,8 @@ describe("computeLayerAttribution", () => {
         manifestLayers,
         null,
         image,
+        undefined,
+        [],
       );
 
       expect(result.entries).toHaveLength(1);
@@ -80,6 +82,8 @@ describe("computeLayerAttribution", () => {
         manifestLayers,
         history,
         image,
+        undefined,
+        [],
       );
 
       expect(result.entries).toHaveLength(2);
@@ -123,6 +127,8 @@ describe("computeLayerAttribution", () => {
         manifestLayers,
         null,
         image,
+        undefined,
+        [],
       );
 
       expect(result.entries).toHaveLength(2);
@@ -150,6 +156,8 @@ describe("computeLayerAttribution", () => {
         manifestLayers,
         null,
         image,
+        undefined,
+        [],
       );
 
       expect(result.entries).toHaveLength(2);
@@ -183,6 +191,8 @@ describe("computeLayerAttribution", () => {
         manifestLayers,
         null,
         image,
+        undefined,
+        [],
       );
 
       expect(result.entries).toHaveLength(2);
@@ -236,6 +246,8 @@ describe("computeLayerAttribution", () => {
         manifestLayers,
         null,
         image,
+        undefined,
+        [],
       );
 
       expect(result.entries).toHaveLength(3);
@@ -271,6 +283,8 @@ describe("computeLayerAttribution", () => {
         ["sha256:a", "sha256:b"],
         null,
         image,
+        undefined,
+        [],
       );
 
       expect(result.entries).toHaveLength(0);
@@ -293,6 +307,8 @@ describe("computeLayerAttribution", () => {
         manifestLayers,
         null,
         image,
+        undefined,
+        [],
       );
 
       expect(result.entries).toHaveLength(1);
@@ -312,6 +328,8 @@ describe("computeLayerAttribution", () => {
         ["sha256:aaa"],
         null,
         image,
+        undefined,
+        [],
       );
 
       expect(result.entries[0].instruction).toBeUndefined();
@@ -339,6 +357,8 @@ describe("computeLayerAttribution", () => {
         ["sha256:a", "sha256:b"],
         history,
         image,
+        undefined,
+        [],
       );
 
       expect(result.entries[0].instruction).toBe("FROM alpine:3.19");
@@ -383,6 +403,8 @@ describe("computeLayerAttribution", () => {
         ["sha256:base", "sha256:nginx-layer"],
         null,
         image,
+        undefined,
+        [],
       );
 
       expect(result.entries).toHaveLength(2);
