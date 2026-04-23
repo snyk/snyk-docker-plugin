@@ -153,6 +153,13 @@ function formatMetadataSection(
   if (testResult.docker && testResult.docker.baseImage) {
     result.push(formatMetadataLine("Base image:", testResult.docker.baseImage));
   }
+  if (testResult.docker && testResult.docker.baseImageLifecycle?.isEol) {
+    const lifecycle = testResult.docker.baseImageLifecycle;
+    const eolMsg = lifecycle.eolDate
+      ? `⚠ Base image reached End-of-Life on ${lifecycle.eolDate}`
+      : "⚠ Base image has reached End-of-Life";
+    result.push(formatMetadataLine("Base image EOL:", chalk.bold.yellow(eolMsg)));
+  }
   if (testResult.licensesPolicy) {
     result.push(formatMetadataLine("Licenses:", chalk.green("enabled")));
   }

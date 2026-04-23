@@ -15,6 +15,8 @@ import * as facts from "./facts";
 import { extractContent, scan } from "./scan";
 import {
   AutoDetectedUserInstructions,
+  BaseImageLifecycle,
+  BaseImageLifecycleStatus,
   ContainerTarget,
   Fact,
   FactType,
@@ -39,6 +41,8 @@ export {
   ManifestFile,
   analyseDockerfile,
   AutoDetectedUserInstructions,
+  BaseImageLifecycle,
+  BaseImageLifecycleStatus,
   DockerFileAnalysis,
   DockerFileAnalysisErrorCode,
   updateDockerfileBaseImageName,

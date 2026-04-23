@@ -72,6 +72,8 @@ export type FactType =
   | "keyBinariesHashes"
   // Base runtime metadata (e.g., Java ) extracted from release files
   | "baseRuntimes"
+  // Base image end-of-life lifecycle status
+  | "baseImageLifecycle"
   | "loadedPackages"
   | "ociDistributionMetadata"
   | "containerConfig"
@@ -309,12 +311,36 @@ interface BaseImageRemediation {
   message?: string; // TODO: check if this is still being sent
 }
 
+/**
+ * Lifecycle status of a base image.
+ * - `supported`: The base image is actively maintained and receiving security patches.
+ * - `eol`: The base image has reached End-of-Life and is no longer receiving security patches.
+ * - `unknown`: The lifecycle status could not be determined.
+ */
+export type BaseImageLifecycleStatus = "supported" | "eol" | "unknown";
+
+/**
+ * Describes the End-of-Life (EOL) / lifecycle status of the base image used in a container image.
+ * This data is returned by the Snyk API and surfaced programmatically so that customers can
+ * detect EOL base images without relying on the UI banner.
+ */
+export interface BaseImageLifecycle {
+  /** Whether the base image has reached End-of-Life. */
+  isEol: boolean;
+  /** The lifecycle status of the base image. */
+  lifecycleStatus: BaseImageLifecycleStatus;
+  /** The End-of-Life date of the base image in ISO 8601 format (e.g. "2024-04-30"). Only present when known. */
+  eolDate?: string;
+}
+
 export interface TestResult {
   org: string;
   licensesPolicy: object | null;
   docker: {
     baseImage?: string;
     baseImageRemediation?: BaseImageRemediation;
+    /** End-of-Life lifecycle descriptor for the base image. Present when the Snyk API has lifecycle data. */
+    baseImageLifecycle?: BaseImageLifecycle;
   };
   issues: Issue[];
   issuesData: IssuesData;

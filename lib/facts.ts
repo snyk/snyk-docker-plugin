@@ -5,6 +5,7 @@ import { DockerFileAnalysis } from "./dockerfile/types";
 import { OCIDistributionMetadata } from "./extractor/oci-distribution-metadata";
 import {
   AutoDetectedUserInstructions,
+  BaseImageLifecycle,
   ImageNameInfo,
   ManifestFile,
 } from "./types";
@@ -161,4 +162,14 @@ export interface BaseRuntime {
 export interface BaseRuntimesFact {
   type: "baseRuntimes";
   data: BaseRuntime[];
+}
+
+/**
+ * A fact that carries the End-of-Life (EOL) lifecycle status of the base image.
+ * This fact is populated by the Snyk backend and flows through unchanged so that
+ * callers can programmatically detect EOL base images.
+ */
+export interface BaseImageLifecycleFact {
+  type: "baseImageLifecycle";
+  data: BaseImageLifecycle;
 }
