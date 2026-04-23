@@ -2,11 +2,14 @@ import * as Debug from "debug";
 import * as path from "path";
 import { Readable } from "stream";
 import { extract, Extract } from "tar-stream";
-import { isWhitedOutFile } from ".";
 import { getErrorMessage } from "../error-utils";
 import { applyCallbacks, isResultEmpty } from "./callbacks";
 import { decompressMaybe } from "./decompress-maybe";
 import { ExtractAction, ExtractedLayers } from "./types";
+
+export function isWhitedOutFile(filename: string) {
+  return filename.match(/.wh./gm);
+}
 
 const debug = Debug("snyk");
 

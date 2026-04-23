@@ -8,7 +8,9 @@ import { getErrorMessage } from "../error-utils";
 import { AutoDetectedUserInstructions, ImageType } from "../types";
 import { PluginOptions } from "../types";
 import * as dockerExtractor from "./docker-archive";
+import { InvalidArchiveError } from "./generic-archive-extractor";
 import * as kanikoExtractor from "./kaniko-archive";
+import { isWhitedOutFile } from "./layer";
 import * as ociExtractor from "./oci-archive";
 import {
   DockerArchiveManifest,
@@ -24,13 +26,7 @@ import {
 
 const debug = Debug("snyk");
 
-export class InvalidArchiveError extends Error {
-  constructor(message) {
-    super();
-    this.name = "InvalidArchiveError";
-    this.message = message;
-  }
-}
+export { InvalidArchiveError } from "./generic-archive-extractor";
 class ArchiveExtractor {
   private extractor: Extractor;
   private fileSystemPath: string;
@@ -263,9 +259,7 @@ function layersWithLatestFileModifications(
   return extractedLayers;
 }
 
-export function isWhitedOutFile(filename: string) {
-  return filename.match(/.wh./gm);
-}
+export { isWhitedOutFile } from "./layer";
 
 function isBufferType(type: FileContent): type is Buffer {
   return (type as Buffer).buffer !== undefined;
