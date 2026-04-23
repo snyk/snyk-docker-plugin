@@ -1,4 +1,9 @@
 import { Binary } from "./analyzer/types";
+import {
+  BaseImageLifecycleStatus,
+  getBaseImageLifecycleStatus,
+  LifecycleStatus,
+} from "./base-image-lifecycle";
 import { display } from "./display";
 import * as dockerFile from "./dockerfile";
 import {
@@ -45,4 +50,7 @@ export {
   UpdateDockerfileBaseImageNameErrorCode,
   Binary,
   parseDockerfile,
+  BaseImageLifecycleStatus,
+  LifecycleStatus,
+  getBaseImageLifecycleStatus,
 };

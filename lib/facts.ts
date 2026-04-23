@@ -1,6 +1,7 @@
 import { DepGraph } from "@snyk/dep-graph";
 import { ApplicationFiles } from "./analyzer/applications/types";
 import { JarFingerprint } from "./analyzer/types";
+import { BaseImageLifecycleStatus } from "./base-image-lifecycle";
 import { DockerFileAnalysis } from "./dockerfile/types";
 import { OCIDistributionMetadata } from "./extractor/oci-distribution-metadata";
 import {
@@ -162,3 +163,10 @@ export interface BaseRuntimesFact {
   type: "baseRuntimes";
   data: BaseRuntime[];
 }
+
+export interface BaseImageLifecycleStatusFact {
+  type: "baseImageLifecycleStatus";
+  data: BaseImageLifecycleStatus;
+}
+
+export { BaseImageLifecycleStatus };

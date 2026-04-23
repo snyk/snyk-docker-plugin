@@ -1,5 +1,6 @@
 import { legacy } from "@snyk/dep-graph";
 import { StaticAnalysis } from "./analyzer/types";
+import { getBaseImageLifecycleStatus } from "./base-image-lifecycle";
 import * as facts from "./facts";
 // Module that provides functions to collect and build response after all
 // analyses' are done.
@@ -76,6 +77,18 @@ async function buildResponse(
       data: depsAnalysis.baseRuntimes,
     };
     additionalFacts.push(baseRuntimesFact);
+  }
+
+  if (depsAnalysis.osRelease) {
+    const lifecycleStatus = getBaseImageLifecycleStatus(
+      depsAnalysis.osRelease.name,
+      depsAnalysis.osRelease.version,
+    );
+    const baseImageLifecycleStatusFact: facts.BaseImageLifecycleStatusFact = {
+      type: "baseImageLifecycleStatus",
+      data: lifecycleStatus,
+    };
+    additionalFacts.push(baseImageLifecycleStatusFact);
   }
 
   if (dockerfileAnalysis !== undefined) {

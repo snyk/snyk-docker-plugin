@@ -1754,4 +1754,114 @@ describe("buildResponse", () => {
       );
     });
   });
+
+  describe("baseImageLifecycleStatus fact", () => {
+    const getLifecycleStatusFact = (
+      scanResult: { facts?: Array<{ type: string; data: any }> },
+    ) => scanResult.facts?.find((f) => f.type === "baseImageLifecycleStatus");
+
+    it("includes baseImageLifecycleStatus fact when osRelease is present", async () => {
+      const analysis = createMockAnalysis({
+        osRelease: {
+          name: "ubuntu",
+          version: "22.04",
+          prettyName: "Ubuntu 22.04 LTS",
+        },
+      });
+
+      const result = await buildResponse(analysis as any, undefined, false);
+
+      const lifecycleFact = getLifecycleStatusFact(result.scanResults[0]);
+      expect(lifecycleFact).toBeDefined();
+      expect(lifecycleFact!.data).toMatchObject({
+        isEol: expect.any(Boolean),
+        lifecycleStatus: expect.stringMatching(/^(eol|maintained|unknown)$/),
+      });
+    });
+
+    it("sets isEol=true and lifecycleStatus=eol for a known EOL distro version", async () => {
+      const analysis = createMockAnalysis({
+        osRelease: {
+          name: "ubuntu",
+          version: "18.04",
+          prettyName: "Ubuntu 18.04 LTS",
+        },
+      });
+
+      const result = await buildResponse(analysis as any, undefined, false);
+
+      const lifecycleFact = getLifecycleStatusFact(result.scanResults[0]);
+      expect(lifecycleFact!.data.isEol).toBe(true);
+      expect(lifecycleFact!.data.lifecycleStatus).toBe("eol");
+      expect(lifecycleFact!.data.endOfLifeDate).toBe("2023-04-30");
+    });
+
+    it("sets isEol=false and lifecycleStatus=maintained for a maintained distro version", async () => {
+      const analysis = createMockAnalysis({
+        osRelease: {
+          name: "ubuntu",
+          version: "22.04",
+          prettyName: "Ubuntu 22.04 LTS",
+        },
+      });
+
+      const result = await buildResponse(analysis as any, undefined, false);
+
+      const lifecycleFact = getLifecycleStatusFact(result.scanResults[0]);
+      expect(lifecycleFact!.data.isEol).toBe(false);
+      expect(lifecycleFact!.data.lifecycleStatus).toBe("maintained");
+    });
+
+    it("sets lifecycleStatus=unknown for an unrecognised distro", async () => {
+      const analysis = createMockAnalysis({
+        osRelease: { name: "scratch", version: "0.0", prettyName: "" },
+      });
+
+      const result = await buildResponse(analysis as any, undefined, false);
+
+      const lifecycleFact = getLifecycleStatusFact(result.scanResults[0]);
+      expect(lifecycleFact!.data.lifecycleStatus).toBe("unknown");
+      expect(lifecycleFact!.data.endOfLifeDate).toBeUndefined();
+    });
+
+    it("omits baseImageLifecycleStatus fact when osRelease is absent", async () => {
+      // createMockAnalysis does not include osRelease by default
+      const analysis = createMockAnalysis({});
+
+      const result = await buildResponse(analysis as any, undefined, false);
+
+      const lifecycleFact = getLifecycleStatusFact(result.scanResults[0]);
+      expect(lifecycleFact).toBeUndefined();
+    });
+
+    it("includes endOfLifeDate for both eol and maintained statuses", async () => {
+      const eolAnalysis = createMockAnalysis({
+        osRelease: {
+          name: "debian",
+          version: "10",
+          prettyName: "Debian GNU/Linux 10 (buster)",
+        },
+      });
+      const maintainedAnalysis = createMockAnalysis({
+        osRelease: {
+          name: "debian",
+          version: "12",
+          prettyName: "Debian GNU/Linux 12 (bookworm)",
+        },
+      });
+
+      const eolResult = await buildResponse(eolAnalysis as any, undefined, false);
+      const maintainedResult = await buildResponse(
+        maintainedAnalysis as any,
+        undefined,
+        false,
+      );
+
+      const eolFact = getLifecycleStatusFact(eolResult.scanResults[0]);
+      const maintainedFact = getLifecycleStatusFact(maintainedResult.scanResults[0]);
+
+      expect(eolFact!.data.endOfLifeDate).toBe("2024-06-30");
+      expect(maintainedFact!.data.endOfLifeDate).toBeDefined();
+    });
+  });
 });

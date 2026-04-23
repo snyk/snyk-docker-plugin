@@ -53,6 +53,8 @@ export interface ImageNameInfo {
 
 export type FactType =
   | "autoDetectedUserInstructions"
+  // End-of-life and lifecycle status of the detected base image OS version.
+  | "baseImageLifecycleStatus"
   | "depGraph"
   | "dockerfileAnalysis"
   | "history"
