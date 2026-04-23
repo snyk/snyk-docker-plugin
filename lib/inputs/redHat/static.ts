@@ -19,7 +19,7 @@ export function getRedHatRepositoriesFromExtractedLayers(
       if (!contentManifest || !contentManifest.content_sets) {
         continue;
       }
-      repositories.push(...contentManifest?.content_sets);
+      repositories.push(...contentManifest.content_sets);
     }
   }
 

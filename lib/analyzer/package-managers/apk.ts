@@ -54,7 +54,6 @@ function parseLine(
       break;
     case "r": // Depends
     case "D": // Depends
-      // tslint:disable-next-line:no-duplicate-variable
       for (let name of value.split(" ")) {
         if (name.charAt(0) !== "!") {
           name = name.split("=")[0];
