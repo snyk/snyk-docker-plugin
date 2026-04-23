@@ -38,6 +38,35 @@ describe("image-type", () => {
 
       expect(result).toEqual(expectedImageType);
     });
+
+    test("should return UnspecifiedArchiveType for a Windows absolute path ending in .tar", () => {
+      const image = "C:\\path\\to\\image.tar";
+      const expectedImageType = ImageType.UnspecifiedArchiveType;
+
+      const result = getImageType(image);
+
+      expect(result).toEqual(expectedImageType);
+    });
+
+    test("should return UnspecifiedArchiveType for Windows paths with varying drive letters", () => {
+      const paths = [
+        "C:\\image.tar",
+        "D:\\some\\nested\\path\\archive.tar",
+        "Z:\\images\\my-image.tar",
+      ];
+
+      for (const image of paths) {
+        expect(getImageType(image)).toEqual(ImageType.UnspecifiedArchiveType);
+      }
+    });
+
+    test("should return Identifier for a Windows drive letter path that does not end in .tar", () => {
+      const image = "C:\\path\\to\\image:latest";
+
+      const result = getImageType(image);
+
+      expect(result).toEqual(ImageType.Identifier);
+    });
   });
 
   describe("getArchivePath", () => {

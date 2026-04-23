@@ -14,7 +14,7 @@ export function getImageType(targetImage: string): ImageType {
       return ImageType.KanikoArchive;
 
     default:
-      if (imageIdentifier.endsWith(".tar")) {
+      if (targetImage.endsWith(".tar")) {
         return ImageType.UnspecifiedArchiveType;
       } else {
         return ImageType.Identifier;
