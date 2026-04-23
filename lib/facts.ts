@@ -162,3 +162,28 @@ export interface BaseRuntimesFact {
   type: "baseRuntimes";
   data: BaseRuntime[];
 }
+
+/**
+ * Lifecycle/End-of-Life status of the base image.
+ * - `"supported"`: The base image is actively maintained and receives security patches.
+ * - `"eol"`: The base image has reached End-of-Life and no longer receives security patches.
+ * - `"unknown"`: The lifecycle status could not be determined.
+ */
+export type BaseImageLifecycleStatus = "supported" | "eol" | "unknown";
+
+/**
+ * Fact that surfaces the lifecycle/End-of-Life status of the container's base image.
+ * Downstream consumers (CLI, API) can use this fact to report on EOL base images
+ * without parsing the UI banner signal separately.
+ */
+export interface BaseImageLifecycleStatusFact {
+  type: "baseImageLifecycleStatus";
+  data: {
+    /** Lifecycle status of the base image. */
+    lifecycleStatus: BaseImageLifecycleStatus;
+    /** Convenience boolean — `true` when `lifecycleStatus === "eol"`. */
+    isEol: boolean;
+    /** ISO 8601 date string when the base image reached/will reach EOL, if known. */
+    eolDate?: string;
+  };
+}

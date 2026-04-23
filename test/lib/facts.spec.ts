@@ -99,6 +99,15 @@ describe("Facts", () => {
       },
     };
 
+    const baseImageLifecycleStatusFact: facts.BaseImageLifecycleStatusFact = {
+      type: "baseImageLifecycleStatus",
+      data: {
+        lifecycleStatus: "eol",
+        isEol: true,
+        eolDate: "2024-04-01",
+      },
+    };
+
     // This would catch compilation errors.
     const allFacts: Fact[] = [
       depGraphFact,
@@ -124,10 +133,12 @@ describe("Facts", () => {
       containerConfigFact,
       historyFact,
       pluginWarningsFact,
+      baseImageLifecycleStatusFact,
     ];
     expect(allFacts).toBeDefined();
 
     const allFactsTypes: FactType[] = allFacts.map((fact) => fact.type);
     expect(allFactsTypes).toBeDefined();
+    expect(allFactsTypes).toContain("baseImageLifecycleStatus");
   });
 });

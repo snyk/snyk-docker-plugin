@@ -72,6 +72,8 @@ export type FactType =
   | "keyBinariesHashes"
   // Base runtime metadata (e.g., Java ) extracted from release files
   | "baseRuntimes"
+  // Lifecycle / End-of-Life status of the base image, for programmatic governance and reporting.
+  | "baseImageLifecycleStatus"
   | "loadedPackages"
   | "ociDistributionMetadata"
   | "containerConfig"

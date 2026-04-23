@@ -12,6 +12,7 @@ import {
   UpdateDockerfileBaseImageNameErrorCode,
 } from "./dockerfile/types";
 import * as facts from "./facts";
+import { BaseImageLifecycleStatus, BaseImageLifecycleStatusFact } from "./facts";
 import { extractContent, scan } from "./scan";
 import {
   AutoDetectedUserInstructions,
@@ -45,4 +46,6 @@ export {
   UpdateDockerfileBaseImageNameErrorCode,
   Binary,
   parseDockerfile,
+  BaseImageLifecycleStatus,
+  BaseImageLifecycleStatusFact,
 };
