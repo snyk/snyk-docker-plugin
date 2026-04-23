@@ -108,6 +108,16 @@ async function buildResponse(
       data: depsAnalysis.imageLabels,
     };
     additionalFacts.push(imageLabels);
+
+    const ociSourceUrl =
+      depsAnalysis.imageLabels["org.opencontainers.image.source"];
+    if (ociSourceUrl) {
+      const remoteRepoUrlFact: facts.RemoteRepoUrlFact = {
+        type: "remoteRepoUrl",
+        data: ociSourceUrl,
+      };
+      additionalFacts.push(remoteRepoUrlFact);
+    }
   }
 
   if (depsAnalysis.containerConfig) {

@@ -1754,4 +1754,80 @@ describe("buildResponse", () => {
       );
     });
   });
+
+  describe("remoteRepoUrl fact (org.opencontainers.image.source)", () => {
+    it("emits a remoteRepoUrl fact when org.opencontainers.image.source is present in imageLabels", async () => {
+      const sourceUrl = "https://github.com/example/my-app";
+      const mockAnalysis = createMockAnalysis({
+        imageLabels: {
+          "org.opencontainers.image.source": sourceUrl,
+          "com.example.other": "unrelated",
+        },
+      });
+
+      const result = await buildResponse(mockAnalysis as any, undefined, false);
+
+      const remoteRepoUrlFact = result.scanResults[0].facts.find(
+        (f) => f.type === "remoteRepoUrl",
+      );
+
+      expect(remoteRepoUrlFact).toBeDefined();
+      expect(remoteRepoUrlFact!.data).toBe(sourceUrl);
+    });
+
+    it("does NOT emit a remoteRepoUrl fact when org.opencontainers.image.source is absent from imageLabels", async () => {
+      const mockAnalysis = createMockAnalysis({
+        imageLabels: {
+          "com.example.other": "unrelated",
+        },
+      });
+
+      const result = await buildResponse(mockAnalysis as any, undefined, false);
+
+      const remoteRepoUrlFact = result.scanResults[0].facts.find(
+        (f) => f.type === "remoteRepoUrl",
+      );
+
+      expect(remoteRepoUrlFact).toBeUndefined();
+    });
+
+    it("does NOT emit a remoteRepoUrl fact when there are no imageLabels", async () => {
+      const mockAnalysis = createMockAnalysis({
+        imageLabels: undefined,
+      });
+
+      const result = await buildResponse(mockAnalysis as any, undefined, false);
+
+      const remoteRepoUrlFact = result.scanResults[0].facts.find(
+        (f) => f.type === "remoteRepoUrl",
+      );
+
+      expect(remoteRepoUrlFact).toBeUndefined();
+    });
+
+    it("still emits imageLabels fact alongside remoteRepoUrl fact", async () => {
+      const sourceUrl = "https://github.com/example/my-app";
+      const mockAnalysis = createMockAnalysis({
+        imageLabels: {
+          "org.opencontainers.image.source": sourceUrl,
+        },
+      });
+
+      const result = await buildResponse(mockAnalysis as any, undefined, false);
+
+      const imageLabels = result.scanResults[0].facts.find(
+        (f) => f.type === "imageLabels",
+      );
+      const remoteRepoUrlFact = result.scanResults[0].facts.find(
+        (f) => f.type === "remoteRepoUrl",
+      );
+
+      expect(imageLabels).toBeDefined();
+      expect(imageLabels!.data).toEqual({
+        "org.opencontainers.image.source": sourceUrl,
+      });
+      expect(remoteRepoUrlFact).toBeDefined();
+      expect(remoteRepoUrlFact!.data).toBe(sourceUrl);
+    });
+  });
 });

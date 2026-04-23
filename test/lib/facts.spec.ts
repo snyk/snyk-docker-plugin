@@ -98,6 +98,10 @@ describe("Facts", () => {
         truncatedFacts: {},
       },
     };
+    const remoteRepoUrlFact: facts.RemoteRepoUrlFact = {
+      type: "remoteRepoUrl",
+      data: "https://github.com/example/my-app",
+    };
 
     // This would catch compilation errors.
     const allFacts: Fact[] = [
@@ -124,6 +128,7 @@ describe("Facts", () => {
       containerConfigFact,
       historyFact,
       pluginWarningsFact,
+      remoteRepoUrlFact,
     ];
     expect(allFacts).toBeDefined();
 

@@ -78,6 +78,9 @@ export type FactType =
   | "platform"
   | "pluginVersion"
   | "pluginWarnings"
+  // The source URL for the image, extracted from the org.opencontainers.image.source OCI annotation.
+  // This enables correlation with SCM/SCA/SAST projects (e.g. via Backstage remote-repo-url).
+  | "remoteRepoUrl"
   | "rootFs"
   // Used for application dependencies scanning; shows which files were used in the analysis of the dependencies.
   | "testedFiles"

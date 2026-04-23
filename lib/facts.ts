@@ -162,3 +162,18 @@ export interface BaseRuntimesFact {
   type: "baseRuntimes";
   data: BaseRuntime[];
 }
+
+/**
+ * Represents the source repository URL for the scanned image.
+ * The value is auto-detected from the `org.opencontainers.image.source` OCI annotation,
+ * which is a standard label that links an image back to its source code repository.
+ * See: https://specs.opencontainers.org/image-spec/annotations/
+ *
+ * Consumers (e.g. Snyk CLI `snyk container monitor`) may use this value to populate
+ * `target.remoteUrl`, enabling correlation with SCM/SCA/SAST projects in tools like Backstage.
+ * The CLI can also allow users to override this with `--remote-repo-url`.
+ */
+export interface RemoteRepoUrlFact {
+  type: "remoteRepoUrl";
+  data: string;
+}
