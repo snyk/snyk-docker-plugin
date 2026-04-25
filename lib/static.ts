@@ -7,6 +7,7 @@ import {
   constructOCIDisributionMetadata,
   OCIDistributionMetadata,
 } from "./extractor/oci-distribution-metadata";
+import { computeImageSupport } from "./image-support";
 import { isTrue } from "./option-utils";
 import { parseAnalysisResults } from "./parser";
 import { buildResponse } from "./response-builder";
@@ -66,6 +67,15 @@ export async function analyzeStatically(
     });
   }
 
+  const imageSupport = computeImageSupport({
+    targetImage,
+    osRelease: staticAnalysis.osRelease,
+    packageFormat: parsedAnalysisResult.packageFormat,
+    hasAnyPackages: parsedAnalysisResult.depInfosList.length > 0,
+    hasApplicationDependencies:
+      (staticAnalysis.applicationDependenciesScanResults || []).length > 0,
+  });
+
   return buildResponse(
     analysis,
     dockerfileAnalysis,
@@ -73,5 +83,6 @@ export async function analyzeStatically(
     names,
     ociDistributionMetadata,
     options,
+    imageSupport,
   );
 }

@@ -53,6 +53,25 @@ export interface ImageOsReleasePrettyNameFact {
   data: string;
 }
 
+export type ImageSupportStatus = "supported" | "unsupported";
+
+export type ImageUnsupportedReason =
+  | "unknown-os" // no os-release file found and no scratch/chisel hint
+  | "no-package-manager" // os-release detected but no apk/deb/rpm/chisel DB found
+  | "scratch-image" // dockerfile FROM scratch
+  | "windows-image"; // windows base image
+
+export interface ImageSupportFact {
+  type: "imageSupport";
+  data: {
+    status: ImageSupportStatus;
+    reason?: ImageUnsupportedReason;
+    detectedOs?: { name: string; version: string; prettyName: string };
+    targetImage?: string;
+    message?: string;
+  };
+}
+
 export interface ImageManifestFilesFact {
   type: "imageManifestFiles";
   data: ManifestFile[];

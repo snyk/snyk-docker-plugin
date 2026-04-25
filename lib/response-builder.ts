@@ -24,6 +24,7 @@ async function buildResponse(
   names?: string[],
   ociDistributionMetadata?: OCIDistributionMetadata,
   options?: Partial<types.PluginOptions>,
+  imageSupport?: facts.ImageSupportFact["data"],
 ): Promise<types.PluginResponse> {
   const deps = depsAnalysis.depTree.dependencies;
 
@@ -192,6 +193,14 @@ async function buildResponse(
       data: depsAnalysis.depTree.targetOS.prettyName,
     };
     additionalFacts.push(imageOsReleasePrettyNameFact);
+  }
+
+  if (imageSupport) {
+    const imageSupportFact: facts.ImageSupportFact = {
+      type: "imageSupport",
+      data: imageSupport,
+    };
+    additionalFacts.push(imageSupportFact);
   }
 
   const manifestFiles =

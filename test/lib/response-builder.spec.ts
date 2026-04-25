@@ -1689,6 +1689,139 @@ describe("buildResponse", () => {
       );
     });
 
+    describe("imageSupport fact", () => {
+      it("emits imageSupport fact with unsupported status when provided", async () => {
+        const mockAnalysis = createMockAnalysis({});
+        const imageSupportData = {
+          status: "unsupported" as const,
+          reason: "unknown-os" as const,
+          detectedOs: { name: "unknown", version: "0.0", prettyName: "" },
+          targetImage: "mcr.microsoft.com/windows/nanoserver:latest",
+          message: "Snyk Container does not support this image (unknown-os).",
+        };
+
+        const result = await buildResponse(
+          mockAnalysis as any,
+          undefined,
+          false,
+          undefined,
+          undefined,
+          undefined,
+          imageSupportData,
+        );
+
+        const imageSupportFact = result.scanResults[0].facts?.find(
+          (f) => f.type === "imageSupport",
+        );
+        expect(imageSupportFact).toBeDefined();
+        expect(imageSupportFact!.data).toEqual(imageSupportData);
+        expect(imageSupportFact!.data.status).toBe("unsupported");
+        expect(imageSupportFact!.data.reason).toBe("unknown-os");
+      });
+
+      it("emits imageSupport fact with supported status when provided", async () => {
+        const mockAnalysis = createMockAnalysis({});
+        const imageSupportData = {
+          status: "supported" as const,
+          detectedOs: { name: "debian", version: "11", prettyName: "Debian GNU/Linux 11 (bullseye)" },
+          targetImage: "debian:11",
+        };
+
+        const result = await buildResponse(
+          mockAnalysis as any,
+          undefined,
+          false,
+          undefined,
+          undefined,
+          undefined,
+          imageSupportData,
+        );
+
+        const imageSupportFact = result.scanResults[0].facts?.find(
+          (f) => f.type === "imageSupport",
+        );
+        expect(imageSupportFact).toBeDefined();
+        expect(imageSupportFact!.data.status).toBe("supported");
+        expect(imageSupportFact!.data.reason).toBeUndefined();
+      });
+
+      it("does not emit imageSupport fact when imageSupport is undefined", async () => {
+        const mockAnalysis = createMockAnalysis({});
+
+        const result = await buildResponse(
+          mockAnalysis as any,
+          undefined,
+          false,
+        );
+
+        const imageSupportFact = result.scanResults[0].facts?.find(
+          (f) => f.type === "imageSupport",
+        );
+        expect(imageSupportFact).toBeUndefined();
+      });
+
+      it("imageSupport fact is positioned after imageOsReleasePrettyName in facts array", async () => {
+        const mockAnalysis = createMockAnalysis({
+          depTree: {
+            dependencies: {},
+            name: "test",
+            version: "1.0.0",
+            packageFormatVersion: "1.0.0",
+            targetOS: { prettyName: "Test OS" },
+          },
+        });
+        const imageSupportData = {
+          status: "unsupported" as const,
+          reason: "unknown-os" as const,
+          detectedOs: { name: "unknown", version: "0.0", prettyName: "" },
+          targetImage: "unknown:latest",
+          message: "Snyk Container does not support this image.",
+        };
+
+        const result = await buildResponse(
+          mockAnalysis as any,
+          undefined,
+          false,
+          undefined,
+          undefined,
+          undefined,
+          imageSupportData,
+        );
+
+        const facts = result.scanResults[0].facts ?? [];
+        const prettyNameIdx = facts.findIndex((f) => f.type === "imageOsReleasePrettyName");
+        const imageSupportIdx = facts.findIndex((f) => f.type === "imageSupport");
+        expect(prettyNameIdx).toBeGreaterThanOrEqual(0);
+        expect(imageSupportIdx).toBeGreaterThan(prettyNameIdx);
+      });
+
+      it("imageSupport fact data is preserved exactly as passed", async () => {
+        const mockAnalysis = createMockAnalysis({});
+        const imageSupportData = {
+          status: "unsupported" as const,
+          reason: "scratch-image" as const,
+          detectedOs: { name: "scratch", version: "0.0", prettyName: "" },
+          targetImage: "scratch:latest",
+          message: "Custom message with scratch-image reason.",
+        };
+
+        const result = await buildResponse(
+          mockAnalysis as any,
+          undefined,
+          false,
+          undefined,
+          undefined,
+          undefined,
+          imageSupportData,
+        );
+
+        const imageSupportFact = result.scanResults[0].facts?.find(
+          (f) => f.type === "imageSupport",
+        );
+        expect(imageSupportFact!.data).toStrictEqual(imageSupportData);
+      });
+    });
+
     it("attributes base deps that share a source segment with a transitive of a Dockerfile package when the transitive is source only", async () => {
       /**
        * This test case is nearly identical to the previous test case, but the transitive package has been changed to only be single
