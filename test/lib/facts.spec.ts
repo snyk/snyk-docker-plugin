@@ -98,6 +98,16 @@ describe("Facts", () => {
         truncatedFacts: {},
       },
     };
+    const imageSupportFact: facts.ImageSupportFact = {
+      type: "imageSupport",
+      data: {
+        status: "unsupported",
+        reason: "unknown-os",
+        detectedOs: { name: "unknown", version: "0.0", prettyName: "" },
+        targetImage: "mcr.microsoft.com/windows/nanoserver:latest",
+        message: "Snyk Container does not support this image (unknown-os).",
+      },
+    };
 
     // This would catch compilation errors.
     const allFacts: Fact[] = [
@@ -124,6 +134,7 @@ describe("Facts", () => {
       containerConfigFact,
       historyFact,
       pluginWarningsFact,
+      imageSupportFact,
     ];
     expect(allFacts).toBeDefined();
 

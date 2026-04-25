@@ -232,6 +232,37 @@ describe("os release parsing", () => {
   });
 });
 
+describe("OS release detect() – no OS release files present", () => {
+  it("returns { name: 'unknown', version: '0.0', prettyName: '' } when no os-release files and no dockerfile hint", async () => {
+    // Empty extracted layers — no OS-release files at all
+    const emptyLayers = {};
+    const result = await detect(emptyLayers, undefined);
+    expect(result).toEqual({ name: "unknown", version: "0.0", prettyName: "" });
+  });
+
+  it("returns { name: 'unknown', ... } when no os-release files and dockerfile does NOT reference scratch", async () => {
+    const emptyLayers = {};
+    const dockerfileAnalysis = {
+      baseImage: "ubuntu:22.04",
+      dockerfilePackages: {},
+      dockerfileLayers: {},
+    } as any;
+    const result = await detect(emptyLayers, dockerfileAnalysis);
+    expect(result).toEqual({ name: "unknown", version: "0.0", prettyName: "" });
+  });
+
+  it("returns { name: 'scratch', version: '0.0', prettyName: '' } when dockerfile uses FROM scratch", async () => {
+    const emptyLayers = {};
+    const dockerfileAnalysis = {
+      baseImage: "scratch",
+      dockerfilePackages: {},
+      dockerfileLayers: {},
+    } as any;
+    const result = await detect(emptyLayers, dockerfileAnalysis);
+    expect(result).toEqual({ name: "scratch", version: "0.0", prettyName: "" });
+  });
+});
+
 describe("OS Release Analyzer - Error Cases", () => {
   const releaseAnalyzer = require("../../../lib/analyzer/os-release/release-analyzer");
 

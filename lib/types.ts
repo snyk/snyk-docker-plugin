@@ -65,6 +65,8 @@ export type FactType =
   | "imageManifestFiles"
   | "imageNames"
   | "imageOsReleasePrettyName"
+  // Emitted to signal whether the image is supported by Snyk Container
+  | "imageSupport"
   | "imageSizeBytes"
   // Hashes of extracted *.jar binaries, hashed with sha1 algorithm
   | "jarFingerprints"
