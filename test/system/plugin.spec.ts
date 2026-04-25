@@ -178,11 +178,11 @@ describe("plugin", () => {
 
     //  layers are read correctly
     expect(imageLayers).toEqual([
-      "sha256:8559a31e96f442f2c7b6da49d6c84705f98a39d8be10b3f5f14821d0ee8417df",
-      "sha256:8d69e59170f7dac013ef436408ed9ddc688dd9ad3bc030bd868add55a77e25f8",
-      "sha256:3f9f1ec1d262b2889a5fc19bf295f48346dbd8238e22f3eb3dd8a907ca002372",
-      "sha256:d1f5ff4f210df5d5f6bf48438d33ba0d086c4e08a803acf22292ccd4ede92bd2",
-      "sha256:1e22bfa8652e0db3a316e2c946ea048b60560630d4faa58405da4c5fcdb3ff07",
+      "sha256:13cb14c2acd34e45446a50af25cb05095a17624678dbafbcc9e26086547c1d74",
+      "sha256:d4cf327d8ef50eb2e31b646f17217a3baf455391bfd59bce47df50c770ff8c07",
+      "sha256:7c7d7f4461826dd22f9234a81f9bed9c0bdb0b70b3ce66228bfc87418a9b8313",
+      "sha256:9040af41bb6677b114134de15ddeb10b070eb1f940dbbe277574ee154d89f6b9",
+      "sha256:f978b9ed3f26a49b55cf4849e4cadb29335be45a633cbe95a2f4e445e70086bf",
     ]);
 
     //  correct platform detected

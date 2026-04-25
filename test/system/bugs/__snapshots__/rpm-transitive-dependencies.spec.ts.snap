@@ -2682,8 +2682,9 @@ Object {
         },
         Object {
           "data": Array [
-            "59345d935e16ff8c62cbb03cedca578935494d4a3b37d94d3b22e5d4168bdc05/layer.tar",
-            "bdc819a45c76974d3cd51936b079b59f74621d31ebf04cef1973f86ef38c7454/layer.tar",
+            "sha256:edf3aa290fb3c255a84fe836109093fbfeef65c08544f655fad8d6afb53868ba",
+            "sha256:14bfd933344aa23b1df9e553b6729cdb312cb9d33436cc6984c867db7018e695",
+            "sha256:153f96d6492a92516bbbd813175dbb4a09d705ed4a9c2921e808d8e727808fe1",
           ],
           "type": "imageLayers",
         },

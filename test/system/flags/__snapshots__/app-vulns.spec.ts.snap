@@ -1709,7 +1709,7 @@ Object {
         },
         Object {
           "data": Array [
-            "2943de48ac85f6eaeecbf35ed894375b5001e9001fd908e40d8e577b77e6bfeb.tar",
+            "sha256:2943de48ac85f6eaeecbf35ed894375b5001e9001fd908e40d8e577b77e6bfeb",
           ],
           "type": "imageLayers",
         },
@@ -3489,7 +3489,7 @@ Object {
         },
         Object {
           "data": Array [
-            "2943de48ac85f6eaeecbf35ed894375b5001e9001fd908e40d8e577b77e6bfeb.tar",
+            "sha256:2943de48ac85f6eaeecbf35ed894375b5001e9001fd908e40d8e577b77e6bfeb",
           ],
           "type": "imageLayers",
         },
