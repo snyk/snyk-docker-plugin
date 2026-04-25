@@ -1,0 +1,22 @@
+# Bzlmod is required
+common --enable_bzlmod
+
+# GCS remote cache — substitute <YOUR_BUCKET> with your actual bucket name.
+# For local dev: authenticate with `gcloud auth application-default login`.
+# For CI: set GOOGLE_APPLICATION_CREDENTIALS to a service account key path.
+build --remote_cache=https://storage.googleapis.com/<YOUR_BUCKET>
+build --google_default_credentials=true
+
+# Only download build outputs that are needed locally (speeds up remote cache usage)
+build --remote_download_outputs=minimal
+
+# Test result caching — stores pass/fail results in the remote cache so reruns
+# of unchanged tests are skipped on all machines and CI runners.
+test --cache_test_results=yes
+test --remote_cache=https://storage.googleapis.com/<YOUR_BUCKET>
+test --google_default_credentials=true
+
+# Per-machine overrides (git-ignored). Create .bazelrc.local to set credentials
+# for a specific environment, e.g.:
+#   build --google_credentials=/path/to/service-account.json
+try-import %workspace%/.bazelrc.local

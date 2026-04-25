@@ -1,5 +1,14 @@
+const path = require("path");
+
+// In Bazel, the generated jest config lives in the `test/` package of the runfiles tree,
+// making <rootDir> point to `_main/test/` rather than the workspace root.
+// Use JS_BINARY__RUNFILES (set by rules_jest) to anchor rootDir at the workspace root.
+const rootDir = process.env.JS_BINARY__RUNFILES
+  ? path.join(process.env.JS_BINARY__RUNFILES, process.env.JS_BINARY__WORKSPACE || "_main")
+  : path.resolve(__dirname);
+
 module.exports = {
-  preset: "ts-jest",
+  rootDir,
   setupFilesAfterEnv: ["<rootDir>/test/matchers/setup.ts"],
   testEnvironment: "node",
   testMatch: ["<rootDir>/test/**/*.spec.ts"],

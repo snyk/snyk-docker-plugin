@@ -1,4 +1,9 @@
 /node_modules/
+
+# Bazel
+/bazel-*
+/.aspect
+/.bazelrc.local
 .idea/
 .run/
 bin/

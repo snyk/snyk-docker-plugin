@@ -1,0 +1,26 @@
+load("@npm//:defs.bzl", "npm_link_all_packages")
+load("@aspect_bazel_lib//lib:copy_to_bin.bzl", "copy_to_bin")
+
+# Links all npm packages from npm_translate_lock into //:node_modules.
+# Other BUILD files reference packages as //:node_modules/<pkg>.
+npm_link_all_packages(name = "node_modules")
+
+# Copy config files to bazel-bin so rules in sub-packages can reference them.
+copy_to_bin(
+    name = "tsconfig",
+    srcs = ["tsconfig.json"],
+    visibility = ["//visibility:public"],
+)
+
+copy_to_bin(
+    name = "jest.config",
+    srcs = ["jest.config.js"],
+    visibility = ["//visibility:public"],
+)
+
+exports_files([
+    "package.json",
+    "pnpm-lock.yaml",
+    "tsconfig.json",
+    "jest.config.js",
+])

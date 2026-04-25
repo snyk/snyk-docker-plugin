@@ -1,0 +1,105 @@
+load("@aspect_bazel_lib//lib:copy_to_bin.bzl", "copy_to_bin")
+load("@aspect_rules_jest//jest:defs.bzl", "jest_test")
+
+# Files shared by every test target:
+#   - lib TypeScript sources (ts-jest compiles them at test time)
+#   - test helpers, fixtures, and snapshot files
+#   - tsconfig so ts-jest can resolve compiler options
+_SHARED_DATA = [
+    "//:tsconfig",
+    "//lib:lib",
+    # ts-jest transform and its requirements
+    "//:node_modules/ts-jest",
+    "//:node_modules/typescript",
+    "//:node_modules/@types/jest",
+    # @mongodb-js/zstd is used by decompress-maybe and chisel tests
+    "//:node_modules/@mongodb-js/zstd",
+] + glob(
+    [
+        "fixtures/**",
+        "matchers/**/*.ts",
+        "util/**/*.ts",
+        "harness/**/*.ts",
+        # co-located binary test data files (e.g. unit/lib/inputs/rpm/Packages.db)
+        "unit/**",
+        # co-located non-TS test data files (e.g. system/dockerfile-analysis/Dockerfile)
+        "system/**",
+    ],
+    exclude = [
+        "unit/**/*.ts",
+        "system/**/*.ts",
+        "system/**/*.snap",
+    ],
+    allow_empty = True,
+)
+
+# ---------------------------------------------------------------------------
+# Unit tests (test/lib/ and test/unit/)
+# One jest_test target per spec file — each is cached independently.
+# Changing one spec file reruns only that target.
+# ---------------------------------------------------------------------------
+[
+    jest_test(
+        name = spec.replace("/", "_").removesuffix(".spec.ts"),
+        config = "//:jest.config",
+        data = [spec] + _SHARED_DATA + glob(
+            # Each target only sees its own snapshot file to avoid --ci failing
+            # on "obsolete snapshots" from other test targets' snapshot files.
+            [spec.rsplit("/", 1)[0] + "/__snapshots__/" + spec.rsplit("/", 1)[1] + ".snap"],
+            allow_empty = True,
+        ),
+        node_modules = "//:node_modules",
+        auto_configure_reporters = False,
+    )
+    for spec in glob(["lib/**/*.spec.ts", "unit/**/*.spec.ts"])
+]
+
+copy_to_bin(
+    name = "windows_jest.config",
+    srcs = ["windows/jest.config.js"],
+)
+
+# ---------------------------------------------------------------------------
+# System tests (test/system/)
+# Tagged "manual" so they are excluded from `bazel test //test/...` by default.
+# Run them explicitly: bazel test //test:system_<name> or
+#   bazel test //test/... --test_tag_filters=manual
+# These require Docker to be running.
+# ---------------------------------------------------------------------------
+[
+    jest_test(
+        name = spec.replace("/", "_").removesuffix(".spec.ts"),
+        config = "//:jest.config",
+        data = [spec] + _SHARED_DATA + glob(
+            [spec.rsplit("/", 1)[0] + "/__snapshots__/" + spec.rsplit("/", 1)[1] + ".snap"],
+            allow_empty = True,
+        ),
+        node_modules = "//:node_modules",
+        auto_configure_reporters = False,
+        timeout = "long",
+        tags = ["manual", "system"],
+    )
+    for spec in glob(["system/**/*.spec.ts"])
+]
+
+# ---------------------------------------------------------------------------
+# Windows tests (test/windows/)
+# Tagged "windows" so they are excluded from the default unit/system runs.
+# Run them on a Windows machine: bazel test //test/... --test_tag_filters=windows
+# These require Windows Docker or a Windows-specific environment.
+# ---------------------------------------------------------------------------
+[
+    jest_test(
+        name = spec.replace("/", "_").removesuffix(".spec.ts"),
+        config = "//test:windows_jest.config",
+        data = [spec] + _SHARED_DATA + glob(
+            [spec.rsplit("/", 1)[0] + "/__snapshots__/" + spec.rsplit("/", 1)[1] + ".snap"],
+            allow_empty = True,
+        ),
+        node_modules = "//:node_modules",
+        auto_configure_reporters = False,
+        timeout = "long",
+        tags = ["windows"],
+    )
+    for spec in glob(["windows/**/*.spec.ts"])
+]

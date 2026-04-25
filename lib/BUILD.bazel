@@ -1,0 +1,50 @@
+load("@aspect_rules_ts//ts:defs.bzl", "ts_project")
+
+ts_project(
+    name = "lib",
+    srcs = glob(["**/*.ts"]),
+    declaration = True,
+    resolve_json_module = True,
+    source_map = True,
+    transpiler = "tsc",
+    tsconfig = "//:tsconfig",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//:node_modules/@snyk/composer-lockfile-parser",
+        "//:node_modules/@snyk/dep-graph",
+        "//:node_modules/@snyk/docker-registry-v2-client",
+        "//:node_modules/@snyk/rpm-parser",
+        "//:node_modules/@snyk/snyk-docker-pull",
+        "//:node_modules/@swimlane/docker-reference",
+        "//:node_modules/@types/adm-zip",
+        "//:node_modules/@types/debug",
+        "//:node_modules/@types/node",
+        "//:node_modules/@types/tar-stream",
+        "//:node_modules/adm-zip",
+        "//:node_modules/chalk",
+        "//:node_modules/debug",
+        "//:node_modules/docker-modem",
+        "//:node_modules/dockerfile-ast",
+        "//:node_modules/elfy",
+        "//:node_modules/event-loop-spinner",
+        "//:node_modules/fzstd",
+        "//:node_modules/gunzip-maybe",
+        "//:node_modules/minimatch",
+        "//:node_modules/packageurl-js",
+        "//:node_modules/semver",
+        "//:node_modules/shescape",
+        "//:node_modules/snyk-nodejs-lockfile-parser",
+        "//:node_modules/snyk-poetry-lockfile-parser",
+        "//:node_modules/snyk-resolve-deps",
+        "//:node_modules/tar-stream",
+        "//:node_modules/tslib",
+        "//:node_modules/varint",
+    ],
+)
+
+# Exposes TypeScript sources for ts-jest in test targets.
+filegroup(
+    name = "srcs",
+    srcs = glob(["**/*.ts"]),
+    visibility = ["//visibility:public"],
+)
