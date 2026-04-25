@@ -424,6 +424,48 @@ describe("buildResponse", () => {
 
       expect(imageLabelsFactEmpty).toBeDefined();
       expect(imageLabelsFactEmpty!.data).toEqual({});
+
+      // Test case 4: imageLabels contains OCI-style annotation keys — they must
+      // round-trip verbatim through buildResponse without any key sanitization.
+      const mockAnalysisOciAnnotations = createMockAnalysis({
+        imageLabels: {
+          "org.opencontainers.image.source": "https://github.com/example/repo",
+          "org.opencontainers.image.revision": "abc123",
+          "com.example.team": "platform",
+        },
+        platform: "linux/amd64",
+      });
+
+      const resultOciAnnotations = await buildResponse(
+        mockAnalysisOciAnnotations as any,
+        undefined,
+        false,
+        ["test-image:oci-annotations"],
+        undefined,
+        {},
+      );
+
+      const imageLabelsFactOci = resultOciAnnotations.scanResults[0].facts?.find(
+        (fact) => fact.type === "imageLabels",
+      );
+
+      expect(imageLabelsFactOci).toBeDefined();
+      expect(imageLabelsFactOci!.data).toEqual({
+        "org.opencontainers.image.source": "https://github.com/example/repo",
+        "org.opencontainers.image.revision": "abc123",
+        "com.example.team": "platform",
+      });
+      // Keys must be preserved verbatim, not sanitized or renamed.
+      // Use Object.keys() to avoid toHaveProperty()'s dot-path interpretation.
+      expect(Object.keys(imageLabelsFactOci!.data)).toContain(
+        "org.opencontainers.image.source",
+      );
+      expect(Object.keys(imageLabelsFactOci!.data)).toContain(
+        "org.opencontainers.image.revision",
+      );
+      expect(Object.keys(imageLabelsFactOci!.data)).toContain(
+        "com.example.team",
+      );
     });
 
     it("should handle ExposedPorts and Volumes", async () => {

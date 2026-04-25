@@ -57,7 +57,7 @@ export async function extractArchive(
   const metadata = await extractMetadata(ociArchiveFilesystemPath);
 
   // Determine which manifest and layers we need
-  const { manifest, imageConfig } = resolveManifestAndConfig(metadata, options);
+  const { manifest, imageConfig, annotations } = resolveManifestAndConfig(metadata, options);
 
   // Get the list of layer digests we need to extract
   const requiredLayerDigests = new Set(
@@ -115,6 +115,7 @@ export async function extractArchive(
     layers: filteredLayers,
     manifest,
     imageConfig,
+    annotations,
   };
 }
 
@@ -363,6 +364,7 @@ function resolveManifestAndConfig(
 ): {
   manifest: OciArchiveManifest;
   imageConfig: ImageConfig;
+  annotations?: { [key: string]: string };
 } {
   const filteredConfigs = metadata.configs.filter((config) => {
     return config?.os !== "unknown" || config?.architecture !== "unknown";
@@ -376,7 +378,7 @@ function resolveManifestAndConfig(
 
   const platformInfo = getOciPlatformInfoFromOptionString(platform as string);
 
-  const manifest = getManifest(
+  const { manifest, manifestInfo } = getManifest(
     metadata.mainIndexFile,
     metadata.manifests,
     metadata.indexFiles,
@@ -397,7 +399,18 @@ function resolveManifestAndConfig(
     );
   }
 
-  return { manifest, imageConfig };
+  // Merge OCI annotations from all sources; later sources take precedence.
+  // Order: index-level → manifest-info-level → manifest-blob-level.
+  const mergedAnnotations = {
+    ...(metadata.mainIndexFile?.annotations ?? {}),
+    ...(manifestInfo?.annotations ?? {}),
+    ...(manifest.annotations ?? {}),
+  };
+
+  const annotations =
+    Object.keys(mergedAnnotations).length > 0 ? mergedAnnotations : undefined;
+
+  return { manifest, imageConfig, annotations };
 }
 
 function getManifest(
@@ -405,9 +418,12 @@ function getManifest(
   manifestCollection: Record<string, OciArchiveManifest>,
   indexFiles: Record<string, OciImageIndex>,
   platformInfo: OciPlatformInfo,
-): OciArchiveManifest | undefined {
+): { manifest: OciArchiveManifest | undefined; manifestInfo: OciManifestInfo | undefined } {
   if (!imageIndex) {
-    return manifestCollection[Object.keys(manifestCollection)[0]];
+    return {
+      manifest: manifestCollection[Object.keys(manifestCollection)[0]],
+      manifestInfo: undefined,
+    };
   }
 
   const allManifests = getAllManifestsIndexItems(imageIndex, indexFiles);
@@ -419,7 +435,7 @@ function getManifest(
     );
   }
 
-  return manifestCollection[manifestInfo.digest];
+  return { manifest: manifestCollection[manifestInfo.digest], manifestInfo };
 }
 
 function getAllManifestsIndexItems(
