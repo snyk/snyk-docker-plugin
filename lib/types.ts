@@ -82,7 +82,9 @@ export type FactType =
   // Used for application dependencies scanning; shows which files were used in the analysis of the dependencies.
   | "testedFiles"
   // Application files observed in the image
-  | "applicationFiles";
+  | "applicationFiles"
+  // Per-layer package attribution: which layer introduced each OS package
+  | "layerPackageAttribution";
 
 export interface PluginResponse {
   /** The first result is guaranteed to be the OS dependencies scan result. */
@@ -237,6 +239,9 @@ export interface PluginOptions {
 
   /** Include system-level JARs and WARs from /usr/lib in scan results. The default is "false". */
   "include-system-jars": boolean | string;
+
+  /** Compute and emit per-layer package attribution. The default is "false". */
+  "layer-attribution": boolean | string;
 
   "target-reference": string;
 

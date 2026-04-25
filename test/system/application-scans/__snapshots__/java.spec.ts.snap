@@ -44,7 +44,7 @@ Object {
         },
         Object {
           "data": Array [
-            "d446fd2d006bff0982827588b2b613f91a4e2a59d619da68fa7ce1c880b8d907/layer.tar",
+            "sha256:05356880e40587a7dedbdcb39f8a9f99f2f48e094c7e1d2fae64f4774cc7a4aa",
           ],
           "type": "imageLayers",
         },

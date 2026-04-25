@@ -2,6 +2,7 @@ import * as Debug from "debug";
 import { DockerFileAnalysis } from "../dockerfile";
 import { getErrorMessage } from "../error-utils";
 import * as archiveExtractor from "../extractor";
+import { LayerAttributionEntry } from "../facts";
 import {
   getGoModulesContentAction,
   goModulesToScannedProjects,
@@ -70,6 +71,10 @@ import { pipFilesToScannedProjects } from "./applications/python";
 import { getApplicationFiles } from "./applications/runtime-common";
 import { AppDepsScanResultWithoutTarget } from "./applications/types";
 import { detectJavaRuntime } from "./base-runtimes";
+import {
+  computeLayerAttribution,
+  mergeLayerAttributionEntries,
+} from "./layer-attribution";
 import * as osReleaseDetector from "./os-release";
 import { analyze as apkAnalyze } from "./package-managers/apk";
 import {
@@ -82,6 +87,7 @@ import {
   mapRpmSqlitePackages,
 } from "./package-managers/rpm";
 import {
+  AnalysisType,
   ImagePackagesAnalysis,
   OSRelease,
   StaticPackagesAnalysis,
@@ -159,6 +165,7 @@ export async function analyze(
     imageId,
     manifestLayers,
     extractedLayers,
+    orderedLayers,
     rootFsLayers,
     autoDetectedUserInstructions,
     platform,
@@ -234,6 +241,64 @@ export async function analyze(
   } catch (err) {
     debug(`Could not detect installed OS packages: ${getErrorMessage(err)}`);
     throw new Error("Failed to detect installed OS packages");
+  }
+
+  let layerPackageAttribution: LayerAttributionEntry[] | undefined;
+  if (
+    isTrue(options["layer-attribution"]) &&
+    rootFsLayers &&
+    orderedLayers &&
+    orderedLayers.length > 0
+  ) {
+    const resultsWithPackages = results.filter((r) => r.Analysis.length > 0);
+    if (resultsWithPackages.length > 0) {
+      const allEntries: LayerAttributionEntry[] = [];
+      const attributionCache = new Map<
+        AnalysisType,
+        Map<string, { layerIndex: number; diffID: string }>
+      >();
+      for (const result of resultsWithPackages) {
+        try {
+          let pkgLayerMap: Map<string, { layerIndex: number; diffID: string }>;
+          if (attributionCache.has(result.AnalyzeType)) {
+            // Cache hit: all analyzers that share an AnalysisType (e.g. aptAnalyze
+            // and aptDistrolessAnalyze both return AnalysisType.Apt) parse the same
+            // underlying package DB format, so a single parse pass covers all of them.
+            // Entries were already pushed on the first pass; we only need the pkgLayerMap.
+            pkgLayerMap = attributionCache.get(result.AnalyzeType)!;
+          } else {
+            const { entries, pkgLayerMap: computed } =
+              await computeLayerAttribution(
+                orderedLayers,
+                result.AnalyzeType,
+                rootFsLayers,
+                manifestLayers,
+                history,
+                targetImage,
+                osRelease,
+                redHatRepositories,
+              );
+            allEntries.push(...entries);
+            attributionCache.set(result.AnalyzeType, computed);
+            pkgLayerMap = computed;
+          }
+          for (const pkg of result.Analysis) {
+            const key = `${pkg.Name}@${pkg.Version}`;
+            const attr = pkgLayerMap.get(key);
+            if (attr) {
+              pkg.layerIndex = attr.layerIndex;
+              pkg.layerDiffId = attr.diffID;
+            }
+          }
+        } catch (err) {
+          debug(`Could not compute layer attribution: ${getErrorMessage(err)}`);
+          // Prevent O(n) retries for a broken AnalysisType by caching an empty
+          // map so subsequent results of the same type skip recomputation.
+          attributionCache.set(result.AnalyzeType, new Map());
+        }
+      }
+      layerPackageAttribution = mergeLayerAttributionEntries(allEntries);
+    }
   }
 
   const binaries = getBinariesHashes(extractedLayers);
@@ -316,8 +381,9 @@ export async function analyze(
     results,
     binaries,
     baseRuntimes,
-    imageLayers: manifestLayers,
+    imageLayers: rootFsLayers ?? manifestLayers,
     rootFsLayers,
+    layerPackageAttribution,
     applicationDependenciesScanResults,
     manifestFiles,
     autoDetectedUserInstructions,

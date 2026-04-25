@@ -364,10 +364,10 @@ Object {
         },
         Object {
           "data": Array [
-            "50644c29ef5a27c9a40c393a73ece2479de78325cae7d762ef3cdc19bf42dd0a.tar",
-            "c1df98c53fe381ef0bd5d7712600a9c4e8e7ac6debbfb0cd3a4c50a4e2e6c5c0.tar",
-            "c1df98c53fe381ef0bd5d7712600a9c4e8e7ac6debbfb0cd3a4c50a4e2e6c5c0.tar",
-            "d24888289f050c75a92d33b77c3a052154ed2c4f61e084b7e63cd007bc8bfb00.tar",
+            "sha256:50644c29ef5a27c9a40c393a73ece2479de78325cae7d762ef3cdc19bf42dd0a",
+            "sha256:c1df98c53fe381ef0bd5d7712600a9c4e8e7ac6debbfb0cd3a4c50a4e2e6c5c0",
+            "sha256:c1df98c53fe381ef0bd5d7712600a9c4e8e7ac6debbfb0cd3a4c50a4e2e6c5c0",
+            "sha256:d24888289f050c75a92d33b77c3a052154ed2c4f61e084b7e63cd007bc8bfb00",
           ],
           "type": "imageLayers",
         },
@@ -833,10 +833,10 @@ Object {
         },
         Object {
           "data": Array [
-            "50644c29ef5a27c9a40c393a73ece2479de78325cae7d762ef3cdc19bf42dd0a.tar",
-            "c1df98c53fe381ef0bd5d7712600a9c4e8e7ac6debbfb0cd3a4c50a4e2e6c5c0.tar",
-            "c1df98c53fe381ef0bd5d7712600a9c4e8e7ac6debbfb0cd3a4c50a4e2e6c5c0.tar",
-            "d24888289f050c75a92d33b77c3a052154ed2c4f61e084b7e63cd007bc8bfb00.tar",
+            "sha256:50644c29ef5a27c9a40c393a73ece2479de78325cae7d762ef3cdc19bf42dd0a",
+            "sha256:c1df98c53fe381ef0bd5d7712600a9c4e8e7ac6debbfb0cd3a4c50a4e2e6c5c0",
+            "sha256:c1df98c53fe381ef0bd5d7712600a9c4e8e7ac6debbfb0cd3a4c50a4e2e6c5c0",
+            "sha256:d24888289f050c75a92d33b77c3a052154ed2c4f61e084b7e63cd007bc8bfb00",
           ],
           "type": "imageLayers",
         },
@@ -1284,7 +1284,7 @@ Object {
         },
         Object {
           "data": Array [
-            "7791495be56d53f1d598007e4149b78dcde36768f487040dc6738f6cfab1385f/layer.tar",
+            "sha256:b3b29ea441a79462c8d942f597c0ef38960379046651c03659ea28d3729fa5ad",
           ],
           "type": "imageLayers",
         },
@@ -1606,7 +1606,7 @@ Object {
         },
         Object {
           "data": Array [
-            "003416e9133260ad2c4883f982bb2bdccbcc56b1134f34f3c5bbeaa042db2a7a/layer.tar",
+            "sha256:b3b45e39a2de618d672de8395f83e78ef2cdf15c0a5d08e631bc46d4d5bff3dc",
           ],
           "type": "imageLayers",
         },
@@ -1928,7 +1928,7 @@ Object {
         },
         Object {
           "data": Array [
-            "494db89a6ccd788c2ac1fa68ba421496b221b06242a26b4bb14d88a15fb9ec50/layer.tar",
+            "sha256:f3b3cf4596949f12573f1fe82d20c44d88cff630caef72661b5da451157082be",
           ],
           "type": "imageLayers",
         },

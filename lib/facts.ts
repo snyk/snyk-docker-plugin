@@ -162,3 +162,19 @@ export interface BaseRuntimesFact {
   type: "baseRuntimes";
   data: BaseRuntime[];
 }
+
+export interface LayerAttributionEntry {
+  layerIndex: number;
+  diffID: string;
+  digest?: string;
+  instruction?: string;
+  /** OS packages introduced in this layer, each formatted as "name@version". */
+  packages: string[];
+  /** OS packages removed in this layer, each formatted as "name@version". */
+  removedPackages?: string[];
+}
+
+export interface LayerPackageAttributionFact {
+  type: "layerPackageAttribution";
+  data: LayerAttributionEntry[];
+}
