@@ -60,6 +60,7 @@ export interface ExtractedLayersAndManifest {
   layers: ExtractedLayers[];
   manifest: TarArchiveManifest | OciArchiveManifest;
   imageConfig: ImageConfig;
+  annotations?: { [key: string]: string };
 }
 
 export interface ContainerConfig {
@@ -100,12 +101,14 @@ export interface OciArchiveManifest {
   schemaVersion: string;
   config: { digest: string };
   layers: OciArchiveLayer[];
+  annotations?: { [key: string]: string };
 }
 
 export interface OciManifestInfo {
   digest: string;
   mediaType: string;
   platform?: OciPlatformInfo;
+  annotations?: { [key: string]: string };
 }
 
 export interface OciPlatformInfo {
@@ -116,6 +119,7 @@ export interface OciPlatformInfo {
 
 export interface OciImageIndex {
   manifests: OciManifestInfo[];
+  annotations?: { [key: string]: string };
 }
 
 export interface ExtractAction {
