@@ -381,7 +381,7 @@ export async function analyze(
     results,
     binaries,
     baseRuntimes,
-    imageLayers: manifestLayers,
+    imageLayers: rootFsLayers ?? manifestLayers,
     rootFsLayers,
     layerPackageAttribution,
     applicationDependenciesScanResults,

@@ -2109,7 +2109,7 @@ Object {
         },
         Object {
           "data": Array [
-            "sha256:67e592d59ffe1b47aa2eddc186fa103b39552366c59fd4cecbd528e1ae9163cd",
+            "sha256:fc378ab30d60a2ec107ad2a83226050b29ca6dca2d93cd6220e902375bcf3813",
           ],
           "type": "imageLayers",
         },
@@ -4320,7 +4320,7 @@ Object {
         },
         Object {
           "data": Array [
-            "sha256:57bc8f9e21de243ded5af46c274b1fe18d5a72b7f7acd1cc3bb24f69f17b78f8",
+            "sha256:0f350a1ede685e83e2220dd2ad17b7b1247cfa80eb6a9f0bbfed83d1e544ed45",
           ],
           "type": "imageLayers",
         },

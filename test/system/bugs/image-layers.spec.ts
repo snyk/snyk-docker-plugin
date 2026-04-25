@@ -5,7 +5,7 @@ import { execute } from "../../../lib/sub-process";
 const inspectImageSpy = jest.spyOn(Docker.prototype, "inspectImage");
 const binaryExistsSpy = jest.spyOn(Docker, "binaryExists");
 
-describe("demonstrates a potential bug with image layers", () => {
+describe("image layers consistency", () => {
   afterAll(async () => {
     await execute("docker", [
       "image",
@@ -16,8 +16,7 @@ describe("demonstrates a potential bug with image layers", () => {
     });
   });
 
-  /** This bug potentially lies in the pull library. */
-  it("should return different image layers when pulling with docker and with pull library", async () => {
+  it("should return identical image layers when pulling with docker and with pull library", async () => {
     const image = "debian:stable-20200803-slim";
     const dockerPluginResult = await scan({
       path: image,
@@ -42,8 +41,7 @@ describe("demonstrates a potential bug with image layers", () => {
     expect(dockerImageLayers).toBeDefined();
     expect(pullLibraryImageLayers).toBeDefined();
 
-    // BUG: The layers should be identical!
-    expect(dockerImageLayers).not.toEqual(pullLibraryImageLayers);
+    expect(dockerImageLayers).toEqual(pullLibraryImageLayers);
 
     inspectImageMock.mockRestore();
     binaryExistsMock.mockRestore();

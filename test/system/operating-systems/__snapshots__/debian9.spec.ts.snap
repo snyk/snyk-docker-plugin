@@ -1696,7 +1696,7 @@ Object {
         },
         Object {
           "data": Array [
-            "sha256:4f250268ed6a0b777b9a3d9e0659754a8c97f28420f30cb78c184c3eead07d14",
+            "sha256:b323b70996e4f6d603c331669ac44cf6234a2e22002d3686e9c88398c6911c25",
           ],
           "type": "imageLayers",
         },
