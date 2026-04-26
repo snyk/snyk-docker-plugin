@@ -21,7 +21,7 @@
     "test:unit": "bazel test //test/... --test_tag_filters=-manual,-windows",
     "test:system": "bazel test $(bazel query 'attr(tags, \"system\", //test/...)')",
     "test-jest-windows": "bazel test //test/... --test_tag_filters=windows",
-    "prepare": "bazel build //lib:lib && cp -rL bazel-bin/lib dist"
+    "prepare": "bazel build //lib:lib && rm -rf dist && cp -rL bazel-bin/lib dist"
   },
   "engines": {
     "node": ">=20.19"

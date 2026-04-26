@@ -87,6 +87,10 @@ copy_to_bin(
 # Tagged "windows" so they are excluded from the default unit/system runs.
 # Run them on a Windows machine: bazel test //test/... --test_tag_filters=windows
 # These require Windows Docker or a Windows-specific environment.
+#
+# IMPORTANT: Jest snapshots in test/windows/__snapshots__/ must be generated
+# and updated on Windows. Regenerating them on Linux will produce Linux-style
+# paths and line endings that will fail the Windows CI run.
 # ---------------------------------------------------------------------------
 [
     jest_test(

@@ -29,11 +29,11 @@ npm.npm_translate_lock(
 )
 use_repo(npm, "npm")
 
-# TypeScript toolchain — reads version from package.json to stay in sync
+# TypeScript toolchain — version must match the base of the "~5.4.x" range in package.json
 rules_ts_ext = use_extension(
     "@aspect_rules_ts//ts:extensions.bzl",
     "ext",
     dev_dependency = True,
 )
-rules_ts_ext.deps(ts_version = "5.4.5")
+rules_ts_ext.deps(ts_version = "5.4.2")
 use_repo(rules_ts_ext, "npm_typescript")
