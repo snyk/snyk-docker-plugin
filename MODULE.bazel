@@ -1,0 +1,39 @@
+module(
+    name = "snyk_docker_plugin",
+    version = "0.0.0",
+)
+
+bazel_dep(name = "aspect_bazel_lib",  version = "2.19.2")
+bazel_dep(name = "aspect_rules_js",   version = "2.1.0")
+bazel_dep(name = "aspect_rules_ts",   version = "3.8.8")
+bazel_dep(name = "aspect_rules_jest", version = "0.25.2")
+
+# Bootstrap npm packages from package-lock.json
+npm = use_extension("@aspect_rules_js//npm:extensions.bzl", "npm")
+npm.npm_translate_lock(
+    name = "npm",
+    pnpm_lock = "//:pnpm-lock.yaml",
+    verify_node_modules_ignored = "//:.bazelignore",
+    # Exclude native packages whose install scripts require node-gyp.
+    # These packages are transitive/optional deps — their prebuilt binaries
+    # are not needed for the TypeScript build or unit tests.
+    lifecycle_hooks_exclude = [
+        "cpu-features",
+    ],
+    # jest-cli is a peer-dep-affected transitive dep of jest. pnpm gives it a
+    # hash-suffixed name, but rules_jest looks for plain //:node_modules/jest-cli.
+    # Hoisting creates the expected alias target.
+    public_hoist_packages = {
+        "jest-cli": [""],
+    },
+)
+use_repo(npm, "npm")
+
+# TypeScript toolchain — version must match the base of the "~5.4.x" range in package.json
+rules_ts_ext = use_extension(
+    "@aspect_rules_ts//ts:extensions.bzl",
+    "ext",
+    dev_dependency = True,
+)
+rules_ts_ext.deps(ts_version = "5.4.2")
+use_repo(rules_ts_ext, "npm_typescript")

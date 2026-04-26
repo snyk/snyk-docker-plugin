@@ -62,8 +62,41 @@ define: &windows_node_version "20.19.1"
 commands:
   setup_npm_user:
     steps:
-       - run: 
+       - run:
            command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
+  install_bazelisk:
+    description: Install Bazelisk (manages Bazel versions via .bazelversion)
+    steps:
+      - run:
+          name: Install Bazelisk
+          command: |
+            curl -fsSL https://github.com/bazelbuild/bazelisk/releases/download/v1.20.0/bazelisk-linux-amd64 \
+              -o /usr/local/bin/bazel
+            chmod +x /usr/local/bin/bazel
+  install_bazelisk_windows:
+    description: Install Bazelisk on Windows (Git Bash / bash.exe executor)
+    steps:
+      - run:
+          name: Install Bazelisk
+          shell: bash.exe
+          command: |
+            mkdir -p ~/bin
+            curl -fsSL "https://github.com/bazelbuild/bazelisk/releases/download/v1.20.0/bazelisk-windows-amd64.exe" \
+              -o ~/bin/bazel.exe
+            echo 'export PATH="$HOME/bin:$PATH"' >> "$BASH_ENV"
+  setup_gcs_cache:
+    description: Write GCS service account key so Bazel remote cache can authenticate
+    steps:
+      - run:
+          name: Configure GCS credentials for Bazel remote cache
+          command: |
+            KEY_FILE=$(mktemp /tmp/gcs-bazel-key.XXXXXX.json)
+            chmod 600 "$KEY_FILE"
+            printf '%s' "$GCLOUD_SERVICE_KEY" > "$KEY_FILE"
+            echo "build --google_credentials=$KEY_FILE" >> .bazelrc.local
+            echo "test  --google_credentials=$KEY_FILE" >> .bazelrc.local
+            echo "build --remote_cache=https://storage.googleapis.com/$BAZEL_REMOTE_CACHE_BUCKET" >> .bazelrc.local
+            echo "test  --remote_cache=https://storage.googleapis.com/$BAZEL_REMOTE_CACHE_BUCKET" >> .bazelrc.local
   install_deps:
     description: Install dependencies
     steps:
@@ -139,7 +172,9 @@ jobs:
       - checkout
       - attach_workspace:
           at: ~/snyk-docker-plugin
-      - run: npm run test:unit > test-unit-logs.txt 2>&1
+      - install_bazelisk
+      - setup_gcs_cache
+      - run: bazel test //test/... --test_tag_filters=-manual,-windows --test_output=errors > test-unit-logs.txt 2>&1
       - store_artifacts:
           path: test-unit-logs.txt
           destination: test-unit-logs
@@ -150,8 +185,16 @@ jobs:
       - setup_remote_docker
       - attach_workspace:
           at: ~/snyk-docker-plugin
+      - install_bazelisk
+      - setup_gcs_cache
       - run:
-          command: npm run test:system > test-system-logs.txt 2>&1
+          name: Query system test targets
+          command: bazel query 'attr(tags, "system", //test/...)' > /tmp/system-test-targets.txt
+      - run:
+          name: Run system tests
+          command: |
+            bazel test $(cat /tmp/system-test-targets.txt | tr '\n' ' ') \
+              --test_output=errors > test-system-logs.txt 2>&1
           no_output_timeout: 20m
       - store_artifacts:
           path: test-system-logs.txt
@@ -164,9 +207,11 @@ jobs:
           node_version: << parameters.node_version >>
       - setup_npm_user
       - run: npm ci
+      - install_bazelisk_windows
+      - setup_gcs_cache
       - run: docker version
       - run:
-          command: npm run test-jest-windows
+          command: bazel test //test/... --test_tag_filters=windows --test_output=errors
           no_output_timeout: 20m
   test_jest_windows_no_docker:
     <<: *windows_big
@@ -176,10 +221,12 @@ jobs:
           node_version: << parameters.node_version >>
       - setup_npm_user
       - run: npm ci
+      - install_bazelisk_windows
+      - setup_gcs_cache
         # make docker appear to be broken.
       - run: "function docker() { return 1; }"
       - run:
-          command: npm run test-jest-windows
+          command: bazel test //test/... --test_tag_filters=windows --test_output=errors
           no_output_timeout: 20m
   build:
     <<: *defaults
@@ -187,7 +234,9 @@ jobs:
       - checkout_and_merge
       - setup_npm_user
       - run: npm ci
-      - run: npm run build
+      - install_bazelisk
+      - setup_gcs_cache
+      - run: bazel build //lib:lib
   build_cli:
     <<: *defaults
     resource_class: medium
@@ -208,16 +257,23 @@ jobs:
       - run:
           name: Build a Go binary with latest Go version
           command: ./.circleci/build-go-binary-latest.sh
+      - install_bazelisk
+      - setup_gcs_cache
       - run:
           name: Run Go binaries unit test
-          command: npx jest test/unit/go-binaries.spec.ts
+          command: bazel test //test:unit_go-binaries --test_output=errors
   release:
     <<: *release_defaults
     steps:
       - checkout
       - setup_npm_user
       - run: npm ci
-      - run: npm run build
+      - install_bazelisk
+      - setup_gcs_cache
+      - run: bazel build //lib:lib
+      - run:
+          name: Copy compiled output to dist/ for npm publish
+          command: cp -rL bazel-bin/lib dist
       - run:
           name: Release on GitHub
           command: npx semantic-release

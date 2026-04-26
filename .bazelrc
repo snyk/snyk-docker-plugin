@@ -1,0 +1,22 @@
+# Bzlmod is required
+common --enable_bzlmod
+
+# GCS remote cache
+# For local dev, add to .bazelrc.local (git-ignored):
+#   build --remote_cache=https://storage.googleapis.com/<your-bucket>
+#   build --google_default_credentials=true
+#   test  --remote_cache=https://storage.googleapis.com/<your-bucket>
+#   test  --google_default_credentials=true
+# For CI: setup_gcs_cache writes credentials and the remote_cache URL
+# to .bazelrc.local using $GCLOUD_SERVICE_KEY and $BAZEL_REMOTE_CACHE_BUCKET.
+
+# Only download build outputs that are needed locally (speeds up remote cache usage)
+build --remote_download_outputs=minimal
+
+# Test result caching — stores pass/fail results in the remote cache so reruns
+# of unchanged tests are skipped on all machines and CI runners.
+test --cache_test_results=yes
+
+# Per-machine overrides (git-ignored). Create .bazelrc.local to set credentials
+# and the remote cache URL for the current environment.
+try-import %workspace%/.bazelrc.local
