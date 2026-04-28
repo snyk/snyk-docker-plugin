@@ -103,6 +103,7 @@ export interface StaticAnalysis {
     comment?: string | null;
     empty_layer?: boolean | null;
   }> | null;
+  timings?: Record<string, number>;
 }
 
 export interface StaticPackagesAnalysis extends StaticAnalysis {

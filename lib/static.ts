@@ -21,6 +21,8 @@ export async function analyzeStatically(
   options: Partial<PluginOptions>,
   imageName?: ImageName,
 ): Promise<PluginResponse> {
+  const totalStart = Date.now();
+
   const staticAnalysis = await analyzer.analyzeStatically(
     targetImage,
     dockerfileAnalysis,
@@ -29,6 +31,8 @@ export async function analyzeStatically(
     globsToFind,
     options,
   );
+
+  const depTreeStart = Date.now();
 
   const parsedAnalysisResult = parseAnalysisResults(
     targetImage,
@@ -66,7 +70,7 @@ export async function analyzeStatically(
     });
   }
 
-  return buildResponse(
+  const response = await buildResponse(
     analysis,
     dockerfileAnalysis,
     excludeBaseImageVulns,
@@ -74,4 +78,23 @@ export async function analyzeStatically(
     ociDistributionMetadata,
     options,
   );
+
+  const depTreeBuildingMs = Date.now() - depTreeStart;
+  const totalMs = Date.now() - totalStart;
+
+  const timings: Record<string, number> = {
+    ...staticAnalysis.timings,
+    depTreeBuildingMs,
+    totalMs,
+  };
+
+  return {
+    ...response,
+    analytics: [
+      {
+        name: "containerPluginTimings",
+        data: timings,
+      },
+    ],
+  };
 }
