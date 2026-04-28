@@ -67,6 +67,7 @@ import {
 } from "./applications";
 import { jarFilesToScannedResults } from "./applications/java";
 import { pipFilesToScannedProjects } from "./applications/python";
+import { runJarAnalysisInWorker } from "./applications/worker-utils";
 import { getApplicationFiles } from "./applications/runtime-common";
 import { AppDepsScanResultWithoutTarget } from "./applications/types";
 import { detectJavaRuntime } from "./base-runtimes";
@@ -244,6 +245,27 @@ export async function analyze(
     [];
 
   if (appScan) {
+    const desiredLevelsOfUnpacking = getNestedJarsDesiredDepth(options);
+
+    // Launch JAR fingerprinting on a worker thread so heavy ZIP work does not
+    // block the main thread while other analyzers run.
+    const jarBuffers = getBufferContent(
+      extractedLayers,
+      getJarFileContentAction.actionName,
+    );
+    const jarPromise = runJarAnalysisInWorker(
+      jarBuffers,
+      targetImage,
+      desiredLevelsOfUnpacking,
+    ).catch((err) => {
+      debug(`JAR worker failed, falling back to main thread: ${getErrorMessage(err)}`);
+      return jarFilesToScannedResults(
+        jarBuffers,
+        targetImage,
+        desiredLevelsOfUnpacking,
+      );
+    });
+
     const nodeDependenciesScanResults = await nodeFilesToScannedProjects(
       getFileContent(extractedLayers, getNodeAppFileContentAction.actionName),
       nodeModulesScan,
@@ -285,17 +307,11 @@ export async function analyze(
       );
     }
 
-    const desiredLevelsOfUnpacking = getNestedJarsDesiredDepth(options);
-
-    const jarFingerprintScanResults = await jarFilesToScannedResults(
-      getBufferContent(extractedLayers, getJarFileContentAction.actionName),
-      targetImage,
-      desiredLevelsOfUnpacking,
-    );
-
     const goModulesScanResult = await goModulesToScannedProjects(
       getElfFileContent(extractedLayers, getGoModulesContentAction.actionName),
     );
+
+    const jarFingerprintScanResults = await jarPromise;
 
     applicationDependenciesScanResults.push(
       ...nodeDependenciesScanResults,
