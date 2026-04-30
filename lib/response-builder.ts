@@ -8,6 +8,7 @@ import { instructionDigest } from "./dockerfile";
 import { DockerFileAnalysis, DockerFilePackages } from "./dockerfile/types";
 import { OCIDistributionMetadata } from "./extractor/oci-distribution-metadata";
 
+import { computeScanPayloadMetrics } from "./scan-payload-metrics";
 import * as types from "./types";
 import { truncateAdditionalFacts } from "./utils";
 import { PLUGIN_VERSION } from "./version";
@@ -348,8 +349,16 @@ async function buildResponse(
     facts: truncateAdditionalFacts(result.facts || []),
   }));
 
+  const scanPayloadMetrics = computeScanPayloadMetrics(truncatedScanResults);
+
   return {
     scanResults: truncatedScanResults,
+    analytics: [
+      {
+        name: "containerScanPayloadMetrics",
+        data: scanPayloadMetrics,
+      },
+    ],
   };
 }
 

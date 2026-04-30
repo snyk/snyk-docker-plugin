@@ -91,6 +91,7 @@ export async function analyzeStatically(
   return {
     ...response,
     analytics: [
+      ...(response.analytics ?? []),
       {
         name: "containerPluginTimings",
         data: timings,
