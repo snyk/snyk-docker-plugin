@@ -4,17 +4,30 @@ Guidance for AI coding agents (Claude Code, Cursor, Copilot, etc.) working in th
 
 ## What this is
 
-`snyk-docker-plugin` is a library used by the Snyk CLI to extract dependency
-metadata from container images. It is consumed as a library — there is no CLI
-entry point of its own. The public surface is exported from `lib/index.ts`
-(`scan`, `display`, `extractContent`, `dockerFile`, plus the supporting types).
+`snyk-docker-plugin` is a library that extracts dependency metadata from
+container images. It is consumed as a library — there is no CLI entry point of
+its own. The public surface is exported from `lib/index.ts` (`scan`, `display`,
+`extractContent`, `dockerFile`, plus the supporting types).
+
+Known consumers include:
+
+- `snyk/cli` — scan handler
+- `snyk/kubernetes-monitor` — scan handler
+- `snyk/container-image-collector` — scan handler (with `--exclude-app-vulns`)
+- `snyk/docker-registry-agent` — scan handler
+- `snyk/docker-deps` — types, Dockerfile/image analysis
+- `snyk/kubernetes-upstream`, `snyk/kubernetes-agent`, `snyk/registry` — types only
+
+Treat any change to `PluginResponse`, `ScanResult`, `Fact`, or `FactType` (and
+the dockerfile-analysis types) as a public-API change with multiple downstream
+consumers, not just the CLI.
 
 ## Output model: `PluginResponse` and Facts
 
 `scan()` returns a `PluginResponse` containing one or more `ScanResult`s. Each
 `ScanResult` carries a list of typed `Fact` objects — this is the contract with
-the consumer (the Snyk CLI). All `FactType` values are enumerated in
-`lib/types.ts`; concrete shapes live in `lib/facts.ts`. Common ones:
+every downstream consumer (see "What this is" above). All `FactType` values are
+enumerated in `lib/types.ts`; concrete shapes live in `lib/facts.ts`. Common ones:
 
 - `depGraph` — a `@snyk/dep-graph` for a package manager or application
 - `dockerfileAnalysis` — base image, instructions, layers
@@ -26,8 +39,8 @@ the consumer (the Snyk CLI). All `FactType` values are enumerated in
 - `pluginVersion`, `pluginWarnings`
 
 When adding a new ecosystem or signal, emit a `Fact` with an existing
-`FactType` if one fits; introducing a new `FactType` is a contract change with
-the CLI and should be discussed in the PR.
+`FactType` if one fits; introducing a new `FactType` is a contract change
+affecting every consumer and should be flagged in the PR.
 
 ## Repo layout
 
