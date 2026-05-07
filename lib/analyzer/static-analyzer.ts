@@ -155,6 +155,9 @@ export async function analyze(
     }
   }
 
+  const timings: Record<string, number> = {};
+
+  let phaseStart = Date.now();
   const {
     imageId,
     manifestLayers,
@@ -172,6 +175,7 @@ export async function analyze(
     staticAnalysisActions,
     options,
   );
+  timings.imageExtractionMs = Date.now() - phaseStart;
 
   const [
     apkDbFileContent,
@@ -213,6 +217,7 @@ export async function analyze(
 
   let results: ImagePackagesAnalysis[];
   try {
+    phaseStart = Date.now();
     results = await Promise.all([
       apkAnalyze(targetImage, apkDbFileContent),
       aptAnalyze(targetImage, aptDbFileContent, osRelease),
@@ -231,19 +236,23 @@ export async function analyze(
       aptDistrolessAnalyze(targetImage, distrolessAptFiles, osRelease),
       chiselAnalyze(targetImage, chiselPackages),
     ]);
+    timings.osPackageAnalysisMs = Date.now() - phaseStart;
   } catch (err) {
     debug(`Could not detect installed OS packages: ${getErrorMessage(err)}`);
     throw new Error("Failed to detect installed OS packages");
   }
 
+  phaseStart = Date.now();
   const binaries = getBinariesHashes(extractedLayers);
   const javaRuntime = detectJavaRuntime(extractedLayers);
   const baseRuntimes = javaRuntime ? [javaRuntime] : undefined;
+  timings.binariesAndRuntimeDetectionMs = Date.now() - phaseStart;
 
   const applicationDependenciesScanResults: AppDepsScanResultWithoutTarget[] =
     [];
 
   if (appScan) {
+    phaseStart = Date.now();
     const nodeDependenciesScanResults = await nodeFilesToScannedProjects(
       getFileContent(extractedLayers, getNodeAppFileContentAction.actionName),
       nodeModulesScan,
@@ -259,19 +268,24 @@ export async function analyze(
         "npm",
       );
     }
+    timings.nodeAnalysisMs = Date.now() - phaseStart;
 
+    phaseStart = Date.now();
     const phpDependenciesScanResults = await phpFilesToScannedProjects(
       getFileContent(extractedLayers, getPhpAppFileContentAction.actionName),
     );
+    timings.phpAnalysisMs = Date.now() - phaseStart;
 
+    phaseStart = Date.now();
     const poetryDependenciesScanResults = await poetryFilesToScannedProjects(
       getFileContent(extractedLayers, getPoetryAppFileContentAction.actionName),
     );
+    timings.poetryAnalysisMs = Date.now() - phaseStart;
 
+    phaseStart = Date.now();
     const pipDependenciesScanResults = await pipFilesToScannedProjects(
       getFileContent(extractedLayers, getPipAppFileContentAction.actionName),
     );
-
     let pythonApplicationFilesScanResults: AppDepsScanResultWithoutTarget[] =
       [];
     if (collectApplicationFiles) {
@@ -284,18 +298,22 @@ export async function analyze(
         "python",
       );
     }
+    timings.pipAnalysisMs = Date.now() - phaseStart;
 
+    phaseStart = Date.now();
     const desiredLevelsOfUnpacking = getNestedJarsDesiredDepth(options);
-
     const jarFingerprintScanResults = await jarFilesToScannedResults(
       getBufferContent(extractedLayers, getJarFileContentAction.actionName),
       targetImage,
       desiredLevelsOfUnpacking,
     );
+    timings.jarAnalysisMs = Date.now() - phaseStart;
 
+    phaseStart = Date.now();
     const goModulesScanResult = await goModulesToScannedProjects(
       getElfFileContent(extractedLayers, getGoModulesContentAction.actionName),
     );
+    timings.goAnalysisMs = Date.now() - phaseStart;
 
     applicationDependenciesScanResults.push(
       ...nodeDependenciesScanResults,
@@ -325,6 +343,7 @@ export async function analyze(
     imageCreationTime,
     containerConfig,
     history,
+    timings,
   };
 }
 

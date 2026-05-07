@@ -84,9 +84,15 @@ export type FactType =
   // Application files observed in the image
   | "applicationFiles";
 
+export interface PluginAnalytics {
+  name: string;
+  data: unknown;
+}
+
 export interface PluginResponse {
   /** The first result is guaranteed to be the OS dependencies scan result. */
   scanResults: ScanResult[];
+  analytics?: PluginAnalytics[];
 }
 
 export interface ScanResult {
