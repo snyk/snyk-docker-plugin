@@ -1,9 +1,9 @@
 import { VexStatement, VexStatus } from "../facts";
 
-type ParsedVexDocument = {
+interface ParsedVexDocument {
   format: "openvex" | "cyclonedx-vex";
   statements: VexStatement[];
-};
+}
 
 /**
  * Parses a raw VEX document (OpenVEX or CycloneDX-VEX format) into normalized statements.

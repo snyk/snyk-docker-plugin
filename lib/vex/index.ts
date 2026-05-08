@@ -1,6 +1,6 @@
-import { VexStatementsFact, PluginWarningsFact } from "../facts";
-import { PluginResponse } from "../types";
 import { getErrorMessage } from "../error-utils";
+import { PluginWarningsFact, VexStatementsFact } from "../facts";
+import { PluginResponse } from "../types";
 import { loadVexDocument } from "./loader";
 import { parseVexDocument } from "./parser";
 
@@ -38,7 +38,9 @@ export async function attachVexFactsToScanResults(
   try {
     vexFact = await buildVexFact(vexFilePath);
   } catch (err) {
-    const warning = `Failed to load VEX file '${vexFilePath}': ${getErrorMessage(err)}`;
+    const warning = `Failed to load VEX file '${vexFilePath}': ${getErrorMessage(
+      err,
+    )}`;
     return { response, warning };
   }
 
@@ -69,9 +71,9 @@ export function appendVexWarningToScanResult(
     return response;
   }
 
-  const existingFact = first.facts.find(
-    (f) => f.type === "pluginWarnings",
-  ) as PluginWarningsFact | undefined;
+  const existingFact = first.facts.find((f) => f.type === "pluginWarnings") as
+    | PluginWarningsFact
+    | undefined;
 
   if (existingFact) {
     existingFact.data.parameterChecks = [

@@ -20,8 +20,8 @@ import * as staticModule from "./static";
 import { ImageType, PluginOptions, PluginResponse } from "./types";
 import { isValidDockerImageReference } from "./utils";
 import {
-  attachVexFactsToScanResults,
   appendVexWarningToScanResult,
+  attachVexFactsToScanResults,
 } from "./vex";
 
 // Registry credentials may also be provided by env vars. When both are set, flags take precedence.

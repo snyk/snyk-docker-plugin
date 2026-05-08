@@ -28,16 +28,24 @@ async function loadRemoteVexDocument(
   try {
     const response = await fetch(url, { signal: controller.signal });
     if (!response.ok) {
-      throw new Error(`VEX fetch failed: ${response.status} ${response.statusText}`);
+      throw new Error(
+        `VEX fetch failed: ${response.status} ${response.statusText}`,
+      );
     }
     const text = await response.text();
     const raw = JSON.parse(text);
     return { raw, source: url };
   } catch (err) {
     if (err instanceof Error && err.name === "AbortError") {
-      throw new Error(`VEX fetch timed out after ${FETCH_TIMEOUT_MS}ms: ${url}`);
+      throw new Error(
+        `VEX fetch timed out after ${FETCH_TIMEOUT_MS}ms: ${url}`,
+      );
     }
-    throw new Error(`Failed to load remote VEX document from '${url}': ${getErrorMessage(err)}`);
+    throw new Error(
+      `Failed to load remote VEX document from '${url}': ${getErrorMessage(
+        err,
+      )}`,
+    );
   } finally {
     clearTimeout(timer);
   }
@@ -50,12 +58,16 @@ async function loadLocalVexDocument(
   try {
     text = await fs.promises.readFile(filePath, "utf8");
   } catch (err) {
-    throw new Error(`Failed to read VEX file '${filePath}': ${getErrorMessage(err)}`);
+    throw new Error(
+      `Failed to read VEX file '${filePath}': ${getErrorMessage(err)}`,
+    );
   }
   try {
     const raw = JSON.parse(text);
     return { raw, source: filePath };
   } catch (err) {
-    throw new Error(`Failed to parse VEX file '${filePath}' as JSON: ${getErrorMessage(err)}`);
+    throw new Error(
+      `Failed to parse VEX file '${filePath}' as JSON: ${getErrorMessage(err)}`,
+    );
   }
 }

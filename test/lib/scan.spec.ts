@@ -2,13 +2,13 @@ import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
 
+import { VexStatementsFact } from "../../lib/facts";
 import {
   appendLatestTagIfMissing,
   mergeEnvVarsIntoCredentials,
   scan,
 } from "../../lib/scan";
 import { PluginResponse, ScanResult } from "../../lib/types";
-import { VexStatementsFact } from "../../lib/facts";
 
 // Mock the static analysis module so scan() doesn't touch Docker daemon.
 jest.mock("../../lib/static", () => ({
@@ -211,8 +211,8 @@ describe("scan with vexFilePath", () => {
     expect(warningsFact).toBeDefined();
     const checks = (warningsFact!.data as any).parameterChecks as string[];
     expect(checks).toBeDefined();
-    expect(checks.some((msg: string) => msg.includes("Failed to load VEX file"))).toBe(
-      true,
-    );
+    expect(
+      checks.some((msg: string) => msg.includes("Failed to load VEX file")),
+    ).toBe(true);
   });
 });

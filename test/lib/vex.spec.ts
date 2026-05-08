@@ -2,11 +2,11 @@ import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
 
+import { VexStatement, VexStatementsFact } from "../../lib/facts";
+import { PluginResponse, ScanResult } from "../../lib/types";
+import { attachVexFactsToScanResults } from "../../lib/vex";
 import { loadVexDocument } from "../../lib/vex/loader";
 import { parseVexDocument } from "../../lib/vex/parser";
-import { attachVexFactsToScanResults } from "../../lib/vex";
-import { VexStatementsFact, VexStatement } from "../../lib/facts";
-import { PluginResponse, ScanResult } from "../../lib/types";
 
 // ─── Fixtures ────────────────────────────────────────────────────────────────
 
@@ -54,7 +54,9 @@ function makePluginResponse(numResults = 2): PluginResponse {
     facts: [{ type: "imageId", data: `sha256:abc${i}` }],
   });
   return {
-    scanResults: Array.from({ length: numResults }, (_, i) => makeScanResult(i)),
+    scanResults: Array.from({ length: numResults }, (_, i) =>
+      makeScanResult(i),
+    ),
   };
 }
 
@@ -179,7 +181,11 @@ describe("parseVexDocument", () => {
         vulnerabilities: [
           {
             id: "CVE-2024-0001",
-            affects: [{ /* no ref */ }],
+            affects: [
+              {
+                /* no ref */
+              },
+            ],
             analysis: { state: "not_affected" },
           },
         ],
@@ -191,11 +197,15 @@ describe("parseVexDocument", () => {
 
   describe("error handling", () => {
     it("throws on an empty object (unrecognized format)", () => {
-      expect(() => parseVexDocument({})).toThrow("Unrecognized VEX document format");
+      expect(() => parseVexDocument({})).toThrow(
+        "Unrecognized VEX document format",
+      );
     });
 
     it("throws on null input", () => {
-      expect(() => parseVexDocument(null)).toThrow("Unrecognized VEX document format");
+      expect(() => parseVexDocument(null)).toThrow(
+        "Unrecognized VEX document format",
+      );
     });
 
     it("throws on a string input", () => {
@@ -281,9 +291,9 @@ describe("attachVexFactsToScanResults", () => {
     expect(withVex.scanResults).toHaveLength(2);
 
     for (const result of withVex.scanResults) {
-      const vexFact = result.facts.find(
-        (f) => f.type === "vexStatements",
-      ) as VexStatementsFact | undefined;
+      const vexFact = result.facts.find((f) => f.type === "vexStatements") as
+        | VexStatementsFact
+        | undefined;
       expect(vexFact).toBeDefined();
       expect(vexFact!.data.source).toBe(filePath);
       expect(vexFact!.data.format).toBe("openvex");
