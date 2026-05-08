@@ -30,8 +30,6 @@ func MergeEnvVarsIntoCredentials(opts *types.PluginOptions) {
 }
 
 // Scan is the Go equivalent of the TS plugin.scan() function.
-// It detects the image type, extracts the archive, analyses the OS and packages,
-// and returns a PluginResponse.
 func Scan(ctx context.Context, opts types.PluginOptions) (*types.PluginResponse, error) {
 	if opts.Path == "" {
 		return nil, fmt.Errorf("no image identifier or path provided")
@@ -44,12 +42,9 @@ func Scan(ctx context.Context, opts types.PluginOptions) (*types.PluginResponse,
 
 	archivePath, err := image.GetArchivePath(targetImage)
 	if err != nil {
-		// Not an archive — live image pull not yet implemented in Go MVP.
-		// Return a minimal response indicating the image type was identified.
 		return nil, fmt.Errorf("live image pull not yet implemented: %w", err)
 	}
 
-	// Select the right extractor.
 	var extractFn extractor.ArchiveExtractor
 	switch imgType {
 	case image.DockerArchive, image.UnspecifiedArchiveType:
@@ -62,18 +57,19 @@ func Scan(ctx context.Context, opts types.PluginOptions) (*types.PluginResponse,
 		return nil, fmt.Errorf("unsupported image type: %v", imgType)
 	}
 
-	// Define extraction actions — we need os-release files for now.
+	// OS-release extraction actions.
+	osReleaseFiles := map[string]bool{
+		"/etc/os-release": true, "/usr/lib/os-release": true,
+		"/etc/lsb-release": true, "/etc/debian_version": true,
+		"/etc/alpine-release": true, "/etc/redhat-release": true,
+		"/etc/oracle-release": true, "/etc/centos-release": true,
+	}
+	osReleaseByPath := map[string]string{}
+	// nil Callback → raw []byte returned
 	osReleaseAction := extractor.ExtractAction{
 		ActionName: "osRelease",
 		FilePathMatches: func(p string) bool {
-			switch p {
-			case "/etc/os-release", "/usr/lib/os-release",
-				"/etc/lsb-release", "/etc/debian_version",
-				"/etc/alpine-release", "/etc/redhat-release",
-				"/etc/oracle-release", "/etc/centos-release":
-				return true
-			}
-			return false
+			return osReleaseFiles[p]
 		},
 	}
 
@@ -82,44 +78,70 @@ func Scan(ctx context.Context, opts types.PluginOptions) (*types.PluginResponse,
 		return nil, fmt.Errorf("extracting image content: %w", err)
 	}
 
-	// Detect OS release.
-	fileContents := map[string]string{}
+	// Collect os-release file contents from extracted layers.
 	for _, layerFiles := range extractionResult.ExtractedLayers {
 		if content, ok := layerFiles["osRelease"]; ok {
-			if raw, ok := content.([]byte); ok {
-				// We need to know which path it came from — simplify by trying all parsers.
-				// In a full implementation, each action would carry its path.
-				fileContents["/etc/os-release"] = string(raw)
+			if raw, ok := content.([]byte); ok && len(raw) > 0 {
+				// We can't know which path without threaded context; try each known path.
+				// The extractor matched one of the known paths — store under a sentinel key
+				// and let the detector try all parsers.
+				if _, already := osReleaseByPath["/etc/os-release"]; !already {
+					osReleaseByPath["/etc/os-release"] = string(raw)
+				}
 			}
 		}
 	}
 
-	osRelease, _ := osrelease.Detect(fileContents)
+	osRelease, _ := osrelease.Detect(osReleaseByPath)
 
-	// Build a minimal dep-graph for the OS.
-	var pkgMgrName = "unknown"
-	var rootName = targetImage
-	var rootVersion = ""
+	// Determine package manager.
+	pkgMgrName := "linux" // TS fallback when OS detected but no specific PM
+	rootVersion := ""
 	if osRelease != nil {
 		rootVersion = osRelease.Version
 		switch osRelease.Name {
 		case "alpine":
 			pkgMgrName = "apk"
-		case "debian", "ubuntu":
+		case "debian", "ubuntu", "linuxmint", "kali":
 			pkgMgrName = "deb"
-		case "centos", "rhel", "fedora", "ol", "amzn", "sles", "opensuse":
+		case "centos", "rhel", "fedora", "ol", "amzn", "sles", "opensuse",
+			"opensuse-leap", "opensuse-tumbleweed", "rocky", "almalinux":
 			pkgMgrName = "rpm"
+		default:
+			pkgMgrName = "linux"
 		}
+	} else {
+		pkgMgrName = "linux"
 	}
 
-	depGraph := depgraph.FromDepTree(pkgMgrName, rootName, rootVersion, nil)
+	depGraph := depgraph.FromDepTree(pkgMgrName, targetImage, rootVersion, nil)
+
+	// Platform: prefer explicit option, then from image config.
+	platform := opts.Platform
+	if platform == "" {
+		platform = extractionResult.Platform
+	}
+	if platform == "" {
+		platform = "linux/amd64" // TS default
+	}
 
 	// Assemble facts.
 	facts := []types.Fact{
 		{Type: types.FactDepGraph, Data: depGraph},
 		{Type: types.FactImageID, Data: extractionResult.ImageID},
 		{Type: types.FactImageLayers, Data: extractionResult.ManifestLayers},
-		{Type: types.FactPluginVersion, Data: pluginVersion},
+	}
+	if len(extractionResult.ImageLabels) > 0 {
+		facts = append(facts, types.Fact{Type: types.FactImageLabels, Data: extractionResult.ImageLabels})
+	}
+	if extractionResult.ContainerConfig != nil {
+		facts = append(facts, types.Fact{Type: types.FactContainerConfig, Data: containerConfigFact(extractionResult.ContainerConfig)})
+	}
+	if len(extractionResult.History) > 0 {
+		facts = append(facts, types.Fact{Type: types.FactHistory, Data: historyFacts(extractionResult.History)})
+	}
+	if extractionResult.ImageCreationTime != "" {
+		facts = append(facts, types.Fact{Type: types.FactImageCreationTime, Data: extractionResult.ImageCreationTime})
 	}
 	if len(extractionResult.RootFsLayers) > 0 {
 		facts = append(facts, types.Fact{Type: types.FactRootFs, Data: extractionResult.RootFsLayers})
@@ -127,26 +149,92 @@ func Scan(ctx context.Context, opts types.PluginOptions) (*types.PluginResponse,
 	if osRelease != nil && osRelease.PrettyName != "" {
 		facts = append(facts, types.Fact{Type: types.FactImageOsReleasePrettyName, Data: osRelease.PrettyName})
 	}
-	if extractionResult.ImageCreationTime != "" {
-		facts = append(facts, types.Fact{Type: types.FactImageCreationTime, Data: extractionResult.ImageCreationTime})
-	}
-	if len(extractionResult.ImageLabels) > 0 {
-		facts = append(facts, types.Fact{Type: types.FactImageLabels, Data: extractionResult.ImageLabels})
-	}
-	if extractionResult.Platform != "" {
-		facts = append(facts, types.Fact{Type: types.FactPlatform, Data: extractionResult.Platform})
-	}
-	if len(extractionResult.History) > 0 {
-		facts = append(facts, types.Fact{Type: types.FactHistory, Data: extractionResult.History})
+	facts = append(facts, types.Fact{Type: types.FactPlatform, Data: platform})
+	facts = append(facts, types.Fact{Type: types.FactPluginVersion, Data: pluginVersion})
+
+	// Identity: type = pkgManager, args.platform = detected platform.
+	identity := types.Identity{
+		Type: pkgMgrName,
+		Args: map[string]string{"platform": platform},
 	}
 
 	scanResult := types.ScanResult{
 		Target:   types.ContainerTarget{Image: targetImage},
-		Identity: types.Identity{Type: pkgMgrName},
+		Identity: identity,
 		Facts:    facts,
 	}
 
 	return &types.PluginResponse{
 		ScanResults: []types.ScanResult{scanResult},
 	}, nil
+}
+
+// containerConfigFact converts an extractor.ContainerConfig into the
+// lowercase-keyed map that the TS plugin emits in the containerConfig fact.
+func containerConfigFact(cc *extractor.ContainerConfig) map[string]interface{} {
+	if cc == nil {
+		return nil
+	}
+	m := map[string]interface{}{}
+	if cc.User != "" {
+		m["user"] = cc.User
+	}
+	if len(cc.ExposedPorts) > 0 {
+		ports := make([]string, 0, len(cc.ExposedPorts))
+		for p := range cc.ExposedPorts {
+			ports = append(ports, p)
+		}
+		m["exposedPorts"] = ports
+	}
+	if len(cc.Env) > 0 {
+		m["env"] = cc.Env
+	}
+	if len(cc.Entrypoint) > 0 {
+		m["entrypoint"] = cc.Entrypoint
+	}
+	if len(cc.Cmd) > 0 {
+		m["cmd"] = cc.Cmd
+	}
+	if len(cc.Volumes) > 0 {
+		vols := make([]string, 0, len(cc.Volumes))
+		for v := range cc.Volumes {
+			vols = append(vols, v)
+		}
+		m["volumes"] = vols
+	}
+	if cc.WorkingDir != "" {
+		m["workingDir"] = cc.WorkingDir
+	}
+	if cc.StopSignal != "" {
+		m["stopSignal"] = cc.StopSignal
+	}
+	if cc.ArgsEscaped != nil {
+		m["argsEscaped"] = *cc.ArgsEscaped
+	}
+	return m
+}
+
+// historyFacts converts extractor.HistoryEntry slice to the fact format.
+func historyFacts(history []extractor.HistoryEntry) []map[string]interface{} {
+	out := make([]map[string]interface{}, len(history))
+	for i, h := range history {
+		entry := map[string]interface{}{}
+		if h.Created != "" {
+			entry["created"] = h.Created
+		}
+		if h.Author != "" {
+			entry["author"] = h.Author
+		}
+		if h.CreatedBy != "" {
+			entry["createdBy"] = h.CreatedBy
+		}
+		if h.Comment != "" {
+			entry["comment"] = h.Comment
+		}
+		if h.EmptyLayer {
+			entry["emptyLayer"] = h.EmptyLayer
+		}
+		out[i] = entry
+	}
+	return out
 }

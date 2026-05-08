@@ -4,6 +4,7 @@ package docker
 import (
 	"archive/tar"
 	"bytes"
+	"compress/gzip"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -13,7 +14,6 @@ import (
 	"github.com/snyk/snyk-docker-plugin/pkg/extractor"
 )
 
-
 // DockerManifest is the manifest.json entry in a docker-archive.
 type DockerManifest struct {
 	Config   string   `json:"Config"`
@@ -22,6 +22,7 @@ type DockerManifest struct {
 }
 
 // ExtractArchive opens a docker-archive tar at archivePath and extracts layers.
+// The outer archive may be plain tar or gzip-compressed tar.
 func ExtractArchive(archivePath string, actions []extractor.ExtractAction) (*extractor.ExtractionResult, error) {
 	f, err := os.Open(archivePath)
 	if err != nil {
@@ -29,7 +30,30 @@ func ExtractArchive(archivePath string, actions []extractor.ExtractAction) (*ext
 	}
 	defer f.Close()
 
-	return extractFromReader(f, actions)
+	// Peek for gzip magic bytes.
+	header := make([]byte, 2)
+	if _, err := io.ReadFull(f, header); err != nil {
+		return nil, fmt.Errorf("reading archive header: %w", err)
+	}
+	if _, err := f.Seek(0, io.SeekStart); err != nil {
+		return nil, fmt.Errorf("seeking archive: %w", err)
+	}
+
+	var reader io.Reader = f
+	if header[0] == 0x1f && header[1] == 0x8b {
+		gz, err := gzip.NewReader(f)
+		if err != nil {
+			return nil, fmt.Errorf("decompressing gzip archive: %w", err)
+		}
+		defer gz.Close()
+		reader = gz
+	}
+
+	data, err := io.ReadAll(reader)
+	if err != nil {
+		return nil, fmt.Errorf("reading archive: %w", err)
+	}
+	return extractFromReader(bytes.NewReader(data), actions)
 }
 
 // ExtractArchiveFromBytes extracts from in-memory tar data (used in tests).
@@ -38,10 +62,8 @@ func ExtractArchiveFromBytes(data []byte, actions []extractor.ExtractAction) (*e
 }
 
 func extractFromReader(r io.ReadSeeker, actions []extractor.ExtractAction) (*extractor.ExtractionResult, error) {
-	// First pass: read manifest.json and config JSON.
 	var manifests []DockerManifest
-	var configJSON []byte
-	var layerContents = map[string][]byte{} // layerName → raw tar bytes
+	layerContents := map[string][]byte{}
 
 	tr := tar.NewReader(r)
 	for {
@@ -62,7 +84,6 @@ func extractFromReader(r io.ReadSeeker, actions []extractor.ExtractAction) (*ext
 				return nil, fmt.Errorf("parsing manifest.json: %w", err)
 			}
 		default:
-			// Store all entries by name so we can look up config + layers later.
 			layerContents[hdr.Name] = data
 		}
 	}
@@ -72,6 +93,8 @@ func extractFromReader(r io.ReadSeeker, actions []extractor.ExtractAction) (*ext
 	}
 
 	manifest := manifests[0]
+
+	var configJSON []byte
 	if configData, ok := layerContents[manifest.Config]; ok {
 		configJSON = configData
 	}
@@ -97,7 +120,6 @@ func extractFromReader(r io.ReadSeeker, actions []extractor.ExtractAction) (*ext
 		layerResults = append(layerResults, layerResult)
 	}
 
-	// Build per-layer ExtractedLayers map.
 	layers := make([]map[string]map[string]interface{}, len(manifest.Layers))
 	for i, name := range manifest.Layers {
 		if i < len(layerResults) {
@@ -107,14 +129,21 @@ func extractFromReader(r io.ReadSeeker, actions []extractor.ExtractAction) (*ext
 		}
 	}
 
+	// Normalise imageId and imageLayers to the sha256:<hex> format that TS produces.
+	imageID := normaliseID(manifest.Config)
+	manifestLayers := make([]string, len(manifest.Layers))
+	for i, l := range manifest.Layers {
+		manifestLayers[i] = normaliseLayerName(l)
+	}
+
 	result := &extractor.ExtractionResult{
-		ImageID:         GetImageIDFromManifest(manifest),
-		ManifestLayers:  manifest.Layers,
-		ExtractedLayers: extractor.MergeLayers(layers),
-		RootFsLayers:    imgConfig.RootFS.DiffIDs,
+		ImageID:           imageID,
+		ManifestLayers:    manifestLayers,
+		ExtractedLayers:   extractor.MergeLayers(layers),
+		RootFsLayers:      imgConfig.RootFS.DiffIDs,
 		ImageCreationTime: imgConfig.Created,
-		ContainerConfig: imgConfig.Config,
-		History:         imgConfig.History,
+		ContainerConfig:   imgConfig.Config,
+		History:           imgConfig.History,
 	}
 
 	if imgConfig.Config != nil {
@@ -128,14 +157,41 @@ func extractFromReader(r io.ReadSeeker, actions []extractor.ExtractAction) (*ext
 	return result, nil
 }
 
-// GetImageIDFromManifest extracts the image ID from the config filename.
-// The config file is named "<sha256>.json"; we strip the .json suffix.
-func GetImageIDFromManifest(manifest DockerManifest) string {
-	cfg := manifest.Config
-	// Remove path prefix if any.
-	parts := strings.Split(cfg, "/")
-	base := parts[len(parts)-1]
-	return strings.TrimSuffix(base, ".json")
+// normaliseID converts a config path from manifest.json to sha256:<hex>.
+//
+// Two formats appear in the wild:
+//
+//	"<sha256hex>.json"              → sha256:<sha256hex>
+//	"blobs/sha256/<sha256hex>"      → sha256:<sha256hex>
+func normaliseID(config string) string {
+	// OCI-layout inside docker-archive: "blobs/sha256/<hex>"
+	if after, ok := strings.CutPrefix(config, "blobs/sha256/"); ok {
+		return "sha256:" + after
+	}
+	// Classic docker-archive: "<hex>.json"
+	base := config
+	if idx := strings.LastIndex(base, "/"); idx >= 0 {
+		base = base[idx+1:]
+	}
+	base = strings.TrimSuffix(base, ".json")
+	return "sha256:" + base
 }
 
+// normaliseLayerName normalises a layer name from manifest.json.
+//
+// The TS plugin passes classic layer names through unchanged
+// (e.g. "<hex>/layer.tar" or "<hex>.tar") and only converts
+// OCI-layout embedded paths ("blobs/sha256/<hex>") to "sha256:<hex>".
+func normaliseLayerName(layer string) string {
+	// OCI-layout inside docker-archive: "blobs/sha256/<hex>" → "sha256:<hex>"
+	if after, ok := strings.CutPrefix(layer, "blobs/sha256/"); ok {
+		return "sha256:" + after
+	}
+	// Classic formats ("<hex>/layer.tar", "<hex>.tar") — pass through unchanged.
+	return layer
+}
 
+// GetImageIDFromManifest extracts the normalised image ID from a manifest.
+func GetImageIDFromManifest(manifest DockerManifest) string {
+	return normaliseID(manifest.Config)
+}
