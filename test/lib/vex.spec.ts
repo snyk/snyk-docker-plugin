@@ -5,8 +5,8 @@ import * as path from "path";
 import { VexStatement, VexStatementsFact } from "../../lib/facts";
 import { PluginResponse, ScanResult } from "../../lib/types";
 import { attachVexFactsToScanResults } from "../../lib/vex";
-import { loadVexDocument } from "../../lib/vex/loader";
-import { parseVexDocument } from "../../lib/vex/parser";
+import { loadVexDocument, MAX_VEX_BYTES } from "../../lib/vex/loader";
+import { parseVexDocument, VEX_LIMITS } from "../../lib/vex/parser";
 
 // ─── Fixtures ────────────────────────────────────────────────────────────────
 
@@ -262,6 +262,22 @@ describe("loadVexDocument", () => {
       /Failed to parse VEX file/,
     );
   });
+
+  it("rejects local files larger than MAX_VEX_BYTES without reading them", async () => {
+    const filePath = path.join(tmpDir, "huge.json");
+    // Create a sparse file just past the cap; ftruncate avoids actually
+    // writing the bytes so the test stays fast.
+    const fd = fs.openSync(filePath, "w");
+    try {
+      fs.ftruncateSync(fd, MAX_VEX_BYTES + 1);
+    } finally {
+      fs.closeSync(fd);
+    }
+
+    await expect(loadVexDocument(filePath)).rejects.toThrow(
+      /exceeds maximum size/,
+    );
+  });
 });
 
 // ─── attachVexFactsToScanResults tests ───────────────────────────────────────
@@ -282,12 +298,12 @@ describe("attachVexFactsToScanResults", () => {
     fs.writeFileSync(filePath, JSON.stringify(MINIMAL_OPENVEX_DOC), "utf8");
 
     const response = makePluginResponse(2);
-    const { response: withVex, warning } = await attachVexFactsToScanResults(
+    const { response: withVex, warnings } = await attachVexFactsToScanResults(
       response,
       filePath,
     );
 
-    expect(warning).toBeUndefined();
+    expect(warnings).toEqual([]);
     expect(withVex.scanResults).toHaveLength(2);
 
     for (const result of withVex.scanResults) {
@@ -308,13 +324,13 @@ describe("attachVexFactsToScanResults", () => {
     const nonExistentPath = path.join(tmpDir, "no-such-file.json");
     const response = makePluginResponse(2);
 
-    const { response: returned, warning } = await attachVexFactsToScanResults(
+    const { response: returned, warnings } = await attachVexFactsToScanResults(
       response,
       nonExistentPath,
     );
 
-    expect(warning).toBeDefined();
-    expect(warning).toMatch(/Failed to load VEX file/);
+    expect(warnings).toHaveLength(1);
+    expect(warnings[0]).toMatch(/Failed to load VEX file/);
     // Original scan results are untouched (no vexStatements facts added)
     for (const result of returned.scanResults) {
       expect(result.facts.every((f) => f.type !== "vexStatements")).toBe(true);
@@ -323,23 +339,184 @@ describe("attachVexFactsToScanResults", () => {
 
   it("returns the response unchanged and no warning when vexFilePath is undefined", async () => {
     const response = makePluginResponse(2);
-    const { response: returned, warning } = await attachVexFactsToScanResults(
+    const { response: returned, warnings } = await attachVexFactsToScanResults(
       response,
       undefined,
     );
 
-    expect(warning).toBeUndefined();
+    expect(warnings).toEqual([]);
     expect(returned).toBe(response); // same reference — nothing changed
   });
 
   it("returns the response unchanged and no warning when vexFilePath is empty string", async () => {
     const response = makePluginResponse(1);
-    const { response: returned, warning } = await attachVexFactsToScanResults(
+    const { response: returned, warnings } = await attachVexFactsToScanResults(
       response,
       "",
     );
 
-    expect(warning).toBeUndefined();
+    expect(warnings).toEqual([]);
     expect(returned).toBe(response);
+  });
+});
+
+// ─── DoS / size-cap tests ────────────────────────────────────────────────────
+
+describe("parseVexDocument size caps", () => {
+  it("truncates OpenVEX statements past the maxStatements cap", () => {
+    const overflow = VEX_LIMITS.maxStatements + 50;
+    const doc = {
+      "@context": "https://openvex.dev/ns/v0.2.0",
+      "@id": "test",
+      statements: Array.from({ length: overflow }, (_, i) => ({
+        vulnerability: `CVE-2024-${i}`,
+        products: [`pkg:npm/example@${i}`],
+        status: "not_affected",
+      })),
+    };
+
+    const result = parseVexDocument(doc);
+
+    expect(result.statements).toHaveLength(VEX_LIMITS.maxStatements);
+    expect(result.warnings).toContainEqual(
+      expect.stringMatching(/statements truncated/),
+    );
+  });
+
+  it("caps OpenVEX products per statement (no cartesian explosion)", () => {
+    const productCount = VEX_LIMITS.maxProductsPerStatement + 100;
+    const doc = {
+      "@context": "https://openvex.dev/ns/v0.2.0",
+      "@id": "test",
+      statements: [
+        {
+          vulnerability: "CVE-2024-0001",
+          products: Array.from(
+            { length: productCount },
+            (_, i) => `pkg:npm/p@${i}`,
+          ),
+          status: "not_affected",
+        },
+      ],
+    };
+
+    const result = parseVexDocument(doc);
+
+    expect(result.statements).toHaveLength(VEX_LIMITS.maxProductsPerStatement);
+  });
+
+  it("caps OpenVEX subcomponents against the per-statement product budget", () => {
+    const doc = {
+      "@context": "https://openvex.dev/ns/v0.2.0",
+      "@id": "test",
+      statements: [
+        {
+          vulnerability: "CVE-2024-0001",
+          products: [
+            {
+              "@id": "pkg:npm/parent@1",
+              subcomponents: Array.from(
+                { length: VEX_LIMITS.maxSubcomponentsPerProduct + 5_000 },
+                (_, i) => ({ "@id": `pkg:npm/sub@${i}` }),
+              ),
+            },
+          ],
+          status: "not_affected",
+        },
+      ],
+    };
+
+    const result = parseVexDocument(doc);
+
+    // 1 parent id + at most maxProductsPerStatement total product ids.
+    expect(result.statements.length).toBeLessThanOrEqual(
+      VEX_LIMITS.maxProductsPerStatement,
+    );
+  });
+
+  it("bounds total emitted statements when vulnerabilityIds × productIds explodes", () => {
+    // Single statement, single vulnerability, productCap products → cap out at
+    // exactly maxProductsPerStatement, never the full hypothetical product.
+    const doc = {
+      "@context": "https://openvex.dev/ns/v0.2.0",
+      "@id": "test",
+      statements: Array.from({ length: 200 }, (_, statementIndex) => ({
+        vulnerability: `CVE-2024-${statementIndex}`,
+        products: Array.from(
+          { length: VEX_LIMITS.maxProductsPerStatement },
+          (_, j) => `pkg:npm/p${statementIndex}@${j}`,
+        ),
+        status: "affected",
+      })),
+    };
+
+    const result = parseVexDocument(doc);
+
+    expect(result.statements.length).toBeLessThanOrEqual(
+      VEX_LIMITS.maxEmittedStatements,
+    );
+    expect(result.warnings).toContainEqual(
+      expect.stringMatching(/produced more than/),
+    );
+  });
+
+  it("truncates CycloneDX-VEX vulnerabilities past the maxStatements cap", () => {
+    const overflow = VEX_LIMITS.maxStatements + 25;
+    const doc = {
+      bomFormat: "CycloneDX",
+      specVersion: "1.4",
+      vulnerabilities: Array.from({ length: overflow }, (_, i) => ({
+        id: `CVE-2024-${i}`,
+        affects: [{ ref: `pkg:npm/p@${i}` }],
+        analysis: { state: "not_affected" },
+      })),
+    };
+
+    const result = parseVexDocument(doc);
+
+    expect(result.statements).toHaveLength(VEX_LIMITS.maxStatements);
+    expect(result.warnings).toContainEqual(
+      expect.stringMatching(/vulnerabilities truncated/),
+    );
+  });
+});
+
+describe("attachVexFactsToScanResults surfaces parser warnings", () => {
+  let tmpDir: string;
+
+  beforeAll(() => {
+    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "vex-warn-test-"));
+  });
+
+  afterAll(() => {
+    fs.rmSync(tmpDir, { recursive: true, force: true });
+  });
+
+  it("returns parser warnings alongside a populated response", async () => {
+    const overflow = VEX_LIMITS.maxStatements + 5;
+    const doc = {
+      "@context": "https://openvex.dev/ns/v0.2.0",
+      "@id": "test",
+      statements: Array.from({ length: overflow }, (_, i) => ({
+        vulnerability: `CVE-2024-${i}`,
+        products: [`pkg:npm/p@${i}`],
+        status: "not_affected",
+      })),
+    };
+    const filePath = path.join(tmpDir, "huge.json");
+    fs.writeFileSync(filePath, JSON.stringify(doc), "utf8");
+
+    const response = makePluginResponse(1);
+    const { response: withVex, warnings } = await attachVexFactsToScanResults(
+      response,
+      filePath,
+    );
+
+    expect(warnings).toHaveLength(1);
+    expect(warnings[0]).toMatch(/truncated/);
+    const vexFact = withVex.scanResults[0].facts.find(
+      (f) => f.type === "vexStatements",
+    ) as VexStatementsFact;
+    expect(vexFact.data.statements).toHaveLength(VEX_LIMITS.maxStatements);
   });
 });

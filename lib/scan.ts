@@ -20,7 +20,7 @@ import * as staticModule from "./static";
 import { ImageType, PluginOptions, PluginResponse } from "./types";
 import { isValidDockerImageReference } from "./utils";
 import {
-  appendVexWarningToScanResult,
+  appendVexWarningsToScanResult,
   attachVexFactsToScanResults,
 } from "./vex";
 
@@ -144,14 +144,11 @@ export async function scan(
   }
 
   // Attach VEX statements as a fact on every scan result (if a VEX file was provided).
-  const { response: withVex, warning } = await attachVexFactsToScanResults(
+  const { response: withVex, warnings } = await attachVexFactsToScanResults(
     response,
     updatedOptions.vexFilePath,
   );
-  if (warning) {
-    return appendVexWarningToScanResult(withVex, warning);
-  }
-  return withVex;
+  return appendVexWarningsToScanResult(withVex, warnings);
 }
 
 function getAndValidateArchivePath(targetImage: string) {

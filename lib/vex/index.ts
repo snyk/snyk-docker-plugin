@@ -5,48 +5,56 @@ import { loadVexDocument } from "./loader";
 import { parseVexDocument } from "./parser";
 
 export { loadVexDocument } from "./loader";
-export { parseVexDocument } from "./parser";
+export { parseVexDocument, VEX_LIMITS } from "./parser";
+
+interface BuiltVexFact {
+  fact: VexStatementsFact;
+  warnings: string[];
+}
 
 /**
- * Loads and parses a VEX document, returning a typed VexStatementsFact.
+ * Loads and parses a VEX document, returning a typed VexStatementsFact and any
+ * non-fatal warnings produced while parsing (e.g. truncation of large input).
  */
-export async function buildVexFact(
-  vexFilePath: string,
-): Promise<VexStatementsFact> {
+export async function buildVexFact(vexFilePath: string): Promise<BuiltVexFact> {
   const { raw, source } = await loadVexDocument(vexFilePath);
-  const { format, statements } = parseVexDocument(raw);
+  const { format, statements, warnings } = parseVexDocument(raw);
   return {
-    type: "vexStatements",
-    data: { source, format, statements },
+    fact: {
+      type: "vexStatements",
+      data: { source, format, statements },
+    },
+    warnings,
   };
 }
 
 /**
  * Post-processes a PluginResponse by attaching VEX statements as a fact to every
  * ScanResult. If loading or parsing fails the response is returned unchanged and
- * a human-readable warning is returned instead of throwing.
+ * a human-readable warning is returned instead of throwing. Non-fatal parser
+ * warnings (e.g. truncation) are returned alongside the populated response.
  */
 export async function attachVexFactsToScanResults(
   response: PluginResponse,
   vexFilePath: string | undefined,
-): Promise<{ response: PluginResponse; warning?: string }> {
+): Promise<{ response: PluginResponse; warnings: string[] }> {
   if (!vexFilePath) {
-    return { response };
+    return { response, warnings: [] };
   }
 
-  let vexFact: VexStatementsFact;
+  let built: BuiltVexFact;
   try {
-    vexFact = await buildVexFact(vexFilePath);
+    built = await buildVexFact(vexFilePath);
   } catch (err) {
     const warning = `Failed to load VEX file '${vexFilePath}': ${getErrorMessage(
       err,
     )}`;
-    return { response, warning };
+    return { response, warnings: [warning] };
   }
 
   const updatedScanResults = response.scanResults.map((result) => ({
     ...result,
-    facts: [...result.facts, vexFact],
+    facts: [...result.facts, built.fact],
   }));
 
   return {
@@ -54,17 +62,22 @@ export async function attachVexFactsToScanResults(
       ...response,
       scanResults: updatedScanResults,
     },
+    warnings: built.warnings,
   };
 }
 
 /**
- * Surfaces a VEX warning on the first ScanResult's pluginWarnings fact.
- * Creates the pluginWarnings fact if it does not yet exist.
+ * Surfaces VEX warnings on the first ScanResult's pluginWarnings fact.
+ * Creates the pluginWarnings fact if it does not yet exist. No-op when no
+ * warnings are supplied.
  */
-export function appendVexWarningToScanResult(
+export function appendVexWarningsToScanResult(
   response: PluginResponse,
-  warning: string,
+  warnings: string[],
 ): PluginResponse {
+  if (warnings.length === 0) {
+    return response;
+  }
   const scanResults = [...response.scanResults];
   const first = scanResults[0];
   if (!first) {
@@ -78,14 +91,14 @@ export function appendVexWarningToScanResult(
   if (existingFact) {
     existingFact.data.parameterChecks = [
       ...(existingFact.data.parameterChecks ?? []),
-      warning,
+      ...warnings,
     ];
   } else {
     first.facts = [
       ...first.facts,
       {
         type: "pluginWarnings",
-        data: { parameterChecks: [warning] },
+        data: { parameterChecks: [...warnings] },
       } as PluginWarningsFact,
     ];
   }
