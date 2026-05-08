@@ -19,6 +19,10 @@ import {
 import * as staticModule from "./static";
 import { ImageType, PluginOptions, PluginResponse } from "./types";
 import { isValidDockerImageReference } from "./utils";
+import {
+  attachVexFactsToScanResults,
+  appendVexWarningToScanResult,
+} from "./vex";
 
 // Registry credentials may also be provided by env vars. When both are set, flags take precedence.
 export function mergeEnvVarsIntoCredentials(
@@ -113,28 +117,41 @@ export async function scan(
     dockerfileAnalysis,
     options: updatedOptions,
   } = await getAnalysisParameters(options);
+
+  let response: PluginResponse;
   switch (imageType) {
     case ImageType.DockerArchive:
     case ImageType.OciArchive:
     case ImageType.KanikoArchive:
     case ImageType.UnspecifiedArchiveType:
-      return localArchiveAnalysis(
+      response = await localArchiveAnalysis(
         targetImage,
         imageType,
         dockerfileAnalysis,
         updatedOptions,
       );
+      break;
     case ImageType.Identifier:
-      return imageIdentifierAnalysis(
+      response = await imageIdentifierAnalysis(
         targetImage,
         imageType,
         dockerfileAnalysis,
         updatedOptions,
       );
-
+      break;
     default:
       throw new Error("Unhandled image type for image " + targetImage);
   }
+
+  // Attach VEX statements as a fact on every scan result (if a VEX file was provided).
+  const { response: withVex, warning } = await attachVexFactsToScanResults(
+    response,
+    updatedOptions.vexFilePath,
+  );
+  if (warning) {
+    return appendVexWarningToScanResult(withVex, warning);
+  }
+  return withVex;
 }
 
 function getAndValidateArchivePath(targetImage: string) {

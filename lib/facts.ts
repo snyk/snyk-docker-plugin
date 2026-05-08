@@ -162,3 +162,25 @@ export interface BaseRuntimesFact {
   type: "baseRuntimes";
   data: BaseRuntime[];
 }
+
+export type VexStatus =
+  | "not_affected"
+  | "affected"
+  | "fixed"
+  | "under_investigation";
+
+export interface VexStatement {
+  vulnerabilityId: string;
+  productId: string;
+  status: VexStatus;
+  justification?: string;
+}
+
+export interface VexStatementsFact {
+  type: "vexStatements";
+  data: {
+    source: string;
+    format: "openvex" | "cyclonedx-vex";
+    statements: VexStatement[];
+  };
+}
