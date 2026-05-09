@@ -5,15 +5,10 @@ import (
 	"fmt"
 )
 
-// ArchiveExtractor is a function that extracts an archive and returns an ExtractionResult.
+// ArchiveExtractor extracts an archive and returns an ExtractionResult.
 type ArchiveExtractor func(archivePath string, actions []ExtractAction) (*ExtractionResult, error)
 
-// ExtractImageContent is the main entry point for extracting image content.
-// imageType is one of the constants from the image package; archivePath is the
-// filesystem path to the archive. actions describe which files to extract.
-//
-// NOTE: The actual extractor dispatch (docker vs oci vs kaniko) is done in
-// the scan package to avoid circular imports. This package only defines types.
+// ExtractImageContent is the main entry point.
 func ExtractImageContent(
 	_ context.Context,
 	extract ArchiveExtractor,

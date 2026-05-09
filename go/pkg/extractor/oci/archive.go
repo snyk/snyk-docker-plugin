@@ -21,12 +21,10 @@ func ExtractArchive(archivePath string, actions []extractor.ExtractAction) (*ext
 		return nil, fmt.Errorf("opening oci archive: %w", err)
 	}
 	defer f.Close()
-
 	return extractFromReader(f, actions)
 }
 
 func extractFromReader(r io.Reader, actions []extractor.ExtractAction) (*extractor.ExtractionResult, error) {
-	// Slurp all entries into memory.
 	entries := map[string][]byte{}
 	tr := tar.NewReader(r)
 	for {
@@ -44,7 +42,6 @@ func extractFromReader(r io.Reader, actions []extractor.ExtractAction) (*extract
 		entries[hdr.Name] = data
 	}
 
-	// Parse index.json.
 	indexData, ok := entries["index.json"]
 	if !ok {
 		return nil, fmt.Errorf("index.json not found in OCI archive")
@@ -57,20 +54,17 @@ func extractFromReader(r io.Reader, actions []extractor.ExtractAction) (*extract
 		return nil, fmt.Errorf("no manifests in OCI index")
 	}
 
-	// Use the first manifest.
 	manifestDesc := index.Manifests[0]
 	manifestKey := blobKey(manifestDesc.Digest.String())
 	manifestData, ok := entries[manifestKey]
 	if !ok {
 		return nil, fmt.Errorf("manifest blob %s not found", manifestKey)
 	}
-
 	var manifest specsv1.Manifest
 	if err := json.Unmarshal(manifestData, &manifest); err != nil {
 		return nil, fmt.Errorf("parsing OCI manifest: %w", err)
 	}
 
-	// Parse config blob.
 	configKey := blobKey(manifest.Config.Digest.String())
 	configData, ok := entries[configKey]
 	if !ok {
@@ -81,37 +75,28 @@ func extractFromReader(r io.Reader, actions []extractor.ExtractAction) (*extract
 		return nil, fmt.Errorf("parsing OCI image config: %w", err)
 	}
 
-	// Extract layers.
 	var layerNames []string
-	var layerResults []map[string]interface{}
+	var layerResults []extractor.LayerFiles
 	for _, layerDesc := range manifest.Layers {
 		layerKey := blobKey(layerDesc.Digest.String())
-		layerName := layerKey
 		layerData, ok := entries[layerKey]
 		if !ok {
 			return nil, fmt.Errorf("layer blob %s not found", layerKey)
 		}
-		layerResult, err := extractor.ExtractLayer(bytes.NewReader(layerData), actions)
+		lf, err := extractor.ExtractLayer(bytes.NewReader(layerData), actions)
 		if err != nil {
 			return nil, fmt.Errorf("extracting layer %s: %w", layerKey, err)
 		}
-		layerNames = append(layerNames, layerName)
-		layerResults = append(layerResults, layerResult)
-	}
-
-	layers := make([]map[string]map[string]interface{}, len(layerNames))
-	for i, name := range layerNames {
-		layers[i] = map[string]map[string]interface{}{
-			name: layerResults[i],
-		}
+		layerNames = append(layerNames, "sha256:"+strings.TrimPrefix(layerDesc.Digest.String(), "sha256:"))
+		layerResults = append(layerResults, lf)
 	}
 
 	imageID := strings.TrimPrefix(manifest.Config.Digest.String(), "sha256:")
 
 	result := &extractor.ExtractionResult{
-		ImageID:           imageID,
+		ImageID:           "sha256:" + imageID,
 		ManifestLayers:    layerNames,
-		ExtractedLayers:   extractor.MergeLayers(layers),
+		Layers:            extractor.MergeLayers(layerResults),
 		RootFsLayers:      imgConfig.RootFS.DiffIDs,
 		ImageCreationTime: imgConfig.Created,
 		ContainerConfig:   imgConfig.Config,
@@ -123,11 +108,9 @@ func extractFromReader(r io.Reader, actions []extractor.ExtractAction) (*extract
 	if imgConfig.OS != "" && imgConfig.Architecture != "" {
 		result.Platform = imgConfig.OS + "/" + imgConfig.Architecture
 	}
-
 	return result, nil
 }
 
-// blobKey converts "sha256:<hex>" to the blobs/sha256/<hex> path in OCI layout.
 func blobKey(digest string) string {
 	alg, hex, ok := strings.Cut(digest, ":")
 	if !ok {

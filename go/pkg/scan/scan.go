@@ -5,21 +5,27 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/snyk/snyk-docker-plugin/pkg/analyzer/osrelease"
+	pkgpkgs "github.com/snyk/snyk-docker-plugin/pkg/analyzer/packages"
 	"github.com/snyk/snyk-docker-plugin/pkg/depgraph"
+	"github.com/snyk/snyk-docker-plugin/pkg/deptree"
 	"github.com/snyk/snyk-docker-plugin/pkg/extractor"
 	dockerextractor "github.com/snyk/snyk-docker-plugin/pkg/extractor/docker"
 	"github.com/snyk/snyk-docker-plugin/pkg/extractor/kaniko"
 	ociextractor "github.com/snyk/snyk-docker-plugin/pkg/extractor/oci"
 	"github.com/snyk/snyk-docker-plugin/pkg/image"
+	inputsapk "github.com/snyk/snyk-docker-plugin/pkg/inputs/apk"
+	inputsapt "github.com/snyk/snyk-docker-plugin/pkg/inputs/apt"
+	inputsos "github.com/snyk/snyk-docker-plugin/pkg/inputs/osrelease"
+	"github.com/snyk/snyk-docker-plugin/pkg/parser"
 	"github.com/snyk/snyk-docker-plugin/pkg/types"
 )
 
 const pluginVersion = "go-0.0.1"
 
-// MergeEnvVarsIntoCredentials fills in registry credentials from environment
-// variables if not already set (mirrors scan.ts:mergeEnvVarsIntoCredentials).
+// MergeEnvVarsIntoCredentials fills registry credentials from env vars.
 func MergeEnvVarsIntoCredentials(opts *types.PluginOptions) {
 	if opts.Username == "" {
 		opts.Username = os.Getenv("SNYK_REGISTRY_USERNAME")
@@ -29,12 +35,11 @@ func MergeEnvVarsIntoCredentials(opts *types.PluginOptions) {
 	}
 }
 
-// Scan is the Go equivalent of the TS plugin.scan() function.
+// Scan is the Go equivalent of the TS plugin.scan().
 func Scan(ctx context.Context, opts types.PluginOptions) (*types.PluginResponse, error) {
 	if opts.Path == "" {
 		return nil, fmt.Errorf("no image identifier or path provided")
 	}
-
 	MergeEnvVarsIntoCredentials(&opts)
 
 	targetImage := image.AppendLatestTagIfMissing(opts.Path)
@@ -57,73 +62,55 @@ func Scan(ctx context.Context, opts types.PluginOptions) (*types.PluginResponse,
 		return nil, fmt.Errorf("unsupported image type: %v", imgType)
 	}
 
-	// OS-release extraction actions.
-	osReleaseFiles := map[string]bool{
-		"/etc/os-release": true, "/usr/lib/os-release": true,
-		"/etc/lsb-release": true, "/etc/debian_version": true,
-		"/etc/alpine-release": true, "/etc/redhat-release": true,
-		"/etc/oracle-release": true, "/etc/centos-release": true,
-	}
-	osReleaseByPath := map[string]string{}
-	// nil Callback → raw []byte returned
-	osReleaseAction := extractor.ExtractAction{
-		ActionName: "osRelease",
-		FilePathMatches: func(p string) bool {
-			return osReleaseFiles[p]
-		},
-	}
+	// Collect all extraction actions: OS release files + package DBs.
+	actions := append(
+		append(
+			inputsos.Actions,
+			inputsapk.Actions()...,
+		),
+		inputsapt.Actions()...,
+	)
 
-	extractionResult, err := extractor.ExtractImageContent(ctx, extractFn, archivePath, []extractor.ExtractAction{osReleaseAction})
+	extractionResult, err := extractor.ExtractImageContent(ctx, extractFn, archivePath, actions)
 	if err != nil {
 		return nil, fmt.Errorf("extracting image content: %w", err)
 	}
 
-	// Collect os-release file contents from extracted layers.
-	for _, layerFiles := range extractionResult.ExtractedLayers {
-		if content, ok := layerFiles["osRelease"]; ok {
-			if raw, ok := content.([]byte); ok && len(raw) > 0 {
-				// We can't know which path without threaded context; try each known path.
-				// The extractor matched one of the known paths — store under a sentinel key
-				// and let the detector try all parsers.
-				if _, already := osReleaseByPath["/etc/os-release"]; !already {
-					osReleaseByPath["/etc/os-release"] = string(raw)
-				}
-			}
-		}
-	}
+	// Detect OS release from per-path content.
+	osRelease := detectOSRelease(extractionResult.Layers)
 
-	osRelease, _ := osrelease.Detect(osReleaseByPath)
-
-	// Determine package manager.
-	pkgMgrName := "linux" // TS fallback when OS detected but no specific PM
-	rootVersion := ""
-	if osRelease != nil {
-		rootVersion = osRelease.Version
-		switch osRelease.Name {
-		case "alpine":
-			pkgMgrName = "apk"
-		case "debian", "ubuntu", "linuxmint", "kali":
-			pkgMgrName = "deb"
-		case "centos", "rhel", "fedora", "ol", "amzn", "sles", "opensuse",
-			"opensuse-leap", "opensuse-tumbleweed", "rocky", "almalinux":
-			pkgMgrName = "rpm"
-		default:
-			pkgMgrName = "linux"
-		}
-	} else {
-		pkgMgrName = "linux"
-	}
-
-	depGraph := depgraph.FromDepTree(pkgMgrName, targetImage, rootVersion, nil)
-
-	// Platform: prefer explicit option, then from image config.
+	// Detect platform.
 	platform := opts.Platform
 	if platform == "" {
 		platform = extractionResult.Platform
 	}
 	if platform == "" {
-		platform = "linux/amd64" // TS default
+		platform = "linux/amd64"
 	}
+
+	// Run package parsers on extracted content.
+	analyses := runPackageParsers(extractionResult.Layers, osRelease)
+
+	// Parse into dep-infos.
+	parsed := parser.ParseAnalysisResults(
+		targetImage,
+		analyses,
+		extractionResult.ImageID,
+		extractionResult.ManifestLayers,
+		platform,
+		osRelease,
+	)
+
+	// Build dep-graph root name mirroring TS: "docker-image|<imageName>"
+	rootName, rootVersion := imageRootNameVersion(targetImage)
+	rootOSVersion := ""
+	if osRelease != nil {
+		rootOSVersion = osRelease.Version
+	}
+	_ = rootVersion      // TS uses imageVersion here, but dep-graph root is OS version
+	_ = rootOSVersion
+
+	depGraph := depgraph.FromDepTree(parsed.PackageFormat, rootName, rootOSVersion, parsed.DepInfos)
 
 	// Assemble facts.
 	facts := []types.Fact{
@@ -152,25 +139,140 @@ func Scan(ctx context.Context, opts types.PluginOptions) (*types.PluginResponse,
 	facts = append(facts, types.Fact{Type: types.FactPlatform, Data: platform})
 	facts = append(facts, types.Fact{Type: types.FactPluginVersion, Data: pluginVersion})
 
-	// Identity: type = pkgManager, args.platform = detected platform.
 	identity := types.Identity{
-		Type: pkgMgrName,
+		Type: parsed.PackageFormat,
 		Args: map[string]string{"platform": platform},
 	}
 
-	scanResult := types.ScanResult{
-		Target:   types.ContainerTarget{Image: targetImage},
-		Identity: identity,
-		Facts:    facts,
-	}
-
 	return &types.PluginResponse{
-		ScanResults: []types.ScanResult{scanResult},
+		ScanResults: []types.ScanResult{{
+			Target:   types.ContainerTarget{Image: targetImage},
+			Identity: identity,
+			Facts:    facts,
+		}},
 	}, nil
 }
 
-// containerConfigFact converts an extractor.ContainerConfig into the
-// lowercase-keyed map that the TS plugin emits in the containerConfig fact.
+// detectOSRelease reads OS release file contents from merged layers and runs
+// the appropriate parser for each known path.
+func detectOSRelease(layers extractor.MergedLayers) *osrelease.OSRelease {
+	for _, action := range inputsos.Actions {
+		pathContents := layers.AllPathContents(action.ActionName)
+		for path, content := range pathContents {
+			if len(content) == 0 {
+				continue
+			}
+			text := string(content)
+			var rel *osrelease.OSRelease
+			var err error
+			switch path {
+			case "/etc/os-release", "/usr/lib/os-release":
+				rel, err = osrelease.TryOSRelease(text)
+			case "/etc/lsb-release":
+				rel, err = osrelease.TryLsbRelease(text)
+			case "/etc/debian_version":
+				rel, err = osrelease.TryDebianVersion(text)
+			case "/etc/alpine-release":
+				rel, err = osrelease.TryAlpineRelease(text)
+			case "/etc/redhat-release":
+				rel, err = osrelease.TryRedHatRelease(text)
+			case "/etc/oracle-release":
+				rel, err = osrelease.TryOracleRelease(text)
+			case "/etc/centos-release":
+				rel, err = osrelease.TryCentosRelease(text)
+			}
+			if err == nil && rel != nil {
+				return rel
+			}
+		}
+	}
+	return nil
+}
+
+// runPackageParsers runs all OS package manager parsers against extracted layers.
+func runPackageParsers(layers extractor.MergedLayers, osRel *osrelease.OSRelease) []parser.ImagePackagesAnalysis {
+	var analyses []parser.ImagePackagesAnalysis
+
+	// APK
+	if apkContent := layers.GetContent(inputsapk.ActionName); len(apkContent) > 0 {
+		pkgs, err := pkgpkgs.ParseAPKDatabase(string(apkContent))
+		if err == nil && len(pkgs) > 0 {
+			analyses = append(analyses, parser.ImagePackagesAnalysis{
+				AnalyzeType: parser.AnalysisTypeApk,
+				Packages:    apkToDepTree(pkgs),
+			})
+		}
+	}
+
+	// DEB/dpkg
+	if dpkgContent := layers.GetContent(inputsapt.ActionNameDpkg); len(dpkgContent) > 0 {
+		pkgs, err := pkgpkgs.ParseDPKGStatus(string(dpkgContent), osRel)
+		if err == nil && len(pkgs) > 0 {
+			// Apply auto-installed markers if extended_states was extracted.
+			if extContent := layers.GetContent(inputsapt.ActionNameExt); len(extContent) > 0 {
+				pkgpkgs.SetAutoInstalled(string(extContent), pkgs)
+			}
+			analyses = append(analyses, parser.ImagePackagesAnalysis{
+				AnalyzeType: parser.AnalysisTypeApt,
+				Packages:    aptToDepTree(pkgs),
+			})
+		}
+	}
+
+	return analyses
+}
+
+// apkToDepTree converts []packages.AnalyzedPackage → []deptree.AnalyzedPackage.
+func apkToDepTree(pkgs []pkgpkgs.AnalyzedPackage) []deptree.AnalyzedPackage {
+	out := make([]deptree.AnalyzedPackage, len(pkgs))
+	for i, p := range pkgs {
+		out[i] = deptree.AnalyzedPackage{
+			Name:          p.Name,
+			Version:       p.Version,
+			Source:        p.Source,
+			Provides:      p.Provides,
+			Deps:          p.Deps,
+			AutoInstalled: p.AutoInstalled,
+			Purl:          p.Purl,
+		}
+	}
+	return out
+}
+
+// aptToDepTree converts []packages.AnalyzedPackage → []deptree.AnalyzedPackage.
+func aptToDepTree(pkgs []pkgpkgs.AnalyzedPackage) []deptree.AnalyzedPackage {
+	return apkToDepTree(pkgs) // same struct layout
+}
+
+// imageRootNameVersion mirrors the TS buildTree root-name logic.
+func imageRootNameVersion(targetImage string) (name, version string) {
+	// Strip archive prefix.
+	for _, prefix := range []string{"docker-archive:", "oci-archive:", "kaniko-archive:"} {
+		targetImage = strings.TrimPrefix(targetImage, prefix)
+	}
+	finalSlash := strings.LastIndex(targetImage, "/")
+	segment := targetImage
+	if finalSlash >= 0 {
+		segment = targetImage[finalSlash:]
+	}
+	hasVersion := strings.Contains(segment, ":")
+	imageName := targetImage
+	imageVersion := "latest"
+	if hasVersion {
+		sep := strings.LastIndex(targetImage, ":")
+		imageName = targetImage[:sep]
+		imageVersion = targetImage[sep+1:]
+	}
+	if strings.HasSuffix(imageName, ".tar") {
+		imageVersion = ""
+	}
+	if strings.HasSuffix(imageName, "@sha256") {
+		imageName = imageName[:len(imageName)-len("@sha256")]
+		imageVersion = ""
+	}
+	return "docker-image|" + imageName, imageVersion
+}
+
 func containerConfigFact(cc *extractor.ContainerConfig) map[string]interface{} {
 	if cc == nil {
 		return nil
@@ -214,7 +316,6 @@ func containerConfigFact(cc *extractor.ContainerConfig) map[string]interface{} {
 	return m
 }
 
-// historyFacts converts extractor.HistoryEntry slice to the fact format.
 func historyFacts(history []extractor.HistoryEntry) []map[string]interface{} {
 	out := make([]map[string]interface{}, len(history))
 	for i, h := range history {
