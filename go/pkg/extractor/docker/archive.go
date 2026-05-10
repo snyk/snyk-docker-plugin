@@ -136,14 +136,22 @@ func extractFromReader(r io.ReadSeeker, actions []extractor.ExtractAction) (*ext
 }
 
 func normaliseID(config string) string {
+	// OCI-layout embedded: "blobs/sha256/<hex>"
 	if after, ok := strings.CutPrefix(config, "blobs/sha256/"); ok {
 		return "sha256:" + after
 	}
+	// Strip any directory prefix.
 	base := config
 	if idx := strings.LastIndex(base, "/"); idx >= 0 {
 		base = base[idx+1:]
 	}
-	return "sha256:" + strings.TrimSuffix(base, ".json")
+	// Strip .json suffix if present.
+	base = strings.TrimSuffix(base, ".json")
+	// Already has sha256: prefix (go-containerregistry style: "sha256:<hex>").
+	if strings.HasPrefix(base, "sha256:") {
+		return base
+	}
+	return "sha256:" + base
 }
 
 func normaliseLayerName(layer string) string {
