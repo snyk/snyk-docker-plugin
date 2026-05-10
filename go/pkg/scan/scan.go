@@ -8,8 +8,10 @@ import (
 	"strings"
 
 	appjava "github.com/snyk/snyk-docker-plugin/pkg/analyzer/applications/java"
+	appnode "github.com/snyk/snyk-docker-plugin/pkg/analyzer/applications/node"
 	appphp "github.com/snyk/snyk-docker-plugin/pkg/analyzer/applications/php"
 	appython "github.com/snyk/snyk-docker-plugin/pkg/analyzer/applications/python"
+	approby "github.com/snyk/snyk-docker-plugin/pkg/analyzer/applications/ruby"
 	"github.com/snyk/snyk-docker-plugin/pkg/analyzer/osrelease"
 	pkgpkgs "github.com/snyk/snyk-docker-plugin/pkg/analyzer/packages"
 	"github.com/snyk/snyk-docker-plugin/pkg/depgraph"
@@ -24,10 +26,12 @@ import (
 	inputsapt "github.com/snyk/snyk-docker-plugin/pkg/inputs/apt"
 	inputsjava "github.com/snyk/snyk-docker-plugin/pkg/inputs/java"
 	inputsnode "github.com/snyk/snyk-docker-plugin/pkg/inputs/node"
+	inputsnpm "github.com/snyk/snyk-docker-plugin/pkg/inputs/npm"
 	inputsos "github.com/snyk/snyk-docker-plugin/pkg/inputs/osrelease"
 	inputsphp "github.com/snyk/snyk-docker-plugin/pkg/inputs/php"
 	inputspython "github.com/snyk/snyk-docker-plugin/pkg/inputs/python"
 	inputsrpm "github.com/snyk/snyk-docker-plugin/pkg/inputs/rpm"
+	inputsruby "github.com/snyk/snyk-docker-plugin/pkg/inputs/ruby"
 	"github.com/snyk/snyk-docker-plugin/pkg/parser"
 	"github.com/snyk/snyk-docker-plugin/pkg/registry"
 	"github.com/snyk/snyk-docker-plugin/pkg/types"
@@ -215,6 +219,48 @@ func runAppScanners(
 		}
 	}
 
+	// Node.js npm/yarn/pnpm lockfile scanning.
+	{
+		npmFiles := layers.AllPathContents(inputsnpm.ActionName)
+		if len(npmFiles) > 0 {
+			for _, r := range appnode.ScanNode(npmFiles) {
+				results = append(results, types.ScanResult{
+					Target:   types.ContainerTarget{Image: targetImage},
+					Identity: r.Identity,
+					Facts:    r.Facts,
+				})
+			}
+		}
+	}
+
+	// Python Poetry scanning.
+	{
+		poetryFiles := layers.AllPathContents(inputspython.PoetryActionName)
+		if len(poetryFiles) > 0 {
+			for _, r := range appython.ScanPoetry(poetryFiles) {
+				results = append(results, types.ScanResult{
+					Target:   types.ContainerTarget{Image: targetImage},
+					Identity: r.Identity,
+					Facts:    r.Facts,
+				})
+			}
+		}
+	}
+
+	// Ruby Gemfile.lock scanning.
+	{
+		rubyFiles := layers.AllPathContents(inputsruby.ActionName)
+		if len(rubyFiles) > 0 {
+			for _, r := range approby.ScanGemfile(rubyFiles) {
+				results = append(results, types.ScanResult{
+					Target:   types.ContainerTarget{Image: targetImage},
+					Identity: r.Identity,
+					Facts:    r.Facts,
+				})
+			}
+		}
+	}
+
 	return results
 }
 
@@ -249,8 +295,11 @@ func buildExtractActions() []extractor.ExtractAction {
 	// Application scanners.
 	actions = append(actions, inputsjava.Actions()...)
 	actions = append(actions, inputspython.Actions()...)
+	actions = append(actions, inputspython.PoetryActions()...)
 	actions = append(actions, inputsphp.Actions()...)
-	actions = append(actions, inputsnode.Actions()...) // Go binary scanner
+	actions = append(actions, inputsnode.Actions()...)   // Go binary scanner
+	actions = append(actions, inputsnpm.Actions()...)    // Node.js lockfile scanner
+	actions = append(actions, inputsruby.Actions()...)   // Ruby Gemfile.lock scanner
 	return actions
 }
 

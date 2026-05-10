@@ -9,6 +9,54 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+// ---------------------------------------------------------------------------
+// Poetry actions tests
+// ---------------------------------------------------------------------------
+
+func TestPoetryActions_count(t *testing.T) {
+	assert.Len(t, python.PoetryActions(), 1)
+}
+
+func TestPoetryActions_actionName(t *testing.T) {
+	assert.Equal(t, python.PoetryActionName, python.PoetryActions()[0].ActionName)
+}
+
+func TestPoetryActions_matchesPyprojectToml(t *testing.T) {
+	m := python.PoetryActions()[0].FilePathMatches
+	assert.True(t, m("/app/pyproject.toml"))
+	assert.True(t, m("/service/deep/pyproject.toml"))
+}
+
+func TestPoetryActions_matchesPoetryLock(t *testing.T) {
+	m := python.PoetryActions()[0].FilePathMatches
+	assert.True(t, m("/app/poetry.lock"))
+	assert.True(t, m("/service/poetry.lock"))
+}
+
+func TestPoetryActions_matchesWhiteoutVariants(t *testing.T) {
+	m := python.PoetryActions()[0].FilePathMatches
+	assert.True(t, m("/app/.wh.pyproject.toml"))
+	assert.True(t, m("/app/.wh.poetry.lock"))
+}
+
+func TestPoetryActions_doesNotMatchOtherFiles(t *testing.T) {
+	m := python.PoetryActions()[0].FilePathMatches
+	assert.False(t, m("/app/requirements.txt"))
+	assert.False(t, m("/app/setup.py"))
+	assert.False(t, m("/app/Pipfile"))
+	assert.False(t, m("/app/pyproject.toml.bak"))
+}
+
+func TestPoetryActions_callbackReadsBytes(t *testing.T) {
+	cb := python.PoetryActions()[0].Callback
+	r := strings.NewReader("[tool.poetry]\nname = \"myapp\"")
+	res, err := cb(r, int64(len("[tool.poetry]\nname = \"myapp\"")))
+	require.NoError(t, err)
+	data, ok := res.([]byte)
+	require.True(t, ok)
+	assert.Contains(t, string(data), "tool.poetry")
+}
+
 func TestPythonActions_count(t *testing.T) {
 	assert.Len(t, python.Actions(), 1)
 }
