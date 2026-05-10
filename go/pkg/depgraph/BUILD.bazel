@@ -1,0 +1,19 @@
+load("@rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "depgraph",
+    srcs = ["depgraph.go"],
+    importpath = "github.com/snyk/snyk-docker-plugin/pkg/depgraph",
+    visibility = ["//visibility:public"],
+    deps = ["//pkg/types"],
+)
+
+go_test(
+    name = "depgraph_test",
+    srcs = ["depgraph_test.go"],
+    embed = [":depgraph"],
+    deps = [
+        "//pkg/types",
+        "@com_github_stretchr_testify//assert",
+    ],
+)

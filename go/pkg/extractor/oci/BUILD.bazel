@@ -1,0 +1,12 @@
+load("@rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "oci",
+    srcs = ["archive.go"],
+    importpath = "github.com/snyk/snyk-docker-plugin/pkg/extractor/oci",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//pkg/extractor",
+        "@com_github_opencontainers_image_spec//specs-go/v1:specs-go",
+    ],
+)

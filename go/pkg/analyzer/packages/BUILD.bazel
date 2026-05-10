@@ -1,0 +1,32 @@
+load("@rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "packages",
+    srcs = [
+        "apk.go",
+        "apt.go",
+        "rpm.go",
+        "types.go",
+    ],
+    importpath = "github.com/snyk/snyk-docker-plugin/pkg/analyzer/packages",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//pkg/analyzer/osrelease",
+        "@com_github_knqyf263_go_rpmdb//pkg:pkg",
+    ],
+)
+
+go_test(
+    name = "packages_test",
+    srcs = [
+        "apk_test.go",
+        "apt_test.go",
+        "rpm_test.go",
+    ],
+    embed = [":packages"],
+    deps = [
+        "//pkg/analyzer/osrelease",
+        "@com_github_stretchr_testify//assert",
+        "@com_github_stretchr_testify//require",
+    ],
+)

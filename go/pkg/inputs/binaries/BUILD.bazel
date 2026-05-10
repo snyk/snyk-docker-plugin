@@ -1,0 +1,9 @@
+load("@rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "binaries",
+    srcs = ["static.go"],
+    importpath = "github.com/snyk/snyk-docker-plugin/pkg/inputs/binaries",
+    visibility = ["//visibility:public"],
+    deps = ["//pkg/extractor"],
+)

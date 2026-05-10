@@ -1,0 +1,21 @@
+load("@rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "dockerfile",
+    srcs = [
+        "parse.go",
+        "types.go",
+    ],
+    importpath = "github.com/snyk/snyk-docker-plugin/pkg/dockerfile",
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "dockerfile_test",
+    srcs = ["parse_test.go"],
+    embed = [":dockerfile"],
+    deps = [
+        "@com_github_stretchr_testify//assert",
+        "@com_github_stretchr_testify//require",
+    ],
+)

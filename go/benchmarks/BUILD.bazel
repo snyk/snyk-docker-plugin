@@ -1,0 +1,26 @@
+load("@rules_go//go:def.bzl", "go_test")
+
+# Performance comparison test: TS vs Go head-to-head.
+# Tagged "manual" so it doesn't run in the default test suite
+# (requires the TS dist/ to be built and real fixture archives).
+go_test(
+    name = "benchmarks_test",
+    srcs = [
+        "bench_test.go",
+        "equivalence_test.go",
+        "perf_compare_test.go",
+    ],
+    importpath = "github.com/snyk/snyk-docker-plugin/benchmarks",
+    tags = [
+        "manual",
+        "local",
+    ],
+    deps = [
+        "//pkg/extractor",
+        "//pkg/extractor/docker",
+        "//pkg/scan",
+        "//pkg/types",
+        "@com_github_stretchr_testify//assert",
+        "@com_github_stretchr_testify//require",
+    ],
+)

@@ -1,0 +1,15 @@
+load("@rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "image",
+    srcs = ["type.go"],
+    importpath = "github.com/snyk/snyk-docker-plugin/pkg/image",
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "image_test",
+    srcs = ["type_test.go"],
+    embed = [":image"],
+    deps = ["@com_github_stretchr_testify//assert", "@com_github_stretchr_testify//require"],
+)

@@ -1,0 +1,13 @@
+load("@rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "extractor",
+    srcs = [
+        "extractor.go",
+        "layer.go",
+        "types.go",
+    ],
+    importpath = "github.com/snyk/snyk-docker-plugin/pkg/extractor",
+    visibility = ["//visibility:public"],
+    deps = ["@com_github_klauspost_compress//zstd"],
+)

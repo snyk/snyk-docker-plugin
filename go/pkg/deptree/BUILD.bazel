@@ -1,0 +1,20 @@
+load("@rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "deptree",
+    srcs = ["tree.go"],
+    importpath = "github.com/snyk/snyk-docker-plugin/pkg/deptree",
+    visibility = ["//visibility:public"],
+    deps = ["//pkg/depgraph"],
+)
+
+go_test(
+    name = "deptree_test",
+    srcs = ["tree_test.go"],
+    embed = [":deptree"],
+    deps = [
+        "//pkg/depgraph",
+        "@com_github_stretchr_testify//assert",
+        "@com_github_stretchr_testify//require",
+    ],
+)

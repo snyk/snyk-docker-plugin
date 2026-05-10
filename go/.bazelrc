@@ -1,0 +1,28 @@
+# Common build flags
+build --enable_bzlmod
+build --incompatible_enable_proto_toolchain_resolution=false
+
+# Go-specific
+
+# Cache
+build --disk_cache=~/.cache/bazel-disk-cache
+build --remote_cache_compression
+
+# Test output
+test --test_output=errors
+test --test_summary=short
+
+# Lockfile — update automatically on first run, error if stale in CI
+build --lockfile_mode=update
+
+# Sandbox — hermetic builds
+build --sandbox_default_allow_network=false
+test  --sandbox_default_allow_network=false
+
+# Dependency fetching — use GOPROXY so gazelle doesn't need git access
+build --action_env=GOPROXY=https://proxy.golang.org,direct
+build --action_env=GONOSUMDB=*
+build --action_env=GOPATH=/home/agent/go
+build --action_env=GOMODCACHE=/home/agent/go/pkg/mod
+build --action_env=GO_REPOSITORY_USE_HOST_MODCACHE=1
+build --action_env=GOCACHE=/home/agent/.cache/go

@@ -1,0 +1,15 @@
+load("@rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "testutil",
+    srcs = [
+        "assert.go",
+        "fixtures.go",
+    ],
+    importpath = "github.com/snyk/snyk-docker-plugin/internal/testutil",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//pkg/types",
+        "@com_github_stretchr_testify//assert",
+    ],
+)

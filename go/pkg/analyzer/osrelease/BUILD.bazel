@@ -1,0 +1,18 @@
+load("@rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "osrelease",
+    srcs = ["release.go"],
+    importpath = "github.com/snyk/snyk-docker-plugin/pkg/analyzer/osrelease",
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "osrelease_test",
+    srcs = ["release_test.go"],
+    embed = [":osrelease"],
+    deps = [
+        "@com_github_stretchr_testify//assert",
+        "@com_github_stretchr_testify//require",
+    ],
+)

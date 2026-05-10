@@ -1,0 +1,42 @@
+load("@rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "scan",
+    srcs = ["scan.go"],
+    importpath = "github.com/snyk/snyk-docker-plugin/pkg/scan",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//pkg/analyzer/osrelease",
+        "//pkg/analyzer/packages",
+        "//pkg/depgraph",
+        "//pkg/deptree",
+        "//pkg/extractor",
+        "//pkg/extractor/docker",
+        "//pkg/extractor/kaniko",
+        "//pkg/extractor/oci",
+        "//pkg/image",
+        "//pkg/inputs/apk",
+        "//pkg/inputs/apt",
+        "//pkg/inputs/osrelease",
+        "//pkg/inputs/rpm",
+        "//pkg/parser",
+        "//pkg/registry",
+        "//pkg/types",
+    ],
+)
+
+go_test(
+    name = "scan_test",
+    srcs = ["scan_test.go"],
+    embed = [":scan"],
+    deps = [
+        "//pkg/types",
+        "@com_github_google_go_containerregistry//pkg/name",
+        "@com_github_google_go_containerregistry//pkg/v1:pkg",
+        "@com_github_google_go_containerregistry//pkg/v1/empty:empty",
+        "@com_github_google_go_containerregistry//pkg/v1/mutate:mutate",
+        "@com_github_google_go_containerregistry//pkg/v1/tarball:tarball",
+        "@com_github_stretchr_testify//assert",
+        "@com_github_stretchr_testify//require",
+    ],
+)

@@ -1,0 +1,24 @@
+load("@rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "docker",
+    srcs = ["archive.go"],
+    importpath = "github.com/snyk/snyk-docker-plugin/pkg/extractor/docker",
+    visibility = ["//visibility:public"],
+    deps = ["//pkg/extractor"],
+)
+
+go_test(
+    name = "docker_test",
+    srcs = ["archive_test.go"],
+    data = ["//:docker_archive_fixtures"],
+    embed = [":docker"],
+    env = {
+        "FIXTURE_DIR": "test/fixtures/docker-archives/docker-save",
+    },
+    deps = [
+        "//pkg/extractor",
+        "@com_github_stretchr_testify//assert",
+        "@com_github_stretchr_testify//require",
+    ],
+)

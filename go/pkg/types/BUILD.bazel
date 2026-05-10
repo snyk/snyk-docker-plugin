@@ -1,0 +1,13 @@
+load("@rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "types",
+    srcs = [
+        "depgraph.go",
+        "options.go",
+        "pluginresponse.go",
+        "testresult.go",
+    ],
+    importpath = "github.com/snyk/snyk-docker-plugin/pkg/types",
+    visibility = ["//visibility:public"],
+)

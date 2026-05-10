@@ -1,0 +1,26 @@
+load("@rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "extension",
+    srcs = [
+        "extension.go",
+        "flags.go",
+    ],
+    importpath = "github.com/snyk/snyk-docker-plugin/pkg/extension",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//pkg/scan",
+        "//pkg/types",
+        "@com_github_spf13_pflag//:pflag",
+    ],
+)
+
+go_test(
+    name = "extension_test",
+    srcs = ["extension_test.go"],
+    embed = [":extension"],
+    deps = [
+        "@com_github_stretchr_testify//assert",
+        "@com_github_stretchr_testify//require",
+    ],
+)

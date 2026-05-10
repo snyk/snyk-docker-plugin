@@ -1,0 +1,9 @@
+load("@rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "java",
+    srcs = ["static.go"],
+    importpath = "github.com/snyk/snyk-docker-plugin/pkg/inputs/java",
+    visibility = ["//visibility:public"],
+    deps = ["//pkg/extractor"],
+)

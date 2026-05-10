@@ -1,0 +1,24 @@
+load("@gazelle//:def.bzl", "gazelle", "gazelle_binary")
+
+# gazelle:prefix github.com/snyk/snyk-docker-plugin
+
+gazelle(
+    name = "gazelle",
+    gazelle = ":gazelle_bin",
+)
+
+gazelle_binary(
+    name = "gazelle_bin",
+    languages = ["@gazelle//language/go"],
+)
+
+# Fixture archives for integration tests that need real image data.
+# Exposed via a symlink: go/test -> ../test (created manually).
+filegroup(
+    name = "docker_archive_fixtures",
+    srcs = glob(
+        ["test/fixtures/docker-archives/docker-save/*.tar"],
+        allow_empty = True,
+    ),
+    visibility = ["//visibility:public"],
+)

@@ -1,0 +1,24 @@
+load("@rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "parser",
+    srcs = ["parser.go"],
+    importpath = "github.com/snyk/snyk-docker-plugin/pkg/parser",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//pkg/analyzer/osrelease",
+        "//pkg/depgraph",
+        "//pkg/deptree",
+    ],
+)
+
+go_test(
+    name = "parser_test",
+    srcs = ["parser_test.go"],
+    embed = [":parser"],
+    deps = [
+        "//pkg/deptree",
+        "@com_github_stretchr_testify//assert",
+        "@com_github_stretchr_testify//require",
+    ],
+)

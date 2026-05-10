@@ -1,0 +1,12 @@
+load("@rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "kaniko",
+    srcs = ["archive.go"],
+    importpath = "github.com/snyk/snyk-docker-plugin/pkg/extractor/kaniko",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//pkg/extractor",
+        "//pkg/extractor/docker",
+    ],
+)

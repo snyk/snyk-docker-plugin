@@ -1,0 +1,2 @@
+# Avoid scanning the symlinked test fixtures directory
+test
