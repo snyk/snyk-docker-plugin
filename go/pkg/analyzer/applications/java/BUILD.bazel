@@ -2,20 +2,18 @@ load("@rules_go//go:def.bzl", "go_library", "go_test")
 
 go_library(
     name = "java",
-    srcs = ["static.go"],
-    importpath = "github.com/snyk/snyk-docker-plugin/pkg/inputs/java",
+    srcs = ["jar.go"],
+    importpath = "github.com/snyk/snyk-docker-plugin/pkg/analyzer/applications/java",
     visibility = ["//visibility:public"],
-    deps = [
-        "//pkg/extractor",
-        
-    ],
+    deps = ["//pkg/types"],
 )
 
 go_test(
     name = "java_test",
-    srcs = ["static_test.go"],
+    srcs = ["jar_test.go"],
     embed = [":java"],
     deps = [
+        "//pkg/types",
         "@com_github_stretchr_testify//assert",
         "@com_github_stretchr_testify//require",
     ],

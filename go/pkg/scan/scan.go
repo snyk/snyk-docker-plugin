@@ -7,6 +7,9 @@ import (
 	"os"
 	"strings"
 
+	appjava "github.com/snyk/snyk-docker-plugin/pkg/analyzer/applications/java"
+	appphp "github.com/snyk/snyk-docker-plugin/pkg/analyzer/applications/php"
+	appython "github.com/snyk/snyk-docker-plugin/pkg/analyzer/applications/python"
 	"github.com/snyk/snyk-docker-plugin/pkg/analyzer/osrelease"
 	pkgpkgs "github.com/snyk/snyk-docker-plugin/pkg/analyzer/packages"
 	"github.com/snyk/snyk-docker-plugin/pkg/depgraph"
@@ -15,10 +18,15 @@ import (
 	dockerextractor "github.com/snyk/snyk-docker-plugin/pkg/extractor/docker"
 	"github.com/snyk/snyk-docker-plugin/pkg/extractor/kaniko"
 	ociextractor "github.com/snyk/snyk-docker-plugin/pkg/extractor/oci"
+	"github.com/snyk/snyk-docker-plugin/pkg/gobinary"
 	"github.com/snyk/snyk-docker-plugin/pkg/image"
 	inputsapk "github.com/snyk/snyk-docker-plugin/pkg/inputs/apk"
 	inputsapt "github.com/snyk/snyk-docker-plugin/pkg/inputs/apt"
+	inputsjava "github.com/snyk/snyk-docker-plugin/pkg/inputs/java"
+	inputsnode "github.com/snyk/snyk-docker-plugin/pkg/inputs/node"
 	inputsos "github.com/snyk/snyk-docker-plugin/pkg/inputs/osrelease"
+	inputsphp "github.com/snyk/snyk-docker-plugin/pkg/inputs/php"
+	inputspython "github.com/snyk/snyk-docker-plugin/pkg/inputs/python"
 	inputsrpm "github.com/snyk/snyk-docker-plugin/pkg/inputs/rpm"
 	"github.com/snyk/snyk-docker-plugin/pkg/parser"
 	"github.com/snyk/snyk-docker-plugin/pkg/registry"
@@ -118,13 +126,96 @@ func Scan(ctx context.Context, opts types.PluginOptions) (*types.PluginResponse,
 		Args: map[string]string{"platform": platform},
 	}
 
+	// Build OS scan result (always index 0).
+	osScanResult := types.ScanResult{
+		Target:   types.ContainerTarget{Image: targetImage},
+		Identity: identity,
+		Facts:    facts,
+	}
+
+	scanResults := []types.ScanResult{osScanResult}
+
+	// Phase 6: Application scanning (unless excluded).
+	if !types.OptBool(opts.ExcludeAppVulns) {
+		appResults := runAppScanners(extractionResult.Layers, targetImage, opts)
+		scanResults = append(scanResults, appResults...)
+	}
+
 	return &types.PluginResponse{
-		ScanResults: []types.ScanResult{{
-			Target:   types.ContainerTarget{Image: targetImage},
-			Identity: identity,
-			Facts:    facts,
-		}},
+		ScanResults: scanResults,
 	}, nil
+}
+
+// runAppScanners runs all application-level scanners over extracted layers
+// and returns one ScanResult per discovered application.
+func runAppScanners(
+	layers extractor.MergedLayers,
+	targetImage string,
+	opts types.PluginOptions,
+) []types.ScanResult {
+	var results []types.ScanResult
+
+	// Java JAR fingerprinting.
+	{
+		javaFiles := layers.AllPathContents(inputsjava.ActionName)
+		if len(javaFiles) > 0 {
+			nestedDepth := types.OptInt(opts.NestedJarsDepth, 1)
+			if nestedDepth == 0 {
+				nestedDepth = 1
+			}
+			for _, r := range appjava.ScanJars(javaFiles, targetImage, nestedDepth) {
+				results = append(results, types.ScanResult{
+					Target:   types.ContainerTarget{Image: targetImage},
+					Identity: r.Identity,
+					Facts:    r.Facts,
+				})
+			}
+		}
+	}
+
+	// Python pip scanning.
+	{
+		pyFiles := layers.AllPathContents(inputspython.ActionName)
+		if len(pyFiles) > 0 {
+			for _, r := range appython.ScanPip(pyFiles) {
+				results = append(results, types.ScanResult{
+					Target:   types.ContainerTarget{Image: targetImage},
+					Identity: r.Identity,
+					Facts:    r.Facts,
+				})
+			}
+		}
+	}
+
+	// PHP Composer scanning.
+	{
+		phpFiles := layers.AllPathContents(inputsphp.ActionName)
+		if len(phpFiles) > 0 {
+			for _, r := range appphp.ScanComposer(phpFiles) {
+				results = append(results, types.ScanResult{
+					Target:   types.ContainerTarget{Image: targetImage},
+					Identity: r.Identity,
+					Facts:    r.Facts,
+				})
+			}
+		}
+	}
+
+	// Go binary scanning.
+	{
+		goFiles := layers.AllPathContents(inputsnode.ActionName)
+		if len(goFiles) > 0 {
+			for _, r := range gobinary.ScanGoBinaries(goFiles) {
+				results = append(results, types.ScanResult{
+					Target:   types.ContainerTarget{Image: targetImage},
+					Identity: r.Identity,
+					Facts:    r.Facts,
+				})
+			}
+		}
+	}
+
+	return results
 }
 
 // resolveArchive returns (archivePath, cleanupFn, error).
@@ -148,11 +239,18 @@ func resolveArchive(ctx context.Context, targetImage string, imgType image.Image
 
 // buildExtractActions returns the full set of actions needed for a complete scan.
 func buildExtractActions() []extractor.ExtractAction {
-	actions := make([]extractor.ExtractAction, 0, 20)
+	actions := make([]extractor.ExtractAction, 0, 30)
+	// OS release.
 	actions = append(actions, inputsos.Actions...)
+	// OS package managers.
 	actions = append(actions, inputsapk.Actions()...)
 	actions = append(actions, inputsapt.Actions()...)
 	actions = append(actions, inputsrpm.Actions()...)
+	// Application scanners.
+	actions = append(actions, inputsjava.Actions()...)
+	actions = append(actions, inputspython.Actions()...)
+	actions = append(actions, inputsphp.Actions()...)
+	actions = append(actions, inputsnode.Actions()...) // Go binary scanner
 	return actions
 }
 

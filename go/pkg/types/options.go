@@ -72,3 +72,32 @@ type Options struct {
 type OptionsConfig struct {
 	DisableSuggestions string `json:"disableSuggestions,omitempty"`
 }
+
+// OptBool extracts a bool from an interface{} option value.
+// It handles bool, string ("true"/"false"), and int (0/non-zero).
+func OptBool(v interface{}) bool {
+	switch t := v.(type) {
+	case bool:
+		return t
+	case string:
+		return t == "true" || t == "1" || t == "yes"
+	case int:
+		return t != 0
+	case float64:
+		return t != 0
+	}
+	return false
+}
+
+// OptInt extracts an int from an interface{} option value.
+func OptInt(v interface{}, defaultVal int) int {
+	switch t := v.(type) {
+	case int:
+		return t
+	case float64:
+		return int(t)
+	case int64:
+		return int(t)
+	}
+	return defaultVal
+}

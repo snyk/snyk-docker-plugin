@@ -1,21 +1,20 @@
 load("@rules_go//go:def.bzl", "go_library", "go_test")
 
 go_library(
-    name = "python",
-    srcs = ["pip.go"],
-    importpath = "github.com/snyk/snyk-docker-plugin/pkg/analyzer/applications/python",
+    name = "php",
+    srcs = ["composer.go"],
+    importpath = "github.com/snyk/snyk-docker-plugin/pkg/analyzer/applications/php",
     visibility = ["//visibility:public"],
     deps = [
         "//pkg/depgraph",
-        "//pkg/pythonparser",
         "//pkg/types",
     ],
 )
 
 go_test(
-    name = "python_test",
-    srcs = ["pip_test.go"],
-    embed = [":python"],
+    name = "php_test",
+    srcs = ["composer_test.go"],
+    embed = [":php"],
     deps = [
         "//pkg/types",
         "@com_github_stretchr_testify//assert",

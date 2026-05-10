@@ -1,9 +1,22 @@
-load("@rules_go//go:def.bzl", "go_library")
+load("@rules_go//go:def.bzl", "go_library", "go_test")
 
 go_library(
     name = "php",
     srcs = ["static.go"],
     importpath = "github.com/snyk/snyk-docker-plugin/pkg/inputs/php",
     visibility = ["//visibility:public"],
-    deps = ["//pkg/extractor"],
+    deps = [
+        "//pkg/extractor",
+        
+    ],
+)
+
+go_test(
+    name = "php_test",
+    srcs = ["static_test.go"],
+    embed = [":php"],
+    deps = [
+        "@com_github_stretchr_testify//assert",
+        "@com_github_stretchr_testify//require",
+    ],
 )

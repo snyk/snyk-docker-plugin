@@ -5,6 +5,10 @@ go_library(
     srcs = ["gobinary.go"],
     importpath = "github.com/snyk/snyk-docker-plugin/pkg/gobinary",
     visibility = ["//visibility:public"],
+    deps = [
+        "//pkg/depgraph",
+        "//pkg/types",
+    ],
 )
 
 go_test(
@@ -12,6 +16,7 @@ go_test(
     srcs = ["gobinary_test.go"],
     embed = [":gobinary"],
     deps = [
+        "//pkg/types",
         "@com_github_stretchr_testify//assert",
         "@com_github_stretchr_testify//require",
     ],

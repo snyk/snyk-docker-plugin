@@ -1,9 +1,29 @@
-// Package php provides static extraction actions for the php ecosystem.
+// Package php provides extraction actions for PHP Composer scanning.
 package php
 
-import "github.com/snyk/snyk-docker-plugin/pkg/extractor"
+import (
+	"io"
+	"path/filepath"
 
-// Actions returns the ExtractActions needed for php analysis.
+	"github.com/snyk/snyk-docker-plugin/pkg/extractor"
+)
+
+const ActionName = "php-composer"
+
+func filePathMatches(path string) bool {
+	base := filepath.Base(path)
+	return base == "composer.json" || base == "composer.lock"
+}
+
+// Actions returns the ExtractActions needed for PHP Composer scanning.
 func Actions() []extractor.ExtractAction {
-	return nil // TODO: implement
+	return []extractor.ExtractAction{
+		{
+			ActionName:      ActionName,
+			FilePathMatches: filePathMatches,
+			Callback: func(r io.Reader, _ int64) (interface{}, error) {
+				return io.ReadAll(r)
+			},
+		},
+	}
 }

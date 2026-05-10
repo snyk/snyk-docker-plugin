@@ -1,9 +1,22 @@
-load("@rules_go//go:def.bzl", "go_library")
+load("@rules_go//go:def.bzl", "go_library", "go_test")
 
 go_library(
     name = "node",
     srcs = ["static.go"],
     importpath = "github.com/snyk/snyk-docker-plugin/pkg/inputs/node",
     visibility = ["//visibility:public"],
-    deps = ["//pkg/extractor"],
+    deps = [
+        "//pkg/extractor",
+        "//pkg/gobinary",
+    ],
+)
+
+go_test(
+    name = "node_test",
+    srcs = ["static_test.go"],
+    embed = [":node"],
+    deps = [
+        "@com_github_stretchr_testify//assert",
+        "@com_github_stretchr_testify//require",
+    ],
 )
