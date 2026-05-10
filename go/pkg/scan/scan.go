@@ -34,7 +34,9 @@ import (
 	inputsruby "github.com/snyk/snyk-docker-plugin/pkg/inputs/ruby"
 	"github.com/snyk/snyk-docker-plugin/pkg/parser"
 	"github.com/snyk/snyk-docker-plugin/pkg/registry"
+	"github.com/snyk/snyk-docker-plugin/pkg/response"
 	"github.com/snyk/snyk-docker-plugin/pkg/types"
+	"github.com/snyk/snyk-docker-plugin/pkg/dockerfile"
 )
 
 const pluginVersion = "go-0.0.1"
@@ -123,7 +125,13 @@ func Scan(ctx context.Context, opts types.PluginOptions) (*types.PluginResponse,
 
 	depGraph := depgraph.FromDepTree(parsed.PackageFormat, rootName, rootOSVersion, parsed.DepInfos)
 
-	facts := assembleFacts(depGraph, extractionResult, osRel, platform)
+	// Phase 8: Dockerfile analysis.
+	var dfAnalysis *dockerfile.DockerfileAnalysis
+	if opts.File != "" {
+		dfAnalysis, _ = dockerfile.ReadDockerfileAndAnalyse(opts.File)
+	}
+
+	facts := assembleFacts(depGraph, extractionResult, osRel, platform, dfAnalysis)
 
 	identity := types.Identity{
 		Type: parsed.PackageFormat,
@@ -145,9 +153,8 @@ func Scan(ctx context.Context, opts types.PluginOptions) (*types.PluginResponse,
 		scanResults = append(scanResults, appResults...)
 	}
 
-	return &types.PluginResponse{
-		ScanResults: scanResults,
-	}, nil
+	// Phase 7: Assemble final response (truncation + analytics).
+	return response.Assemble(scanResults), nil
 }
 
 // runAppScanners runs all application-level scanners over extracted layers
@@ -441,6 +448,7 @@ func assembleFacts(
 	result *extractor.ExtractionResult,
 	osRel *osrelease.OSRelease,
 	platform string,
+	dfAnalysis *dockerfile.DockerfileAnalysis,
 ) []types.Fact {
 	facts := []types.Fact{
 		{Type: types.FactDepGraph, Data: depGraph},
@@ -464,6 +472,10 @@ func assembleFacts(
 	}
 	if osRel != nil && osRel.PrettyName != "" {
 		facts = append(facts, types.Fact{Type: types.FactImageOsReleasePrettyName, Data: osRel.PrettyName})
+	}
+	// Phase 8: emit dockerfileAnalysis fact when a Dockerfile was provided.
+	if dfAnalysis != nil {
+		facts = append(facts, types.Fact{Type: types.FactDockerfileAnalysis, Data: *dfAnalysis})
 	}
 	facts = append(facts, types.Fact{Type: types.FactPlatform, Data: platform})
 	facts = append(facts, types.Fact{Type: types.FactPluginVersion, Data: pluginVersion})
