@@ -1,9 +1,18 @@
-// Package extension implements the Snyk CLI workflow extension entry point.
-// It registers the container scan workflow with the go-application-framework engine.
+// Package extension provides a minimal interface for integrating
+// snyk-docker-plugin as a CLI workflow extension.
 //
-// NOTE: The go-application-framework dependency is intentionally omitted from
-// go.mod in this MVP to keep the build self-contained. Add it back when
-// integrating with the Snyk CLI.
+// # Architecture
+//
+// The main snyk-docker-plugin Go module intentionally does not import
+// github.com/snyk/go-application-framework, keeping the dependency tree
+// small and cross-compilation straightforward.
+//
+// Integration with the Snyk CLI v2 (go-application-framework) is handled
+// by the companion module at go-extension-adapter/, which imports both this
+// module and the framework, and exposes Init(workflow.Engine) error.
+//
+// See go-extension-adapter/extension.go for the wiring code and
+// go-extension-adapter/README.md for step-by-step cliv2 integration.
 package extension
 
 import (
@@ -15,31 +24,18 @@ import (
 	"github.com/snyk/snyk-docker-plugin/pkg/types"
 )
 
-// WorkflowID string for the container scan workflow.
-const WorkflowID = "container/scan"
+// WorkflowName is the workflow identifier this plugin registers.
+// It matches the name used by github.com/snyk/container-cli so this
+// implementation is a drop-in replacement for the legacy shell-out.
+const WorkflowName = "container depgraph"
 
-// Engine is a minimal interface mirroring workflow.Engine from
-// go-application-framework. Kept here to avoid the large dependency tree
-// in the MVP build.
-type Engine interface {
-	Register(id string, opts interface{}, callback Callback) error
-	AddExtensionInitializer(init func(Engine) error)
-}
-
-// Callback is a workflow callback.
-type Callback func(ctx context.Context, input []byte) ([]byte, error)
-
-// Init registers the container scan extension with the workflow engine.
-// This is the entry point for the Snyk CLI extension system.
-func Init(e Engine) error {
-	return e.Register(WorkflowID, nil, entrypoint)
-}
-
-func entrypoint(ctx context.Context, input []byte) ([]byte, error) {
+// ScanFunc is the core scanning function exposed for testing and embedding.
+// It accepts a JSON-encoded PluginOptions and returns a JSON-encoded PluginResponse.
+func ScanJSON(ctx context.Context, optionsJSON []byte) ([]byte, error) {
 	var opts types.PluginOptions
-	if len(input) > 0 {
-		if err := json.Unmarshal(input, &opts); err != nil {
-			return nil, fmt.Errorf("unmarshaling input: %w", err)
+	if len(optionsJSON) > 0 {
+		if err := json.Unmarshal(optionsJSON, &opts); err != nil {
+			return nil, fmt.Errorf("decoding options: %w", err)
 		}
 	}
 
@@ -50,7 +46,7 @@ func entrypoint(ctx context.Context, input []byte) ([]byte, error) {
 
 	b, err := json.Marshal(resp)
 	if err != nil {
-		return nil, fmt.Errorf("marshaling response: %w", err)
+		return nil, fmt.Errorf("encoding response: %w", err)
 	}
 	return b, nil
 }

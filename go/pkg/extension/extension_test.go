@@ -9,27 +9,24 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-type mockEngine struct {
-	registered []string
+func TestScanJSON_invalidJSON(t *testing.T) {
+	_, err := extension.ScanJSON(context.Background(), []byte("not-json"))
+	require.Error(t, err)
+	assert.Contains(t, err.Error(), "decoding options")
 }
 
-func (m *mockEngine) Register(id string, _ interface{}, _ extension.Callback) error {
-	m.registered = append(m.registered, id)
-	return nil
+func TestScanJSON_emptyOptions(t *testing.T) {
+	// Empty slice → zero-value options → scan will fail (no path)
+	_, err := extension.ScanJSON(context.Background(), nil)
+	require.Error(t, err)
 }
 
-func (m *mockEngine) AddExtensionInitializer(_ func(extension.Engine) error) {}
-
-func TestInit(t *testing.T) {
-	eng := &mockEngine{}
-	err := extension.Init(eng)
-	require.NoError(t, err)
-	require.Len(t, eng.registered, 1)
-	assert.Equal(t, extension.WorkflowID, eng.registered[0])
+func TestScanJSON_emptyJSON(t *testing.T) {
+	// {} is valid JSON, results in empty path → scan fails
+	_, err := extension.ScanJSON(context.Background(), []byte(`{}`))
+	require.Error(t, err)
 }
 
-func TestEntrypoint_missingPath(t *testing.T) {
-	// Via Init then manually calling - just test the WorkflowID constant.
-	assert.Equal(t, "container/scan", extension.WorkflowID)
-	_ = context.Background() // suppress unused import
+func TestWorkflowName(t *testing.T) {
+	assert.Equal(t, "container depgraph", extension.WorkflowName)
 }
