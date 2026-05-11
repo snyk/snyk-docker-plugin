@@ -187,10 +187,7 @@ async function buildResponse(
     additionalFacts.push(rootFsFact);
   }
 
-  if (
-    depsAnalysis.layerPackageAttribution &&
-    depsAnalysis.layerPackageAttribution.length > 0
-  ) {
+  if (depsAnalysis.layerPackageAttribution) {
     const layerPackageAttributionFact: facts.LayerPackageAttributionFact = {
       type: "layerPackageAttribution",
       data: depsAnalysis.layerPackageAttribution,

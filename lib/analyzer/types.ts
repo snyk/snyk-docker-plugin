@@ -1,5 +1,9 @@
 import { ImageName } from "../extractor/image";
-import { BaseRuntime, LayerAttributionEntry } from "../facts";
+import {
+  BaseRuntime,
+  FinalImagePackageOrigin,
+  LayerAttributionEntry,
+} from "../facts";
 import { AutoDetectedUserInstructions, ManifestFile } from "../types";
 import {
   AppDepsScanResultWithoutTarget,
@@ -81,7 +85,10 @@ export interface StaticAnalysis {
   baseRuntimes?: BaseRuntime[];
   imageLayers: string[];
   rootFsLayers?: string[];
-  layerPackageAttribution?: LayerAttributionEntry[];
+  layerPackageAttribution?: {
+    entries: LayerAttributionEntry[];
+    finalImagePackages: Record<string, FinalImagePackageOrigin[]>;
+  };
   autoDetectedUserInstructions?: AutoDetectedUserInstructions;
   applicationDependenciesScanResults: AppDepsScanResultWithoutTarget[];
   manifestFiles: ManifestFile[];

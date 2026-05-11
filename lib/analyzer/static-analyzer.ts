@@ -2,6 +2,7 @@ import * as Debug from "debug";
 import { DockerFileAnalysis } from "../dockerfile";
 import { getErrorMessage } from "../error-utils";
 import * as archiveExtractor from "../extractor";
+import { FinalImagePackageOrigin, LayerAttributionEntry } from "../facts";
 import {
   getGoModulesContentAction,
   goModulesToScannedProjects,
@@ -70,6 +71,11 @@ import { pipFilesToScannedProjects } from "./applications/python";
 import { getApplicationFiles } from "./applications/runtime-common";
 import { AppDepsScanResultWithoutTarget } from "./applications/types";
 import { detectJavaRuntime } from "./base-runtimes";
+import {
+  alignLayerMetadata,
+  computeLayerAttribution,
+  mergeLayerAttributionEntries,
+} from "./layer-attribution";
 import * as osReleaseDetector from "./os-release";
 import { analyze as apkAnalyze } from "./package-managers/apk";
 import {
@@ -162,6 +168,7 @@ export async function analyze(
     imageId,
     manifestLayers,
     extractedLayers,
+    orderedLayers,
     rootFsLayers,
     autoDetectedUserInstructions,
     platform,
@@ -240,6 +247,60 @@ export async function analyze(
   } catch (err) {
     debug(`Could not detect installed OS packages: ${getErrorMessage(err)}`);
     throw new Error("Failed to detect installed OS packages");
+  }
+
+  let layerPackageAttribution:
+    | {
+        entries: LayerAttributionEntry[];
+        finalImagePackages: Record<string, FinalImagePackageOrigin[]>;
+      }
+    | undefined;
+  if (
+    isTrue(options["layer-attribution"]) &&
+    rootFsLayers &&
+    orderedLayers &&
+    orderedLayers.length > 0
+  ) {
+    phaseStart = Date.now();
+    const resultsWithPackages = results.filter((r) => r.Analysis.length > 0);
+    if (resultsWithPackages.length > 0) {
+      const layerMetadata = alignLayerMetadata(
+        rootFsLayers,
+        manifestLayers,
+        history,
+      );
+      const allEntries: LayerAttributionEntry[] = [];
+      const mergedFinal: Record<string, FinalImagePackageOrigin[]> = {};
+      for (const result of resultsWithPackages) {
+        try {
+          const { entries, finalImagePackages } = await computeLayerAttribution(
+            orderedLayers,
+            result.AnalyzeType,
+            layerMetadata,
+            targetImage,
+            osRelease,
+            redHatRepositories,
+          );
+          allEntries.push(...entries);
+          for (const pkg of result.Analysis) {
+            const key = `${pkg.Name}@${pkg.Version}`;
+            const origins = finalImagePackages.get(key);
+            if (origins && origins.length > 0) {
+              pkg.layerIndex = origins[0].layerIndex;
+              pkg.layerDiffId = origins[0].diffID;
+              mergedFinal[key] = origins;
+            }
+          }
+        } catch (err) {
+          debug(`Could not compute layer attribution: ${getErrorMessage(err)}`);
+        }
+      }
+      layerPackageAttribution = {
+        entries: mergeLayerAttributionEntries(allEntries),
+        finalImagePackages: mergedFinal,
+      };
+    }
+    timings.layerAttributionMs = Date.now() - phaseStart;
   }
 
   phaseStart = Date.now();
@@ -336,6 +397,7 @@ export async function analyze(
     baseRuntimes,
     imageLayers: rootFsLayers ?? manifestLayers,
     rootFsLayers,
+    layerPackageAttribution,
     applicationDependenciesScanResults,
     manifestFiles,
     autoDetectedUserInstructions,
