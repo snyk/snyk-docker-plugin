@@ -44,7 +44,7 @@ Object {
         },
         Object {
           "data": Array [
-            "2d0714e906bed2c04c0df856b8928376970d0f163c7dc63cf99bc681d7e668fa\\\\layer.tar",
+            "sha256:ce0da4b7457cb5e10bf509fedb7565a73b83188cab59f3f007477b744ae272d8",
           ],
           "type": "imageLayers",
         },
@@ -2347,13 +2347,13 @@ Object {
         },
         Object {
           "data": Array [
-            "sha256:6b59a28fa20117e6048ad0616b8d8c901877ef15ff4c7f18db04e4f01f43bc39",
-            "sha256:e32650c275b006f294c1e061d6e59a2ecfe7d1cdd16314bf5d02b1c74b1fa390",
-            "sha256:35986fe3144d1f21a98e44ff365ceed48792731b36228eb748a221424492b1c2",
-            "sha256:4f4fb700ef54461cfa02571ae0db9a0dc1e0cdb5577484a6d75e68dc38e8acc1",
-            "sha256:f9667c1dc9b42f3a24e857ce1b0cb0d2d7346d5f51223699088f1994a9f9c5ca",
-            "sha256:ba95d6830fbd9dd0b515f8216ea7c57423c250afaabcadb6a9191a86c7c8b199",
-            "sha256:4f4fb700ef54461cfa02571ae0db9a0dc1e0cdb5577484a6d75e68dc38e8acc1",
+            "sha256:0e64f2360a448b389c83fcbc3705e1364ccf43f004bb55233c689e7ce59a1ae9",
+            "sha256:fba66f609362396333e84b10d748f19c903b0628fb5f153a24e9b7a9f0e1312f",
+            "sha256:30106d1f235aaa8b415f573c408291598cdcd52c101e6b775fc4944781cefd59",
+            "sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+            "sha256:a4a6a3643cddefede59c3ca78eabc99c3bbf1e8f90911ef21a9cc61721624487",
+            "sha256:c1954acbb68853ae922afb02613bfdb132116b52ddd74a157a1c276c10c2d69e",
+            "sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
           ],
           "type": "imageLayers",
         },
@@ -2741,7 +2741,7 @@ Object {
         },
         Object {
           "data": Array [
-            "c8f25f0787b14b09638a294eab0b30b81c82295b8aa5e1df3fb36796fa6d0179\\\\layer.tar",
+            "sha256:9c27e219663c25e0f28493790cc0b88bc973ba3b1686355f221c38a36978ac63",
           ],
           "type": "imageLayers",
         },
@@ -4594,7 +4594,7 @@ Object {
         },
         Object {
           "data": Array [
-            "2943de48ac85f6eaeecbf35ed894375b5001e9001fd908e40d8e577b77e6bfeb.tar",
+            "sha256:2943de48ac85f6eaeecbf35ed894375b5001e9001fd908e40d8e577b77e6bfeb",
           ],
           "type": "imageLayers",
         },

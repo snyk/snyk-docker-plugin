@@ -63,9 +63,11 @@ describe("static", () => {
         (fact) => fact.type === "imageLayers",
       )!.data;
 
-    //    Layers are read correctly
+    //    Layers are read correctly (rootFsLayers / DiffIDs)
     expect(skopeoCopyImageLayers).toEqual([
-      "ce3539cc184915f96add8551b0e7a37d80c560fe3ffe40cfe4585ea3a8dc14e9.tar",
+      "sha256:2db44bce66cde56fca25aeeb7d09dc924b748e3adfe58c9cc3eb2bd2f68a1b68",
+      "sha256:16d1b1dd2a23a7a79426299fde8be361194007dfebb3438f96735755283becf8",
+      "sha256:ce3539cc184915f96add8551b0e7a37d80c560fe3ffe40cfe4585ea3a8dc14e9",
     ]);
 
     //    Contains some expected dependency
@@ -79,11 +81,11 @@ describe("static", () => {
         (fact) => fact.type === "imageLayers",
       )!.data;
 
-    //    Layers are read correctly
+    //    Layers are read correctly (rootFsLayers / DiffIDs)
     expect(dockerSaveImageLayers).toEqual([
-      path.normalize(
-        "ac415f8e415b242117277e7ee5224b30389698b46101e0f28224490af3b90a9d/layer.tar",
-      ),
+      "sha256:1c95c77433e8d7bf0f519c9d8c9ca967e2603f0defbf379130d9a841cca2e28e",
+      "sha256:002a63507c1caa5cc0e1af10e5b888f6ba20d06275e989a452581d789a48948e",
+      "sha256:12fdf55172df870a613a79c4757006c5b28e66a8621c3e26916678378568f078",
     ]);
 
     const dockerSaveDepGraph: DepGraph =
@@ -182,9 +184,9 @@ describe("static", () => {
         (fact) => fact.type === "imageLayers",
       )!.data;
 
-    //  image layers match
+    //  image layers match (rootFsLayers / DiffIDs)
     expect(imageLayers).toEqual([
-      "195be5f8be1df6709dafbba7ce48f2eee785ab7775b88e0c115d8205407265c5.tar",
+      "sha256:195be5f8be1df6709dafbba7ce48f2eee785ab7775b88e0c115d8205407265c5",
     ]);
 
     //  linux is the hackish package manager when nothing else is found

@@ -460,26 +460,28 @@ describe("computeLayerAttribution", () => {
       expect(result.finalImagePackages.size).toBe(0);
     });
 
-    it("caps iteration at rootFsLayers length when orderedLayers is longer", async () => {
+    it("throws when orderedLayers and diffIDs have mismatched lengths", async () => {
+      // A length mismatch between orderedLayers (extractor file contents) and
+      // diffIDs (extractor's rootfs.diff_ids view of the same layers) is an
+      // internal invariant violation — we want it to surface loudly rather
+      // than silently truncate and produce confidently-wrong attribution.
       const pkgs = [{ name: "libc", version: "2.35-r1" }];
       const orderedLayers = [
         makeApkLayer(makeApkDb(...pkgs)),
         makeApkLayer(makeApkDb(...pkgs, { name: "extra", version: "1.0-r0" })),
       ];
-      const diffIDs = ["sha256:a"]; // only one — second layer should be ignored
+      const diffIDs = ["sha256:a"];
 
-      const result = await computeLayerAttribution(
-        orderedLayers,
-        AnalysisType.Apk,
-        { diffIDs, manifestDigests: diffIDs, instructions: [] },
-        image,
-        undefined,
-        [],
-      );
-
-      expect(result.entries).toHaveLength(1);
-      expect(result.entries[0].layerIndex).toBe(0);
-      expect(result.finalImagePackages.has("extra@1.0-r0")).toBe(false);
+      await expect(
+        computeLayerAttribution(
+          orderedLayers,
+          AnalysisType.Apk,
+          { diffIDs, manifestDigests: diffIDs, instructions: [] },
+          image,
+          undefined,
+          [],
+        ),
+      ).rejects.toThrow(/orderedLayers \(2\) and diffIDs \(1\) must align/);
     });
 
     it("omits instruction when no instruction is supplied for that layer", async () => {
