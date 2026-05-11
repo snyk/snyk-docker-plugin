@@ -1,0 +1,19 @@
+load("@rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "npm",
+    srcs = ["static.go"],
+    importpath = "github.com/snyk/snyk-docker-plugin/pkg/inputs/npm",
+    visibility = ["//visibility:public"],
+    deps = ["//pkg/extractor"],
+)
+
+go_test(
+    name = "npm_test",
+    srcs = ["static_test.go"],
+    embed = [":npm"],
+    deps = [
+        "@com_github_stretchr_testify//assert",
+        "@com_github_stretchr_testify//require",
+    ],
+)

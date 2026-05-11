@@ -1,27 +1,21 @@
 load("@rules_go//go:def.bzl", "go_library", "go_test")
 
 go_library(
-    name = "python",
-    srcs = [
-        "pip.go",
-        "poetry.go",
-    ],
-    importpath = "github.com/snyk/snyk-docker-plugin/pkg/analyzer/applications/python",
+    name = "node",
+    srcs = ["lockfile.go"],
+    importpath = "github.com/snyk/snyk-docker-plugin/pkg/analyzer/applications/node",
     visibility = ["//visibility:public"],
     deps = [
         "//pkg/depgraph",
-        "//pkg/pythonparser",
         "//pkg/types",
+        "@in_gopkg_yaml_v3//:yaml_v3",
     ],
 )
 
 go_test(
-    name = "python_test",
-    srcs = [
-        "pip_test.go",
-        "poetry_test.go",
-    ],
-    embed = [":python"],
+    name = "node_test",
+    srcs = ["lockfile_test.go"],
+    embed = [":node"],
     deps = [
         "//pkg/types",
         "@com_github_stretchr_testify//assert",

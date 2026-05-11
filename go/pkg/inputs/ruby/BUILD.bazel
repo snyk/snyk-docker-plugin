@@ -1,0 +1,19 @@
+load("@rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "ruby",
+    srcs = ["static.go"],
+    importpath = "github.com/snyk/snyk-docker-plugin/pkg/inputs/ruby",
+    visibility = ["//visibility:public"],
+    deps = ["//pkg/extractor"],
+)
+
+go_test(
+    name = "ruby_test",
+    srcs = ["static_test.go"],
+    embed = [":ruby"],
+    deps = [
+        "@com_github_stretchr_testify//assert",
+        "@com_github_stretchr_testify//require",
+    ],
+)

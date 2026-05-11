@@ -35,3 +35,12 @@ use_repo(
     "com_github_spf13_pflag",
     "com_github_stretchr_testify",
 )
+
+# Indirect deps used directly in library targets.
+# gopkg.in/yaml.v3 is indirect in go.mod but referenced directly in BUILD files.
+go_deps.gazelle_override(
+    directives = ["gazelle:go_visibility //visibility:public"],
+    path = "gopkg.in/yaml.v3",
+)
+
+use_repo(go_deps, "in_gopkg_yaml_v3")

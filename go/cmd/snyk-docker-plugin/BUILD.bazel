@@ -1,0 +1,13 @@
+load("@rules_go//go:def.bzl", "go_binary")
+
+go_binary(
+    name = "snyk-docker-plugin",
+    srcs = ["main.go"],
+    importpath = "github.com/snyk/snyk-docker-plugin/cmd/snyk-docker-plugin",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//pkg/display",
+        "//pkg/scan",
+        "//pkg/types",
+    ],
+)

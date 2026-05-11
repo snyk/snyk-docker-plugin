@@ -15,6 +15,7 @@ go_library(
         "//pkg/analyzer/packages",
         "//pkg/depgraph",
         "//pkg/deptree",
+        "//pkg/dockerfile",
         "//pkg/extractor",
         "//pkg/extractor/docker",
         "//pkg/extractor/kaniko",
@@ -33,6 +34,7 @@ go_library(
         "//pkg/inputs/ruby",
         "//pkg/parser",
         "//pkg/registry",
+        "//pkg/response",
         "//pkg/types",
     ],
 )
