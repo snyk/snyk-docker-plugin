@@ -3,7 +3,7 @@ import { ApplicationFiles } from "./analyzer/applications/types";
 import { JarFingerprint } from "./analyzer/types";
 import { DockerFileAnalysis } from "./dockerfile/types";
 import { OCIDistributionMetadata } from "./extractor/oci-distribution-metadata";
-import { ProvenanceAttestation } from "./extractor/types";
+import { ProvenanceAttestation } from "./extractor/provenance-parser";
 import {
   AutoDetectedUserInstructions,
   ImageNameInfo,

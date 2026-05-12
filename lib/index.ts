@@ -11,7 +11,6 @@ import {
   DockerFileAnalysisErrorCode,
   UpdateDockerfileBaseImageNameErrorCode,
 } from "./dockerfile/types";
-import { ProvenanceAttestation, InTotoStatement } from "./extractor/types";
 import * as facts from "./facts";
 import { extractContent, scan } from "./scan";
 import {
@@ -46,6 +45,4 @@ export {
   UpdateDockerfileBaseImageNameErrorCode,
   Binary,
   parseDockerfile,
-  ProvenanceAttestation,
-  InTotoStatement,
 };

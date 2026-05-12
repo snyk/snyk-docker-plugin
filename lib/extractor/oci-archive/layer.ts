@@ -19,7 +19,7 @@ import {
   OciImageIndex,
   OciManifestInfo,
   OciPlatformInfo,
-  ProvenanceAttestation,
+  RawProvenanceAttestation,
 } from "../types";
 
 const debug = Debug("snyk");
@@ -59,7 +59,7 @@ export async function extractArchive(
   const metadata = await extractMetadata(ociArchiveFilesystemPath);
 
   // Determine which manifest and layers we need
-  const { manifest, imageConfig, provenanceAttestations } =
+  const { manifest, imageConfig, rawProvenanceAttestations } =
     resolveManifestAndConfig(metadata, options);
 
   // Get the list of layer digests we need to extract
@@ -118,7 +118,7 @@ export async function extractArchive(
     layers: filteredLayers,
     manifest,
     imageConfig,
-    provenanceAttestations,
+    rawProvenanceAttestations,
   };
 }
 
@@ -155,9 +155,6 @@ async function extractMetadata(
 
           if (isMainIndexFile(normalizedHeaderName)) {
             mainIndexFile = await streamToJson<OciImageIndex>(stream);
-            debug(
-              `[provenance-poc] Raw index.json: ${JSON.stringify(mainIndexFile, null, 2)}`,
-            );
           } else if (
             isBlobPath(normalizedHeaderName) &&
             (header.size === undefined || header.size <= MAX_JSON_SIZE_BYTES)
@@ -374,7 +371,7 @@ function resolveManifestAndConfig(
 ): {
   manifest: OciArchiveManifest;
   imageConfig: ImageConfig;
-  provenanceAttestations: ProvenanceAttestation[];
+  rawProvenanceAttestations: RawProvenanceAttestation[];
 } {
   const filteredConfigs = metadata.configs.filter((config) => {
     return config?.os !== "unknown" || config?.architecture !== "unknown";
@@ -409,15 +406,9 @@ function resolveManifestAndConfig(
     );
   }
 
-  const provenanceAttestations = extractProvenanceAttestations(metadata);
+  const rawProvenanceAttestations = extractProvenanceAttestations(metadata);
 
-  if (provenanceAttestations.length === 0) {
-    debug(
-      "[provenance-poc] No provenance attestations found in this image",
-    );
-  }
-
-  return { manifest, imageConfig, provenanceAttestations };
+  return { manifest, imageConfig, rawProvenanceAttestations };
 }
 
 function getManifest(
@@ -545,19 +536,10 @@ function getImageConfig(
 
 function extractProvenanceAttestations(
   metadata: ArchiveMetadata,
-): ProvenanceAttestation[] {
-  const attestations: ProvenanceAttestation[] = [];
-
-  debug(
-    `[provenance-poc] Scanning ${metadata.mainIndexFile!.manifests.length} descriptors in image index`,
-  );
+): RawProvenanceAttestation[] {
+  const attestations: RawProvenanceAttestation[] = [];
 
   for (const descriptor of metadata.mainIndexFile!.manifests) {
-    debug(
-      `[provenance-poc] Descriptor: digest=${descriptor.digest}, mediaType=${descriptor.mediaType}, ` +
-        `platform=${JSON.stringify(descriptor.platform)}, annotations=${JSON.stringify(descriptor.annotations)}`,
-    );
-
     const isAttestationManifest =
       descriptor.platform?.architecture === "unknown" &&
       descriptor.annotations?.["vnd.docker.reference.type"] ===
@@ -567,31 +549,17 @@ function extractProvenanceAttestations(
       continue;
     }
 
-    debug(
-      `[provenance-poc] Found attestation manifest descriptor: ${descriptor.digest}`,
-    );
-
     const nestedManifest = metadata.rawBlobs[descriptor.digest];
     if (!nestedManifest) {
-      debug(
-        `[provenance-poc] Could not find blob for attestation manifest ${descriptor.digest}`,
-      );
       continue;
     }
-
-    debug(
-      `[provenance-poc] Attestation manifest content: ${JSON.stringify(nestedManifest, null, 2)}`,
-    );
 
     const attestationManifest = nestedManifest as OciArchiveManifest;
     if (!attestationManifest.layers || !Array.isArray(attestationManifest.layers)) {
-      debug(
-        `[provenance-poc] Attestation manifest ${descriptor.digest} has no layers array`,
-      );
       continue;
     }
 
-    const attestation: ProvenanceAttestation = {
+    const attestation: RawProvenanceAttestation = {
       attestationManifestDigest: descriptor.digest,
       mediaType: descriptor.mediaType,
       annotations: descriptor.annotations || {},
@@ -599,36 +567,20 @@ function extractProvenanceAttestations(
     };
 
     for (const layer of attestationManifest.layers) {
-      debug(
-        `[provenance-poc] Attestation layer: digest=${layer.digest}, mediaType=${layer.mediaType}, ` +
-          `annotations=${JSON.stringify(layer.annotations)}`,
-      );
-
       const isProvenanceLayer =
         layer.annotations?.["in-toto.io/kind"] === "provenance" ||
         layer.mediaType === "application/vnd.in-toto+json";
 
-      const provenanceLayer: ProvenanceAttestation["provenanceLayers"][number] = {
+      const provenanceLayer: RawProvenanceAttestation["provenanceLayers"][number] = {
         digest: layer.digest,
         mediaType: layer.mediaType,
         annotations: layer.annotations,
       };
 
       if (isProvenanceLayer) {
-        debug(
-          `[provenance-poc] Found provenance layer: ${layer.digest}`,
-        );
-
         const inTotoBlob = metadata.rawBlobs[layer.digest];
         if (inTotoBlob) {
-          debug(
-            `[provenance-poc] In-toto statement content: ${JSON.stringify(inTotoBlob, null, 2)}`,
-          );
           provenanceLayer.inTotoStatement = inTotoBlob as InTotoStatement;
-        } else {
-          debug(
-            `[provenance-poc] Could not find blob for provenance layer ${layer.digest}`,
-          );
         }
       }
 
@@ -636,16 +588,6 @@ function extractProvenanceAttestations(
     }
 
     attestations.push(attestation);
-  }
-
-  debug(
-    `[provenance-poc] Found ${attestations.length} provenance attestation(s)`,
-  );
-
-  if (attestations.length > 0) {
-    debug(
-      `[provenance-poc] Full attestation data: ${JSON.stringify(attestations, null, 2)}`,
-    );
   }
 
   return attestations;
