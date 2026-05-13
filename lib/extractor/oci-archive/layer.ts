@@ -539,7 +539,11 @@ function extractProvenanceAttestations(
 ): RawProvenanceAttestation[] {
   const attestations: RawProvenanceAttestation[] = [];
 
-  for (const descriptor of metadata.mainIndexFile!.manifests) {
+  if (!metadata.mainIndexFile) {
+    return attestations;
+  }
+
+  for (const descriptor of metadata.mainIndexFile.manifests) {
     const isAttestationManifest =
       descriptor.platform?.architecture === "unknown" &&
       descriptor.annotations?.["vnd.docker.reference.type"] ===
