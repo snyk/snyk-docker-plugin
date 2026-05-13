@@ -1,3 +1,4 @@
+import * as Debug from "debug";
 import { DockerFileAnalysis } from "../dockerfile";
 import { getErrorMessage } from "../error-utils";
 import * as archiveExtractor from "../extractor";
@@ -85,6 +86,8 @@ import {
   OSRelease,
   StaticPackagesAnalysis,
 } from "./types";
+
+const debug = Debug("snyk");
 
 export async function analyze(
   targetImage: string,

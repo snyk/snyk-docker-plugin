@@ -273,7 +273,10 @@ describe("provenance-parser", () => {
               builder: { id: "buildkit" },
               buildType: "test",
               metadata: {
-                buildStartedOn: `2025-01-${String(i + 1).padStart(2, "0")}T00:00:00Z`,
+                buildStartedOn: `2025-01-${String(i + 1).padStart(
+                  2,
+                  "0",
+                )}T00:00:00Z`,
               },
               invocation: { configSource: {} },
             },

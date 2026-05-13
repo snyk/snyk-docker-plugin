@@ -555,7 +555,10 @@ function extractProvenanceAttestations(
     }
 
     const attestationManifest = nestedManifest as OciArchiveManifest;
-    if (!attestationManifest.layers || !Array.isArray(attestationManifest.layers)) {
+    if (
+      !attestationManifest.layers ||
+      !Array.isArray(attestationManifest.layers)
+    ) {
       continue;
     }
 
@@ -571,11 +574,12 @@ function extractProvenanceAttestations(
         layer.annotations?.["in-toto.io/kind"] === "provenance" ||
         layer.mediaType === "application/vnd.in-toto+json";
 
-      const provenanceLayer: RawProvenanceAttestation["provenanceLayers"][number] = {
-        digest: layer.digest,
-        mediaType: layer.mediaType,
-        annotations: layer.annotations,
-      };
+      const provenanceLayer: RawProvenanceAttestation["provenanceLayers"][number] =
+        {
+          digest: layer.digest,
+          mediaType: layer.mediaType,
+          annotations: layer.annotations,
+        };
 
       if (isProvenanceLayer) {
         const inTotoBlob = metadata.rawBlobs[layer.digest];

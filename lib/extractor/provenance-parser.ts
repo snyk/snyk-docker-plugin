@@ -20,7 +20,6 @@ export interface ProvenanceAttestation {
   dockerfileMetadata: DockerfileMetadata;
 }
 
-
 interface SlsaPredicate02 {
   builder?: { id?: string };
   buildType?: string;
@@ -89,9 +88,10 @@ function extractFieldsSlsa02(
   const dockerfilePath =
     predicate.invocation?.configSource?.entryPoint || "Dockerfile";
 
+  const dockerfileKey = "Dockerfile";
   const dockerfileContents =
     buildkitMeta?.source?.infos?.[0]?.data ||
-    buildkitMeta?.source?.locations?.["Dockerfile"]?.data ||
+    buildkitMeta?.source?.locations?.[dockerfileKey]?.data ||
     null;
 
   return {
@@ -148,7 +148,9 @@ function extractFieldsSlsa10(
   };
 }
 
-function parseStatement(statement: InTotoStatement): ProvenanceAttestation | null {
+function parseStatement(
+  statement: InTotoStatement,
+): ProvenanceAttestation | null {
   const predicate = statement.predicate;
   if (!predicate) {
     debug("[provenance] No predicate found in in-toto statement");

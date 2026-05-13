@@ -156,7 +156,6 @@ export interface RawProvenanceAttestation {
   }>;
 }
 
-
 export interface ExtractAction {
   // This name should be unique across all actions used.
   actionName: string;
