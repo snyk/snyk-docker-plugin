@@ -21,8 +21,6 @@ export interface AnalyzedPackage {
   };
   Purl?: string;
   AutoInstalled?: boolean;
-  layerIndex?: number;
-  layerDiffId?: string;
 }
 export interface AnalyzedPackageWithVersion extends AnalyzedPackage {
   Version: string;
