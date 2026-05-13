@@ -460,26 +460,28 @@ describe("computeLayerAttribution", () => {
       expect(result.finalImagePackages.size).toBe(0);
     });
 
-    it("caps iteration at rootFsLayers length when orderedLayers is longer", async () => {
+    it("throws when orderedLayers and diffIDs have mismatched lengths", async () => {
+      // A length mismatch between orderedLayers (extractor file contents) and
+      // diffIDs (extractor's rootfs.diff_ids view of the same layers) is an
+      // internal invariant violation — we want it to surface loudly rather
+      // than silently truncate and produce confidently-wrong attribution.
       const pkgs = [{ name: "libc", version: "2.35-r1" }];
       const orderedLayers = [
         makeApkLayer(makeApkDb(...pkgs)),
         makeApkLayer(makeApkDb(...pkgs, { name: "extra", version: "1.0-r0" })),
       ];
-      const diffIDs = ["sha256:a"]; // only one — second layer should be ignored
+      const diffIDs = ["sha256:a"];
 
-      const result = await computeLayerAttribution(
-        orderedLayers,
-        AnalysisType.Apk,
-        { diffIDs, manifestDigests: diffIDs, instructions: [] },
-        image,
-        undefined,
-        [],
-      );
-
-      expect(result.entries).toHaveLength(1);
-      expect(result.entries[0].layerIndex).toBe(0);
-      expect(result.finalImagePackages.has("extra@1.0-r0")).toBe(false);
+      await expect(
+        computeLayerAttribution(
+          orderedLayers,
+          AnalysisType.Apk,
+          { diffIDs, manifestDigests: diffIDs, instructions: [] },
+          image,
+          undefined,
+          [],
+        ),
+      ).rejects.toThrow(/orderedLayers \(2\) and diffIDs \(1\) must align/);
     });
 
     it("omits instruction when no instruction is supplied for that layer", async () => {
@@ -550,6 +552,103 @@ describe("computeLayerAttribution", () => {
       expect(result.entries).toHaveLength(2);
       expect(result.entries[0].packages).toContain("libc6@2.35-0ubuntu3");
       expect(result.entries[1].packages).toContain("nginx@1.18.0-6ubuntu14");
+    });
+
+    it("uses `<source>/<binary>` keys when a Source is present (apt)", async () => {
+      // Pins the load-bearing join shape: a Debian binary like `libc-bin`
+      // whose source package is `glibc` must surface in the fact as
+      // `glibc/libc-bin@<ver>`, identical to the dep-graph node name (and
+      // therefore identical to the leaf of a vuln's `from[]`). Without
+      // this, a downstream consumer matching `vuln.packageName ->
+      // finalImagePackages[...]` would miss every glibc-style vuln —
+      // i.e. the bulk of OS CVEs (libc, openssl, pam, systemd, ...).
+      const dpkgWithSource =
+        "Package: libc-bin\n" +
+        "Status: install ok installed\n" +
+        "Source: glibc\n" +
+        "Version: 2.36-9+deb12u7\n";
+
+      const orderedLayers = [makeAptLayer(dpkgWithSource)];
+
+      const result = await computeLayerAttribution(
+        orderedLayers,
+        AnalysisType.Apt,
+        {
+          diffIDs: ["sha256:a"],
+          manifestDigests: ["sha256:a"],
+          instructions: [],
+        },
+        image,
+        undefined,
+        [],
+      );
+
+      expect(result.entries[0].packages).toContain(
+        "glibc/libc-bin@2.36-9+deb12u7",
+      );
+      expect(result.entries[0].packages).not.toContain(
+        "libc-bin@2.36-9+deb12u7",
+      );
+      expect(
+        result.finalImagePackages.get("glibc/libc-bin@2.36-9+deb12u7"),
+      ).toEqual([{ layerIndex: 0, diffID: "sha256:a" }]);
+    });
+  });
+
+  describe("APK package manager — origin handling", () => {
+    // APK encodes the source/origin as the `o:` field. Mirrors the apt
+    // case above: `libcrypto3` has origin `openssl` and so must surface
+    // as `openssl/libcrypto3@<ver>` in the fact, joining 1:1 with the
+    // dep-graph node name and any vuln's `packageName`.
+    function makeApkLayerWithOrigin(
+      ...pkgs: Array<{ name: string; version: string; origin?: string }>
+    ): ExtractedLayers {
+      const stanza = (p: {
+        name: string;
+        version: string;
+        origin?: string;
+      }) => {
+        const lines = [`P:${p.name}`, `V:${p.version}`];
+        if (p.origin) {
+          lines.push(`o:${p.origin}`);
+        }
+        return lines.join("\n") + "\n";
+      };
+      return {
+        "/lib/apk/db/installed": {
+          "apk-db": pkgs.map(stanza).join("\n") + "\n",
+        },
+      };
+    }
+
+    it("uses `<origin>/<binary>` keys when an apk Origin is present", async () => {
+      const orderedLayers = [
+        makeApkLayerWithOrigin({
+          name: "libcrypto3",
+          version: "3.0.7-r0",
+          origin: "openssl",
+        }),
+      ];
+
+      const result = await computeLayerAttribution(
+        orderedLayers,
+        AnalysisType.Apk,
+        {
+          diffIDs: ["sha256:a"],
+          manifestDigests: ["sha256:a"],
+          instructions: [],
+        },
+        image,
+        undefined,
+        [],
+      );
+
+      expect(result.entries[0].packages).toContain(
+        "openssl/libcrypto3@3.0.7-r0",
+      );
+      expect(
+        result.finalImagePackages.get("openssl/libcrypto3@3.0.7-r0"),
+      ).toEqual([{ layerIndex: 0, diffID: "sha256:a" }]);
     });
   });
 });

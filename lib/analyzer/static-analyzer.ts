@@ -1,4 +1,5 @@
 import * as Debug from "debug";
+import { depFullName } from "../dependency-tree";
 import { DockerFileAnalysis } from "../dockerfile";
 import { getErrorMessage } from "../error-utils";
 import * as archiveExtractor from "../extractor";
@@ -283,7 +284,12 @@ export async function analyze(
           );
           allEntries.push(...entries);
           for (const pkg of result.Analysis) {
-            const key = `${pkg.Name}@${pkg.Version}`;
+            // Must match the key shape minted by `pkgKeySetFromAnalyses` in
+            // layer-attribution.ts (`<source>/<binary>@<version>` when a
+            // `Source` is present, else `<binary>@<version>`). Using
+            // `depFullName` from the dep-graph builder keeps that single
+            // source of truth for the join shape.
+            const key = `${depFullName(pkg)}@${pkg.Version}`;
             const origins = finalImagePackages.get(key);
             if (origins && origins.length > 0) {
               pkg.layerIndex = origins[0].layerIndex;
