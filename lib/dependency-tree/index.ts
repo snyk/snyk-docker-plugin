@@ -1,19 +1,6 @@
 import { AnalyzedPackageWithVersion, OSRelease } from "../analyzer/types";
 import { DepTree, DepTreeDep } from "../types";
 
-function buildLayerLabels(
-  depInfo: AnalyzedPackageWithVersion,
-): Record<string, string> | undefined {
-  const labels: Record<string, string> = {};
-  if (depInfo.layerDiffId !== undefined) {
-    labels.layerDiffId = depInfo.layerDiffId;
-  }
-  if (depInfo.layerIndex !== undefined) {
-    labels.layerIndex = String(depInfo.layerIndex);
-  }
-  return Object.keys(labels).length > 0 ? labels : undefined;
-}
-
 /** @deprecated Should implement a new function to build a dependency graph instead. */
 export function buildTree(
   targetImage: string,
@@ -134,13 +121,11 @@ export function buildTree(
     };
 
     for (const depInfo of tooFrequentDeps) {
-      const labels = buildLayerLabels(depInfo);
       const pkg: DepTreeDep = {
         name: depFullName(depInfo),
         version: depInfo.Version,
         sourceVersion: depInfo.SourceVersion,
         dependencies: {},
-        ...(labels ? { labels } : {}),
       };
 
       // The existence of the "meta" package breaks upgrade
@@ -187,13 +172,11 @@ function buildTreeRecursive(
     return null;
   }
 
-  const labels = buildLayerLabels(depInfo);
   const tree: DepTreeDep = {
     name: fullName,
     version: depInfo.Version,
     purl: depInfo.Purl,
     dependencies: {},
-    ...(labels ? { labels } : {}),
   };
   if (depInfo._visited) {
     return tree;

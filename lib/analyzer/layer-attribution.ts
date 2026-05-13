@@ -54,10 +54,8 @@ export interface LayerAttributionResult {
    * the type is list-valued from day one to keep the wire format and
    * the internal helper consistent across ecosystems.
    *
-   * Used internally by `static-analyzer.ts` to stamp `layerIndex` /
-   * `layerDiffId` onto individual package objects, and serialized into
-   * `LayerPackageAttributionFact.data.finalImagePackages` for the
-   * fact-reading consumer.
+   * Serialized into `LayerPackageAttributionFact.data.finalImagePackages`
+   * for the fact-reading consumer (e.g. registry).
    */
   finalImagePackages: Map<string, FinalImagePackageOrigin[]>;
 }
