@@ -1,5 +1,42 @@
 import { buildResponse } from "../../lib/response-builder";
+import { DepTreeDep } from "../../lib/types";
 import { RESPONSE_SIZE_LIMITS } from "../../lib/utils";
+
+class NodeBuilder {
+  private node: DepTreeDep;
+
+  constructor(name: string, labels?: any) {
+    this.node = {
+      name,
+      version: "1.0",
+      dependencies: {},
+      labels: labels || {},
+    };
+  }
+
+  public withChild(child: string | NodeBuilder | DepTreeDep): NodeBuilder {
+    let childNode: DepTreeDep;
+    if (typeof child === "string") {
+      childNode = node(child).build();
+    } else if (child instanceof NodeBuilder) {
+      childNode = child.build();
+    } else {
+      childNode = child;
+    }
+
+    if (!this.node.dependencies) {
+      this.node.dependencies = {};
+    }
+    this.node.dependencies[childNode.name] = childNode;
+    return this;
+  }
+
+  public build(): DepTreeDep {
+    return this.node;
+  }
+}
+
+const node = (name: string, labels?: any) => new NodeBuilder(name, labels);
 
 describe("buildResponse", () => {
   const createMockAnalysis = (overrides = {}) => ({
@@ -16,6 +53,16 @@ describe("buildResponse", () => {
     manifestFiles: [],
     ...overrides,
   });
+
+  const getDepPkgs = (scanResult: {
+    facts?: Array<{ type: string; data: any }>;
+  }): Array<{ name: string }> => {
+    const depGraph = scanResult.facts?.find((f) => f.type === "depGraph")?.data;
+    if (!depGraph || typeof depGraph.getDepPkgs !== "function") {
+      return [];
+    }
+    return depGraph.getDepPkgs();
+  };
 
   describe("ensure fact structure with undefined properties", () => {
     it("should exclude undefined and missing containerConfig properties", async () => {
@@ -1349,6 +1396,362 @@ describe("buildResponse", () => {
           expectedAppKeys.sort(),
         );
       });
+    });
+  });
+
+  describe("dockerfile attribution and excludeBaseImageVulns", () => {
+    const runInstruction = "RUN apk add foo";
+    const expectedDigest = Buffer.from(runInstruction).toString("base64");
+
+    const dockerfileAnalysis = {
+      baseImage: "alpine:3.18",
+      dockerfilePackages: {
+        foo: {
+          instruction: runInstruction,
+          installCommand: "apk add foo",
+        },
+      },
+      dockerfileLayers: {
+        [expectedDigest]: { instruction: runInstruction },
+      },
+    };
+
+    const depsWithBaseAndUser = {
+      foo: node("foo")
+        .withChild(node("foo/foo-dev").withChild("foo/foo-lib"))
+        .build(),
+      "base/base": node("base/base").build(),
+    };
+
+    it("only user-installed packages are retained when excludeBaseImageVulns=true and dockerfileAnalysis is provided", async () => {
+      const analysis = createMockAnalysis({
+        depTree: {
+          dependencies: structuredClone(depsWithBaseAndUser),
+          name: "my-image",
+          version: "1.0.0",
+          packageFormatVersion: "apk:0.0.1",
+          targetOS: {
+            name: "alpine",
+            prettyName: "Alpine 3.18",
+            version: "3.18",
+          },
+        },
+        packageFormat: "apk",
+      });
+
+      const result = await buildResponse(
+        analysis as any,
+        structuredClone(dockerfileAnalysis) as any,
+        true,
+      );
+
+      const pkgNames = getDepPkgs(result.scanResults[0]).map((p) => p.name);
+      expect(pkgNames).toContain("foo");
+      expect(pkgNames).toContain("foo/foo-dev");
+      expect(pkgNames).toContain("foo/foo-lib");
+      expect(pkgNames).not.toContain("base/base");
+
+      // Assert that the dockerfileAnalysis fact is present and only contains packages keyed by source segment.
+      const dockerfileFact = result.scanResults[0].facts?.find(
+        (f) => f.type === "dockerfileAnalysis",
+      );
+      expect(dockerfileFact).toBeDefined();
+      expect(dockerfileFact!.data.dockerfilePackages).toEqual(
+        expect.objectContaining({
+          foo: expect.any(Object),
+        }),
+      );
+    });
+
+    it("all packages are retained when excludeBaseImageVulns=false and dockerfileAnalysis is provided", async () => {
+      const analysis = createMockAnalysis({
+        depTree: {
+          dependencies: structuredClone(depsWithBaseAndUser),
+          name: "my-image",
+          version: "1.0.0",
+          packageFormatVersion: "apk:0.0.1",
+          targetOS: {
+            name: "alpine",
+            prettyName: "Alpine 3.18",
+            version: "3.18",
+          },
+        },
+        packageFormat: "apk",
+      });
+
+      const result = await buildResponse(
+        analysis as any,
+        structuredClone(dockerfileAnalysis) as any,
+        false,
+      );
+
+      const pkgNames = getDepPkgs(result.scanResults[0]).map((p) => p.name);
+      expect(pkgNames).toContain("foo");
+      expect(pkgNames).toContain("base/base");
+    });
+
+    it("only user-installed packages are retained when excludeBaseImageVulns=true and autoDetectedUserInstructions is provided", async () => {
+      const autoDetected = {
+        dockerfilePackages: {
+          foo: {
+            instruction: runInstruction,
+            installCommand: "apk add foo",
+          },
+        },
+        dockerfileLayers: {
+          [expectedDigest]: { instruction: runInstruction },
+        },
+      };
+
+      const analysis = createMockAnalysis({
+        depTree: {
+          dependencies: structuredClone(depsWithBaseAndUser),
+          name: "my-image",
+          version: "1.0.0",
+          packageFormatVersion: "apk:0.0.1",
+          targetOS: {
+            name: "alpine",
+            prettyName: "Alpine 3.18",
+            version: "3.18",
+          },
+        },
+        packageFormat: "apk",
+        autoDetectedUserInstructions: autoDetected,
+      });
+
+      const result = await buildResponse(analysis as any, undefined, true);
+
+      const pkgNames = getDepPkgs(result.scanResults[0]).map((p) => p.name);
+      expect(pkgNames).toContain("foo");
+      expect(pkgNames).not.toContain("base/base");
+
+      // Assert that the autoDetectedUserInstructions fact is present and only contains packages keyed by source segment.
+      const autoFact = result.scanResults[0].facts?.find(
+        (f) => f.type === "autoDetectedUserInstructions",
+      );
+      expect(autoFact).toBeDefined();
+      expect(autoFact!.data.dockerfilePackages).toEqual(
+        expect.objectContaining({
+          foo: expect.any(Object),
+        }),
+      );
+    });
+
+    it("dockerfileAnalysis takes priority over autoDetectedUserInstructions for exclusion and attribution", async () => {
+      const barInstruction = "RUN apk add bar";
+      const autoDetected = {
+        dockerfilePackages: {
+          bar: {
+            instruction: barInstruction,
+            installCommand: "apk add bar",
+          },
+        },
+        dockerfileLayers: {
+          [Buffer.from(barInstruction).toString("base64")]: {
+            instruction: barInstruction,
+          },
+        },
+      };
+
+      const deps = {
+        foo: node("foo").build(),
+        bar: node("bar").build(),
+        "base/base": node("base/base").build(),
+      };
+
+      const analysis = createMockAnalysis({
+        depTree: {
+          dependencies: structuredClone(deps),
+          name: "my-image",
+          version: "1.0.0",
+          packageFormatVersion: "apk:0.0.1",
+          targetOS: {
+            name: "alpine",
+            prettyName: "Alpine 3.18",
+            version: "3.18",
+          },
+        },
+        packageFormat: "apk",
+        autoDetectedUserInstructions: autoDetected,
+      });
+
+      const result = await buildResponse(
+        analysis as any,
+        structuredClone(dockerfileAnalysis) as any,
+        true,
+      );
+
+      const pkgNames = getDepPkgs(result.scanResults[0]).map((p) => p.name);
+      expect(pkgNames).toContain("foo");
+      expect(pkgNames).not.toContain("bar");
+      expect(pkgNames).not.toContain("base/base");
+    });
+
+    it("all packages are retained when no dockerfileAnalysis or autoDetectedUserInstructions provided", async () => {
+      const analysis = createMockAnalysis({
+        depTree: {
+          dependencies: structuredClone(depsWithBaseAndUser),
+          name: "my-image",
+          version: "1.0.0",
+          packageFormatVersion: "apk:0.0.1",
+          targetOS: {
+            name: "alpine",
+            prettyName: "Alpine 3.18",
+            version: "3.18",
+          },
+        },
+        packageFormat: "apk",
+      });
+
+      const result = await buildResponse(analysis as any, undefined, true);
+
+      const pkgNames = getDepPkgs(result.scanResults[0]).map((p) => p.name);
+      expect(pkgNames).toContain("foo");
+      expect(pkgNames).toContain("base/base");
+
+      expect(
+        result.scanResults[0].facts?.find(
+          (f) => f.type === "dockerfileAnalysis",
+        ),
+      ).toBeUndefined();
+      expect(
+        result.scanResults[0].facts?.find(
+          (f) => f.type === "autoDetectedUserInstructions",
+        ),
+      ).toBeUndefined();
+    });
+
+    it("over-attributes base deps that share a source segment with a transitive of a Dockerfile package", async () => {
+      /**
+       * This test case demonstrates how getUserInstructionDeps can over-attribute base deps that
+       * share a source segment with a transitive of a Dockerfile package.
+       *
+       * Assume the following dep tree:
+       *
+       * docker-image|my-image
+       * ├── foo/foo
+       * │   ├── foo/foo-dev
+       * │   └── common-src/pkg-a
+       * └── common-src/pkg-b
+       *     ├── common-src/pkg-c
+       *     │   └── bar/bar
+       *     └── baz/baz
+       *
+       * getUserInstructionDeps adds transitive source segments from foo/foo, including
+       * `common-src` from common-src/pkg-a. That makes the later top-level base dep
+       * common-src/pkg-b match dockerfilePackages["common-src"], so bar/ and baz/
+       * segments are also added and excludeBaseImageVulns keeps the entire graph — an
+       * over-attribution of base-only packages to the Dockerfile install.
+       */
+      const depsSharedSourceSegment = {
+        "foo/foo": node("foo/foo")
+          .withChild("foo/foo-dev")
+          .withChild("common-src/pkg-a")
+          .build(),
+        "common-src/pkg-b": node("common-src/pkg-b")
+          .withChild(node("common-src/pkg-c").withChild("bar/bar"))
+          .withChild("baz/baz")
+          .build(),
+      };
+
+      const analysis = createMockAnalysis({
+        depTree: {
+          dependencies: structuredClone(depsSharedSourceSegment),
+          name: "my-image",
+          version: "1.0.0",
+          packageFormatVersion: "apk:0.0.1",
+          targetOS: {
+            name: "alpine",
+            prettyName: "Alpine 3.18",
+            version: "3.18",
+          },
+        },
+        packageFormat: "apk",
+      });
+
+      const result = await buildResponse(
+        analysis as any,
+        structuredClone(dockerfileAnalysis) as any,
+        true,
+      );
+
+      const pkgNames = getDepPkgs(result.scanResults[0]).map((p) => p.name);
+      expect(pkgNames).toEqual(
+        expect.arrayContaining([
+          "foo/foo",
+          "foo/foo-dev",
+          "common-src/pkg-a",
+          "common-src/pkg-b",
+          "common-src/pkg-c",
+          "bar/bar",
+          "baz/baz",
+        ]),
+      );
+    });
+
+    it("attributes base deps that share a source segment with a transitive of a Dockerfile package when the transitive is source only", async () => {
+      /**
+       * This test case is nearly identical to the previous test case, but the transitive package has been changed to only be single
+       * segment name. In this case it is ambiguous whether "common-src/pkg-b" is a dependency of "foo/foo" or a base image package.
+       * In this case it should **not** be considered an error to attribute all packages in the tree to the Dockerfile install.
+       *
+       * This test uses the following dep tree:
+       *
+       * docker-image|my-image
+       * ├── foo/foo
+       * │   ├── foo/foo-dev
+       * │   └── common-src   <-- single segment name
+       * └── common-src/pkg-b
+       *     ├── common-src/pkg-c
+       *     │   └── bar/bar
+       *     └── baz/baz
+       *
+       */
+      const depsSharedSourceSegment = {
+        "foo/foo": node("foo/foo")
+          .withChild("foo/foo-dev")
+          .withChild("common-src")
+          .build(),
+        "common-src/pkg-b": node("common-src/pkg-b")
+          .withChild(node("common-src/pkg-c").withChild("bar/bar"))
+          .withChild("baz/baz")
+          .build(),
+      };
+
+      const analysis = createMockAnalysis({
+        depTree: {
+          dependencies: structuredClone(depsSharedSourceSegment),
+          name: "my-image",
+          version: "1.0.0",
+          packageFormatVersion: "apk:0.0.1",
+          targetOS: {
+            name: "alpine",
+            prettyName: "Alpine 3.18",
+            version: "3.18",
+          },
+        },
+        packageFormat: "apk",
+      });
+
+      const result = await buildResponse(
+        analysis as any,
+        structuredClone(dockerfileAnalysis) as any,
+        true,
+      );
+
+      const pkgNames = getDepPkgs(result.scanResults[0]).map((p) => p.name);
+      console.dir(pkgNames, { depth: null });
+      expect(pkgNames).toEqual(
+        expect.arrayContaining([
+          "foo/foo",
+          "foo/foo-dev",
+          "common-src",
+          "common-src/pkg-b",
+          "common-src/pkg-c",
+          "bar/bar",
+          "baz/baz",
+        ]),
+      );
     });
   });
 });

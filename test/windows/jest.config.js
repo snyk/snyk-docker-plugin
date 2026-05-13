@@ -1,6 +1,9 @@
 module.exports = {
   preset: "ts-jest",
-  setupFilesAfterEnv: ["<rootDir>/../matchers/setup.ts"],
+  setupFilesAfterEnv: [
+    "<rootDir>/../jest-snapshot-strip-analytics.cjs",
+    "<rootDir>/../matchers/setup.ts",
+  ],
   testEnvironment: "node",
   testMatch: ["<rootDir>/**/*.spec.ts"],
   testTimeout: 600000, // 10 minutes

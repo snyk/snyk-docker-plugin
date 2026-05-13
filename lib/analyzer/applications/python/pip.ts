@@ -3,6 +3,7 @@ import * as Debug from "debug";
 import { eventLoopSpinner } from "event-loop-spinner";
 import * as path from "path";
 import * as semver from "semver";
+import { getErrorMessage } from "../../../error-utils";
 import { DepGraphFact } from "../../../facts";
 import { compareVersions } from "../../../python-parser/common";
 import { getPackageInfo } from "../../../python-parser/metadata-parser";
@@ -133,7 +134,7 @@ export async function pipFilesToScannedProjects(
         }
         metadataItems[packageInfo.name.toLowerCase()].push(packageInfo);
       } catch (err) {
-        debug(err.message);
+        debug(getErrorMessage(err));
       }
     }
   }

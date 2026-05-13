@@ -70,6 +70,8 @@ export type FactType =
   | "jarFingerprints"
   // Hashes of executables not installed by a package manager (e.g. if they were copied straight onto the image).
   | "keyBinariesHashes"
+  // Base runtime metadata (e.g., Java ) extracted from release files
+  | "baseRuntimes"
   | "loadedPackages"
   | "ociDistributionMetadata"
   | "containerConfig"
@@ -82,9 +84,15 @@ export type FactType =
   // Application files observed in the image
   | "applicationFiles";
 
+export interface PluginAnalytics {
+  name: string;
+  data: unknown;
+}
+
 export interface PluginResponse {
   /** The first result is guaranteed to be the OS dependencies scan result. */
   scanResults: ScanResult[];
+  analytics?: PluginAnalytics[];
 }
 
 export interface ScanResult {

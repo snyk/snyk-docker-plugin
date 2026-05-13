@@ -4,9 +4,11 @@ import {
   getLayersFromPackages,
   getPackagesFromRunInstructions,
 } from "../dockerfile/instruction-parser";
+import { getErrorMessage } from "../error-utils";
 import { AutoDetectedUserInstructions, ImageType } from "../types";
 import { PluginOptions } from "../types";
 import * as dockerExtractor from "./docker-archive";
+import { InvalidArchiveError } from "./generic-archive-extractor";
 import * as kanikoExtractor from "./kaniko-archive";
 import * as ociExtractor from "./oci-archive";
 import {
@@ -20,16 +22,15 @@ import {
   ImageConfig,
   OciArchiveManifest,
 } from "./types";
+import {
+  isOpaqueWhiteout,
+  isWhitedOutFile,
+  removeWhiteoutPrefix,
+} from "./whiteout";
 
 const debug = Debug("snyk");
 
-export class InvalidArchiveError extends Error {
-  constructor(message) {
-    super();
-    this.name = "InvalidArchiveError";
-    this.message = message;
-  }
-}
+export { InvalidArchiveError } from "./generic-archive-extractor";
 class ArchiveExtractor {
   private extractor: Extractor;
   private fileSystemPath: string;
@@ -166,7 +167,9 @@ async function extractArchiveContentFallback(
     } catch (error) {
       // imageType is a string enum value like "docker-archive", "oci-archive"
       debug(
-        `Error getting layers and manifest content from ${imageType} archive: ${error.message}`,
+        `Error getting layers and manifest content from ${imageType} archive: ${getErrorMessage(
+          error,
+        )}`,
       );
       continue;
     }
@@ -278,34 +281,7 @@ function layersWithLatestFileModifications(
   return extractedLayers;
 }
 
-/**
- * check if a file is 'whited out' (filename starts with .wh.)
- * https://www.madebymikal.com/interpreting-whiteout-files-in-docker-image-layers
- * https://github.com/opencontainers/image-spec/blob/main/layer.md#whiteouts
- */
-export function isWhitedOutFile(filename: string): boolean {
-  return getBasename(filename).startsWith(".wh.");
-}
-
-/**
- * Check if a file is an opaque whiteout (.wh..wh..opq).
- * Opaque whiteouts mean "delete everything in this directory from lower layers."
- * https://github.com/opencontainers/image-spec/blob/main/layer.md#opaque-whiteout
- */
-export function isOpaqueWhiteout(filename: string): boolean {
-  return getBasename(filename) === ".wh..wh..opq";
-}
-
-/**
- * Extract the basename from a path, handling both / and \ separators cross-platform.
- */
-function getBasename(filename: string): string {
-  const lastSlash = Math.max(
-    filename.lastIndexOf("/"),
-    filename.lastIndexOf("\\"),
-  );
-  return lastSlash === -1 ? filename : filename.substring(lastSlash + 1);
-}
+export { isOpaqueWhiteout, isWhitedOutFile, removeWhiteoutPrefix };
 
 function isFileInOpaqueDir(
   filename: string,
@@ -314,15 +290,6 @@ function isFileInOpaqueDir(
   return Array.from(opaqueWhiteoutDirs).some((opaqueDir) =>
     isFileInFolder(filename, opaqueDir),
   );
-}
-
-/**
- * Remove the .wh. prefix from a whiteout file to get the original filename
- */
-export function removeWhiteoutPrefix(filename: string): string {
-  // Replace .wh. at the start or after the last slash/backslash.
-  // Don't match if there are slashes after .wh.
-  return filename.replace(/^(.*[\/\\])?\.wh\.([^\/\\]*)$/, "$1$2");
 }
 
 function isBufferType(type: FileContent): type is Buffer {

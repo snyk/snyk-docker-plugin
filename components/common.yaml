@@ -17,6 +17,7 @@ schemas:
     enum:
       - autoDetectedUserInstructions
       - binaries
+      - baseRuntimes
       - depGraph
       - dockerfileAnalysis
       - dockerLayers

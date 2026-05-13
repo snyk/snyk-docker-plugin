@@ -1,6 +1,9 @@
 module.exports = {
   preset: "ts-jest",
-  setupFilesAfterEnv: ["<rootDir>/test/matchers/setup.ts"],
+  setupFilesAfterEnv: [
+    "<rootDir>/test/jest-snapshot-strip-analytics.cjs",
+    "<rootDir>/test/matchers/setup.ts",
+  ],
   testEnvironment: "node",
   testMatch: ["<rootDir>/test/**/*.spec.ts"],
   testPathIgnorePatterns: ["<rootDir>/test/windows/"],

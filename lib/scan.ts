@@ -259,6 +259,7 @@ export async function extractContent(
   switch (imageType) {
     case ImageType.DockerArchive:
     case ImageType.OciArchive:
+    case ImageType.KanikoArchive:
       imagePath = getAndValidateArchivePath(targetImage);
       break;
     case ImageType.Identifier:

@@ -1,6 +1,8 @@
 import * as Debug from "debug";
 import { mkdir, mkdtemp, rm, stat, writeFile } from "fs/promises";
+import * as os from "os";
 import * as path from "path";
+import { getErrorMessage } from "../../error-utils";
 import { FilePathToContent, FilesByDirMap } from "./types";
 const debug = Debug("snyk");
 
@@ -22,7 +24,7 @@ interface ScanPaths {
 async function createTempProjectDir(
   projectDir: string,
 ): Promise<{ tmpDir: string; tempProjectRoot: string }> {
-  const tmpDir = await mkdtemp("snyk");
+  const tmpDir = await mkdtemp(path.join(os.tmpdir(), "snyk-"));
 
   const tempProjectRoot = path.join(tmpDir, projectDir);
 
@@ -51,7 +53,9 @@ async function createSyntheticManifest(
     await writeFile(tempRootManifestPath, "{}", "utf-8");
   } catch (error) {
     debug(
-      `Error while writing file ${tempRootManifestPath} : ${error.message}`,
+      `Error while writing file ${tempRootManifestPath} : ${getErrorMessage(
+        error,
+      )}`,
     );
   }
 }
@@ -76,20 +80,23 @@ async function persistNodeModules(
   fileNamesGroupedByDirectory: FilesByDirMap,
 ): Promise<ScanPaths> {
   const modules = fileNamesGroupedByDirectory.get(project);
-  const tmpDir: string = "";
-  const tempProjectRoot: string = "";
 
   if (!modules || modules.size === 0) {
     debug(`Empty application directory tree.`);
-
-    return {
-      tempDir: tmpDir,
-      tempProjectPath: tempProjectRoot,
-    };
+    return { tempDir: "", tempProjectPath: "" };
   }
 
+  // Create the temp directory first so we can return it in the catch block
+  // for cleanup. Previously, the outer tmpDir/tempProjectRoot were always
+  // empty strings, meaning any temp directory created before a failure in
+  // saveOnDisk or later steps would be leaked (caller couldn't clean it up).
+  let tmpDir = "";
+  let tempProjectRoot = "";
+
   try {
-    const { tmpDir, tempProjectRoot } = await createTempProjectDir(project);
+    const created = await createTempProjectDir(project);
+    tmpDir = created.tmpDir;
+    tempProjectRoot = created.tempProjectRoot;
 
     await saveOnDisk(tmpDir, modules, filePathToContent);
 
@@ -113,7 +120,9 @@ async function persistNodeModules(
     return result;
   } catch (error) {
     debug(
-      `Failed to copy the application manifest files locally: ${error.message}`,
+      `Failed to copy the application manifest files locally: ${getErrorMessage(
+        error,
+      )}`,
     );
     return {
       tempDir: tmpDir,
@@ -122,12 +131,15 @@ async function persistNodeModules(
   }
 }
 
-async function createFile(filePath, fileContent): Promise<void> {
+async function createFile(
+  filePath: string,
+  fileContent: string,
+): Promise<void> {
   try {
     await mkdir(path.dirname(filePath), { recursive: true });
     await writeFile(filePath, fileContent, "utf-8");
   } catch (error) {
-    debug(`Error while creating file ${filePath} : ${error.message}`);
+    debug(`Error while creating file ${filePath} : ${getErrorMessage(error)}`);
   }
 }
 
@@ -241,6 +253,6 @@ async function cleanupAppNodeModules(appRootDir: string): Promise<void> {
   try {
     await rm(appRootDir, { recursive: true });
   } catch (error) {
-    debug(`Error while removing ${appRootDir} : ${error.message}`);
+    debug(`Error while removing ${appRootDir} : ${getErrorMessage(error)}`);
   }
 }

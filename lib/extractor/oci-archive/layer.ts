@@ -4,6 +4,7 @@ import { normalize as normalizePath, sep as pathSeparator } from "path";
 import { Readable } from "stream";
 import { extract, Extract } from "tar-stream";
 import { getPlatformFromConfig, InvalidArchiveError } from "..";
+import { getErrorMessage } from "../../error-utils";
 import { streamToJson } from "../../stream-utils";
 import { PluginOptions } from "../../types";
 import { decompressMaybe } from "../decompress-maybe";
@@ -171,7 +172,9 @@ async function extractMetadata(
         }
       } catch (err) {
         debug(
-          `Error processing OCI archive entry ${header.name}: ${err.message}`,
+          `Error processing OCI archive entry ${header.name}: ${getErrorMessage(
+            err,
+          )}`,
         );
       }
 
@@ -299,8 +302,7 @@ async function extractLayers(
                 const layer = await extractImageLayer(stream, extractActions);
                 layers[digest] = layer;
               } catch (error) {
-                const errorMessage =
-                  error instanceof Error ? error.message : String(error);
+                const errorMessage = getErrorMessage(error);
                 debug(`Failed to extract layer ${digest}: ${errorMessage}`);
                 failedDigests.set(digest, errorMessage);
               }
@@ -308,7 +310,11 @@ async function extractLayers(
           }
         }
       } catch (err) {
-        debug(`Error processing archive entry ${header.name}: ${err.message}`);
+        debug(
+          `Error processing archive entry ${header.name}: ${getErrorMessage(
+            err,
+          )}`,
+        );
       }
 
       stream.resume();

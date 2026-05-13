@@ -3,6 +3,7 @@ import * as Debug from "debug";
 import * as path from "path";
 import * as lockFileParser from "snyk-nodejs-lockfile-parser";
 import * as resolveDeps from "snyk-resolve-deps";
+import { getErrorMessage } from "../../error-utils";
 import { DepGraphFact, TestedFilesFact } from "../../facts";
 
 const debug = Debug("snyk");
@@ -136,7 +137,7 @@ async function depGraphFromNodeModules(
       }
 
       const depGraph = await legacy.depTreeToGraph(
-        pkgTree,
+        pkgTree as any,
         pkgTree.type || "npm",
       );
 
@@ -162,7 +163,9 @@ async function depGraphFromNodeModules(
       });
     } catch (error) {
       debug(
-        `An error occurred while analysing node_modules dir: ${error.message}`,
+        `An error occurred while analysing node_modules dir: ${getErrorMessage(
+          error,
+        )}`,
       );
     } finally {
       await cleanupAppNodeModules(tempDir);
@@ -300,7 +303,9 @@ async function depGraphFromManifestFiles(
           );
     } catch (err) {
       debug(
-        `An error occurred while analysing a pair of manifest and lock files: ${err.message}`,
+        `An error occurred while analysing a pair of manifest and lock files: ${getErrorMessage(
+          err,
+        )}`,
       );
       continue;
     }
@@ -417,7 +422,7 @@ function stripUndefinedLabels(
   parserResult: lockFileParser.PkgTree,
 ): lockFileParser.PkgTree {
   const optionalLabels = parserResult.labels;
-  const mandatoryLabels: Record<string, string> = {};
+  const mandatoryLabels: Record<string, any> = {};
   if (optionalLabels) {
     for (const currentLabelName of Object.keys(optionalLabels)) {
       if (optionalLabels[currentLabelName] !== undefined) {
@@ -428,7 +433,7 @@ function stripUndefinedLabels(
   const parserResultWithProperLabels = Object.assign({}, parserResult, {
     labels: mandatoryLabels,
   });
-  return parserResultWithProperLabels;
+  return parserResultWithProperLabels as lockFileParser.PkgTree;
 }
 
 async function buildDepGraph(
@@ -513,7 +518,10 @@ async function buildDepGraphFromDepTree(
     // Don't provide a default manifest file name, prefer the parser to infer it.
   );
   const strippedLabelsParserResult = stripUndefinedLabels(parserResult);
-  return await legacy.depTreeToGraph(strippedLabelsParserResult, lockfileType);
+  return await legacy.depTreeToGraph(
+    strippedLabelsParserResult as any,
+    lockfileType,
+  );
 }
 
 export function getLockFileVersion(

@@ -1,4 +1,5 @@
 import { ImageName } from "../extractor/image";
+import { BaseRuntime } from "../facts";
 import { AutoDetectedUserInstructions, ManifestFile } from "../types";
 import {
   AppDepsScanResultWithoutTarget,
@@ -75,6 +76,7 @@ export interface StaticAnalysis {
   osRelease: OSRelease;
   results: ImageAnalysis[];
   binaries: string[];
+  baseRuntimes?: BaseRuntime[];
   imageLayers: string[];
   rootFsLayers?: string[];
   autoDetectedUserInstructions?: AutoDetectedUserInstructions;
@@ -101,6 +103,7 @@ export interface StaticAnalysis {
     comment?: string | null;
     empty_layer?: boolean | null;
   }> | null;
+  timings?: Record<string, number>;
 }
 
 export interface StaticPackagesAnalysis extends StaticAnalysis {

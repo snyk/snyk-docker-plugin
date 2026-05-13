@@ -2,10 +2,11 @@ import * as Debug from "debug";
 import * as path from "path";
 import { Readable } from "stream";
 import { extract, Extract } from "tar-stream";
-import { isOpaqueWhiteout, isWhitedOutFile } from ".";
+import { getErrorMessage } from "../error-utils";
 import { applyCallbacks, isResultEmpty } from "./callbacks";
 import { decompressMaybe } from "./decompress-maybe";
 import { ExtractAction, ExtractedLayers } from "./types";
+import { isOpaqueWhiteout, isWhitedOutFile } from "./whiteout";
 
 const debug = Debug("snyk");
 
@@ -51,7 +52,9 @@ export async function extractImageLayer(
           } catch (error) {
             // An ExtractAction has thrown an uncaught exception, likely a bug in the code!
             debug(
-              `Exception thrown while applying callbacks during image layer extraction: ${error.message}`,
+              `Exception thrown while applying callbacks during image layer extraction: ${getErrorMessage(
+                error,
+              )}`,
             );
             reject(error);
             return;
