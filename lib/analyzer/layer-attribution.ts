@@ -1,3 +1,4 @@
+import { depFullName } from "../dependency-tree";
 import { ExtractedLayers, HistoryEntry } from "../extractor/types";
 import { FinalImagePackageOrigin, LayerAttributionEntry } from "../facts";
 import {
@@ -130,10 +131,17 @@ function layerHasAction(layer: ExtractedLayers, actionName: string): boolean {
 }
 
 /**
- * Builds a `name@version` Set from one or more analyzer outputs. Used by
- * every package-manager branch in `parseLayerOsPackages` so the Set-construction
- * loop isn't repeated per branch. Variadic to accommodate RPM, which produces
- * separate analyses for the BDB/NDB and SQLite formats.
+ * Builds a `<fullName>@<version>` Set from one or more analyzer outputs,
+ * where `fullName` is the same string the dep-graph builder uses for the
+ * package node (`<source>/<binary>` when a source/origin is known,
+ * otherwise just `<binary>`). Sharing `depFullName` with the dep-graph
+ * side is what lets a downstream consumer join a vulnerability's
+ * `packageName` straight into `LayerPackageAttributionFact.finalImagePackages`
+ * without reverse-engineering the source-vs-binary distinction (e.g.
+ * `glibc/libc-bin`, `openssl/libcrypto3`).
+ *
+ * Variadic to accommodate RPM, which produces separate analyses for the
+ * BDB/NDB and SQLite formats.
  */
 function pkgKeySetFromAnalyses(
   ...analyses: ImagePackagesAnalysis[]
@@ -141,7 +149,7 @@ function pkgKeySetFromAnalyses(
   const result = new Set<string>();
   for (const analysis of analyses) {
     for (const pkg of analysis.Analysis) {
-      result.add(`${pkg.Name}@${pkg.Version}`);
+      result.add(`${depFullName(pkg)}@${pkg.Version}`);
     }
   }
   return result;
