@@ -7,6 +7,7 @@ import * as facts from "./facts";
 import { instructionDigest } from "./dockerfile";
 import { DockerFileAnalysis, DockerFilePackages } from "./dockerfile/types";
 import { OCIDistributionMetadata } from "./extractor/oci-distribution-metadata";
+import { parseProvenanceAttestations } from "./extractor/provenance-parser";
 
 import { computeScanPayloadMetrics } from "./scan-payload-metrics";
 import * as types from "./types";
@@ -300,6 +301,22 @@ async function buildResponse(
       data: ociDistributionMetadata,
     };
     additionalFacts.push(metadataFact);
+  }
+
+  if (
+    depsAnalysis.rawProvenanceAttestations &&
+    depsAnalysis.rawProvenanceAttestations.length > 0
+  ) {
+    const parsed = parseProvenanceAttestations(
+      depsAnalysis.rawProvenanceAttestations,
+    );
+    if (parsed.length > 0) {
+      const provenanceAttestationsFact: facts.ProvenanceAttestationsFact = {
+        type: "provenanceAttestations",
+        data: parsed,
+      };
+      additionalFacts.push(provenanceAttestationsFact);
+    }
   }
 
   if (depsAnalysis.platform) {

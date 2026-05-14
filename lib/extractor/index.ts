@@ -151,6 +151,7 @@ export async function extractImageContent(
     imageLabels: archiveContent.imageConfig.config?.Labels,
     containerConfig: archiveContent.imageConfig.config,
     history: archiveContent.imageConfig.history,
+    rawProvenanceAttestations: archiveContent.rawProvenanceAttestations,
   };
 }
 

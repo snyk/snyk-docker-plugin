@@ -14,10 +14,12 @@ import {
   ExtractedLayers,
   ExtractedLayersAndManifest,
   ImageConfig,
+  InTotoStatement,
   OciArchiveManifest,
   OciImageIndex,
   OciManifestInfo,
   OciPlatformInfo,
+  RawProvenanceAttestation,
 } from "../types";
 
 const debug = Debug("snyk");
@@ -57,7 +59,8 @@ export async function extractArchive(
   const metadata = await extractMetadata(ociArchiveFilesystemPath);
 
   // Determine which manifest and layers we need
-  const { manifest, imageConfig } = resolveManifestAndConfig(metadata, options);
+  const { manifest, imageConfig, rawProvenanceAttestations } =
+    resolveManifestAndConfig(metadata, options);
 
   // Get the list of layer digests we need to extract
   const requiredLayerDigests = new Set(
@@ -115,6 +118,7 @@ export async function extractArchive(
     layers: filteredLayers,
     manifest,
     imageConfig,
+    rawProvenanceAttestations,
   };
 }
 
@@ -123,6 +127,7 @@ interface ArchiveMetadata {
   manifests: Record<string, OciArchiveManifest>;
   indexFiles: Record<string, OciImageIndex>;
   configs: ImageConfig[];
+  rawBlobs: Record<string, unknown>;
 }
 
 /**
@@ -141,6 +146,7 @@ async function extractMetadata(
     const configs: ImageConfig[] = [];
     let mainIndexFile: OciImageIndex | undefined;
     const indexFiles: Record<string, OciImageIndex> = {};
+    const rawBlobs: Record<string, unknown> = {};
 
     tarExtractor.on("entry", async (header, stream, next) => {
       try {
@@ -159,6 +165,8 @@ async function extractMetadata(
 
             if (jsonContent !== undefined) {
               const digest = getDigestFromPath(normalizedHeaderName);
+              rawBlobs[digest] = jsonContent;
+
               if (isArchiveManifest(jsonContent)) {
                 manifests[digest] = jsonContent;
               } else if (isImageIndexFile(jsonContent)) {
@@ -183,7 +191,7 @@ async function extractMetadata(
     });
 
     tarExtractor.on("finish", () => {
-      resolve({ mainIndexFile, manifests, indexFiles, configs });
+      resolve({ mainIndexFile, manifests, indexFiles, configs, rawBlobs });
     });
 
     tarExtractor.on("error", (error) => {
@@ -363,6 +371,7 @@ function resolveManifestAndConfig(
 ): {
   manifest: OciArchiveManifest;
   imageConfig: ImageConfig;
+  rawProvenanceAttestations: RawProvenanceAttestation[];
 } {
   const filteredConfigs = metadata.configs.filter((config) => {
     return config?.os !== "unknown" || config?.architecture !== "unknown";
@@ -397,7 +406,9 @@ function resolveManifestAndConfig(
     );
   }
 
-  return { manifest, imageConfig };
+  const rawProvenanceAttestations = extractProvenanceAttestations(metadata);
+
+  return { manifest, imageConfig, rawProvenanceAttestations };
 }
 
 function getManifest(
@@ -521,6 +532,73 @@ function getImageConfig(
       };
     },
   );
+}
+
+function extractProvenanceAttestations(
+  metadata: ArchiveMetadata,
+): RawProvenanceAttestation[] {
+  const attestations: RawProvenanceAttestation[] = [];
+
+  if (!metadata.mainIndexFile) {
+    return attestations;
+  }
+
+  for (const descriptor of metadata.mainIndexFile.manifests) {
+    const isAttestationManifest =
+      descriptor.platform?.architecture === "unknown" &&
+      descriptor.annotations?.["vnd.docker.reference.type"] ===
+        "attestation-manifest";
+
+    if (!isAttestationManifest) {
+      continue;
+    }
+
+    const nestedManifest = metadata.rawBlobs[descriptor.digest];
+    if (!nestedManifest) {
+      continue;
+    }
+
+    const attestationManifest = nestedManifest as OciArchiveManifest;
+    if (
+      !attestationManifest.layers ||
+      !Array.isArray(attestationManifest.layers)
+    ) {
+      continue;
+    }
+
+    const attestation: RawProvenanceAttestation = {
+      attestationManifestDigest: descriptor.digest,
+      mediaType: descriptor.mediaType,
+      annotations: descriptor.annotations || {},
+      provenanceLayers: [],
+    };
+
+    for (const layer of attestationManifest.layers) {
+      const isProvenanceLayer =
+        layer.annotations?.["in-toto.io/kind"] === "provenance" ||
+        layer.mediaType === "application/vnd.in-toto+json";
+
+      const provenanceLayer: RawProvenanceAttestation["provenanceLayers"][number] =
+        {
+          digest: layer.digest,
+          mediaType: layer.mediaType,
+          annotations: layer.annotations,
+        };
+
+      if (isProvenanceLayer) {
+        const inTotoBlob = metadata.rawBlobs[layer.digest];
+        if (inTotoBlob) {
+          provenanceLayer.inTotoStatement = inTotoBlob as InTotoStatement;
+        }
+      }
+
+      attestation.provenanceLayers.push(provenanceLayer);
+    }
+
+    attestations.push(attestation);
+  }
+
+  return attestations;
 }
 
 function getBestMatchForPlatform<T>(

@@ -169,6 +169,7 @@ export async function analyze(
     imageCreationTime,
     containerConfig,
     history,
+    rawProvenanceAttestations,
   } = await archiveExtractor.extractImageContent(
     imageType,
     imagePath,
@@ -343,6 +344,7 @@ export async function analyze(
     imageCreationTime,
     containerConfig,
     history,
+    rawProvenanceAttestations,
     timings,
   };
 }
