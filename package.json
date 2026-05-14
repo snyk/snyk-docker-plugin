@@ -77,6 +77,9 @@
     "tslint-config-prettier": "^1.18.0",
     "typescript": "~5.4.2"
   },
+  "overrides": {
+    "fast-uri": "^3.1.2"
+  },
   "release": {
     "branches": [
       "main"
