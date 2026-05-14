@@ -162,3 +162,82 @@ export interface BaseRuntimesFact {
   type: "baseRuntimes";
   data: BaseRuntime[];
 }
+
+export interface LayerAttributionEntry {
+  layerIndex: number;
+  diffID: string;
+  digest?: string;
+  instruction?: string;
+  /**
+   * Every `<fullName>@<version>` observed as introduced in this layer,
+   * i.e. present in this layer's package DB (or file set, for app
+   * packages) but not the previous layer's. This is a raw event stream
+   * — a key MAY appear in `packages` even when the package's files
+   * were later removed or replaced by a subsequent layer and so are no
+   * longer present in the final merged filesystem.
+   *
+   * `fullName` matches the canonical dep-graph node name minted by
+   * `depFullName`: `<source>/<binary>` for OS packages with a known
+   * source/origin (Debian `Source:`, Alpine `o:`, RPM source RPM —
+   * e.g. `glibc/libc-bin`, `openssl/libcrypto3`) and just `<binary>`
+   * otherwise. Identical in shape to a vulnerability's `packageName`
+   * / leaf of `from[]`, so a downstream consumer can join a vuln to
+   * its introducing layer with no string surgery.
+   *
+   * Consult the sibling `finalImagePackages` index on
+   * `LayerPackageAttributionFact.data` to determine which introductions
+   * survive to the final image.
+   */
+  packages: string[];
+}
+
+/**
+ * The layer where a given `name@version` was introduced. Lightweight
+ * pointer — the full layer entry (with `digest`, `instruction`, etc.)
+ * lives in `LayerPackageAttributionFact.data.entries`.
+ */
+export interface FinalImagePackageOrigin {
+  layerIndex: number;
+  diffID: string;
+}
+
+export interface LayerPackageAttributionFact {
+  type: "layerPackageAttribution";
+  data: {
+    /**
+     * Layer-keyed history of every introduction event observed during
+     * the per-layer package-DB diff. Includes events whose effect did
+     * not survive to the final image (e.g. an OS package installed in
+     * an early layer and removed by a later one).
+     */
+    entries: LayerAttributionEntry[];
+    /**
+     * Package-keyed index of every `<fullName>@<version>` present in
+     * the final merged filesystem, mapped to the layer(s) where its
+     * surviving copy was introduced. Key shape matches the dep-graph
+     * node name minted by `depFullName`
+     * (`<source>/<binary>@<version>` for OS packages with a known
+     * source/origin, else `<binary>@<version>`) — same shape as
+     * `LayerAttributionEntry.packages` and as a vulnerability's
+     * `packageName`, so a downstream consumer can do a direct
+     * lookup without reverse-engineering source-vs-binary names.
+     *
+     * Contract:
+     * - For OS package managers (apt/apk/rpm/dpkg) the list always has
+     *   length 1, because the package manager dedupes — at most one
+     *   copy of a given `name@version` exists on disk in the final
+     *   image regardless of install/remove/reinstall history.
+     * - For application package managers without cross-root dedupe
+     *   (e.g. npm with two project roots, each running `npm install`),
+     *   a `name@version` can legitimately survive at multiple file
+     *   locations introduced by different layers. All such layers are
+     *   listed; consumers should attribute a vulnerability to all of
+     *   them.
+     *
+     * Packages that appear in `entries[].packages` but NOT in
+     * `finalImagePackages` were introduced and later removed —
+     * candidates for a future shadow / remediated-vulnerability view.
+     */
+    finalImagePackages: Record<string, FinalImagePackageOrigin[]>;
+  };
+}

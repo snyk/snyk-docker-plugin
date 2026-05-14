@@ -234,7 +234,25 @@ function countDepsRecursive(
   }
 }
 
-function depFullName(depInfo: AnalyzedPackageWithVersion): string {
+/**
+ * Canonical "full name" for a package as it appears in the dep graph and
+ * therefore in any vulnerability `from[]` / `packageName` field a downstream
+ * consumer (e.g. registry, UI) sees.
+ *
+ * For OS packages with a distinct source/origin (Debian `Source:`, Alpine
+ * `o:`, RPM source RPM) the name is `<source>/<binary>` — e.g. the libc
+ * vuln pinned against Debian's `glibc` source surfaces on the binary
+ * `libc-bin` as `glibc/libc-bin`. For packages without a `Source` (and for
+ * non-OS ecosystems) it's just `<name>`.
+ *
+ * Exported so the layer-attribution producer can mint keys with the same
+ * shape — see `lib/analyzer/layer-attribution.ts`. Keep this as the single
+ * source of truth for that string format; if it drifts, the join from
+ * `LayerPackageAttributionFact.finalImagePackages[name@version]` to a
+ * vuln's `packageName` will silently miss for any package with a
+ * non-trivial `Source` (i.e. most OS vulns).
+ */
+export function depFullName(depInfo: AnalyzedPackageWithVersion): string {
   let fullName = depInfo.Name;
   if (depInfo.Source) {
     fullName = depInfo.Source + "/" + fullName;
