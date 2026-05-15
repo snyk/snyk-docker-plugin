@@ -1,5 +1,4 @@
 import { scan } from "../../../lib";
-import { Docker } from "../../../lib/docker";
 import { execute } from "../../../lib/sub-process";
 
 describe("CentOS 6 tests", () => {

@@ -109,7 +109,7 @@ function truncateDataValue(
   }
 
   if (Array.isArray(value)) {
-    return value.map((item, index) => {
+    return value.map((item, _index) => {
       return truncateDataValue(item, factType, `${path}[*]`, truncationTracker);
     });
   } else if (typeof value === "object" && value !== null) {

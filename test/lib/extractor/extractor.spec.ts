@@ -1,7 +1,4 @@
-import {
-  extractImageContent,
-  InvalidArchiveError,
-} from "../../../lib/extractor";
+import { extractImageContent } from "../../../lib/extractor";
 import { ExtractionResult } from "../../../lib/extractor/types";
 import { getRedHatRepositoriesContentAction } from "../../../lib/inputs/redHat/static";
 import { ImageType } from "../../../lib/types";
