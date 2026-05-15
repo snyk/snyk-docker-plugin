@@ -99,6 +99,22 @@ describe("Facts", () => {
       },
     };
 
+    const vexStatementsFact: facts.VexStatementsFact = {
+      type: "vexStatements",
+      data: {
+        source: "/path/to/vex.json",
+        format: "openvex",
+        statements: [
+          {
+            vulnerabilityId: "CVE-2024-0001",
+            productId: "pkg:npm/example@1.0.0",
+            status: "not_affected",
+            justification: "vulnerable_code_not_in_execute_path",
+          },
+        ],
+      },
+    };
+
     // This would catch compilation errors.
     const allFacts: Fact[] = [
       depGraphFact,
@@ -124,10 +140,12 @@ describe("Facts", () => {
       containerConfigFact,
       historyFact,
       pluginWarningsFact,
+      vexStatementsFact,
     ];
     expect(allFacts).toBeDefined();
 
     const allFactsTypes: FactType[] = allFacts.map((fact) => fact.type);
     expect(allFactsTypes).toBeDefined();
+    expect(allFactsTypes).toContain("vexStatements");
   });
 });

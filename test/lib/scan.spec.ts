@@ -1,7 +1,20 @@
+import * as fs from "fs";
+import * as os from "os";
+import * as path from "path";
+
+import { VexStatementsFact } from "../../lib/facts";
 import {
   appendLatestTagIfMissing,
   mergeEnvVarsIntoCredentials,
+  scan,
 } from "../../lib/scan";
+import { PluginResponse, ScanResult } from "../../lib/types";
+
+// Mock the static analysis module so scan() doesn't touch Docker daemon.
+jest.mock("../../lib/static", () => ({
+  analyzeStatically: jest.fn(),
+}));
+import * as staticModule from "../../lib/static";
 
 describe("mergeEnvVarsIntoCredentials", () => {
   const oldEnvVars = { ...process.env };
@@ -105,5 +118,101 @@ describe("appendLatestTagIfMissing", () => {
     expect(appendLatestTagIfMissing(imageWithoutTag)).toEqual(
       `${imageWithoutTag}:latest`,
     );
+  });
+});
+
+// ─── scan() with vexFilePath ──────────────────────────────────────────────────
+
+describe("scan with vexFilePath", () => {
+  let tmpDir: string;
+  let fakeTarPath: string;
+
+  const OPENVEX_DOC = {
+    "@context": "https://openvex.dev/ns/v0.2.0",
+    "@id": "https://example.com/vex/1",
+    statements: [
+      {
+        vulnerability: { name: "CVE-2024-0001" },
+        products: ["pkg:npm/example@1.0.0"],
+        status: "not_affected",
+        justification: "vulnerable_code_not_in_execute_path",
+      },
+    ],
+  };
+
+  const STUB_SCAN_RESULT: ScanResult = {
+    target: { image: "nginx:latest" },
+    identity: { type: "deb" },
+    facts: [{ type: "imageId", data: "sha256:abc123" }],
+  };
+
+  const STUB_RESPONSE: PluginResponse = {
+    scanResults: [STUB_SCAN_RESULT],
+  };
+
+  beforeAll(() => {
+    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "scan-vex-test-"));
+    // Create a minimal fake tar file so getAndValidateArchivePath() passes.
+    fakeTarPath = path.join(tmpDir, "image.tar");
+    fs.writeFileSync(fakeTarPath, "fake tar content");
+  });
+
+  afterAll(() => {
+    fs.rmSync(tmpDir, { recursive: true, force: true });
+  });
+
+  beforeEach(() => {
+    (staticModule.analyzeStatically as jest.Mock).mockResolvedValue(
+      STUB_RESPONSE,
+    );
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it("attaches vexStatements fact to each scanResult when a valid VEX file is provided", async () => {
+    const vexFilePath = path.join(tmpDir, "openvex.json");
+    fs.writeFileSync(vexFilePath, JSON.stringify(OPENVEX_DOC), "utf8");
+
+    const result = await scan({
+      path: `docker-archive:${fakeTarPath}`,
+      vexFilePath,
+    });
+
+    expect(result.scanResults).toHaveLength(1);
+    const vexFact = result.scanResults[0].facts.find(
+      (f) => f.type === "vexStatements",
+    ) as VexStatementsFact | undefined;
+    expect(vexFact).toBeDefined();
+    expect(vexFact!.data.source).toBe(vexFilePath);
+    expect(vexFact!.data.format).toBe("openvex");
+    expect(vexFact!.data.statements).toHaveLength(1);
+    expect(vexFact!.data.statements[0].vulnerabilityId).toBe("CVE-2024-0001");
+  });
+
+  it("adds pluginWarnings fact with error message when VEX file cannot be loaded", async () => {
+    const nonExistentVexPath = path.join(tmpDir, "no-such-vex.json");
+
+    const result = await scan({
+      path: `docker-archive:${fakeTarPath}`,
+      vexFilePath: nonExistentVexPath,
+    });
+
+    expect(result.scanResults).toHaveLength(1);
+    // No vexStatements fact should be attached.
+    expect(
+      result.scanResults[0].facts.every((f) => f.type !== "vexStatements"),
+    ).toBe(true);
+    // A pluginWarnings fact should be present with the failure message.
+    const warningsFact = result.scanResults[0].facts.find(
+      (f) => f.type === "pluginWarnings",
+    );
+    expect(warningsFact).toBeDefined();
+    const checks = (warningsFact!.data as any).parameterChecks as string[];
+    expect(checks).toBeDefined();
+    expect(
+      checks.some((msg: string) => msg.includes("Failed to load VEX file")),
+    ).toBe(true);
   });
 });
