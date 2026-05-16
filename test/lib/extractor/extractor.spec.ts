@@ -1,3 +1,9 @@
+import * as crypto from "crypto";
+import * as fs from "fs";
+import * as os from "os";
+import * as path from "path";
+import * as tar from "tar-stream";
+import { gzipSync } from "zlib";
 import {
   extractImageContent,
   InvalidArchiveError,
@@ -164,5 +170,303 @@ describe("extractImageContent", () => {
         ).resolves.not.toThrow();
       });
     });
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Helpers for in-memory OCI archive creation
+// ---------------------------------------------------------------------------
+
+function sha256(content: Buffer): string {
+  return crypto.createHash("sha256").update(content).digest("hex");
+}
+
+async function makeTarLayer(files: Record<string, string>): Promise<Buffer> {
+  const pack = tar.pack();
+  const chunks: Buffer[] = [];
+  for (const [name, content] of Object.entries(files)) {
+    pack.entry({ name: name.replace(/^\//, "") }, content);
+  }
+  pack.finalize();
+  return new Promise((resolve, reject) => {
+    pack.on("data", (c: Buffer) => chunks.push(c));
+    pack.on("end", () => resolve(Buffer.concat(chunks)));
+    pack.on("error", reject);
+  });
+}
+
+interface OciArchiveOptions {
+  /** Files to put in the single layer */
+  layerFiles?: Record<string, string>;
+  /** Annotations on the manifest blob itself */
+  manifestAnnotations?: Record<string, string>;
+  /** Annotations on the index.json top-level object */
+  indexAnnotations?: Record<string, string>;
+  /** Annotations on the OciManifestInfo entry inside index.json manifests[] */
+  manifestInfoAnnotations?: Record<string, string>;
+  /** Labels inside config.Labels */
+  configLabels?: Record<string, string>;
+}
+
+/**
+ * Assembles a minimal OCI archive in memory and writes it to a temp file.
+ * Returns the path; caller is responsible for deleting it.
+ */
+async function buildOciArchive(opts: OciArchiveOptions = {}): Promise<string> {
+  const pack = tar.pack();
+  const archiveChunks: Buffer[] = [];
+
+  // 1. Layer
+  const layerTar = await makeTarLayer(
+    opts.layerFiles ?? { "hello.txt": "hello" },
+  );
+  const layerGz = gzipSync(layerTar);
+  const layerHash = sha256(layerGz);
+  const layerDigest = `sha256:${layerHash}`;
+  pack.entry({ name: `blobs/sha256/${layerHash}` }, layerGz);
+
+  // 2. Config – omit Labels entirely when not provided so that
+  // config.Labels is undefined (not null) in the parsed result.
+  const configLabels = opts.configLabels;
+  const config = {
+    architecture: "amd64",
+    os: "linux",
+    rootfs: { type: "layers", diff_ids: [`sha256:${sha256(layerTar)}`] },
+    config: configLabels !== undefined ? { Labels: configLabels } : {},
+    created: "2024-01-01T00:00:00Z",
+  };
+  const configBuf = Buffer.from(JSON.stringify(config));
+  const configHash = sha256(configBuf);
+  const configDigest = `sha256:${configHash}`;
+  pack.entry({ name: `blobs/sha256/${configHash}` }, configBuf);
+
+  // 3. Manifest blob (may carry annotations)
+  const manifestBlob: Record<string, unknown> = {
+    schemaVersion: 2,
+    mediaType: "application/vnd.oci.image.manifest.v1+json",
+    config: {
+      mediaType: "application/vnd.oci.image.config.v1+json",
+      digest: configDigest,
+      size: configBuf.length,
+    },
+    layers: [
+      {
+        mediaType: "application/vnd.oci.image.layer.v1.tar+gzip",
+        digest: layerDigest,
+        size: layerGz.length,
+      },
+    ],
+  };
+  if (opts.manifestAnnotations) {
+    manifestBlob.annotations = opts.manifestAnnotations;
+  }
+  const manifestBuf = Buffer.from(JSON.stringify(manifestBlob));
+  const manifestHash = sha256(manifestBuf);
+  const manifestDigest = `sha256:${manifestHash}`;
+  pack.entry({ name: `blobs/sha256/${manifestHash}` }, manifestBuf);
+
+  // 4. index.json
+  const manifestInfoEntry: Record<string, unknown> = {
+    mediaType: "application/vnd.oci.image.manifest.v1+json",
+    digest: manifestDigest,
+    size: manifestBuf.length,
+    platform: { architecture: "amd64", os: "linux" },
+  };
+  if (opts.manifestInfoAnnotations) {
+    manifestInfoEntry.annotations = opts.manifestInfoAnnotations;
+  }
+  const index: Record<string, unknown> = {
+    schemaVersion: 2,
+    mediaType: "application/vnd.oci.image.index.v1+json",
+    manifests: [manifestInfoEntry],
+  };
+  if (opts.indexAnnotations) {
+    index.annotations = opts.indexAnnotations;
+  }
+  pack.entry({ name: "index.json" }, JSON.stringify(index));
+  pack.entry({ name: "oci-layout" }, JSON.stringify({ imageLayoutVersion: "1.0.0" }));
+  pack.finalize();
+
+  const archiveBuf = await new Promise<Buffer>((resolve, reject) => {
+    pack.on("data", (c: Buffer) => archiveChunks.push(c));
+    pack.on("end", () => resolve(Buffer.concat(archiveChunks)));
+    pack.on("error", reject);
+  });
+
+  const tmpPath = path.join(
+    os.tmpdir(),
+    `oci-ann-test-${Date.now()}.tar`,
+  );
+  fs.writeFileSync(tmpPath, archiveBuf);
+  return tmpPath;
+}
+
+// ---------------------------------------------------------------------------
+// OCI annotations integration tests
+// ---------------------------------------------------------------------------
+
+describe("OCI annotations in extractImageContent", () => {
+  const ociType = ImageType.OciArchive;
+  const tempFiles: string[] = [];
+
+  afterAll(() => {
+    for (const f of tempFiles) {
+      if (fs.existsSync(f)) {
+        fs.unlinkSync(f);
+      }
+    }
+  });
+
+  it("exposes OCI manifest blob annotations in imageLabels", async () => {
+    const archivePath = await buildOciArchive({
+      manifestAnnotations: {
+        "org.opencontainers.image.source": "https://github.com/example/repo",
+        "org.opencontainers.image.revision": "abc123",
+      },
+    });
+    tempFiles.push(archivePath);
+
+    const result = await extractImageContent(ociType, archivePath, [], {
+      platform: "linux/amd64",
+    });
+
+    expect(result.imageLabels).toBeDefined();
+    // Use direct property access; toHaveProperty treats dots as path separators.
+    expect(result.imageLabels!["org.opencontainers.image.source"]).toBe(
+      "https://github.com/example/repo",
+    );
+    expect(result.imageLabels!["org.opencontainers.image.revision"]).toBe(
+      "abc123",
+    );
+  });
+
+  it("merges OCI manifest annotations and config Labels into imageLabels", async () => {
+    const archivePath = await buildOciArchive({
+      manifestAnnotations: {
+        "org.opencontainers.image.source": "https://github.com/example/repo",
+        team: "platform",
+      },
+      configLabels: { maintainer: "team@example.com" },
+    });
+    tempFiles.push(archivePath);
+
+    const result = await extractImageContent(ociType, archivePath, [], {
+      platform: "linux/amd64",
+    });
+
+    expect(result.imageLabels).toBeDefined();
+    expect(result.imageLabels!["org.opencontainers.image.source"]).toBe(
+      "https://github.com/example/repo",
+    );
+    expect(result.imageLabels!["team"]).toBe("platform");
+    expect(result.imageLabels!["maintainer"]).toBe("team@example.com");
+  });
+
+  it("config Labels take precedence over annotations on key collision", async () => {
+    const archivePath = await buildOciArchive({
+      manifestAnnotations: { team: "from-annotation" },
+      configLabels: { team: "from-config-label" },
+    });
+    tempFiles.push(archivePath);
+
+    const result = await extractImageContent(ociType, archivePath, [], {
+      platform: "linux/amd64",
+    });
+
+    expect(result.imageLabels).toBeDefined();
+    expect(result.imageLabels!["team"]).toBe("from-config-label");
+  });
+
+  it("imageLabels contains only config Labels when there are no OCI annotations", async () => {
+    const archivePath = await buildOciArchive({
+      configLabels: { maintainer: "test@example.com", version: "1.0.0" },
+    });
+    tempFiles.push(archivePath);
+
+    const result = await extractImageContent(ociType, archivePath, [], {
+      platform: "linux/amd64",
+    });
+
+    expect(result.imageLabels).toEqual({
+      maintainer: "test@example.com",
+      version: "1.0.0",
+    });
+  });
+
+  it("imageLabels is undefined when there are no annotations and no config Labels", async () => {
+    // configLabels: null means config.Labels will be null (not set)
+    const archivePath = await buildOciArchive({});
+    tempFiles.push(archivePath);
+
+    const result = await extractImageContent(ociType, archivePath, [], {
+      platform: "linux/amd64",
+    });
+
+    // No annotations, config.Labels is null → imageLabels should be undefined
+    expect(result.imageLabels).toBeUndefined();
+  });
+
+  it("merges index-level and manifest-info-level annotations along with manifest blob annotations", async () => {
+    const archivePath = await buildOciArchive({
+      indexAnnotations: { "index-level": "from-index" },
+      manifestInfoAnnotations: { "manifest-info-level": "from-manifest-info" },
+      manifestAnnotations: { "manifest-blob-level": "from-manifest-blob" },
+    });
+    tempFiles.push(archivePath);
+
+    const result = await extractImageContent(ociType, archivePath, [], {
+      platform: "linux/amd64",
+    });
+
+    expect(result.imageLabels).toBeDefined();
+    expect(result.imageLabels!["index-level"]).toBe("from-index");
+    expect(result.imageLabels!["manifest-info-level"]).toBe(
+      "from-manifest-info",
+    );
+    expect(result.imageLabels!["manifest-blob-level"]).toBe(
+      "from-manifest-blob",
+    );
+  });
+
+  it("manifest blob annotations override index-level annotations on key collision", async () => {
+    const archivePath = await buildOciArchive({
+      indexAnnotations: { shared: "from-index", "index-only": "index-value" },
+      manifestAnnotations: {
+        shared: "from-manifest-blob",
+        "manifest-only": "manifest-value",
+      },
+    });
+    tempFiles.push(archivePath);
+
+    const result = await extractImageContent(ociType, archivePath, [], {
+      platform: "linux/amd64",
+    });
+
+    expect(result.imageLabels!["shared"]).toBe("from-manifest-blob");
+    expect(result.imageLabels!["index-only"]).toBe("index-value");
+    expect(result.imageLabels!["manifest-only"]).toBe("manifest-value");
+  });
+
+  it("OCI annotation keys are preserved verbatim (no sanitization)", async () => {
+    const archivePath = await buildOciArchive({
+      manifestAnnotations: {
+        "org.opencontainers.image.source": "https://example.com",
+        "com.example.custom-key": "custom-value",
+        "io.buildpacks.base.digest": "sha256:deadbeef",
+      },
+    });
+    tempFiles.push(archivePath);
+
+    const result = await extractImageContent(ociType, archivePath, [], {
+      platform: "linux/amd64",
+    });
+
+    expect(result.imageLabels!["org.opencontainers.image.source"]).toBe(
+      "https://example.com",
+    );
+    expect(result.imageLabels!["com.example.custom-key"]).toBe("custom-value");
+    expect(result.imageLabels!["io.buildpacks.base.digest"]).toBe(
+      "sha256:deadbeef",
+    );
   });
 });

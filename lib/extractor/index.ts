@@ -148,7 +148,10 @@ export async function extractImageContent(
       archiveContent.imageConfig,
     ),
     platform: getPlatformFromConfig(archiveContent.imageConfig),
-    imageLabels: archiveContent.imageConfig.config?.Labels,
+    imageLabels: mergeImageLabels(
+      archiveContent.annotations,
+      archiveContent.imageConfig.config?.Labels,
+    ),
     containerConfig: archiveContent.imageConfig.config,
     history: archiveContent.imageConfig.history,
   };
@@ -190,6 +193,27 @@ export function getPlatformFromConfig(
   return imageConfig?.os && imageConfig?.architecture
     ? `${imageConfig.os}/${imageConfig.architecture}`
     : undefined;
+}
+
+/**
+ * Merges OCI manifest annotations and image config Labels into a single map.
+ * Config Labels take precedence over annotations on key collision, preserving
+ * the existing behavior for Docker archives that only have config Labels.
+ *
+ * Returns undefined when both inputs are absent (undefined or null), i.e. the
+ * image has neither OCI annotations nor config Labels at all.  This matches
+ * the previous behaviour where `imageLabels` was set directly from
+ * `config.Labels` which could be null in real OCI image configs.
+ */
+export function mergeImageLabels(
+  annotations?: { [key: string]: string },
+  configLabels?: { [key: string]: string } | null,
+): { [key: string]: string } | undefined {
+  // Use loose equality so that both null and undefined are treated as absent.
+  if (annotations == null && configLabels == null) {
+    return undefined;
+  }
+  return { ...(annotations ?? {}), ...(configLabels ?? {}) };
 }
 
 export function getDetectedLayersInfoFromConfig(
