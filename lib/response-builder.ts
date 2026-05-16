@@ -187,6 +187,14 @@ async function buildResponse(
     additionalFacts.push(rootFsFact);
   }
 
+  if (depsAnalysis.layerPackageAttribution) {
+    const layerPackageAttributionFact: facts.LayerPackageAttributionFact = {
+      type: "layerPackageAttribution",
+      data: depsAnalysis.layerPackageAttribution,
+    };
+    additionalFacts.push(layerPackageAttributionFact);
+  }
+
   if (depsAnalysis.depTree.targetOS.prettyName) {
     const imageOsReleasePrettyNameFact: facts.ImageOsReleasePrettyNameFact = {
       type: "imageOsReleasePrettyName",

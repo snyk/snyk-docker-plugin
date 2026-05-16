@@ -50,7 +50,7 @@ Object {
         },
         Object {
           "data": Array [
-            "d446fd2d006bff0982827588b2b613f91a4e2a59d619da68fa7ce1c880b8d907/layer.tar",
+            "sha256:05356880e40587a7dedbdcb39f8a9f99f2f48e094c7e1d2fae64f4774cc7a4aa",
           ],
           "type": "imageLayers",
         },
@@ -1928,8 +1928,8 @@ Object {
         },
         Object {
           "data": Array [
-            "d0aaf4d3632940885546ef63a011964147db233353328e36b16fca68372a6e1a.tar",
-            "1ec0a1574e1b795732f45c4f2eb9e447d7052a176f4c97bb1c68d78b17a72b25.tar",
+            "sha256:d0aaf4d3632940885546ef63a011964147db233353328e36b16fca68372a6e1a",
+            "sha256:1ec0a1574e1b795732f45c4f2eb9e447d7052a176f4c97bb1c68d78b17a72b25",
           ],
           "type": "imageLayers",
         },
