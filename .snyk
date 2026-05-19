@@ -6,4 +6,9 @@ ignore:
     - '*':
         reason: 'Indirect dependency, waiting for upstream fix'
         expires: 2026-04-09T00:00:00.000Z
+  SNYK-JS-UUID-16133035:
+    - '*':
+        reason: "No non-major fix available as of 2026-05-19; revisit in 7 days"
+        expires: '2026-05-26T00:00:00.000Z'
+        created: '2026-05-19T00:00:00.000Z'
 patch: {}
