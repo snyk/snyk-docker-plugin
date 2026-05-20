@@ -81,6 +81,7 @@
   },
   "release": {
     "branches": [
+      "6.18.x",
       "main"
     ]
   }
