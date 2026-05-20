@@ -40,7 +40,7 @@ function updateDockerfileBaseImageName(
   const argRanges = dockerfile
     .getARGs()
     .filter((arg) => arg.getProperty()?.getValue() === currentBaseImageName)
-    .map((arg) => arg.getProperty()?.getValueRange()!);
+    .map((arg) => arg.getProperty()!.getValueRange()!);
 
   const ranges = fromRanges.concat(argRanges);
 

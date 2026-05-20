@@ -244,7 +244,6 @@ describe("dockerfiles", () => {
         },
       ],
     ];
-    // tslint:disable-next-line: variable-name
     test.each<TestCaseTuple>(cases)("%s", async (_description, item) => {
       const { fixture, expected } = item;
       const pathToDockerFile = getDockerfileFixture(fixture);
