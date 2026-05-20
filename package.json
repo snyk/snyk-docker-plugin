@@ -76,6 +76,7 @@
   },
   "release": {
     "branches": [
+      "7.1.x",
       "main"
     ]
   }

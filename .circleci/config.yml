@@ -305,6 +305,7 @@ workflows:
             branches:
               only:
                 - main
+                - 7.1.x
           requires:
             - Lint
             - Build
