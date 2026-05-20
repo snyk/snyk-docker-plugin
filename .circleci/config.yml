@@ -299,6 +299,7 @@ workflows:
             branches:
               only:
                 - main
+                - 8.16.x
           requires:
             - Lint
             - Build

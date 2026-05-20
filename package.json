@@ -80,6 +80,7 @@
   },
   "release": {
     "branches": [
+      "8.16.x",
       "main"
     ]
   }
