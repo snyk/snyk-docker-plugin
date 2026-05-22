@@ -215,12 +215,13 @@ jobs:
     <<: *release_defaults
     steps:
       - checkout
-      - setup_npm_user
       - run: npm ci
       - run: npm run build
       - run:
           name: Release on GitHub
-          command: npx semantic-release
+          command: |
+            export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
+            npx semantic-release@25
 
 workflows:
   version: 2
@@ -315,7 +316,8 @@ workflows:
       - release:
           name: Release to GitHub
           context:
-            - nodejs-lib-release
+            - nodejs-install
+            - github-release
             - snyk-bot-slack
           filters:
             branches:
