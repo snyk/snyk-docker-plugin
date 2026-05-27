@@ -54,7 +54,7 @@ windows_big: &windows_big
 release_defaults: &release_defaults
   resource_class: small
   docker:
-    - image: cimg/node:20.19
+    - image: cimg/node:22.22
   working_directory: ~/snyk-docker-plugin
 
 define: &windows_node_version "20.19.1"
@@ -62,8 +62,8 @@ define: &windows_node_version "20.19.1"
 commands:
   setup_npm_user:
     steps:
-       - run: 
-           command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
+      - run:
+          command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
   install_deps:
     description: Install dependencies
     steps:
