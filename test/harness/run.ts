@@ -7,7 +7,7 @@
  *
  * Examples:
  *   ts-node test/harness/run.ts docker-archive:test/fixtures/docker-archives/docker-save/nginx.tar
- *   ts-node test/harness/run.ts --output /tmp/out.json --fact layerPackageAttribution docker-archive:test/fixtures/...
+ *   ts-node test/harness/run.ts --output /tmp/out.json --fact rootFs --fact history docker-archive:test/fixtures/...
  *   ts-node test/harness/run.ts --platform linux/arm64 alpine:3.19
  *   ts-node test/harness/run.ts --username user --password pass registry.example.com/image:tag
  */
@@ -50,12 +50,15 @@ Options:
   --exclude-node-modules        Skip node_modules scanning
   --nested-jars-depth <n>       Depth for nested JAR unpacking (default: 1)
   --collect-application-files   Collect application file metadata
-  --layer-attribution           Compute per-layer package attribution (adds layerPackageAttribution fact)
+  --layer-attribution           Compute per-layer package attribution
+                                (annotates dep-graph nodes with a
+                                dockerLayerDiffId label and duplicates
+                                rootFs/history onto every scan result)
 
   --output <file>               Write JSON output to file instead of stdout
   --compact                     Compact JSON (default: pretty-printed)
   --fact <type>                 Show only this fact type (repeatable).
-                                e.g. --fact depGraph --fact layerPackageAttribution
+                                e.g. --fact depGraph --fact rootFs
   --help                        Show this message
 `);
 }

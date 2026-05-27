@@ -1,15 +1,30 @@
 import {
   alignLayerMetadata,
-  computeLayerAttribution,
-  mergeLayerAttributionEntries,
+  computeOsLayerAttribution,
+  computeOsPackageManagerLayerAttribution,
 } from "../../../lib/analyzer/layer-attribution";
-import { AnalysisType } from "../../../lib/analyzer/types";
+import {
+  AnalysisType,
+  ImagePackagesAnalysis,
+} from "../../../lib/analyzer/types";
 import { ExtractedLayers } from "../../../lib/extractor/types";
-import { LayerAttributionEntry } from "../../../lib/facts";
 
-// Minimal APK DB stanza format: "P:<name>\nV:<version>\n\n"
-function makeApkDb(...pkgs: Array<{ name: string; version: string }>): string {
-  return pkgs.map((p) => `P:${p.name}\nV:${p.version}\n`).join("\n") + "\n";
+// Minimal APK DB stanza format: "P:<name>\nV:<version>\n\n", with an
+// optional `o:<origin>` field for the source/origin tests.
+function makeApkDb(
+  ...pkgs: Array<{ name: string; version: string; origin?: string }>
+): string {
+  return (
+    pkgs
+      .map((p) => {
+        const lines = [`P:${p.name}`, `V:${p.version}`];
+        if (p.origin) {
+          lines.push(`o:${p.origin}`);
+        }
+        return lines.join("\n") + "\n";
+      })
+      .join("\n") + "\n"
+  );
 }
 
 function makeApkLayer(content: string): ExtractedLayers {
@@ -18,45 +33,114 @@ function makeApkLayer(content: string): ExtractedLayers {
   };
 }
 
-const emptyLayer: ExtractedLayers = {};
+function makeAptLayer(dpkgContent: string): ExtractedLayers {
+  return {
+    "/var/lib/dpkg/status": { dpkg: dpkgContent },
+  };
+}
 
-describe("computeLayerAttribution", () => {
-  const image = "test-image:latest";
-
-  describe("APK package manager", () => {
-    it("attributes all packages to layer 0 when there is only one layer", async () => {
-      const pkgs = [
-        { name: "curl", version: "7.0.0-r0" },
-        { name: "libc", version: "2.35-r1" },
+function makeDpkgStatus(
+  ...pkgs: Array<{ name: string; version: string; source?: string }>
+): string {
+  return pkgs
+    .map((p) => {
+      const lines = [
+        `Package: ${p.name}`,
+        "Status: install ok installed",
+        `Version: ${p.version}`,
       ];
-      const orderedLayers = [makeApkLayer(makeApkDb(...pkgs))];
+      if (p.source) {
+        // dpkg `Source` line lives between Status and Version in real
+        // status files; order doesn't matter to the parser, but mirror
+        // the typical layout for clarity.
+        lines.splice(2, 0, `Source: ${p.source}`);
+      }
+      return lines.join("\n") + "\n";
+    })
+    .join("\n");
+}
 
-      const result = await computeLayerAttribution(
+const emptyLayer: ExtractedLayers = {};
+const image = "test-image:latest";
+
+describe("alignLayerMetadata", () => {
+  // The new design hands `rootFs` and `history` to Registry as separate
+  // facts; the alignment join happens at read time. The plugin only
+  // needs to know whether the OCI rule "non-empty history entries map
+  // 1:1 to rootfs.diff_ids[]" held, so consumers can decide whether the
+  // join is safe to perform.
+
+  it("flags alignment when non-empty history matches rootFs length", () => {
+    const result = alignLayerMetadata(
+      ["sha256:a", "sha256:b"],
+      [
+        { created_by: "FROM alpine:3.19", empty_layer: false },
+        { created_by: "RUN apk add curl", empty_layer: false },
+      ],
+    );
+    expect(result.diffIDs).toEqual(["sha256:a", "sha256:b"]);
+    expect(result.historyAlignsWithDiffIds).toBe(true);
+  });
+
+  it("ignores empty_layer entries when checking alignment", () => {
+    const result = alignLayerMetadata(
+      ["sha256:a", "sha256:b"],
+      [
+        { created_by: "FROM alpine:3.19", empty_layer: false },
+        { created_by: "ENV PATH=/bin", empty_layer: true },
+        { created_by: "RUN apk add curl", empty_layer: false },
+      ],
+    );
+    expect(result.historyAlignsWithDiffIds).toBe(true);
+  });
+
+  it("flags misalignment when non-empty history is shorter than rootFs", () => {
+    const result = alignLayerMetadata(
+      ["sha256:a", "sha256:b", "sha256:c"],
+      [
+        { created_by: "FROM alpine:3.19", empty_layer: false },
+        { created_by: "RUN apk add curl", empty_layer: false },
+      ],
+    );
+    expect(result.historyAlignsWithDiffIds).toBe(false);
+  });
+
+  it("treats null/undefined history as misaligned", () => {
+    expect(
+      alignLayerMetadata(["sha256:a"], null).historyAlignsWithDiffIds,
+    ).toBe(false);
+    expect(
+      alignLayerMetadata(["sha256:a"], undefined).historyAlignsWithDiffIds,
+    ).toBe(false);
+  });
+});
+
+describe("computeOsPackageManagerLayerAttribution", () => {
+  describe("APK package manager", () => {
+    it("attributes a single-layer image to layer 0", async () => {
+      const orderedLayers = [
+        makeApkLayer(
+          makeApkDb(
+            { name: "curl", version: "7.0.0-r0" },
+            { name: "libc", version: "2.35-r1" },
+          ),
+        ),
+      ];
+
+      const result = await computeOsPackageManagerLayerAttribution(
         orderedLayers,
         AnalysisType.Apk,
-        {
-          diffIDs: ["sha256:aaa"],
-          manifestDigests: ["sha256:aaa-compressed"],
-          instructions: [],
-        },
+        { diffIDs: ["sha256:aaa"], historyAlignsWithDiffIds: true },
         image,
         undefined,
         [],
       );
 
-      expect(result.entries).toHaveLength(1);
-      expect(result.entries[0].layerIndex).toBe(0);
-      expect(result.entries[0].diffID).toBe("sha256:aaa");
-      expect(result.entries[0].digest).toBe("sha256:aaa-compressed");
-      expect(result.entries[0].packages).toContain("curl@7.0.0-r0");
-      expect(result.entries[0].packages).toContain("libc@2.35-r1");
-
-      expect(result.finalImagePackages.get("curl@7.0.0-r0")).toEqual([
-        { layerIndex: 0, diffID: "sha256:aaa" },
-      ]);
+      expect(result.get("curl@7.0.0-r0")).toBe("sha256:aaa");
+      expect(result.get("libc@2.35-r1")).toBe("sha256:aaa");
     });
 
-    it("attributes new packages to the layer where they first appear", async () => {
+    it("attributes new packages to the layer that introduced them", async () => {
       const basePkgs = [
         { name: "libc", version: "2.35-r1" },
         { name: "curl", version: "7.0.0-r0" },
@@ -67,38 +151,21 @@ describe("computeLayerAttribution", () => {
         makeApkLayer(makeApkDb(...basePkgs)),
         makeApkLayer(makeApkDb(...allPkgs)),
       ];
-      const result = await computeLayerAttribution(
+      const result = await computeOsPackageManagerLayerAttribution(
         orderedLayers,
         AnalysisType.Apk,
         {
           diffIDs: ["sha256:base", "sha256:nginx-layer"],
-          manifestDigests: ["sha256:base-c", "sha256:nginx-c"],
-          instructions: ["FROM alpine:3.19", "RUN apk add nginx"],
+          historyAlignsWithDiffIds: true,
         },
         image,
         undefined,
         [],
       );
 
-      expect(result.entries).toHaveLength(2);
-
-      const layer0 = result.entries[0];
-      expect(layer0.layerIndex).toBe(0);
-      expect(layer0.diffID).toBe("sha256:base");
-      expect(layer0.instruction).toBe("FROM alpine:3.19");
-      expect(layer0.packages).toContain("libc@2.35-r1");
-      expect(layer0.packages).toContain("curl@7.0.0-r0");
-      expect(layer0.packages).not.toContain("nginx@1.24.0-r0");
-
-      const layer1 = result.entries[1];
-      expect(layer1.layerIndex).toBe(1);
-      expect(layer1.diffID).toBe("sha256:nginx-layer");
-      expect(layer1.instruction).toBe("RUN apk add nginx");
-      expect(layer1.packages).toEqual(["nginx@1.24.0-r0"]);
-
-      expect(result.finalImagePackages.get("nginx@1.24.0-r0")).toEqual([
-        { layerIndex: 1, diffID: "sha256:nginx-layer" },
-      ]);
+      expect(result.get("libc@2.35-r1")).toBe("sha256:base");
+      expect(result.get("curl@7.0.0-r0")).toBe("sha256:base");
+      expect(result.get("nginx@1.24.0-r0")).toBe("sha256:nginx-layer");
     });
 
     it("skips layers that do not write the package DB", async () => {
@@ -107,689 +174,431 @@ describe("computeLayerAttribution", () => {
 
       const orderedLayers = [
         makeApkLayer(makeApkDb(...basePkgs)),
-        emptyLayer, // COPY or ENV instruction — no package DB
+        emptyLayer, // COPY/ENV layer — no package DB
         makeApkLayer(makeApkDb(...finalPkgs)),
       ];
-      const result = await computeLayerAttribution(
+      const result = await computeOsPackageManagerLayerAttribution(
         orderedLayers,
         AnalysisType.Apk,
         {
           diffIDs: ["sha256:a", "sha256:b", "sha256:c"],
-          manifestDigests: ["sha256:a", "sha256:b", "sha256:c"],
-          instructions: [],
+          historyAlignsWithDiffIds: true,
         },
         image,
         undefined,
         [],
       );
 
-      expect(result.entries).toHaveLength(2);
-      expect(result.entries[0].layerIndex).toBe(0);
-      expect(result.entries[1].layerIndex).toBe(2);
-      expect(result.entries[1].packages).toEqual(["nginx@1.24.0-r0"]);
+      expect(result.get("libc@2.35-r1")).toBe("sha256:a");
+      expect(result.get("nginx@1.24.0-r0")).toBe("sha256:c");
     });
 
     it("distinguishes a missing DB file from an empty DB file", async () => {
-      // `emptyLayer` (no DB file at all) is a COPY/ENV layer — skipped entirely.
-      // `makeApkLayer("")` (DB file present but empty) means all packages were
-      // explicitly removed (e.g. `apk del $(apk info)`). The empty DB must be
-      // parsed so that previousPkgs gets cleared, otherwise a later reinstall
-      // would not be re-attributed correctly.
-      const basePkgs = [{ name: "libc", version: "2.35-r1" }];
+      // emptyLayer (no DB at all) is a COPY/ENV layer — skipped, package
+      // state unchanged. makeApkLayer("") (DB present but empty) means
+      // every package was deleted in that layer, so previousPkgs must be
+      // cleared, otherwise a later reinstall would not be re-attributed.
       const orderedLayers = [
-        makeApkLayer(makeApkDb(...basePkgs)),
-        makeApkLayer(""), // APK DB file exists but is empty — all packages deleted
+        makeApkLayer(makeApkDb({ name: "libc", version: "2.35-r1" })),
+        makeApkLayer(""), // all packages deleted
+        makeApkLayer(makeApkDb({ name: "libc", version: "2.35-r1" })),
       ];
-      const diffIDs = ["sha256:a", "sha256:b"];
 
-      const result = await computeLayerAttribution(
+      const result = await computeOsPackageManagerLayerAttribution(
         orderedLayers,
         AnalysisType.Apk,
-        { diffIDs, manifestDigests: diffIDs, instructions: [] },
+        {
+          diffIDs: ["sha256:a", "sha256:b", "sha256:c"],
+          historyAlignsWithDiffIds: true,
+        },
         image,
         undefined,
         [],
       );
 
-      // Layer 0 introduces libc; layer 1 has no additions, so no entry.
-      expect(result.entries).toHaveLength(1);
-      expect(result.entries[0].layerIndex).toBe(0);
-      expect(result.entries[0].packages).toContain("libc@2.35-r1");
+      // libc was wiped at layer b and reinstalled at layer c, so the
+      // surviving copy is attributed to c, not a.
+      expect(result.get("libc@2.35-r1")).toBe("sha256:c");
     });
 
-    it("does not emit an entry for a layer that only deletes packages", async () => {
-      // Layer 0: base image with curl + libc
-      // Layer 1: curl deleted (apk del curl) — DB rewritten without it
-      // Expected: curl attributed to layer 0; layer 1 has no additions, so no
-      // entry. Removals are intentionally not surfaced in the output.
-      const basePkgs = [
-        { name: "curl", version: "7.0.0-r0" },
-        { name: "libc", version: "2.35-r1" },
-      ];
-      const afterDeletionPkgs = [{ name: "libc", version: "2.35-r1" }];
-
+    it("excludes packages that were removed and not reinstalled", async () => {
+      // L0: install curl + libc; L1: remove curl. The surviving set is
+      // {libc}; curl is gone from disk and so absent from the result.
       const orderedLayers = [
-        makeApkLayer(makeApkDb(...basePkgs)),
-        makeApkLayer(makeApkDb(...afterDeletionPkgs)),
+        makeApkLayer(
+          makeApkDb(
+            { name: "curl", version: "7.0.0-r0" },
+            { name: "libc", version: "2.35-r1" },
+          ),
+        ),
+        makeApkLayer(makeApkDb({ name: "libc", version: "2.35-r1" })),
       ];
-      const diffIDs = ["sha256:base", "sha256:del-curl"];
 
-      const result = await computeLayerAttribution(
+      const result = await computeOsPackageManagerLayerAttribution(
         orderedLayers,
         AnalysisType.Apk,
-        { diffIDs, manifestDigests: diffIDs, instructions: [] },
+        {
+          diffIDs: ["sha256:a", "sha256:b"],
+          historyAlignsWithDiffIds: true,
+        },
         image,
         undefined,
         [],
       );
 
-      expect(result.entries).toHaveLength(1);
-      expect(result.entries[0].layerIndex).toBe(0);
-      expect(result.entries[0].packages).toContain("curl@7.0.0-r0");
-      expect(result.entries[0].packages).toContain("libc@2.35-r1");
-
-      // libc remains in finalImagePackages (live); curl was removed and
-      // is no longer in the live set, even though entries[L0] still
-      // recorded its introduction.
-      expect(result.finalImagePackages.has("curl@7.0.0-r0")).toBe(false);
-      expect(result.finalImagePackages.get("libc@2.35-r1")).toEqual([
-        { layerIndex: 0, diffID: "sha256:base" },
-      ]);
+      expect(result.has("curl@7.0.0-r0")).toBe(false);
+      expect(result.get("libc@2.35-r1")).toBe("sha256:a");
     });
 
-    it("re-attributes a package reinstalled after deletion", async () => {
-      // Layer 0: curl@7.0 + libc
-      // Layer 1: curl deleted — no entry (removals are not surfaced)
-      // Layer 2: curl@8.0 reinstalled → packages: [curl@8.0]
-      const basePkgs = [
-        { name: "curl", version: "7.0.0-r0" },
-        { name: "libc", version: "2.35-r1" },
-      ];
-      const afterDeletionPkgs = [{ name: "libc", version: "2.35-r1" }];
-      const afterReinstallPkgs = [
-        { name: "libc", version: "2.35-r1" },
-        { name: "curl", version: "8.0.0-r0" },
-      ];
-
+    it("attributes a reinstalled package to its most recent install layer", async () => {
+      // Same-version reinstall: only the latest copy is on disk in the
+      // final image, and that's the layer the result must point at.
+      const curl = { name: "curl", version: "7.0.0-r0" };
       const orderedLayers = [
-        makeApkLayer(makeApkDb(...basePkgs)),
-        makeApkLayer(makeApkDb(...afterDeletionPkgs)),
-        makeApkLayer(makeApkDb(...afterReinstallPkgs)),
+        makeApkLayer(makeApkDb(curl)),
+        makeApkLayer(""),
+        makeApkLayer(makeApkDb(curl)),
+        makeApkLayer(""),
+        makeApkLayer(makeApkDb(curl)),
       ];
-      const diffIDs = ["sha256:base", "sha256:del", "sha256:reinstall"];
 
-      const result = await computeLayerAttribution(
+      const result = await computeOsPackageManagerLayerAttribution(
         orderedLayers,
         AnalysisType.Apk,
-        { diffIDs, manifestDigests: diffIDs, instructions: [] },
+        {
+          diffIDs: [
+            "sha256:l0",
+            "sha256:l1",
+            "sha256:l2",
+            "sha256:l3",
+            "sha256:l4",
+          ],
+          historyAlignsWithDiffIds: true,
+        },
         image,
         undefined,
         [],
       );
 
-      // Two entries: base install (layer 0) and reinstall (layer 2). Layer 1
-      // performs only a deletion and so produces no entry.
-      expect(result.entries).toHaveLength(2);
-
-      expect(result.entries[0].layerIndex).toBe(0);
-      expect(result.entries[0].packages).toContain("curl@7.0.0-r0");
-      expect(result.entries[0].packages).toContain("libc@2.35-r1");
-
-      expect(result.entries[1].layerIndex).toBe(2);
-      expect(result.entries[1].packages).toEqual(["curl@8.0.0-r0"]);
-
-      // curl@8 is in the final image, attributed to its install layer.
-      expect(result.finalImagePackages.get("curl@8.0.0-r0")).toEqual([
-        { layerIndex: 2, diffID: "sha256:reinstall" },
-      ]);
-      // curl@7 was removed and never reinstalled at that version, so it's
-      // visible in entries[L0] (shadow-vuln candidate) but absent from
-      // the live set.
-      expect(result.finalImagePackages.has("curl@7.0.0-r0")).toBe(false);
+      expect(result.get("curl@7.0.0-r0")).toBe("sha256:l4");
     });
 
-    describe("finalImagePackages live-set indexing", () => {
-      // The producer emits the raw introduction stream in `entries[]` and a
-      // separate `finalImagePackages` map of "what's on disk in the final
-      // image, and where it came from." These tests pin the contract that
-      // entries are NOT filtered by survivor status (so shadow / audit
-      // consumers can see history) while finalImagePackages reflects only
-      // the live set.
+    it("uses `<origin>/<binary>` keys when an apk Origin is present", async () => {
+      // The label join Registry performs is keyed by `${depFullName}@${version}`.
+      // An apk package `libcrypto3` with origin `openssl` must surface as
+      // `openssl/libcrypto3@<ver>`, identical to the dep-graph node name
+      // — otherwise the response-builder annotation step would miss every
+      // openssl-style vuln.
+      const orderedLayers = [
+        makeApkLayer(
+          makeApkDb({
+            name: "libcrypto3",
+            version: "3.0.7-r0",
+            origin: "openssl",
+          }),
+        ),
+      ];
 
-      it("keeps both entries on same-version reinstall but only points finalImagePackages at the latest", async () => {
-        // L0: curl@7 + libc
-        // L1: curl deleted (DB rewritten without it)
-        // L2: curl@7 reinstalled at the SAME version
-        //
-        // The L0 copy of curl@7 was wiped at L1; only the L2 copy exists
-        // on disk. Both introductions remain visible in `entries[]`;
-        // `finalImagePackages` points only at the surviving L2 origin.
-        const basePkgs = [
-          { name: "curl", version: "7.0.0-r0" },
-          { name: "libc", version: "2.35-r1" },
-        ];
-        const afterDeletionPkgs = [{ name: "libc", version: "2.35-r1" }];
-        const afterReinstallPkgs = [
-          { name: "libc", version: "2.35-r1" },
-          { name: "curl", version: "7.0.0-r0" },
-        ];
+      const result = await computeOsPackageManagerLayerAttribution(
+        orderedLayers,
+        AnalysisType.Apk,
+        {
+          diffIDs: ["sha256:a"],
+          historyAlignsWithDiffIds: true,
+        },
+        image,
+        undefined,
+        [],
+      );
 
-        const orderedLayers = [
-          makeApkLayer(makeApkDb(...basePkgs)),
-          makeApkLayer(makeApkDb(...afterDeletionPkgs)),
-          makeApkLayer(makeApkDb(...afterReinstallPkgs)),
-        ];
-        const diffIDs = ["sha256:base", "sha256:del", "sha256:reinstall"];
-
-        const result = await computeLayerAttribution(
-          orderedLayers,
-          AnalysisType.Apk,
-          { diffIDs, manifestDigests: diffIDs, instructions: [] },
-          image,
-          undefined,
-          [],
-        );
-
-        // entries[]: both introductions of curl@7 are preserved.
-        expect(result.entries).toHaveLength(2);
-        const layer0 = result.entries.find((e) => e.layerIndex === 0)!;
-        expect(layer0.packages).toEqual(
-          expect.arrayContaining(["curl@7.0.0-r0", "libc@2.35-r1"]),
-        );
-        const layer2 = result.entries.find((e) => e.layerIndex === 2)!;
-        expect(layer2.packages).toEqual(["curl@7.0.0-r0"]);
-
-        // finalImagePackages: only the surviving L2 origin for curl@7.
-        expect(result.finalImagePackages.get("curl@7.0.0-r0")).toEqual([
-          { layerIndex: 2, diffID: "sha256:reinstall" },
-        ]);
-        expect(result.finalImagePackages.get("libc@2.35-r1")).toEqual([
-          { layerIndex: 0, diffID: "sha256:base" },
-        ]);
-      });
-
-      it("traces the latest live origin across multiple install/remove cycles", async () => {
-        // L0: install curl@7
-        // L1: remove curl
-        // L2: install curl@7 (first reinstall)
-        // L3: remove curl
-        // L4: install curl@7 (second reinstall)
-        //
-        // entries[] should record all three introductions; finalImagePackages
-        // points only at L4 because that's the only copy still on disk.
-        const curl = { name: "curl", version: "7.0.0-r0" };
-        const orderedLayers = [
-          makeApkLayer(makeApkDb(curl)),
-          makeApkLayer(""),
-          makeApkLayer(makeApkDb(curl)),
-          makeApkLayer(""),
-          makeApkLayer(makeApkDb(curl)),
-        ];
-        const diffIDs = [
-          "sha256:l0",
-          "sha256:l1",
-          "sha256:l2",
-          "sha256:l3",
-          "sha256:l4",
-        ];
-
-        const result = await computeLayerAttribution(
-          orderedLayers,
-          AnalysisType.Apk,
-          { diffIDs, manifestDigests: diffIDs, instructions: [] },
-          image,
-          undefined,
-          [],
-        );
-
-        const introducingLayers = result.entries
-          .filter((e) => e.packages.includes("curl@7.0.0-r0"))
-          .map((e) => e.layerIndex);
-        expect(introducingLayers).toEqual([0, 2, 4]);
-
-        expect(result.finalImagePackages.get("curl@7.0.0-r0")).toEqual([
-          { layerIndex: 4, diffID: "sha256:l4" },
-        ]);
-      });
-
-      it("omits packages from finalImagePackages when they were removed and not reinstalled", async () => {
-        // L0: install curl@7 + libc
-        // L1: remove curl (libc remains)
-        //
-        // curl@7 is in entries[L0] (audit / shadow-vuln visible) but NOT in
-        // finalImagePackages (it's gone). libc is in both.
-        const orderedLayers = [
-          makeApkLayer(
-            makeApkDb(
-              { name: "curl", version: "7.0.0-r0" },
-              { name: "libc", version: "2.35-r1" },
-            ),
-          ),
-          makeApkLayer(makeApkDb({ name: "libc", version: "2.35-r1" })),
-        ];
-        const diffIDs = ["sha256:base", "sha256:del"];
-
-        const result = await computeLayerAttribution(
-          orderedLayers,
-          AnalysisType.Apk,
-          { diffIDs, manifestDigests: diffIDs, instructions: [] },
-          image,
-          undefined,
-          [],
-        );
-
-        const layer0 = result.entries.find((e) => e.layerIndex === 0)!;
-        expect(layer0.packages).toEqual(
-          expect.arrayContaining(["curl@7.0.0-r0", "libc@2.35-r1"]),
-        );
-
-        expect(result.finalImagePackages.has("curl@7.0.0-r0")).toBe(false);
-        expect(result.finalImagePackages.get("libc@2.35-r1")).toEqual([
-          { layerIndex: 0, diffID: "sha256:base" },
-        ]);
-      });
-
-      it("represents version upgrades as two distinct keys with only the upgraded one live", async () => {
-        // L0: curl@7 + libc
-        // L1: only libc (curl@7 removed)
-        // L2: libc + curl@8
-        //
-        // curl@7 lives only in entries (shadow-vuln candidate); curl@8 lives
-        // in both. This is the canonical "vuln introduced at L0, remediated
-        // by upgrade at L2" pattern that the dual-output shape was designed
-        // to support without a dedicated `removedPackages` field.
-        const orderedLayers = [
-          makeApkLayer(
-            makeApkDb(
-              { name: "curl", version: "7.0.0-r0" },
-              { name: "libc", version: "2.35-r1" },
-            ),
-          ),
-          makeApkLayer(makeApkDb({ name: "libc", version: "2.35-r1" })),
-          makeApkLayer(
-            makeApkDb(
-              { name: "libc", version: "2.35-r1" },
-              { name: "curl", version: "8.0.0-r0" },
-            ),
-          ),
-        ];
-        const diffIDs = ["sha256:base", "sha256:del", "sha256:up"];
-
-        const result = await computeLayerAttribution(
-          orderedLayers,
-          AnalysisType.Apk,
-          { diffIDs, manifestDigests: diffIDs, instructions: [] },
-          image,
-          undefined,
-          [],
-        );
-
-        const layer0 = result.entries.find((e) => e.layerIndex === 0)!;
-        expect(layer0.packages).toEqual(
-          expect.arrayContaining(["curl@7.0.0-r0", "libc@2.35-r1"]),
-        );
-
-        const layer2 = result.entries.find((e) => e.layerIndex === 2)!;
-        expect(layer2.packages).toEqual(["curl@8.0.0-r0"]);
-
-        expect(result.finalImagePackages.has("curl@7.0.0-r0")).toBe(false);
-        expect(result.finalImagePackages.get("curl@8.0.0-r0")).toEqual([
-          { layerIndex: 2, diffID: "sha256:up" },
-        ]);
-        expect(result.finalImagePackages.get("libc@2.35-r1")).toEqual([
-          { layerIndex: 0, diffID: "sha256:base" },
-        ]);
-      });
+      expect(result.get("openssl/libcrypto3@3.0.7-r0")).toBe("sha256:a");
+      expect(result.has("libcrypto3@3.0.7-r0")).toBe(false);
     });
 
-    it("returns empty entries when no layer has a package DB", async () => {
-      const result = await computeLayerAttribution(
+    it("returns an empty map when no layer has a package DB", async () => {
+      const result = await computeOsPackageManagerLayerAttribution(
         [emptyLayer, emptyLayer],
         AnalysisType.Apk,
         {
           diffIDs: ["sha256:a", "sha256:b"],
-          manifestDigests: ["sha256:a", "sha256:b"],
-          instructions: [],
+          historyAlignsWithDiffIds: true,
         },
         image,
         undefined,
         [],
       );
-
-      expect(result.entries).toHaveLength(0);
-      expect(result.finalImagePackages.size).toBe(0);
+      expect(result.size).toBe(0);
     });
 
-    it("throws when orderedLayers and diffIDs have mismatched lengths", async () => {
-      // A length mismatch between orderedLayers (extractor file contents) and
-      // diffIDs (extractor's rootfs.diff_ids view of the same layers) is an
-      // internal invariant violation — we want it to surface loudly rather
-      // than silently truncate and produce confidently-wrong attribution.
-      const pkgs = [{ name: "libc", version: "2.35-r1" }];
+    it("throws when orderedLayers and diffIDs lengths disagree", async () => {
+      // Both arrays are produced by the extractor and describe the same
+      // rootfs layers; a mismatch here is an internal invariant
+      // violation, not a malformed-image case. Surface it loudly.
       const orderedLayers = [
-        makeApkLayer(makeApkDb(...pkgs)),
-        makeApkLayer(makeApkDb(...pkgs, { name: "extra", version: "1.0-r0" })),
+        makeApkLayer(makeApkDb({ name: "libc", version: "2.35-r1" })),
+        makeApkLayer(makeApkDb({ name: "libc", version: "2.35-r1" })),
       ];
-      const diffIDs = ["sha256:a"];
 
       await expect(
-        computeLayerAttribution(
+        computeOsPackageManagerLayerAttribution(
           orderedLayers,
           AnalysisType.Apk,
-          { diffIDs, manifestDigests: diffIDs, instructions: [] },
+          { diffIDs: ["sha256:a"], historyAlignsWithDiffIds: true },
           image,
           undefined,
           [],
         ),
       ).rejects.toThrow(/orderedLayers \(2\) and diffIDs \(1\) must align/);
     });
-
-    it("omits instruction when no instruction is supplied for that layer", async () => {
-      const orderedLayers = [
-        makeApkLayer(makeApkDb({ name: "curl", version: "7.0.0-r0" })),
-      ];
-
-      const result = await computeLayerAttribution(
-        orderedLayers,
-        AnalysisType.Apk,
-        {
-          diffIDs: ["sha256:aaa"],
-          manifestDigests: ["sha256:aaa"],
-          instructions: [],
-        },
-        image,
-        undefined,
-        [],
-      );
-
-      expect(result.entries[0].instruction).toBeUndefined();
-    });
   });
 
   describe("APT package manager", () => {
-    function makeAptLayer(dpkgContent: string): ExtractedLayers {
-      return {
-        "/var/lib/dpkg/status": { dpkg: dpkgContent },
-      };
-    }
-
-    function makeDpkgStatus(
-      ...pkgs: Array<{ name: string; version: string }>
-    ): string {
-      return pkgs
-        .map(
-          (p) =>
-            `Package: ${p.name}\nStatus: install ok installed\nVersion: ${p.version}\n`,
-        )
-        .join("\n");
-    }
-
-    it("attributes packages to layers for APT package manager", async () => {
-      const basePkgs = [{ name: "libc6", version: "2.35-0ubuntu3" }];
-      const allPkgs = [
-        ...basePkgs,
-        { name: "nginx", version: "1.18.0-6ubuntu14" },
-      ];
-
+    it("attributes packages and uses `<source>/<binary>` keys when present", async () => {
+      // glibc/libc-bin is the canonical case: the dep-graph node name
+      // for the binary `libc-bin` is `glibc/libc-bin` (because the
+      // Debian Source: header says `glibc`). The attribution map must
+      // use the same shape so response-builder can annotate the node.
       const orderedLayers = [
-        makeAptLayer(makeDpkgStatus(...basePkgs)),
-        makeAptLayer(makeDpkgStatus(...allPkgs)),
+        makeAptLayer(
+          makeDpkgStatus({
+            name: "libc-bin",
+            version: "2.36-9+deb12u7",
+            source: "glibc",
+          }),
+        ),
       ];
 
-      const result = await computeLayerAttribution(
+      const result = await computeOsPackageManagerLayerAttribution(
         orderedLayers,
         AnalysisType.Apt,
-        {
-          diffIDs: ["sha256:base", "sha256:nginx-layer"],
-          manifestDigests: ["sha256:base", "sha256:nginx-layer"],
-          instructions: [],
-        },
+        { diffIDs: ["sha256:a"], historyAlignsWithDiffIds: true },
         image,
         undefined,
         [],
       );
 
-      expect(result.entries).toHaveLength(2);
-      expect(result.entries[0].packages).toContain("libc6@2.35-0ubuntu3");
-      expect(result.entries[1].packages).toContain("nginx@1.18.0-6ubuntu14");
-    });
-
-    it("uses `<source>/<binary>` keys when a Source is present (apt)", async () => {
-      // Pins the load-bearing join shape: a Debian binary like `libc-bin`
-      // whose source package is `glibc` must surface in the fact as
-      // `glibc/libc-bin@<ver>`, identical to the dep-graph node name (and
-      // therefore identical to the leaf of a vuln's `from[]`). Without
-      // this, a downstream consumer matching `vuln.packageName ->
-      // finalImagePackages[...]` would miss every glibc-style vuln —
-      // i.e. the bulk of OS CVEs (libc, openssl, pam, systemd, ...).
-      const dpkgWithSource =
-        "Package: libc-bin\n" +
-        "Status: install ok installed\n" +
-        "Source: glibc\n" +
-        "Version: 2.36-9+deb12u7\n";
-
-      const orderedLayers = [makeAptLayer(dpkgWithSource)];
-
-      const result = await computeLayerAttribution(
-        orderedLayers,
-        AnalysisType.Apt,
-        {
-          diffIDs: ["sha256:a"],
-          manifestDigests: ["sha256:a"],
-          instructions: [],
-        },
-        image,
-        undefined,
-        [],
-      );
-
-      expect(result.entries[0].packages).toContain(
-        "glibc/libc-bin@2.36-9+deb12u7",
-      );
-      expect(result.entries[0].packages).not.toContain(
-        "libc-bin@2.36-9+deb12u7",
-      );
-      expect(
-        result.finalImagePackages.get("glibc/libc-bin@2.36-9+deb12u7"),
-      ).toEqual([{ layerIndex: 0, diffID: "sha256:a" }]);
-    });
-  });
-
-  describe("APK package manager — origin handling", () => {
-    // APK encodes the source/origin as the `o:` field. Mirrors the apt
-    // case above: `libcrypto3` has origin `openssl` and so must surface
-    // as `openssl/libcrypto3@<ver>` in the fact, joining 1:1 with the
-    // dep-graph node name and any vuln's `packageName`.
-    function makeApkLayerWithOrigin(
-      ...pkgs: Array<{ name: string; version: string; origin?: string }>
-    ): ExtractedLayers {
-      const stanza = (p: {
-        name: string;
-        version: string;
-        origin?: string;
-      }) => {
-        const lines = [`P:${p.name}`, `V:${p.version}`];
-        if (p.origin) {
-          lines.push(`o:${p.origin}`);
-        }
-        return lines.join("\n") + "\n";
-      };
-      return {
-        "/lib/apk/db/installed": {
-          "apk-db": pkgs.map(stanza).join("\n") + "\n",
-        },
-      };
-    }
-
-    it("uses `<origin>/<binary>` keys when an apk Origin is present", async () => {
-      const orderedLayers = [
-        makeApkLayerWithOrigin({
-          name: "libcrypto3",
-          version: "3.0.7-r0",
-          origin: "openssl",
-        }),
-      ];
-
-      const result = await computeLayerAttribution(
-        orderedLayers,
-        AnalysisType.Apk,
-        {
-          diffIDs: ["sha256:a"],
-          manifestDigests: ["sha256:a"],
-          instructions: [],
-        },
-        image,
-        undefined,
-        [],
-      );
-
-      expect(result.entries[0].packages).toContain(
-        "openssl/libcrypto3@3.0.7-r0",
-      );
-      expect(
-        result.finalImagePackages.get("openssl/libcrypto3@3.0.7-r0"),
-      ).toEqual([{ layerIndex: 0, diffID: "sha256:a" }]);
+      expect(result.get("glibc/libc-bin@2.36-9+deb12u7")).toBe("sha256:a");
+      expect(result.has("libc-bin@2.36-9+deb12u7")).toBe(false);
     });
   });
 });
 
-describe("alignLayerMetadata", () => {
-  it("returns aligned arrays when both manifestLayers and history match rootFsLayers length", () => {
-    const result = alignLayerMetadata(
-      ["sha256:a", "sha256:b"],
-      ["sha256:a-c", "sha256:b-c"],
-      [
-        { created_by: "FROM alpine:3.19", empty_layer: false },
-        { created_by: "RUN apk add curl", empty_layer: false },
+describe("computeOsLayerAttribution", () => {
+  function makeAnalysis(
+    analyzeType: Exclude<AnalysisType, AnalysisType.Binaries>,
+    pkg: { name: string; version: string },
+  ): ImagePackagesAnalysis {
+    return {
+      Image: image,
+      AnalyzeType: analyzeType,
+      Analysis: [
+        {
+          Name: pkg.name,
+          Version: pkg.version,
+          Provides: [],
+          Deps: {},
+        },
       ],
-    );
-    expect(result.diffIDs).toEqual(["sha256:a", "sha256:b"]);
-    expect(result.manifestDigests).toEqual(["sha256:a-c", "sha256:b-c"]);
-    expect(result.instructions).toEqual([
-      "FROM alpine:3.19",
-      "RUN apk add curl",
-    ]);
-  });
-
-  it("filters out empty_layer history entries before length comparison", () => {
-    const result = alignLayerMetadata(
-      ["sha256:a", "sha256:b"],
-      ["sha256:a", "sha256:b"],
-      [
-        { created_by: "FROM alpine:3.19", empty_layer: false },
-        { created_by: "ENV PATH=/bin", empty_layer: true },
-        { created_by: "RUN apk add curl", empty_layer: false },
-      ],
-    );
-    expect(result.instructions).toEqual([
-      "FROM alpine:3.19",
-      "RUN apk add curl",
-    ]);
-  });
-
-  it("returns empty instructions when filtered history length does not match rootFsLayers", () => {
-    const result = alignLayerMetadata(
-      ["sha256:a", "sha256:b", "sha256:c"],
-      ["sha256:a", "sha256:b", "sha256:c"],
-      [
-        { created_by: "FROM alpine:3.19", empty_layer: false },
-        { created_by: "RUN apk add curl", empty_layer: false },
-      ],
-    );
-    expect(result.instructions).toEqual([]);
-    expect(result.manifestDigests).toEqual([
-      "sha256:a",
-      "sha256:b",
-      "sha256:c",
-    ]);
-  });
-
-  it("returns empty manifestDigests when manifestLayers length does not match rootFsLayers", () => {
-    const result = alignLayerMetadata(
-      ["sha256:a", "sha256:b"],
-      ["sha256:a"],
-      null,
-    );
-    expect(result.manifestDigests).toEqual([]);
-    expect(result.instructions).toEqual([]);
-  });
-
-  it("returns empty instructions when history is null or undefined", () => {
-    const fromNull = alignLayerMetadata(["sha256:a"], ["sha256:a"], null);
-    const fromUndef = alignLayerMetadata(["sha256:a"], ["sha256:a"], undefined);
-    expect(fromNull.instructions).toEqual([]);
-    expect(fromUndef.instructions).toEqual([]);
-  });
-});
-
-describe("mergeLayerAttributionEntries", () => {
-  it("returns an empty array for no entries", () => {
-    expect(mergeLayerAttributionEntries([])).toEqual([]);
-  });
-
-  it("returns a single entry unchanged", () => {
-    const entry: LayerAttributionEntry = {
-      layerIndex: 0,
-      diffID: "sha256:aaa",
-      digest: "sha256:aaa-c",
-      instruction: "FROM alpine:3.19",
-      packages: ["libc@2.35-r1"],
     };
-    const result = mergeLayerAttributionEntries([entry]);
-    expect(result).toHaveLength(1);
-    expect(result[0]).toEqual(entry);
-  });
+  }
 
-  it("sorts entries by layerIndex", () => {
-    const entries: LayerAttributionEntry[] = [
-      { layerIndex: 2, diffID: "sha256:c", packages: ["c@1.0"] },
-      { layerIndex: 0, diffID: "sha256:a", packages: ["a@1.0"] },
-      { layerIndex: 1, diffID: "sha256:b", packages: ["b@1.0"] },
+  it("dedupes by AnalyzeType so duplicate analyses don't double-count packages", async () => {
+    // The top-level `Promise.all` in `static-analyzer.ts` produces
+    // multiple `ImagePackagesAnalysis` records that share an
+    // `AnalyzeType` whenever an image carries packages in more than
+    // one DB format for the same ecosystem (RPM BDB/NDB + RPM SQLite,
+    // regular APT + distroless APT). The orchestrator must call the
+    // per-PM helper once per ecosystem; otherwise the second call's
+    // result overwrites the first against an identical key, which is
+    // a no-op — the *real* hazard is wasted work, but pin the contract.
+    const orderedLayers = [
+      makeApkLayer(makeApkDb({ name: "curl", version: "7.0.0-r0" })),
     ];
-    const result = mergeLayerAttributionEntries(entries);
-    expect(result.map((e) => e.layerIndex)).toEqual([0, 1, 2]);
-  });
+    const duplicateAnalyses: ImagePackagesAnalysis[] = [
+      makeAnalysis(AnalysisType.Apk, { name: "curl", version: "7.0.0-r0" }),
+      makeAnalysis(AnalysisType.Apk, { name: "curl", version: "7.0.0-r0" }),
+    ];
 
-  it("merges packages from two managers into the same layer entry", () => {
-    const entries: LayerAttributionEntry[] = [
-      { layerIndex: 0, diffID: "sha256:a", packages: ["apt-pkg@1.0"] },
-      { layerIndex: 0, diffID: "sha256:a", packages: ["chisel-pkg@2.0"] },
-    ];
-    const result = mergeLayerAttributionEntries(entries);
-    expect(result).toHaveLength(1);
-    expect(result[0].packages).toContain("apt-pkg@1.0");
-    expect(result[0].packages).toContain("chisel-pkg@2.0");
-  });
-
-  it("preserves layer metadata (diffID, digest, instruction) from the first entry", () => {
-    const entries: LayerAttributionEntry[] = [
-      {
-        layerIndex: 0,
-        diffID: "sha256:aaa",
-        digest: "sha256:aaa-compressed",
-        instruction: "FROM ubuntu:22.04",
-        packages: ["libc6@2.35"],
-      },
-      { layerIndex: 0, diffID: "sha256:aaa", packages: ["chisel-pkg@1.0"] },
-    ];
-    const result = mergeLayerAttributionEntries(entries);
-    expect(result[0].digest).toBe("sha256:aaa-compressed");
-    expect(result[0].instruction).toBe("FROM ubuntu:22.04");
-  });
-
-  it("keeps entries for different layers independent", () => {
-    const entries: LayerAttributionEntry[] = [
-      { layerIndex: 0, diffID: "sha256:a", packages: ["a@1.0"] },
-      { layerIndex: 1, diffID: "sha256:b", packages: ["b@1.0"] },
-      { layerIndex: 0, diffID: "sha256:a", packages: ["c@1.0"] },
-    ];
-    const result = mergeLayerAttributionEntries(entries);
-    expect(result).toHaveLength(2);
-    expect(result[0].layerIndex).toBe(0);
-    expect(result[0].packages).toEqual(
-      expect.arrayContaining(["a@1.0", "c@1.0"]),
+    const onWarning = jest.fn();
+    const result = await computeOsLayerAttribution(
+      duplicateAnalyses,
+      orderedLayers,
+      { diffIDs: ["sha256:a"], historyAlignsWithDiffIds: true },
+      image,
+      undefined,
+      [],
+      onWarning,
     );
-    expect(result[1].layerIndex).toBe(1);
-    expect(result[1].packages).toEqual(["b@1.0"]);
+
+    expect(result.get("curl@7.0.0-r0")).toBe("sha256:a");
+    // Idempotent overwrite of the same key/value should not fire a
+    // collision warning when the diffID is identical (we still call
+    // .set() but the post-call value matches the pre-call value, so we
+    // accept either zero or one warning — the contract is "no
+    // duplicate ecosystem call", not "no warning").
+    // Note: the helper dedupes via Set<AnalyzeType>, so this is also
+    // a regression test against re-introducing per-result iteration.
+    expect(onWarning).not.toHaveBeenCalled();
+  });
+
+  it("merges results across ecosystems on a mixed image", async () => {
+    // Mixed apk + dpkg images are uncommon but valid; the orchestrator
+    // must run attribution for each ecosystem and merge the maps.
+    const orderedLayers: ExtractedLayers[] = [
+      {
+        "/lib/apk/db/installed": {
+          "apk-db": makeApkDb({ name: "curl", version: "7.0.0-r0" }),
+        },
+        "/var/lib/dpkg/status": {
+          dpkg: makeDpkgStatus({ name: "libc6", version: "2.35-0ubuntu3" }),
+        },
+      },
+    ];
+    const analyses: ImagePackagesAnalysis[] = [
+      makeAnalysis(AnalysisType.Apk, { name: "curl", version: "7.0.0-r0" }),
+      makeAnalysis(AnalysisType.Apt, {
+        name: "libc6",
+        version: "2.35-0ubuntu3",
+      }),
+    ];
+
+    const result = await computeOsLayerAttribution(
+      analyses,
+      orderedLayers,
+      { diffIDs: ["sha256:a"], historyAlignsWithDiffIds: true },
+      image,
+      undefined,
+      [],
+    );
+
+    expect(result.get("curl@7.0.0-r0")).toBe("sha256:a");
+    expect(result.get("libc6@2.35-0ubuntu3")).toBe("sha256:a");
+  });
+
+  it("filters out empty Analysis entries before invoking attribution", async () => {
+    // An empty `Analysis` means the ecosystem's top-level parse found
+    // nothing; doing a per-layer pass for it is wasted work.
+    const orderedLayers = [
+      makeApkLayer(makeApkDb({ name: "curl", version: "7.0.0-r0" })),
+    ];
+    const analyses: ImagePackagesAnalysis[] = [
+      makeAnalysis(AnalysisType.Apk, { name: "curl", version: "7.0.0-r0" }),
+      { Image: image, AnalyzeType: AnalysisType.Rpm, Analysis: [] },
+    ];
+
+    const result = await computeOsLayerAttribution(
+      analyses,
+      orderedLayers,
+      { diffIDs: ["sha256:a"], historyAlignsWithDiffIds: true },
+      image,
+      undefined,
+      [],
+    );
+
+    expect(result.size).toBe(1);
+    expect(result.get("curl@7.0.0-r0")).toBe("sha256:a");
+  });
+
+  it("returns an empty map when there are no analyses", async () => {
+    const result = await computeOsLayerAttribution(
+      [],
+      [makeApkLayer(makeApkDb({ name: "curl", version: "7.0.0-r0" }))],
+      { diffIDs: ["sha256:a"], historyAlignsWithDiffIds: true },
+      image,
+      undefined,
+      [],
+    );
+    expect(result.size).toBe(0);
+  });
+
+  it("reports per-ecosystem failures via onWarning instead of throwing", async () => {
+    // A length mismatch between orderedLayers and diffIDs is the
+    // easiest deterministic way to make the per-PM helper throw; the
+    // helper shares one metadata object across all per-ecosystem
+    // calls, so a mismatch causes every per-PM call to fail.
+    const orderedLayers: ExtractedLayers[] = [
+      {
+        "/lib/apk/db/installed": {
+          "apk-db": makeApkDb({ name: "curl", version: "7.0.0-r0" }),
+        },
+        "/var/lib/dpkg/status": {
+          dpkg: makeDpkgStatus({ name: "libc6", version: "2.35-0ubuntu3" }),
+        },
+      },
+    ];
+    const analyses: ImagePackagesAnalysis[] = [
+      makeAnalysis(AnalysisType.Apk, { name: "curl", version: "7.0.0-r0" }),
+      makeAnalysis(AnalysisType.Apt, {
+        name: "libc6",
+        version: "2.35-0ubuntu3",
+      }),
+    ];
+    const warnings: Array<{ type: AnalysisType; warning: Error }> = [];
+
+    const result = await computeOsLayerAttribution(
+      analyses,
+      orderedLayers,
+      // diffIDs.length !== orderedLayers.length → both per-PM calls throw.
+      { diffIDs: ["sha256:a", "sha256:extra"], historyAlignsWithDiffIds: true },
+      image,
+      undefined,
+      [],
+      (type, warning) => warnings.push({ type, warning }),
+    );
+
+    expect(warnings.map((w) => w.type).sort()).toEqual([
+      AnalysisType.Apk,
+      AnalysisType.Apt,
+    ]);
+    for (const { warning } of warnings) {
+      expect(warning).toBeInstanceOf(Error);
+      expect(warning.message).toMatch(/orderedLayers \(1\) and diffIDs \(2\)/);
+    }
+    expect(result.size).toBe(0);
+  });
+
+  it("reports cross-ecosystem key collisions via onWarning and applies last-writer-wins", async () => {
+    // Each OS PM is expected to occupy a disjoint `<source>/<binary>`
+    // namespace; a collision indicates either a bug in our key shape or
+    // an exotic image. We don't want the second writer silently
+    // overwriting — the helper must surface the collision but keep
+    // going so the rest of attribution still ships.
+    //
+    // Force the collision: a single layer with both an apk DB and a
+    // dpkg status file, each carrying `curl 7.0.0-r0` with no
+    // source/origin. `depFullName` falls back to `<name>` when no
+    // source is recorded, so both PMs produce the key `curl@7.0.0-r0`.
+    const orderedLayers: ExtractedLayers[] = [
+      {
+        "/lib/apk/db/installed": {
+          "apk-db": makeApkDb({ name: "curl", version: "7.0.0-r0" }),
+        },
+        "/var/lib/dpkg/status": {
+          dpkg: makeDpkgStatus({ name: "curl", version: "7.0.0-r0" }),
+        },
+      },
+    ];
+    const analyses: ImagePackagesAnalysis[] = [
+      makeAnalysis(AnalysisType.Apk, { name: "curl", version: "7.0.0-r0" }),
+      makeAnalysis(AnalysisType.Apt, { name: "curl", version: "7.0.0-r0" }),
+    ];
+    const warnings: Array<{ type: AnalysisType; warning: Error }> = [];
+
+    const result = await computeOsLayerAttribution(
+      analyses,
+      orderedLayers,
+      { diffIDs: ["sha256:a"], historyAlignsWithDiffIds: true },
+      image,
+      undefined,
+      [],
+      (type, warning) => warnings.push({ type, warning }),
+    );
+
+    expect(warnings).toHaveLength(1);
+    expect(warnings[0].warning.message).toMatch(/curl@7\.0\.0-r0/);
+    expect(warnings[0].warning.message).toMatch(/last-writer-wins/);
+    // Attribution still shipped: the surviving entry maps to the one
+    // layer that introduced the package.
+    expect(result.get("curl@7.0.0-r0")).toBe("sha256:a");
   });
 });

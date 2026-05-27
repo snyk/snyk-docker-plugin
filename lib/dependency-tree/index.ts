@@ -247,10 +247,10 @@ function countDepsRecursive(
  *
  * Exported so the layer-attribution producer can mint keys with the same
  * shape — see `lib/analyzer/layer-attribution.ts`. Keep this as the single
- * source of truth for that string format; if it drifts, the join from
- * `LayerPackageAttributionFact.finalImagePackages[name@version]` to a
- * vuln's `packageName` will silently miss for any package with a
- * non-trivial `Source` (i.e. most OS vulns).
+ * source of truth for that string format; if it drifts, the response
+ * builder's per-package `dockerLayerDiffId` annotation join (which keys
+ * by `${depFullName}@${version}`) will silently miss for any package
+ * with a non-trivial `Source` (i.e. most OS vulns).
  */
 export function depFullName(depInfo: AnalyzedPackageWithVersion): string {
   let fullName = depInfo.Name;

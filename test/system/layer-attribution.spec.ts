@@ -1,266 +1,232 @@
+import { DepGraph } from "@snyk/dep-graph";
 import * as plugin from "../../lib";
-import { LayerPackageAttributionFact } from "../../lib/facts";
+import { DepGraphFact, HistoryFact, RootFsFact } from "../../lib/facts";
+import { ScanResult } from "../../lib/types";
 import { getFixture } from "../util";
 
-// End-to-end check for the `layerPackageAttribution` fact against a real
-// docker-archive fixture. The fixture is built from a hand-crafted
-// Dockerfile (see the scenario walkthrough below) and is designed to
-// exercise every branch of the dual-output contract:
+// End-to-end check for the layer-attribution wire format described in the
+// vulns-by-layer technical design doc.
 //
-//   - Layer 0 (FROM alpine:3.19) introduces the alpine base packages — all
-//     survive to the final image.
-//   - LABEL / ENV / WORKDIR are empty_layer history entries and so produce
-//     no rootfs layer; nothing to attribute.
-//   - `RUN apk add tmux` introduces tmux + its transitive deps (libevent,
-//     ncurses pieces). All survive.
-//   - `COPY Dockerfile /app/` produces a rootfs layer with no package-DB
-//     change; the attributor must skip it (no entry, no shifted indices).
-//   - `RUN apk add jq htop` introduces jq, oniguruma, htop. htop is the
-//     shadow / remediated-vuln case: present in `entries[]` but absent
-//     from `finalImagePackages` because the next layer removes it and it
-//     never comes back.
-//   - `RUN apk add bash && apk del jq htop` introduces bash + readline.
-//     The deletions are intentionally silent in the output (the producer
-//     no longer emits `removedPackages`; consumers derive removals as
-//     `entries[] \ finalImagePackages`).
-//   - EXPOSE 80 is empty_layer — no rootfs layer, no entry.
-//   - `RUN apk add jq` reinstalls jq + oniguruma at the same versions as
-//     entry 2. They re-appear in `entries[]` here (raw event stream), and
-//     `finalImagePackages` attributes them to THIS layer, not the earlier
-//     one — proving `latestIntroductionByKey` overwrites on reinstall.
+// The contract under test:
+// 1. With `--layer-attribution`, attributed dep-graph nodes carry a
+//    `dockerLayerDiffId` label whose value is the `sha256:…` diffID of the
+//    rootfs layer that introduced the package.
+// 2. `rootFs` and `history` facts are emitted on every container scan
+//    result (today only the OS scan result carries them) so Registry can
+//    perform the diffID -> `createdBy` join per-monitor without a
+//    cross-scan-result lookup.
+// 3. Without `--layer-attribution`, none of the above appears: no label
+//    on dep-graph nodes, no `rootFs`/`history` duplication onto app
+//    scan results.
+//
+// The fixture is a hand-crafted alpine-based image that exercises the
+// install / remove / reinstall path:
+//   - FROM alpine:3.19  (introduces base packages)
+//   - RUN apk add --no-cache tmux
+//   - COPY Dockerfile /app/   (no DB change, must be skipped)
+//   - RUN apk add --no-cache jq htop
+//   - RUN apk add --no-cache bash && apk del jq htop
+//   - RUN apk add --no-cache jq    (reinstall — tests latest-wins)
 
-describe("layerPackageAttribution fact on a real image", () => {
+describe("layer attribution wire format on a real image", () => {
   const archivePath = getFixture([
     "docker-archives",
     "docker-save",
     "layer-attribution-test.tar",
   ]);
 
-  let attribution: LayerPackageAttributionFact["data"];
-
-  beforeAll(async () => {
-    const pluginResult = await plugin.scan({
-      path: `docker-archive:${archivePath}`,
-      "layer-attribution": true,
-    });
-
-    const fact = pluginResult.scanResults[0].facts.find(
-      (f) => f.type === "layerPackageAttribution",
-    ) as LayerPackageAttributionFact | undefined;
-
-    if (!fact) {
-      throw new Error(
-        "expected a layerPackageAttribution fact on the scan result",
-      );
+  function findLabelledNodes(
+    depGraph: DepGraph,
+  ): Array<{ name: string; version?: string; diffID: string }> {
+    const labelled: Array<{
+      name: string;
+      version?: string;
+      diffID: string;
+    }> = [];
+    for (const pkg of depGraph.getPkgs()) {
+      for (const node of depGraph.getPkgNodes(pkg)) {
+        const diffID = node.info?.labels?.dockerLayerDiffId;
+        if (diffID) {
+          labelled.push({ name: pkg.name, version: pkg.version, diffID });
+        }
+      }
     }
-    attribution = fact.data;
-  });
+    return labelled;
+  }
 
-  it("emits the fact only when --layer-attribution is enabled", async () => {
-    const withoutOpt = await plugin.scan({
-      path: `docker-archive:${archivePath}`,
+  describe("with --layer-attribution enabled", () => {
+    let osResult: ScanResult;
+    let labelledNodes: Array<{
+      name: string;
+      version?: string;
+      diffID: string;
+    }>;
+    let rootFs: string[];
+    let history: HistoryFact["data"];
+
+    beforeAll(async () => {
+      const result = await plugin.scan({
+        path: `docker-archive:${archivePath}`,
+        "layer-attribution": true,
+      });
+
+      osResult = result.scanResults[0];
+
+      const depGraphFact = osResult.facts.find((f) => f.type === "depGraph") as
+        | DepGraphFact
+        | undefined;
+      if (!depGraphFact) {
+        throw new Error("expected a depGraph fact on the OS scan result");
+      }
+      labelledNodes = findLabelledNodes(depGraphFact.data);
+
+      const rootFsFact = osResult.facts.find((f) => f.type === "rootFs") as
+        | RootFsFact
+        | undefined;
+      if (!rootFsFact) {
+        throw new Error("expected a rootFs fact on the OS scan result");
+      }
+      rootFs = rootFsFact.data;
+
+      const historyFact = osResult.facts.find((f) => f.type === "history") as
+        | HistoryFact
+        | undefined;
+      if (!historyFact) {
+        throw new Error("expected a history fact on the OS scan result");
+      }
+      history = historyFact.data;
     });
-    const fact = withoutOpt.scanResults[0].facts.find(
-      (f) => f.type === "layerPackageAttribution",
-    );
-    expect(fact).toBeUndefined();
-  });
 
-  describe("entries (raw introduction event stream)", () => {
-    it("only emits entries for layers that mutate the package DB", () => {
-      // We expect entries for: FROM (0), `apk add tmux`, `apk add jq htop`,
-      // `apk add bash && apk del jq htop`, `apk add jq`. The LABEL / ENV /
-      // WORKDIR / EXPOSE history entries are empty_layer (no rootfs layer)
-      // and the COPY layer has no DB change, so neither produces an entry.
-      expect(attribution.entries).toHaveLength(5);
-    });
-
-    it("orders entries by ascending layerIndex with gaps for skipped layers", () => {
-      const indices = attribution.entries.map((e) => e.layerIndex);
-      expect(indices).toEqual([...indices].sort((a, b) => a - b));
-      // The COPY layer sits between the tmux and `apk add jq htop` layers,
-      // so the layerIndex sequence must contain a gap (no consecutive run).
-      const gaps = indices
-        .slice(1)
-        .map((idx, i) => idx - indices[i])
-        .filter((d) => d > 1);
-      expect(gaps.length).toBeGreaterThan(0);
-    });
-
-    it("annotates each entry with diffID, digest, and instruction", () => {
-      for (const entry of attribution.entries) {
-        expect(entry.diffID).toMatch(/^sha256:[0-9a-f]{64}$/);
-        expect(entry.digest).toBeDefined();
-        expect(entry.instruction).toBeDefined();
-        expect(entry.packages.length).toBeGreaterThan(0);
+    it("annotates attributed dep-graph nodes with `dockerLayerDiffId`", () => {
+      // The fixture has > 15 OS packages from alpine:3.19 plus the user
+      // installs (tmux, bash, jq, ...). We don't pin the count to keep
+      // the test resilient to upstream alpine point releases.
+      expect(labelledNodes.length).toBeGreaterThan(10);
+      for (const node of labelledNodes) {
+        expect(node.diffID).toMatch(/^sha256:[0-9a-f]{64}$/);
       }
     });
 
-    it("attributes the alpine base packages to entry 0", () => {
-      const base = attribution.entries[0];
-      expect(base.layerIndex).toBe(0);
-      expect(base.instruction).toMatch(/alpine-minirootfs/);
-      // Spot-check core alpine pieces. The full list (~15 packages) is the
-      // stock alpine:3.19 set; we don't pin it to a specific count to keep
-      // the test resilient to upstream point releases of the base image.
-      // Keys are `<origin>/<binary>@<version>` when apk records an `o:`
-      // line (almost always for alpine base packages — `o:` matches the
-      // binary name for these stand-alone packages, e.g. `busybox/busybox`),
-      // matching the dep-graph node name. Anchor on the trailing
-      // `/<binary>@` so the assertion stays readable without committing to
-      // the specific origin string.
-      expect(base.packages).toEqual(
-        expect.arrayContaining([
-          expect.stringMatching(/(?:^|\/)alpine-baselayout@/),
-          expect.stringMatching(/(?:^|\/)busybox@/),
-          expect.stringMatching(/(?:^|\/)musl@/),
-          expect.stringMatching(/(?:^|\/)apk-tools@/),
-        ]),
-      );
-    });
-
-    it("attributes tmux and its transitive deps to the `apk add tmux` layer", () => {
-      const tmuxEntry = attribution.entries.find((e) =>
-        e.packages.some((p) => /(?:^|\/)tmux@/.test(p)),
-      );
-      expect(tmuxEntry).toBeDefined();
-      expect(tmuxEntry!.instruction).toMatch(/apk add --no-cache tmux/);
-      // `libncursesw` is part of the `ncurses` source/origin, so its key
-      // is `ncurses/libncursesw@…`. Allow either the bare or the prefixed
-      // form so the test isn't coupled to a specific apkindex layout.
-      expect(tmuxEntry!.packages).toEqual(
-        expect.arrayContaining([
-          expect.stringMatching(/(?:^|\/)tmux@/),
-          expect.stringMatching(/(?:^|\/)libevent@/),
-          expect.stringMatching(/(?:^|\/)libncursesw@/),
-        ]),
-      );
-    });
-
-    it("records htop as an introduction even though it is removed later", () => {
-      // Shadow / remediated-vuln case: htop is installed by `apk add jq
-      // htop` and purged by the next RUN. It must remain visible in
-      // `entries[]` (raw event stream) but be absent from
-      // `finalImagePackages` (live set) — see the next describe block.
-      const htopEntry = attribution.entries.find((e) =>
-        e.packages.some((p) => /(?:^|\/)htop@/.test(p)),
-      );
-      expect(htopEntry).toBeDefined();
-      expect(htopEntry!.instruction).toMatch(/apk add --no-cache jq htop/);
-      // The same entry also introduces jq + oniguruma; bash is in the next.
-      expect(htopEntry!.packages).toEqual(
-        expect.arrayContaining([
-          expect.stringMatching(/(?:^|\/)htop@/),
-          expect.stringMatching(/(?:^|\/)jq@/),
-          expect.stringMatching(/(?:^|\/)oniguruma@/),
-        ]),
-      );
-    });
-
-    it("re-emits jq and oniguruma on the reinstall layer", () => {
-      // After the previous layer purged jq, it is absent from
-      // previousPkgs, so reinstalling it at the same version counts as a
-      // new introduction event — the raw event stream is honest about
-      // install→remove→reinstall sequences.
-      const jqEntries = attribution.entries.filter((e) =>
-        e.packages.some((p) => /(?:^|\/)jq@/.test(p)),
-      );
-      expect(jqEntries).toHaveLength(2);
-
-      const reinstall = jqEntries[jqEntries.length - 1];
-      expect(reinstall.instruction).toMatch(/apk add --no-cache jq/);
-      expect(reinstall.instruction).not.toMatch(/htop/);
-      expect(reinstall.packages).toEqual(
-        expect.arrayContaining([
-          expect.stringMatching(/(?:^|\/)jq@/),
-          expect.stringMatching(/(?:^|\/)oniguruma@/),
-        ]),
-      );
-    });
-  });
-
-  describe("finalImagePackages (live-set index)", () => {
-    it("contains every surviving package with a length-1 origin list", () => {
-      // OS package managers dedupe — there is only one live copy of any
-      // given name@version on disk, so every list must be length 1.
-      const values = Object.values(attribution.finalImagePackages);
-      expect(values.length).toBeGreaterThan(0);
-      for (const origins of values) {
-        expect(origins).toHaveLength(1);
-        expect(origins[0].layerIndex).toEqual(expect.any(Number));
-        expect(origins[0].diffID).toMatch(/^sha256:[0-9a-f]{64}$/);
+    it("uses values that are valid diffIDs from the image's rootFs", () => {
+      // The label's value must be a real entry in `rootFs`; otherwise
+      // the read-time join in Registry will silently miss every node.
+      const diffIDSet = new Set(rootFs);
+      const distinctLabelDiffIDs = new Set(labelledNodes.map((n) => n.diffID));
+      expect(distinctLabelDiffIDs.size).toBeGreaterThan(0);
+      for (const diffID of distinctLabelDiffIDs) {
+        expect(diffIDSet.has(diffID)).toBe(true);
       }
     });
 
-    it("omits htop — it was installed and later purged", () => {
-      // Shadow vuln signal: htop is in `entries[].packages` but absent
-      // here. A consumer doing `entries \ finalImagePackages` recovers
-      // it as a remediated package.
-      const htopKeys = Object.keys(attribution.finalImagePackages).filter((k) =>
-        /(?:^|\/)htop@/.test(k),
-      );
-      expect(htopKeys).toEqual([]);
-
-      const htopInEntries = attribution.entries
-        .flatMap((e) => e.packages)
-        .some((p) => /(?:^|\/)htop@/.test(p));
-      expect(htopInEntries).toBe(true);
+    it("attributes alpine base packages to the FROM layer (rootFs[0])", () => {
+      // The first non-empty history entry corresponds to rootFs[0] — the
+      // FROM alpine:3.19 layer. `busybox` and `musl` are part of every
+      // alpine root filesystem.
+      const baseDiffID = rootFs[0];
+      const busybox = labelledNodes.find((n) => /busybox$/.test(n.name));
+      const musl = labelledNodes.find((n) => /musl$/.test(n.name));
+      expect(busybox?.diffID).toBe(baseDiffID);
+      expect(musl?.diffID).toBe(baseDiffID);
     });
 
-    it("attributes tmux's live copy to the `apk add tmux` layer", () => {
-      const tmuxKey = Object.keys(attribution.finalImagePackages).find((k) =>
-        /(?:^|\/)tmux@/.test(k),
-      )!;
-      expect(tmuxKey).toBeDefined();
+    it("attributes tmux to a layer whose `createdBy` mentions `apk add ... tmux`", () => {
+      // Walk the join the same way Registry will: find tmux's diffID,
+      // map it to its index in rootFs, then read the corresponding
+      // non-empty history entry's createdBy.
+      const tmux = labelledNodes.find((n) => /(?:^|\/)tmux$/.test(n.name));
+      expect(tmux).toBeDefined();
+      const layerIndex = rootFs.indexOf(tmux!.diffID);
+      expect(layerIndex).toBeGreaterThanOrEqual(0);
 
-      const [origin] = attribution.finalImagePackages[tmuxKey];
-      const tmuxEntry = attribution.entries.find(
-        (e) => e.layerIndex === origin.layerIndex,
-      );
-      expect(tmuxEntry?.instruction).toMatch(/apk add --no-cache tmux/);
+      const nonEmptyHistory = history.filter((h) => !h.emptyLayer);
+      // The OCI rule: non-empty history entries map 1:1 with rootFs.
+      expect(nonEmptyHistory.length).toBe(rootFs.length);
+      const createdBy = nonEmptyHistory[layerIndex].createdBy ?? "";
+      expect(createdBy).toMatch(/apk add[^\n]*tmux/);
     });
 
-    it("attributes jq's live copy to the REINSTALL layer, not the first install", () => {
-      // The load-bearing assertion for `latestIntroductionByKey`: when a
-      // package is installed, removed, then reinstalled, the live-set
-      // index must point at the most recent introduction — otherwise a
-      // backend doing `finalImagePackages[jq@...] -> layer` would
-      // attribute a live vuln to a layer whose copy of the package no
-      // longer exists on disk.
-      const jqKey = Object.keys(attribution.finalImagePackages).find((k) =>
-        /(?:^|\/)jq@/.test(k),
-      )!;
-      expect(jqKey).toBeDefined();
+    it("attributes jq's surviving copy to the reinstall layer, not the first install", () => {
+      // The fixture installs jq at one layer, removes it at the next,
+      // and reinstalls at the same version later. The label must point
+      // at the latest install — the layer whose copy actually survives
+      // on disk in the final image.
+      const jq = labelledNodes.find((n) => /(?:^|\/)jq$/.test(n.name));
+      expect(jq).toBeDefined();
 
-      const [jqOrigin] = attribution.finalImagePackages[jqKey];
-      const reinstallLayerIndex = Math.max(
-        ...attribution.entries
-          .filter((e) => e.packages.some((p) => /(?:^|\/)jq@/.test(p)))
-          .map((e) => e.layerIndex),
-      );
-      expect(jqOrigin.layerIndex).toBe(reinstallLayerIndex);
-
-      // And, symmetrically, the same is true for oniguruma — jq's
-      // transitive dep that got dragged through the same install/remove/
-      // reinstall cycle.
-      const oniKey = Object.keys(attribution.finalImagePackages).find((k) =>
-        /(?:^|\/)oniguruma@/.test(k),
-      )!;
-      const [oniOrigin] = attribution.finalImagePackages[oniKey];
-      expect(oniOrigin.layerIndex).toBe(reinstallLayerIndex);
+      // Find every layer that mentions `apk add ... jq` in its
+      // createdBy and confirm the label points at the latest one.
+      const nonEmptyHistory = history.filter((h) => !h.emptyLayer);
+      const jqInstallLayerIndices = nonEmptyHistory
+        .map((h, i) => ({ idx: i, createdBy: h.createdBy ?? "" }))
+        .filter(
+          ({ createdBy }) =>
+            /apk add[^\n]*\bjq\b/.test(createdBy) &&
+            !/apk del[^\n]*\bjq\b/.test(createdBy),
+        )
+        .map(({ idx }) => idx);
+      expect(jqInstallLayerIndices.length).toBeGreaterThanOrEqual(2);
+      const latestInstallIdx = Math.max(...jqInstallLayerIndices);
+      expect(jq!.diffID).toBe(rootFs[latestInstallIdx]);
     });
 
-    it("keeps `entries[]` and `finalImagePackages` consistent: every survivor's origin is one of its introductions", () => {
-      for (const [key, origins] of Object.entries(
-        attribution.finalImagePackages,
-      )) {
-        const [origin] = origins;
-        const matchingEntry = attribution.entries.find(
-          (e) => e.layerIndex === origin.layerIndex,
-        );
-        expect(matchingEntry).toBeDefined();
-        expect(matchingEntry!.packages).toContain(key);
-        expect(matchingEntry!.diffID).toBe(origin.diffID);
+    it("omits htop — it was installed and later purged, so no node carries its label", () => {
+      // htop is installed by `apk add jq htop` and removed by the
+      // following RUN. It is no longer on disk in the final image, so
+      // it does not appear as a dep-graph package and therefore has no
+      // labelled node.
+      const htop = labelledNodes.find((n) => /(?:^|\/)htop$/.test(n.name));
+      expect(htop).toBeUndefined();
+    });
+
+    it("does not yet duplicate rootFs/history onto app scan results (OS-only milestone)", async () => {
+      // The vulns-by-layer design duplicates `rootFs` + `history` onto
+      // every container scan result so Registry can do the diffID ->
+      // instruction join per-monitor. The first milestone only emits
+      // labels for OS packages, so app scan results have nothing to
+      // join — duplicating the facts now would be dead weight. When
+      // app-package attribution lands, flip this assertion (and
+      // re-enable the commented-out block in `response-builder.ts`).
+      const result = await plugin.scan({
+        path: `docker-archive:${archivePath}`,
+        "layer-attribution": true,
+      });
+      const appResults = result.scanResults.slice(1);
+      for (const sr of appResults) {
+        expect(sr.facts.find((f) => f.type === "rootFs")).toBeUndefined();
+        expect(sr.facts.find((f) => f.type === "history")).toBeUndefined();
+      }
+    });
+  });
+
+  describe("without --layer-attribution", () => {
+    let result: Awaited<ReturnType<typeof plugin.scan>>;
+
+    beforeAll(async () => {
+      result = await plugin.scan({
+        path: `docker-archive:${archivePath}`,
+      });
+    });
+
+    it("does not annotate any dep-graph node with `dockerLayerDiffId`", () => {
+      for (const sr of result.scanResults) {
+        const depGraphFact = sr.facts.find((f) => f.type === "depGraph") as
+          | DepGraphFact
+          | undefined;
+        if (!depGraphFact) {
+          continue;
+        }
+        expect(findLabelledNodes(depGraphFact.data)).toEqual([]);
+      }
+    });
+
+    it("does not duplicate rootFs/history onto app scan results", () => {
+      // The OS scan result keeps its `rootFs` / `history` facts (they
+      // pre-date this feature), but app scan results must not pick them
+      // up unless `--layer-attribution` is on.
+      const appResults = result.scanResults.slice(1);
+      for (const sr of appResults) {
+        expect(sr.facts.find((f) => f.type === "rootFs")).toBeUndefined();
+        expect(sr.facts.find((f) => f.type === "history")).toBeUndefined();
       }
     });
   });

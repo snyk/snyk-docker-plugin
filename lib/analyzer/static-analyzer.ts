@@ -2,7 +2,6 @@ import * as Debug from "debug";
 import { DockerFileAnalysis } from "../dockerfile";
 import { getErrorMessage } from "../error-utils";
 import * as archiveExtractor from "../extractor";
-import { FinalImagePackageOrigin, LayerAttributionEntry } from "../facts";
 import {
   getGoModulesContentAction,
   goModulesToScannedProjects,
@@ -73,8 +72,7 @@ import { AppDepsScanResultWithoutTarget } from "./applications/types";
 import { detectJavaRuntime } from "./base-runtimes";
 import {
   alignLayerMetadata,
-  computeLayerAttribution,
-  mergeLayerAttributionEntries,
+  computeOsLayerAttribution,
 } from "./layer-attribution";
 import * as osReleaseDetector from "./os-release";
 import { analyze as apkAnalyze } from "./package-managers/apk";
@@ -89,6 +87,7 @@ import {
 } from "./package-managers/rpm";
 import {
   ImagePackagesAnalysis,
+  IntroducingLayerByPackage,
   OSRelease,
   StaticPackagesAnalysis,
 } from "./types";
@@ -249,12 +248,7 @@ export async function analyze(
     throw new Error("Failed to detect installed OS packages");
   }
 
-  let layerPackageAttribution:
-    | {
-        entries: LayerAttributionEntry[];
-        finalImagePackages: Record<string, FinalImagePackageOrigin[]>;
-      }
-    | undefined;
+  let introducingLayerByPackage: IntroducingLayerByPackage | undefined;
   if (
     isTrue(options["layer-attribution"]) &&
     rootFsLayers &&
@@ -262,41 +256,27 @@ export async function analyze(
     orderedLayers.length > 0
   ) {
     phaseStart = Date.now();
+    // `results` carries one entry per DB *format* (e.g. RPM BDB/NDB and RPM
+    // SQLite are separate, both `AnalysisType.Rpm`); attribution is keyed on
+    // `AnalyzeType` and reads every format for that ecosystem internally.
+    // Deduping by ecosystem happens inside the helper.
     const resultsWithPackages = results.filter((r) => r.Analysis.length > 0);
     if (resultsWithPackages.length > 0) {
-      const layerMetadata = alignLayerMetadata(
-        rootFsLayers,
-        manifestLayers,
-        history,
+      const layerMetadata = alignLayerMetadata(rootFsLayers, history);
+      introducingLayerByPackage = await computeOsLayerAttribution(
+        resultsWithPackages,
+        orderedLayers,
+        layerMetadata,
+        targetImage,
+        osRelease,
+        redHatRepositories,
+        (analysisType, warning) =>
+          debug(
+            `Layer attribution warning for ${analysisType}: ${getErrorMessage(
+              warning,
+            )}`,
+          ),
       );
-      const allEntries: LayerAttributionEntry[] = [];
-      const mergedFinal: Record<string, FinalImagePackageOrigin[]> = {};
-      for (const result of resultsWithPackages) {
-        try {
-          const { entries, finalImagePackages } = await computeLayerAttribution(
-            orderedLayers,
-            result.AnalyzeType,
-            layerMetadata,
-            targetImage,
-            osRelease,
-            redHatRepositories,
-          );
-          allEntries.push(...entries);
-          // Cross-ecosystem key collisions don't realistically happen for
-          // OS package managers; first-writer-wins is fine.
-          for (const [key, origins] of finalImagePackages) {
-            if (!(key in mergedFinal)) {
-              mergedFinal[key] = origins;
-            }
-          }
-        } catch (err) {
-          debug(`Could not compute layer attribution: ${getErrorMessage(err)}`);
-        }
-      }
-      layerPackageAttribution = {
-        entries: mergeLayerAttributionEntries(allEntries),
-        finalImagePackages: mergedFinal,
-      };
     }
     timings.layerAttributionMs = Date.now() - phaseStart;
   }
@@ -395,7 +375,7 @@ export async function analyze(
     baseRuntimes,
     imageLayers: manifestLayers,
     rootFsLayers,
-    layerPackageAttribution,
+    introducingLayerByPackage,
     applicationDependenciesScanResults,
     manifestFiles,
     autoDetectedUserInstructions,

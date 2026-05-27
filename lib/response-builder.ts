@@ -1,5 +1,5 @@
 import { legacy } from "@snyk/dep-graph";
-import { StaticAnalysis } from "./analyzer/types";
+import { IntroducingLayerByPackage, StaticAnalysis } from "./analyzer/types";
 import * as facts from "./facts";
 // Module that provides functions to collect and build response after all
 // analyses' are done.
@@ -53,6 +53,16 @@ async function buildResponse(
     );
     annotateLayerIds(finalDeps, dockerfilePkgs);
     depsAnalysis.depTree.dependencies = finalDeps;
+  }
+
+  // `dockerLayerDiffId` is the new layer-identity label introduced by the
+  // vulns-by-layer feature. It carries the diffID (`sha256:...`) of the
+  // rootfs layer that introduced each package
+  if (depsAnalysis.introducingLayerByPackage?.size) {
+    annotateDockerLayerDiffIds(
+      depsAnalysis.depTree.dependencies,
+      depsAnalysis.introducingLayerByPackage,
+    );
   }
 
   /** This must be called after all final changes to the DependencyTree. */
@@ -151,8 +161,9 @@ async function buildResponse(
     additionalFacts.push(containerConfigFact);
   }
 
+  let historyFact: facts.HistoryFact | undefined;
   if (depsAnalysis.history && depsAnalysis.history.length > 0) {
-    const historyFact: facts.HistoryFact = {
+    historyFact = {
       type: "history",
       data: depsAnalysis.history.map((entry) => ({
         ...(entry.created !== undefined && { created: entry.created }),
@@ -175,24 +186,17 @@ async function buildResponse(
     additionalFacts.push(imageCreationTimeFact);
   }
 
+  let rootFsFact: facts.RootFsFact | undefined;
   if (
     depsAnalysis.rootFsLayers &&
     Array.isArray(depsAnalysis.rootFsLayers) &&
     depsAnalysis.rootFsLayers.length > 0
   ) {
-    const rootFsFact: facts.RootFsFact = {
+    rootFsFact = {
       type: "rootFs",
       data: depsAnalysis.rootFsLayers,
     };
     additionalFacts.push(rootFsFact);
-  }
-
-  if (depsAnalysis.layerPackageAttribution) {
-    const layerPackageAttributionFact: facts.LayerPackageAttributionFact = {
-      type: "layerPackageAttribution",
-      data: depsAnalysis.layerPackageAttribution,
-    };
-    additionalFacts.push(layerPackageAttributionFact);
   }
 
   if (depsAnalysis.depTree.targetOS.prettyName) {
@@ -268,6 +272,25 @@ async function buildResponse(
       data: PLUGIN_VERSION,
     };
     appDepsScanResult.facts.push(appPluginVersionFact);
+
+    // TODO(vulns-by-layer, app-scan milestone): re-enable when app-package
+    // layer attribution lands. The vulns-by-layer design duplicates `rootFs`
+    // and `history` onto every container scan result so Registry can perform
+    // the diffID -> instruction join per-monitor without a cross-scan-result
+    // lookup. The first milestone only attributes OS packages, so app scan
+    // results have no `dockerLayerDiffId`-labelled nodes to join against —
+    // attaching the facts now would be dead weight in `container-monitor-data`
+    // until the app-side label emission ships. Restore the block below once
+    // app-package attribution is in place.
+    //
+    // if (depsAnalysis.introducingLayerByPackage) {
+    //   if (rootFsFact) {
+    //     appDepsScanResult.facts.push(rootFsFact);
+    //   }
+    //   if (historyFact) {
+    //     appDepsScanResult.facts.push(historyFact);
+    //   }
+    // }
 
     return {
       ...appDepsScanResult,
@@ -484,6 +507,41 @@ function annotateLayerIds(
     }
     if (pkg.dependencies) {
       annotateLayerIds(pkg.dependencies, dockerfilePkgs);
+    }
+  }
+}
+
+/**
+ * Walks the dep tree and stamps `dockerLayerDiffId` on every node that has
+ * an entry in the package -> diffID map produced by
+ * `computeOsLayerAttribution`. The label survives `legacy.depTreeToGraph`
+ * conversion and surfaces as `node.info.labels.dockerLayerDiffId` on the
+ * resulting dep-graph node — the contract Registry's read-path join
+ * depends on.
+ *
+ * Lookup key shape (`${name}@${version}`) matches what the attribution
+ * producer mints via `depFullName(pkg)@${version}`; the dep-tree builder
+ * uses the same `depFullName` for its node names, so the join is direct.
+ *
+ * @important mutates the provided `deps` object.
+ */
+function annotateDockerLayerDiffIds(
+  deps: {
+    [depName: string]: types.DepTreeDep;
+  },
+  introducingLayerByPackage: IntroducingLayerByPackage,
+) {
+  for (const depName of Object.keys(deps)) {
+    const pkg = deps[depName];
+    const diffID = introducingLayerByPackage.get(`${pkg.name}@${pkg.version}`);
+    if (diffID) {
+      pkg.labels = {
+        ...(pkg.labels || {}),
+        dockerLayerDiffId: diffID,
+      };
+    }
+    if (pkg.dependencies) {
+      annotateDockerLayerDiffIds(pkg.dependencies, introducingLayerByPackage);
     }
   }
 }

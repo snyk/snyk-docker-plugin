@@ -82,9 +82,7 @@ export type FactType =
   // Used for application dependencies scanning; shows which files were used in the analysis of the dependencies.
   | "testedFiles"
   // Application files observed in the image
-  | "applicationFiles"
-  // Per-layer package attribution: which layer introduced each OS package
-  | "layerPackageAttribution";
+  | "applicationFiles";
 
 export interface PluginAnalytics {
   name: string;

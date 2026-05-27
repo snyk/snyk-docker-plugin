@@ -1,6 +1,5 @@
 import { depFullName } from "../dependency-tree";
 import { ExtractedLayers, HistoryEntry } from "../extractor/types";
-import { FinalImagePackageOrigin, LayerAttributionEntry } from "../facts";
 import {
   getApkDbFileContent,
   getApkDbFileContentAction,
@@ -28,37 +27,12 @@ import {
   analyze as rpmAnalyze,
   mapRpmSqlitePackages,
 } from "./package-managers/rpm";
-import { AnalysisType, ImagePackagesAnalysis, OSRelease } from "./types";
-
-export interface LayerAttributionResult {
-  /**
-   * Raw introduction events: every (layer, `name@version`) pair where
-   * the package was newly present compared to the previous layer's DB
-   * state. Includes events whose effect did not survive to the final
-   * image (e.g. an OS package installed early and removed later).
-   *
-   * The producer does NOT filter out superseded introductions. Live
-   * vs. historical disambiguation is the job of `finalImagePackages`,
-   * which both this module and downstream consumers (via the fact)
-   * use as the source of truth for "what's actually on disk."
-   */
-  entries: LayerAttributionEntry[];
-  /**
-   * Package-keyed index of every `name@version` that survived to the
-   * final layer's package state, mapped to the layer(s) where its
-   * surviving copy was introduced.
-   *
-   * For OS package managers each list has length 1 (the package manager
-   * dedupes). For app package managers without cross-root dedupe a
-   * surviving package may legitimately have multiple introducing layers;
-   * the type is list-valued from day one to keep the wire format and
-   * the internal helper consistent across ecosystems.
-   *
-   * Serialized into `LayerPackageAttributionFact.data.finalImagePackages`
-   * for the fact-reading consumer (e.g. registry).
-   */
-  finalImagePackages: Map<string, FinalImagePackageOrigin[]>;
-}
+import {
+  AnalysisType,
+  ImagePackagesAnalysis,
+  IntroducingLayerByPackage,
+  OSRelease,
+} from "./types";
 
 export interface AlignedLayerMetadata {
   /**
@@ -67,55 +41,42 @@ export interface AlignedLayerMetadata {
    */
   diffIDs: string[];
   /**
-   * Per-layer manifest digests (compressed). Either length-equal to `diffIDs`
-   * (aligned 1:1) or empty when alignment couldn't be trusted.
+   * Whether `history` aligns 1:1 with `diffIDs`. Carried for parity with
+   * the join Registry will perform on the read side; the plugin's own
+   * attribution path does not depend on it (we attribute by diffID, not
+   * by instruction text), but consumers reading `history` from a scan
+   * result want to know whether the alignment held.
    */
-  manifestDigests: string[];
-  /**
-   * Per-layer Dockerfile instruction strings. Either length-equal to
-   * `diffIDs` (aligned 1:1) or empty when alignment couldn't be trusted.
-   */
-  instructions: Array<string | undefined>;
+  historyAlignsWithDiffIds: boolean;
 }
 
 /**
- * Reconciles per-layer metadata (manifest digests, history-derived
- * instructions) with `rootFsLayers`. Returns aligned arrays of equal length,
- * or empty arrays on length mismatch.
+ * Reconciles per-layer metadata with `rootFsLayers`.
  *
- * Alignment is undetectable after the fact: a missing entry in the middle
- * shifts every subsequent value silently, and we have no shared key to verify
- * against diffIDs. Length equality is the only signal available, so on
- * mismatch we drop the field entirely rather than emit a confidently-wrong
- * value.
- * - manifestLayers is spec'd to align 1:1 with rootfs.diff_ids.
- * - history alignment relies on empty_layer flags being correct, which is
- *   notoriously fragile across squash builds, save round-trips, etc.
+ * The plugin emits `rootFs` and `history` as separate facts and lets
+ * Registry perform the diffID -> `createdBy` join at read time. We don't
+ * need to copy instruction strings into the attribution path; we only
+ * need to know whether the OCI "non-empty history entries map 1:1 to
+ * `rootfs.diff_ids[]`" rule held for this image. A length mismatch means
+ * the join is unsafe: we still ship `rootFs` and `history`, but a
+ * downstream consumer that joins them blindly would attribute against
+ * the wrong layer.
  *
- * Intended to be called once per image by the orchestrator. Both the OS and
- * application package attributors then consume the same aligned arrays.
+ * Alignment failure is silent — there is no shared key between `history`
+ * and `diff_ids[]`. Length equality is the only signal available. It is
+ * notoriously fragile across squash builds, `docker save` round-trips,
+ * and some non-Docker builders (Jib, ko, apko, Bazel `rules_docker`).
  */
 export function alignLayerMetadata(
   rootFsLayers: string[],
-  manifestLayers: string[],
   history: HistoryEntry[] | null | undefined,
 ): AlignedLayerMetadata {
-  // Build the candidate instructions list: one entry per non-empty history
-  // step, in order, so it can align 1:1 with rootFsLayers. This intentionally
-  // differs from `getUserInstructionLayersFromConfig` in extractor/index.ts,
-  // which uses a timestamp heuristic to select only the *user-added* layers
-  // for Dockerfile attribution; here we want the full per-layer instruction
-  // stream so every attribution entry can be annotated.
-  const rawInstructions = (history ?? [])
-    .filter((h) => !h.empty_layer)
-    .map((h) => h.created_by?.trim() || undefined);
-
+  const nonEmptyHistoryCount = (history ?? []).filter(
+    (h) => !h.empty_layer,
+  ).length;
   return {
     diffIDs: rootFsLayers,
-    manifestDigests:
-      manifestLayers.length === rootFsLayers.length ? manifestLayers : [],
-    instructions:
-      rawInstructions.length === rootFsLayers.length ? rawInstructions : [],
+    historyAlignsWithDiffIds: nonEmptyHistoryCount === rootFsLayers.length,
   };
 }
 
@@ -133,10 +94,8 @@ function layerHasAction(layer: ExtractedLayers, actionName: string): boolean {
  * where `fullName` is the same string the dep-graph builder uses for the
  * package node (`<source>/<binary>` when a source/origin is known,
  * otherwise just `<binary>`). Sharing `depFullName` with the dep-graph
- * side is what lets a downstream consumer join a vulnerability's
- * `packageName` straight into `LayerPackageAttributionFact.finalImagePackages`
- * without reverse-engineering the source-vs-binary distinction (e.g.
- * `glibc/libc-bin`, `openssl/libcrypto3`).
+ * side is what lets `response-builder` annotate dep-graph nodes with the
+ * `dockerLayerDiffId` label by direct key lookup, with no string surgery.
  *
  * Variadic to accommodate RPM, which produces separate analyses for the
  * BDB/NDB and SQLite formats.
@@ -196,9 +155,6 @@ async function parseLayerOsPackages(
     if (!hasBdb && !hasNdb && !hasSqlite) {
       return null;
     }
-    // Fetch only the formats present in this layer; absent formats resolve to [].
-    // BDB/NDB go through rpmAnalyze; SQLite goes through mapRpmSqlitePackages —
-    // matching the main analysis path so package keys are identical.
     const [bdbPkgs, ndbPkgs, sqlitePkgs] = await Promise.all([
       hasBdb ? getRpmDbFileContent(layer) : Promise.resolve([]),
       hasNdb ? getRpmNdbFileContent(layer) : Promise.resolve([]),
@@ -241,39 +197,27 @@ async function parseLayerOsPackages(
 }
 
 /**
- * Computes layer attribution for a single OS package manager.
+ * Computes per-package layer attribution for a single OS package manager
+ * (Apk, Apt, Rpm, or Chisel). Returns the `<fullName>@<version>` -> diffID
+ * map for every package present in the *final* layer's DB.
  *
- * Returns two parallel views of the same observation:
+ * Earlier introductions whose copies were later removed do not appear in
+ * the result. The OS package manager dedupes, so for OS ecosystems each
+ * surviving key has exactly one introducing layer (the most recent layer
+ * to install or reinstall the surviving copy).
  *
- * - `entries`: the raw event stream — for every layer that mutates the
- *   package DB, the set of `name@version` keys that became newly
- *   present compared to the previous layer. This includes introductions
- *   whose copies were later removed or replaced and so are no longer
- *   on disk in the final image. Consumers that want "everything ever
- *   installed in this image" use this directly.
- *
- * - `finalImagePackages`: the live set — every `name@version` present
- *   in the *last* layer's DB, mapped to the layer(s) where its
- *   surviving copy was introduced. For OS package managers this is
- *   trivially "the latest layer that introduced the key" (dedupe
- *   guarantees at most one live copy); the list-valued shape exists
- *   so the same map type can carry the multi-root app case in the
- *   future.
- *
- * Together these support all three views without further plugin-side
- * derivation: live vulns (lookup in `finalImagePackages`), shadow /
- * remediated vulns (`entries` minus `finalImagePackages`), and
- * forensic / audit (`entries` directly).
+ * The image-wide orchestrator is `computeOsLayerAttribution`; call this
+ * directly only when you already know the target ecosystem.
  */
-export async function computeLayerAttribution(
+export async function computeOsPackageManagerLayerAttribution(
   orderedLayers: ExtractedLayers[],
   analysisType: AnalysisType,
   layerMetadata: AlignedLayerMetadata,
   targetImage: string,
   osRelease: OSRelease | undefined,
   redHatRepositories: string[],
-): Promise<LayerAttributionResult> {
-  const { diffIDs, manifestDigests, instructions } = layerMetadata;
+): Promise<IntroducingLayerByPackage> {
+  const { diffIDs } = layerMetadata;
   if (orderedLayers.length !== diffIDs.length) {
     // These two arrays are both produced by the extractor and describe the
     // same set of rootfs layers from different angles (file contents vs
@@ -284,25 +228,13 @@ export async function computeLayerAttribution(
     );
   }
 
-  // `manifestDigests` and `instructions` are produced by `alignLayerMetadata`
-  // and are either length-equal to `diffIDs` or empty when alignment couldn't
-  // be trusted. Direct indexing is therefore safe.
-  const entries: LayerAttributionEntry[] = [];
   // Per-key reverse index of the most recent layer to introduce each key.
   // Built during the loop; the live filter at the end intersects this with
-  // the final layer's package set to produce `finalImagePackages`. For OS
-  // each key has a single introducing layer (overwrites on reinstall reflect
-  // the surviving copy), so the value is a single origin.
-  const latestIntroductionByKey = new Map<string, FinalImagePackageOrigin>();
-  const limit = diffIDs.length;
-
+  // the final layer's package set to produce the returned map.
+  const latestIntroductionByKey: IntroducingLayerByPackage = new Map();
   let previousPkgs = new Set<string>();
 
-  for (let i = 0; i < limit; i++) {
-    const diffID = diffIDs[i];
-    const digest = manifestDigests[i];
-    const instruction = instructions[i];
-
+  for (let i = 0; i < diffIDs.length; i++) {
     const currentPkgs = await parseLayerOsPackages(
       orderedLayers[i],
       analysisType,
@@ -316,90 +248,106 @@ export async function computeLayerAttribution(
       continue;
     }
 
-    const newPkgs: string[] = [];
     for (const key of currentPkgs) {
       if (!previousPkgs.has(key)) {
-        newPkgs.push(key);
-        // Record this as the latest introduction of `key`. Overwriting on
-        // reinstall is intentional: when the live filter below intersects
-        // this map with the final package set, the surviving copy's most
-        // recent install is what gets reported.
-        latestIntroductionByKey.set(key, { layerIndex: i, diffID });
+        // Overwriting on reinstall is intentional: when the live filter
+        // below intersects this map with the final package set, the
+        // surviving copy's most recent install is what gets reported.
+        latestIntroductionByKey.set(key, diffIDs[i]);
       }
     }
 
-    if (newPkgs.length > 0) {
-      const entry: LayerAttributionEntry = {
-        layerIndex: i,
-        diffID,
-        packages: newPkgs,
-      };
-      if (digest) {
-        entry.digest = digest;
-      }
-      if (instruction !== undefined) {
-        entry.instruction = instruction;
-      }
-      entries.push(entry);
-    }
-
-    // Every introduction event stays in `entries`, including events whose
-    // effect doesn't survive to the final image (install → remove). Live
-    // vs. historical disambiguation happens once below via the final
-    // package set, not by filtering entries. This is the load-bearing
-    // assumption behind the dual-output contract: `entries` is honest
-    // history, `finalImagePackages` is the current state.
     previousPkgs = currentPkgs;
   }
 
-  // Build the live-set index: every key present in the final layer's DB
-  // (held by `previousPkgs` after the loop), mapped to the layer where
-  // its surviving copy was introduced. Keys that appeared in `entries`
-  // but not in the final set were removed and not reinstalled — they
-  // are deliberately left out, and their introduction events remain in
-  // `entries` for shadow-vuln / audit consumers.
-  //
-  // The list-valued shape (`Array<FinalImagePackageOrigin>`) is uniform
-  // across OS and app ecosystems even though OS lists are always
-  // length 1. App attribution will populate multi-element lists when
-  // a package legitimately survives at multiple file locations
-  // introduced by different layers (e.g. two `npm install` roots).
-  const finalImagePackages = new Map<string, FinalImagePackageOrigin[]>();
+  // Keep only packages that survive in the final layer's DB.
+  const finalImagePackages: IntroducingLayerByPackage = new Map();
   for (const key of previousPkgs) {
-    const origin = latestIntroductionByKey.get(key);
-    if (origin) {
-      finalImagePackages.set(key, [origin]);
+    const diffID = latestIntroductionByKey.get(key);
+    if (diffID) {
+      finalImagePackages.set(key, diffID);
     }
   }
 
-  return { entries, finalImagePackages };
+  return finalImagePackages;
 }
 
 /**
- * Merges attribution entries produced by multiple package managers into a
- * single list sorted by layer index. When two managers both write entries for
- * the same layer (e.g. APT and Chisel in a mixed image), their package lists
- * are concatenated. Layer metadata (diffID, digest, instruction) is taken
- * from the first entry seen for that layer index.
+ * Image-wide OS-package layer attribution. Orchestrates the per-PM
+ * `computeOsPackageManagerLayerAttribution` calls and merges their outputs
+ * into a single `<fullName>@<version>` -> diffID map.
+ *
+ * The top-level `Promise.all` in `static-analyzer.ts` produces one
+ * `ImagePackagesAnalysis` per DB *format* — e.g. RPM BDB/NDB and RPM SQLite
+ * are separate results, both tagged `AnalysisType.Rpm`; regular APT and
+ * distroless APT are separate results, both tagged `AnalysisType.Apt`. The
+ * per-PM helper is keyed on `AnalysisType` and already reads every DB
+ * format for that ecosystem per layer, so we must call it once per
+ * *ecosystem*, not once per *result* — otherwise duplicate ecosystem-level
+ * invocations would write the same key twice.
+ *
+ * Cross-ecosystem key collisions are not expected in practice — each OS
+ * PM produces a disjoint `<source>/<binary>` namespace, and real images
+ * don't carry two OS PMs at once. If one ever fires, it indicates either
+ * a bug in our key shape or an exotic image we haven't accounted for, so
+ * we report it via `onWarning` (last-writer-wins is applied so attribution
+ * still ships) instead of silently overwriting.
+ *
+ * Per-ecosystem failures (a per-PM `await` that throws) are reported via
+ * the same `onWarning` channel and don't abort attribution for the other
+ * ecosystems — losing one ecosystem's view is strictly better than losing
+ * all of them.
  */
-export function mergeLayerAttributionEntries(
-  entries: LayerAttributionEntry[],
-): LayerAttributionEntry[] {
-  const byLayer = new Map<number, LayerAttributionEntry>();
+export async function computeOsLayerAttribution(
+  analyses: ImagePackagesAnalysis[],
+  orderedLayers: ExtractedLayers[],
+  layerMetadata: AlignedLayerMetadata,
+  targetImage: string,
+  osRelease: OSRelease | undefined,
+  redHatRepositories: string[],
+  onWarning?: (analysisType: AnalysisType, warning: Error) => void,
+): Promise<IntroducingLayerByPackage> {
+  const analysisTypes = Array.from(
+    new Set(
+      analyses.filter((a) => a.Analysis.length > 0).map((a) => a.AnalyzeType),
+    ),
+  );
 
-  for (const entry of entries) {
-    const existing = byLayer.get(entry.layerIndex);
-    if (!existing) {
-      byLayer.set(entry.layerIndex, {
-        ...entry,
-        packages: [...entry.packages],
-      });
-    } else {
-      existing.packages.push(...entry.packages);
+  const merged: IntroducingLayerByPackage = new Map();
+
+  for (const analysisType of analysisTypes) {
+    try {
+      const finalImagePackages = await computeOsPackageManagerLayerAttribution(
+        orderedLayers,
+        analysisType,
+        layerMetadata,
+        targetImage,
+        osRelease,
+        redHatRepositories,
+      );
+      for (const [key, diffID] of finalImagePackages) {
+        if (merged.has(key) && onWarning) {
+          const previous = merged.get(key);
+          onWarning(
+            analysisType,
+            new Error(
+              `unexpected cross-ecosystem collision on layer attribution ` +
+                `key "${key}" (already attributed to diffID ${previous}); ` +
+                `last-writer-wins applied`,
+            ),
+          );
+        }
+        merged.set(key, diffID);
+      }
+    } catch (err) {
+      if (onWarning) {
+        onWarning(
+          analysisType,
+          err instanceof Error ? err : new Error(String(err)),
+        );
+      }
     }
   }
 
-  return Array.from(byLayer.values()).sort(
-    (a, b) => a.layerIndex - b.layerIndex,
-  );
+  return merged;
 }
