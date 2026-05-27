@@ -240,7 +240,7 @@ function countDepsRecursive(
  * consumer (e.g. backend, UI) sees.
  *
  * For OS packages with a distinct source/origin (Debian `Source:`, Alpine
- * `o:`, RPM source RPM) the name is `<source>/<binary>` — e.g. the libc
+ * `o:`, RPM source RPM) the name is `<source>/<binary>` - e.g. the libc
  * vuln pinned against Debian's `glibc` source surfaces on the binary
  * `libc-bin` as `glibc/libc-bin`. For packages without a `Source` (and for
  * non-OS ecosystems) it's just `<name>`.
