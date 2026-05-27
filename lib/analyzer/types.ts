@@ -100,11 +100,19 @@ export interface StaticAnalysis {
    * attribution succeeded.
    *
    * Consumed by `response-builder` to annotate dep-graph nodes with
-   * the new `dockerLayerDiffId` label, which Registry then joins to a
-   * `createdBy` instruction at read time using the duplicated
+   * the new `dockerLayerDiffId` label, which the backend then joins to
+   * a `createdBy` instruction at read time using the duplicated
    * `rootFs` / `history` facts on the same scan result.
    */
   introducingLayerByPackage?: IntroducingLayerByPackage;
+  /**
+   * Non-fatal warnings produced by the layer-attribution path (e.g. the
+   * image's `history` array does not align 1:1 with `rootfs.diff_ids[]`).
+   * Surfaced to the user via the `pluginWarnings` fact. The per-package
+   * `dockerLayerDiffId` labels remain correct; these messages flag that
+   * downstream joins from diffID to Dockerfile instruction may not work.
+   */
+  layerAttributionWarnings?: string[];
   autoDetectedUserInstructions?: AutoDetectedUserInstructions;
   applicationDependenciesScanResults: AppDepsScanResultWithoutTarget[];
   manifestFiles: ManifestFile[];

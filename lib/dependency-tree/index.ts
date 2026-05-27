@@ -237,7 +237,7 @@ function countDepsRecursive(
 /**
  * Canonical "full name" for a package as it appears in the dep graph and
  * therefore in any vulnerability `from[]` / `packageName` field a downstream
- * consumer (e.g. registry, UI) sees.
+ * consumer (e.g. backend, UI) sees.
  *
  * For OS packages with a distinct source/origin (Debian `Source:`, Alpine
  * `o:`, RPM source RPM) the name is `<source>/<binary>` — e.g. the libc

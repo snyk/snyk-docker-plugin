@@ -34,50 +34,47 @@ import {
   OSRelease,
 } from "./types";
 
-export interface AlignedLayerMetadata {
-  /**
-   * Per-layer diffIDs (uncompressed digests), one per rootfs layer. The size
-   * source of truth for the other arrays in this struct.
-   */
-  diffIDs: string[];
-  /**
-   * Whether `history` aligns 1:1 with `diffIDs`. Carried for parity with
-   * the join Registry will perform on the read side; the plugin's own
-   * attribution path does not depend on it (we attribute by diffID, not
-   * by instruction text), but consumers reading `history` from a scan
-   * result want to know whether the alignment held.
-   */
-  historyAlignsWithDiffIds: boolean;
-}
-
 /**
- * Reconciles per-layer metadata with `rootFsLayers`.
+ * Checks whether the OCI "non-empty history entries map 1:1 to
+ * `rootfs.diff_ids[]`" rule holds for this image. Returns a warning
+ * string when it does not, otherwise `undefined`.
  *
- * The plugin emits `rootFs` and `history` as separate facts and lets
- * Registry perform the diffID -> `createdBy` join at read time. We don't
- * need to copy instruction strings into the attribution path; we only
- * need to know whether the OCI "non-empty history entries map 1:1 to
- * `rootfs.diff_ids[]`" rule held for this image. A length mismatch means
- * the join is unsafe: we still ship `rootFs` and `history`, but a
- * downstream consumer that joins them blindly would attribute against
- * the wrong layer.
+ * The plugin's own per-package attribution path is keyed by diffID and
+ * does not depend on `history` alignment — those labels are correct
+ * either way. The backend performs the diffID -> `createdBy` join at
+ * read time using the separately-emitted `rootFs` and `history` facts,
+ * and it is the backend's responsibility to detect misalignment and
+ * decide whether to surface instruction text. The plugin only emits a
+ * warning so a human running a scan can see "instructions may not be
+ * shown" without needing to dig into backend logs.
  *
- * Alignment failure is silent — there is no shared key between `history`
- * and `diff_ids[]`. Length equality is the only signal available. It is
- * notoriously fragile across squash builds, `docker save` round-trips,
- * and some non-Docker builders (Jib, ko, apko, Bazel `rules_docker`).
+ * Alignment failure is silent at the OCI level — there is no shared key
+ * between `history` and `diff_ids[]`. Length equality is the only signal
+ * available, and it is notoriously fragile across squash builds,
+ * `docker save` round-trips, and some non-Docker builders (Jib, ko,
+ * apko, Bazel `rules_docker`).
+ *
+ * @param history `null`/`undefined` is treated as "no history to align
+ *   against," which is not an error — there is simply nothing
+ *   to join. Only a length mismatch between non-empty history
+ *   entries and rootfs layers produces a warning.
  */
-export function alignLayerMetadata(
+export function checkHistoryAlignment(
   rootFsLayers: string[],
   history: HistoryEntry[] | null | undefined,
-): AlignedLayerMetadata {
-  const nonEmptyHistoryCount = (history ?? []).filter(
-    (h) => !h.empty_layer,
-  ).length;
-  return {
-    diffIDs: rootFsLayers,
-    historyAlignsWithDiffIds: nonEmptyHistoryCount === rootFsLayers.length,
-  };
+): string | undefined {
+  if (history === null || history === undefined) {
+    return undefined;
+  }
+  const nonEmptyHistoryCount = history.filter((h) => !h.empty_layer).length;
+  if (nonEmptyHistoryCount === rootFsLayers.length) {
+    return undefined;
+  }
+  return (
+    `Layer attribution: image history does not align 1:1 with rootfs layers ` +
+    `(history has ${nonEmptyHistoryCount} non-empty entries, rootfs has ${rootFsLayers.length} layers). ` +
+    `Per-package layer attribution will still be reported, but the originating Dockerfile instruction may not be shown.`
+  );
 }
 
 /**
@@ -212,12 +209,11 @@ async function parseLayerOsPackages(
 export async function computeOsPackageManagerLayerAttribution(
   orderedLayers: ExtractedLayers[],
   analysisType: AnalysisType,
-  layerMetadata: AlignedLayerMetadata,
+  diffIDs: string[],
   targetImage: string,
   osRelease: OSRelease | undefined,
   redHatRepositories: string[],
 ): Promise<IntroducingLayerByPackage> {
-  const { diffIDs } = layerMetadata;
   if (orderedLayers.length !== diffIDs.length) {
     // These two arrays are both produced by the extractor and describe the
     // same set of rootfs layers from different angles (file contents vs
@@ -250,9 +246,15 @@ export async function computeOsPackageManagerLayerAttribution(
 
     for (const key of currentPkgs) {
       if (!previousPkgs.has(key)) {
-        // Overwriting on reinstall is intentional: when the live filter
-        // below intersects this map with the final package set, the
-        // surviving copy's most recent install is what gets reported.
+        // We only record a layer when the key was absent from the
+        // immediately-preceding layer's snapshot. That covers both
+        // first installs and reinstalls after removal (the intermediate
+        // empty-DB layer wipes `previousPkgs`, so the new install is
+        // treated as fresh). A same-version reinstall *without* an
+        // intermediate removal is rare in practice and would be
+        // attributed to the earlier install — but the survivor-set
+        // intersection below still produces a correct diffID for the
+        // copy that ends up on disk.
         latestIntroductionByKey.set(key, diffIDs[i]);
       }
     }
@@ -301,7 +303,7 @@ export async function computeOsPackageManagerLayerAttribution(
 export async function computeOsLayerAttribution(
   analyses: ImagePackagesAnalysis[],
   orderedLayers: ExtractedLayers[],
-  layerMetadata: AlignedLayerMetadata,
+  diffIDs: string[],
   targetImage: string,
   osRelease: OSRelease | undefined,
   redHatRepositories: string[],
@@ -320,7 +322,7 @@ export async function computeOsLayerAttribution(
       const finalImagePackages = await computeOsPackageManagerLayerAttribution(
         orderedLayers,
         analysisType,
-        layerMetadata,
+        diffIDs,
         targetImage,
         osRelease,
         redHatRepositories,

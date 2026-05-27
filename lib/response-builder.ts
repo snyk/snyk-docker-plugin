@@ -275,8 +275,8 @@ async function buildResponse(
 
     // TODO(vulns-by-layer, app-scan milestone): re-enable when app-package
     // layer attribution lands. The vulns-by-layer design duplicates `rootFs`
-    // and `history` onto every container scan result so Registry can perform
-    // the diffID -> instruction join per-monitor without a cross-scan-result
+    // and `history` onto every container scan result so the backend can
+    // perform the diffID -> instruction join per-monitor without a cross-scan-result
     // lookup. The first milestone only attributes OS packages, so app scan
     // results have no `dockerLayerDiffId`-labelled nodes to join against —
     // attaching the facts now would be dead weight in `container-monitor-data`
@@ -347,12 +347,17 @@ async function buildResponse(
   };
   additionalFacts.push(pluginVersionFact);
 
+  const pluginWarningsData: facts.PluginWarningsFact["data"] = {};
   if (options?.parameterWarnings && options.parameterWarnings.length > 0) {
+    pluginWarningsData.parameterChecks = options.parameterWarnings;
+  }
+  if (depsAnalysis.layerAttributionWarnings?.length) {
+    pluginWarningsData.layerAttribution = depsAnalysis.layerAttributionWarnings;
+  }
+  if (Object.keys(pluginWarningsData).length > 0) {
     const pluginWarningsFact: facts.PluginWarningsFact = {
       type: "pluginWarnings",
-      data: {
-        parameterChecks: options.parameterWarnings,
-      },
+      data: pluginWarningsData,
     };
     additionalFacts.push(pluginWarningsFact);
   }
@@ -516,8 +521,8 @@ function annotateLayerIds(
  * an entry in the package -> diffID map produced by
  * `computeOsLayerAttribution`. The label survives `legacy.depTreeToGraph`
  * conversion and surfaces as `node.info.labels.dockerLayerDiffId` on the
- * resulting dep-graph node — the contract Registry's read-path join
- * depends on.
+ * resulting dep-graph node — the contract the backend's read-path
+ * join depends on.
  *
  * Lookup key shape (`${name}@${version}`) matches what the attribution
  * producer mints via `depFullName(pkg)@${version}`; the dep-tree builder

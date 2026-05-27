@@ -12,8 +12,8 @@ import { getFixture } from "../util";
 //    `dockerLayerDiffId` label whose value is the `sha256:…` diffID of the
 //    rootfs layer that introduced the package.
 // 2. `rootFs` and `history` facts are emitted on every container scan
-//    result (today only the OS scan result carries them) so Registry can
-//    perform the diffID -> `createdBy` join per-monitor without a
+//    result (today only the OS scan result carries them) so the backend
+//    can perform the diffID -> `createdBy` join per-monitor without a
 //    cross-scan-result lookup.
 // 3. Without `--layer-attribution`, none of the above appears: no label
 //    on dep-graph nodes, no `rootFs`/`history` duplication onto app
@@ -109,13 +109,13 @@ describe("layer attribution wire format on a real image", () => {
 
     it("uses values that are valid diffIDs from the image's rootFs", () => {
       // The label's value must be a real entry in `rootFs`; otherwise
-      // the read-time join in Registry will silently miss every node.
+      // the backend's read-time join will silently miss every node.
       const diffIDSet = new Set(rootFs);
       const distinctLabelDiffIDs = new Set(labelledNodes.map((n) => n.diffID));
       expect(distinctLabelDiffIDs.size).toBeGreaterThan(0);
-      for (const diffID of distinctLabelDiffIDs) {
+      Array.from(distinctLabelDiffIDs).forEach((diffID) => {
         expect(diffIDSet.has(diffID)).toBe(true);
-      }
+      });
     });
 
     it("attributes alpine base packages to the FROM layer (rootFs[0])", () => {
@@ -130,7 +130,7 @@ describe("layer attribution wire format on a real image", () => {
     });
 
     it("attributes tmux to a layer whose `createdBy` mentions `apk add ... tmux`", () => {
-      // Walk the join the same way Registry will: find tmux's diffID,
+      // Walk the join the same way the backend will: find tmux's diffID,
       // map it to its index in rootFs, then read the corresponding
       // non-empty history entry's createdBy.
       const tmux = labelledNodes.find((n) => /(?:^|\/)tmux$/.test(n.name));
@@ -180,7 +180,7 @@ describe("layer attribution wire format on a real image", () => {
 
     it("does not yet duplicate rootFs/history onto app scan results (OS-only milestone)", async () => {
       // The vulns-by-layer design duplicates `rootFs` + `history` onto
-      // every container scan result so Registry can do the diffID ->
+      // every container scan result so the backend can do the diffID ->
       // instruction join per-monitor. The first milestone only emits
       // labels for OS packages, so app scan results have nothing to
       // join — duplicating the facts now would be dead weight. When

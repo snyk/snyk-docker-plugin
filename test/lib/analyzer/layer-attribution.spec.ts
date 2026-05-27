@@ -1,5 +1,5 @@
 import {
-  alignLayerMetadata,
+  checkHistoryAlignment,
   computeOsLayerAttribution,
   computeOsPackageManagerLayerAttribution,
 } from "../../../lib/analyzer/layer-attribution";
@@ -63,55 +63,64 @@ function makeDpkgStatus(
 const emptyLayer: ExtractedLayers = {};
 const image = "test-image:latest";
 
-describe("alignLayerMetadata", () => {
-  // The new design hands `rootFs` and `history` to Registry as separate
-  // facts; the alignment join happens at read time. The plugin only
-  // needs to know whether the OCI rule "non-empty history entries map
-  // 1:1 to rootfs.diff_ids[]" held, so consumers can decide whether the
-  // join is safe to perform.
+describe("checkHistoryAlignment", () => {
+  // The backend performs the diffID -> instruction text join at read
+  // time and is the authority on whether `rootfs.diff_ids[]` and
+  // `history` align. The plugin only surfaces a user-visible warning when the OCI
+  // rule "non-empty history entries map 1:1 to rootfs.diff_ids[]" does
+  // not hold for this image. The per-package `dockerLayerDiffId` labels
+  // are correct either way.
 
-  it("flags alignment when non-empty history matches rootFs length", () => {
-    const result = alignLayerMetadata(
-      ["sha256:a", "sha256:b"],
-      [
-        { created_by: "FROM alpine:3.19", empty_layer: false },
-        { created_by: "RUN apk add curl", empty_layer: false },
-      ],
-    );
-    expect(result.diffIDs).toEqual(["sha256:a", "sha256:b"]);
-    expect(result.historyAlignsWithDiffIds).toBe(true);
+  it("returns no warning when non-empty history matches rootFs length", () => {
+    expect(
+      checkHistoryAlignment(
+        ["sha256:a", "sha256:b"],
+        [
+          { created_by: "FROM alpine:3.19", empty_layer: false },
+          { created_by: "RUN apk add curl", empty_layer: false },
+        ],
+      ),
+    ).toBeUndefined();
   });
 
   it("ignores empty_layer entries when checking alignment", () => {
-    const result = alignLayerMetadata(
-      ["sha256:a", "sha256:b"],
-      [
-        { created_by: "FROM alpine:3.19", empty_layer: false },
-        { created_by: "ENV PATH=/bin", empty_layer: true },
-        { created_by: "RUN apk add curl", empty_layer: false },
-      ],
-    );
-    expect(result.historyAlignsWithDiffIds).toBe(true);
+    expect(
+      checkHistoryAlignment(
+        ["sha256:a", "sha256:b"],
+        [
+          { created_by: "FROM alpine:3.19", empty_layer: false },
+          { created_by: "ENV PATH=/bin", empty_layer: true },
+          { created_by: "RUN apk add curl", empty_layer: false },
+        ],
+      ),
+    ).toBeUndefined();
   });
 
-  it("flags misalignment when non-empty history is shorter than rootFs", () => {
-    const result = alignLayerMetadata(
+  it("returns a warning when non-empty history is shorter than rootFs", () => {
+    const warning = checkHistoryAlignment(
       ["sha256:a", "sha256:b", "sha256:c"],
       [
         { created_by: "FROM alpine:3.19", empty_layer: false },
         { created_by: "RUN apk add curl", empty_layer: false },
       ],
     );
-    expect(result.historyAlignsWithDiffIds).toBe(false);
+    expect(warning).toBeDefined();
+    expect(warning).toContain("does not align");
+    expect(warning).toContain("history has 2");
+    expect(warning).toContain("rootfs has 3");
   });
 
-  it("treats null/undefined history as misaligned", () => {
-    expect(
-      alignLayerMetadata(["sha256:a"], null).historyAlignsWithDiffIds,
-    ).toBe(false);
-    expect(
-      alignLayerMetadata(["sha256:a"], undefined).historyAlignsWithDiffIds,
-    ).toBe(false);
+  it("treats null/undefined history as 'no history to align against' (no warning)", () => {
+    // History being absent is a separate signal from misalignment —
+    // there is simply nothing for the backend to join. The plugin must
+    // not nag the user about a problem they cannot act on.
+    expect(checkHistoryAlignment(["sha256:a"], null)).toBeUndefined();
+    expect(checkHistoryAlignment(["sha256:a"], undefined)).toBeUndefined();
+  });
+
+  it("handles empty images", () => {
+    expect(checkHistoryAlignment([], [])).toBeUndefined();
+    expect(checkHistoryAlignment([], undefined)).toBeUndefined();
   });
 });
 
@@ -130,7 +139,7 @@ describe("computeOsPackageManagerLayerAttribution", () => {
       const result = await computeOsPackageManagerLayerAttribution(
         orderedLayers,
         AnalysisType.Apk,
-        { diffIDs: ["sha256:aaa"], historyAlignsWithDiffIds: true },
+        ["sha256:aaa"],
         image,
         undefined,
         [],
@@ -154,10 +163,7 @@ describe("computeOsPackageManagerLayerAttribution", () => {
       const result = await computeOsPackageManagerLayerAttribution(
         orderedLayers,
         AnalysisType.Apk,
-        {
-          diffIDs: ["sha256:base", "sha256:nginx-layer"],
-          historyAlignsWithDiffIds: true,
-        },
+        ["sha256:base", "sha256:nginx-layer"],
         image,
         undefined,
         [],
@@ -180,10 +186,7 @@ describe("computeOsPackageManagerLayerAttribution", () => {
       const result = await computeOsPackageManagerLayerAttribution(
         orderedLayers,
         AnalysisType.Apk,
-        {
-          diffIDs: ["sha256:a", "sha256:b", "sha256:c"],
-          historyAlignsWithDiffIds: true,
-        },
+        ["sha256:a", "sha256:b", "sha256:c"],
         image,
         undefined,
         [],
@@ -207,10 +210,7 @@ describe("computeOsPackageManagerLayerAttribution", () => {
       const result = await computeOsPackageManagerLayerAttribution(
         orderedLayers,
         AnalysisType.Apk,
-        {
-          diffIDs: ["sha256:a", "sha256:b", "sha256:c"],
-          historyAlignsWithDiffIds: true,
-        },
+        ["sha256:a", "sha256:b", "sha256:c"],
         image,
         undefined,
         [],
@@ -237,10 +237,7 @@ describe("computeOsPackageManagerLayerAttribution", () => {
       const result = await computeOsPackageManagerLayerAttribution(
         orderedLayers,
         AnalysisType.Apk,
-        {
-          diffIDs: ["sha256:a", "sha256:b"],
-          historyAlignsWithDiffIds: true,
-        },
+        ["sha256:a", "sha256:b"],
         image,
         undefined,
         [],
@@ -265,16 +262,7 @@ describe("computeOsPackageManagerLayerAttribution", () => {
       const result = await computeOsPackageManagerLayerAttribution(
         orderedLayers,
         AnalysisType.Apk,
-        {
-          diffIDs: [
-            "sha256:l0",
-            "sha256:l1",
-            "sha256:l2",
-            "sha256:l3",
-            "sha256:l4",
-          ],
-          historyAlignsWithDiffIds: true,
-        },
+        ["sha256:l0", "sha256:l1", "sha256:l2", "sha256:l3", "sha256:l4"],
         image,
         undefined,
         [],
@@ -284,7 +272,7 @@ describe("computeOsPackageManagerLayerAttribution", () => {
     });
 
     it("uses `<origin>/<binary>` keys when an apk Origin is present", async () => {
-      // The label join Registry performs is keyed by `${depFullName}@${version}`.
+      // The label join the backend performs is keyed by `${depFullName}@${version}`.
       // An apk package `libcrypto3` with origin `openssl` must surface as
       // `openssl/libcrypto3@<ver>`, identical to the dep-graph node name
       // — otherwise the response-builder annotation step would miss every
@@ -302,10 +290,7 @@ describe("computeOsPackageManagerLayerAttribution", () => {
       const result = await computeOsPackageManagerLayerAttribution(
         orderedLayers,
         AnalysisType.Apk,
-        {
-          diffIDs: ["sha256:a"],
-          historyAlignsWithDiffIds: true,
-        },
+        ["sha256:a"],
         image,
         undefined,
         [],
@@ -319,10 +304,7 @@ describe("computeOsPackageManagerLayerAttribution", () => {
       const result = await computeOsPackageManagerLayerAttribution(
         [emptyLayer, emptyLayer],
         AnalysisType.Apk,
-        {
-          diffIDs: ["sha256:a", "sha256:b"],
-          historyAlignsWithDiffIds: true,
-        },
+        ["sha256:a", "sha256:b"],
         image,
         undefined,
         [],
@@ -343,7 +325,7 @@ describe("computeOsPackageManagerLayerAttribution", () => {
         computeOsPackageManagerLayerAttribution(
           orderedLayers,
           AnalysisType.Apk,
-          { diffIDs: ["sha256:a"], historyAlignsWithDiffIds: true },
+          ["sha256:a"],
           image,
           undefined,
           [],
@@ -371,7 +353,7 @@ describe("computeOsPackageManagerLayerAttribution", () => {
       const result = await computeOsPackageManagerLayerAttribution(
         orderedLayers,
         AnalysisType.Apt,
-        { diffIDs: ["sha256:a"], historyAlignsWithDiffIds: true },
+        ["sha256:a"],
         image,
         undefined,
         [],
@@ -423,7 +405,7 @@ describe("computeOsLayerAttribution", () => {
     const result = await computeOsLayerAttribution(
       duplicateAnalyses,
       orderedLayers,
-      { diffIDs: ["sha256:a"], historyAlignsWithDiffIds: true },
+      ["sha256:a"],
       image,
       undefined,
       [],
@@ -465,7 +447,7 @@ describe("computeOsLayerAttribution", () => {
     const result = await computeOsLayerAttribution(
       analyses,
       orderedLayers,
-      { diffIDs: ["sha256:a"], historyAlignsWithDiffIds: true },
+      ["sha256:a"],
       image,
       undefined,
       [],
@@ -489,7 +471,7 @@ describe("computeOsLayerAttribution", () => {
     const result = await computeOsLayerAttribution(
       analyses,
       orderedLayers,
-      { diffIDs: ["sha256:a"], historyAlignsWithDiffIds: true },
+      ["sha256:a"],
       image,
       undefined,
       [],
@@ -503,7 +485,7 @@ describe("computeOsLayerAttribution", () => {
     const result = await computeOsLayerAttribution(
       [],
       [makeApkLayer(makeApkDb({ name: "curl", version: "7.0.0-r0" }))],
-      { diffIDs: ["sha256:a"], historyAlignsWithDiffIds: true },
+      ["sha256:a"],
       image,
       undefined,
       [],
@@ -539,7 +521,7 @@ describe("computeOsLayerAttribution", () => {
       analyses,
       orderedLayers,
       // diffIDs.length !== orderedLayers.length → both per-PM calls throw.
-      { diffIDs: ["sha256:a", "sha256:extra"], historyAlignsWithDiffIds: true },
+      ["sha256:a", "sha256:extra"],
       image,
       undefined,
       [],
@@ -587,7 +569,7 @@ describe("computeOsLayerAttribution", () => {
     const result = await computeOsLayerAttribution(
       analyses,
       orderedLayers,
-      { diffIDs: ["sha256:a"], historyAlignsWithDiffIds: true },
+      ["sha256:a"],
       image,
       undefined,
       [],

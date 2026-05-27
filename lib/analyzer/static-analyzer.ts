@@ -71,7 +71,7 @@ import { getApplicationFiles } from "./applications/runtime-common";
 import { AppDepsScanResultWithoutTarget } from "./applications/types";
 import { detectJavaRuntime } from "./base-runtimes";
 import {
-  alignLayerMetadata,
+  checkHistoryAlignment,
   computeOsLayerAttribution,
 } from "./layer-attribution";
 import * as osReleaseDetector from "./os-release";
@@ -249,6 +249,7 @@ export async function analyze(
   }
 
   let introducingLayerByPackage: IntroducingLayerByPackage | undefined;
+  const layerAttributionWarnings: string[] = [];
   if (
     isTrue(options["layer-attribution"]) &&
     rootFsLayers &&
@@ -256,17 +257,25 @@ export async function analyze(
     orderedLayers.length > 0
   ) {
     phaseStart = Date.now();
+    // Surface a user-visible warning when `history` does not align 1:1
+    // with `rootfs.diff_ids[]`. The per-package labels we mint below are
+    // keyed by diffID and remain correct; the warning only tells the
+    // user that downstream joins from diffID to Dockerfile instruction
+    // text (performed by the backend at read time) may not work.
+    const misalignmentWarning = checkHistoryAlignment(rootFsLayers, history);
+    if (misalignmentWarning) {
+      layerAttributionWarnings.push(misalignmentWarning);
+      debug(misalignmentWarning);
+    }
     // `results` carries one entry per DB *format* (e.g. RPM BDB/NDB and RPM
     // SQLite are separate, both `AnalysisType.Rpm`); attribution is keyed on
     // `AnalyzeType` and reads every format for that ecosystem internally.
     // Deduping by ecosystem happens inside the helper.
-    const resultsWithPackages = results.filter((r) => r.Analysis.length > 0);
-    if (resultsWithPackages.length > 0) {
-      const layerMetadata = alignLayerMetadata(rootFsLayers, history);
+    if (results.some((r) => r.Analysis.length > 0)) {
       introducingLayerByPackage = await computeOsLayerAttribution(
-        resultsWithPackages,
+        results,
         orderedLayers,
-        layerMetadata,
+        rootFsLayers,
         targetImage,
         osRelease,
         redHatRepositories,
@@ -376,6 +385,10 @@ export async function analyze(
     imageLayers: manifestLayers,
     rootFsLayers,
     introducingLayerByPackage,
+    layerAttributionWarnings:
+      layerAttributionWarnings.length > 0
+        ? layerAttributionWarnings
+        : undefined,
     applicationDependenciesScanResults,
     manifestFiles,
     autoDetectedUserInstructions,
