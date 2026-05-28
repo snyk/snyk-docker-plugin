@@ -10,7 +10,7 @@ describe("username and password authentication", () => {
       process.env.SNYK_REGISTRY_USERNAME = oldSnykRegistryUsernameEnvVar;
     }
     if (oldSnykRegistryPasswordEnvVar !== undefined) {
-      process.env.SNYK_REGISTRY_PASSWPRD = oldSnykRegistryPasswordEnvVar;
+      process.env.SNYK_REGISTRY_PASSWORD = oldSnykRegistryPasswordEnvVar;
     }
   });
 

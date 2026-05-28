@@ -10,7 +10,6 @@ import { PluginOptions } from "../types";
 import * as dockerExtractor from "./docker-archive";
 import { InvalidArchiveError } from "./generic-archive-extractor";
 import * as kanikoExtractor from "./kaniko-archive";
-import { isWhitedOutFile } from "./layer";
 import * as ociExtractor from "./oci-archive";
 import {
   DockerArchiveManifest,
@@ -23,6 +22,11 @@ import {
   ImageConfig,
   OciArchiveManifest,
 } from "./types";
+import {
+  isOpaqueWhiteout,
+  isWhitedOutFile,
+  removeWhiteoutPrefix,
+} from "./whiteout";
 
 const debug = Debug("snyk");
 
@@ -231,15 +235,24 @@ function layersWithLatestFileModifications(
 ): ExtractedLayers {
   const extractedLayers: ExtractedLayers = {};
   const removedFilesToIgnore: Set<string> = new Set();
+  const opaqueWhiteoutDirs: Set<string> = new Set();
 
   // TODO: This removes the information about the layer name, maybe we would need it in the future?
   for (const layer of layers) {
+    // Collect opaque whiteout dirs from this layer, but don't apply yet —
+    // they only affect older layers, not the current one.
+    const layerOpaqueDirs: Set<string> = new Set();
+
     // go over extracted files products found in this layer
     for (const filename of Object.keys(layer)) {
       // if finding a deleted file - trimming to its original file name for excluding it from extractedLayers
       // + not adding this file
+      if (isOpaqueWhiteout(filename)) {
+        layerOpaqueDirs.add(path.dirname(filename));
+        continue;
+      }
       if (isWhitedOutFile(filename)) {
-        removedFilesToIgnore.add(filename.replace(/.wh./, ""));
+        removedFilesToIgnore.add(removeWhiteoutPrefix(filename));
         continue;
       }
       // not adding previously found to be whited out files to extractedLayers
@@ -250,16 +263,34 @@ function layersWithLatestFileModifications(
       if (isFileInARemovedFolder(filename, removedFilesToIgnore)) {
         continue;
       }
+      // not adding files in directories covered by an opaque whiteout from a newer layer
+      if (isFileInOpaqueDir(filename, opaqueWhiteoutDirs)) {
+        continue;
+      }
       // file not already in extractedLayers
       if (!Reflect.has(extractedLayers, filename)) {
         extractedLayers[filename] = layer[filename];
       }
     }
+
+    // Apply this layer's opaque whiteouts to older layers
+    for (const dir of layerOpaqueDirs) {
+      opaqueWhiteoutDirs.add(dir);
+    }
   }
   return extractedLayers;
 }
 
-export { isWhitedOutFile } from "./layer";
+export { isOpaqueWhiteout, isWhitedOutFile, removeWhiteoutPrefix };
+
+function isFileInOpaqueDir(
+  filename: string,
+  opaqueWhiteoutDirs: Set<string>,
+): boolean {
+  return Array.from(opaqueWhiteoutDirs).some((opaqueDir) =>
+    isFileInFolder(filename, opaqueDir),
+  );
+}
 
 function isBufferType(type: FileContent): type is Buffer {
   return (type as Buffer).buffer !== undefined;
