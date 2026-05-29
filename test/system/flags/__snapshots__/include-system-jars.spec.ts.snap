@@ -1,0 +1,362 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`include-system-jars flag excludes /usr/lib JARs by default 1`] = `
+Object {
+  "analytics": Array [
+    Object {
+      "data": Object {
+        "applicationScanResultCount": 1,
+        "scanResultCount": 2,
+        "scanResultPayloadBytes": Array [
+          1197,
+          470,
+        ],
+        "totalScanResultsPayloadBytes": 1670,
+      },
+      "name": "containerScanPayloadMetrics",
+    },
+    Object {
+      "data": Object {
+        "binariesAndRuntimeDetectionMs": "<ms>",
+        "depTreeBuildingMs": "<ms>",
+        "goAnalysisMs": "<ms>",
+        "imageExtractionMs": "<ms>",
+        "jarAnalysisMs": "<ms>",
+        "nodeAnalysisMs": "<ms>",
+        "osPackageAnalysisMs": "<ms>",
+        "phpAnalysisMs": "<ms>",
+        "pipAnalysisMs": "<ms>",
+        "poetryAnalysisMs": "<ms>",
+        "totalMs": "<ms>",
+      },
+      "name": "containerPluginTimings",
+    },
+  ],
+  "scanResults": Array [
+    Object {
+      "facts": Array [
+        Object {
+          "data": Object {
+            "graph": Object {
+              "nodes": Array [
+                Object {
+                  "deps": Array [],
+                  "nodeId": "root-node",
+                  "pkgId": "docker-image|java-system-jars.tar@",
+                },
+              ],
+              "rootNodeId": "root-node",
+            },
+            "pkgManager": Object {
+              "name": "linux",
+              "repositories": Array [
+                Object {
+                  "alias": "unknown:0.0",
+                },
+              ],
+            },
+            "pkgs": Array [
+              Object {
+                "id": "docker-image|java-system-jars.tar@",
+                "info": Object {
+                  "name": "docker-image|java-system-jars.tar",
+                  "version": undefined,
+                },
+              },
+            ],
+            "schemaVersion": "1.3.0",
+          },
+          "type": "depGraph",
+        },
+        Object {
+          "data": "sha256:928667a4a18fb756ef8ff9c973f8fc8fcd867251025441c9eb9694b2576d5564",
+          "type": "imageId",
+        },
+        Object {
+          "data": Array [
+            "d446fd2d006bff0982827588b2b613f91a4e2a59d619da68fa7ce1c880b8d907/layer.tar",
+          ],
+          "type": "imageLayers",
+        },
+        Object {
+          "data": Object {
+            "cmd": null,
+            "env": Array [
+              "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            ],
+          },
+          "type": "containerConfig",
+        },
+        Object {
+          "data": Array [
+            Object {
+              "created": "2020-03-24T13:05:21.8612979Z",
+              "createdBy": "/bin/sh -c #(nop) COPY dir:system-jars in . ",
+            },
+          ],
+          "type": "history",
+        },
+        Object {
+          "data": "2020-03-24T13:05:21.8612979Z",
+          "type": "imageCreationTime",
+        },
+        Object {
+          "data": Array [
+            "sha256:4a3c9fcd869273b404e836b415a52b69de017fa243858e5d814193d65aae4d14",
+          ],
+          "type": "rootFs",
+        },
+        Object {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        Object {
+          "data": "0.0.0-local",
+          "type": "pluginVersion",
+        },
+      ],
+      "identity": Object {
+        "args": Object {
+          "platform": "linux/amd64",
+        },
+        "type": "linux",
+      },
+      "target": Object {
+        "image": "docker-image|java-system-jars.tar",
+      },
+    },
+    Object {
+      "facts": Array [
+        Object {
+          "data": Object {
+            "fingerprints": Array [
+              Object {
+                "dependencies": Array [],
+                "digest": "485de3a253e23f645037828c07f1d7f1af40763a",
+                "location": "/app/activation-1.1.1.jar",
+              },
+            ],
+            "origin": "java-system-jars.tar",
+            "path": "/app",
+          },
+          "type": "jarFingerprints",
+        },
+        Object {
+          "data": "sha256:928667a4a18fb756ef8ff9c973f8fc8fcd867251025441c9eb9694b2576d5564",
+          "type": "imageId",
+        },
+        Object {
+          "data": "0.0.0-local",
+          "type": "pluginVersion",
+        },
+      ],
+      "identity": Object {
+        "targetFile": "/app",
+        "type": "maven",
+      },
+      "target": Object {
+        "image": "docker-image|java-system-jars.tar",
+      },
+    },
+  ],
+}
+`;
+
+exports[`include-system-jars flag includes /usr/lib JARs when --include-system-jars is true 1`] = `
+Object {
+  "analytics": Array [
+    Object {
+      "data": Object {
+        "applicationScanResultCount": 2,
+        "scanResultCount": 3,
+        "scanResultPayloadBytes": Array [
+          1197,
+          470,
+          551,
+        ],
+        "totalScanResultsPayloadBytes": 2222,
+      },
+      "name": "containerScanPayloadMetrics",
+    },
+    Object {
+      "data": Object {
+        "binariesAndRuntimeDetectionMs": "<ms>",
+        "depTreeBuildingMs": "<ms>",
+        "goAnalysisMs": "<ms>",
+        "imageExtractionMs": "<ms>",
+        "jarAnalysisMs": "<ms>",
+        "nodeAnalysisMs": "<ms>",
+        "osPackageAnalysisMs": "<ms>",
+        "phpAnalysisMs": "<ms>",
+        "pipAnalysisMs": "<ms>",
+        "poetryAnalysisMs": "<ms>",
+        "totalMs": "<ms>",
+      },
+      "name": "containerPluginTimings",
+    },
+  ],
+  "scanResults": Array [
+    Object {
+      "facts": Array [
+        Object {
+          "data": Object {
+            "graph": Object {
+              "nodes": Array [
+                Object {
+                  "deps": Array [],
+                  "nodeId": "root-node",
+                  "pkgId": "docker-image|java-system-jars.tar@",
+                },
+              ],
+              "rootNodeId": "root-node",
+            },
+            "pkgManager": Object {
+              "name": "linux",
+              "repositories": Array [
+                Object {
+                  "alias": "unknown:0.0",
+                },
+              ],
+            },
+            "pkgs": Array [
+              Object {
+                "id": "docker-image|java-system-jars.tar@",
+                "info": Object {
+                  "name": "docker-image|java-system-jars.tar",
+                  "version": undefined,
+                },
+              },
+            ],
+            "schemaVersion": "1.3.0",
+          },
+          "type": "depGraph",
+        },
+        Object {
+          "data": "sha256:928667a4a18fb756ef8ff9c973f8fc8fcd867251025441c9eb9694b2576d5564",
+          "type": "imageId",
+        },
+        Object {
+          "data": Array [
+            "d446fd2d006bff0982827588b2b613f91a4e2a59d619da68fa7ce1c880b8d907/layer.tar",
+          ],
+          "type": "imageLayers",
+        },
+        Object {
+          "data": Object {
+            "cmd": null,
+            "env": Array [
+              "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            ],
+          },
+          "type": "containerConfig",
+        },
+        Object {
+          "data": Array [
+            Object {
+              "created": "2020-03-24T13:05:21.8612979Z",
+              "createdBy": "/bin/sh -c #(nop) COPY dir:system-jars in . ",
+            },
+          ],
+          "type": "history",
+        },
+        Object {
+          "data": "2020-03-24T13:05:21.8612979Z",
+          "type": "imageCreationTime",
+        },
+        Object {
+          "data": Array [
+            "sha256:4a3c9fcd869273b404e836b415a52b69de017fa243858e5d814193d65aae4d14",
+          ],
+          "type": "rootFs",
+        },
+        Object {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        Object {
+          "data": "0.0.0-local",
+          "type": "pluginVersion",
+        },
+      ],
+      "identity": Object {
+        "args": Object {
+          "platform": "linux/amd64",
+        },
+        "type": "linux",
+      },
+      "target": Object {
+        "image": "docker-image|java-system-jars.tar",
+      },
+    },
+    Object {
+      "facts": Array [
+        Object {
+          "data": Object {
+            "fingerprints": Array [
+              Object {
+                "dependencies": Array [],
+                "digest": "485de3a253e23f645037828c07f1d7f1af40763a",
+                "location": "/app/activation-1.1.1.jar",
+              },
+            ],
+            "origin": "java-system-jars.tar",
+            "path": "/app",
+          },
+          "type": "jarFingerprints",
+        },
+        Object {
+          "data": "sha256:928667a4a18fb756ef8ff9c973f8fc8fcd867251025441c9eb9694b2576d5564",
+          "type": "imageId",
+        },
+        Object {
+          "data": "0.0.0-local",
+          "type": "pluginVersion",
+        },
+      ],
+      "identity": Object {
+        "targetFile": "/app",
+        "type": "maven",
+      },
+      "target": Object {
+        "image": "docker-image|java-system-jars.tar",
+      },
+    },
+    Object {
+      "facts": Array [
+        Object {
+          "data": Object {
+            "fingerprints": Array [
+              Object {
+                "artifactId": "aopalliance-repackaged",
+                "dependencies": Array [],
+                "digest": null,
+                "groupId": "org.glassfish.hk2.external",
+                "location": "/usr/lib/aopalliance-repackaged-2.5.0.jar",
+                "version": "2.5.0",
+              },
+            ],
+            "origin": "java-system-jars.tar",
+            "path": "/usr/lib",
+          },
+          "type": "jarFingerprints",
+        },
+        Object {
+          "data": "sha256:928667a4a18fb756ef8ff9c973f8fc8fcd867251025441c9eb9694b2576d5564",
+          "type": "imageId",
+        },
+        Object {
+          "data": "0.0.0-local",
+          "type": "pluginVersion",
+        },
+      ],
+      "identity": Object {
+        "targetFile": "/usr/lib",
+        "type": "maven",
+      },
+      "target": Object {
+        "image": "docker-image|java-system-jars.tar",
+      },
+    },
+  ],
+}
+`;
