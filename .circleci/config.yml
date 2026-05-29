@@ -218,6 +218,9 @@ jobs:
       - run: npm ci
       - run: npm run build
       - run:
+          name: Setup NPM auth
+          command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
+      - run:
           name: Release on GitHub
           command: |
             export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
