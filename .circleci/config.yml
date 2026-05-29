@@ -54,7 +54,7 @@ windows_big: &windows_big
 release_defaults: &release_defaults
   resource_class: small
   docker:
-    - image: cimg/node:22.22
+    - image: cimg/node:24.15
   working_directory: ~/snyk-docker-plugin
 
 define: &windows_node_version "20.19.1"
@@ -217,9 +217,6 @@ jobs:
       - checkout
       - run: npm ci
       - run: npm run build
-      - run:
-          name: Setup NPM auth
-          command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
       - run:
           name: Release on GitHub
           command: |
