@@ -7,25 +7,33 @@
  * blanked to "<ms>". Everything else in analytics (e.g. containerScanPayloadMetrics)
  * is deterministic — PLUGIN_VERSION is "0.0.0-local" — and is snapshotted in full.
  *
- * A timings object is recognized structurally: a non-empty object whose values are
- * all numbers. containerScanPayloadMetrics is excluded because it carries an array
- * value (scanResultPayloadBytes). Blanking yields string values, so the predicate no
- * longer matches the result — this is the recursion guard.
+ * The timings fact is recognized by its `name` ("containerPluginTimings"), not by
+ * value types alone — a value-type-only predicate would also match other all-number
+ * objects in the response (payload byte counts, hashes, coordinates) and silently
+ * blank them. We additionally require `data`'s values to all be numbers: after
+ * blanking they become "<ms>" strings, so the predicate no longer matches the copy
+ * we re-print — this is the recursion guard.
  *
  * Plain JS so it loads before ts-jest (needed for the Windows Jest config).
  */
 expect.addSnapshotSerializer({
   test(val) {
-    if (val === null || typeof val !== "object" || Array.isArray(val)) {
+    if (
+      val === null ||
+      typeof val !== "object" ||
+      val.name !== "containerPluginTimings" ||
+      val.data === null ||
+      typeof val.data !== "object"
+    ) {
       return false;
     }
-    const values = Object.values(val);
-    return values.length > 0 && values.every((v) => typeof v === "number");
+    const timings = Object.values(val.data);
+    return timings.length > 0 && timings.every((v) => typeof v === "number");
   },
   serialize(val, config, indentation, depth, refs, printer) {
-    const blanked = {};
-    for (const key of Object.keys(val)) {
-      blanked[key] = "<ms>";
+    const blanked = { ...val, data: {} };
+    for (const key of Object.keys(val.data)) {
+      blanked.data[key] = "<ms>";
     }
     return printer(blanked, config, indentation, depth, refs);
   },
