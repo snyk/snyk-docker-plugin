@@ -9,9 +9,11 @@ import { getErrorMessage } from "../error-utils";
 
 import {
   AppDepsScanResultWithoutTarget,
+  EcosystemScanner,
   FilePathToElfContent,
 } from "../analyzer/applications/types";
-import { ExtractAction } from "../extractor/types";
+import { getElfFileContent } from "../inputs";
+import { ExtractAction, ExtractedLayers } from "../extractor/types";
 import { DepGraphFact } from "../facts";
 import { GoBinary, readRawBuildInfo } from "./go-binary";
 
@@ -221,3 +223,14 @@ export async function goModulesToScannedProjects(
 
   return scanResults;
 }
+
+export const goScanner: EcosystemScanner = {
+  name: "go",
+  timingKey: "goAnalysisMs",
+  isEnabled: () => true,
+  actions: () => [getGoModulesContentAction],
+  scan: (extractedLayers: ExtractedLayers) =>
+    goModulesToScannedProjects(
+      getElfFileContent(extractedLayers, getGoModulesContentAction.actionName),
+    ),
+};
