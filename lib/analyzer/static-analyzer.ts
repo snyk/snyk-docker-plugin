@@ -3,11 +3,6 @@ import { DockerFileAnalysis } from "../dockerfile";
 import { getErrorMessage } from "../error-utils";
 import * as archiveExtractor from "../extractor";
 import {
-  getGoModulesContentAction,
-  goModulesToScannedProjects,
-} from "../go-parser";
-import { getBufferContent, getElfFileContent, getFileContent } from "../inputs";
-import {
   getApkDbFileContent,
   getApkDbFileContentAction,
 } from "../inputs/apk/static";
@@ -31,21 +26,7 @@ import {
   getDpkgPackageFileContentAction,
 } from "../inputs/distroless/static";
 import * as filePatternStatic from "../inputs/file-pattern/static";
-import {
-  getJarFileContentAction,
-  getUsrLibJarFileContentAction,
-} from "../inputs/java/static";
-import {
-  getNodeAppFileContentAction,
-  getNodeJsTsAppFileContentAction,
-} from "../inputs/node/static";
 import { getOsReleaseActions } from "../inputs/os-release/static";
-import { getPhpAppFileContentAction } from "../inputs/php/static";
-import {
-  getPipAppFileContentAction,
-  getPoetryAppFileContentAction,
-  getPythonAppFileContentAction,
-} from "../inputs/python/static";
 import {
   getRedHatRepositoriesContentAction,
   getRedHatRepositoriesFromExtractedLayers,
@@ -60,15 +41,11 @@ import {
 } from "../inputs/rpm/static";
 import { isTrue } from "../option-utils";
 import { ImageType, ManifestFile, PluginOptions } from "../types";
+import { applicationScanners } from "./applications/scanners";
 import {
-  nodeFilesToScannedProjects,
-  phpFilesToScannedProjects,
-  poetryFilesToScannedProjects,
-} from "./applications";
-import { jarFilesToScannedResults } from "./applications/java";
-import { pipFilesToScannedProjects } from "./applications/python";
-import { getApplicationFiles } from "./applications/runtime-common";
-import { AppDepsScanResultWithoutTarget } from "./applications/types";
+  AppDepsScanResultWithoutTarget,
+  ScanContext,
+} from "./applications/types";
 import { detectJavaRuntime } from "./base-runtimes";
 import * as osReleaseDetector from "./os-release";
 import { analyze as apkAnalyze } from "./package-managers/apk";
@@ -124,34 +101,21 @@ export async function analyze(
   }
 
   const appScan = !isTrue(options["exclude-app-vulns"]);
-  const nodeModulesScan = !isTrue(options["exclude-node-modules"]);
-  // A runtime logic enabler flag. Is off by default.
-  const collectApplicationFiles = isTrue(options["collect-application-files"]);
+
+  const scanContext: ScanContext = {
+    targetImage,
+    nodeModulesScan: !isTrue(options["exclude-node-modules"]),
+    // A runtime logic enabler flag. Is off by default.
+    collectApplicationFiles: isTrue(options["collect-application-files"]),
+    includeSystemJars: isTrue(options["include-system-jars"]),
+    nestedJarsDepth: getNestedJarsDesiredDepth(options),
+  };
 
   if (appScan) {
-    const jarActions = [getJarFileContentAction];
-
-    // Include system JARs from /usr/lib if flag is enabled
-    if (isTrue(options["include-system-jars"])) {
-      jarActions.push(getUsrLibJarFileContentAction);
-    }
-
-    staticAnalysisActions.push(
-      ...[
-        getNodeAppFileContentAction,
-        getPhpAppFileContentAction,
-        getPoetryAppFileContentAction,
-        getPipAppFileContentAction,
-        ...jarActions,
-        getGoModulesContentAction,
-      ],
-    );
-
-    if (collectApplicationFiles) {
-      staticAnalysisActions.push(
-        getNodeJsTsAppFileContentAction,
-        getPythonAppFileContentAction,
-      );
+    for (const scanner of applicationScanners) {
+      if (scanner.isEnabled(scanContext)) {
+        staticAnalysisActions.push(...scanner.actions(scanContext));
+      }
     }
   }
 
@@ -252,79 +216,16 @@ export async function analyze(
     [];
 
   if (appScan) {
-    phaseStart = Date.now();
-    const nodeDependenciesScanResults = await nodeFilesToScannedProjects(
-      getFileContent(extractedLayers, getNodeAppFileContentAction.actionName),
-      nodeModulesScan,
-    );
-    let nodeApplicationFilesScanResults: AppDepsScanResultWithoutTarget[] = [];
-    if (collectApplicationFiles) {
-      nodeApplicationFilesScanResults = getApplicationFiles(
-        getFileContent(
-          extractedLayers,
-          getNodeJsTsAppFileContentAction.actionName,
-        ),
-        "node",
-        "npm",
-      );
+    for (const scanner of applicationScanners) {
+      if (!scanner.isEnabled(scanContext)) {
+        continue;
+      }
+      phaseStart = Date.now();
+      const scanResults = await scanner.scan(extractedLayers, scanContext);
+      timings[scanner.timingKey] =
+        (timings[scanner.timingKey] || 0) + (Date.now() - phaseStart);
+      applicationDependenciesScanResults.push(...scanResults);
     }
-    timings.nodeAnalysisMs = Date.now() - phaseStart;
-
-    phaseStart = Date.now();
-    const phpDependenciesScanResults = await phpFilesToScannedProjects(
-      getFileContent(extractedLayers, getPhpAppFileContentAction.actionName),
-    );
-    timings.phpAnalysisMs = Date.now() - phaseStart;
-
-    phaseStart = Date.now();
-    const poetryDependenciesScanResults = await poetryFilesToScannedProjects(
-      getFileContent(extractedLayers, getPoetryAppFileContentAction.actionName),
-    );
-    timings.poetryAnalysisMs = Date.now() - phaseStart;
-
-    phaseStart = Date.now();
-    const pipDependenciesScanResults = await pipFilesToScannedProjects(
-      getFileContent(extractedLayers, getPipAppFileContentAction.actionName),
-    );
-    let pythonApplicationFilesScanResults: AppDepsScanResultWithoutTarget[] =
-      [];
-    if (collectApplicationFiles) {
-      pythonApplicationFilesScanResults = getApplicationFiles(
-        getFileContent(
-          extractedLayers,
-          getPythonAppFileContentAction.actionName,
-        ),
-        "python",
-        "python",
-      );
-    }
-    timings.pipAnalysisMs = Date.now() - phaseStart;
-
-    phaseStart = Date.now();
-    const desiredLevelsOfUnpacking = getNestedJarsDesiredDepth(options);
-    const jarFingerprintScanResults = await jarFilesToScannedResults(
-      getBufferContent(extractedLayers, getJarFileContentAction.actionName),
-      targetImage,
-      desiredLevelsOfUnpacking,
-    );
-    timings.jarAnalysisMs = Date.now() - phaseStart;
-
-    phaseStart = Date.now();
-    const goModulesScanResult = await goModulesToScannedProjects(
-      getElfFileContent(extractedLayers, getGoModulesContentAction.actionName),
-    );
-    timings.goAnalysisMs = Date.now() - phaseStart;
-
-    applicationDependenciesScanResults.push(
-      ...nodeDependenciesScanResults,
-      ...nodeApplicationFilesScanResults,
-      ...phpDependenciesScanResults,
-      ...poetryDependenciesScanResults,
-      ...pipDependenciesScanResults,
-      ...pythonApplicationFilesScanResults,
-      ...jarFingerprintScanResults,
-      ...goModulesScanResult,
-    );
   }
 
   return {
