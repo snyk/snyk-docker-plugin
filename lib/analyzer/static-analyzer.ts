@@ -35,6 +35,7 @@ import {
   getJarFileContentAction,
   getUsrLibJarFileContentAction,
 } from "../inputs/java/static";
+import { getDotnetAppFileContentAction } from "../inputs/dotnet/static";
 import {
   getNodeAppFileContentAction,
   getNodeJsTsAppFileContentAction,
@@ -61,6 +62,7 @@ import {
 import { isTrue } from "../option-utils";
 import { ImageType, ManifestFile, PluginOptions } from "../types";
 import {
+  dotnetFilesToScannedProjects,
   nodeFilesToScannedProjects,
   phpFilesToScannedProjects,
   poetryFilesToScannedProjects,
@@ -142,6 +144,7 @@ export async function analyze(
         getPhpAppFileContentAction,
         getPoetryAppFileContentAction,
         getPipAppFileContentAction,
+        getDotnetAppFileContentAction,
         ...jarActions,
         getGoModulesContentAction,
       ],
@@ -301,6 +304,12 @@ export async function analyze(
     timings.pipAnalysisMs = Date.now() - phaseStart;
 
     phaseStart = Date.now();
+    const dotnetDependenciesScanResults = await dotnetFilesToScannedProjects(
+      getFileContent(extractedLayers, getDotnetAppFileContentAction.actionName),
+    );
+    timings.dotnetAnalysisMs = Date.now() - phaseStart;
+
+    phaseStart = Date.now();
     const desiredLevelsOfUnpacking = getNestedJarsDesiredDepth(options);
     const jarFingerprintScanResults = await jarFilesToScannedResults(
       getBufferContent(extractedLayers, getJarFileContentAction.actionName),
@@ -322,6 +331,7 @@ export async function analyze(
       ...poetryDependenciesScanResults,
       ...pipDependenciesScanResults,
       ...pythonApplicationFilesScanResults,
+      ...dotnetDependenciesScanResults,
       ...jarFingerprintScanResults,
       ...goModulesScanResult,
     );
