@@ -28,40 +28,6 @@ interface DepsJson {
   };
 }
 
-// skip packages that are not app dependencies
-const NON_APP_TYPES = new Set(["runtimepack", "platform", "runtime"]);
-
-function getLibraryEntry(
-  packageName: string,
-  version: string | undefined,
-  depsJson: DepsJson,
-): NonNullable<DepsJson["libraries"]>[string] | undefined {
-  const libraries = depsJson.libraries;
-  if (!libraries) {
-    return undefined;
-  }
-  if (version) {
-    return libraries[`${packageName}/${version}`];
-  }
-  const lowerName = packageName.toLowerCase();
-  for (const [key, lib] of Object.entries(libraries)) {
-    const [name] = key.split("/");
-    if (name.toLowerCase() === lowerName) {
-      return lib;
-    }
-  }
-  return undefined;
-}
-
-function isPlatformOrRuntimePackage(
-  packageName: string,
-  depsJson: DepsJson,
-  version?: string,
-): boolean {
-  const library = getLibraryEntry(packageName, version, depsJson);
-  return library !== undefined && NON_APP_TYPES.has(library.type);
-}
-
 function parsePackageKey(
   key: string,
 ): { name: string; version: string } | null {
@@ -127,7 +93,6 @@ function buildDepGraphFromDepsJson(content: string, filePath: string) {
     return null;
   }
 
-  // Use the runtime target framework, or fall back to the first available
   const runtimeTargetName = depsJson.runtimeTarget?.name;
   const targetKey =
     runtimeTargetName && targets[runtimeTargetName]
@@ -141,13 +106,11 @@ function buildDepGraphFromDepsJson(content: string, filePath: string) {
   const target = targets[targetKey];
   const allPackages = Object.keys(target);
 
-  // Find the root project entry (has no "/" in key pattern or matches the app name)
   const rootEntry = allPackages.find((key) => {
     const parsed = parsePackageKey(key);
     if (!parsed) {
       return true;
     }
-    // The root project typically has version "1.0.0" and its name matches the deps.json filename
     const depsFileName = path.basename(filePath, ".deps.json");
     return parsed.name.toLowerCase() === depsFileName.toLowerCase();
   });
@@ -172,7 +135,7 @@ function buildDepGraphFromDepsJson(content: string, filePath: string) {
     { name: rootName, version: rootVersion },
   );
 
-  // Index all non-framework packages by lowercase name for lookup
+  // Index all packages by lowercase name
   const packageIndex = new Map<
     string,
     { name: string; version: string; dependencies: { [name: string]: string } }
@@ -181,9 +144,6 @@ function buildDepGraphFromDepsJson(content: string, filePath: string) {
   for (const key of allPackages) {
     const parsed = parsePackageKey(key);
     if (!parsed) {
-      continue;
-    }
-    if (isPlatformOrRuntimePackage(parsed.name, depsJson, parsed.version)) {
       continue;
     }
     packageIndex.set(parsed.name.toLowerCase(), {
@@ -210,32 +170,18 @@ function buildDepGraphFromDepsJson(content: string, filePath: string) {
       visited.add(nodeId);
       builder.addPkgNode({ name: pkg.name, version: pkg.version }, nodeId);
 
-      for (const [transitiveName, transitiveVersion] of Object.entries(
-        pkg.dependencies,
-      )) {
-        if (
-          !isPlatformOrRuntimePackage(
-            transitiveName,
-            depsJson,
-            transitiveVersion,
-          )
-        ) {
-          addDependency(nodeId, transitiveName);
-        }
+      for (const transitiveName of Object.keys(pkg.dependencies)) {
+        addDependency(nodeId, transitiveName);
       }
     }
     builder.connectDep(parentNodeId, nodeId);
   }
 
-  // Add direct dependencies from root
   if (rootDependencies) {
-    for (const [depName, depVersion] of Object.entries(rootDependencies)) {
-      if (!isPlatformOrRuntimePackage(depName, depsJson, depVersion)) {
-        addDependency(builder.rootNodeId, depName);
-      }
+    for (const depName of Object.keys(rootDependencies)) {
+      addDependency(builder.rootNodeId, depName);
     }
   } else {
-    // No root entry found — add all packages as direct dependencies
     for (const [, pkg] of packageIndex) {
       const nodeId = `${pkg.name}@${pkg.version}`;
       if (!visited.has(nodeId)) {
