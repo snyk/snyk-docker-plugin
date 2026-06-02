@@ -29,11 +29,7 @@ interface DepsJson {
 }
 
 // skip packages that are not app dependencies
-const NON_APP_TYPES = new Set([
-  "runtimepack",
-  "platform",
-  "runtime",
-]);
+const NON_APP_TYPES = new Set(["runtimepack", "platform", "runtime"]);
 
 function getLibraryEntry(
   packageName: string,
