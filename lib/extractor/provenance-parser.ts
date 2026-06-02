@@ -69,7 +69,7 @@ interface SlsaPredicate10 {
 
 function extractFieldsSlsa02(
   predicate: SlsaPredicate02,
-  statement: InTotoStatement,
+  manifestDigest: string,
 ): ProvenanceAttestation {
   const buildTimestamp = predicate.metadata?.buildStartedOn || null;
 
@@ -97,7 +97,7 @@ function extractFieldsSlsa02(
   return {
     buildTimestamp,
     commit,
-    manifestDigest: `sha256:${statement.subject![0].digest!.sha256}`,
+    manifestDigest,
     repoUri,
     builderId,
     buildType,
@@ -110,7 +110,7 @@ function extractFieldsSlsa02(
 
 function extractFieldsSlsa10(
   predicate: SlsaPredicate10,
-  statement: InTotoStatement,
+  manifestDigest: string,
 ): ProvenanceAttestation {
   const runDetails = predicate.runDetails;
   const buildDefinition = predicate.buildDefinition;
@@ -137,7 +137,7 @@ function extractFieldsSlsa10(
   return {
     buildTimestamp,
     commit,
-    manifestDigest: `sha256:${statement.subject![0].digest!.sha256}`,
+    manifestDigest,
     repoUri,
     builderId,
     buildType,
@@ -146,6 +146,11 @@ function extractFieldsSlsa10(
       contents: dockerfileContents,
     },
   };
+}
+
+function getManifestDigest(statement: InTotoStatement): string | null {
+  const sha256 = statement.subject?.[0]?.digest?.sha256;
+  return sha256 ? `sha256:${sha256}` : null;
 }
 
 function parseStatement(
@@ -157,13 +162,19 @@ function parseStatement(
     return null;
   }
 
+  const manifestDigest = getManifestDigest(statement);
+  if (!manifestDigest) {
+    debug("[provenance] No valid subject digest in in-toto statement");
+    return null;
+  }
+
   const predicateType = statement.predicateType;
 
   if (predicateType?.includes("provenance/v0.2")) {
-    return extractFieldsSlsa02(predicate as SlsaPredicate02, statement);
+    return extractFieldsSlsa02(predicate as SlsaPredicate02, manifestDigest);
   }
   if (predicateType?.includes("provenance/v1")) {
-    return extractFieldsSlsa10(predicate as SlsaPredicate10, statement);
+    return extractFieldsSlsa10(predicate as SlsaPredicate10, manifestDigest);
   }
 
   debug(`[provenance] Unsupported SLSA predicate type: ${predicateType}`);
