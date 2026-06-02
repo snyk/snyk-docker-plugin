@@ -316,6 +316,7 @@ workflows:
       - release:
           name: Release to GitHub
           context:
+            - nodejs-install
             - github-release
             - snyk-bot-slack
           filters:
