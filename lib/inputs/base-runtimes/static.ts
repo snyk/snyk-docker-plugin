@@ -3,10 +3,25 @@ import { getContentAsString } from "../../extractor";
 import { ExtractAction, ExtractedLayers } from "../../extractor/types";
 import { streamToString } from "../../stream-utils";
 
+function javaReleaseFilePathMatches(filePath: string): boolean {
+  const p = normalizePath(filePath);
+  return (
+    // eclipse-temurin: /opt/java/openjdk/release
+    p === normalizePath("/opt/java/openjdk/release") ||
+    // official Docker openjdk: /usr/local/openjdk-<version>/release
+    (p.startsWith(normalizePath("/usr/local/openjdk-")) &&
+      p.endsWith("/release")) ||
+    // Debian/Ubuntu default-jdk: /usr/lib/jvm/java-<version>-openjdk-<arch>/release
+    (p.startsWith(normalizePath("/usr/lib/jvm/java-")) &&
+      p.endsWith("/release")) ||
+    // Oracle JDK: /usr/java/<version>/release
+    (p.startsWith(normalizePath("/usr/java/")) && p.endsWith("/release"))
+  );
+}
+
 export const getJavaRuntimeReleaseAction: ExtractAction = {
   actionName: "java-runtime-release",
-  filePathMatches: (filePath) =>
-    filePath === normalizePath("/opt/java/openjdk/release"),
+  filePathMatches: javaReleaseFilePathMatches,
   callback: streamToString,
 };
 
