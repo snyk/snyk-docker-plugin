@@ -1,8 +1,39 @@
+import { ExtractAction, ExtractedLayers } from "../../extractor/types";
 import { Elf } from "../../go-parser/types";
 import { ScanResult } from "../../types";
 
 export interface AppDepsScanResultWithoutTarget
   extends Omit<ScanResult, "target"> {}
+
+/**
+ * Fully-derived inputs an {@link EcosystemScanner} needs. Built once by the
+ * orchestrator from the raw plugin options; scanners never see the options bag.
+ */
+export interface ScanContext {
+  targetImage: string;
+  nodeModulesScan: boolean;
+  collectApplicationFiles: boolean;
+  includeSystemJars: boolean;
+  nestedJarsDepth: number;
+}
+
+/**
+ * A single application ecosystem's contribution to a static scan: the extract
+ * actions it needs registered before image extraction, and the scan that turns
+ * the extracted layers into dependency scan results. Registered in execution
+ * order in `scanners.ts`.
+ */
+export interface EcosystemScanner {
+  name: string;
+  // Analytics contract key under which this scanner's timing is accumulated.
+  timingKey: string;
+  isEnabled(ctx: ScanContext): boolean;
+  actions(ctx: ScanContext): ExtractAction[];
+  scan(
+    extractedLayers: ExtractedLayers,
+    ctx: ScanContext,
+  ): Promise<AppDepsScanResultWithoutTarget[]>;
+}
 
 export interface FilePathToContent {
   [filePath: string]: string;

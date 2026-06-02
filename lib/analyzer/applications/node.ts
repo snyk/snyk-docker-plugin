@@ -23,10 +23,19 @@ import {
   groupNodeModulesFilesByDirectory,
   persistNodeModules,
 } from "./node-modules-utils";
+import { ExtractedLayers } from "../../extractor/types";
+import { getFileContent } from "../../inputs";
+import {
+  getNodeAppFileContentAction,
+  getNodeJsTsAppFileContentAction,
+} from "../../inputs/node/static";
+import { getApplicationFiles } from "./runtime-common";
 import {
   AppDepsScanResultWithoutTarget,
+  EcosystemScanner,
   FilePathToContent,
   FilesByDirMap,
+  ScanContext,
 } from "./types";
 
 interface ManifestLockPathPair {
@@ -557,3 +566,31 @@ export function shouldBuildDepTree(lockfileVersion: NodeLockfileVersion) {
     lockfileVersion === NodeLockfileVersion.PnpmLockV9
   );
 }
+
+export const nodeScanner: EcosystemScanner = {
+  name: "node",
+  timingKey: "nodeAnalysisMs",
+  isEnabled: () => true,
+  actions: () => [getNodeAppFileContentAction],
+  scan: (extractedLayers: ExtractedLayers, ctx: ScanContext) =>
+    nodeFilesToScannedProjects(
+      getFileContent(extractedLayers, getNodeAppFileContentAction.actionName),
+      ctx.nodeModulesScan,
+    ),
+};
+
+export const nodeApplicationFilesScanner: EcosystemScanner = {
+  name: "nodeAppFiles",
+  timingKey: "nodeAnalysisMs",
+  isEnabled: (ctx: ScanContext) => ctx.collectApplicationFiles,
+  actions: () => [getNodeJsTsAppFileContentAction],
+  scan: async (extractedLayers: ExtractedLayers) =>
+    getApplicationFiles(
+      getFileContent(
+        extractedLayers,
+        getNodeJsTsAppFileContentAction.actionName,
+      ),
+      "node",
+      "npm",
+    ),
+};

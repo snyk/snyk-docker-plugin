@@ -2,9 +2,20 @@ import * as admzip from "adm-zip";
 import * as path from "path";
 import { bufferToSha1 } from "../../buffer-utils";
 import { JarFingerprintsFact } from "../../facts";
+import { ExtractedLayers } from "../../extractor/types";
+import { getBufferContent } from "../../inputs";
+import {
+  getJarFileContentAction,
+  getUsrLibJarFileContentAction,
+} from "../../inputs/java/static";
 import { JarFingerprint } from "../types";
 import { AggregatedJars, JarBuffer, JarCoords, JarInfo } from "./types";
-import { AppDepsScanResultWithoutTarget, FilePathToBuffer } from "./types";
+import {
+  AppDepsScanResultWithoutTarget,
+  EcosystemScanner,
+  FilePathToBuffer,
+  ScanContext,
+} from "./types";
 
 /**
  * @param {{[fileName: string]: Buffer}} fileNameToBuffer fileName
@@ -301,3 +312,19 @@ export function parsePomProperties(fileContent: string): JarCoords {
   });
   return coords;
 }
+
+export const jarScanner: EcosystemScanner = {
+  name: "jar",
+  timingKey: "jarAnalysisMs",
+  isEnabled: () => true,
+  actions: (ctx: ScanContext) =>
+    ctx.includeSystemJars
+      ? [getJarFileContentAction, getUsrLibJarFileContentAction]
+      : [getJarFileContentAction],
+  scan: (extractedLayers: ExtractedLayers, ctx: ScanContext) =>
+    jarFilesToScannedResults(
+      getBufferContent(extractedLayers, getJarFileContentAction.actionName),
+      ctx.targetImage,
+      ctx.nestedJarsDepth,
+    ),
+};

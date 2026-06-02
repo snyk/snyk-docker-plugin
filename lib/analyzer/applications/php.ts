@@ -7,8 +7,15 @@ import {
   ComposerParserResponse,
 } from "@snyk/composer-lockfile-parser";
 import { InvalidUserInputError } from "@snyk/composer-lockfile-parser/dist/errors";
+import { ExtractedLayers } from "../../extractor/types";
+import { getFileContent } from "../../inputs";
+import { getPhpAppFileContentAction } from "../../inputs/php/static";
 import { DepTreeDep } from "../../types";
-import { AppDepsScanResultWithoutTarget, FilePathToContent } from "./types";
+import {
+  AppDepsScanResultWithoutTarget,
+  EcosystemScanner,
+  FilePathToContent,
+} from "./types";
 
 interface ManifestLockPathPair {
   manifest: string;
@@ -113,3 +120,14 @@ function groupFilesByDirectory(filePathToContent: FilePathToContent): {
   }
   return fileNamesGroupedByDirectory;
 }
+
+export const phpScanner: EcosystemScanner = {
+  name: "php",
+  timingKey: "phpAnalysisMs",
+  isEnabled: () => true,
+  actions: () => [getPhpAppFileContentAction],
+  scan: (extractedLayers: ExtractedLayers) =>
+    phpFilesToScannedProjects(
+      getFileContent(extractedLayers, getPhpAppFileContentAction.actionName),
+    ),
+};
