@@ -411,6 +411,15 @@ function resolveManifestAndConfig(
   return { manifest, imageConfig, rawProvenanceAttestations };
 }
 
+const IMAGE_CONFIG_MEDIA_TYPES = new Set([
+  "application/vnd.oci.image.config.v1+json",
+  "application/vnd.docker.container.image.v1+json",
+]);
+
+function isImageManifest(manifest: OciArchiveManifest): boolean {
+  return IMAGE_CONFIG_MEDIA_TYPES.has(manifest.config?.mediaType || "");
+}
+
 function getManifest(
   imageIndex: OciImageIndex | undefined,
   manifestCollection: Record<string, OciArchiveManifest>,
@@ -418,7 +427,7 @@ function getManifest(
   platformInfo: OciPlatformInfo,
 ): OciArchiveManifest | undefined {
   if (!imageIndex) {
-    return manifestCollection[Object.keys(manifestCollection)[0]];
+    return Object.values(manifestCollection).find(isImageManifest);
   }
 
   const allManifests = getAllManifestsIndexItems(imageIndex, indexFiles);
