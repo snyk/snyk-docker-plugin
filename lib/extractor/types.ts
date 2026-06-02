@@ -43,13 +43,6 @@ export interface ExtractedLayers {
   [layerName: string]: FileNameAndContent;
 }
 
-export interface ExtractedLayersAndManifest {
-  layers: ExtractedLayers[];
-  manifest: TarArchiveManifest | OciArchiveManifest;
-  imageConfig: ImageConfig;
-  rawProvenanceAttestations?: RawProvenanceAttestation[];
-}
-
 export interface TarArchiveManifest {
   // Usually points to the JSON file in the archive that describes how the image was built.
   Config: string;
@@ -68,6 +61,7 @@ export interface ExtractedLayersAndManifest {
   layers: ExtractedLayers[];
   manifest: TarArchiveManifest | OciArchiveManifest;
   imageConfig: ImageConfig;
+  rawProvenanceAttestations?: RawProvenanceAttestation[];
 }
 
 export interface ContainerConfig {
