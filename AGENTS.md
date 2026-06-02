@@ -42,6 +42,16 @@ When adding a new ecosystem or signal, emit a `Fact` with an existing
 `FactType` if one fits; introducing a new `FactType` is a contract change
 affecting every consumer and should be flagged in the PR.
 
+## Provenance attestations
+
+Provenance attestations are optional supply-chain metadata attached to a
+container image that describes where it came from and how it was built. 
+
+Specific provenance fields are parsed from attestation manifests embedded
+in the OCI image index. Attestations larger than 2 MB are skipped.
+Downstream, attestations are emitted as a `provenanceAttestations` fact and
+persisted in `container-monitor-data`.
+
 ## Repo layout
 
 ```
