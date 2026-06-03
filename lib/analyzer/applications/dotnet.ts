@@ -28,6 +28,14 @@ interface DepsJson {
   };
 }
 
+interface PackageInfo {
+  name: string;
+  version: string;
+  dependencies: { [name: string]: string };
+}
+
+type PackageIndex = Map<string, PackageInfo>;
+
 function parsePackageKey(
   key: string,
 ): { name: string; version: string } | null {
@@ -41,16 +49,36 @@ function parsePackageKey(
   };
 }
 
+function addDependency(
+  parentNodeId: string,
+  depName: string,
+  packageIndex: PackageIndex,
+  visited: Set<string>,
+  builder: DepGraphBuilder,
+): void {
+  const pkg = packageIndex.get(depName.toLowerCase());
+  if (!pkg) {
+    return;
+  }
+
+  const nodeId = `${pkg.name}@${pkg.version}`;
+  if (!visited.has(nodeId)) {
+    visited.add(nodeId);
+    builder.addPkgNode({ name: pkg.name, version: pkg.version }, nodeId);
+
+    for (const childName of Object.keys(pkg.dependencies)) {
+      addDependency(nodeId, childName, packageIndex, visited, builder);
+    }
+  }
+  builder.connectDep(parentNodeId, nodeId);
+}
+
 export async function dotnetFilesToScannedProjects(
   filePathToContent: FilePathToContent,
 ): Promise<AppDepsScanResultWithoutTarget[]> {
   const scanResults: AppDepsScanResultWithoutTarget[] = [];
 
   for (const [filePath, content] of Object.entries(filePathToContent)) {
-    if (!filePath.endsWith(".deps.json")) {
-      continue;
-    }
-
     try {
       const depGraph = buildDepGraphFromDepsJson(content, filePath);
       if (!depGraph) {
@@ -93,41 +121,34 @@ function buildDepGraphFromDepsJson(content: string, filePath: string) {
     return null;
   }
 
-  const runtimeTargetName = depsJson.runtimeTarget?.name;
-  const targetKey =
-    runtimeTargetName && targets[runtimeTargetName]
-      ? runtimeTargetName
-      : Object.keys(targets)[0];
-
-  if (!targetKey) {
+  const target = depsJson.runtimeTarget?.name
+    ? targets[depsJson.runtimeTarget.name]
+    : undefined;
+  if (!target) {
     return null;
   }
 
-  const target = targets[targetKey];
+  const libraries = depsJson.libraries;
+  if (!libraries) {
+    return null;
+  }
+
   const allPackages = Object.keys(target);
 
   const rootEntry = allPackages.find((key) => {
-    const parsed = parsePackageKey(key);
-    if (!parsed) {
-      return true;
-    }
-    const depsFileName = path.basename(filePath, ".deps.json");
-    return parsed.name.toLowerCase() === depsFileName.toLowerCase();
+    const lib = libraries[key];
+    return lib?.type === "project";
   });
+  if (!rootEntry) {
+    return null;
+  }
 
-  let rootName: string;
-  let rootVersion: string;
-  let rootDependencies: { [name: string]: string } | undefined;
-
-  if (rootEntry) {
-    const parsed = parsePackageKey(rootEntry);
-    rootName = parsed ? parsed.name : rootEntry;
-    rootVersion = parsed ? parsed.version : "0.0.0";
-    rootDependencies = target[rootEntry]?.dependencies;
-  } else {
-    rootName = path.basename(filePath, ".deps.json");
-    rootVersion = "0.0.0";
-    rootDependencies = undefined;
+  const parsed = parsePackageKey(rootEntry);
+  const rootName = parsed ? parsed.name : rootEntry;
+  const rootVersion = parsed ? parsed.version : "0.0.0";
+  const rootDependencies = target[rootEntry]?.dependencies;
+  if (!rootDependencies) {
+    return null;
   }
 
   const builder = new DepGraphBuilder(
@@ -135,12 +156,7 @@ function buildDepGraphFromDepsJson(content: string, filePath: string) {
     { name: rootName, version: rootVersion },
   );
 
-  // Index all packages by lowercase name
-  const packageIndex = new Map<
-    string,
-    { name: string; version: string; dependencies: { [name: string]: string } }
-  >();
-
+  const packageIndex: PackageIndex = new Map();
   for (const key of allPackages) {
     const parsed = parsePackageKey(key);
     if (!parsed) {
@@ -153,43 +169,11 @@ function buildDepGraphFromDepsJson(content: string, filePath: string) {
     });
   }
 
-  if (packageIndex.size === 0) {
-    return null;
-  }
-
   const visited = new Set<string>();
+  const directDeps = Object.keys(rootDependencies);
 
-  function addDependency(parentNodeId: string, depName: string): void {
-    const pkg = packageIndex.get(depName.toLowerCase());
-    if (!pkg) {
-      return;
-    }
-
-    const nodeId = `${pkg.name}@${pkg.version}`;
-    if (!visited.has(nodeId)) {
-      visited.add(nodeId);
-      builder.addPkgNode({ name: pkg.name, version: pkg.version }, nodeId);
-
-      for (const transitiveName of Object.keys(pkg.dependencies)) {
-        addDependency(nodeId, transitiveName);
-      }
-    }
-    builder.connectDep(parentNodeId, nodeId);
-  }
-
-  if (rootDependencies) {
-    for (const depName of Object.keys(rootDependencies)) {
-      addDependency(builder.rootNodeId, depName);
-    }
-  } else {
-    for (const [, pkg] of packageIndex) {
-      const nodeId = `${pkg.name}@${pkg.version}`;
-      if (!visited.has(nodeId)) {
-        visited.add(nodeId);
-        builder.addPkgNode({ name: pkg.name, version: pkg.version }, nodeId);
-      }
-      builder.connectDep(builder.rootNodeId, nodeId);
-    }
+  for (const depName of directDeps) {
+    addDependency(builder.rootNodeId, depName, packageIndex, visited, builder);
   }
 
   return builder.build();
