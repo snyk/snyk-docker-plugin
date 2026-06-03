@@ -215,11 +215,14 @@ jobs:
       - checkout
       - run: npm ci
       - run: npm run build
-      - setup_npm_user
+      - run:
+          name: Configure NPM Token
+          command: |
+            export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
+            echo "//registry.npmjs.org/:_authToken=${NPM_ID_TOKEN}" >> .npmrc
       - run:
           name: Release on GitHub
           command: |
-            export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
             npx semantic-release@25
 
 workflows:
