@@ -156,31 +156,31 @@ jobs:
       - store_artifacts:
           path: test-system-logs.txt
           destination: test-system-logs
-  # test_jest_windows_with_docker:
-  #   <<: *windows_big
-  #   steps:
-  #     - checkout
-  #     - install_node_npm:
-  #         node_version: << parameters.node_version >>
-  #     - setup_npm_user
-  #     - run: npm ci
-  #     - run: docker version
-  #     - run:
-  #         command: npm run test-jest-windows
-  #         no_output_timeout: 20m
-  # test_jest_windows_no_docker:
-  #   <<: *windows_big
-  #   steps:
-  #     - checkout
-  #     - install_node_npm:
-  #         node_version: << parameters.node_version >>
-  #     - setup_npm_user
-  #     - run: npm ci
-  #       # make docker appear to be broken.
-  #     - run: "function docker() { return 1; }"
-  #     - run:
-  #         command: npm run test-jest-windows
-  #         no_output_timeout: 20m
+  test_jest_windows_with_docker:
+    <<: *windows_big
+    steps:
+      - checkout
+      - install_node_npm:
+          node_version: << parameters.node_version >>
+      - setup_npm_user
+      - run: npm ci
+      - run: docker version
+      - run:
+          command: npm run test-jest-windows
+          no_output_timeout: 20m
+  test_jest_windows_no_docker:
+    <<: *windows_big
+    steps:
+      - checkout
+      - install_node_npm:
+          node_version: << parameters.node_version >>
+      - setup_npm_user
+      - run: npm ci
+        # make docker appear to be broken.
+      - run: "function docker() { return 1; }"
+      - run:
+          command: npm run test-jest-windows
+          no_output_timeout: 20m
   build:
     <<: *defaults
     steps:
@@ -216,13 +216,9 @@ jobs:
       - run: npm ci
       - run: npm run build
       - run:
-          name: Configure NPM Token
-          command: |
-            export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
-            echo "//registry.npmjs.org/:_authToken=${NPM_ID_TOKEN}" >> .npmrc
-      - run:
           name: Release on GitHub
           command: |
+            export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
             npx semantic-release@25
 
 workflows:
@@ -305,7 +301,7 @@ workflows:
       #     requires:
       #       - Build
       #     post-steps:
-            - *slack-fail-notify
+      #       - *slack-fail-notify
       - build_cli:
           name: Build CLI with changes
           context:
