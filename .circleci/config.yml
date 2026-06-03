@@ -218,6 +218,8 @@ jobs:
           command: |
             OIDC_JWT=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
             echo "OIDC JWT length: ${#OIDC_JWT}" | tee /tmp/oidc-diagnostic.txt
+            echo "JWT claims (payload):" | tee -a /tmp/oidc-diagnostic.txt
+            echo "${OIDC_JWT}" | cut -d. -f2 | base64 -d 2>/dev/null | python3 -m json.tool | tee -a /tmp/oidc-diagnostic.txt
             HTTP_STATUS=$(curl -s -o /tmp/oidc-response.json -w "%{http_code}" -X POST \
               -H "Authorization: Bearer ${OIDC_JWT}" \
               "https://registry.npmjs.org/-/npm/v1/oidc/token/exchange/package/snyk-docker-plugin")
