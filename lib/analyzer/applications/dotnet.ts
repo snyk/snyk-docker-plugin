@@ -1,5 +1,6 @@
 import { DepGraphBuilder } from "@snyk/dep-graph";
 import * as Debug from "debug";
+import { eventLoopSpinner } from "event-loop-spinner";
 import * as path from "path";
 import { getErrorMessage } from "../../error-utils";
 import { DepGraphFact, TestedFilesFact } from "../../facts";
@@ -10,7 +11,6 @@ const debug = Debug("snyk");
 interface DepsJsonTarget {
   [packageKey: string]: {
     dependencies?: { [name: string]: string };
-    runtime?: { [dll: string]: object };
   };
 }
 
@@ -49,14 +49,30 @@ function parsePackageKey(
   };
 }
 
-function addDependency(
+// Self-contained .NET publishes prefix the bundled runtime packages with
+// "runtimepack." in deps.json (e.g. runtimepack.Microsoft.NETCore.App.Runtime.linux-x64).
+// The canonical NuGet id (which the vuln DB matches against) has no prefix, so
+// strip it to keep names matchable. See https://github.com/dotnet/sdk/issues/3010
+const RUNTIME_PACK_PREFIX = "runtimepack.";
+
+function normalizePackageName(name: string): string {
+  return name.startsWith(RUNTIME_PACK_PREFIX)
+    ? name.slice(RUNTIME_PACK_PREFIX.length)
+    : name;
+}
+
+async function addDependency(
   parentNodeId: string,
   depName: string,
   packageIndex: PackageIndex,
   visited: Set<string>,
   builder: DepGraphBuilder,
-): void {
-  const pkg = packageIndex.get(depName.toLowerCase());
+): Promise<void> {
+  if (eventLoopSpinner.isStarving()) {
+    await eventLoopSpinner.spin();
+  }
+
+  const pkg = packageIndex.get(normalizePackageName(depName).toLowerCase());
   if (!pkg) {
     return;
   }
@@ -67,7 +83,7 @@ function addDependency(
     builder.addPkgNode({ name: pkg.name, version: pkg.version }, nodeId);
 
     for (const childName of Object.keys(pkg.dependencies)) {
-      addDependency(nodeId, childName, packageIndex, visited, builder);
+      await addDependency(nodeId, childName, packageIndex, visited, builder);
     }
   }
   builder.connectDep(parentNodeId, nodeId);
@@ -80,7 +96,7 @@ export async function dotnetFilesToScannedProjects(
 
   for (const [filePath, content] of Object.entries(filePathToContent)) {
     try {
-      const depGraph = buildDepGraphFromDepsJson(content, filePath);
+      const depGraph = await buildDepGraphFromDepsJson(content, filePath);
       if (!depGraph) {
         continue;
       }
@@ -112,7 +128,7 @@ export async function dotnetFilesToScannedProjects(
   return scanResults;
 }
 
-function buildDepGraphFromDepsJson(content: string, filePath: string) {
+async function buildDepGraphFromDepsJson(content: string, filePath: string) {
   const depsJson: DepsJson = JSON.parse(content);
 
   const targets = depsJson.targets;
@@ -162,8 +178,9 @@ function buildDepGraphFromDepsJson(content: string, filePath: string) {
     if (!parsed) {
       continue;
     }
-    packageIndex.set(parsed.name.toLowerCase(), {
-      name: parsed.name,
+    const name = normalizePackageName(parsed.name);
+    packageIndex.set(name.toLowerCase(), {
+      name,
       version: parsed.version,
       dependencies: target[key]?.dependencies || {},
     });
@@ -173,7 +190,13 @@ function buildDepGraphFromDepsJson(content: string, filePath: string) {
   const directDeps = Object.keys(rootDependencies);
 
   for (const depName of directDeps) {
-    addDependency(builder.rootNodeId, depName, packageIndex, visited, builder);
+    await addDependency(
+      builder.rootNodeId,
+      depName,
+      packageIndex,
+      visited,
+      builder,
+    );
   }
 
   return builder.build();

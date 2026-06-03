@@ -95,6 +95,23 @@ describe("dotnet deps.json analyzer", () => {
     });
   });
 
+  describe("self-contained publishes", () => {
+    it("should strip the runtimepack. prefix to the canonical NuGet id", async () => {
+      const results = await dotnetFilesToScannedProjects({
+        "/app/SelfContained.deps.json": loadFixture("SelfContained.deps.json"),
+      });
+      const pkgs = results[0].facts
+        .find((f) => f.type === "depGraph")!
+        .data.getPkgs();
+
+      const runtimePack = pkgs.find(
+        (p) => p.name === "Microsoft.NETCore.App.Runtime.linux-x64",
+      );
+      expect(runtimePack).toBeDefined();
+      expect(runtimePack!.version).toBe("8.0.27");
+      expect(pkgs.some((p) => p.name.startsWith("runtimepack."))).toBe(false);
+    });
+  });
 
   describe("edge cases", () => {
     it("should return empty array for non-deps.json files", async () => {
