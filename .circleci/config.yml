@@ -217,6 +217,7 @@ jobs:
       - checkout
       - run: npm ci
       - run: npm run build
+      - setup_npm_user
       - run:
           name: Release on GitHub
           command: |
