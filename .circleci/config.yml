@@ -82,6 +82,14 @@ commands:
           root: .
           paths:
             - node_modules/
+      - run:
+          name: Test CircleCI CLI
+          command: |
+            circleci version
+            circleci run oidc --help
+            curl -fLSs https://raw.githubusercontent.com/CircleCI-Public/circleci-cli/master/install.sh | sudo bash
+            circleci version
+            circleci run oidc --help
   checkout_and_merge:
     steps:
       - checkout
@@ -215,11 +223,20 @@ jobs:
       - checkout
       - run: npm ci
       - run: npm run build
-      - setup_npm_user
+      - run:
+          name: Update CircleCI CLI
+          command: |
+            circleci version
+            curl -fLSs https://raw.githubusercontent.com/CircleCI-Public/circleci-cli/master/install.sh | sudo bash
+            circleci version
+      - run:
+          name: Configure NPM Token
+          command: |
+            export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
+            echo "//registry.npmjs.org/:_authToken=${NPM_ID_TOKEN}" >> .npmrc
       - run:
           name: Release on GitHub
           command: |
-            export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
             npx semantic-release@25
 
 workflows:
@@ -283,25 +300,25 @@ workflows:
             - Build
           post-steps:
             - *slack-fail-notify
-      # - test_jest_windows_with_docker:
-      #     name: Test Jest Windows with Docker
-      #     context:
-      #       - nodejs-install
-      #       - snyk-bot-slack
-      #     node_version: *windows_node_version
-      #     requires:
-      #       - Build
-      #     post-steps:
-      #       - *slack-fail-notify
-      # - test_jest_windows_no_docker:
-      #     name: Test Jest Windows no Docker
-      #     context:
-      #       - nodejs-install
-      #       - snyk-bot-slack
-      #     node_version: *windows_node_version
-      #     requires:
-      #       - Build
-      #     post-steps:
+            # - test_jest_windows_with_docker:
+            #     name: Test Jest Windows with Docker
+            #     context:
+            #       - nodejs-install
+            #       - snyk-bot-slack
+            #     node_version: *windows_node_version
+            #     requires:
+            #       - Build
+            #     post-steps:
+            #       - *slack-fail-notify
+            # - test_jest_windows_no_docker:
+            #     name: Test Jest Windows no Docker
+            #     context:
+            #       - nodejs-install
+            #       - snyk-bot-slack
+            #     node_version: *windows_node_version
+            #     requires:
+            #       - Build
+            #     post-steps:
             - *slack-fail-notify
       - build_cli:
           name: Build CLI with changes
