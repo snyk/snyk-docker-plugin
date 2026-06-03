@@ -217,13 +217,18 @@ jobs:
           name: Diagnose OIDC token exchange
           command: |
             OIDC_JWT=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
-            echo "OIDC JWT length: ${#OIDC_JWT}"
-            echo "Exchange response:"
-            curl -s -o /tmp/oidc-response.json -w "%{http_code}" -X POST \
+            echo "OIDC JWT length: ${#OIDC_JWT}" | tee /tmp/oidc-diagnostic.txt
+            HTTP_STATUS=$(curl -s -o /tmp/oidc-response.json -w "%{http_code}" -X POST \
               -H "Authorization: Bearer ${OIDC_JWT}" \
-              "https://registry.npmjs.org/-/npm/v1/oidc/token/exchange/package/snyk-docker-plugin" \
-              | xargs -I{} echo "HTTP status: {}"
-            cat /tmp/oidc-response.json
+              "https://registry.npmjs.org/-/npm/v1/oidc/token/exchange/package/snyk-docker-plugin")
+            echo "HTTP status: ${HTTP_STATUS}" | tee -a /tmp/oidc-diagnostic.txt
+            cat /tmp/oidc-response.json | tee -a /tmp/oidc-diagnostic.txt
+      - store_artifacts:
+          path: /tmp/oidc-diagnostic.txt
+          destination: oidc-diagnostic.txt
+      - store_artifacts:
+          path: /tmp/oidc-response.json
+          destination: oidc-response.json
   release:
     <<: *release_defaults
     steps:
