@@ -282,26 +282,26 @@ workflows:
             - Build
           post-steps:
             - *slack-fail-notify
-      # - test_jest_windows_with_docker:
-      #     name: Test Jest Windows with Docker
-      #     context:
-      #       - nodejs-install
-      #       - snyk-bot-slack
-      #     node_version: *windows_node_version
-      #     requires:
-      #       - Build
-      #     post-steps:
-      #       - *slack-fail-notify
-      # - test_jest_windows_no_docker:
-      #     name: Test Jest Windows no Docker
-      #     context:
-      #       - nodejs-install
-      #       - snyk-bot-slack
-      #     node_version: *windows_node_version
-      #     requires:
-      #       - Build
-      #     post-steps:
-      #       - *slack-fail-notify
+      - test_jest_windows_with_docker:
+          name: Test Jest Windows with Docker
+          context:
+            - nodejs-install
+            - snyk-bot-slack
+          node_version: *windows_node_version
+          requires:
+            - Build
+          post-steps:
+            - *slack-fail-notify
+      - test_jest_windows_no_docker:
+          name: Test Jest Windows no Docker
+          context:
+            - nodejs-install
+            - snyk-bot-slack
+          node_version: *windows_node_version
+          requires:
+            - Build
+          post-steps:
+            - *slack-fail-notify
       - build_cli:
           name: Build CLI with changes
           context:
@@ -327,8 +327,8 @@ workflows:
             - Security Scans
             - Unit Test
             - System Test
-            # - Test Jest Windows with Docker
-            # - Test Jest Windows no Docker
+            - Test Jest Windows with Docker
+            - Test Jest Windows no Docker
           post-steps:
             - *slack-fail-notify
             - *slack-success-notify
