@@ -7,10 +7,8 @@ import { streamToString } from "../../stream-utils";
  * (e.g. /usr/share/dotnet/shared/Microsoft.NETCore.App/8.0.0/).
  */
 function filePathMatches(filePath: string): boolean {
-  if (!filePath.endsWith(".deps.json")) {
-    return false;
-  }
   if (
+    !filePath.endsWith(".deps.json") ||
     filePath.includes("/dotnet/shared/") ||
     filePath.includes("/dotnet/packs/")
   ) {
