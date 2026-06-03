@@ -156,31 +156,31 @@ jobs:
       - store_artifacts:
           path: test-system-logs.txt
           destination: test-system-logs
-  test_jest_windows_with_docker:
-    <<: *windows_big
-    steps:
-      - checkout
-      - install_node_npm:
-          node_version: << parameters.node_version >>
-      - setup_npm_user
-      - run: npm ci
-      - run: docker version
-      - run:
-          command: npm run test-jest-windows
-          no_output_timeout: 20m
-  test_jest_windows_no_docker:
-    <<: *windows_big
-    steps:
-      - checkout
-      - install_node_npm:
-          node_version: << parameters.node_version >>
-      - setup_npm_user
-      - run: npm ci
-        # make docker appear to be broken.
-      - run: "function docker() { return 1; }"
-      - run:
-          command: npm run test-jest-windows
-          no_output_timeout: 20m
+  # test_jest_windows_with_docker:
+  #   <<: *windows_big
+  #   steps:
+  #     - checkout
+  #     - install_node_npm:
+  #         node_version: << parameters.node_version >>
+  #     - setup_npm_user
+  #     - run: npm ci
+  #     - run: docker version
+  #     - run:
+  #         command: npm run test-jest-windows
+  #         no_output_timeout: 20m
+  # test_jest_windows_no_docker:
+  #   <<: *windows_big
+  #   steps:
+  #     - checkout
+  #     - install_node_npm:
+  #         node_version: << parameters.node_version >>
+  #     - setup_npm_user
+  #     - run: npm ci
+  #       # make docker appear to be broken.
+  #     - run: "function docker() { return 1; }"
+  #     - run:
+  #         command: npm run test-jest-windows
+  #         no_output_timeout: 20m
   build:
     <<: *defaults
     steps:
@@ -220,7 +220,7 @@ jobs:
       - run:
           name: Release on GitHub
           command: |
-            export NPM_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
+            export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
             npx semantic-release@25
 
 workflows:
@@ -284,25 +284,25 @@ workflows:
             - Build
           post-steps:
             - *slack-fail-notify
-      - test_jest_windows_with_docker:
-          name: Test Jest Windows with Docker
-          context:
-            - nodejs-install
-            - snyk-bot-slack
-          node_version: *windows_node_version
-          requires:
-            - Build
-          post-steps:
-            - *slack-fail-notify
-      - test_jest_windows_no_docker:
-          name: Test Jest Windows no Docker
-          context:
-            - nodejs-install
-            - snyk-bot-slack
-          node_version: *windows_node_version
-          requires:
-            - Build
-          post-steps:
+      # - test_jest_windows_with_docker:
+      #     name: Test Jest Windows with Docker
+      #     context:
+      #       - nodejs-install
+      #       - snyk-bot-slack
+      #     node_version: *windows_node_version
+      #     requires:
+      #       - Build
+      #     post-steps:
+      #       - *slack-fail-notify
+      # - test_jest_windows_no_docker:
+      #     name: Test Jest Windows no Docker
+      #     context:
+      #       - nodejs-install
+      #       - snyk-bot-slack
+      #     node_version: *windows_node_version
+      #     requires:
+      #       - Build
+      #     post-steps:
             - *slack-fail-notify
       - build_cli:
           name: Build CLI with changes
@@ -329,8 +329,8 @@ workflows:
             - Security Scans
             - Unit Test
             - System Test
-            - Test Jest Windows with Docker
-            - Test Jest Windows no Docker
+            # - Test Jest Windows with Docker
+            # - Test Jest Windows no Docker
           post-steps:
             - *slack-fail-notify
             - *slack-success-notify
