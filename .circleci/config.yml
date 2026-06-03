@@ -209,6 +209,21 @@ jobs:
       - run:
           name: Run Go binaries unit test
           command: npx jest test/unit/go-binaries.spec.ts
+  diagnose_oidc_job:
+    <<: *release_defaults
+    steps:
+      - checkout
+      - run:
+          name: Diagnose OIDC token exchange
+          command: |
+            OIDC_JWT=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
+            echo "OIDC JWT length: ${#OIDC_JWT}"
+            echo "Exchange response:"
+            curl -s -o /tmp/oidc-response.json -w "%{http_code}" -X POST \
+              -H "Authorization: Bearer ${OIDC_JWT}" \
+              "https://registry.npmjs.org/-/npm/v1/oidc/token/exchange/package/snyk-docker-plugin" \
+              | xargs -I{} echo "HTTP status: {}"
+            cat /tmp/oidc-response.json
   release:
     <<: *release_defaults
     steps:
@@ -364,3 +379,11 @@ workflows:
             - Install
           post-steps:
             - *slack-fail-notify
+  diagnose_oidc:
+    when:
+      equal: [diagnose-oidc-exchange, << pipeline.git.branch >>]
+    jobs:
+      - diagnose_oidc_job:
+          context:
+            - nodejs-install
+            - github-release
