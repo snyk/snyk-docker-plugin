@@ -220,7 +220,12 @@ jobs:
       - run:
           name: Release on GitHub
           command: |
-            export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
+            OIDC_JWT=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
+            PACKAGE_NAME=$(node -e "process.stdout.write(require('./package.json').name)")
+            export NPM_TOKEN=$(curl -sf -X POST \
+              -H "Authorization: Bearer ${OIDC_JWT}" \
+              "https://registry.npmjs.org/-/npm/v1/oidc/token/exchange/package/${PACKAGE_NAME}" \
+              | node -e "let b='';process.stdin.on('data',d=>b+=d);process.stdin.on('end',()=>process.stdout.write(JSON.parse(b).token))")
             npx semantic-release@25
 
 workflows:
