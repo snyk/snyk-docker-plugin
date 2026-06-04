@@ -109,8 +109,12 @@ describe("windows scanning", () => {
       (fact) => fact.type === "imageLayers",
     )!.data;
     expect(imageLayers.length).toBeGreaterThan(0);
+    // Layers may be in Docker archive format ("<digest>/layer.tar") or OCI format ("sha256:<digest>")
+    // depending on whether the registry serves OCI_MANIFEST_V1 or MANIFEST_V2.
     expect(
-      imageLayers.every((layer) => layer.endsWith("layer.tar")),
+      imageLayers.every(
+        (layer) => layer.endsWith("layer.tar") || layer.startsWith("sha256:"),
+      ),
     ).toBeTruthy();
     expect(pluginResult.scanResults[0].identity.args?.platform).toEqual(
       "windows/amd64",
