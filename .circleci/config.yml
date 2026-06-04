@@ -51,6 +51,21 @@ windows_big: &windows_big
       default: ""
   working_directory: ~/snyk-docker-plugin
 
+windows_medium: &windows_medium
+  executor:
+    name: win/server-2022
+    shell: bash.exe
+    size: medium # half the vCPUs of large; the python test is registry-I/O bound
+    # we've pinned the version because without it, it uses "current" (at the time of writing, "2023.06.1"),
+    # which has a broken Docker installation. See https://discuss.circleci.com/t/build-failures-when-running-docker-on-junes-windows-executor/48605
+    # TODO: check if it works again with the next release and unpin the version (keep in sync with windows_big).
+    version: "2023.05.1"
+  parameters:
+    node_version:
+      type: string
+      default: ""
+  working_directory: ~/snyk-docker-plugin
+
 release_defaults: &release_defaults
   resource_class: small
   docker:
@@ -177,7 +192,7 @@ jobs:
           command: npm run test-jest-windows
           no_output_timeout: 20m
   test_jest_windows_no_docker:
-    <<: *windows_big
+    <<: *windows_medium
     steps:
       - checkout
       - install_node_npm:
