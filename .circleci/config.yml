@@ -163,7 +163,15 @@ jobs:
       - install_node_npm:
           node_version: << parameters.node_version >>
       - setup_npm_user
+      - restore_cache:
+          keys:
+            - v2-npm-cache-win-{{ checksum "package-lock.json" }}
+            - v2-npm-cache-win-
       - run: npm ci
+      - save_cache:
+          key: v2-npm-cache-win-{{ checksum "package-lock.json" }}
+          paths:
+            - C:\Users\circleci\AppData\Local\npm-cache
       - run: docker version
       - run:
           command: npm run test-jest-windows
@@ -175,7 +183,15 @@ jobs:
       - install_node_npm:
           node_version: << parameters.node_version >>
       - setup_npm_user
+      - restore_cache:
+          keys:
+            - v2-npm-cache-win-{{ checksum "package-lock.json" }}
+            - v2-npm-cache-win-
       - run: npm ci
+      - save_cache:
+          key: v2-npm-cache-win-{{ checksum "package-lock.json" }}
+          paths:
+            - C:\Users\circleci\AppData\Local\npm-cache
       - run:
           name: Disable docker, then run only the registry-fallback identifier tests
           command: |
