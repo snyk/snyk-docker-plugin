@@ -23,8 +23,8 @@
     "test:unit": "jest --ci --maxWorkers=3 --logHeapUsage --colors --testPathPattern='test/(lib|unit)/'",
     "test:system": "jest --ci --maxWorkers=3 --logHeapUsage --colors --testPathPattern='test/system/'",
     "test-jest": "jest --ci --maxWorkers=3 --logHeapUsage --colors",
-    "test-jest-windows": "jest --ci --maxWorkers=3 --config test/windows/jest.config.js --logHeapUsage",
-    "test-jest-windows-no-docker": "jest --ci --maxWorkers=3 --config test/windows/jest.config.js --testPathPattern='windows/identifier-fallback' --logHeapUsage",
+    "test-jest-windows": "jest --ci --maxWorkers=3 --forceExit --config test/windows/jest.config.js --logHeapUsage",
+    "test-jest-windows-no-docker": "jest --ci --maxWorkers=1 --forceExit --config test/windows/jest.config.js --testPathPattern='windows/identifier-fallback' --logHeapUsage",
     "prepare": "npm run build"
   },
   "engines": {
