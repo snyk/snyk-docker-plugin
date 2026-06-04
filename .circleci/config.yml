@@ -191,6 +191,8 @@ jobs:
       - run:
           command: npm run test-jest-windows
           no_output_timeout: 20m
+      - store_test_results:
+          path: test-results
   test_jest_windows_no_docker:
     <<: *windows_medium
     steps:
@@ -220,6 +222,8 @@ jobs:
             fi
             npm run test-jest-windows-no-docker
           no_output_timeout: 20m
+      - store_test_results:
+          path: test-results
   build:
     <<: *defaults
     steps:
