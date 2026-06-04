@@ -176,10 +176,18 @@ jobs:
           node_version: << parameters.node_version >>
       - setup_npm_user
       - run: npm ci
-        # make docker appear to be broken.
-      - run: "function docker() { return 1; }"
       - run:
-          command: npm run test-jest-windows
+          name: Disable docker, then run only the registry-fallback identifier tests
+          command: |
+            # binaryExists() runs `docker version` via cmd.exe (shell:true). Shadow the real
+            # docker with a stub that always fails so the plugin takes the registry-pull fallback.
+            mkdir -p "$HOME/fake-bin"
+            printf '@echo off\r\nexit /b 1\r\n' > "$HOME/fake-bin/docker.bat"
+            export PATH="$HOME/fake-bin:$PATH"
+            if cmd.exe /c "docker version" >/dev/null 2>&1; then
+              echo "ERROR: docker still resolvable — no-docker simulation ineffective"; exit 1
+            fi
+            npm run test-jest-windows-no-docker
           no_output_timeout: 20m
   build:
     <<: *defaults
