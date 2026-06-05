@@ -37,7 +37,7 @@ describe("getJavaRuntimeReleaseAction.filePathMatches", () => {
     });
   });
 
-  describe("Debian/Ubuntu default-jdk (/usr/lib/jvm/java-<version>-openjdk-<arch>/release)", () => {
+  describe("any JVM under /usr/lib/jvm/ (Debian/Ubuntu openjdk, Azul Zulu, Amazon Corretto, Temurin, etc.)", () => {
     it("matches /usr/lib/jvm/java-17-openjdk-amd64/release", () => {
       expect(matches("/usr/lib/jvm/java-17-openjdk-amd64/release")).toBe(true);
     });
@@ -50,10 +50,32 @@ describe("getJavaRuntimeReleaseAction.filePathMatches", () => {
       expect(matches("/usr/lib/jvm/java-21-openjdk-amd64/release")).toBe(true);
     });
 
-    it("does not match non-release files under /usr/lib/jvm/java-*", () => {
+    it("matches Azul Zulu /usr/lib/jvm/zulu17/release", () => {
+      expect(matches("/usr/lib/jvm/zulu17/release")).toBe(true);
+    });
+
+    it("matches Azul Zulu /usr/lib/jvm/zulu11/release", () => {
+      expect(matches("/usr/lib/jvm/zulu11/release")).toBe(true);
+    });
+
+    it("matches Amazon Corretto /usr/lib/jvm/java-17-amazon-corretto/release", () => {
+      expect(matches("/usr/lib/jvm/java-17-amazon-corretto/release")).toBe(
+        true,
+      );
+    });
+
+    it("matches Eclipse Temurin /usr/lib/jvm/temurin-17/release", () => {
+      expect(matches("/usr/lib/jvm/temurin-17/release")).toBe(true);
+    });
+
+    it("does not match non-release files under /usr/lib/jvm/", () => {
       expect(matches("/usr/lib/jvm/java-17-openjdk-amd64/bin/java")).toBe(
         false,
       );
+    });
+
+    it("does not match non-release files under /usr/lib/jvm/zulu17/", () => {
+      expect(matches("/usr/lib/jvm/zulu17/bin/java")).toBe(false);
     });
   });
 
@@ -141,6 +163,18 @@ JAVA_VERSION="17.0.9"`;
         makeLayer("/usr/lib/jvm/java-17-openjdk-amd64/release", content),
       ),
     ).toEqual({ type: "java", version: "17.0.9" });
+  });
+
+  it("detects Azul Zulu via /usr/lib/jvm/zulu17/release", () => {
+    const content = `IMPLEMENTOR="Azul Systems, Inc."
+IMPLEMENTOR_VERSION="Zulu17.48+15-CA"
+JAVA_RUNTIME_VERSION="17.0.10+7"
+JAVA_VERSION="17.0.10"
+OS_ARCH="amd64"
+OS_NAME="Linux"`;
+    expect(
+      detectJavaRuntime(makeLayer("/usr/lib/jvm/zulu17/release", content)),
+    ).toEqual({ type: "java", version: "17.0.10" });
   });
 
   it("detects Oracle JDK via /usr/java/jdk-17.0.1/release", () => {
