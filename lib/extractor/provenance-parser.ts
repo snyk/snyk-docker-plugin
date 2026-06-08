@@ -6,15 +6,16 @@ const debug = Debug("snyk");
 const MAX_ATTESTATIONS_PER_IMAGE = 10;
 
 export interface DockerfileMetadata {
-  path: string;
+  name: string;
   contents: string | null;
 }
 
 export interface ProvenanceAttestation {
   buildTimestamp: string | null;
-  commit: string | null;
-  manifestDigest: string;
-  repoUri: string | null;
+  buildConfigCommit: string | null;
+  sourceImageDigest: string;
+  sourceAttestationDigest: string;
+  repositoryUri: string | null;
   builderId: string;
   buildType: string;
   dockerfileMetadata: DockerfileMetadata;
@@ -69,7 +70,8 @@ interface SlsaPredicate10 {
 
 function extractFieldsSlsa02(
   predicate: SlsaPredicate02,
-  manifestDigest: string,
+  sourceImageDigest: string,
+  sourceAttestationDigest: string,
 ): ProvenanceAttestation {
   const buildTimestamp = predicate.metadata?.buildStartedOn || null;
 
@@ -78,14 +80,14 @@ function extractFieldsSlsa02(
 
   const remoteCommit = predicate.invocation?.configSource?.digest?.sha1;
   const localCommit = buildkitMeta?.vcs?.revision;
-  const commit = remoteCommit || localCommit || null;
+  const buildConfigCommit = remoteCommit || localCommit || null;
 
-  const repoUri = predicate.invocation?.configSource?.uri || null;
+  const repositoryUri = predicate.invocation?.configSource?.uri || null;
 
   const builderId = predicate.builder?.id || "";
   const buildType = predicate.buildType || "";
 
-  const dockerfilePath =
+  const dockerfileName =
     predicate.invocation?.configSource?.entryPoint || "Dockerfile";
 
   const dockerfileKey = "Dockerfile";
@@ -96,13 +98,14 @@ function extractFieldsSlsa02(
 
   return {
     buildTimestamp,
-    commit,
-    manifestDigest,
-    repoUri,
+    buildConfigCommit,
+    sourceImageDigest,
+    sourceAttestationDigest,
+    repositoryUri,
     builderId,
     buildType,
     dockerfileMetadata: {
-      path: dockerfilePath,
+      name: dockerfileName,
       contents: dockerfileContents,
     },
   };
@@ -110,7 +113,8 @@ function extractFieldsSlsa02(
 
 function extractFieldsSlsa10(
   predicate: SlsaPredicate10,
-  manifestDigest: string,
+  sourceImageDigest: string,
+  sourceAttestationDigest: string,
 ): ProvenanceAttestation {
   const runDetails = predicate.runDetails;
   const buildDefinition = predicate.buildDefinition;
@@ -120,15 +124,15 @@ function extractFieldsSlsa10(
   const remoteCommit =
     buildDefinition?.externalParameters?.configSource?.digest?.sha1;
   const localCommit = runDetails?.metadata?.buildkit_metadata?.vcs?.revision;
-  const commit = remoteCommit || localCommit || null;
+  const buildConfigCommit = remoteCommit || localCommit || null;
 
-  const repoUri =
+  const repositoryUri =
     buildDefinition?.externalParameters?.configSource?.uri || null;
 
   const builderId = runDetails?.builder?.id || "";
   const buildType = buildDefinition?.buildType || "";
 
-  const dockerfilePath =
+  const dockerfileName =
     buildDefinition?.externalParameters?.configSource?.path || "Dockerfile";
 
   const dockerfileContents =
@@ -136,25 +140,27 @@ function extractFieldsSlsa10(
 
   return {
     buildTimestamp,
-    commit,
-    manifestDigest,
-    repoUri,
+    buildConfigCommit,
+    sourceImageDigest,
+    sourceAttestationDigest,
+    repositoryUri,
     builderId,
     buildType,
     dockerfileMetadata: {
-      path: dockerfilePath,
+      name: dockerfileName,
       contents: dockerfileContents,
     },
   };
 }
 
-function getManifestDigest(statement: InTotoStatement): string | null {
+function getSourceImageDigest(statement: InTotoStatement): string | null {
   const sha256 = statement.subject?.[0]?.digest?.sha256;
   return sha256 ? `sha256:${sha256}` : null;
 }
 
 function parseStatement(
   statement: InTotoStatement,
+  sourceAttestationDigest: string,
 ): ProvenanceAttestation | null {
   const predicate = statement.predicate;
   if (!predicate) {
@@ -162,8 +168,8 @@ function parseStatement(
     return null;
   }
 
-  const manifestDigest = getManifestDigest(statement);
-  if (!manifestDigest) {
+  const sourceImageDigest = getSourceImageDigest(statement);
+  if (!sourceImageDigest) {
     debug("[provenance] No valid subject digest in in-toto statement");
     return null;
   }
@@ -171,10 +177,18 @@ function parseStatement(
   const predicateType = statement.predicateType;
 
   if (predicateType?.includes("provenance/v0.2")) {
-    return extractFieldsSlsa02(predicate as SlsaPredicate02, manifestDigest);
+    return extractFieldsSlsa02(
+      predicate as SlsaPredicate02,
+      sourceImageDigest,
+      sourceAttestationDigest,
+    );
   }
   if (predicateType?.includes("provenance/v1")) {
-    return extractFieldsSlsa10(predicate as SlsaPredicate10, manifestDigest);
+    return extractFieldsSlsa10(
+      predicate as SlsaPredicate10,
+      sourceImageDigest,
+      sourceAttestationDigest,
+    );
   }
 
   debug(`[provenance] Unsupported SLSA predicate type: ${predicateType}`);
@@ -199,7 +213,10 @@ export function parseProvenanceAttestations(
         continue;
       }
 
-      const parsed = parseStatement(provenanceLayer.inTotoStatement);
+      const parsed = parseStatement(
+        provenanceLayer.inTotoStatement,
+        manifest.attestationManifestDigest,
+      );
       if (parsed) {
         results.push(parsed);
       }

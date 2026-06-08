@@ -61,14 +61,15 @@ describe("provenance-parser", () => {
       expect(result).toHaveLength(1);
       expect(result[0]).toEqual<ProvenanceAttestation>({
         buildTimestamp: "2025-01-15T10:30:00Z",
-        commit: "abc123def456",
-        manifestDigest: "sha256:deadbeef1234",
-        repoUri: "https://github.com/myorg/myrepo",
+        buildConfigCommit: "abc123def456",
+        sourceImageDigest: "sha256:deadbeef1234",
+        sourceAttestationDigest: "sha256:abc123",
+        repositoryUri: "https://github.com/myorg/myrepo",
         builderId: "https://github.com/docker/buildx",
         buildType:
           "https://github.com/moby/buildkit/blob/master/docs/attestations/slsa-definitions.md",
         dockerfileMetadata: {
-          path: "Dockerfile",
+          name: "Dockerfile",
           contents: null,
         },
       });
@@ -102,8 +103,8 @@ describe("provenance-parser", () => {
       const result = parseProvenanceAttestations([attestation]);
 
       expect(result).toHaveLength(1);
-      expect(result[0].commit).toBe("localcommitsha");
-      expect(result[0].dockerfileMetadata.path).toBe("docker/Dockerfile.prod");
+      expect(result[0].buildConfigCommit).toBe("localcommitsha");
+      expect(result[0].dockerfileMetadata.name).toBe("docker/Dockerfile.prod");
     });
 
     it("extracts dockerfile contents from mode=max build", () => {
@@ -178,14 +179,15 @@ describe("provenance-parser", () => {
       expect(result).toHaveLength(1);
       expect(result[0]).toEqual<ProvenanceAttestation>({
         buildTimestamp: "2025-06-01T14:00:00Z",
-        commit: "remote1sha",
-        manifestDigest: "sha256:cafebabe9999",
-        repoUri: "https://github.com/team/project",
+        buildConfigCommit: "remote1sha",
+        sourceImageDigest: "sha256:cafebabe9999",
+        sourceAttestationDigest: "sha256:abc123",
+        repositoryUri: "https://github.com/team/project",
         builderId: "https://github.com/actions/runner",
         buildType:
           "https://github.com/moby/buildkit/blob/master/docs/attestations/slsa-definitions.md",
         dockerfileMetadata: {
-          path: "build/Dockerfile",
+          name: "build/Dockerfile",
           contents: null,
         },
       });
@@ -218,7 +220,7 @@ describe("provenance-parser", () => {
       const result = parseProvenanceAttestations([attestation]);
 
       expect(result).toHaveLength(1);
-      expect(result[0].commit).toBe("localv1commit");
+      expect(result[0].buildConfigCommit).toBe("localv1commit");
     });
 
     it("extracts dockerfile contents from mode=max build", () => {
@@ -257,6 +259,43 @@ describe("provenance-parser", () => {
 
       expect(result).toHaveLength(1);
       expect(result[0].dockerfileMetadata.contents).toBe(dockerfileBase64);
+    });
+  });
+
+  describe("attestation digest", () => {
+    it("surfaces the attestation manifest digest distinct from the image digest", () => {
+      const attestation: RawProvenanceAttestation = {
+        attestationManifestDigest: "sha256:attestationmanifest",
+        mediaType: "application/vnd.oci.image.manifest.v1+json",
+        annotations: {
+          "vnd.docker.reference.type": "attestation-manifest",
+        },
+        provenanceLayers: [
+          {
+            digest: "sha256:layerdigest",
+            mediaType: "application/vnd.in-toto+json",
+            inTotoStatement: {
+              _type: "https://in-toto.io/Statement/v0.1",
+              predicateType: "https://slsa.dev/provenance/v0.2",
+              subject: [{ name: "test", digest: { sha256: "imagedigest" } }],
+              predicate: {
+                builder: { id: "buildkit" },
+                buildType: "test",
+                metadata: { buildStartedOn: "2025-01-01T00:00:00Z" },
+                invocation: { configSource: {} },
+              },
+            } as any,
+          },
+        ],
+      };
+
+      const result = parseProvenanceAttestations([attestation]);
+
+      expect(result).toHaveLength(1);
+      expect(result[0].sourceAttestationDigest).toBe(
+        "sha256:attestationmanifest",
+      );
+      expect(result[0].sourceImageDigest).toBe("sha256:imagedigest");
     });
   });
 
@@ -339,13 +378,14 @@ describe("provenance-parser", () => {
       expect(result).toHaveLength(1);
       expect(result[0]).toEqual<ProvenanceAttestation>({
         buildTimestamp: null,
-        commit: null,
-        manifestDigest: "sha256:abc123",
-        repoUri: null,
+        buildConfigCommit: null,
+        sourceImageDigest: "sha256:abc123",
+        sourceAttestationDigest: "sha256:abc123",
+        repositoryUri: null,
         builderId: "",
         buildType: "",
         dockerfileMetadata: {
-          path: "Dockerfile",
+          name: "Dockerfile",
           contents: null,
         },
       });
