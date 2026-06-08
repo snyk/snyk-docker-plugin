@@ -2,6 +2,35 @@
 
 exports[`PPC64 platform tests should correctly scan a PPC image and return platform: ppc64le 1`] = `
 Object {
+  "analytics": Array [
+    Object {
+      "data": Object {
+        "applicationScanResultCount": 0,
+        "scanResultCount": 1,
+        "scanResultPayloadBytes": Array [
+          51945,
+        ],
+        "totalScanResultsPayloadBytes": 51947,
+      },
+      "name": "containerScanPayloadMetrics",
+    },
+    Object {
+      "data": Object {
+        "binariesAndRuntimeDetectionMs": "<ms>",
+        "depTreeBuildingMs": "<ms>",
+        "goAnalysisMs": "<ms>",
+        "imageExtractionMs": "<ms>",
+        "jarAnalysisMs": "<ms>",
+        "nodeAnalysisMs": "<ms>",
+        "osPackageAnalysisMs": "<ms>",
+        "phpAnalysisMs": "<ms>",
+        "pipAnalysisMs": "<ms>",
+        "poetryAnalysisMs": "<ms>",
+        "totalMs": "<ms>",
+      },
+      "name": "containerPluginTimings",
+    },
+  ],
   "scanResults": Array [
     Object {
       "facts": Array [
@@ -1078,6 +1107,35 @@ Object {
 
 exports[`PPC64 platform tests should correctly scan a PPC image when the user provides --platform=ppc64le and return platform: ppc64le 1`] = `
 Object {
+  "analytics": Array [
+    Object {
+      "data": Object {
+        "applicationScanResultCount": 0,
+        "scanResultCount": 1,
+        "scanResultPayloadBytes": Array [
+          51945,
+        ],
+        "totalScanResultsPayloadBytes": 51947,
+      },
+      "name": "containerScanPayloadMetrics",
+    },
+    Object {
+      "data": Object {
+        "binariesAndRuntimeDetectionMs": "<ms>",
+        "depTreeBuildingMs": "<ms>",
+        "goAnalysisMs": "<ms>",
+        "imageExtractionMs": "<ms>",
+        "jarAnalysisMs": "<ms>",
+        "nodeAnalysisMs": "<ms>",
+        "osPackageAnalysisMs": "<ms>",
+        "phpAnalysisMs": "<ms>",
+        "pipAnalysisMs": "<ms>",
+        "poetryAnalysisMs": "<ms>",
+        "totalMs": "<ms>",
+      },
+      "name": "containerPluginTimings",
+    },
+  ],
   "scanResults": Array [
     Object {
       "facts": Array [

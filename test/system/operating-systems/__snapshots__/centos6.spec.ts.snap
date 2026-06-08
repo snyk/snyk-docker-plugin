@@ -2,6 +2,29 @@
 
 exports[`CentOS 6 tests can scan a centos6-based image 1`] = `
 Object {
+  "analytics": Array [
+    Object {
+      "data": Object {
+        "applicationScanResultCount": 0,
+        "scanResultCount": 1,
+        "scanResultPayloadBytes": Array [
+          66537,
+        ],
+        "totalScanResultsPayloadBytes": 66539,
+      },
+      "name": "containerScanPayloadMetrics",
+    },
+    Object {
+      "data": Object {
+        "binariesAndRuntimeDetectionMs": "<ms>",
+        "depTreeBuildingMs": "<ms>",
+        "imageExtractionMs": "<ms>",
+        "osPackageAnalysisMs": "<ms>",
+        "totalMs": "<ms>",
+      },
+      "name": "containerPluginTimings",
+    },
+  ],
   "scanResults": Array [
     Object {
       "facts": Array [
@@ -3376,6 +3399,36 @@ Object {
 
 exports[`CentOS 6 tests can scan a centos6-based image with app vulns 1`] = `
 Object {
+  "analytics": Array [
+    Object {
+      "data": Object {
+        "applicationScanResultCount": 1,
+        "scanResultCount": 2,
+        "scanResultPayloadBytes": Array [
+          66537,
+          696,
+        ],
+        "totalScanResultsPayloadBytes": 67236,
+      },
+      "name": "containerScanPayloadMetrics",
+    },
+    Object {
+      "data": Object {
+        "binariesAndRuntimeDetectionMs": "<ms>",
+        "depTreeBuildingMs": "<ms>",
+        "goAnalysisMs": "<ms>",
+        "imageExtractionMs": "<ms>",
+        "jarAnalysisMs": "<ms>",
+        "nodeAnalysisMs": "<ms>",
+        "osPackageAnalysisMs": "<ms>",
+        "phpAnalysisMs": "<ms>",
+        "pipAnalysisMs": "<ms>",
+        "poetryAnalysisMs": "<ms>",
+        "totalMs": "<ms>",
+      },
+      "name": "containerPluginTimings",
+    },
+  ],
   "scanResults": Array [
     Object {
       "facts": Array [

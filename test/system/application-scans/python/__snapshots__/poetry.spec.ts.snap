@@ -2,6 +2,36 @@
 
 exports[`poetry application scan should correctly return applications as multiple scan results 1`] = `
 Object {
+  "analytics": Array [
+    Object {
+      "data": Object {
+        "applicationScanResultCount": 1,
+        "scanResultCount": 2,
+        "scanResultPayloadBytes": Array [
+          1187,
+          3014,
+        ],
+        "totalScanResultsPayloadBytes": 4204,
+      },
+      "name": "containerScanPayloadMetrics",
+    },
+    Object {
+      "data": Object {
+        "binariesAndRuntimeDetectionMs": "<ms>",
+        "depTreeBuildingMs": "<ms>",
+        "goAnalysisMs": "<ms>",
+        "imageExtractionMs": "<ms>",
+        "jarAnalysisMs": "<ms>",
+        "nodeAnalysisMs": "<ms>",
+        "osPackageAnalysisMs": "<ms>",
+        "phpAnalysisMs": "<ms>",
+        "pipAnalysisMs": "<ms>",
+        "poetryAnalysisMs": "<ms>",
+        "totalMs": "<ms>",
+      },
+      "name": "containerPluginTimings",
+    },
+  ],
   "scanResults": Array [
     Object {
       "facts": Array [

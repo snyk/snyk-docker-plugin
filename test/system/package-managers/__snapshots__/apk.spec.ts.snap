@@ -2,6 +2,35 @@
 
 exports[`apk package manager tests should correctly analyze an apk image 1`] = `
 Object {
+  "analytics": Array [
+    Object {
+      "data": Object {
+        "applicationScanResultCount": 0,
+        "scanResultCount": 1,
+        "scanResultPayloadBytes": Array [
+          6441,
+        ],
+        "totalScanResultsPayloadBytes": 6443,
+      },
+      "name": "containerScanPayloadMetrics",
+    },
+    Object {
+      "data": Object {
+        "binariesAndRuntimeDetectionMs": "<ms>",
+        "depTreeBuildingMs": "<ms>",
+        "goAnalysisMs": "<ms>",
+        "imageExtractionMs": "<ms>",
+        "jarAnalysisMs": "<ms>",
+        "nodeAnalysisMs": "<ms>",
+        "osPackageAnalysisMs": "<ms>",
+        "phpAnalysisMs": "<ms>",
+        "pipAnalysisMs": "<ms>",
+        "poetryAnalysisMs": "<ms>",
+        "totalMs": "<ms>",
+      },
+      "name": "containerPluginTimings",
+    },
+  ],
   "scanResults": Array [
     Object {
       "facts": Array [
@@ -445,6 +474,35 @@ Object {
 
 exports[`apk package manager tests should correctly analyze an apk image with newer wolfi/chainguard database location at /usr/lib/apk/ 1`] = `
 Object {
+  "analytics": Array [
+    Object {
+      "data": Object {
+        "applicationScanResultCount": 0,
+        "scanResultCount": 1,
+        "scanResultPayloadBytes": Array [
+          14871,
+        ],
+        "totalScanResultsPayloadBytes": 14873,
+      },
+      "name": "containerScanPayloadMetrics",
+    },
+    Object {
+      "data": Object {
+        "binariesAndRuntimeDetectionMs": "<ms>",
+        "depTreeBuildingMs": "<ms>",
+        "goAnalysisMs": "<ms>",
+        "imageExtractionMs": "<ms>",
+        "jarAnalysisMs": "<ms>",
+        "nodeAnalysisMs": "<ms>",
+        "osPackageAnalysisMs": "<ms>",
+        "phpAnalysisMs": "<ms>",
+        "pipAnalysisMs": "<ms>",
+        "poetryAnalysisMs": "<ms>",
+        "totalMs": "<ms>",
+      },
+      "name": "containerPluginTimings",
+    },
+  ],
   "scanResults": Array [
     Object {
       "facts": Array [

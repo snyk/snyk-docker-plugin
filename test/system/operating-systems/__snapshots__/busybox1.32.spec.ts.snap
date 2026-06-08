@@ -2,6 +2,35 @@
 
 exports[`busybox tests should correctly analyze a busybox image by sha256 1`] = `
 Object {
+  "analytics": Array [
+    Object {
+      "data": Object {
+        "applicationScanResultCount": 0,
+        "scanResultCount": 1,
+        "scanResultPayloadBytes": Array [
+          1511,
+        ],
+        "totalScanResultsPayloadBytes": 1513,
+      },
+      "name": "containerScanPayloadMetrics",
+    },
+    Object {
+      "data": Object {
+        "binariesAndRuntimeDetectionMs": "<ms>",
+        "depTreeBuildingMs": "<ms>",
+        "goAnalysisMs": "<ms>",
+        "imageExtractionMs": "<ms>",
+        "jarAnalysisMs": "<ms>",
+        "nodeAnalysisMs": "<ms>",
+        "osPackageAnalysisMs": "<ms>",
+        "phpAnalysisMs": "<ms>",
+        "pipAnalysisMs": "<ms>",
+        "poetryAnalysisMs": "<ms>",
+        "totalMs": "<ms>",
+      },
+      "name": "containerPluginTimings",
+    },
+  ],
   "scanResults": Array [
     Object {
       "facts": Array [
