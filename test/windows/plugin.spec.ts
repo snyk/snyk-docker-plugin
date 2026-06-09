@@ -1,5 +1,4 @@
 import { DepGraph } from "@snyk/dep-graph";
-import * as path from "path";
 
 import * as plugin from "../../lib";
 import { getFixture } from "../util";
@@ -34,9 +33,9 @@ describe("windows scanning", () => {
       (fact) => fact.type === "imageLayers",
     )!.data;
     expect(imageLayers).toEqual([
-      path.normalize(
-        "ac415f8e415b242117277e7ee5224b30389698b46101e0f28224490af3b90a9d/layer.tar",
-      ),
+      "sha256:1c95c77433e8d7bf0f519c9d8c9ca967e2603f0defbf379130d9a841cca2e28e",
+      "sha256:002a63507c1caa5cc0e1af10e5b888f6ba20d06275e989a452581d789a48948e",
+      "sha256:12fdf55172df870a613a79c4757006c5b28e66a8621c3e26916678378568f078",
     ]);
     expect(pluginResult.scanResults[0].identity.args?.platform).toEqual(
       "linux/amd64",
@@ -72,9 +71,7 @@ describe("windows scanning", () => {
       (fact) => fact.type === "imageLayers",
     )!.data;
     expect(imageLayers).toEqual([
-      path.normalize(
-        "sha256:df20fa9351a15782c64e6dddb2d4a6f50bf6d3688060a34c4014b0d9a752eb4c",
-      ),
+      "sha256:50644c29ef5a27c9a40c393a73ece2479de78325cae7d762ef3cdc19bf42dd0a",
     ]);
   });
 
@@ -110,7 +107,7 @@ describe("windows scanning", () => {
     )!.data;
     expect(imageLayers.length).toBeGreaterThan(0);
     expect(
-      imageLayers.every((layer) => layer.endsWith("layer.tar")),
+      imageLayers.every((layer) => layer.startsWith("sha256:")),
     ).toBeTruthy();
     expect(pluginResult.scanResults[0].identity.args?.platform).toEqual(
       "windows/amd64",
