@@ -1,7 +1,5 @@
 #! /usr/bin/env ts-node
 
-// tslint:disable:no-console
-
 import { scan } from "../lib/scan";
 
 process.on("uncaughtException", (err) => {
