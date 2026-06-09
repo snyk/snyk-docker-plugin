@@ -1912,6 +1912,12 @@ Object {
           "type": "depGraph",
         },
         Object {
+          "data": Array [
+            "\\\\livenessprobe",
+          ],
+          "type": "testedFiles",
+        },
+        Object {
           "data": "sha256:df6b7f6e1cae591aa79cd0a355e9486a5b145a519f6351904605e17b34ceb63e",
           "type": "imageId",
         },
@@ -2508,12 +2514,22 @@ Object {
           "type": "depGraph",
         },
         Object {
+          "data": Array [
+            "\\\\usr\\\\lib\\\\go-standard-2",
+          ],
+          "type": "testedFiles",
+        },
+        Object {
           "data": "sha256:d995f79578b2f268b71e4cb7360f3baeddd0f07f8a5cf98977472dc563e67825",
           "type": "imageId",
         },
         Object {
           "data": "0.0.0-local",
           "type": "pluginVersion",
+        },
+        Object {
+          "data": "Alpine Linux v3.22",
+          "type": "imageOsReleasePrettyName",
         },
       ],
       "identity": Object {
@@ -2570,12 +2586,22 @@ Object {
           "type": "depGraph",
         },
         Object {
+          "data": Array [
+            "\\\\usr\\\\local\\\\lib\\\\go-standard",
+          ],
+          "type": "testedFiles",
+        },
+        Object {
           "data": "sha256:d995f79578b2f268b71e4cb7360f3baeddd0f07f8a5cf98977472dc563e67825",
           "type": "imageId",
         },
         Object {
           "data": "0.0.0-local",
           "type": "pluginVersion",
+        },
+        Object {
+          "data": "Alpine Linux v3.22",
+          "type": "imageOsReleasePrettyName",
         },
       ],
       "identity": Object {
@@ -2677,12 +2703,22 @@ Object {
           "type": "depGraph",
         },
         Object {
+          "data": Array [
+            "\\\\app\\\\node_modules\\\\.pnpm\\\\@esbuild+linux-x64@0.23.1\\\\node_modules\\\\@esbuild\\\\linux-x64\\\\bin\\\\esbuild",
+          ],
+          "type": "testedFiles",
+        },
+        Object {
           "data": "sha256:d995f79578b2f268b71e4cb7360f3baeddd0f07f8a5cf98977472dc563e67825",
           "type": "imageId",
         },
         Object {
           "data": "0.0.0-local",
           "type": "pluginVersion",
+        },
+        Object {
+          "data": "Alpine Linux v3.22",
+          "type": "imageOsReleasePrettyName",
         },
       ],
       "identity": Object {
@@ -4747,6 +4783,10 @@ Object {
         Object {
           "data": "0.0.0-local",
           "type": "pluginVersion",
+        },
+        Object {
+          "data": "Amazon Linux 2",
+          "type": "imageOsReleasePrettyName",
         },
       ],
       "identity": Object {
@@ -15041,6 +15081,10 @@ Object {
         Object {
           "data": "0.0.0-local",
           "type": "pluginVersion",
+        },
+        Object {
+          "data": "Amazon Linux 2",
+          "type": "imageOsReleasePrettyName",
         },
       ],
       "identity": Object {
