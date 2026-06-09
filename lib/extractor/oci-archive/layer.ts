@@ -405,7 +405,16 @@ function resolveManifestAndConfig(
     );
   }
 
-  const provenanceAttestations = extractProvenanceAttestations(metadata);
+  // The selected image manifest's digest, used to match attestations that
+  // reference this specific platform image.
+  const imageManifestDigest = Object.keys(metadata.manifests).find(
+    (digest) => metadata.manifests[digest] === manifest,
+  );
+
+  const provenanceAttestations = extractProvenanceAttestations(
+    metadata,
+    imageManifestDigest,
+  );
 
   return { manifest, imageConfig, provenanceAttestations };
 }
@@ -544,6 +553,7 @@ function getImageConfig(
 
 function extractProvenanceAttestations(
   metadata: ArchiveMetadata,
+  imageManifestDigest: string | undefined,
 ): ProvenanceAttestation[] {
   const attestations: ProvenanceAttestation[] = [];
 
@@ -551,13 +561,29 @@ function extractProvenanceAttestations(
     return attestations;
   }
 
-  for (const descriptor of metadata.mainIndexFile.manifests) {
+  const allManifests = getAllManifestsIndexItems(
+    metadata.mainIndexFile,
+    metadata.indexFiles,
+  );
+
+  for (const descriptor of allManifests) {
     const isAttestationManifest =
       descriptor.platform?.architecture === "unknown" &&
       descriptor.annotations?.["vnd.docker.reference.type"] ===
         "attestation-manifest";
 
     if (!isAttestationManifest) {
+      continue;
+    }
+
+    // Only keep attestations that reference the platform image being scanned.
+    const referencedDigest =
+      descriptor.annotations?.["vnd.docker.reference.digest"];
+    if (
+      imageManifestDigest &&
+      referencedDigest &&
+      referencedDigest !== imageManifestDigest
+    ) {
       continue;
     }
 
