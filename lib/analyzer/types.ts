@@ -46,6 +46,21 @@ export enum AnalysisType {
   Linux = "linux", // default/unknown/tech-debt
 }
 
+/**
+ * Per-package introducing-layer diffID, keyed by the canonical
+ * dep-graph node name `<fullName>@<version>` (where `fullName` is the
+ * string minted by `depFullName`: `<source>/<binary>` for OS packages
+ * with a known source/origin, else `<binary>`). Value is the
+ * `sha256:…` diffID of the rootfs layer that introduced the surviving
+ * copy of the package.
+ *
+ * Shared between the producer (`computeOsLayerAttribution` and friends
+ * in `lib/analyzer/layer-attribution.ts`) and the consumer
+ * (`response-builder.annotateDockerLayerDiffIds`, which stamps the
+ * `dockerLayerDiffId` label on each matching dep-graph node).
+ */
+export type IntroducingLayerByPackage = Map<string, string>;
+
 export interface OSRelease {
   name: string;
   version: string;
