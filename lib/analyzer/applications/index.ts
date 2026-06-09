@@ -1,3 +1,4 @@
+import { dotnetFilesToScannedProjects } from "./dotnet";
 import { nodeFilesToScannedProjects } from "./node";
 import { phpFilesToScannedProjects } from "./php";
 import {
@@ -6,6 +7,7 @@ import {
 } from "./python";
 
 export {
+  dotnetFilesToScannedProjects,
   nodeFilesToScannedProjects,
   phpFilesToScannedProjects,
   poetryFilesToScannedProjects,

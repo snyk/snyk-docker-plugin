@@ -1,0 +1,51 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "WithFramework/1.0.0": {
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.3",
+          "Microsoft.NETCore.App.Runtime.linux-x64": "8.0.0"
+        },
+        "runtime": {
+          "WithFramework.dll": {}
+        }
+      },
+      "Newtonsoft.Json/13.0.3": {
+        "runtime": {
+          "lib/net6.0/Newtonsoft.Json.dll": {}
+        }
+      },
+      "Microsoft.NETCore.App.Runtime.linux-x64/8.0.0": {
+        "runtime": {
+          "lib/net8.0/System.Runtime.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "WithFramework/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Newtonsoft.Json/13.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-abc==",
+      "path": "newtonsoft.json/13.0.3",
+      "hashPath": "newtonsoft.json.13.0.3.nupkg.sha512"
+    },
+    "Microsoft.NETCore.App.Runtime.linux-x64/8.0.0": {
+      "type": "runtimepack",
+      "serviceable": true,
+      "sha512": "sha512-xyz==",
+      "path": "microsoft.netcore.app.runtime.linux-x64/8.0.0",
+      "hashPath": ""
+    }
+  }
+}
