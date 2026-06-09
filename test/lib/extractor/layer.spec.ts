@@ -14,7 +14,7 @@ describe("layer extractor: layer contain bad elf file", () => {
       getFixture("extracted-layers/layer_with_bad_elf_file.tar"),
     );
     const p = extractImageLayer(stream, staticAnalysisActions);
-    expect(p).toMatchObject({});
+    expect(p).resolves.toMatchObject({ extractedLayers: {}, symlinks: {} });
   });
 });
 
@@ -26,6 +26,6 @@ describe("layer extractor: layer contain cgo compiled go file", () => {
       getFixture("extracted-layers/cgo-compiled-file.tar"),
     );
     const p = extractImageLayer(stream, staticAnalysisActions);
-    expect(p).toMatchObject({});
+    expect(p).resolves.toMatchObject({ extractedLayers: {}, symlinks: {} });
   });
 });

@@ -1,4 +1,5 @@
 import { ImageName } from "../extractor/image";
+import { SymlinkMap } from "../extractor/types";
 import { BaseRuntime } from "../facts";
 import { AutoDetectedUserInstructions, ManifestFile } from "../types";
 import {
@@ -17,6 +18,10 @@ export interface AnalyzedPackage {
   };
   Purl?: string;
   AutoInstalled?: boolean;
+  /** File paths declared by APK installed-db R: records (F:+R:). */
+  Files?: string[];
+  /** Directory paths declared by APK installed-db F: and M: records. */
+  Directories?: string[];
 }
 export interface AnalyzedPackageWithVersion extends AnalyzedPackage {
   Version: string;
@@ -103,6 +108,7 @@ export interface StaticAnalysis {
     comment?: string | null;
     empty_layer?: boolean | null;
   }> | null;
+  symlinks?: SymlinkMap;
   timings?: Record<string, number>;
 }
 

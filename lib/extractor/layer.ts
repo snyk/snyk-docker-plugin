@@ -5,7 +5,7 @@ import { extract, Extract } from "tar-stream";
 import { getErrorMessage } from "../error-utils";
 import { applyCallbacks, isResultEmpty } from "./callbacks";
 import { decompressMaybe } from "./decompress-maybe";
-import { ExtractAction, ExtractedLayers } from "./types";
+import { ExtractAction, ExtractedLayers, SymlinkMap } from "./types";
 
 export function isWhitedOutFile(filename: string) {
   return filename.match(/.wh./gm);
@@ -22,17 +22,29 @@ const debug = Debug("snyk");
  * @param extractActions array of pattern, callbacks pairs
  * @returns extracted file products
  */
+export interface LayerExtractionResult {
+  extractedLayers: ExtractedLayers;
+  symlinks: SymlinkMap;
+}
+
 export async function extractImageLayer(
   layerTarStream: Readable,
   extractActions: ExtractAction[],
-): Promise<ExtractedLayers> {
+): Promise<LayerExtractionResult> {
   return new Promise((resolve, reject) => {
     const result: ExtractedLayers = {};
+    const symlinks: SymlinkMap = {};
     const tarExtractor: Extract = extract();
 
     tarExtractor.on("entry", async (headers, stream, next) => {
-      if (headers.type === "file") {
-        const absoluteFileName = path.join(path.sep, headers.name);
+      const absoluteFileName = path.join(path.sep, headers.name);
+
+      if (headers.type === "symlink" || headers.type === "link") {
+        const linkTarget = headers.linkname;
+        if (linkTarget) {
+          symlinks[absoluteFileName] = linkTarget;
+        }
+      } else if (headers.type === "file") {
         const matchedActions = extractActions.filter((action) =>
           action.filePathMatches(absoluteFileName),
         );
@@ -70,7 +82,7 @@ export async function extractImageLayer(
 
     tarExtractor.on("finish", () => {
       // all layer level entries read
-      resolve(result);
+      resolve({ extractedLayers: result, symlinks });
     });
 
     tarExtractor.on("error", (error) => reject(error));

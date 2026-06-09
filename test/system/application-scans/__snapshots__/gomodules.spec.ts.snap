@@ -1220,12 +1220,22 @@ Object {
           "type": "depGraph",
         },
         Object {
+          "data": Array [
+            "/usr/bin/yq",
+          ],
+          "type": "testedFiles",
+        },
+        Object {
           "data": "sha256:0809facff9bd760673e046192ad24a2ee08d451f6dbb6c22552293dc4b15e734",
           "type": "imageId",
         },
         Object {
           "data": "0.0.0-local",
           "type": "pluginVersion",
+        },
+        Object {
+          "data": "Alpine Linux v3.12",
+          "type": "imageOsReleasePrettyName",
         },
       ],
       "identity": Object {
@@ -1540,6 +1550,12 @@ Object {
             "schemaVersion": "1.3.0",
           },
           "type": "depGraph",
+        },
+        Object {
+          "data": Array [
+            "/testgo",
+          ],
+          "type": "testedFiles",
         },
         Object {
           "data": "sha256:b5a5cea3c00c659a3bd14bf786644ec0deed22bc30e99260177aca1dc8600449",
@@ -1864,6 +1880,12 @@ Object {
           "type": "depGraph",
         },
         Object {
+          "data": Array [
+            "/testgo",
+          ],
+          "type": "testedFiles",
+        },
+        Object {
           "data": "sha256:b7f8424ea2e9e94dd34b972998957f3210b9caeb968cb53088dfadb775feefe1",
           "type": "imageId",
         },
@@ -2169,6 +2191,12 @@ Object {
             "schemaVersion": "1.3.0",
           },
           "type": "depGraph",
+        },
+        Object {
+          "data": Array [
+            "/testgo",
+          ],
+          "type": "testedFiles",
         },
         Object {
           "data": "sha256:f12d5cc86a0c5c078e16dca419459a91cc555e8cd9ef5750a6b809f2db19a47f",

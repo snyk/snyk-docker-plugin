@@ -12,7 +12,7 @@ import {
   FilePathToElfContent,
 } from "../analyzer/applications/types";
 import { ExtractAction } from "../extractor/types";
-import { DepGraphFact } from "../facts";
+import { DepGraphFact, TestedFilesFact } from "../facts";
 import { GoBinary, readRawBuildInfo } from "./go-binary";
 
 const debug = Debug("snyk");
@@ -199,8 +199,12 @@ export async function goModulesToScannedProjects(
         type: "depGraph",
         data: depGraph,
       };
+      const testedFilesFact: TestedFilesFact = {
+        type: "testedFiles",
+        data: [filePath],
+      };
       scanResults.push({
-        facts: [depGraphFact],
+        facts: [depGraphFact, testedFilesFact],
         identity: {
           type: DEP_GRAPH_TYPE,
           // TODO: The path will contain forward slashes on Linux or backslashes on Windows.

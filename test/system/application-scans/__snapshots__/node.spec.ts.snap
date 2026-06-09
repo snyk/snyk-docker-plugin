@@ -1863,6 +1863,10 @@ Object {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
+        Object {
+          "data": "Amazon Linux 2",
+          "type": "imageOsReleasePrettyName",
+        },
       ],
       "identity": Object {
         "targetFile": "/srv/npm-app/package.json",
@@ -12156,6 +12160,10 @@ Object {
         Object {
           "data": "0.0.0-local",
           "type": "pluginVersion",
+        },
+        Object {
+          "data": "Amazon Linux 2",
+          "type": "imageOsReleasePrettyName",
         },
       ],
       "identity": Object {
@@ -14033,6 +14041,10 @@ Object {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
+        Object {
+          "data": "Amazon Linux 2",
+          "type": "imageOsReleasePrettyName",
+        },
       ],
       "identity": Object {
         "targetFile": "/srv/npm-app/package.json",
@@ -24326,6 +24338,10 @@ Object {
         Object {
           "data": "0.0.0-local",
           "type": "pluginVersion",
+        },
+        Object {
+          "data": "Amazon Linux 2",
+          "type": "imageOsReleasePrettyName",
         },
       ],
       "identity": Object {
@@ -30005,6 +30021,10 @@ Object {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
+        Object {
+          "data": "Alpine Linux v3.20",
+          "type": "imageOsReleasePrettyName",
+        },
       ],
       "identity": Object {
         "targetFile": "/app/package.json",
@@ -35683,6 +35703,10 @@ Object {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
+        Object {
+          "data": "Alpine Linux v3.20",
+          "type": "imageOsReleasePrettyName",
+        },
       ],
       "identity": Object {
         "targetFile": "/app/package.json",
@@ -36238,6 +36262,10 @@ Object {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
+        Object {
+          "data": "Alpine Linux v3.18",
+          "type": "imageOsReleasePrettyName",
+        },
       ],
       "identity": Object {
         "targetFile": "/app/package.json",
@@ -36792,6 +36820,10 @@ Object {
         Object {
           "data": "0.0.0-local",
           "type": "pluginVersion",
+        },
+        Object {
+          "data": "Alpine Linux v3.18",
+          "type": "imageOsReleasePrettyName",
         },
       ],
       "identity": Object {
@@ -43055,6 +43087,10 @@ Object {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
+        Object {
+          "data": "Alpine Linux v3.20",
+          "type": "imageOsReleasePrettyName",
+        },
       ],
       "identity": Object {
         "targetFile": "/app/package.json",
@@ -49317,6 +49353,10 @@ Object {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
+        Object {
+          "data": "Alpine Linux v3.20",
+          "type": "imageOsReleasePrettyName",
+        },
       ],
       "identity": Object {
         "targetFile": "/app/package.json",
@@ -51875,6 +51915,10 @@ Array [
         "data": "0.0.0-local",
         "type": "pluginVersion",
       },
+      Object {
+        "data": "Alpine Linux v3.11",
+        "type": "imageOsReleasePrettyName",
+      },
     ],
     "identity": Object {
       "targetFile": "/usr/goof2/package.json",
@@ -53970,6 +54014,10 @@ Array [
         "data": "0.0.0-local",
         "type": "pluginVersion",
       },
+      Object {
+        "data": "Alpine Linux v3.11",
+        "type": "imageOsReleasePrettyName",
+      },
     ],
     "identity": Object {
       "targetFile": "/usr/goof2/package.json",
@@ -55199,6 +55247,10 @@ Array [
         "data": "0.0.0-local",
         "type": "pluginVersion",
       },
+      Object {
+        "data": "Alpine Linux v3.11",
+        "type": "imageOsReleasePrettyName",
+      },
     ],
     "identity": Object {
       "targetFile": "/usr/goof3/node_modules",
@@ -56391,6 +56443,10 @@ Array [
       Object {
         "data": "0.0.0-local",
         "type": "pluginVersion",
+      },
+      Object {
+        "data": "Alpine Linux v3.11",
+        "type": "imageOsReleasePrettyName",
       },
     ],
     "identity": Object {
@@ -63680,6 +63736,10 @@ Array [
       Object {
         "data": "0.0.0-local",
         "type": "pluginVersion",
+      },
+      Object {
+        "data": "Alpine Linux v3.11",
+        "type": "imageOsReleasePrettyName",
       },
     ],
     "identity": Object {

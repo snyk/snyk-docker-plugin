@@ -2311,6 +2311,12 @@ Object {
           "type": "depGraph",
         },
         Object {
+          "data": Array [
+            "/usr/bin/container-suseconnect",
+          ],
+          "type": "testedFiles",
+        },
+        Object {
           "data": "sha256:8c5d736566b6f5d7a92b48f4236678470ca48c9b6760a9ca87d0ae35f9a89b59",
           "type": "imageId",
         },
@@ -2325,6 +2331,10 @@ Object {
         Object {
           "data": "0.0.0-local",
           "type": "pluginVersion",
+        },
+        Object {
+          "data": "SUSE Linux Enterprise Server 15 SP3",
+          "type": "imageOsReleasePrettyName",
         },
       ],
       "identity": Object {

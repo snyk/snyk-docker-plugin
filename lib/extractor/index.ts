@@ -22,6 +22,7 @@ import {
   FileContent,
   ImageConfig,
   OciArchiveManifest,
+  SymlinkMap,
 } from "./types";
 
 const debug = Debug("snyk");
@@ -143,6 +144,7 @@ export async function extractImageContent(
     manifestLayers: extractor.getManifestLayers(archiveContent.manifest),
     imageCreationTime: archiveContent.imageConfig.created,
     extractedLayers: layersWithLatestFileModifications(archiveContent.layers),
+    symlinks: symlinksWithLatestModifications(archiveContent.symlinkLayers),
     rootFsLayers: getRootFsLayersFromConfig(archiveContent.imageConfig),
     autoDetectedUserInstructions: getDetectedLayersInfoFromConfig(
       archiveContent.imageConfig,
@@ -224,6 +226,22 @@ export function getUserInstructionLayersFromConfig(imageConfig) {
     return [];
   }
   return userInstructionLayers;
+}
+
+function symlinksWithLatestModifications(
+  symlinkLayers?: SymlinkMap[],
+): SymlinkMap | undefined {
+  if (!symlinkLayers || symlinkLayers.length === 0) {
+    return undefined;
+  }
+
+  const merged: SymlinkMap = {};
+  for (const layer of symlinkLayers) {
+    for (const [symlinkPath, target] of Object.entries(layer)) {
+      merged[symlinkPath] = target;
+    }
+  }
+  return merged;
 }
 
 function layersWithLatestFileModifications(
