@@ -82,7 +82,9 @@ export type FactType =
   // Used for application dependencies scanning; shows which files were used in the analysis of the dependencies.
   | "testedFiles"
   // Application files observed in the image
-  | "applicationFiles";
+  | "applicationFiles"
+  // VEX (Vulnerability Exploitability eXchange) statements parsed from a VEX document.
+  | "vexStatements";
 
 export interface PluginAnalytics {
   name: string;
@@ -245,6 +247,9 @@ export interface PluginOptions {
   "include-system-jars": boolean | string;
 
   "target-reference": string;
+
+  /** Path or http(s) URL to a VEX (OpenVEX or CycloneDX-VEX) JSON document. */
+  vexFilePath?: string;
 
   parameterWarnings?: string[];
 }
