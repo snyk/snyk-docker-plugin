@@ -304,18 +304,18 @@ async function buildResponse(
   }
 
   if (
-    depsAnalysis.rawProvenanceAttestations &&
-    depsAnalysis.rawProvenanceAttestations.length > 0
+    depsAnalysis.provenanceAttestations &&
+    depsAnalysis.provenanceAttestations.length > 0
   ) {
     const parsed = parseProvenanceAttestations(
-      depsAnalysis.rawProvenanceAttestations,
+      depsAnalysis.provenanceAttestations,
     );
     if (parsed.length > 0) {
-      const provenanceAttestationsFact: facts.ProvenanceAttestationsFact = {
-        type: "provenanceAttestations",
+      const provenanceMetadataFact: facts.ProvenanceMetadataFact = {
+        type: "provenanceMetadata",
         data: parsed,
       };
-      additionalFacts.push(provenanceAttestationsFact);
+      additionalFacts.push(provenanceMetadataFact);
     }
   }
 

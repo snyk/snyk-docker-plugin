@@ -19,7 +19,7 @@ import {
   OciImageIndex,
   OciManifestInfo,
   OciPlatformInfo,
-  RawProvenanceAttestation,
+  ProvenanceAttestation,
 } from "../types";
 
 const debug = Debug("snyk");
@@ -59,7 +59,7 @@ export async function extractArchive(
   const metadata = await extractMetadata(ociArchiveFilesystemPath);
 
   // Determine which manifest and layers we need
-  const { manifest, imageConfig, rawProvenanceAttestations } =
+  const { manifest, imageConfig, provenanceAttestations } =
     resolveManifestAndConfig(metadata, options);
 
   // Get the list of layer digests we need to extract
@@ -118,7 +118,7 @@ export async function extractArchive(
     layers: filteredLayers,
     manifest,
     imageConfig,
-    rawProvenanceAttestations,
+    provenanceAttestations,
   };
 }
 
@@ -370,7 +370,7 @@ function resolveManifestAndConfig(
 ): {
   manifest: OciArchiveManifest;
   imageConfig: ImageConfig;
-  rawProvenanceAttestations: RawProvenanceAttestation[];
+  provenanceAttestations: ProvenanceAttestation[];
 } {
   const filteredConfigs = metadata.configs.filter((config) => {
     return config?.os !== "unknown" || config?.architecture !== "unknown";
@@ -405,9 +405,9 @@ function resolveManifestAndConfig(
     );
   }
 
-  const rawProvenanceAttestations = extractProvenanceAttestations(metadata);
+  const provenanceAttestations = extractProvenanceAttestations(metadata);
 
-  return { manifest, imageConfig, rawProvenanceAttestations };
+  return { manifest, imageConfig, provenanceAttestations };
 }
 
 const IMAGE_CONFIG_MEDIA_TYPES = new Set([
@@ -544,8 +544,8 @@ function getImageConfig(
 
 function extractProvenanceAttestations(
   metadata: ArchiveMetadata,
-): RawProvenanceAttestation[] {
-  const attestations: RawProvenanceAttestation[] = [];
+): ProvenanceAttestation[] {
+  const attestations: ProvenanceAttestation[] = [];
 
   if (!metadata.mainIndexFile) {
     return attestations;
@@ -574,7 +574,7 @@ function extractProvenanceAttestations(
       continue;
     }
 
-    const attestation: RawProvenanceAttestation = {
+    const attestation: ProvenanceAttestation = {
       attestationManifestDigest: descriptor.digest,
       mediaType: descriptor.mediaType,
       annotations: descriptor.annotations || {},
@@ -586,7 +586,7 @@ function extractProvenanceAttestations(
         layer.annotations?.["in-toto.io/kind"] === "provenance" ||
         layer.mediaType === "application/vnd.in-toto+json";
 
-      const provenanceLayer: RawProvenanceAttestation["provenanceLayers"][number] =
+      const provenanceLayer: ProvenanceAttestation["provenanceLayers"][number] =
         {
           digest: layer.digest,
           mediaType: layer.mediaType,

@@ -1,5 +1,5 @@
 import { ImageName } from "../extractor/image";
-import { RawProvenanceAttestation } from "../extractor/types";
+import { ProvenanceAttestation } from "../extractor/types";
 import { BaseRuntime } from "../facts";
 import { AutoDetectedUserInstructions, ManifestFile } from "../types";
 import {
@@ -104,7 +104,7 @@ export interface StaticAnalysis {
     comment?: string | null;
     empty_layer?: boolean | null;
   }> | null;
-  rawProvenanceAttestations?: RawProvenanceAttestation[];
+  provenanceAttestations?: ProvenanceAttestation[];
   timings?: Record<string, number>;
 }
 

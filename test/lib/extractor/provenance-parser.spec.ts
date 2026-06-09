@@ -1,12 +1,12 @@
 import {
   parseProvenanceAttestations,
-  ProvenanceAttestation,
+  ProvenanceMetadata,
 } from "../../../lib/extractor/provenance-parser";
-import { RawProvenanceAttestation } from "../../../lib/extractor/types";
+import { ProvenanceAttestation } from "../../../lib/extractor/types";
 
 function makeRawAttestation(
   inTotoStatement: Record<string, unknown>,
-): RawProvenanceAttestation {
+): ProvenanceAttestation {
   return {
     attestationManifestDigest: "sha256:abc123",
     mediaType: "application/vnd.oci.image.manifest.v1+json",
@@ -59,7 +59,7 @@ describe("provenance-parser", () => {
       const result = parseProvenanceAttestations([attestation]);
 
       expect(result).toHaveLength(1);
-      expect(result[0]).toEqual<ProvenanceAttestation>({
+      expect(result[0]).toEqual<ProvenanceMetadata>({
         buildTimestamp: "2025-01-15T10:30:00Z",
         buildConfigCommit: "abc123def456",
         sourceImageDigest: "sha256:deadbeef1234",
@@ -177,7 +177,7 @@ describe("provenance-parser", () => {
       const result = parseProvenanceAttestations([attestation]);
 
       expect(result).toHaveLength(1);
-      expect(result[0]).toEqual<ProvenanceAttestation>({
+      expect(result[0]).toEqual<ProvenanceMetadata>({
         buildTimestamp: "2025-06-01T14:00:00Z",
         buildConfigCommit: "remote1sha",
         sourceImageDigest: "sha256:cafebabe9999",
@@ -264,7 +264,7 @@ describe("provenance-parser", () => {
 
   describe("attestation digest", () => {
     it("surfaces the attestation manifest digest distinct from the image digest", () => {
-      const attestation: RawProvenanceAttestation = {
+      const attestation: ProvenanceAttestation = {
         attestationManifestDigest: "sha256:attestationmanifest",
         mediaType: "application/vnd.oci.image.manifest.v1+json",
         annotations: {
@@ -301,7 +301,7 @@ describe("provenance-parser", () => {
 
   describe("limits and edge cases", () => {
     it("limits to 10 attestations per image", () => {
-      const attestations: RawProvenanceAttestation[] = Array.from(
+      const attestations: ProvenanceAttestation[] = Array.from(
         { length: 15 },
         (_, i) =>
           makeRawAttestation({
@@ -328,7 +328,7 @@ describe("provenance-parser", () => {
     });
 
     it("skips layers without inTotoStatement", () => {
-      const attestation: RawProvenanceAttestation = {
+      const attestation: ProvenanceAttestation = {
         attestationManifestDigest: "sha256:abc",
         mediaType: "application/vnd.oci.image.manifest.v1+json",
         annotations: {},
@@ -376,7 +376,7 @@ describe("provenance-parser", () => {
       const result = parseProvenanceAttestations([attestation]);
 
       expect(result).toHaveLength(1);
-      expect(result[0]).toEqual<ProvenanceAttestation>({
+      expect(result[0]).toEqual<ProvenanceMetadata>({
         buildTimestamp: null,
         buildConfigCommit: null,
         sourceImageDigest: "sha256:abc123",

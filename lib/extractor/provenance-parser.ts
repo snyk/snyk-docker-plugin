@@ -1,5 +1,5 @@
 import * as Debug from "debug";
-import { InTotoStatement, RawProvenanceAttestation } from "./types";
+import { InTotoStatement, ProvenanceAttestation } from "./types";
 
 const debug = Debug("snyk");
 
@@ -10,7 +10,7 @@ export interface DockerfileMetadata {
   contents: string | null;
 }
 
-export interface ProvenanceAttestation {
+export interface ProvenanceMetadata {
   buildTimestamp: string | null;
   buildConfigCommit: string | null;
   sourceImageDigest: string;
@@ -72,7 +72,7 @@ function extractFieldsSlsa02(
   predicate: SlsaPredicate02,
   sourceImageDigest: string,
   sourceAttestationDigest: string,
-): ProvenanceAttestation {
+): ProvenanceMetadata {
   const buildTimestamp = predicate.metadata?.buildStartedOn || null;
 
   const buildkitMeta =
@@ -115,7 +115,7 @@ function extractFieldsSlsa10(
   predicate: SlsaPredicate10,
   sourceImageDigest: string,
   sourceAttestationDigest: string,
-): ProvenanceAttestation {
+): ProvenanceMetadata {
   const runDetails = predicate.runDetails;
   const buildDefinition = predicate.buildDefinition;
 
@@ -161,7 +161,7 @@ function getSourceImageDigest(statement: InTotoStatement): string | null {
 function parseStatement(
   statement: InTotoStatement,
   sourceAttestationDigest: string,
-): ProvenanceAttestation | null {
+): ProvenanceMetadata | null {
   const predicate = statement.predicate;
   if (!predicate) {
     debug("[provenance] No predicate found in in-toto statement");
@@ -196,9 +196,9 @@ function parseStatement(
 }
 
 export function parseProvenanceAttestations(
-  attestationManifests: RawProvenanceAttestation[],
-): ProvenanceAttestation[] {
-  const results: ProvenanceAttestation[] = [];
+  attestationManifests: ProvenanceAttestation[],
+): ProvenanceMetadata[] {
+  const results: ProvenanceMetadata[] = [];
 
   for (const manifest of attestationManifests) {
     for (const provenanceLayer of manifest.provenanceLayers) {

@@ -3,7 +3,7 @@ import { ApplicationFiles } from "./analyzer/applications/types";
 import { JarFingerprint } from "./analyzer/types";
 import { DockerFileAnalysis } from "./dockerfile/types";
 import { OCIDistributionMetadata } from "./extractor/oci-distribution-metadata";
-import { ProvenanceAttestation } from "./extractor/provenance-parser";
+import { ProvenanceMetadata } from "./extractor/provenance-parser";
 import {
   AutoDetectedUserInstructions,
   ImageNameInfo,
@@ -105,9 +105,9 @@ export interface OCIDistributionMetadataFact {
   data: OCIDistributionMetadata;
 }
 
-export interface ProvenanceAttestationsFact {
-  type: "provenanceAttestations";
-  data: ProvenanceAttestation[];
+export interface ProvenanceMetadataFact {
+  type: "provenanceMetadata";
+  data: ProvenanceMetadata[];
 }
 
 export interface PlatformFact {

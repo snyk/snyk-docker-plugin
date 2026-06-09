@@ -49,8 +49,8 @@ container image that describes where it came from and how it was built.
 
 Specific provenance fields are parsed from attestation manifests embedded
 in the OCI image index. Attestations larger than 2 MB are skipped.
-Downstream, attestations are emitted as a `provenanceAttestations` fact and
-persisted in `container-monitor-data`.
+Downstream, the collapsed provenance fields are emitted as a
+`provenanceMetadata` fact and persisted in `container-monitor-data`.
 
 ## Repo layout
 

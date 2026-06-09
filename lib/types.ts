@@ -74,7 +74,7 @@ export type FactType =
   | "baseRuntimes"
   | "loadedPackages"
   | "ociDistributionMetadata"
-  | "provenanceAttestations"
+  | "provenanceMetadata"
   | "containerConfig"
   | "platform"
   | "pluginVersion"
