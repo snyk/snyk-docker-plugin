@@ -160,6 +160,49 @@ describe("extractImageContent", () => {
           extractImageContent(type, fixture, [], {}),
         ).resolves.not.toThrow();
       });
+
+      it("extracts the attestation manifest and its in-toto provenance layer", async () => {
+        const fixture = getFixture(
+          "containerd-archives/busybox-single-arch-with-attestation-manifest.tar",
+        );
+
+        const result = await extractImageContent(type, fixture, [], {});
+        const attestations = result.provenanceAttestations ?? [];
+
+        expect(attestations).toHaveLength(1);
+
+        const [attestation] = attestations;
+        expect(attestation.attestationManifestDigest).toBe(
+          "sha256:c39be7154f939a9bf312c255b98ef2b46c77a0f8944b58c104570fc3bc19abb6",
+        );
+        expect(attestation.annotations["vnd.docker.reference.type"]).toBe(
+          "attestation-manifest",
+        );
+
+        // The attestation must reference the platform image being scanned.
+        const referencedDigest =
+          attestation.annotations["vnd.docker.reference.digest"];
+        expect(referencedDigest).toBe(
+          "sha256:cf7d823e4eea96316ae629fb9a45b4211869162a5f5dc1654928c7ca530ed810",
+        );
+
+        expect(attestation.provenanceLayers).toHaveLength(1);
+        const [layer] = attestation.provenanceLayers;
+        expect(layer.mediaType).toBe("application/vnd.in-toto+json");
+        expect(layer.digest).toBe(
+          "sha256:4f62f95682318843696bbf8eb884d5c904c1f2fa70c0f0523bf2cac8f902db14",
+        );
+
+        // The raw in-toto blob must be wired onto the layer, and its subject
+        // digest must match the referenced platform image.
+        expect(layer.inTotoStatement).toBeDefined();
+        expect(layer.inTotoStatement?.predicateType).toBe(
+          "https://slsa.dev/provenance/v0.2",
+        );
+        expect(layer.inTotoStatement?.subject?.[0]?.digest?.sha256).toBe(
+          "cf7d823e4eea96316ae629fb9a45b4211869162a5f5dc1654928c7ca530ed810",
+        );
+      });
     });
   });
 });

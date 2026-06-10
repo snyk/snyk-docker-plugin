@@ -61,7 +61,7 @@ describe("provenance-parser", () => {
       expect(result).toHaveLength(1);
       expect(result[0]).toEqual<ProvenanceMetadata>({
         buildTimestamp: "2025-01-15T10:30:00Z",
-        buildConfigCommit: "abc123def456",
+        buildConfigCommit: "sha1:abc123def456",
         buildConfigCommitSource: "remote",
         sourceImageDigest: "sha256:deadbeef1234",
         sourceAttestationDigest: "sha256:abc123",
@@ -245,7 +245,7 @@ describe("provenance-parser", () => {
       expect(result).toHaveLength(1);
       expect(result[0]).toEqual<ProvenanceMetadata>({
         buildTimestamp: "2025-06-01T14:00:00Z",
-        buildConfigCommit: "remote1sha",
+        buildConfigCommit: "sha1:remote1sha",
         buildConfigCommitSource: "remote",
         sourceImageDigest: "sha256:cafebabe9999",
         sourceAttestationDigest: "sha256:abc123",
@@ -393,6 +393,52 @@ describe("provenance-parser", () => {
       const result = parseProvenanceAttestations(attestations);
 
       expect(result).toHaveLength(10);
+    });
+
+    it("selects the same digest-sorted subset regardless of input order when over the limit", () => {
+      const makeAttestationWithDigest = (
+        manifestDigest: string,
+      ): ProvenanceAttestation => ({
+        attestationManifestDigest: manifestDigest,
+        mediaType: "application/vnd.oci.image.manifest.v1+json",
+        annotations: { "vnd.docker.reference.type": "attestation-manifest" },
+        provenanceLayers: [
+          {
+            digest: "sha256:layer",
+            mediaType: "application/vnd.in-toto+json",
+            inTotoStatement: {
+              _type: "https://in-toto.io/Statement/v0.1",
+              predicateType: "https://slsa.dev/provenance/v0.2",
+              subject: [{ name: "test", digest: { sha256: "img" } }],
+              predicate: {
+                builder: { id: "buildkit" },
+                buildType: "test",
+                metadata: { buildStartedOn: "2025-01-01T00:00:00Z" },
+                invocation: { configSource: {} },
+              },
+            } as any,
+          },
+        ],
+      });
+
+      const digests = Array.from(
+        { length: 15 },
+        (_, i) => `sha256:att-${String(i).padStart(2, "0")}`,
+      );
+      const expectedSubset = [...digests].sort().slice(0, 10);
+
+      const ascending = digests.map(makeAttestationWithDigest);
+      const shuffled = [...ascending].reverse();
+
+      const resultAscending = parseProvenanceAttestations(ascending).map(
+        (r) => r.sourceAttestationDigest,
+      );
+      const resultShuffled = parseProvenanceAttestations(shuffled).map(
+        (r) => r.sourceAttestationDigest,
+      );
+
+      expect(resultAscending).toEqual(expectedSubset);
+      expect(resultShuffled).toEqual(expectedSubset);
     });
 
     it("skips layers without inTotoStatement", () => {

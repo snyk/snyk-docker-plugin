@@ -5,6 +5,10 @@ const debug = Debug("snyk");
 
 const MAX_ATTESTATIONS_PER_IMAGE = 10;
 
+type SlsaProvenanceVersion =
+  | "https://slsa.dev/provenance/v0.2"
+  | "https://slsa.dev/provenance/v1";
+
 export interface DockerfileMetadata {
   name: string;
   contents: string | null;
@@ -87,7 +91,13 @@ function getConfigSourceCommit(digest?: {
   if (!digest) {
     return null;
   }
-  return Object.values(digest)[0] || null;
+
+  const [algorithm, value] = Object.entries(digest)[0] ?? [];
+  if (!algorithm || !value) {
+    return null;
+  }
+
+  return `${algorithm}:${value}`;
 }
 
 function extractFieldsSlsa02(
@@ -192,8 +202,29 @@ function extractFieldsSlsa10(
 }
 
 function getSourceImageDigest(statement: InTotoStatement): string | null {
-  const sha256 = statement.subject?.[0]?.digest?.sha256;
-  return sha256 ? `sha256:${sha256}` : null;
+  const digest = statement.subject?.[0]?.digest;
+  if (!digest) {
+    return null;
+  }
+
+  const [algorithm, value] = Object.entries(digest)[0] ?? []; // Bella todo
+  if (!algorithm || !value) {
+    return null;
+  }
+
+  return `${algorithm}:${value}`;
+}
+
+function getSlsaProvenanceVersion(
+  predicateType?: string,
+): SlsaProvenanceVersion | null {
+  switch (predicateType) {
+    case "https://slsa.dev/provenance/v0.2":
+    case "https://slsa.dev/provenance/v1":
+      return predicateType;
+    default:
+      return null;
+  }
 }
 
 function parseStatement(
@@ -213,24 +244,30 @@ function parseStatement(
   }
 
   const predicateType = statement.predicateType;
-
-  if (predicateType?.includes("provenance/v0.2")) {
-    return extractFieldsSlsa02(
-      predicate as SlsaPredicateV0_2,
-      sourceImageDigest,
-      sourceAttestationDigest,
-    );
-  }
-  if (predicateType?.includes("provenance/v1")) {
-    return extractFieldsSlsa10(
-      predicate as SlsaPredicateV1_0,
-      sourceImageDigest,
-      sourceAttestationDigest,
-    );
+  const version = getSlsaProvenanceVersion(predicateType);
+  if (version === null) {
+    debug(`[provenance] Unsupported SLSA predicate type: ${predicateType}`);
+    return null;
   }
 
-  debug(`[provenance] Unsupported SLSA predicate type: ${predicateType}`);
-  return null;
+  switch (version) {
+    case "https://slsa.dev/provenance/v0.2":
+      return extractFieldsSlsa02(
+        predicate as SlsaPredicateV0_2,
+        sourceImageDigest,
+        sourceAttestationDigest,
+      );
+    case "https://slsa.dev/provenance/v1":
+      return extractFieldsSlsa10(
+        predicate as SlsaPredicateV1_0,
+        sourceImageDigest,
+        sourceAttestationDigest,
+      );
+    default: {
+      const _exhaustiveCheck: never = version;
+      return _exhaustiveCheck;
+    }
+  }
 }
 
 export function parseProvenanceAttestations(
@@ -238,8 +275,18 @@ export function parseProvenanceAttestations(
 ): ProvenanceMetadata[] {
   const results: ProvenanceMetadata[] = [];
 
-  for (const manifest of attestationManifests) {
-    for (const provenanceLayer of manifest.provenanceLayers) {
+  // Sort by digest so that, when the attestation limit is hit, the selected
+  // subset is stable across rebuilds rather than dependent on manifest order.
+  const sortedManifests = [...attestationManifests].sort((a, b) =>
+    a.attestationManifestDigest.localeCompare(b.attestationManifestDigest),
+  );
+
+  for (const manifest of sortedManifests) {
+    const sortedLayers = [...manifest.provenanceLayers].sort((a, b) =>
+      a.digest.localeCompare(b.digest),
+    );
+
+    for (const provenanceLayer of sortedLayers) {
       if (results.length >= MAX_ATTESTATIONS_PER_IMAGE) {
         debug(
           `[provenance] Reached max attestation limit (${MAX_ATTESTATIONS_PER_IMAGE}), skipping remaining`,

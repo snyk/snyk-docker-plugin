@@ -128,12 +128,14 @@ export interface OciImageIndex {
   manifests: OciManifestInfo[];
 }
 
+export interface InTotoSubject {
+  name?: string;
+  digest?: Record<string, string>;
+}
+
 export interface InTotoStatement {
   _type?: string;
-  subject?: Array<{
-    name?: string;
-    digest?: Record<string, string>;
-  }>;
+  subject?: InTotoSubject[];
   predicateType?: string;
   predicate?: Record<string, unknown>;
 }
