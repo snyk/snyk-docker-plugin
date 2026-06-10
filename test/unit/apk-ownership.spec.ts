@@ -112,6 +112,106 @@ describe("apk-ownership", () => {
     expect(exact?.matchKind).toBe("exact");
   });
 
+  it("returns undefined when only some evidence paths are owned", () => {
+    // Chainguard spec: evidence paths must be wholly contained in the owning
+    // package's declared paths; a partially-owned app keeps its findings.
+    const packages = [
+      makePackage("nodejs", "20-r1", "nodejs", ["/usr/bin/node"], ["/usr/bin"]),
+    ];
+    const ownership = resolveApkOwnership(
+      ["/usr/bin/node", "/opt/custom/app.jar"],
+      packages,
+      { name: "wolfi", version: "20230201", prettyName: "Wolfi" },
+      symlinkGraph,
+    );
+
+    expect(ownership).toBeUndefined();
+  });
+
+  it("prefers an exactly matched owner over a directory-matched owner", () => {
+    const packages = [
+      makePackage(
+        "gradle",
+        "8.5-r0",
+        "gradle",
+        ["/usr/share/java/gradle/lib/gradle.jar"],
+        ["/usr/share/java/gradle"],
+      ),
+      makePackage(
+        "java-common",
+        "1-r0",
+        "java-common",
+        [],
+        ["/usr/share/java"],
+      ),
+    ];
+    const ownership = resolveApkOwnership(
+      [
+        "/usr/share/java/gradle/lib/gradle.jar", // exact: gradle
+        "/usr/share/java/other.jar", // directory: java-common
+      ],
+      packages,
+      { name: "wolfi", version: "20230201", prettyName: "Wolfi" },
+      symlinkGraph,
+    );
+
+    expect(ownership?.packageName).toBe("gradle");
+  });
+
+  it("returns undefined when different owners each have exact matches", () => {
+    const packages = [
+      makePackage("pkg-a", "1-r0", "pkg-a", ["/usr/bin/a"], ["/usr/bin"]),
+      makePackage("pkg-b", "1-r0", "pkg-b", ["/usr/bin/some-b"], ["/usr/bin"]),
+    ];
+    const ownership = resolveApkOwnership(
+      ["/usr/bin/a", "/usr/bin/some-b"],
+      packages,
+      { name: "wolfi", version: "20230201", prettyName: "Wolfi" },
+      symlinkGraph,
+    );
+
+    expect(ownership).toBeUndefined();
+  });
+
+  it("prefers the deepest directory match when no exact matches exist", () => {
+    const packages = [
+      makePackage("python", "3.12-r1", "python", [], ["/usr/lib/python3.12"]),
+      makePackage(
+        "py-foo",
+        "1.0-r0",
+        "py-foo",
+        [],
+        ["/usr/lib/python3.12/site-packages/foo"],
+      ),
+    ];
+    const ownership = resolveApkOwnership(
+      [
+        "/usr/lib/python3.12/site-packages/foo/mod.py", // directory: py-foo (deeper)
+        "/usr/lib/python3.12/abc.py", // directory: python (shallower)
+      ],
+      packages,
+      { name: "wolfi", version: "20230201", prettyName: "Wolfi" },
+      symlinkGraph,
+    );
+
+    expect(ownership?.packageName).toBe("py-foo");
+  });
+
+  it("returns undefined for a directory-depth tie between different owners", () => {
+    const packages = [
+      makePackage("pkg-a", "1-r0", "pkg-a", [], ["/usr/lib/a"]),
+      makePackage("pkg-b", "1-r0", "pkg-b", [], ["/usr/lib/b"]),
+    ];
+    const ownership = resolveApkOwnership(
+      ["/usr/lib/a/x.so", "/usr/lib/b/y.so"],
+      packages,
+      { name: "wolfi", version: "20230201", prettyName: "Wolfi" },
+      symlinkGraph,
+    );
+
+    expect(ownership).toBeUndefined();
+  });
+
   it("canonicalizes APK declared paths consistently", () => {
     const packages = [
       makePackage("nodejs", "20-r1", "nodejs", ["/usr/bin/node"], []),
