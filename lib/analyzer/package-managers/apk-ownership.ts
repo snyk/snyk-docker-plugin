@@ -111,24 +111,20 @@ function resolveDirectoryOwner(
     node = child;
     if (node.owners.length > 0) {
       best = {
-        owner: pickDirectoryOwner(node.owners),
+        owner: pickExactOwner(node.owners),
         matchKind: "directory",
         prefixLength: i + 1,
       };
     }
   }
 
-  if (!best && node.owners.length > 0) {
-    best = {
-      owner: pickDirectoryOwner(node.owners),
-      matchKind: "directory",
-      prefixLength: segments.length,
-    };
-  }
-
   return best;
 }
 
+/**
+ * Resolve APK package ownership for app evidence paths on Wolfi/Chainguard images.
+ * Every evidence path must match an owner; we skip the fact rather than guess.
+ */
 export function resolveApkOwnership(
   evidencePaths: string[],
   packages: AnalyzedPackageWithVersion[],
@@ -145,6 +141,7 @@ export function resolveApkOwnership(
   for (const evidencePath of evidencePaths) {
     const normalized = normalizeAbsolutePath(evidencePath);
     const match = resolveOwnerForEvidencePath(normalized, index, symlinkGraph);
+    // Require every evidence path to resolve; partial matches are not emitted.
     if (!match) {
       return undefined;
     }
@@ -190,6 +187,7 @@ function pickBestOwnerAcrossPaths(
 
   for (const match of matches) {
     const key = `${match.owner.Name}@${match.owner.Version}`;
+    // Prefer exact file matches over directory-prefix matches when paths disagree.
     const exactBonus = match.matchKind === "exact" ? 1000 : 0;
     const score = exactBonus + match.prefixLength;
     const existing = scores.get(key);
@@ -221,12 +219,6 @@ function pickExactOwner(
   }
   const originMatch = owners.find((o) => o.Name === o.Source);
   return originMatch ?? owners[0];
-}
-
-function pickDirectoryOwner(
-  owners: AnalyzedPackageWithVersion[],
-): AnalyzedPackageWithVersion {
-  return pickExactOwner(owners);
 }
 
 function addToOwnerMap(

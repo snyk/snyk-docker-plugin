@@ -39,10 +39,15 @@ export async function extractImageLayer(
     tarExtractor.on("entry", async (headers, stream, next) => {
       const absoluteFileName = path.join(path.sep, headers.name);
 
-      if (headers.type === "symlink" || headers.type === "link") {
+      // Symlinks are path redirects; hard links are alternate names for the same
+      // inode and must not be treated as redirects during path canonicalization.
+      if (headers.type === "symlink") {
         const linkTarget = headers.linkname;
         if (linkTarget) {
-          symlinks[absoluteFileName] = linkTarget;
+          symlinks[absoluteFileName] = absoluteLinkTarget(
+            headers.name,
+            linkTarget,
+          );
         }
       } else if (headers.type === "file") {
         const matchedActions = extractActions.filter((action) =>
@@ -89,4 +94,17 @@ export async function extractImageLayer(
 
     layerTarStream.pipe(decompressMaybe()).pipe(tarExtractor);
   });
+}
+
+/**
+ * Resolve a tar symlink target to an absolute path within the image.
+ * A relative target resolves against the symlink's own directory; tar entry
+ * names always use forward slashes, so this is posix math on every platform.
+ */
+function absoluteLinkTarget(entryName: string, linkTarget: string): string {
+  if (linkTarget.startsWith("/")) {
+    return path.posix.normalize(linkTarget);
+  }
+  const linkDir = path.posix.dirname(path.posix.normalize("/" + entryName));
+  return path.posix.normalize(path.posix.join(linkDir, linkTarget));
 }

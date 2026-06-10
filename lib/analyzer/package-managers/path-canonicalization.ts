@@ -13,7 +13,8 @@ export function normalizeAbsolutePath(filePath: string): string {
 }
 
 /**
- * Resolve symlinks in a path using the provided graph. Returns a canonical absolute path.
+ * Resolve symlinks in a path using the extracted image symlink graph.
+ * Used so evidence paths like /bin/node match APK file lists recorded at /usr/bin/node.
  */
 export function canonicalizePath(
   filePath: string,
@@ -72,17 +73,4 @@ function resolveSymlinkChain(
   }
 
   return current;
-}
-
-/**
- * Merge symlink maps from multiple layers. Later entries override earlier ones.
- */
-export function mergeSymlinkGraphs(layers: SymlinkGraph[]): SymlinkGraph {
-  const merged: SymlinkGraph = new Map();
-  for (const layer of layers) {
-    for (const [symlinkPath, target] of layer.entries()) {
-      merged.set(symlinkPath, target);
-    }
-  }
-  return merged;
 }

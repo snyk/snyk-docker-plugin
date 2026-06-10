@@ -1,6 +1,7 @@
 import { JarFingerprintsFact, TestedFilesFact } from "../../facts";
 import { AppDepsScanResultWithoutTarget } from "./types";
 
+/** Collect filesystem paths from an app scan result used to resolve APK ownership. */
 export function extractEvidencePaths(
   scanResult: AppDepsScanResultWithoutTarget,
 ): string[] {

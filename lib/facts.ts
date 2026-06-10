@@ -163,11 +163,6 @@ export interface BaseRuntimesFact {
   data: BaseRuntime[];
 }
 
-/**
- * Links an application ScanResult to the Chainguard/Wolfi APK package that owns its
- * evidence paths. Consumed by @snyk/vuln (follow-up) to reconcile upstream app CVEs
- * against the owning package origin's existing APK advisory fixed-version data.
- */
 export interface ApkPackageOwnershipFact {
   type: "apkPackageOwnership";
   data: {
