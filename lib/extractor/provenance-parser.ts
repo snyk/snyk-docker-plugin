@@ -13,15 +13,21 @@ export interface DockerfileMetadata {
 export interface ProvenanceMetadata {
   buildTimestamp: string | null;
   buildConfigCommit: string | null;
+  buildConfigCommitSource: "remote" | "local" | null;
   sourceImageDigest: string;
   sourceAttestationDigest: string;
-  repositoryUri: string | null;
+  buildConfigSourceUri: string | null;
   builderId: string;
   buildType: string;
   dockerfileMetadata: DockerfileMetadata;
 }
 
-interface SlsaPredicate02 {
+interface BuildkitSourceInfo {
+  filename?: string;
+  data?: string;
+}
+
+interface SlsaPredicateV0_2 {
   builder?: { id?: string };
   buildType?: string;
   metadata?: {
@@ -29,27 +35,26 @@ interface SlsaPredicate02 {
     "https://mobyproject.org/buildkit@v1#metadata"?: {
       vcs?: { source?: string; revision?: string };
       source?: {
-        infos?: Array<{ data?: string }>;
-        locations?: Record<string, { data?: string }>;
+        infos?: BuildkitSourceInfo[];
       };
     };
   };
   invocation?: {
     configSource?: {
       uri?: string;
-      digest?: { sha1?: string };
+      digest?: { [algorithm: string]: string };
       entryPoint?: string;
     };
   };
 }
 
-interface SlsaPredicate10 {
+interface SlsaPredicateV1_0 {
   buildDefinition?: {
     buildType?: string;
     externalParameters?: {
       configSource?: {
         uri?: string;
-        digest?: { sha1?: string };
+        digest?: { [algorithm: string]: string };
         path?: string;
       };
     };
@@ -61,15 +66,32 @@ interface SlsaPredicate10 {
       buildkit_metadata?: {
         vcs?: { revision?: string };
         source?: {
-          infos?: Array<{ data?: string }>;
+          infos?: BuildkitSourceInfo[];
         };
       };
     };
   };
 }
 
+function getDockerfileContents(
+  infos: BuildkitSourceInfo[] | undefined,
+  dockerfileName: string,
+): string | null {
+  const match = infos?.find((info) => info.filename === dockerfileName);
+  return match?.data ?? null;
+}
+
+function getConfigSourceCommit(digest?: {
+  [algorithm: string]: string;
+}): string | null {
+  if (!digest) {
+    return null;
+  }
+  return Object.values(digest)[0] || null;
+}
+
 function extractFieldsSlsa02(
-  predicate: SlsaPredicate02,
+  predicate: SlsaPredicateV0_2,
   sourceImageDigest: string,
   sourceAttestationDigest: string,
 ): ProvenanceMetadata {
@@ -78,11 +100,18 @@ function extractFieldsSlsa02(
   const buildkitMeta =
     predicate.metadata?.["https://mobyproject.org/buildkit@v1#metadata"];
 
-  const remoteCommit = predicate.invocation?.configSource?.digest?.sha1;
+  const remoteCommit = getConfigSourceCommit(
+    predicate.invocation?.configSource?.digest,
+  );
   const localCommit = buildkitMeta?.vcs?.revision;
   const buildConfigCommit = remoteCommit || localCommit || null;
+  const buildConfigCommitSource = remoteCommit
+    ? "remote"
+    : localCommit
+    ? "local"
+    : null;
 
-  const repositoryUri = predicate.invocation?.configSource?.uri || null;
+  const buildConfigSourceUri = predicate.invocation?.configSource?.uri || null;
 
   const builderId = predicate.builder?.id || "";
   const buildType = predicate.buildType || "";
@@ -90,18 +119,18 @@ function extractFieldsSlsa02(
   const dockerfileName =
     predicate.invocation?.configSource?.entryPoint || "Dockerfile";
 
-  const dockerfileKey = "Dockerfile";
-  const dockerfileContents =
-    buildkitMeta?.source?.infos?.[0]?.data ||
-    buildkitMeta?.source?.locations?.[dockerfileKey]?.data ||
-    null;
+  const dockerfileContents = getDockerfileContents(
+    buildkitMeta?.source?.infos,
+    dockerfileName,
+  );
 
   return {
     buildTimestamp,
     buildConfigCommit,
+    buildConfigCommitSource,
     sourceImageDigest,
     sourceAttestationDigest,
-    repositoryUri,
+    buildConfigSourceUri,
     builderId,
     buildType,
     dockerfileMetadata: {
@@ -112,7 +141,7 @@ function extractFieldsSlsa02(
 }
 
 function extractFieldsSlsa10(
-  predicate: SlsaPredicate10,
+  predicate: SlsaPredicateV1_0,
   sourceImageDigest: string,
   sourceAttestationDigest: string,
 ): ProvenanceMetadata {
@@ -121,12 +150,18 @@ function extractFieldsSlsa10(
 
   const buildTimestamp = runDetails?.metadata?.startedOn || null;
 
-  const remoteCommit =
-    buildDefinition?.externalParameters?.configSource?.digest?.sha1;
+  const remoteCommit = getConfigSourceCommit(
+    buildDefinition?.externalParameters?.configSource?.digest,
+  );
   const localCommit = runDetails?.metadata?.buildkit_metadata?.vcs?.revision;
   const buildConfigCommit = remoteCommit || localCommit || null;
+  const buildConfigCommitSource = remoteCommit
+    ? "remote"
+    : localCommit
+    ? "local"
+    : null;
 
-  const repositoryUri =
+  const buildConfigSourceUri =
     buildDefinition?.externalParameters?.configSource?.uri || null;
 
   const builderId = runDetails?.builder?.id || "";
@@ -135,15 +170,18 @@ function extractFieldsSlsa10(
   const dockerfileName =
     buildDefinition?.externalParameters?.configSource?.path || "Dockerfile";
 
-  const dockerfileContents =
-    runDetails?.metadata?.buildkit_metadata?.source?.infos?.[0]?.data || null;
+  const dockerfileContents = getDockerfileContents(
+    runDetails?.metadata?.buildkit_metadata?.source?.infos,
+    dockerfileName,
+  );
 
   return {
     buildTimestamp,
     buildConfigCommit,
+    buildConfigCommitSource,
     sourceImageDigest,
     sourceAttestationDigest,
-    repositoryUri,
+    buildConfigSourceUri,
     builderId,
     buildType,
     dockerfileMetadata: {
@@ -178,14 +216,14 @@ function parseStatement(
 
   if (predicateType?.includes("provenance/v0.2")) {
     return extractFieldsSlsa02(
-      predicate as SlsaPredicate02,
+      predicate as SlsaPredicateV0_2,
       sourceImageDigest,
       sourceAttestationDigest,
     );
   }
   if (predicateType?.includes("provenance/v1")) {
     return extractFieldsSlsa10(
-      predicate as SlsaPredicate10,
+      predicate as SlsaPredicateV1_0,
       sourceImageDigest,
       sourceAttestationDigest,
     );

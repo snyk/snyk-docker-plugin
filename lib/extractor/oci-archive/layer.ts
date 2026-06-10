@@ -568,9 +568,8 @@ function extractProvenanceAttestations(
 
   for (const descriptor of allManifests) {
     const isAttestationManifest =
-      descriptor.platform?.architecture === "unknown" &&
       descriptor.annotations?.["vnd.docker.reference.type"] ===
-        "attestation-manifest";
+      "attestation-manifest";
 
     if (!isAttestationManifest) {
       continue;
@@ -587,14 +586,9 @@ function extractProvenanceAttestations(
       continue;
     }
 
-    const nestedManifest = metadata.rawBlobs[descriptor.digest];
-    if (!nestedManifest) {
-      continue;
-    }
-
-    const attestationManifest = nestedManifest as OciArchiveManifest;
+    const attestationManifest = metadata.manifests[descriptor.digest];
     if (
-      !attestationManifest.layers ||
+      !attestationManifest?.layers ||
       !Array.isArray(attestationManifest.layers)
     ) {
       continue;
@@ -608,9 +602,7 @@ function extractProvenanceAttestations(
     };
 
     for (const layer of attestationManifest.layers) {
-      const isProvenanceLayer =
-        layer.annotations?.["in-toto.io/kind"] === "provenance" ||
-        layer.mediaType === "application/vnd.in-toto+json";
+      const isInTotoLayer = layer.mediaType === "application/vnd.in-toto+json";
 
       const provenanceLayer: ProvenanceAttestation["provenanceLayers"][number] =
         {
@@ -619,7 +611,7 @@ function extractProvenanceAttestations(
           annotations: layer.annotations,
         };
 
-      if (isProvenanceLayer) {
+      if (isInTotoLayer) {
         const inTotoBlob = metadata.rawBlobs[layer.digest];
         if (inTotoBlob) {
           provenanceLayer.inTotoStatement = inTotoBlob as InTotoStatement;

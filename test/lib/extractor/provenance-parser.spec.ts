@@ -62,9 +62,10 @@ describe("provenance-parser", () => {
       expect(result[0]).toEqual<ProvenanceMetadata>({
         buildTimestamp: "2025-01-15T10:30:00Z",
         buildConfigCommit: "abc123def456",
+        buildConfigCommitSource: "remote",
         sourceImageDigest: "sha256:deadbeef1234",
         sourceAttestationDigest: "sha256:abc123",
-        repositoryUri: "https://github.com/myorg/myrepo",
+        buildConfigSourceUri: "https://github.com/myorg/myrepo",
         builderId: "https://github.com/docker/buildx",
         buildType:
           "https://github.com/moby/buildkit/blob/master/docs/attestations/slsa-definitions.md",
@@ -104,6 +105,7 @@ describe("provenance-parser", () => {
 
       expect(result).toHaveLength(1);
       expect(result[0].buildConfigCommit).toBe("localcommitsha");
+      expect(result[0].buildConfigCommitSource).toBe("local");
       expect(result[0].dockerfileMetadata.name).toBe("docker/Dockerfile.prod");
     });
 
@@ -123,7 +125,7 @@ describe("provenance-parser", () => {
             buildStartedOn: "2025-03-01T12:00:00Z",
             "https://mobyproject.org/buildkit@v1#metadata": {
               source: {
-                infos: [{ data: dockerfileBase64 }],
+                infos: [{ filename: "Dockerfile", data: dockerfileBase64 }],
               },
             },
           },
@@ -139,6 +141,70 @@ describe("provenance-parser", () => {
 
       expect(result).toHaveLength(1);
       expect(result[0].dockerfileMetadata.contents).toBe(dockerfileBase64);
+    });
+
+    it("selects dockerfile contents by filename when multiple sources exist", () => {
+      const wanted = Buffer.from("FROM alpine\n").toString("base64");
+      const other = Buffer.from("FROM scratch\n").toString("base64");
+
+      const attestation = makeRawAttestation({
+        _type: "https://in-toto.io/Statement/v0.1",
+        predicateType: "https://slsa.dev/provenance/v0.2",
+        subject: [{ name: "test", digest: { sha256: "multi1" } }],
+        predicate: {
+          builder: { id: "buildkit" },
+          buildType: "moby",
+          metadata: {
+            buildStartedOn: "2025-03-01T12:00:00Z",
+            "https://mobyproject.org/buildkit@v1#metadata": {
+              source: {
+                infos: [
+                  { filename: "other/Dockerfile", data: other },
+                  { filename: "Dockerfile", data: wanted },
+                ],
+              },
+            },
+          },
+          invocation: { configSource: { entryPoint: "Dockerfile" } },
+        },
+      });
+
+      const result = parseProvenanceAttestations([attestation]);
+
+      expect(result).toHaveLength(1);
+      expect(result[0].dockerfileMetadata.contents).toBe(wanted);
+    });
+
+    it("returns null contents when no source matches the dockerfile name", () => {
+      const a = Buffer.from("FROM alpine\n").toString("base64");
+      const b = Buffer.from("FROM scratch\n").toString("base64");
+
+      const attestation = makeRawAttestation({
+        _type: "https://in-toto.io/Statement/v0.1",
+        predicateType: "https://slsa.dev/provenance/v0.2",
+        subject: [{ name: "test", digest: { sha256: "multi2" } }],
+        predicate: {
+          builder: { id: "buildkit" },
+          buildType: "moby",
+          metadata: {
+            buildStartedOn: "2025-03-01T12:00:00Z",
+            "https://mobyproject.org/buildkit@v1#metadata": {
+              source: {
+                infos: [
+                  { filename: "a/Dockerfile", data: a },
+                  { filename: "b/Dockerfile", data: b },
+                ],
+              },
+            },
+          },
+          invocation: { configSource: { entryPoint: "Dockerfile" } },
+        },
+      });
+
+      const result = parseProvenanceAttestations([attestation]);
+
+      expect(result).toHaveLength(1);
+      expect(result[0].dockerfileMetadata.contents).toBeNull();
     });
   });
 
@@ -180,9 +246,10 @@ describe("provenance-parser", () => {
       expect(result[0]).toEqual<ProvenanceMetadata>({
         buildTimestamp: "2025-06-01T14:00:00Z",
         buildConfigCommit: "remote1sha",
+        buildConfigCommitSource: "remote",
         sourceImageDigest: "sha256:cafebabe9999",
         sourceAttestationDigest: "sha256:abc123",
-        repositoryUri: "https://github.com/team/project",
+        buildConfigSourceUri: "https://github.com/team/project",
         builderId: "https://github.com/actions/runner",
         buildType:
           "https://github.com/moby/buildkit/blob/master/docs/attestations/slsa-definitions.md",
@@ -221,6 +288,7 @@ describe("provenance-parser", () => {
 
       expect(result).toHaveLength(1);
       expect(result[0].buildConfigCommit).toBe("localv1commit");
+      expect(result[0].buildConfigCommitSource).toBe("local");
     });
 
     it("extracts dockerfile contents from mode=max build", () => {
@@ -247,7 +315,7 @@ describe("provenance-parser", () => {
               startedOn: "2025-08-01T10:00:00Z",
               buildkit_metadata: {
                 source: {
-                  infos: [{ data: dockerfileBase64 }],
+                  infos: [{ filename: "Dockerfile", data: dockerfileBase64 }],
                 },
               },
             },
@@ -379,9 +447,10 @@ describe("provenance-parser", () => {
       expect(result[0]).toEqual<ProvenanceMetadata>({
         buildTimestamp: null,
         buildConfigCommit: null,
+        buildConfigCommitSource: null,
         sourceImageDigest: "sha256:abc123",
         sourceAttestationDigest: "sha256:abc123",
-        repositoryUri: null,
+        buildConfigSourceUri: null,
         builderId: "",
         buildType: "",
         dockerfileMetadata: {
