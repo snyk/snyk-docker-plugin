@@ -5,6 +5,7 @@ import {
   getPackagesFromRunInstructions,
 } from "../dockerfile/instruction-parser";
 import { getErrorMessage } from "../error-utils";
+import { isTrue } from "../option-utils";
 import { AutoDetectedUserInstructions, ImageType } from "../types";
 import { PluginOptions } from "../types";
 import * as dockerExtractor from "./docker-archive";
@@ -143,6 +144,12 @@ export async function extractImageContent(
     manifestLayers: extractor.getManifestLayers(archiveContent.manifest),
     imageCreationTime: archiveContent.imageConfig.created,
     extractedLayers: layersWithLatestFileModifications(archiveContent.layers),
+    // `archiveContent.layers` is top→bottom here; `orderedLayers` is FROM→top
+    // (see its doc on `ExtractionResult`). Copy before reversing so we don't
+    // mutate the array `layersWithLatestFileModifications` consumed above.
+    orderedLayers: isTrue(options?.["layer-attribution"])
+      ? [...archiveContent.layers].reverse()
+      : undefined,
     rootFsLayers: getRootFsLayersFromConfig(archiveContent.imageConfig),
     autoDetectedUserInstructions: getDetectedLayersInfoFromConfig(
       archiveContent.imageConfig,
