@@ -1,3 +1,4 @@
+import * as Debug from "debug";
 import { SymlinkMap } from "../../extractor/types";
 import {
   AnalysisType,
@@ -25,6 +26,7 @@ export type MatchKind = "exact" | "directory";
 export interface PathOwnerMatch {
   owner: AnalyzedPackageWithVersion;
   matchKind: MatchKind;
+  /** Number of matched path segments; a deeper directory match outranks a shallower one. */
   prefixLength: number;
 }
 
@@ -37,6 +39,8 @@ export interface ApkPathIndex {
   exactFileOwners: Map<string, AnalyzedPackageWithVersion[]>;
   directoryTrie: DirectoryTrieNode;
 }
+
+const debug = Debug("snyk");
 
 const CHAINGUARD_DISTROS = new Set(["wolfi", "chainguard"]);
 
@@ -88,7 +92,7 @@ export function resolveOwnerForEvidencePath(
     return {
       owner: pickExactOwner(exactOwners),
       matchKind: "exact",
-      prefixLength: canonical.length,
+      prefixLength: canonical.split("/").filter(Boolean).length,
     };
   }
 
@@ -123,7 +127,14 @@ function resolveDirectoryOwner(
 
 /**
  * Resolve APK package ownership for app evidence paths on Wolfi/Chainguard images.
- * Every evidence path must match an owner; we skip the fact rather than guess.
+ *
+ * Per Chainguard's scanner spec, an app dependency is owned by an APK package
+ * only when its evidence paths are wholly contained in that package's declared
+ * paths; a dependency with any unowned path is not covered by Chainguard's
+ * advisory data and must keep its findings. This fact drives downstream
+ * suppression, so we skip it rather than guess and risk suppressing real
+ * vulnerabilities in user-added software.
+ * https://github.com/chainguard-dev/vulnerability-scanner-support/blob/main/docs/scanning_implementation.md
  */
 export function resolveApkOwnership(
   evidencePaths: string[],
@@ -141,8 +152,10 @@ export function resolveApkOwnership(
   for (const evidencePath of evidencePaths) {
     const normalized = normalizeAbsolutePath(evidencePath);
     const match = resolveOwnerForEvidencePath(normalized, index, symlinkGraph);
-    // Require every evidence path to resolve; partial matches are not emitted.
     if (!match) {
+      debug(
+        `apk ownership skipped: no owning package for evidence path ${normalized}`,
+      );
       return undefined;
     }
     perPathMatches.push(match);
@@ -162,53 +175,41 @@ export function resolveApkOwnership(
   };
 }
 
+function ownerKey(pkg: AnalyzedPackageWithVersion): string {
+  return `${pkg.Name}@${pkg.Version}`;
+}
+
 function pickConsistentOwner(
   matches: PathOwnerMatch[],
 ): AnalyzedPackageWithVersion | undefined {
-  const ownerKey = (pkg: AnalyzedPackageWithVersion) =>
-    `${pkg.Name}@${pkg.Version}`;
-
-  const firstKey = ownerKey(matches[0].owner);
-  const allSame = matches.every((m) => ownerKey(m.owner) === firstKey);
-  if (allSame) {
-    return matches[0].owner;
-  }
-
-  return pickBestOwnerAcrossPaths(matches);
+  return uniqueOwner(matches) ?? pickBestOwnerAcrossPaths(matches);
 }
 
+/**
+ * When evidence paths disagree on an owner, an owner backed by an exact file
+ * match outranks owners only inferred from a parent directory; among
+ * directory-only matches, the deepest prefix wins. Evidence that is still
+ * split between owners yields no owner.
+ */
 function pickBestOwnerAcrossPaths(
   matches: PathOwnerMatch[],
 ): AnalyzedPackageWithVersion | undefined {
-  const scores = new Map<
-    string,
-    { pkg: AnalyzedPackageWithVersion; score: number }
-  >();
-
-  for (const match of matches) {
-    const key = `${match.owner.Name}@${match.owner.Version}`;
-    // Prefer exact file matches over directory-prefix matches when paths disagree.
-    const exactBonus = match.matchKind === "exact" ? 1000 : 0;
-    const score = exactBonus + match.prefixLength;
-    const existing = scores.get(key);
-    if (!existing || score > existing.score) {
-      scores.set(key, { pkg: match.owner, score });
-    }
+  const exactMatches = matches.filter((m) => m.matchKind === "exact");
+  if (exactMatches.length > 0) {
+    return uniqueOwner(exactMatches);
   }
 
-  const entries = [...scores.values()];
-  if (entries.length === 0) {
-    return undefined;
-  }
+  const deepest = Math.max(...matches.map((m) => m.prefixLength));
+  return uniqueOwner(matches.filter((m) => m.prefixLength === deepest));
+}
 
-  entries.sort((a, b) => b.score - a.score);
-  const topScore = entries[0].score;
-  const topEntries = entries.filter((e) => e.score === topScore);
-  if (topEntries.length === 1) {
-    return topEntries[0].pkg;
-  }
-
-  return undefined;
+function uniqueOwner(
+  matches: PathOwnerMatch[],
+): AnalyzedPackageWithVersion | undefined {
+  const first = matches[0].owner;
+  return matches.every((m) => ownerKey(m.owner) === ownerKey(first))
+    ? first
+    : undefined;
 }
 
 function pickExactOwner(
