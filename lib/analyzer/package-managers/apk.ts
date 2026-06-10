@@ -18,7 +18,8 @@ export function analyze(
 export function parseFile(text: string): AnalyzedPackageWithVersion[] {
   const pkgs: AnalyzedPackageWithVersion[] = [];
   let curPkg: AnalyzedPackageWithVersion | null = null;
-  let dirStack: string[] = [];
+  // Absolute path of the most recent F: record; "" until one is seen.
+  let currentDir = "";
 
   for (const line of text.split("\n")) {
     if (line.length < 2) {
@@ -29,6 +30,7 @@ export function parseFile(text: string): AnalyzedPackageWithVersion[] {
 
     switch (key) {
       case "P": {
+        // Package
         curPkg = {
           Name: value,
           Version: "",
@@ -40,15 +42,15 @@ export function parseFile(text: string): AnalyzedPackageWithVersion[] {
           Directories: [],
         };
         pkgs.push(curPkg);
-        dirStack = [];
+        currentDir = "";
         break;
       }
-      case "V":
+      case "V": // Version
         if (curPkg) {
           curPkg.Version = value;
         }
         break;
-      case "p":
+      case "p": // Provides
         if (curPkg) {
           for (let name of value.split(" ")) {
             name = name.split("=")[0];
@@ -56,8 +58,8 @@ export function parseFile(text: string): AnalyzedPackageWithVersion[] {
           }
         }
         break;
-      case "r":
-      case "D":
+      case "r": // Depends
+      case "D": // Depends
         if (curPkg) {
           for (let name of value.split(" ")) {
             if (name.charAt(0) !== "!") {
@@ -67,37 +69,38 @@ export function parseFile(text: string): AnalyzedPackageWithVersion[] {
           }
         }
         break;
-      case "o":
+      case "o": // Origin
         if (curPkg) {
           curPkg.Source = value;
         }
         break;
       case "F": {
+        // Directory for subsequent R:/M: file-list records, root-relative
+        // like "usr/lib"
         if (!curPkg) {
           break;
         }
-        dirStack = value.split("/").filter(Boolean);
-        const dirPath = stackToAbsolutePath(dirStack);
-        if (!curPkg.Directories!.includes(dirPath)) {
-          curPkg.Directories!.push(dirPath);
+        currentDir = value ? "/" + value : "";
+        if (currentDir && !curPkg.Directories!.includes(currentDir)) {
+          curPkg.Directories!.push(currentDir);
         }
         break;
       }
       case "R": {
-        if (!curPkg || dirStack.length === 0) {
+        // File name relative to the current F: directory
+        if (!curPkg || !currentDir) {
           break;
         }
-        const filePath = stackToAbsolutePath([...dirStack, value]);
-        curPkg.Files!.push(filePath);
+        curPkg.Files!.push(`${currentDir}/${value}`);
         break;
       }
       case "M": {
-        if (!curPkg || dirStack.length === 0) {
+        // Directory metadata for the current F: directory
+        if (!curPkg || !currentDir) {
           break;
         }
-        const dirPath = stackToAbsolutePath(dirStack);
-        if (!curPkg.Directories!.includes(dirPath)) {
-          curPkg.Directories!.push(dirPath);
+        if (!curPkg.Directories!.includes(currentDir)) {
+          curPkg.Directories!.push(currentDir);
         }
         break;
       }
@@ -105,8 +108,4 @@ export function parseFile(text: string): AnalyzedPackageWithVersion[] {
   }
 
   return pkgs;
-}
-
-function stackToAbsolutePath(stack: string[]): string {
-  return "/" + stack.join("/");
 }
