@@ -1740,7 +1740,6 @@ describe("buildResponse", () => {
       );
 
       const pkgNames = getDepPkgs(result.scanResults[0]).map((p) => p.name);
-      console.dir(pkgNames, { depth: null });
       expect(pkgNames).toEqual(
         expect.arrayContaining([
           "foo/foo",
@@ -1752,6 +1751,383 @@ describe("buildResponse", () => {
           "baz/baz",
         ]),
       );
+    });
+  });
+
+  describe("dockerLayerDiffId attribution", () => {
+    // `annotateDockerLayerDiffIds` walks the dep tree and stamps a
+    // `dockerLayerDiffId` label on every node whose `${name}@${version}`
+    // is present in `introducingLayerByPackage`. The key shape must
+    // exactly match the one minted on the producer side by
+    // `depFullName(pkg)@${version}` — `lib/dependency-tree/index.ts`
+    // sets the dep-tree node's `name` to `depFullName(...)`, so a
+    // package with `Source: glibc` and `Name: libc-bin` lives in the
+    // tree as `glibc/libc-bin` and must be looked up as such.
+
+    // Helper: pluck every (name, version) -> dockerLayerDiffId mapping
+    // off the produced dep-graph. Mirrors the access pattern Registry
+    // uses (`node.info.labels.dockerLayerDiffId`).
+    const collectDiffIdLabels = (scanResult: {
+      facts?: Array<{ type: string; data: any }>;
+    }): Map<string, string> => {
+      const depGraph = scanResult.facts?.find(
+        (f) => f.type === "depGraph",
+      )?.data;
+      const labels = new Map<string, string>();
+      if (!depGraph || typeof depGraph.getPkgs !== "function") {
+        return labels;
+      }
+      for (const pkg of depGraph.getPkgs()) {
+        for (const graphNode of depGraph.getPkgNodes(pkg)) {
+          const diffID = graphNode.info?.labels?.dockerLayerDiffId;
+          if (diffID) {
+            labels.set(`${pkg.name}@${pkg.version}`, diffID);
+          }
+        }
+      }
+      return labels;
+    };
+
+    // Helper: build a `DepTreeDep` with explicit version, since the
+    // shared `node()` builder hard-codes `version: "1.0"` and the
+    // attribution map is keyed on the exact version string.
+    const dep = (
+      name: string,
+      version: string,
+      children: DepTreeDep[] = [],
+    ): DepTreeDep => ({
+      name,
+      version,
+      dependencies: Object.fromEntries(children.map((c) => [c.name, c])),
+      labels: {},
+    });
+
+    it("stamps `dockerLayerDiffId` on a node whose name is `<source>/<binary>`", async () => {
+      // The high-leverage case: an OS package with a distinct Source
+      // (e.g. Debian `glibc` source → `libc-bin` binary) lives in the
+      // dep-tree as `glibc/libc-bin`. The map key shape and the tree
+      // node name must agree, or this annotation silently misses every
+      // OS vuln with a non-trivial source.
+      const analysis = createMockAnalysis({
+        depTree: {
+          dependencies: {
+            "glibc/libc-bin": dep("glibc/libc-bin", "2.36-9"),
+          },
+          name: "test",
+          version: "1.0.0",
+          packageFormatVersion: "deb:0.0.1",
+          targetOS: { prettyName: "Debian" },
+        },
+        packageFormat: "deb",
+        introducingLayerByPackage: new Map([
+          ["glibc/libc-bin@2.36-9", "sha256:aaa"],
+        ]),
+      });
+
+      const result = await buildResponse(analysis as any, undefined, false);
+      const labels = collectDiffIdLabels(result.scanResults[0]);
+
+      expect(labels.get("glibc/libc-bin@2.36-9")).toBe("sha256:aaa");
+    });
+
+    it("recurses into transitive dependencies and labels matching grandchildren", async () => {
+      // The walker is recursive. A deeply-nested transitive must pick
+      // up the label too, otherwise `from[]`-style vuln paths whose
+      // leaf is a transitive would not surface a `dockerLayerDiffId`.
+      const grandchild = dep("zlib", "1.2.13");
+      const child = dep("openssl", "3.0.7", [grandchild]);
+      const root = dep("curl", "7.88.1", [child]);
+
+      const analysis = createMockAnalysis({
+        depTree: {
+          dependencies: { curl: root },
+          name: "test",
+          version: "1.0.0",
+          packageFormatVersion: "deb:0.0.1",
+          targetOS: { prettyName: "Debian" },
+        },
+        packageFormat: "deb",
+        introducingLayerByPackage: new Map([
+          ["curl@7.88.1", "sha256:l1"],
+          ["openssl@3.0.7", "sha256:l1"],
+          ["zlib@1.2.13", "sha256:l0"],
+        ]),
+      });
+
+      const result = await buildResponse(analysis as any, undefined, false);
+      const labels = collectDiffIdLabels(result.scanResults[0]);
+
+      expect(labels.get("curl@7.88.1")).toBe("sha256:l1");
+      expect(labels.get("openssl@3.0.7")).toBe("sha256:l1");
+      expect(labels.get("zlib@1.2.13")).toBe("sha256:l0");
+    });
+
+    it("is a silent no-op when no dep-tree node matches the attribution map", async () => {
+      // A non-empty map paired with a dep tree that shares no keys
+      // must produce zero labels and no errors. This guards against a
+      // regression where the walker would, say, fall back to a
+      // name-only match and over-stamp.
+      const analysis = createMockAnalysis({
+        depTree: {
+          dependencies: {
+            curl: dep("curl", "7.88.1"),
+          },
+          name: "test",
+          version: "1.0.0",
+          packageFormatVersion: "deb:0.0.1",
+          targetOS: { prettyName: "Debian" },
+        },
+        packageFormat: "deb",
+        introducingLayerByPackage: new Map([["openssl@3.0.7", "sha256:l1"]]),
+      });
+
+      const result = await buildResponse(analysis as any, undefined, false);
+      const labels = collectDiffIdLabels(result.scanResults[0]);
+
+      expect(labels.size).toBe(0);
+    });
+
+    it("requires an exact `${name}@${version}` match (no name-only fallback)", async () => {
+      // Two packages with the same name but different versions: only
+      // the version in the map gets labelled. This is what makes the
+      // upgrade-within-a-layer scenario correctly attribute the new
+      // version's introducing layer.
+      const analysis = createMockAnalysis({
+        depTree: {
+          dependencies: {
+            curl: dep("curl", "8.0.0"),
+          },
+          name: "test",
+          version: "1.0.0",
+          packageFormatVersion: "deb:0.0.1",
+          targetOS: { prettyName: "Debian" },
+        },
+        packageFormat: "deb",
+        introducingLayerByPackage: new Map([["curl@7.88.1", "sha256:old"]]),
+      });
+
+      const result = await buildResponse(analysis as any, undefined, false);
+      const labels = collectDiffIdLabels(result.scanResults[0]);
+
+      expect(labels.has("curl@8.0.0")).toBe(false);
+    });
+
+    it("does not annotate any node when `introducingLayerByPackage` is absent", async () => {
+      // Flag-off path: the producer never sets the map. The walker
+      // must be skipped entirely; the resulting dep-graph carries no
+      // `dockerLayerDiffId` labels on any node.
+      const analysis = createMockAnalysis({
+        depTree: {
+          dependencies: {
+            curl: dep("curl", "7.88.1"),
+          },
+          name: "test",
+          version: "1.0.0",
+          packageFormatVersion: "deb:0.0.1",
+          targetOS: { prettyName: "Debian" },
+        },
+        packageFormat: "deb",
+        // `introducingLayerByPackage` deliberately omitted.
+      });
+
+      const result = await buildResponse(analysis as any, undefined, false);
+      const labels = collectDiffIdLabels(result.scanResults[0]);
+
+      expect(labels.size).toBe(0);
+    });
+
+    it("preserves pre-existing labels (e.g. `dockerLayerId`) when adding `dockerLayerDiffId`", async () => {
+      // The dockerfile-attribution pass runs first and may stamp
+      // `dockerLayerId` on the same node. `annotateDockerLayerDiffIds`
+      // must spread existing labels rather than overwrite them — the
+      // two labels coexist on the dep-graph node.
+      const runInstruction = "RUN apk add curl";
+      const dockerfileAnalysis = {
+        baseImage: "alpine:3.18",
+        dockerfilePackages: {
+          curl: { instruction: runInstruction, installCommand: "apk add curl" },
+        },
+        dockerfileLayers: {
+          [Buffer.from(runInstruction).toString("base64")]: {
+            instruction: runInstruction,
+          },
+        },
+      };
+
+      const analysis = createMockAnalysis({
+        depTree: {
+          dependencies: { curl: dep("curl", "7.88.1") },
+          name: "test",
+          version: "1.0.0",
+          packageFormatVersion: "apk:0.0.1",
+          targetOS: { prettyName: "Alpine 3.18" },
+        },
+        packageFormat: "apk",
+        introducingLayerByPackage: new Map([
+          ["curl@7.88.1", "sha256:user-layer"],
+        ]),
+      });
+
+      const result = await buildResponse(
+        analysis as any,
+        dockerfileAnalysis as any,
+        false,
+      );
+
+      const depGraph = result.scanResults[0].facts?.find(
+        (f) => f.type === "depGraph",
+      )?.data;
+      const curlPkg = depGraph.getPkgs().find((p: any) => p.name === "curl");
+      expect(curlPkg).toBeDefined();
+      const curlNode = depGraph.getPkgNodes(curlPkg)[0];
+      expect(curlNode.info?.labels?.dockerLayerDiffId).toBe(
+        "sha256:user-layer",
+      );
+      expect(curlNode.info?.labels?.dockerLayerId).toBeDefined();
+    });
+  });
+
+  describe("rootFs/history duplication for layer attribution", () => {
+    // The vulns-by-layer design duplicates `rootFs` + `history` onto every
+    // container scan result so the backend can do the diffID -> instruction
+    // join per-monitor. The first milestone only attributes OS packages, so
+    // app scan results have nothing to join against and the duplication is
+    // intentionally disabled (see the commented-out block in
+    // `response-builder.ts`). These tests pin that milestone contract
+    // deterministically — the system test's fixture is OS-only and produces
+    // no app scan result, so it cannot exercise this path.
+
+    const analysisWithAppScanResult = (overrides = {}) =>
+      createMockAnalysis({
+        platform: "linux/amd64",
+        rootFsLayers: ["sha256:layer0", "sha256:layer1"],
+        history: [
+          { created: "2023-01-01T00:00:00Z", created_by: "RUN apk add curl" },
+        ],
+        applicationDependenciesScanResults: [
+          {
+            facts: [{ type: "depGraph" as const, data: {} as any }],
+            identity: { type: "npm" },
+            target: { image: "test-app" },
+          },
+        ],
+        ...overrides,
+      });
+
+    it("emits rootFs/history on the OS scan result but not on app scan results, even with attribution on", async () => {
+      const analysis = analysisWithAppScanResult({
+        introducingLayerByPackage: new Map([["curl@1.0", "sha256:layer1"]]),
+      });
+
+      const result = await buildResponse(analysis as any, undefined, false);
+      expect(result.scanResults).toHaveLength(2);
+
+      const osFacts = result.scanResults[0].facts ?? [];
+      expect(osFacts.find((f) => f.type === "rootFs")).toBeDefined();
+      expect(osFacts.find((f) => f.type === "history")).toBeDefined();
+
+      const appFacts = result.scanResults[1].facts ?? [];
+      expect(appFacts.find((f) => f.type === "rootFs")).toBeUndefined();
+      expect(appFacts.find((f) => f.type === "history")).toBeUndefined();
+    });
+
+    it("does not duplicate rootFs/history onto app scan results when attribution is off", async () => {
+      const analysis = analysisWithAppScanResult();
+
+      const result = await buildResponse(analysis as any, undefined, false);
+      expect(result.scanResults).toHaveLength(2);
+
+      const appFacts = result.scanResults[1].facts ?? [];
+      expect(appFacts.find((f) => f.type === "rootFs")).toBeUndefined();
+      expect(appFacts.find((f) => f.type === "history")).toBeUndefined();
+    });
+  });
+
+  describe("layerAttribution pluginWarnings wiring", () => {
+    // Pins the hop where the analyzer's `layerAttributionWarnings` becomes the
+    // `pluginWarnings.layerAttribution` field on the OS scan result. The
+    // producers (checkHistoryAlignment / computeOsLayerAttribution) are unit
+    // tested in layer-attribution.spec.ts; this covers that those strings
+    // actually reach the wire, land on the OS scan result only, and are
+    // omitted entirely when there are none.
+
+    const layerAttributionWarnings = [
+      "Layer attribution: image history does not align 1:1 with rootfs layers " +
+        "(history has 2 non-empty entries, rootfs has 3 layers). " +
+        "Per-package layer attribution will still be reported, but the " +
+        "originating Dockerfile instruction may not be shown.",
+    ];
+
+    const analysisWithAppScanResult = (overrides = {}) =>
+      createMockAnalysis({
+        platform: "linux/amd64",
+        applicationDependenciesScanResults: [
+          {
+            facts: [{ type: "depGraph" as const, data: {} as any }],
+            identity: { type: "npm" },
+            target: { image: "test-app" },
+          },
+        ],
+        ...overrides,
+      });
+
+    it("surfaces layerAttributionWarnings as pluginWarnings.layerAttribution on the OS scan result", async () => {
+      const analysis = createMockAnalysis({
+        platform: "linux/amd64",
+        layerAttributionWarnings,
+      });
+
+      const result = await buildResponse(analysis as any, undefined, false);
+
+      const pluginWarnings = result.scanResults[0].facts?.find(
+        (fact) => fact.type === "pluginWarnings",
+      );
+      expect(pluginWarnings).toBeDefined();
+      expect(pluginWarnings?.data.layerAttribution).toEqual(
+        layerAttributionWarnings,
+      );
+    });
+
+    it("does not attach the layerAttribution warnings to application scan results", async () => {
+      const analysis = analysisWithAppScanResult({
+        layerAttributionWarnings,
+      });
+
+      const result = await buildResponse(analysis as any, undefined, false);
+      expect(result.scanResults).toHaveLength(2);
+
+      const appPluginWarnings = result.scanResults[1].facts?.find(
+        (fact) => fact.type === "pluginWarnings",
+      );
+      expect(appPluginWarnings).toBeUndefined();
+    });
+
+    it("omits the pluginWarnings fact when there are no layer-attribution warnings", async () => {
+      const analysis = createMockAnalysis({ platform: "linux/amd64" });
+
+      const result = await buildResponse(analysis as any, undefined, false);
+
+      const pluginWarnings = result.scanResults[0].facts?.find(
+        (fact) => fact.type === "pluginWarnings",
+      );
+      expect(pluginWarnings).toBeUndefined();
+    });
+
+    it("omits the pluginWarnings fact when layerAttributionWarnings is an empty array", async () => {
+      // static-analyzer returns `undefined` rather than `[]`, but the
+      // `?.length` guard in response-builder must also treat an empty array
+      // as "no warnings" so an empty fact is never emitted.
+      const analysis = createMockAnalysis({
+        platform: "linux/amd64",
+        layerAttributionWarnings: [],
+      });
+
+      const result = await buildResponse(analysis as any, undefined, false);
+
+      const pluginWarnings = result.scanResults[0].facts?.find(
+        (fact) => fact.type === "pluginWarnings",
+      );
+      expect(pluginWarnings).toBeUndefined();
     });
   });
 });
