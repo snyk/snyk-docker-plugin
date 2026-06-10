@@ -1,4 +1,21 @@
+import { Docker } from "../../../lib/docker";
 import { scan } from "../../../lib/index";
+
+// Force the plugin down the registry-API pull path (pullFromContainerRegistry),
+// which is what these snapshots were recorded from and the only path that uses
+// the credentials under test. Without this, the suite failed on developer
+// machines while passing in CI: scan() prefers `docker save` when the image is
+// already in the local daemon, and otherwise shells out to a plain
+// `docker pull` that authenticates with the developer's own `docker login`.
+// On both of those paths the credentials passed to scan() are ignored (so bad
+// credentials were never rejected) and the resulting imageLayers/imageNames
+// facts don't match the snapshots.
+beforeAll(() => {
+  jest.spyOn(Docker, "binaryExists").mockResolvedValue(false);
+  jest
+    .spyOn(Docker.prototype, "inspectImage")
+    .mockRejectedValue(new Error("forcing registry pull in tests"));
+});
 
 describe("username and password authentication", () => {
   const oldSnykRegistryUsernameEnvVar = process.env.SNYK_REGISTRY_USERNAME;
