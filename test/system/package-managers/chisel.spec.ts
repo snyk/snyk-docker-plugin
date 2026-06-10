@@ -1,5 +1,15 @@
+import { Docker } from "../../../lib/docker";
 import { scan } from "../../../lib/index";
 import { execute } from "../../../lib/sub-process";
+
+// The image is private; force the registry-API pull path so results match
+// CI regardless of the local daemon cache or the developer's `docker login`.
+beforeAll(() => {
+  jest.spyOn(Docker, "binaryExists").mockResolvedValue(false);
+  jest
+    .spyOn(Docker.prototype, "inspectImage")
+    .mockRejectedValue(new Error("forcing registry pull in tests"));
+});
 
 describe("chisel package manager tests", () => {
   afterAll(async () => {

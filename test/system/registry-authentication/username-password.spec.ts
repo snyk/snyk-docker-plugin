@@ -1,4 +1,15 @@
+import { Docker } from "../../../lib/docker";
 import { scan } from "../../../lib/index";
+
+// These tests exercise registry authentication, so they must not be
+// satisfiable by a locally cached image or the developer's own
+// `docker login` — force the registry-API pull path.
+beforeAll(() => {
+  jest.spyOn(Docker, "binaryExists").mockResolvedValue(false);
+  jest
+    .spyOn(Docker.prototype, "inspectImage")
+    .mockRejectedValue(new Error("forcing registry pull in tests"));
+});
 
 describe("username and password authentication", () => {
   const oldSnykRegistryUsernameEnvVar = process.env.SNYK_REGISTRY_USERNAME;
