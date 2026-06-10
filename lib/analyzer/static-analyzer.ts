@@ -72,6 +72,10 @@ import { pipFilesToScannedProjects } from "./applications/python";
 import { getApplicationFiles } from "./applications/runtime-common";
 import { AppDepsScanResultWithoutTarget } from "./applications/types";
 import { detectJavaRuntime } from "./base-runtimes";
+import {
+  checkHistoryAlignment,
+  computeOsLayerAttribution,
+} from "./layer-attribution";
 import * as osReleaseDetector from "./os-release";
 import { analyze as apkAnalyze } from "./package-managers/apk";
 import {
@@ -85,6 +89,7 @@ import {
 } from "./package-managers/rpm";
 import {
   ImagePackagesAnalysis,
+  IntroducingLayerByPackage,
   OSRelease,
   StaticPackagesAnalysis,
 } from "./types";
@@ -165,6 +170,7 @@ export async function analyze(
     imageId,
     manifestLayers,
     extractedLayers,
+    orderedLayers,
     rootFsLayers,
     autoDetectedUserInstructions,
     platform,
@@ -243,6 +249,48 @@ export async function analyze(
   } catch (err) {
     debug(`Could not detect installed OS packages: ${getErrorMessage(err)}`);
     throw new Error("Failed to detect installed OS packages");
+  }
+
+  let introducingLayerByPackage: IntroducingLayerByPackage | undefined;
+  const layerAttributionWarnings: string[] = [];
+  if (
+    isTrue(options["layer-attribution"]) &&
+    rootFsLayers &&
+    orderedLayers &&
+    orderedLayers.length > 0
+  ) {
+    phaseStart = Date.now();
+    // Surface a user-visible warning when `history` does not align 1:1
+    // with `rootfs.diff_ids[]`. The per-package labels we mint below are
+    // keyed by diffID and remain correct; the warning only tells the
+    // user that downstream joins from diffID to Dockerfile instruction
+    // text (performed by the backend at read time) may not work.
+    const misalignmentWarning = checkHistoryAlignment(rootFsLayers, history);
+    if (misalignmentWarning) {
+      layerAttributionWarnings.push(misalignmentWarning);
+      debug(misalignmentWarning);
+    }
+    // `results` carries one entry per DB *format* (e.g. RPM BDB/NDB and RPM
+    // SQLite are separate, both `AnalysisType.Rpm`); attribution is keyed on
+    // `AnalyzeType` and reads every format for that ecosystem internally.
+    // Deduping by ecosystem happens inside the helper.
+    if (results.some((r) => r.Analysis.length > 0)) {
+      introducingLayerByPackage = await computeOsLayerAttribution(
+        results,
+        orderedLayers,
+        rootFsLayers,
+        targetImage,
+        osRelease,
+        redHatRepositories,
+        (analysisType, warning) =>
+          debug(
+            `Layer attribution warning for ${analysisType}: ${getErrorMessage(
+              warning,
+            )}`,
+          ),
+      );
+    }
+    timings.layerAttributionMs = Date.now() - phaseStart;
   }
 
   phaseStart = Date.now();
@@ -346,6 +394,11 @@ export async function analyze(
     baseRuntimes,
     imageLayers: manifestLayers,
     rootFsLayers,
+    introducingLayerByPackage,
+    layerAttributionWarnings:
+      layerAttributionWarnings.length > 0
+        ? layerAttributionWarnings
+        : undefined,
     applicationDependenciesScanResults,
     manifestFiles,
     autoDetectedUserInstructions,
