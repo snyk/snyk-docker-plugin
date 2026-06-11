@@ -1,7 +1,5 @@
-import * as crypto from "crypto";
 import {
   createReadStream,
-  createWriteStream,
   existsSync,
   mkdirSync,
   rmdirSync,
@@ -121,8 +119,7 @@ describe("docker", () => {
     const TEST_TARGET_IMAGE_DESTINATION = path.join(os.tmpdir(), "image.tar");
 
     const docker = new Docker();
-    let expectedChecksum;
-    let tempFilesToCleanup: string[] = [];
+    let expectedManifest: ImageManifest;
 
     beforeAll(async () => {
       const loadImage = path.join(
@@ -130,8 +127,7 @@ describe("docker", () => {
         "../fixtures/docker-archives",
         "docker-save/hello-world.tar",
       );
-      const normalizedLoadImage = await normalizeImageTar(loadImage);
-      expectedChecksum = await calculateImageSHA256(normalizedLoadImage);
+      expectedManifest = await readImageManifest(loadImage);
       await subProcess.execute("docker", ["load", "--input", loadImage]);
     });
 
@@ -139,71 +135,50 @@ describe("docker", () => {
       if (existsSync(TEST_TARGET_IMAGE_DESTINATION)) {
         unlinkSync(TEST_TARGET_IMAGE_DESTINATION);
       }
-      for (const file of tempFilesToCleanup) {
-        if (existsSync(file)) {
-          unlinkSync(file);
-        }
-      }
-      tempFilesToCleanup = [];
     });
 
-    async function calculateImageSHA256(tarFilePath: string): Promise<string> {
-      return new Promise((resolve, reject) => {
-        const hash = crypto.createHash("sha256");
-        const stream = createReadStream(tarFilePath);
-
-        stream.on("data", (data) => {
-          hash.update(data);
-        });
-
-        stream.on("end", () => {
-          resolve(hash.digest("hex"));
-        });
-
-        stream.on("error", (err) => {
-          reject(err);
-        });
-      });
+    interface ImageManifest {
+      Config: string;
+      Layers: string[];
     }
 
-    async function normalizeImageTar(tarFilePath: string): Promise<string> {
+    async function readImageManifest(
+      tarFilePath: string,
+    ): Promise<ImageManifest> {
       return new Promise((resolve, reject) => {
         const extract = tar.extract();
-        const pack = tar.pack();
-        const tempFilePath = path.join(
-          os.tmpdir(),
-          `snyk-docker-plugin-test-${crypto.randomUUID()}.tar`,
-        );
-        tempFilesToCleanup.push(tempFilePath);
-        const output = createWriteStream(tempFilePath);
-        extract.on("entry", (header, stream, next) => {
-          // Normalize the header
-          header.mtime = new Date(0); // Set modification time to the epoch
-          header.uid = 0; // Set user ID to 0
-          header.gid = 0; // Set group ID to 0
+        let manifest: ImageManifest | undefined;
 
-          // Add entry to the new tar file
-          const entry = pack.entry(header, next);
-          stream.pipe(entry);
+        extract.on("entry", (header, stream, next) => {
+          if (header.name === "manifest.json") {
+            const chunks: Buffer[] = [];
+            stream.on("data", (chunk) => chunks.push(chunk));
+            stream.on("end", () => {
+              manifest = JSON.parse(Buffer.concat(chunks).toString("utf8"))[0];
+              next();
+            });
+          } else {
+            stream.on("end", next);
+            stream.resume();
+          }
         });
 
         extract.on("finish", () => {
-          pack.finalize();
-        });
-
-        output.on("finish", () => {
-          resolve(tempFilePath);
+          if (manifest) {
+            resolve(manifest);
+          } else {
+            reject(new Error(`manifest.json not found in ${tarFilePath}`));
+          }
         });
 
         extract.on("error", (err) => {
           reject(err);
         });
 
-        pack.pipe(output);
-
         createReadStream(tarFilePath).pipe(extract);
       });
     }
+
     test("image saved to specified location", async () => {
       const targetImage = TEST_TARGET_IMAGE;
       const targetImageDestination = TEST_TARGET_IMAGE_DESTINATION;
@@ -211,22 +186,27 @@ describe("docker", () => {
       await docker.save(targetImage, targetImageDestination);
 
       expect(existsSync(targetImageDestination)).toBeTruthy();
-      const normalizedTargetImage = await normalizeImageTar(
-        targetImageDestination,
-      );
 
-      const checksum = await calculateImageSHA256(normalizedTargetImage);
-      expect(checksum).toEqual(expectedChecksum);
+      // Compare the manifest's config and layer digests rather than archive
+      // bytes: docker save output is not byte-stable across engine versions
+      // (e.g. Docker 29 omits the empty OnBuild field from the legacy config
+      // blob, which changes the whole-archive checksum).
+      const savedManifest = await readImageManifest(targetImageDestination);
+      expect(savedManifest.Config).toEqual(expectedManifest.Config);
+      expect(savedManifest.Layers).toEqual(expectedManifest.Layers);
     });
 
     test("promise rejects when image doesn't exist", async () => {
-      const image = "someImage:latest";
+      const image = "image-that-does-not-exist:latest";
       const destination = "/tmp/image.tar";
 
       const result = docker.save(image, destination);
 
-      //  rejects with expected error
-      await expect(result).rejects.toThrowError("server error");
+      // The daemon responds 404, which Docker.save surfaces as "not found".
+      // (An invalid reference like "someImage" is no longer usable here:
+      // Docker 29 rejects it with 400 before checking existence, where
+      // older engines returned 500.)
+      await expect(result).rejects.toThrowError("not found");
       expect(existsSync(destination)).toBeFalsy();
     });
 

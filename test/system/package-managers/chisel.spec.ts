@@ -1,5 +1,19 @@
+import { Docker } from "../../../lib/docker";
 import { scan } from "../../../lib/index";
 import { execute } from "../../../lib/sub-process";
+
+// The image is private, so force the registry-API pull path the snapshot was
+// recorded from. Without this, the suite failed on developer machines while
+// passing in CI: a locally cached copy of the image (or a successful
+// `docker pull` via the developer's own `docker login`) makes scan() use
+// `docker save` instead, which produces different imageLayers/imageNames
+// facts than the registry pull.
+beforeAll(() => {
+  jest.spyOn(Docker, "binaryExists").mockResolvedValue(false);
+  jest
+    .spyOn(Docker.prototype, "inspectImage")
+    .mockRejectedValue(new Error("forcing registry pull in tests"));
+});
 
 describe("chisel package manager tests", () => {
   afterAll(async () => {
