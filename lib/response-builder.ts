@@ -307,7 +307,7 @@ async function buildResponse(
     depsAnalysis.provenanceAttestations &&
     depsAnalysis.provenanceAttestations.length > 0
   ) {
-    const parsed = parseProvenanceAttestations(
+    const parsed = await parseProvenanceAttestations(
       depsAnalysis.provenanceAttestations,
     );
     if (parsed.length > 0) {

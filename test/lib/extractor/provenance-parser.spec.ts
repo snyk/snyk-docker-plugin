@@ -29,7 +29,7 @@ function makeRawAttestation(
 
 describe("provenance-parser", () => {
   describe("SLSA 0.2", () => {
-    it("extracts all fields from a remote build", () => {
+    it("extracts all fields from a remote build", async () => {
       const attestation = makeRawAttestation({
         _type: "https://in-toto.io/Statement/v0.1",
         predicateType: "https://slsa.dev/provenance/v0.2",
@@ -56,7 +56,7 @@ describe("provenance-parser", () => {
         },
       });
 
-      const result = parseProvenanceAttestations([attestation]);
+      const result = await parseProvenanceAttestations([attestation]);
 
       expect(result).toHaveLength(1);
       expect(result[0]).toEqual<ProvenanceMetadata>({
@@ -71,12 +71,12 @@ describe("provenance-parser", () => {
           "https://github.com/moby/buildkit/blob/master/docs/attestations/slsa-definitions.md",
         dockerfileMetadata: {
           name: "Dockerfile",
-          contents: null,
+          analysis: null,
         },
       });
     });
 
-    it("extracts commit from local build VCS metadata", () => {
+    it("extracts commit from local build VCS metadata", async () => {
       const attestation = makeRawAttestation({
         _type: "https://in-toto.io/Statement/v0.1",
         predicateType: "https://slsa.dev/provenance/v0.2",
@@ -101,7 +101,7 @@ describe("provenance-parser", () => {
         },
       });
 
-      const result = parseProvenanceAttestations([attestation]);
+      const result = await parseProvenanceAttestations([attestation]);
 
       expect(result).toHaveLength(1);
       expect(result[0].buildConfigCommit).toBe("localcommitsha");
@@ -109,7 +109,7 @@ describe("provenance-parser", () => {
       expect(result[0].dockerfileMetadata.name).toBe("docker/Dockerfile.prod");
     });
 
-    it("extracts dockerfile contents from mode=max build", () => {
+    it("decodes and parses dockerfile contents from a mode=max build", async () => {
       const dockerfileBase64 = Buffer.from(
         "FROM node:18\nRUN npm install",
       ).toString("base64");
@@ -137,13 +137,18 @@ describe("provenance-parser", () => {
         },
       });
 
-      const result = parseProvenanceAttestations([attestation]);
+      const result = await parseProvenanceAttestations([attestation]);
 
       expect(result).toHaveLength(1);
-      expect(result[0].dockerfileMetadata.contents).toBe(dockerfileBase64);
+      expect(result[0].dockerfileMetadata.name).toBe("Dockerfile");
+
+      // The base64 contents are decoded and parsed into a DockerFileAnalysis;
+      // no raw base64 is surfaced.
+      expect(result[0].dockerfileMetadata.analysis?.baseImage).toBe("node:18");
+      expect(JSON.stringify(result[0])).not.toContain(dockerfileBase64);
     });
 
-    it("selects dockerfile contents by filename when multiple sources exist", () => {
+    it("selects dockerfile contents by filename when multiple sources exist", async () => {
       const wanted = Buffer.from("FROM alpine\n").toString("base64");
       const other = Buffer.from("FROM scratch\n").toString("base64");
 
@@ -169,13 +174,13 @@ describe("provenance-parser", () => {
         },
       });
 
-      const result = parseProvenanceAttestations([attestation]);
+      const result = await parseProvenanceAttestations([attestation]);
 
       expect(result).toHaveLength(1);
-      expect(result[0].dockerfileMetadata.contents).toBe(wanted);
+      expect(result[0].dockerfileMetadata.analysis?.baseImage).toBe("alpine");
     });
 
-    it("returns null contents when no source matches the dockerfile name", () => {
+    it("produces null analysis when no source matches the dockerfile name", async () => {
       const a = Buffer.from("FROM alpine\n").toString("base64");
       const b = Buffer.from("FROM scratch\n").toString("base64");
 
@@ -201,15 +206,16 @@ describe("provenance-parser", () => {
         },
       });
 
-      const result = parseProvenanceAttestations([attestation]);
+      const result = await parseProvenanceAttestations([attestation]);
 
       expect(result).toHaveLength(1);
-      expect(result[0].dockerfileMetadata.contents).toBeNull();
+      expect(result[0].dockerfileMetadata.name).toBe("Dockerfile");
+      expect(result[0].dockerfileMetadata.analysis).toBeNull();
     });
   });
 
   describe("SLSA 1.0", () => {
-    it("extracts all fields from a remote build", () => {
+    it("extracts all fields from a remote build", async () => {
       const attestation = makeRawAttestation({
         _type: "https://in-toto.io/Statement/v1",
         predicateType: "https://slsa.dev/provenance/v1",
@@ -240,7 +246,7 @@ describe("provenance-parser", () => {
         },
       });
 
-      const result = parseProvenanceAttestations([attestation]);
+      const result = await parseProvenanceAttestations([attestation]);
 
       expect(result).toHaveLength(1);
       expect(result[0]).toEqual<ProvenanceMetadata>({
@@ -255,12 +261,12 @@ describe("provenance-parser", () => {
           "https://github.com/moby/buildkit/blob/master/docs/attestations/slsa-definitions.md",
         dockerfileMetadata: {
           name: "build/Dockerfile",
-          contents: null,
+          analysis: null,
         },
       });
     });
 
-    it("extracts commit from local build VCS metadata", () => {
+    it("extracts commit from local build VCS metadata", async () => {
       const attestation = makeRawAttestation({
         _type: "https://in-toto.io/Statement/v1",
         predicateType: "https://slsa.dev/provenance/v1",
@@ -284,14 +290,14 @@ describe("provenance-parser", () => {
         },
       });
 
-      const result = parseProvenanceAttestations([attestation]);
+      const result = await parseProvenanceAttestations([attestation]);
 
       expect(result).toHaveLength(1);
       expect(result[0].buildConfigCommit).toBe("localv1commit");
       expect(result[0].buildConfigCommitSource).toBe("local");
     });
 
-    it("extracts dockerfile contents from mode=max build", () => {
+    it("decodes and parses dockerfile contents from a mode=max build", async () => {
       const dockerfileBase64 = Buffer.from(
         "FROM python:3.11\nCOPY . .",
       ).toString("base64");
@@ -323,15 +329,18 @@ describe("provenance-parser", () => {
         },
       });
 
-      const result = parseProvenanceAttestations([attestation]);
+      const result = await parseProvenanceAttestations([attestation]);
 
       expect(result).toHaveLength(1);
-      expect(result[0].dockerfileMetadata.contents).toBe(dockerfileBase64);
+      expect(result[0].dockerfileMetadata.name).toBe("Dockerfile");
+      expect(result[0].dockerfileMetadata.analysis?.baseImage).toBe(
+        "python:3.11",
+      );
     });
   });
 
   describe("attestation digest", () => {
-    it("surfaces the attestation manifest digest distinct from the image digest", () => {
+    it("surfaces the attestation manifest digest distinct from the image digest", async () => {
       const attestation: ProvenanceAttestation = {
         attestationManifestDigest: "sha256:attestationmanifest",
         mediaType: "application/vnd.oci.image.manifest.v1+json",
@@ -357,7 +366,7 @@ describe("provenance-parser", () => {
         ],
       };
 
-      const result = parseProvenanceAttestations([attestation]);
+      const result = await parseProvenanceAttestations([attestation]);
 
       expect(result).toHaveLength(1);
       expect(result[0].sourceAttestationDigest).toBe(
@@ -368,7 +377,7 @@ describe("provenance-parser", () => {
   });
 
   describe("limits and edge cases", () => {
-    it("limits to 10 attestations per image", () => {
+    it("limits to 10 attestations per image", async () => {
       const attestations: ProvenanceAttestation[] = Array.from(
         { length: 15 },
         (_, i) =>
@@ -390,12 +399,12 @@ describe("provenance-parser", () => {
           }),
       );
 
-      const result = parseProvenanceAttestations(attestations);
+      const result = await parseProvenanceAttestations(attestations);
 
       expect(result).toHaveLength(10);
     });
 
-    it("selects the same digest-sorted subset regardless of input order when over the limit", () => {
+    it("selects the same digest-sorted subset regardless of input order when over the limit", async () => {
       const makeAttestationWithDigest = (
         manifestDigest: string,
       ): ProvenanceAttestation => ({
@@ -430,18 +439,18 @@ describe("provenance-parser", () => {
       const ascending = digests.map(makeAttestationWithDigest);
       const shuffled = [...ascending].reverse();
 
-      const resultAscending = parseProvenanceAttestations(ascending).map(
-        (r) => r.sourceAttestationDigest,
-      );
-      const resultShuffled = parseProvenanceAttestations(shuffled).map(
-        (r) => r.sourceAttestationDigest,
-      );
+      const resultAscending = (
+        await parseProvenanceAttestations(ascending)
+      ).map((r) => r.sourceAttestationDigest);
+      const resultShuffled = (
+        await parseProvenanceAttestations(shuffled)
+      ).map((r) => r.sourceAttestationDigest);
 
       expect(resultAscending).toEqual(expectedSubset);
       expect(resultShuffled).toEqual(expectedSubset);
     });
 
-    it("skips layers without inTotoStatement", () => {
+    it("skips layers without inTotoStatement", async () => {
       const attestation: ProvenanceAttestation = {
         attestationManifestDigest: "sha256:abc",
         mediaType: "application/vnd.oci.image.manifest.v1+json",
@@ -454,12 +463,12 @@ describe("provenance-parser", () => {
         ],
       };
 
-      const result = parseProvenanceAttestations([attestation]);
+      const result = await parseProvenanceAttestations([attestation]);
 
       expect(result).toHaveLength(0);
     });
 
-    it("skips unsupported predicate types", () => {
+    it("skips unsupported predicate types", async () => {
       const attestation = makeRawAttestation({
         _type: "https://in-toto.io/Statement/v0.1",
         predicateType: "https://example.com/custom/v1",
@@ -469,12 +478,12 @@ describe("provenance-parser", () => {
         },
       });
 
-      const result = parseProvenanceAttestations([attestation]);
+      const result = await parseProvenanceAttestations([attestation]);
 
       expect(result).toHaveLength(0);
     });
 
-    it("handles missing fields gracefully", () => {
+    it("handles missing fields gracefully", async () => {
       const attestation = makeRawAttestation({
         _type: "https://in-toto.io/Statement/v0.1",
         predicateType: "https://slsa.dev/provenance/v0.2",
@@ -487,7 +496,7 @@ describe("provenance-parser", () => {
         },
       });
 
-      const result = parseProvenanceAttestations([attestation]);
+      const result = await parseProvenanceAttestations([attestation]);
 
       expect(result).toHaveLength(1);
       expect(result[0]).toEqual<ProvenanceMetadata>({
@@ -501,7 +510,7 @@ describe("provenance-parser", () => {
         buildType: "",
         dockerfileMetadata: {
           name: "Dockerfile",
-          contents: null,
+          analysis: null,
         },
       });
     });

@@ -1,4 +1,6 @@
 import * as Debug from "debug";
+import { analyseDockerfile } from "../dockerfile";
+import { DockerFileAnalysis } from "../dockerfile/types";
 import { InTotoStatement, ProvenanceAttestation } from "./types";
 
 const debug = Debug("snyk");
@@ -11,7 +13,7 @@ type SlsaProvenanceVersion =
 
 export interface DockerfileMetadata {
   name: string;
-  contents: string | null;
+  analysis: DockerFileAnalysis | null;
 }
 
 export interface ProvenanceMetadata {
@@ -77,12 +79,27 @@ interface SlsaPredicateV1_0 {
   };
 }
 
-function getDockerfileContents(
+
+function getDecodedDockerfileContents(
   infos: BuildkitSourceInfo[] | undefined,
   dockerfileName: string,
 ): string | null {
   const match = infos?.find((info) => info.filename === dockerfileName);
-  return match?.data ?? null;
+  if (!match?.data) {
+    return null;
+  }
+  return Buffer.from(match.data, "base64").toString("utf8");
+}
+
+async function analyseDecodedDockerfile(
+  infos: BuildkitSourceInfo[] | undefined,
+  dockerfileName: string,
+): Promise<DockerFileAnalysis | null> {
+  const contents = getDecodedDockerfileContents(infos, dockerfileName);
+  if (contents === null) {
+    return null;
+  }
+  return analyseDockerfile(contents);
 }
 
 function getConfigSourceCommit(digest?: {
@@ -100,11 +117,11 @@ function getConfigSourceCommit(digest?: {
   return `${algorithm}:${value}`;
 }
 
-function extractFieldsSlsa02(
+async function extractFieldsSlsa02(
   predicate: SlsaPredicateV0_2,
   sourceImageDigest: string,
   sourceAttestationDigest: string,
-): ProvenanceMetadata {
+): Promise<ProvenanceMetadata> {
   const buildTimestamp = predicate.metadata?.buildStartedOn || null;
 
   const buildkitMeta =
@@ -129,7 +146,7 @@ function extractFieldsSlsa02(
   const dockerfileName =
     predicate.invocation?.configSource?.entryPoint || "Dockerfile";
 
-  const dockerfileContents = getDockerfileContents(
+  const dockerfileAnalysis = await analyseDecodedDockerfile(
     buildkitMeta?.source?.infos,
     dockerfileName,
   );
@@ -145,16 +162,16 @@ function extractFieldsSlsa02(
     buildType,
     dockerfileMetadata: {
       name: dockerfileName,
-      contents: dockerfileContents,
+      analysis: dockerfileAnalysis,
     },
   };
 }
 
-function extractFieldsSlsa10(
+async function extractFieldsSlsa10(
   predicate: SlsaPredicateV1_0,
   sourceImageDigest: string,
   sourceAttestationDigest: string,
-): ProvenanceMetadata {
+): Promise<ProvenanceMetadata> {
   const runDetails = predicate.runDetails;
   const buildDefinition = predicate.buildDefinition;
 
@@ -180,7 +197,7 @@ function extractFieldsSlsa10(
   const dockerfileName =
     buildDefinition?.externalParameters?.configSource?.path || "Dockerfile";
 
-  const dockerfileContents = getDockerfileContents(
+  const dockerfileAnalysis = await analyseDecodedDockerfile(
     runDetails?.metadata?.buildkit_metadata?.source?.infos,
     dockerfileName,
   );
@@ -196,7 +213,7 @@ function extractFieldsSlsa10(
     buildType,
     dockerfileMetadata: {
       name: dockerfileName,
-      contents: dockerfileContents,
+      analysis: dockerfileAnalysis,
     },
   };
 }
@@ -227,10 +244,10 @@ function getSlsaProvenanceVersion(
   }
 }
 
-function parseStatement(
+async function parseStatement(
   statement: InTotoStatement,
   sourceAttestationDigest: string,
-): ProvenanceMetadata | null {
+): Promise<ProvenanceMetadata | null> {
   const predicate = statement.predicate;
   if (!predicate) {
     debug("[provenance] No predicate found in in-toto statement");
@@ -270,13 +287,11 @@ function parseStatement(
   }
 }
 
-export function parseProvenanceAttestations(
+export async function parseProvenanceAttestations(
   attestationManifests: ProvenanceAttestation[],
-): ProvenanceMetadata[] {
+): Promise<ProvenanceMetadata[]> {
   const results: ProvenanceMetadata[] = [];
 
-  // Sort by digest so that, when the attestation limit is hit, the selected
-  // subset is stable across rebuilds rather than dependent on manifest order.
   const sortedManifests = [...attestationManifests].sort((a, b) =>
     a.attestationManifestDigest.localeCompare(b.attestationManifestDigest),
   );
@@ -298,7 +313,7 @@ export function parseProvenanceAttestations(
         continue;
       }
 
-      const parsed = parseStatement(
+      const parsed = await parseStatement(
         provenanceLayer.inTotoStatement,
         manifest.attestationManifestDigest,
       );
