@@ -365,7 +365,7 @@ Object {
         },
         Object {
           "data": Array [
-            "sha256:f6e375c0d5ad6710500dc4fe0f0e6c5c43c65465c50ac3ce5c152cc9627f5134",
+            "82e56b4fb992cf3a0171fb51b07ac179b0a5ea5ad3ef058f33d333cac1e0acd3/layer.tar",
           ],
           "type": "imageLayers",
         },
@@ -508,6 +508,8 @@ Object {
           "data": Object {
             "names": Array [
               "redhat/ubi9-micro:9.3",
+              "redhat/ubi9-micro@sha256:69372661891a4d32e9663a50d7d7eafddf4e91d6915c319905ce5d92e3dfbe31",
+              "redhat/ubi9-micro@sha256:8e33df2832f039b4b1adc53efd783f9404449994b46ae321ee4a0bf4499d5c42",
             ],
           },
           "type": "imageNames",
