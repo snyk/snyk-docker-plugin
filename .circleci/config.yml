@@ -174,7 +174,7 @@ jobs:
             - ~/AppData/Roaming/npm-cache
       - run: docker version
       - run:
-          command: npm run test-jest-windows-docker
+          command: npm run test:windows:docker
           no_output_timeout: 20m
   test_jest_windows_no_docker:
     <<: *windows_big
@@ -195,7 +195,7 @@ jobs:
         # make docker appear to be broken.
       - run: "function docker() { return 1; }"
       - run:
-          command: npm run test-jest-windows
+          command: npm run test:windows
           no_output_timeout: 20m
   build:
     <<: *defaults

@@ -123,7 +123,7 @@ to keep pre-Jest-29 snapshots readable; don't change it casually.
 CircleCI (`.circleci/config.yml`) runs build, lint, and tests on:
 
 - Linux (`cimg/node:20.19`) — full Jest suite, including system tests
-- Windows (`win/server-2022`) — `test/windows/` suite via `npm run test-jest-windows`
+- Windows (`win/server-2022`) — `test/windows/` suite via `npm run test:windows` (fixture-only) and `npm run test:windows:docker` (requires Docker daemon)
 
 `main`-branch failures notify Slack `#team-container-pipeline-info`. Match the
 target Node major (`20`) when validating locally.

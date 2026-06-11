@@ -19,12 +19,11 @@
     "lint:eslint": "eslint \"{lib,test}/**/*.ts\"",
     "lint:commit": "commitlint --from=HEAD~1",
     "format": "prettier --loglevel warn --write '{lib,test}/**/*.ts' && eslint --fix '{lib,test}/**/*.ts'",
-    "test": "npm run test-jest",
+    "test": "jest --ci --maxWorkers=3 --logHeapUsage --colors",
     "test:unit": "jest --ci --maxWorkers=3 --logHeapUsage --colors --testPathPattern='test/(lib|unit)/'",
     "test:system": "jest --ci --maxWorkers=3 --logHeapUsage --colors --testPathPattern='test/system/'",
-    "test-jest": "jest --ci --maxWorkers=3 --logHeapUsage --colors",
-    "test-jest-windows": "jest --ci --maxWorkers=3 --config test/windows/jest.config.js --logHeapUsage",
-    "test-jest-windows-docker": "jest --ci --maxWorkers=3 --config test/windows/jest.docker.config.js --logHeapUsage",
+    "test:windows": "jest --ci --maxWorkers=3 --config test/windows/jest.config.js --logHeapUsage",
+    "test:windows:docker": "jest --ci --maxWorkers=3 --config test/windows/jest.docker.config.js --logHeapUsage",
     "prepare": "npm run build"
   },
   "engines": {
