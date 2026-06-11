@@ -3,21 +3,19 @@ import { DepGraph } from "@snyk/dep-graph";
 import * as plugin from "../../lib";
 
 describe("windows scanning", () => {
-  it("can static scan for Identifier type image (python:3.9.0)", async () => {
-    const imageNameAndTag =
-      "python@sha256:1f92d35b567363820d0f2f37c7ccf2c1543e2d852cea01edb027039e6aef25e6";
-
+  it("can scan a registry image (alpine:3.12.0)", async () => {
     const pluginResult = await plugin.scan({
-      path: imageNameAndTag,
+      path: "alpine@sha256:185518070891758909c9f839cf4ca393ee977ac378609f700f60a771a2dfe321",
+      platform: "linux/amd64",
       "exclude-app-vulns": true,
     });
 
     const depGraph: DepGraph = pluginResult.scanResults[0].facts.find(
       (fact) => fact.type === "depGraph",
     )!.data;
-    expect(depGraph.rootPkg.name).toEqual("docker-image|python");
+    expect(depGraph.rootPkg.name).toEqual("docker-image|alpine");
     expect(depGraph.rootPkg.version).toBeUndefined();
-    expect(pluginResult.scanResults[0].identity.type).toEqual("linux");
+    expect(pluginResult.scanResults[0].identity.type).toEqual("apk");
     const imageLayers: string[] = pluginResult.scanResults[0].facts.find(
       (fact) => fact.type === "imageLayers",
     )!.data;
@@ -26,7 +24,7 @@ describe("windows scanning", () => {
       imageLayers.every((layer) => layer.endsWith("layer.tar")),
     ).toBeTruthy();
     expect(pluginResult.scanResults[0].identity.args?.platform).toEqual(
-      "windows/amd64",
+      "linux/amd64",
     );
   }, 900000);
 });
