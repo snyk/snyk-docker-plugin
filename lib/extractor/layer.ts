@@ -6,10 +6,7 @@ import { getErrorMessage } from "../error-utils";
 import { applyCallbacks, isResultEmpty } from "./callbacks";
 import { decompressMaybe } from "./decompress-maybe";
 import { ExtractAction, ExtractedLayers } from "./types";
-
-export function isWhitedOutFile(filename: string) {
-  return filename.match(/.wh./gm);
-}
+import { isOpaqueWhiteout, isWhitedOutFile } from "./whiteout";
 
 const debug = Debug("snyk");
 
@@ -36,7 +33,10 @@ export async function extractImageLayer(
         const matchedActions = extractActions.filter((action) =>
           action.filePathMatches(absoluteFileName),
         );
-        if (matchedActions.length > 0) {
+        if (isOpaqueWhiteout(absoluteFileName)) {
+          // Opaque whiteout: record it so layersWithLatestFileModifications can process it
+          result[absoluteFileName] = {};
+        } else if (matchedActions.length > 0) {
           try {
             const callbackResult = await applyCallbacks(
               matchedActions,
