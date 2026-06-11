@@ -191,6 +191,8 @@ jobs:
   build_cli:
     <<: *defaults
     resource_class: medium
+    docker:
+      - image: cimg/node:24.15
     steps:
       - checkout_and_merge
       - setup_npm_user
