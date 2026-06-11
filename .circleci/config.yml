@@ -299,7 +299,7 @@ workflows:
           post-steps:
             - *slack-fail-notify
       - test_jest_windows_with_docker:
-          name: Test Jest Windows (with Docker)
+          name: Test (Windows, Docker)
           context:
             - nodejs-install
             - snyk-bot-slack
@@ -309,7 +309,7 @@ workflows:
           post-steps:
             - *slack-fail-notify
       - test_jest_windows_no_docker:
-          name: Test Jest Windows (no Docker)
+          name: Test (Windows, no Docker)
           context:
             - nodejs-install
             - snyk-bot-slack
@@ -343,8 +343,8 @@ workflows:
             - Security Scans
             - Unit Test
             - System Test
-            - Test Jest Windows (with Docker)
-            - Test Jest Windows (no Docker)
+            - Test (Windows, Docker)
+            - Test (Windows, no Docker)
           post-steps:
             - *slack-fail-notify
             - *slack-success-notify
