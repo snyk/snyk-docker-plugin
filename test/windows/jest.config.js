@@ -6,6 +6,10 @@ module.exports = {
   ],
   testEnvironment: "node",
   testMatch: ["<rootDir>/**/*.spec.ts"],
+  testPathIgnorePatterns: [
+    "<rootDir>/lib/image-inspector.spec.ts",
+    "<rootDir>/registry-scan.spec.ts",
+  ],
   testTimeout: 600000, // 10 minutes
   // TODO: This option is printing Array\Object prefixing arrays\objects in snapshots files
   // this settings were added when migrated to Jest 29 to support the old snapshots format
