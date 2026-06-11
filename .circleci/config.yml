@@ -163,7 +163,15 @@ jobs:
       - install_node_npm:
           node_version: << parameters.node_version >>
       - setup_npm_user
+      - restore_cache:
+          keys:
+            - v1-windows-npm-cache-{{ checksum "package.json" }}
+            - v1-windows-npm-cache-
       - run: npm ci
+      - save_cache:
+          key: v1-windows-npm-cache-{{ checksum "package.json" }}
+          paths:
+            - ~/AppData/Roaming/npm-cache
       - run: docker version
       - run:
           command: npm run test-jest-windows
@@ -175,7 +183,15 @@ jobs:
       - install_node_npm:
           node_version: << parameters.node_version >>
       - setup_npm_user
+      - restore_cache:
+          keys:
+            - v1-windows-npm-cache-{{ checksum "package.json" }}
+            - v1-windows-npm-cache-
       - run: npm ci
+      - save_cache:
+          key: v1-windows-npm-cache-{{ checksum "package.json" }}
+          paths:
+            - ~/AppData/Roaming/npm-cache
         # make docker appear to be broken.
       - run: "function docker() { return 1; }"
       - run:
