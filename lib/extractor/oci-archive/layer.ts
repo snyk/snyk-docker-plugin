@@ -30,6 +30,7 @@ const MEDIATYPE_DOCKER_MANIFEST_LIST_V2 =
 const MEDIATYPE_OCI_MANIFEST_V1 = "application/vnd.oci.image.manifest.v1+json";
 const MEDIATYPE_OCI_MANIFEST_LIST_V1 =
   "application/vnd.oci.image.index.v1+json";
+const MEDIATYPE_IN_TOTO = "application/vnd.in-toto+json";
 
 // Maximum size for JSON metadata files. Matches the limit in streamToJson.
 // Files larger than this are layer blobs, not JSON metadata.
@@ -58,21 +59,22 @@ export async function extractArchive(
   // Pass 1: Extract JSON metadata
   const metadata = await extractMetadata(ociArchiveFilesystemPath);
 
-  // Determine which manifest and layers we need
   const { manifest, imageConfig, provenanceAttestations } =
     resolveManifestAndConfig(metadata, options);
 
-  // Get the list of layer digests we need to extract
   const requiredLayerDigests = new Set(
     manifest.layers.map((layer) => layer.digest),
   );
+  const inTotoDigests = collectInTotoDigests(provenanceAttestations);
 
-  // Pass 2: Extract the required layers
-  const { layers, failedDigests } = await extractLayers(
+  const { layers, failedDigests, inTotoStatements } = await extractLayers(
     ociArchiveFilesystemPath,
     requiredLayerDigests,
+    inTotoDigests,
     extractActions,
   );
+
+  attachInTotoStatements(provenanceAttestations, inTotoStatements);
 
   // Report any layer extraction failures
   if (failedDigests.size > 0) {
@@ -127,7 +129,6 @@ interface ArchiveMetadata {
   manifests: Record<string, OciArchiveManifest>;
   indexFiles: Record<string, OciImageIndex>;
   configs: ImageConfig[];
-  rawBlobs: Record<string, unknown>;
 }
 
 /**
@@ -146,7 +147,6 @@ async function extractMetadata(
     const configs: ImageConfig[] = [];
     let mainIndexFile: OciImageIndex | undefined;
     const indexFiles: Record<string, OciImageIndex> = {};
-    const rawBlobs: Record<string, unknown> = {};
 
     tarExtractor.on("entry", async (header, stream, next) => {
       try {
@@ -165,7 +165,6 @@ async function extractMetadata(
 
             if (jsonContent !== undefined) {
               const digest = getDigestFromPath(normalizedHeaderName);
-              rawBlobs[digest] = jsonContent;
 
               if (isArchiveManifest(jsonContent)) {
                 manifests[digest] = jsonContent;
@@ -191,7 +190,7 @@ async function extractMetadata(
     });
 
     tarExtractor.on("finish", () => {
-      resolve({ mainIndexFile, manifests, indexFiles, configs, rawBlobs });
+      resolve({ mainIndexFile, manifests, indexFiles, configs });
     });
 
     tarExtractor.on("error", (error) => {
@@ -274,10 +273,10 @@ async function tryParseJsonMetadata(stream: Readable): Promise<unknown> {
 interface LayerExtractionResult {
   layers: Record<string, ExtractedLayers>;
   failedDigests: Map<string, string>;
+  inTotoStatements: Record<string, InTotoStatement>;
 }
 
 /**
- * Pass 2: Extract only the specified layer blobs.
  *
  * Tracks extraction failures so the caller can report which layers failed
  * rather than silently returning incomplete results.
@@ -285,12 +284,14 @@ interface LayerExtractionResult {
 async function extractLayers(
   ociArchiveFilesystemPath: string,
   requiredDigests: Set<string>,
+  inTotoDigests: Set<string>,
   extractActions: ExtractAction[],
 ): Promise<LayerExtractionResult> {
   return new Promise((resolve, reject) => {
     const tarExtractor: Extract = extract();
     const layers: Record<string, ExtractedLayers> = {};
     const failedDigests: Map<string, string> = new Map();
+    const inTotoStatements: Record<string, InTotoStatement> = {};
 
     tarExtractor.on("entry", async (header, stream, next) => {
       try {
@@ -304,7 +305,6 @@ async function extractLayers(
             const digest = getDigestFromPath(normalizedHeaderName);
 
             if (requiredDigests.has(digest)) {
-              // This is a layer we need - extract it
               try {
                 const layer = await extractImageLayer(stream, extractActions);
                 layers[digest] = layer;
@@ -312,6 +312,18 @@ async function extractLayers(
                 const errorMessage = getErrorMessage(error);
                 debug(`Failed to extract layer ${digest}: ${errorMessage}`);
                 failedDigests.set(digest, errorMessage);
+              }
+            } else if (inTotoDigests.has(digest)) {
+              try {
+                inTotoStatements[digest] = await streamToJson<InTotoStatement>(
+                  stream,
+                );
+              } catch (error) {
+                debug(
+                  `Skipping in-toto attestation ${digest}: ${getErrorMessage(
+                    error,
+                  )}`,
+                );
               }
             }
           }
@@ -329,7 +341,7 @@ async function extractLayers(
     });
 
     tarExtractor.on("finish", () => {
-      resolve({ layers, failedDigests });
+      resolve({ layers, failedDigests, inTotoStatements });
     });
 
     tarExtractor.on("error", (error) => {
@@ -598,33 +610,56 @@ function extractProvenanceAttestations(
       attestationManifestDigest: descriptor.digest,
       mediaType: descriptor.mediaType,
       annotations: descriptor.annotations || {},
-      provenanceLayers: [],
+      provenanceLayers: attestationManifest.layers.map((layer) => ({
+        digest: layer.digest,
+        mediaType: layer.mediaType,
+        annotations: layer.annotations,
+      })),
     };
-
-    for (const layer of attestationManifest.layers) {
-      const isInTotoLayer = layer.mediaType === "application/vnd.in-toto+json";
-
-      const provenanceLayer: ProvenanceAttestation["provenanceLayers"][number] =
-        {
-          digest: layer.digest,
-          mediaType: layer.mediaType,
-          annotations: layer.annotations,
-        };
-
-      if (isInTotoLayer) {
-        const inTotoBlob = metadata.rawBlobs[layer.digest];
-        if (inTotoBlob) {
-          provenanceLayer.inTotoStatement = inTotoBlob as InTotoStatement;
-        }
-      }
-
-      attestation.provenanceLayers.push(provenanceLayer);
-    }
 
     attestations.push(attestation);
   }
 
   return attestations;
+}
+
+/**
+ * Collects the digests of in-toto attestation blobs that need to be fetched in
+ * pass 2 (the layer-extraction pass).
+ */
+function collectInTotoDigests(
+  attestations: ProvenanceAttestation[],
+): Set<string> {
+  const digests = new Set<string>();
+  for (const attestation of attestations) {
+    for (const layer of attestation.provenanceLayers) {
+      if (layer.mediaType === MEDIATYPE_IN_TOTO) {
+        digests.add(layer.digest);
+      }
+    }
+  }
+  return digests;
+}
+
+/**
+ * Attaches the in-toto statements fetched in pass 2 back onto their attestation
+ * layers, matching by blob digest.
+ */
+function attachInTotoStatements(
+  attestations: ProvenanceAttestation[],
+  inTotoStatements: Record<string, InTotoStatement>,
+): void {
+  for (const attestation of attestations) {
+    for (const layer of attestation.provenanceLayers) {
+      if (layer.mediaType !== MEDIATYPE_IN_TOTO) {
+        continue;
+      }
+      const statement = inTotoStatements[layer.digest];
+      if (statement) {
+        layer.inTotoStatement = statement;
+      }
+    }
+  }
 }
 
 function getBestMatchForPlatform<T>(

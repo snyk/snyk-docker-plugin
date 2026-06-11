@@ -79,7 +79,6 @@ interface SlsaPredicateV1_0 {
   };
 }
 
-
 function getDecodedDockerfileContents(
   infos: BuildkitSourceInfo[] | undefined,
   dockerfileName: string,

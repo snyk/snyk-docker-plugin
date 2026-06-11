@@ -442,9 +442,9 @@ describe("provenance-parser", () => {
       const resultAscending = (
         await parseProvenanceAttestations(ascending)
       ).map((r) => r.sourceAttestationDigest);
-      const resultShuffled = (
-        await parseProvenanceAttestations(shuffled)
-      ).map((r) => r.sourceAttestationDigest);
+      const resultShuffled = (await parseProvenanceAttestations(shuffled)).map(
+        (r) => r.sourceAttestationDigest,
+      );
 
       expect(resultAscending).toEqual(expectedSubset);
       expect(resultShuffled).toEqual(expectedSubset);
