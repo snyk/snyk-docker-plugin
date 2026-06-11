@@ -64,7 +64,7 @@ test/
 
 ## Setup
 
-- Node `>=20.19` (see `.nvmrc`: `20`).
+- Node `>=22` (see `.nvmrc`: `22`).
 - `npm install` against the public npm registry. The `@snyk/*` runtime
   dependencies are published publicly — no auth needed for local install.
   (CI writes an `NPM_TOKEN` to `.npmrc`; you don't need to replicate that.)
@@ -122,11 +122,11 @@ to keep pre-Jest-29 snapshots readable; don't change it casually.
 
 CircleCI (`.circleci/config.yml`) runs build, lint, and tests on:
 
-- Linux (`cimg/node:20.19`) — full Jest suite, including system tests
+- Linux (`cimg/node:22.22`) — full Jest suite, including system tests
 - Windows (`win/server-2022`) — `test/windows/` suite via `npm run test-jest-windows`
 
 `main`-branch failures notify Slack `#team-container-pipeline-info`. Match the
-target Node major (`20`) when validating locally.
+target Node major (`22`) when validating locally.
 
 ## Commit & PR conventions
 

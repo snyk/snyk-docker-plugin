@@ -39,7 +39,8 @@ describe("Go parser memory allocation fix", () => {
         Buffer.alloc(1000, 0), // Some content
       ]);
       const stream = createStreamFromBuffer(elfContent);
-      const bigOlFileSize = 5 * 1024 * 1024 * 1024; // 5GB - exceeds max buffer length
+      // Must exceed MAX_LENGTH on all supported Node versions (Number.MAX_SAFE_INTEGER on 64-bit)
+      const bigOlFileSize = require("buffer").constants.MAX_LENGTH + 1;
 
       // Mock elf.parse to avoid complexity and track buffer allocation
       const originalParse = elf.parse;

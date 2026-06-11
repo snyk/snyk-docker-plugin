@@ -9,7 +9,7 @@ orbs:
 defaults: &defaults
   resource_class: small
   docker:
-    - image: cimg/node:20.19
+    - image: cimg/node:22.22
   working_directory: ~/snyk-docker-plugin
 
 windows_defaults: &windows_defaults
@@ -41,10 +41,6 @@ windows_big: &windows_big
     name: win/server-2022
     shell: bash.exe
     size: large
-    # we've pinned the version because without it, it uses "current" (at the time of writing, "2023.06.1"),
-    # which has a broken Docker installation. See https://discuss.circleci.com/t/build-failures-when-running-docker-on-junes-windows-executor/48605
-    # TODO: check if it works again with the next release and unpin the version.
-    version: "2023.05.1"
   parameters:
     node_version:
       type: string
@@ -57,7 +53,7 @@ release_defaults: &release_defaults
     - image: cimg/node:24.15
   working_directory: ~/snyk-docker-plugin
 
-define: &windows_node_version "20.19.1"
+define: &windows_node_version "22.22"
 
 commands:
   setup_npm_user:

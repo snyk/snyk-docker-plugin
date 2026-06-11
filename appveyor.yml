@@ -17,7 +17,6 @@ cache:
 
 environment:
   matrix:
-    - nodejs_version: "20"
     - nodejs_version: "22"
     - nodejs_version: "24"
 
