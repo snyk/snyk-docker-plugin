@@ -52,7 +52,7 @@ slack-snapshot-notify: &slack-snapshot-notify
             "type": "section",
             "text": {
               "type": "mrkdwn",
-              "text": "*snyk-docker-plugin*\n\n:camera_with_flash: Snapshot update job finished!\nAuthor: *${CIRCLE_USERNAME}*"
+              "text": "*snyk-docker-plugin*\n\n:camera_with_flash: Snapshot update jobs finished!"
             }
           },
           {
@@ -62,8 +62,12 @@ slack-snapshot-notify: &slack-snapshot-notify
             "type": "section",
             "text": {
               "type": "mrkdwn",
-              "text": "To complete the snapshot update:\n\n1. <${CIRCLE_BUILD_URL}|View the job on CircleCI>.\n2. Navigate to the 'Artifacts' tab.\n3. Download the patch artifact (`snapshots.patch` or `snapshots-windows.patch`).\n4. Apply the patch(es) with:\n```git apply snapshots.patch snapshots-windows.patch```"
+              "text": "Download the patch from each job's *Artifacts* tab:\n\n• <${LINUX_JOB_URL}|Linux snapshots> → `snapshots.patch`\n• <${WINDOWS_JOB_URL}|Windows snapshots> → `snapshots-windows.patch`"
             }
+          },
+          {
+            "type": "markdown",
+            "text": "Apply the patches locally with:\n\n```bash\ngit apply snapshots.patch snapshots-windows.patch\n```"
           }
         ]
       }
@@ -275,6 +279,15 @@ jobs:
       - store_artifacts:
           path: snapshots.patch
           destination: snapshots.patch
+      - run:
+          name: Record job URL
+          command: |
+            mkdir -p /tmp/snapshot-meta
+            echo "$CIRCLE_BUILD_URL" > /tmp/snapshot-meta/linux-job-url.txt
+      - persist_to_workspace:
+          root: /tmp/snapshot-meta
+          paths:
+            - linux-job-url.txt
   update_snapshots_windows:
     <<: *windows_big
     steps:
@@ -301,6 +314,26 @@ jobs:
       - store_artifacts:
           path: snapshots-windows.patch
           destination: snapshots-windows.patch
+      - run:
+          name: Record job URL
+          command: |
+            mkdir -p /tmp/snapshot-meta
+            echo "$CIRCLE_BUILD_URL" > /tmp/snapshot-meta/windows-job-url.txt
+      - persist_to_workspace:
+          root: /tmp/snapshot-meta
+          paths:
+            - windows-job-url.txt
+  notify_snapshots:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: /tmp/snapshot-meta
+      - run:
+          name: Load job URLs into environment
+          command: |
+            echo "export LINUX_JOB_URL=$(cat /tmp/snapshot-meta/linux-job-url.txt)" >> "$BASH_ENV"
+            echo "export WINDOWS_JOB_URL=$(cat /tmp/snapshot-meta/windows-job-url.txt)" >> "$BASH_ENV"
+      - *slack-snapshot-notify
   release:
     <<: *release_defaults
     steps:
@@ -459,14 +492,16 @@ workflows:
           name: Update Snapshots
           context:
             - nodejs-install
-            - snyk-bot-slack
-          post-steps:
-            - *slack-snapshot-notify
       - update_snapshots_windows:
           name: Update Windows Snapshots
           node_version: *windows_node_version
           context:
             - nodejs-install
+      - notify_snapshots:
+          name: Notify Snapshots
+          context:
+            - nodejs-install
             - snyk-bot-slack
-          post-steps:
-            - *slack-snapshot-notify
+          requires:
+            - Update Snapshots: terminal
+            - Update Windows Snapshots: terminal
