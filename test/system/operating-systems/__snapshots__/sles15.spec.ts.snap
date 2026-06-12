@@ -2326,6 +2326,10 @@ Object {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
+        Object {
+          "data": "SUSE Linux Enterprise Server 15 SP3",
+          "type": "imageOsReleasePrettyName",
+        },
       ],
       "identity": Object {
         "targetFile": "/usr/bin/container-suseconnect",
