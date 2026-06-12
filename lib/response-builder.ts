@@ -278,6 +278,14 @@ async function buildResponse(
     };
     appDepsScanResult.facts.push(appPluginVersionFact);
 
+    if (osRelease?.prettyName) {
+      const imageOsReleasePrettyNameFact: facts.ImageOsReleasePrettyNameFact = {
+        type: "imageOsReleasePrettyName",
+        data: osRelease.prettyName,
+      };
+      appDepsScanResult.facts.push(imageOsReleasePrettyNameFact);
+    }
+
     const ownership = resolveApkOwnership(
       extractEvidencePaths(appDepsScanResult),
       apkPathIndex,

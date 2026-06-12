@@ -3643,6 +3643,10 @@ Object {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
+        Object {
+          "data": "Amazon Linux 2",
+          "type": "imageOsReleasePrettyName",
+        },
       ],
       "identity": Object {
         "targetFile": "/srv/npm-app/package.json",
@@ -13936,6 +13940,10 @@ Object {
         Object {
           "data": "0.0.0-local",
           "type": "pluginVersion",
+        },
+        Object {
+          "data": "Amazon Linux 2",
+          "type": "imageOsReleasePrettyName",
         },
       ],
       "identity": Object {

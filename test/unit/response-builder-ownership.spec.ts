@@ -2,7 +2,7 @@ import { AnalysisType } from "../../lib/analyzer/types";
 import { buildResponse } from "../../lib/response-builder";
 
 describe("buildResponse apkPackageOwnership", () => {
-  it("attaches an ownership fact to application ScanResults on Wolfi", async () => {
+  it("attaches ownership and os release facts to application ScanResults on Wolfi", async () => {
     const response = await buildResponse(
       {
         depTree: {
@@ -72,5 +72,8 @@ describe("buildResponse apkPackageOwnership", () => {
       originPackage: "nodejs",
       packageName: "nodejs",
     });
+    expect(
+      appResult.facts.some((f) => f.type === "imageOsReleasePrettyName"),
+    ).toBe(true);
   });
 });
