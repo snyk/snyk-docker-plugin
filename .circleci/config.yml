@@ -70,12 +70,12 @@ commands:
       - checkout
       - restore_cache:
           keys:
-            - v2-npm-cache-{{ checksum "package.json" }}
+            - v2-npm-cache-{{ checksum "package-lock.json" }}
             - v2-npm-cache-
       - setup_npm_user
       - run: npm ci
       - save_cache:
-          key: v2-npm-cache-{{ checksum "package.json" }}
+          key: v2-npm-cache-{{ checksum "package-lock.json" }}
           paths:
             - ~/.npm
       - persist_to_workspace:
@@ -165,11 +165,11 @@ jobs:
       - setup_npm_user
       - restore_cache:
           keys:
-            - v1-windows-npm-cache-{{ checksum "package.json" }}
+            - v1-windows-npm-cache-{{ checksum "package-lock.json" }}
             - v1-windows-npm-cache-
       - run: npm ci
       - save_cache:
-          key: v1-windows-npm-cache-{{ checksum "package.json" }}
+          key: v1-windows-npm-cache-{{ checksum "package-lock.json" }}
           paths:
             - ~/AppData/Roaming/npm-cache
       - run: docker version
@@ -185,11 +185,11 @@ jobs:
       - setup_npm_user
       - restore_cache:
           keys:
-            - v1-windows-npm-cache-{{ checksum "package.json" }}
+            - v1-windows-npm-cache-{{ checksum "package-lock.json" }}
             - v1-windows-npm-cache-
       - run: npm ci
       - save_cache:
-          key: v1-windows-npm-cache-{{ checksum "package.json" }}
+          key: v1-windows-npm-cache-{{ checksum "package-lock.json" }}
           paths:
             - ~/AppData/Roaming/npm-cache
         # make docker appear to be broken.
@@ -202,6 +202,10 @@ jobs:
     steps:
       - checkout_and_merge
       - setup_npm_user
+      - restore_cache:
+          keys:
+            - v2-npm-cache-{{ checksum "package-lock.json" }}
+            - v2-npm-cache-
       - run: npm ci
       - run: npm run build
   build_cli:
