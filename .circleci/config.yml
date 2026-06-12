@@ -348,9 +348,8 @@ workflows:
               only:
                 - main
           requires:
-            - Lint
-            - Build
             - Security Scans
+            - Build CLI with changes
             - Unit Test
             - System Test
             - Test Windows with Docker
