@@ -24,6 +24,7 @@
     "test:system": "jest --ci --maxWorkers=3 --logHeapUsage --colors --testPathPattern='test/system/'",
     "test-jest": "jest --ci --maxWorkers=3 --logHeapUsage --colors",
     "test-jest-windows": "jest --ci --maxWorkers=3 --config test/windows/jest.config.js --logHeapUsage",
+    "test-jest-windows-no-docker": "jest --ci --maxWorkers=3 --config test/windows/jest.config.js --testPathPattern='windows/identifier-fallback' --logHeapUsage",
     "prepare": "npm run build"
   },
   "engines": {
