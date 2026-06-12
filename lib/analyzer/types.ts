@@ -1,4 +1,5 @@
 import { ImageName } from "../extractor/image";
+import { SymlinkMap } from "../extractor/types";
 import { BaseRuntime } from "../facts";
 import { AutoDetectedUserInstructions, ManifestFile } from "../types";
 import {
@@ -107,6 +108,7 @@ export interface StaticAnalysis {
     comment?: string | null;
     empty_layer?: boolean | null;
   }> | null;
+  symlinks?: SymlinkMap;
   timings?: Record<string, number>;
 }
 

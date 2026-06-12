@@ -165,6 +165,7 @@ export async function analyze(
     imageId,
     manifestLayers,
     extractedLayers,
+    symlinks,
     rootFsLayers,
     autoDetectedUserInstructions,
     platform,
@@ -353,6 +354,7 @@ export async function analyze(
     imageCreationTime,
     containerConfig,
     history,
+    symlinks,
     timings,
   };
 }
