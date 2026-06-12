@@ -245,9 +245,15 @@ workflows:
   version: 2
   test_and_release:
     when:
-      # do not run on a pipeline schedule
-      not:
-        equal: [scheduled_pipeline, << pipeline.trigger_source >>]
+      and:
+        # do not run on a pipeline schedule
+        - not:
+            equal: [scheduled_pipeline, << pipeline.trigger_source >>]
+        # do not run on graphite temporary branches
+        - not:
+            matches:
+              pattern: "^graphite-base/.*"
+              value: << pipeline.git.branch >>
     jobs:
       - prodsec/secrets-scan:
           name: Scan repository for secrets
