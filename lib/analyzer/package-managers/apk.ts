@@ -18,6 +18,8 @@ export function analyze(
 export function parseFile(text: string): AnalyzedPackageWithVersion[] {
   const pkgs: AnalyzedPackageWithVersion[] = [];
   let curPkg: AnalyzedPackageWithVersion | null = null;
+  // Absolute path of the most recent F: record; "" until one is seen.
+  let currentDir = "";
 
   for (const line of text.split("\n")) {
     if (line.length < 2) {
@@ -36,8 +38,11 @@ export function parseFile(text: string): AnalyzedPackageWithVersion[] {
           Provides: [],
           Deps: {},
           AutoInstalled: undefined,
+          Files: [],
+          Directories: [],
         };
         pkgs.push(curPkg);
+        currentDir = "";
         break;
       }
       case "V": // Version
@@ -69,6 +74,36 @@ export function parseFile(text: string): AnalyzedPackageWithVersion[] {
           curPkg.Source = value;
         }
         break;
+      case "F": {
+        // Directory for subsequent R:/M: file-list records, root-relative
+        // like "usr/lib"
+        if (!curPkg) {
+          break;
+        }
+        currentDir = value ? "/" + value : "";
+        if (currentDir && !curPkg.Directories!.includes(currentDir)) {
+          curPkg.Directories!.push(currentDir);
+        }
+        break;
+      }
+      case "R": {
+        // File name relative to the current F: directory
+        if (!curPkg || !currentDir) {
+          break;
+        }
+        curPkg.Files!.push(`${currentDir}/${value}`);
+        break;
+      }
+      case "M": {
+        // Directory metadata for the current F: directory
+        if (!curPkg || !currentDir) {
+          break;
+        }
+        if (!curPkg.Directories!.includes(currentDir)) {
+          curPkg.Directories!.push(currentDir);
+        }
+        break;
+      }
     }
   }
 
