@@ -156,7 +156,7 @@ jobs:
       - store_artifacts:
           path: test-system-logs.txt
           destination: test-system-logs
-  test_jest_windows_with_docker:
+  test_windows_with_docker:
     <<: *windows_big
     steps:
       - checkout
@@ -176,7 +176,7 @@ jobs:
       - run:
           command: npm run test:windows:docker
           no_output_timeout: 20m
-  test_jest_windows_no_docker:
+  test_windows_no_docker:
     <<: *windows_big
     steps:
       - checkout
@@ -298,8 +298,8 @@ workflows:
             - Build
           post-steps:
             - *slack-fail-notify
-      - test_jest_windows_with_docker:
-          name: Test (Windows, Docker)
+      - test_windows_with_docker:
+          name: Test Windows with Docker
           context:
             - nodejs-install
             - snyk-bot-slack
@@ -308,8 +308,8 @@ workflows:
             - Build
           post-steps:
             - *slack-fail-notify
-      - test_jest_windows_no_docker:
-          name: Test (Windows, no Docker)
+      - test_windows_no_docker:
+          name: Test Windows no Docker
           context:
             - nodejs-install
             - snyk-bot-slack
@@ -343,8 +343,8 @@ workflows:
             - Security Scans
             - Unit Test
             - System Test
-            - Test (Windows, Docker)
-            - Test (Windows, no Docker)
+            - Test Windows with Docker
+            - Test Windows no Docker
           post-steps:
             - *slack-fail-notify
             - *slack-success-notify
