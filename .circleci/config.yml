@@ -281,13 +281,15 @@ jobs:
           destination: snapshots.patch
       - run:
           name: Record job URL
+          when: always
           command: |
-            mkdir -p /tmp/snapshot-meta
-            echo "$CIRCLE_BUILD_URL" > /tmp/snapshot-meta/linux-job-url.txt
+            mkdir -p snapshot-meta
+            echo "$CIRCLE_BUILD_URL" > snapshot-meta/linux-job-url.txt
       - persist_to_workspace:
-          root: /tmp/snapshot-meta
+          when: always
+          root: .
           paths:
-            - linux-job-url.txt
+            - snapshot-meta/linux-job-url.txt
   update_snapshots_windows:
     <<: *windows_big
     steps:
@@ -316,23 +318,25 @@ jobs:
           destination: snapshots-windows.patch
       - run:
           name: Record job URL
+          when: always
           command: |
-            mkdir -p /tmp/snapshot-meta
-            echo "$CIRCLE_BUILD_URL" > /tmp/snapshot-meta/windows-job-url.txt
+            mkdir -p snapshot-meta
+            echo "$CIRCLE_BUILD_URL" > snapshot-meta/windows-job-url.txt
       - persist_to_workspace:
-          root: /tmp/snapshot-meta
+          when: always
+          root: .
           paths:
-            - windows-job-url.txt
+            - snapshot-meta/windows-job-url.txt
   notify_snapshots:
     <<: *defaults
     steps:
       - attach_workspace:
-          at: /tmp/snapshot-meta
+          at: ~/snyk-docker-plugin
       - run:
           name: Load job URLs into environment
           command: |
-            echo "export LINUX_JOB_URL=$(cat /tmp/snapshot-meta/linux-job-url.txt)" >> "$BASH_ENV"
-            echo "export WINDOWS_JOB_URL=$(cat /tmp/snapshot-meta/windows-job-url.txt)" >> "$BASH_ENV"
+            echo "export LINUX_JOB_URL=$(cat snapshot-meta/linux-job-url.txt)" >> "$BASH_ENV"
+            echo "export WINDOWS_JOB_URL=$(cat snapshot-meta/windows-job-url.txt)" >> "$BASH_ENV"
       - *slack-snapshot-notify
   release:
     <<: *release_defaults
