@@ -1,4 +1,10 @@
 import { legacy } from "@snyk/dep-graph";
+import { extractEvidencePaths } from "./analyzer/applications/evidence-paths";
+import {
+  getApkPackagesFromResults,
+  resolveApkOwnership,
+  toSymlinkGraph,
+} from "./analyzer/package-managers/apk-ownership";
 import { StaticAnalysis } from "./analyzer/types";
 import * as facts from "./facts";
 // Module that provides functions to collect and build response after all
@@ -260,6 +266,25 @@ async function buildResponse(
       data: PLUGIN_VERSION,
     };
     appDepsScanResult.facts.push(appPluginVersionFact);
+
+    const osRelease = depsAnalysis.osRelease;
+    const evidencePaths = extractEvidencePaths(appDepsScanResult);
+    const apkPackages = getApkPackagesFromResults(depsAnalysis.results);
+    const ownership =
+      osRelease &&
+      resolveApkOwnership(
+        evidencePaths,
+        apkPackages,
+        osRelease,
+        toSymlinkGraph(depsAnalysis.symlinks),
+      );
+    if (ownership) {
+      const ownershipFact: facts.ApkPackageOwnershipFact = {
+        type: "apkPackageOwnership",
+        data: ownership,
+      };
+      appDepsScanResult.facts.push(ownershipFact);
+    }
 
     return {
       ...appDepsScanResult,
