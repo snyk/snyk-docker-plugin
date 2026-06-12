@@ -15,55 +15,62 @@ export function analyze(
   });
 }
 
-function parseFile(text: string): AnalyzedPackageWithVersion[] {
+export function parseFile(text: string): AnalyzedPackageWithVersion[] {
   const pkgs: AnalyzedPackageWithVersion[] = [];
-  let curPkg: any = null;
-  for (const line of text.split("\n")) {
-    curPkg = parseLine(line, curPkg, pkgs);
-  }
-  return pkgs;
-}
+  let curPkg: AnalyzedPackageWithVersion | null = null;
 
-function parseLine(
-  text: string,
-  curPkg: AnalyzedPackageWithVersion,
-  pkgs: AnalyzedPackageWithVersion[],
-) {
-  const key = text.charAt(0);
-  const value = text.substr(2).trim();
-  switch (key) {
-    case "P": // Package
-      curPkg = {
-        Name: value,
-        Version: "",
-        Source: undefined,
-        Provides: [],
-        Deps: {},
-        AutoInstalled: undefined,
-      };
-      pkgs.push(curPkg);
-      break;
-    case "V": // Version
-      curPkg.Version = value;
-      break;
-    case "p": // Provides
-      for (let name of value.split(" ")) {
-        name = name.split("=")[0];
-        curPkg.Provides.push(name);
+  for (const line of text.split("\n")) {
+    if (line.length < 2) {
+      continue;
+    }
+    const key = line.charAt(0);
+    const value = line.substr(2).trim();
+
+    switch (key) {
+      case "P": {
+        // Package
+        curPkg = {
+          Name: value,
+          Version: "",
+          Source: undefined,
+          Provides: [],
+          Deps: {},
+          AutoInstalled: undefined,
+        };
+        pkgs.push(curPkg);
+        break;
       }
-      break;
-    case "r": // Depends
-    case "D": // Depends
-      for (let name of value.split(" ")) {
-        if (name.charAt(0) !== "!") {
-          name = name.split("=")[0];
-          curPkg.Deps[name] = true;
+      case "V": // Version
+        if (curPkg) {
+          curPkg.Version = value;
         }
-      }
-      break;
-    case "o": // Origin
-      curPkg.Source = value;
-      break;
+        break;
+      case "p": // Provides
+        if (curPkg) {
+          for (let name of value.split(" ")) {
+            name = name.split("=")[0];
+            curPkg.Provides.push(name);
+          }
+        }
+        break;
+      case "r": // Depends
+      case "D": // Depends
+        if (curPkg) {
+          for (let name of value.split(" ")) {
+            if (name.charAt(0) !== "!") {
+              name = name.split("=")[0];
+              curPkg.Deps[name] = true;
+            }
+          }
+        }
+        break;
+      case "o": // Origin
+        if (curPkg) {
+          curPkg.Source = value;
+        }
+        break;
+    }
   }
-  return curPkg;
+
+  return pkgs;
 }
