@@ -162,3 +162,14 @@ export interface BaseRuntimesFact {
   type: "baseRuntimes";
   data: BaseRuntime[];
 }
+
+export interface ApkPackageOwnershipFact {
+  type: "apkPackageOwnership";
+  data: {
+    distroId: string;
+    packageName: string;
+    packageVersion: string;
+    originPackage: string;
+    evidencePaths: string[];
+  };
+}

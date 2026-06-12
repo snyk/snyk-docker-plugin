@@ -82,7 +82,9 @@ export type FactType =
   // Used for application dependencies scanning; shows which files were used in the analysis of the dependencies.
   | "testedFiles"
   // Application files observed in the image
-  | "applicationFiles";
+  | "applicationFiles"
+  // Chainguard/Wolfi: APK package that owns application dependency evidence paths
+  | "apkPackageOwnership";
 
 export interface PluginAnalytics {
   name: string;
