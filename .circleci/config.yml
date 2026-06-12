@@ -139,10 +139,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: ~/snyk-docker-plugin
-      - run: npm run test:unit > test-unit-logs.txt 2>&1
-      - store_artifacts:
-          path: test-unit-logs.txt
-          destination: test-unit-logs
+      - run: npm run test:unit
   test_system:
     <<: *defaults
     steps:
@@ -151,11 +148,8 @@ jobs:
       - attach_workspace:
           at: ~/snyk-docker-plugin
       - run:
-          command: npm run test:system > test-system-logs.txt 2>&1
+          command: npm run test:system
           no_output_timeout: 20m
-      - store_artifacts:
-          path: test-system-logs.txt
-          destination: test-system-logs
   test_windows_with_docker:
     <<: *windows_big
     steps:
@@ -245,9 +239,15 @@ workflows:
   version: 2
   test_and_release:
     when:
-      # do not run on a pipeline schedule
-      not:
-        equal: [scheduled_pipeline, << pipeline.trigger_source >>]
+      and:
+        # do not run on a pipeline schedule
+        - not:
+            equal: [scheduled_pipeline, << pipeline.trigger_source >>]
+        # do not run on graphite temporary branches
+        - not:
+            matches:
+              pattern: "^graphite-base/.*"
+              value: << pipeline.git.branch >>
     jobs:
       - prodsec/secrets-scan:
           name: Scan repository for secrets
