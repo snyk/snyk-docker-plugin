@@ -6,6 +6,11 @@ orbs:
   slack: circleci/slack@5
   prodsec: snyk/prodsec-orb@1
 
+parameters:
+  run_snapshot_update:
+    type: boolean
+    default: false
+
 defaults: &defaults
   resource_class: small
   docker:
@@ -35,6 +40,33 @@ slack-success-notify: &slack-success-notify
     channel: team-container-pipeline-info
     branch_pattern: "main"
     template: basic_success_1
+
+slack-snapshot-notify: &slack-snapshot-notify
+  slack/notify:
+    event: always
+    channel: team-container-pipeline-info
+    custom: |
+      {
+        "blocks": [
+          {
+            "type": "section",
+            "text": {
+              "type": "mrkdwn",
+              "text": "*snyk-docker-plugin*\n\n:camera_with_flash: Snapshot update job finished!\nAuthor: *${CIRCLE_USERNAME}*"
+            }
+          },
+          {
+            "type": "divider"
+          },
+          {
+            "type": "section",
+            "text": {
+              "type": "mrkdwn",
+              "text": "To complete the snapshot update:\n\n1. <${CIRCLE_BUILD_URL}|View the job on CircleCI>.\n2. Navigate to the 'Artifacts' tab.\n3. Download the patch artifact (`snapshots.patch` or `snapshots-windows.patch`).\n4. Apply the patch(es) with:\n```git apply snapshots.patch snapshots-windows.patch```"
+            }
+          }
+        ]
+      }
 
 windows_big: &windows_big
   executor:
@@ -223,6 +255,52 @@ jobs:
       - run:
           name: Run Go binaries unit test
           command: npx jest test/unit/go-binaries.spec.ts
+  update_snapshots:
+    <<: *defaults
+    resource_class: medium
+    steps:
+      - install_deps
+      - setup_remote_docker
+      - run:
+          name: Regenerate Jest snapshots
+          command: npx jest -u --maxWorkers=3 --testPathPattern='test/(lib|system)/'
+          no_output_timeout: 20m
+      - run:
+          name: Build snapshot patch
+          when: always
+          command: |
+            git add -A -- '*.snap'
+            git diff --cached -- '*.snap' > snapshots.patch
+            git diff --cached --stat -- '*.snap'
+      - store_artifacts:
+          path: snapshots.patch
+          destination: snapshots.patch
+  update_snapshots_windows:
+    <<: *windows_big
+    steps:
+      - checkout
+      - install_node_npm:
+          node_version: << parameters.node_version >>
+      - setup_npm_user
+      - restore_cache:
+          keys:
+            - v1-windows-npm-cache-{{ checksum "package-lock.json" }}
+            - v1-windows-npm-cache-
+      - run: npm ci
+      - run:
+          name: Regenerate Windows Jest snapshots
+          command: npx jest -u --config test/windows/jest.config.js
+          no_output_timeout: 20m
+      - run:
+          name: Build snapshot patch
+          when: always
+          command: |
+            git add -A -- '*.snap'
+            git diff --cached -- '*.snap' > snapshots-windows.patch
+            git diff --cached --stat -- '*.snap'
+      - store_artifacts:
+          path: snapshots-windows.patch
+          destination: snapshots-windows.patch
   release:
     <<: *release_defaults
     steps:
@@ -248,6 +326,8 @@ workflows:
             matches:
               pattern: "^graphite-base/.*"
               value: << pipeline.git.branch >>
+        # do not run when manually triggered to update snapshots
+        - equal: [false, << pipeline.parameters.run_snapshot_update >>]
     jobs:
       - prodsec/secrets-scan:
           name: Scan repository for secrets
@@ -372,3 +452,21 @@ workflows:
             - Install
           post-steps:
             - *slack-fail-notify
+  update_snapshots:
+    when: << pipeline.parameters.run_snapshot_update >>
+    jobs:
+      - update_snapshots:
+          name: Update Snapshots
+          context:
+            - nodejs-install
+            - snyk-bot-slack
+          post-steps:
+            - *slack-snapshot-notify
+      - update_snapshots_windows:
+          name: Update Windows Snapshots
+          node_version: *windows_node_version
+          context:
+            - nodejs-install
+            - snyk-bot-slack
+          post-steps:
+            - *slack-snapshot-notify
