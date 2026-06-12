@@ -268,6 +268,14 @@ async function buildResponse(
     appDepsScanResult.facts.push(appPluginVersionFact);
 
     const osRelease = depsAnalysis.osRelease;
+    if (osRelease?.prettyName) {
+      const imageOsReleasePrettyNameFact: facts.ImageOsReleasePrettyNameFact = {
+        type: "imageOsReleasePrettyName",
+        data: osRelease.prettyName,
+      };
+      appDepsScanResult.facts.push(imageOsReleasePrettyNameFact);
+    }
+
     const evidencePaths = extractEvidencePaths(appDepsScanResult);
     const apkPackages = getApkPackagesFromResults(depsAnalysis.results);
     const ownership =

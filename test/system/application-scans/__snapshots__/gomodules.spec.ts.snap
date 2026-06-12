@@ -1227,6 +1227,10 @@ Object {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
+        Object {
+          "data": "Alpine Linux v3.12",
+          "type": "imageOsReleasePrettyName",
+        },
       ],
       "identity": Object {
         "targetFile": "/usr/bin/yq",

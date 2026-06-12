@@ -16124,6 +16124,10 @@ Object {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
+        Object {
+          "data": "Red Hat Enterprise Linux 8.2 (Ootpa)",
+          "type": "imageOsReleasePrettyName",
+        },
       ],
       "identity": Object {
         "targetFile": "/usr/lib/node_modules",
