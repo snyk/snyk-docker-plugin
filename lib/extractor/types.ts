@@ -36,6 +36,7 @@ export interface ExtractionResult {
   imageCreationTime?: string;
   containerConfig?: ContainerConfig | null;
   history?: HistoryEntry[] | null;
+  provenanceAttestations?: ProvenanceAttestation[];
 }
 
 export interface ExtractedLayers {
@@ -60,6 +61,7 @@ export interface ExtractedLayersAndManifest {
   layers: ExtractedLayers[];
   manifest: TarArchiveManifest | OciArchiveManifest;
   imageConfig: ImageConfig;
+  provenanceAttestations?: ProvenanceAttestation[];
 }
 
 export interface ContainerConfig {
@@ -94,18 +96,25 @@ export interface ImageConfig {
 
 export interface OciArchiveLayer {
   digest: string;
+  mediaType?: string;
+  size?: number;
+  annotations?: Record<string, string>;
 }
 
 export interface OciArchiveManifest {
   schemaVersion: string;
-  config: { digest: string };
+  mediaType?: string;
+  config: { digest: string; mediaType?: string };
   layers: OciArchiveLayer[];
+  annotations?: Record<string, string>;
 }
 
 export interface OciManifestInfo {
   digest: string;
   mediaType: string;
+  size?: number;
   platform?: OciPlatformInfo;
+  annotations?: Record<string, string>;
 }
 
 export interface OciPlatformInfo {
@@ -115,7 +124,32 @@ export interface OciPlatformInfo {
 }
 
 export interface OciImageIndex {
+  mediaType?: string;
   manifests: OciManifestInfo[];
+}
+
+export interface InTotoSubject {
+  name?: string;
+  digest?: Record<string, string>;
+}
+
+export interface InTotoStatement {
+  _type?: string;
+  subject?: InTotoSubject[];
+  predicateType?: string;
+  predicate?: Record<string, unknown>;
+}
+
+export interface ProvenanceAttestation {
+  attestationManifestDigest: string;
+  mediaType: string;
+  annotations: Record<string, string>;
+  provenanceLayers: Array<{
+    digest: string;
+    mediaType?: string;
+    annotations?: Record<string, string>;
+    inTotoStatement?: InTotoStatement;
+  }>;
 }
 
 export interface ExtractAction {

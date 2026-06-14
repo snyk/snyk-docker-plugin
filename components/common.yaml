@@ -43,6 +43,7 @@ schemas:
       - platform
       - pluginVersion
       - pluginWarnings
+      - provenanceMetadata
   Identity:
     type: object
     description: Identity defines "what" you found.

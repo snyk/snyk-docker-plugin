@@ -14,10 +14,12 @@ import {
   ExtractedLayers,
   ExtractedLayersAndManifest,
   ImageConfig,
+  InTotoStatement,
   OciArchiveManifest,
   OciImageIndex,
   OciManifestInfo,
   OciPlatformInfo,
+  ProvenanceAttestation,
 } from "../types";
 
 const debug = Debug("snyk");
@@ -28,6 +30,7 @@ const MEDIATYPE_DOCKER_MANIFEST_LIST_V2 =
 const MEDIATYPE_OCI_MANIFEST_V1 = "application/vnd.oci.image.manifest.v1+json";
 const MEDIATYPE_OCI_MANIFEST_LIST_V1 =
   "application/vnd.oci.image.index.v1+json";
+const MEDIATYPE_IN_TOTO = "application/vnd.in-toto+json";
 
 // Maximum size for JSON metadata files. Matches the limit in streamToJson.
 // Files larger than this are layer blobs, not JSON metadata.
@@ -56,20 +59,22 @@ export async function extractArchive(
   // Pass 1: Extract JSON metadata
   const metadata = await extractMetadata(ociArchiveFilesystemPath);
 
-  // Determine which manifest and layers we need
-  const { manifest, imageConfig } = resolveManifestAndConfig(metadata, options);
+  const { manifest, imageConfig, provenanceAttestations } =
+    resolveManifestAndConfig(metadata, options);
 
-  // Get the list of layer digests we need to extract
   const requiredLayerDigests = new Set(
     manifest.layers.map((layer) => layer.digest),
   );
+  const inTotoDigests = collectInTotoDigests(provenanceAttestations);
 
-  // Pass 2: Extract the required layers
-  const { layers, failedDigests } = await extractLayers(
+  const { layers, failedDigests, inTotoStatements } = await extractLayers(
     ociArchiveFilesystemPath,
     requiredLayerDigests,
+    inTotoDigests,
     extractActions,
   );
+
+  attachInTotoStatements(provenanceAttestations, inTotoStatements);
 
   // Report any layer extraction failures
   if (failedDigests.size > 0) {
@@ -115,6 +120,7 @@ export async function extractArchive(
     layers: filteredLayers,
     manifest,
     imageConfig,
+    provenanceAttestations,
   };
 }
 
@@ -159,6 +165,7 @@ async function extractMetadata(
 
             if (jsonContent !== undefined) {
               const digest = getDigestFromPath(normalizedHeaderName);
+
               if (isArchiveManifest(jsonContent)) {
                 manifests[digest] = jsonContent;
               } else if (isImageIndexFile(jsonContent)) {
@@ -266,10 +273,10 @@ async function tryParseJsonMetadata(stream: Readable): Promise<unknown> {
 interface LayerExtractionResult {
   layers: Record<string, ExtractedLayers>;
   failedDigests: Map<string, string>;
+  inTotoStatements: Record<string, InTotoStatement>;
 }
 
 /**
- * Pass 2: Extract only the specified layer blobs.
  *
  * Tracks extraction failures so the caller can report which layers failed
  * rather than silently returning incomplete results.
@@ -277,12 +284,14 @@ interface LayerExtractionResult {
 async function extractLayers(
   ociArchiveFilesystemPath: string,
   requiredDigests: Set<string>,
+  inTotoDigests: Set<string>,
   extractActions: ExtractAction[],
 ): Promise<LayerExtractionResult> {
   return new Promise((resolve, reject) => {
     const tarExtractor: Extract = extract();
     const layers: Record<string, ExtractedLayers> = {};
     const failedDigests: Map<string, string> = new Map();
+    const inTotoStatements: Record<string, InTotoStatement> = {};
 
     tarExtractor.on("entry", async (header, stream, next) => {
       try {
@@ -296,7 +305,6 @@ async function extractLayers(
             const digest = getDigestFromPath(normalizedHeaderName);
 
             if (requiredDigests.has(digest)) {
-              // This is a layer we need - extract it
               try {
                 const layer = await extractImageLayer(stream, extractActions);
                 layers[digest] = layer;
@@ -304,6 +312,18 @@ async function extractLayers(
                 const errorMessage = getErrorMessage(error);
                 debug(`Failed to extract layer ${digest}: ${errorMessage}`);
                 failedDigests.set(digest, errorMessage);
+              }
+            } else if (inTotoDigests.has(digest)) {
+              try {
+                inTotoStatements[digest] = await streamToJson<InTotoStatement>(
+                  stream,
+                );
+              } catch (error) {
+                debug(
+                  `Skipping in-toto attestation ${digest}: ${getErrorMessage(
+                    error,
+                  )}`,
+                );
               }
             }
           }
@@ -321,7 +341,7 @@ async function extractLayers(
     });
 
     tarExtractor.on("finish", () => {
-      resolve({ layers, failedDigests });
+      resolve({ layers, failedDigests, inTotoStatements });
     });
 
     tarExtractor.on("error", (error) => {
@@ -362,6 +382,7 @@ function resolveManifestAndConfig(
 ): {
   manifest: OciArchiveManifest;
   imageConfig: ImageConfig;
+  provenanceAttestations: ProvenanceAttestation[];
 } {
   const filteredConfigs = metadata.configs.filter((config) => {
     return config?.os !== "unknown" || config?.architecture !== "unknown";
@@ -396,7 +417,27 @@ function resolveManifestAndConfig(
     );
   }
 
-  return { manifest, imageConfig };
+  // The selected image manifest's digest, used to match attestations that
+  // reference this specific platform image.
+  const imageManifestDigest = Object.keys(metadata.manifests).find(
+    (digest) => metadata.manifests[digest] === manifest,
+  );
+
+  const provenanceAttestations = extractProvenanceAttestations(
+    metadata,
+    imageManifestDigest,
+  );
+
+  return { manifest, imageConfig, provenanceAttestations };
+}
+
+const IMAGE_CONFIG_MEDIA_TYPES = new Set([
+  "application/vnd.oci.image.config.v1+json",
+  "application/vnd.docker.container.image.v1+json",
+]);
+
+function isImageManifest(manifest: OciArchiveManifest): boolean {
+  return IMAGE_CONFIG_MEDIA_TYPES.has(manifest.config?.mediaType || "");
 }
 
 function getManifest(
@@ -406,7 +447,7 @@ function getManifest(
   platformInfo: OciPlatformInfo,
 ): OciArchiveManifest | undefined {
   if (!imageIndex) {
-    return manifestCollection[Object.keys(manifestCollection)[0]];
+    return Object.values(manifestCollection).find(isImageManifest);
   }
 
   const allManifests = getAllManifestsIndexItems(imageIndex, indexFiles);
@@ -520,6 +561,105 @@ function getImageConfig(
       };
     },
   );
+}
+
+function extractProvenanceAttestations(
+  metadata: ArchiveMetadata,
+  imageManifestDigest: string | undefined,
+): ProvenanceAttestation[] {
+  const attestations: ProvenanceAttestation[] = [];
+
+  if (!metadata.mainIndexFile) {
+    return attestations;
+  }
+
+  const allManifests = getAllManifestsIndexItems(
+    metadata.mainIndexFile,
+    metadata.indexFiles,
+  );
+
+  for (const descriptor of allManifests) {
+    const isAttestationManifest =
+      descriptor.annotations?.["vnd.docker.reference.type"] ===
+      "attestation-manifest";
+
+    if (!isAttestationManifest) {
+      continue;
+    }
+
+    // Only keep attestations that reference the platform image being scanned.
+    const referencedDigest =
+      descriptor.annotations?.["vnd.docker.reference.digest"];
+    if (
+      imageManifestDigest &&
+      referencedDigest &&
+      referencedDigest !== imageManifestDigest
+    ) {
+      continue;
+    }
+
+    const attestationManifest = metadata.manifests[descriptor.digest];
+    if (
+      !attestationManifest?.layers ||
+      !Array.isArray(attestationManifest.layers)
+    ) {
+      continue;
+    }
+
+    const attestation: ProvenanceAttestation = {
+      attestationManifestDigest: descriptor.digest,
+      mediaType: descriptor.mediaType,
+      annotations: descriptor.annotations || {},
+      provenanceLayers: attestationManifest.layers.map((layer) => ({
+        digest: layer.digest,
+        mediaType: layer.mediaType,
+        annotations: layer.annotations,
+      })),
+    };
+
+    attestations.push(attestation);
+  }
+
+  return attestations;
+}
+
+/**
+ * Collects the digests of in-toto attestation blobs that need to be fetched in
+ * pass 2 (the layer-extraction pass).
+ */
+function collectInTotoDigests(
+  attestations: ProvenanceAttestation[],
+): Set<string> {
+  const digests = new Set<string>();
+  for (const attestation of attestations) {
+    for (const layer of attestation.provenanceLayers) {
+      if (layer.mediaType === MEDIATYPE_IN_TOTO) {
+        digests.add(layer.digest);
+      }
+    }
+  }
+  return digests;
+}
+
+/**
+ * Attaches the in-toto statements fetched in pass 2 back onto their attestation
+ * layers, matching by blob digest.
+ */
+function attachInTotoStatements(
+  attestations: ProvenanceAttestation[],
+  inTotoStatements: Record<string, InTotoStatement>,
+): void {
+  for (const attestation of attestations) {
+    for (const layer of attestation.provenanceLayers) {
+      if (layer.mediaType !== MEDIATYPE_IN_TOTO) {
+        continue;
+      }
+      const statement = inTotoStatements[layer.digest];
+      if (statement) {
+        layer.inTotoStatement = statement;
+      }
+    }
+  }
 }
 
 function getBestMatchForPlatform<T>(
