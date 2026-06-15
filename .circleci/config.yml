@@ -267,7 +267,7 @@ jobs:
       - setup_remote_docker
       - run:
           name: Regenerate Jest snapshots
-          command: npx jest -u --maxWorkers=3 --testPathPattern='test/(lib|system)/'
+          command: npx jest -u --colors --maxWorkers=3 --testPathPattern='test/(lib|system)/'
           no_output_timeout: 20m
       - run:
           name: Build snapshot patch
