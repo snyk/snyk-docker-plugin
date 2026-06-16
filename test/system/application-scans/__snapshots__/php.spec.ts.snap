@@ -695,10 +695,6 @@ Object {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
-        Object {
-          "data": "Alpine Linux v3.6",
-          "type": "imageOsReleasePrettyName",
-        },
       ],
       "identity": Object {
         "targetFile": "/app/composer.lock",
@@ -1406,10 +1402,6 @@ Object {
         Object {
           "data": "0.0.0-local",
           "type": "pluginVersion",
-        },
-        Object {
-          "data": "Alpine Linux v3.6",
-          "type": "imageOsReleasePrettyName",
         },
       ],
       "identity": Object {

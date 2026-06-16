@@ -2515,10 +2515,6 @@ Object {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
-        Object {
-          "data": "Alpine Linux v3.22",
-          "type": "imageOsReleasePrettyName",
-        },
       ],
       "identity": Object {
         "targetFile": "\\\\usr\\\\lib\\\\go-standard-2",
@@ -2580,10 +2576,6 @@ Object {
         Object {
           "data": "0.0.0-local",
           "type": "pluginVersion",
-        },
-        Object {
-          "data": "Alpine Linux v3.22",
-          "type": "imageOsReleasePrettyName",
         },
       ],
       "identity": Object {
@@ -2691,10 +2683,6 @@ Object {
         Object {
           "data": "0.0.0-local",
           "type": "pluginVersion",
-        },
-        Object {
-          "data": "Alpine Linux v3.22",
-          "type": "imageOsReleasePrettyName",
         },
       ],
       "identity": Object {
@@ -4759,10 +4747,6 @@ Object {
         Object {
           "data": "0.0.0-local",
           "type": "pluginVersion",
-        },
-        Object {
-          "data": "Amazon Linux 2",
-          "type": "imageOsReleasePrettyName",
         },
       ],
       "identity": Object {
@@ -15057,10 +15041,6 @@ Object {
         Object {
           "data": "0.0.0-local",
           "type": "pluginVersion",
-        },
-        Object {
-          "data": "Amazon Linux 2",
-          "type": "imageOsReleasePrettyName",
         },
       ],
       "identity": Object {
