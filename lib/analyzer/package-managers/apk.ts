@@ -75,7 +75,7 @@ export function parseFile(text: string): AnalyzedPackageWithVersion[] {
         }
         break;
       case "F": {
-        // Directory for subsequent R:/M: file-list records, root-relative
+        // Directory for subsequent R: file-list records, root-relative
         // like "usr/lib"
         if (!curPkg) {
           break;
@@ -92,16 +92,6 @@ export function parseFile(text: string): AnalyzedPackageWithVersion[] {
           break;
         }
         curPkg.Files!.push(`${currentDir}/${value}`);
-        break;
-      }
-      case "M": {
-        // Directory metadata for the current F: directory
-        if (!curPkg || !currentDir) {
-          break;
-        }
-        if (!curPkg.Directories!.includes(currentDir)) {
-          curPkg.Directories!.push(currentDir);
-        }
         break;
       }
     }
