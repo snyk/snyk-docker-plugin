@@ -44,8 +44,8 @@ const debug = Debug("snyk");
 
 const CHAINGUARD_DISTROS = new Set(["wolfi", "chainguard"]);
 
-export function isChainguardDistro(osRelease: OSRelease): boolean {
-  return CHAINGUARD_DISTROS.has(osRelease.name);
+export function isChainguardDistro(osRelease?: OSRelease): boolean {
+  return !!osRelease && CHAINGUARD_DISTROS.has(osRelease.name);
 }
 
 export function toSymlinkGraph(symlinks?: SymlinkMap): SymlinkGraph {
@@ -138,15 +138,14 @@ function resolveDirectoryOwner(
  */
 export function resolveApkOwnership(
   evidencePaths: string[],
-  packages: AnalyzedPackageWithVersion[],
-  osRelease: OSRelease,
+  index: ApkPathIndex,
   symlinkGraph: SymlinkGraph,
+  osRelease: OSRelease,
 ): ApkPackageOwnership | undefined {
   if (!isChainguardDistro(osRelease) || evidencePaths.length === 0) {
     return undefined;
   }
 
-  const index = buildApkPathIndex(packages, symlinkGraph);
   const perPathMatches: PathOwnerMatch[] = [];
 
   for (const evidencePath of evidencePaths) {
