@@ -1,34 +1,34 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`pip application scan should correctly return applications as multiple scan results 1`] = `
-Object {
-  "scanResults": Array [
-    Object {
-      "facts": Array [
-        Object {
-          "data": Object {
-            "graph": Object {
-              "nodes": Array [
-                Object {
-                  "deps": Array [],
+{
+  "scanResults": [
+    {
+      "facts": [
+        {
+          "data": {
+            "graph": {
+              "nodes": [
+                {
+                  "deps": [],
                   "nodeId": "root-node",
                   "pkgId": "docker-image|pip.tar@",
                 },
               ],
               "rootNodeId": "root-node",
             },
-            "pkgManager": Object {
+            "pkgManager": {
               "name": "linux",
-              "repositories": Array [
-                Object {
+              "repositories": [
+                {
                   "alias": "unknown:0.0",
                 },
               ],
             },
-            "pkgs": Array [
-              Object {
+            "pkgs": [
+              {
                 "id": "docker-image|pip.tar@",
-                "info": Object {
+                "info": {
                   "name": "docker-image|pip.tar",
                   "version": undefined,
                 },
@@ -38,34 +38,34 @@ Object {
           },
           "type": "depGraph",
         },
-        Object {
+        {
           "data": "sha256:aedf2e53ead6ec9a10802e76bb7b9d4ef6c98cabbc94f206624b297dfe36896c",
           "type": "imageId",
         },
-        Object {
-          "data": Array [
+        {
+          "data": [
             "56d1520b58f002414a0a8df6aaa3dc98f4b454bd08275cb10a11847ed9bdf493/layer.tar",
             "3454ac19d2804e6ff09841afb117bb940edaf04e4735019aed23f539cbe2d0f4/layer.tar",
           ],
           "type": "imageLayers",
         },
-        Object {
-          "data": Object {
-            "env": Array [
+        {
+          "data": {
+            "env": [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
             "workingDir": "/",
           },
           "type": "containerConfig",
         },
-        Object {
-          "data": Array [
-            Object {
+        {
+          "data": [
+            {
               "comment": "buildkit.dockerfile.v0",
               "created": "2022-08-11T12:10:06.463200742Z",
               "createdBy": "COPY /app/. /app/. # buildkit",
             },
-            Object {
+            {
               "comment": "buildkit.dockerfile.v0",
               "created": "2022-08-11T12:10:06.844187544Z",
               "createdBy": "COPY /usr/local/lib/python3.10/site-packages/. /usr/local/lib/python3.10/site-packages/. # buildkit",
@@ -73,183 +73,183 @@ Object {
           ],
           "type": "history",
         },
-        Object {
+        {
           "data": "2022-08-11T12:10:06.844187544Z",
           "type": "imageCreationTime",
         },
-        Object {
-          "data": Array [
+        {
+          "data": [
             "sha256:06cdc966a7b291cce93f299ae7dc9cd513eddfab9b0c8b1e9bccc71f581c0568",
             "sha256:b59e235579c9b971248641b8b7316abdf85d783790de306e64228a58cd48e905",
           ],
           "type": "rootFs",
         },
-        Object {
+        {
           "data": "linux/amd64",
           "type": "platform",
         },
-        Object {
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
       ],
-      "identity": Object {
-        "args": Object {
+      "identity": {
+        "args": {
           "platform": "linux/amd64",
         },
         "type": "linux",
       },
-      "target": Object {
+      "target": {
         "image": "docker-image|pip.tar",
       },
     },
-    Object {
-      "facts": Array [
-        Object {
-          "data": Object {
-            "graph": Object {
-              "nodes": Array [
-                Object {
-                  "deps": Array [
-                    Object {
+    {
+      "facts": [
+        {
+          "data": {
+            "graph": {
+              "nodes": [
+                {
+                  "deps": [
+                    {
                       "nodeId": "six@1.16.0",
                     },
-                    Object {
+                    {
                       "nodeId": "flask@2.2.2",
                     },
-                    Object {
+                    {
                       "nodeId": "rpc.py@0.4.2",
                     },
                   ],
                   "nodeId": "root-node",
                   "pkgId": "/app/requirements.txt@",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "six@1.16.0",
                   "pkgId": "six@1.16.0",
                 },
-                Object {
-                  "deps": Array [
-                    Object {
+                {
+                  "deps": [
+                    {
                       "nodeId": "werkzeug@2.2.2",
                     },
-                    Object {
+                    {
                       "nodeId": "jinja2@3.1.2",
                     },
-                    Object {
+                    {
                       "nodeId": "itsdangerous@2.1.2",
                     },
-                    Object {
+                    {
                       "nodeId": "click@8.1.3",
                     },
                   ],
                   "nodeId": "flask@2.2.2",
                   "pkgId": "flask@2.2.2",
                 },
-                Object {
-                  "deps": Array [
-                    Object {
+                {
+                  "deps": [
+                    {
                       "nodeId": "markupsafe@2.1.1",
                     },
                   ],
                   "nodeId": "werkzeug@2.2.2",
                   "pkgId": "werkzeug@2.2.2",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "markupsafe@2.1.1",
                   "pkgId": "markupsafe@2.1.1",
                 },
-                Object {
-                  "deps": Array [
-                    Object {
+                {
+                  "deps": [
+                    {
                       "nodeId": "markupsafe@2.1.1",
                     },
                   ],
                   "nodeId": "jinja2@3.1.2",
                   "pkgId": "jinja2@3.1.2",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "itsdangerous@2.1.2",
                   "pkgId": "itsdangerous@2.1.2",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "click@8.1.3",
                   "pkgId": "click@8.1.3",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "rpc.py@0.4.2",
                   "pkgId": "rpc.py@0.4.2",
                 },
               ],
               "rootNodeId": "root-node",
             },
-            "pkgManager": Object {
+            "pkgManager": {
               "name": "pip",
             },
-            "pkgs": Array [
-              Object {
+            "pkgs": [
+              {
                 "id": "/app/requirements.txt@",
-                "info": Object {
+                "info": {
                   "name": "/app/requirements.txt",
                 },
               },
-              Object {
+              {
                 "id": "six@1.16.0",
-                "info": Object {
+                "info": {
                   "name": "six",
                   "version": "1.16.0",
                 },
               },
-              Object {
+              {
                 "id": "flask@2.2.2",
-                "info": Object {
+                "info": {
                   "name": "flask",
                   "version": "2.2.2",
                 },
               },
-              Object {
+              {
                 "id": "werkzeug@2.2.2",
-                "info": Object {
+                "info": {
                   "name": "werkzeug",
                   "version": "2.2.2",
                 },
               },
-              Object {
+              {
                 "id": "markupsafe@2.1.1",
-                "info": Object {
+                "info": {
                   "name": "markupsafe",
                   "version": "2.1.1",
                 },
               },
-              Object {
+              {
                 "id": "jinja2@3.1.2",
-                "info": Object {
+                "info": {
                   "name": "jinja2",
                   "version": "3.1.2",
                 },
               },
-              Object {
+              {
                 "id": "itsdangerous@2.1.2",
-                "info": Object {
+                "info": {
                   "name": "itsdangerous",
                   "version": "2.1.2",
                 },
               },
-              Object {
+              {
                 "id": "click@8.1.3",
-                "info": Object {
+                "info": {
                   "name": "click",
                   "version": "8.1.3",
                 },
               },
-              Object {
+              {
                 "id": "rpc.py@0.4.2",
-                "info": Object {
+                "info": {
                   "name": "rpc.py",
                   "version": "0.4.2",
                 },
@@ -259,20 +259,20 @@ Object {
           },
           "type": "depGraph",
         },
-        Object {
+        {
           "data": "sha256:aedf2e53ead6ec9a10802e76bb7b9d4ef6c98cabbc94f206624b297dfe36896c",
           "type": "imageId",
         },
-        Object {
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
       ],
-      "identity": Object {
+      "identity": {
         "targetFile": "/app/requirements.txt",
         "type": "pip",
       },
-      "target": Object {
+      "target": {
         "image": "docker-image|pip.tar",
       },
     },
@@ -281,34 +281,34 @@ Object {
 `;
 
 exports[`pip application scan should correctly return applications as multiple scan results with dist-packages 1`] = `
-Object {
-  "scanResults": Array [
-    Object {
-      "facts": Array [
-        Object {
-          "data": Object {
-            "graph": Object {
-              "nodes": Array [
-                Object {
-                  "deps": Array [],
+{
+  "scanResults": [
+    {
+      "facts": [
+        {
+          "data": {
+            "graph": {
+              "nodes": [
+                {
+                  "deps": [],
                   "nodeId": "root-node",
                   "pkgId": "docker-image|pip-dist-packages.tar@",
                 },
               ],
               "rootNodeId": "root-node",
             },
-            "pkgManager": Object {
+            "pkgManager": {
               "name": "linux",
-              "repositories": Array [
-                Object {
+              "repositories": [
+                {
                   "alias": "unknown:0.0",
                 },
               ],
             },
-            "pkgs": Array [
-              Object {
+            "pkgs": [
+              {
                 "id": "docker-image|pip-dist-packages.tar@",
-                "info": Object {
+                "info": {
                   "name": "docker-image|pip-dist-packages.tar",
                   "version": undefined,
                 },
@@ -318,34 +318,34 @@ Object {
           },
           "type": "depGraph",
         },
-        Object {
+        {
           "data": "sha256:436a467a4bbbe103e2417a965e290f27f4030b74c5de64a088f1e67c7b4caa10",
           "type": "imageId",
         },
-        Object {
-          "data": Array [
+        {
+          "data": [
             "168e0ecfcd143d7297d2aa58f4c48c0483370aa003f62f555cf53e1d1f1829a2/layer.tar",
             "157c0127779720af31c6767bb6315597558f74455a3aeed5bce61701b823fc2a/layer.tar",
           ],
           "type": "imageLayers",
         },
-        Object {
-          "data": Object {
-            "env": Array [
+        {
+          "data": {
+            "env": [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
             "workingDir": "/",
           },
           "type": "containerConfig",
         },
-        Object {
-          "data": Array [
-            Object {
+        {
+          "data": [
+            {
               "comment": "buildkit.dockerfile.v0",
               "created": "2023-01-10T12:06:10.017901754Z",
               "createdBy": "COPY /app /app # buildkit",
             },
-            Object {
+            {
               "comment": "buildkit.dockerfile.v0",
               "created": "2023-01-10T12:06:10.183855463Z",
               "createdBy": "COPY /usr/local/lib/python3.10/site-packages/. /usr/local/lib/python3.10/dist-packages/. # buildkit",
@@ -353,183 +353,183 @@ Object {
           ],
           "type": "history",
         },
-        Object {
+        {
           "data": "2023-01-10T12:06:10.183855463Z",
           "type": "imageCreationTime",
         },
-        Object {
-          "data": Array [
+        {
+          "data": [
             "sha256:2cc09064b491aefa0399d2886aa2e56055fed4d159ac104bc60328278772d9c1",
             "sha256:7bc258cc6ab05c1da5517e07e8de024ea560b5d713d4f8638984400485899de9",
           ],
           "type": "rootFs",
         },
-        Object {
+        {
           "data": "linux/arm64",
           "type": "platform",
         },
-        Object {
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
       ],
-      "identity": Object {
-        "args": Object {
+      "identity": {
+        "args": {
           "platform": "linux/arm64",
         },
         "type": "linux",
       },
-      "target": Object {
+      "target": {
         "image": "docker-image|pip-dist-packages.tar",
       },
     },
-    Object {
-      "facts": Array [
-        Object {
-          "data": Object {
-            "graph": Object {
-              "nodes": Array [
-                Object {
-                  "deps": Array [
-                    Object {
+    {
+      "facts": [
+        {
+          "data": {
+            "graph": {
+              "nodes": [
+                {
+                  "deps": [
+                    {
                       "nodeId": "six@1.16.0",
                     },
-                    Object {
+                    {
                       "nodeId": "flask@2.2.2",
                     },
-                    Object {
+                    {
                       "nodeId": "rpc.py@0.4.2",
                     },
                   ],
                   "nodeId": "root-node",
                   "pkgId": "/app/requirements.txt@",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "six@1.16.0",
                   "pkgId": "six@1.16.0",
                 },
-                Object {
-                  "deps": Array [
-                    Object {
+                {
+                  "deps": [
+                    {
                       "nodeId": "werkzeug@2.2.2",
                     },
-                    Object {
+                    {
                       "nodeId": "jinja2@3.1.2",
                     },
-                    Object {
+                    {
                       "nodeId": "itsdangerous@2.1.2",
                     },
-                    Object {
+                    {
                       "nodeId": "click@8.1.3",
                     },
                   ],
                   "nodeId": "flask@2.2.2",
                   "pkgId": "flask@2.2.2",
                 },
-                Object {
-                  "deps": Array [
-                    Object {
+                {
+                  "deps": [
+                    {
                       "nodeId": "markupsafe@2.1.1",
                     },
                   ],
                   "nodeId": "werkzeug@2.2.2",
                   "pkgId": "werkzeug@2.2.2",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "markupsafe@2.1.1",
                   "pkgId": "markupsafe@2.1.1",
                 },
-                Object {
-                  "deps": Array [
-                    Object {
+                {
+                  "deps": [
+                    {
                       "nodeId": "markupsafe@2.1.1",
                     },
                   ],
                   "nodeId": "jinja2@3.1.2",
                   "pkgId": "jinja2@3.1.2",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "itsdangerous@2.1.2",
                   "pkgId": "itsdangerous@2.1.2",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "click@8.1.3",
                   "pkgId": "click@8.1.3",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "rpc.py@0.4.2",
                   "pkgId": "rpc.py@0.4.2",
                 },
               ],
               "rootNodeId": "root-node",
             },
-            "pkgManager": Object {
+            "pkgManager": {
               "name": "pip",
             },
-            "pkgs": Array [
-              Object {
+            "pkgs": [
+              {
                 "id": "/app/requirements.txt@",
-                "info": Object {
+                "info": {
                   "name": "/app/requirements.txt",
                 },
               },
-              Object {
+              {
                 "id": "six@1.16.0",
-                "info": Object {
+                "info": {
                   "name": "six",
                   "version": "1.16.0",
                 },
               },
-              Object {
+              {
                 "id": "flask@2.2.2",
-                "info": Object {
+                "info": {
                   "name": "flask",
                   "version": "2.2.2",
                 },
               },
-              Object {
+              {
                 "id": "werkzeug@2.2.2",
-                "info": Object {
+                "info": {
                   "name": "werkzeug",
                   "version": "2.2.2",
                 },
               },
-              Object {
+              {
                 "id": "markupsafe@2.1.1",
-                "info": Object {
+                "info": {
                   "name": "markupsafe",
                   "version": "2.1.1",
                 },
               },
-              Object {
+              {
                 "id": "jinja2@3.1.2",
-                "info": Object {
+                "info": {
                   "name": "jinja2",
                   "version": "3.1.2",
                 },
               },
-              Object {
+              {
                 "id": "itsdangerous@2.1.2",
-                "info": Object {
+                "info": {
                   "name": "itsdangerous",
                   "version": "2.1.2",
                 },
               },
-              Object {
+              {
                 "id": "click@8.1.3",
-                "info": Object {
+                "info": {
                   "name": "click",
                   "version": "8.1.3",
                 },
               },
-              Object {
+              {
                 "id": "rpc.py@0.4.2",
-                "info": Object {
+                "info": {
                   "name": "rpc.py",
                   "version": "0.4.2",
                 },
@@ -539,20 +539,20 @@ Object {
           },
           "type": "depGraph",
         },
-        Object {
+        {
           "data": "sha256:436a467a4bbbe103e2417a965e290f27f4030b74c5de64a088f1e67c7b4caa10",
           "type": "imageId",
         },
-        Object {
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
       ],
-      "identity": Object {
+      "identity": {
         "targetFile": "/app/requirements.txt",
         "type": "pip",
       },
-      "target": Object {
+      "target": {
         "image": "docker-image|pip-dist-packages.tar",
       },
     },
