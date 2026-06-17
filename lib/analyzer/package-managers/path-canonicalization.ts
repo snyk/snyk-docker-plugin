@@ -20,28 +20,46 @@ export function canonicalizePath(
   filePath: string,
   symlinkGraph: SymlinkGraph,
 ): string {
-  const normalized = normalizeAbsolutePath(filePath);
-  const segments = normalized.split("/").filter(Boolean);
-  const resolvedSegments: string[] = [];
+  let current = normalizeAbsolutePath(filePath);
+  const visited = new Set<string>();
 
-  for (const segment of segments) {
-    resolvedSegments.push(segment);
-    const currentPath = `/${resolvedSegments.join("/")}`;
-    const linkTarget = symlinkGraph.get(currentPath);
-    if (!linkTarget) {
-      continue;
+  // Re-scan from the start after each substitution so that a resolved target
+  // whose own parent is a symlink (e.g. /lib64 -> /lib/x with /lib -> /usr/lib)
+  // is fully resolved. MAX_SYMLINK_DEPTH and the visited set guard against cycles.
+  for (let depth = 0; depth < MAX_SYMLINK_DEPTH; depth++) {
+    if (visited.has(current)) {
+      return current;
+    }
+    visited.add(current);
+
+    const segments = current.split("/").filter(Boolean);
+    const prefix: string[] = [];
+    let rewritten = false;
+
+    for (const segment of segments) {
+      prefix.push(segment);
+      const linkTarget = symlinkGraph.get(`/${prefix.join("/")}`);
+      if (!linkTarget) {
+        continue;
+      }
+      const resolvedPrefix = normalizeSymlinkTarget(
+        `/${prefix.join("/")}`,
+        linkTarget,
+      );
+      const rest = segments.slice(prefix.length).join("/");
+      current = normalizeAbsolutePath(
+        rest ? `${resolvedPrefix}/${rest}` : resolvedPrefix,
+      );
+      rewritten = true;
+      break;
     }
 
-    const resolvedTarget = resolveSymlinkChain(
-      normalizeSymlinkTarget(currentPath, linkTarget),
-      symlinkGraph,
-    );
-    const targetSegments = resolvedTarget.split("/").filter(Boolean);
-    resolvedSegments.length = 0;
-    resolvedSegments.push(...targetSegments);
+    if (!rewritten) {
+      return current;
+    }
   }
 
-  return resolvedSegments.length === 0 ? "/" : `/${resolvedSegments.join("/")}`;
+  return current;
 }
 
 function normalizeSymlinkTarget(basePath: string, linkTarget: string): string {
@@ -51,26 +69,4 @@ function normalizeSymlinkTarget(basePath: string, linkTarget: string): string {
   }
   const baseDir = path.dirname(basePath);
   return path.normalize(path.join(baseDir, target));
-}
-
-function resolveSymlinkChain(
-  filePath: string,
-  symlinkGraph: SymlinkGraph,
-): string {
-  let current = normalizeAbsolutePath(filePath);
-  const visited = new Set<string>();
-
-  for (let depth = 0; depth < MAX_SYMLINK_DEPTH; depth++) {
-    const linkTarget = symlinkGraph.get(current);
-    if (!linkTarget) {
-      return current;
-    }
-    if (visited.has(current)) {
-      return current;
-    }
-    visited.add(current);
-    current = normalizeSymlinkTarget(current, linkTarget);
-  }
-
-  return current;
 }

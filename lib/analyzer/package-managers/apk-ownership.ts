@@ -45,7 +45,7 @@ const debug = Debug("snyk");
 const CHAINGUARD_DISTROS = new Set(["wolfi", "chainguard"]);
 
 export function isChainguardDistro(osRelease?: OSRelease): boolean {
-  return !!osRelease && CHAINGUARD_DISTROS.has(osRelease.name);
+  return !!osRelease && CHAINGUARD_DISTROS.has(osRelease.name.toLowerCase());
 }
 
 export function toSymlinkGraph(symlinks?: SymlinkMap): SymlinkGraph {

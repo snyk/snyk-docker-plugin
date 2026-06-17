@@ -1,5 +1,6 @@
 import {
   buildApkPathIndex,
+  isChainguardDistro,
   resolveApkOwnership,
   resolveOwnerForEvidencePath,
 } from "../../lib/analyzer/package-managers/apk-ownership";
@@ -228,5 +229,26 @@ describe("apk-ownership", () => {
     expect(index.exactFileOwners.get(canonicalApkPath)?.[0].Name).toBe(
       "nodejs",
     );
+  });
+
+  it("matches the distro id case-insensitively", () => {
+    expect(
+      isChainguardDistro({
+        name: "Wolfi",
+        version: "20230201",
+        prettyName: "",
+      }),
+    ).toBe(true);
+    expect(
+      isChainguardDistro({
+        name: "CHAINGUARD",
+        version: "20230214",
+        prettyName: "",
+      }),
+    ).toBe(true);
+    expect(
+      isChainguardDistro({ name: "alpine", version: "3.19", prettyName: "" }),
+    ).toBe(false);
+    expect(isChainguardDistro(undefined)).toBe(false);
   });
 });
