@@ -1,2946 +1,2946 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`oracle linux tests should correctly analyze an oracle linux image by sha256 1`] = `
-Object {
-  "scanResults": Array [
-    Object {
-      "facts": Array [
-        Object {
-          "data": Object {
-            "graph": Object {
-              "nodes": Array [
-                Object {
-                  "deps": Array [
-                    Object {
+{
+  "scanResults": [
+    {
+      "facts": [
+        {
+          "data": {
+            "graph": {
+              "nodes": [
+                {
+                  "deps": [
+                    {
                       "nodeId": "acl@2.2.53-1.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "audit-libs@3.0-0.17.20191104git1c2f876.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "basesystem@11-5.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "bash@4.4.19-10.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "bind-export-libs@32:9.11.13-6.el8_2.1",
                     },
-                    Object {
+                    {
                       "nodeId": "brotli@1.0.6-1.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "bzip2-libs@1.0.6-26.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "ca-certificates@2020.2.41-80.0.el8_2",
                     },
-                    Object {
+                    {
                       "nodeId": "chkconfig@1.11-1.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "coreutils@8.30-7.0.1.el8_2.1",
                     },
-                    Object {
+                    {
                       "nodeId": "coreutils-common@8.30-7.0.1.el8_2.1",
                     },
-                    Object {
+                    {
                       "nodeId": "cracklib@2.9.6-15.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "crypto-policies@20191128-2.git23e1bf1.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "cryptsetup-libs@2.2.2-1.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "curl@7.61.1-12.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "cyrus-sasl-lib@2.1.27-1.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "dbus@1:1.12.8-10.0.1.el8_2",
                     },
-                    Object {
+                    {
                       "nodeId": "dbus-common@1:1.12.8-10.0.1.el8_2",
                     },
-                    Object {
+                    {
                       "nodeId": "dbus-daemon@1:1.12.8-10.0.1.el8_2",
                     },
-                    Object {
+                    {
                       "nodeId": "dbus-libs@1:1.12.8-10.0.1.el8_2",
                     },
-                    Object {
+                    {
                       "nodeId": "dbus-tools@1:1.12.8-10.0.1.el8_2",
                     },
-                    Object {
+                    {
                       "nodeId": "device-mapper@8:1.02.169-3.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "device-mapper-libs@8:1.02.169-3.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "dhcp-client@12:4.3.6-40.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "dhcp-common@12:4.3.6-40.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "dhcp-libs@12:4.3.6-40.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "diffutils@3.6-6.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "dnf@4.2.17-7.el8_2",
                     },
-                    Object {
+                    {
                       "nodeId": "dnf-data@4.2.17-7.el8_2",
                     },
-                    Object {
+                    {
                       "nodeId": "dnf-plugins-core@4.0.12-4.el8_2",
                     },
-                    Object {
+                    {
                       "nodeId": "elfutils-default-yama-scope@0.178-7.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "elfutils-libelf@0.178-7.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "elfutils-libs@0.178-7.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "expat@2.2.5-3.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "file-libs@5.33-13.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "filesystem@3.8-2.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "findutils@1:4.6.0-20.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "fipscheck@1.5.0-4.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "fipscheck-lib@1.5.0-4.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "gawk@4.2.1-1.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "gdbm@1:1.18-1.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "gdbm-libs@1:1.18-1.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "glib2@2.56.4-8.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "glibc@2.28-101.0.1.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "glibc-all-langpacks@2.28-101.0.1.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "glibc-common@2.28-101.0.1.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "gmp@1:6.1.2-10.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "gnupg2@2.2.9-1.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "gnutls@3.6.8-11.el8_2",
                     },
-                    Object {
+                    {
                       "nodeId": "gpg-pubkey@ad986da3-5cabf60d",
                     },
-                    Object {
+                    {
                       "nodeId": "gpgme@1.10.0-6.0.1.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "grep@3.1-6.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "gzip@1.9-9.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "ima-evm-utils@1.1-5.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "info@6.5-6.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "initscripts@10.00.6-1.0.1.el8_2.2",
                     },
-                    Object {
+                    {
                       "nodeId": "ipcalc@0.2.4-4.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "iproute@5.3.0-1.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "iptables-libs@1.8.4-10.el8_2.1",
                     },
-                    Object {
+                    {
                       "nodeId": "iputils@20180629-2.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "json-c@0.13.1-0.2.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "keyutils-libs@1.5.10-6.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "kmod-libs@25-16.0.1.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "krb5-libs@1.17-18.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libacl@2.2.53-1.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libarchive@3.3.2-8.el8_1",
                     },
-                    Object {
+                    {
                       "nodeId": "libassuan@2.5.1-3.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libattr@2.4.48-3.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libblkid@2.32.1-22.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libcap@2.26-3.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libcap-ng@0.7.9-5.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libcom_err@1.45.4-3.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libcomps@0.1.11-4.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libcurl@7.61.1-12.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libdb@5.3.28-37.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libdb-utils@5.3.28-37.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libdnf@0.39.1-6.0.1.el8_2",
                     },
-                    Object {
+                    {
                       "nodeId": "libedit@3.1-23.20170329cvs.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libestr@0.1.10-1.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libfastjson@0.99.8-2.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libfdisk@2.32.1-22.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libffi@3.1-21.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libgcc@8.3.1-5.0.3.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libgcrypt@1.8.3-4.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libgpg-error@1.31-1.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libidn2@2.2.0-1.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libksba@1.3.5-7.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libmetalink@0.1.3-7.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libmnl@1.0.4-6.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libmodulemd1@1.8.16-0.2.8.2.1",
                     },
-                    Object {
+                    {
                       "nodeId": "libmount@2.32.1-22.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libnghttp2@1.33.0-3.el8_2.1",
                     },
-                    Object {
+                    {
                       "nodeId": "libnsl2@1.2.0-2.20180605git4a062cf.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libpcap@14:1.9.0-3.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libpsl@0.20.2-5.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libpwquality@1.4.0-9.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "librepo@1.11.0-3.el8_2",
                     },
-                    Object {
+                    {
                       "nodeId": "libreport-filesystem@2.9.5-10.0.1.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libseccomp@2.4.1-1.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libselinux@2.9-3.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libselinux-utils@2.9-3.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libsemanage@2.9-2.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libsepol@2.9-1.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libsigsegv@2.11-5.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libsmartcols@2.32.1-22.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libsolv@0.7.7-1.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libssh@0.9.0-4.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libssh-config@0.9.0-4.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libstdc++@8.3.1-5.0.3.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libtasn1@4.13-3.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libtirpc@1.1.4-4.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libunistring@0.9.9-3.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libusbx@1.0.22-1.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libuser@0.62-23.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libutempter@1.1.6-14.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libuuid@2.32.1-22.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libverto@0.3.0-5.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libxcrypt@4.1.1-4.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libxml2@2.9.7-7.0.1.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libyaml@0.1.7-5.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "libzstd@1.4.2-2.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "logrotate@3.14.0-3.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "lua-libs@5.3.4-11.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "lz4-libs@1.8.1.2-4.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "mpfr@3.1.6-1.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "ncurses@6.1-7.20180224.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "ncurses-base@6.1-7.20180224.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "ncurses-libs@6.1-7.20180224.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "nettle@3.4.1-1.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "npth@1.5-4.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "openldap@2.4.46-11.el8_1",
                     },
-                    Object {
+                    {
                       "nodeId": "openssh@8.0p1-4.el8_1",
                     },
-                    Object {
+                    {
                       "nodeId": "openssh-clients@8.0p1-4.el8_1",
                     },
-                    Object {
+                    {
                       "nodeId": "openssh-server@8.0p1-4.el8_1",
                     },
-                    Object {
+                    {
                       "nodeId": "openssl-libs@1:1.1.1c-15.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "oraclelinux-release@8:8.2-1.0.8.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "oraclelinux-release-el8@1.0-12.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "p11-kit@0.23.14-5.el8_0",
                     },
-                    Object {
+                    {
                       "nodeId": "p11-kit-trust@0.23.14-5.el8_0",
                     },
-                    Object {
+                    {
                       "nodeId": "pam@1.3.1-8.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "passwd@0.80-3.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "pcre@8.42-4.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "pcre2@10.32-1.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "platform-python@3.6.8-23.0.1.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "platform-python-setuptools@39.2.0-5.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "policycoreutils@2.9-9.0.1.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "popt@1.16-14.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "procps-ng@3.3.15-1.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "publicsuffix-list-dafsa@20180723-1.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "python3-dateutil@1:2.6.1-6.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "python3-dnf@4.2.17-7.el8_2",
                     },
-                    Object {
+                    {
                       "nodeId": "python3-dnf-plugins-core@4.0.12-4.el8_2",
                     },
-                    Object {
+                    {
                       "nodeId": "python3-gpg@1.10.0-6.0.1.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "python3-hawkey@0.39.1-6.0.1.el8_2",
                     },
-                    Object {
+                    {
                       "nodeId": "python3-libcomps@0.1.11-4.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "python3-libdnf@0.39.1-6.0.1.el8_2",
                     },
-                    Object {
+                    {
                       "nodeId": "python3-libs@3.6.8-23.0.1.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "python3-pip-wheel@9.0.3-16.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "python3-rpm@4.14.2-37.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "python3-setuptools-wheel@39.2.0-5.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "python3-six@1.11.0-8.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "readline@7.0-10.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "redhat-release@2:8.2-1.0.0.1.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "rootfiles@8.1-22.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "rpm@4.14.2-37.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "rpm-build-libs@4.14.2-37.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "rpm-libs@4.14.2-37.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "rsyslog@8.1911.0-3.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "sed@4.5-1.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "setup@2.12.2-5.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "shadow-utils@2:4.6-8.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "sqlite-libs@3.26.0-6.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "systemd@239-31.0.1.el8_2.2",
                     },
-                    Object {
+                    {
                       "nodeId": "systemd-libs@239-31.0.1.el8_2.2",
                     },
-                    Object {
+                    {
                       "nodeId": "systemd-pam@239-31.0.1.el8_2.2",
                     },
-                    Object {
+                    {
                       "nodeId": "tzdata@2020a-1.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "util-linux@2.32.1-22.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "vim-minimal@2:8.0.1763-13.0.1.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "xz-libs@5.2.4-3.el8",
                     },
-                    Object {
+                    {
                       "nodeId": "yum@4.2.17-7.el8_2",
                     },
-                    Object {
+                    {
                       "nodeId": "yum-utils@4.0.12-4.el8_2",
                     },
-                    Object {
+                    {
                       "nodeId": "zlib@1.2.11-16.el8_2",
                     },
                   ],
                   "nodeId": "root-node",
                   "pkgId": "docker-image|oraclelinux@",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "acl@2.2.53-1.el8",
                   "pkgId": "acl@2.2.53-1.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "audit-libs@3.0-0.17.20191104git1c2f876.el8",
                   "pkgId": "audit-libs@3.0-0.17.20191104git1c2f876.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "basesystem@11-5.el8",
                   "pkgId": "basesystem@11-5.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "bash@4.4.19-10.el8",
                   "pkgId": "bash@4.4.19-10.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "bind-export-libs@32:9.11.13-6.el8_2.1",
                   "pkgId": "bind-export-libs@32:9.11.13-6.el8_2.1",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "brotli@1.0.6-1.el8",
                   "pkgId": "brotli@1.0.6-1.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "bzip2-libs@1.0.6-26.el8",
                   "pkgId": "bzip2-libs@1.0.6-26.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "ca-certificates@2020.2.41-80.0.el8_2",
                   "pkgId": "ca-certificates@2020.2.41-80.0.el8_2",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "chkconfig@1.11-1.el8",
                   "pkgId": "chkconfig@1.11-1.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "coreutils@8.30-7.0.1.el8_2.1",
                   "pkgId": "coreutils@8.30-7.0.1.el8_2.1",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "coreutils-common@8.30-7.0.1.el8_2.1",
                   "pkgId": "coreutils-common@8.30-7.0.1.el8_2.1",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "cracklib@2.9.6-15.el8",
                   "pkgId": "cracklib@2.9.6-15.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "crypto-policies@20191128-2.git23e1bf1.el8",
                   "pkgId": "crypto-policies@20191128-2.git23e1bf1.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "cryptsetup-libs@2.2.2-1.el8",
                   "pkgId": "cryptsetup-libs@2.2.2-1.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "curl@7.61.1-12.el8",
                   "pkgId": "curl@7.61.1-12.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "cyrus-sasl-lib@2.1.27-1.el8",
                   "pkgId": "cyrus-sasl-lib@2.1.27-1.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "dbus@1:1.12.8-10.0.1.el8_2",
                   "pkgId": "dbus@1:1.12.8-10.0.1.el8_2",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "dbus-common@1:1.12.8-10.0.1.el8_2",
                   "pkgId": "dbus-common@1:1.12.8-10.0.1.el8_2",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "dbus-daemon@1:1.12.8-10.0.1.el8_2",
                   "pkgId": "dbus-daemon@1:1.12.8-10.0.1.el8_2",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "dbus-libs@1:1.12.8-10.0.1.el8_2",
                   "pkgId": "dbus-libs@1:1.12.8-10.0.1.el8_2",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "dbus-tools@1:1.12.8-10.0.1.el8_2",
                   "pkgId": "dbus-tools@1:1.12.8-10.0.1.el8_2",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "device-mapper@8:1.02.169-3.el8",
                   "pkgId": "device-mapper@8:1.02.169-3.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "device-mapper-libs@8:1.02.169-3.el8",
                   "pkgId": "device-mapper-libs@8:1.02.169-3.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "dhcp-client@12:4.3.6-40.el8",
                   "pkgId": "dhcp-client@12:4.3.6-40.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "dhcp-common@12:4.3.6-40.el8",
                   "pkgId": "dhcp-common@12:4.3.6-40.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "dhcp-libs@12:4.3.6-40.el8",
                   "pkgId": "dhcp-libs@12:4.3.6-40.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "diffutils@3.6-6.el8",
                   "pkgId": "diffutils@3.6-6.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "dnf@4.2.17-7.el8_2",
                   "pkgId": "dnf@4.2.17-7.el8_2",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "dnf-data@4.2.17-7.el8_2",
                   "pkgId": "dnf-data@4.2.17-7.el8_2",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "dnf-plugins-core@4.0.12-4.el8_2",
                   "pkgId": "dnf-plugins-core@4.0.12-4.el8_2",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "elfutils-default-yama-scope@0.178-7.el8",
                   "pkgId": "elfutils-default-yama-scope@0.178-7.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "elfutils-libelf@0.178-7.el8",
                   "pkgId": "elfutils-libelf@0.178-7.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "elfutils-libs@0.178-7.el8",
                   "pkgId": "elfutils-libs@0.178-7.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "expat@2.2.5-3.el8",
                   "pkgId": "expat@2.2.5-3.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "file-libs@5.33-13.el8",
                   "pkgId": "file-libs@5.33-13.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "filesystem@3.8-2.el8",
                   "pkgId": "filesystem@3.8-2.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "findutils@1:4.6.0-20.el8",
                   "pkgId": "findutils@1:4.6.0-20.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "fipscheck@1.5.0-4.el8",
                   "pkgId": "fipscheck@1.5.0-4.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "fipscheck-lib@1.5.0-4.el8",
                   "pkgId": "fipscheck-lib@1.5.0-4.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "gawk@4.2.1-1.el8",
                   "pkgId": "gawk@4.2.1-1.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "gdbm@1:1.18-1.el8",
                   "pkgId": "gdbm@1:1.18-1.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "gdbm-libs@1:1.18-1.el8",
                   "pkgId": "gdbm-libs@1:1.18-1.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "glib2@2.56.4-8.el8",
                   "pkgId": "glib2@2.56.4-8.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "glibc@2.28-101.0.1.el8",
                   "pkgId": "glibc@2.28-101.0.1.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "glibc-all-langpacks@2.28-101.0.1.el8",
                   "pkgId": "glibc-all-langpacks@2.28-101.0.1.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "glibc-common@2.28-101.0.1.el8",
                   "pkgId": "glibc-common@2.28-101.0.1.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "gmp@1:6.1.2-10.el8",
                   "pkgId": "gmp@1:6.1.2-10.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "gnupg2@2.2.9-1.el8",
                   "pkgId": "gnupg2@2.2.9-1.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "gnutls@3.6.8-11.el8_2",
                   "pkgId": "gnutls@3.6.8-11.el8_2",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "gpg-pubkey@ad986da3-5cabf60d",
                   "pkgId": "gpg-pubkey@ad986da3-5cabf60d",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "gpgme@1.10.0-6.0.1.el8",
                   "pkgId": "gpgme@1.10.0-6.0.1.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "grep@3.1-6.el8",
                   "pkgId": "grep@3.1-6.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "gzip@1.9-9.el8",
                   "pkgId": "gzip@1.9-9.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "ima-evm-utils@1.1-5.el8",
                   "pkgId": "ima-evm-utils@1.1-5.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "info@6.5-6.el8",
                   "pkgId": "info@6.5-6.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "initscripts@10.00.6-1.0.1.el8_2.2",
                   "pkgId": "initscripts@10.00.6-1.0.1.el8_2.2",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "ipcalc@0.2.4-4.el8",
                   "pkgId": "ipcalc@0.2.4-4.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "iproute@5.3.0-1.el8",
                   "pkgId": "iproute@5.3.0-1.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "iptables-libs@1.8.4-10.el8_2.1",
                   "pkgId": "iptables-libs@1.8.4-10.el8_2.1",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "iputils@20180629-2.el8",
                   "pkgId": "iputils@20180629-2.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "json-c@0.13.1-0.2.el8",
                   "pkgId": "json-c@0.13.1-0.2.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "keyutils-libs@1.5.10-6.el8",
                   "pkgId": "keyutils-libs@1.5.10-6.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "kmod-libs@25-16.0.1.el8",
                   "pkgId": "kmod-libs@25-16.0.1.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "krb5-libs@1.17-18.el8",
                   "pkgId": "krb5-libs@1.17-18.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libacl@2.2.53-1.el8",
                   "pkgId": "libacl@2.2.53-1.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libarchive@3.3.2-8.el8_1",
                   "pkgId": "libarchive@3.3.2-8.el8_1",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libassuan@2.5.1-3.el8",
                   "pkgId": "libassuan@2.5.1-3.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libattr@2.4.48-3.el8",
                   "pkgId": "libattr@2.4.48-3.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libblkid@2.32.1-22.el8",
                   "pkgId": "libblkid@2.32.1-22.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libcap@2.26-3.el8",
                   "pkgId": "libcap@2.26-3.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libcap-ng@0.7.9-5.el8",
                   "pkgId": "libcap-ng@0.7.9-5.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libcom_err@1.45.4-3.el8",
                   "pkgId": "libcom_err@1.45.4-3.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libcomps@0.1.11-4.el8",
                   "pkgId": "libcomps@0.1.11-4.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libcurl@7.61.1-12.el8",
                   "pkgId": "libcurl@7.61.1-12.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libdb@5.3.28-37.el8",
                   "pkgId": "libdb@5.3.28-37.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libdb-utils@5.3.28-37.el8",
                   "pkgId": "libdb-utils@5.3.28-37.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libdnf@0.39.1-6.0.1.el8_2",
                   "pkgId": "libdnf@0.39.1-6.0.1.el8_2",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libedit@3.1-23.20170329cvs.el8",
                   "pkgId": "libedit@3.1-23.20170329cvs.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libestr@0.1.10-1.el8",
                   "pkgId": "libestr@0.1.10-1.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libfastjson@0.99.8-2.el8",
                   "pkgId": "libfastjson@0.99.8-2.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libfdisk@2.32.1-22.el8",
                   "pkgId": "libfdisk@2.32.1-22.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libffi@3.1-21.el8",
                   "pkgId": "libffi@3.1-21.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libgcc@8.3.1-5.0.3.el8",
                   "pkgId": "libgcc@8.3.1-5.0.3.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libgcrypt@1.8.3-4.el8",
                   "pkgId": "libgcrypt@1.8.3-4.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libgpg-error@1.31-1.el8",
                   "pkgId": "libgpg-error@1.31-1.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libidn2@2.2.0-1.el8",
                   "pkgId": "libidn2@2.2.0-1.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libksba@1.3.5-7.el8",
                   "pkgId": "libksba@1.3.5-7.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libmetalink@0.1.3-7.el8",
                   "pkgId": "libmetalink@0.1.3-7.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libmnl@1.0.4-6.el8",
                   "pkgId": "libmnl@1.0.4-6.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libmodulemd1@1.8.16-0.2.8.2.1",
                   "pkgId": "libmodulemd1@1.8.16-0.2.8.2.1",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libmount@2.32.1-22.el8",
                   "pkgId": "libmount@2.32.1-22.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libnghttp2@1.33.0-3.el8_2.1",
                   "pkgId": "libnghttp2@1.33.0-3.el8_2.1",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libnsl2@1.2.0-2.20180605git4a062cf.el8",
                   "pkgId": "libnsl2@1.2.0-2.20180605git4a062cf.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libpcap@14:1.9.0-3.el8",
                   "pkgId": "libpcap@14:1.9.0-3.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libpsl@0.20.2-5.el8",
                   "pkgId": "libpsl@0.20.2-5.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libpwquality@1.4.0-9.el8",
                   "pkgId": "libpwquality@1.4.0-9.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "librepo@1.11.0-3.el8_2",
                   "pkgId": "librepo@1.11.0-3.el8_2",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libreport-filesystem@2.9.5-10.0.1.el8",
                   "pkgId": "libreport-filesystem@2.9.5-10.0.1.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libseccomp@2.4.1-1.el8",
                   "pkgId": "libseccomp@2.4.1-1.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libselinux@2.9-3.el8",
                   "pkgId": "libselinux@2.9-3.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libselinux-utils@2.9-3.el8",
                   "pkgId": "libselinux-utils@2.9-3.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libsemanage@2.9-2.el8",
                   "pkgId": "libsemanage@2.9-2.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libsepol@2.9-1.el8",
                   "pkgId": "libsepol@2.9-1.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libsigsegv@2.11-5.el8",
                   "pkgId": "libsigsegv@2.11-5.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libsmartcols@2.32.1-22.el8",
                   "pkgId": "libsmartcols@2.32.1-22.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libsolv@0.7.7-1.el8",
                   "pkgId": "libsolv@0.7.7-1.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libssh@0.9.0-4.el8",
                   "pkgId": "libssh@0.9.0-4.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libssh-config@0.9.0-4.el8",
                   "pkgId": "libssh-config@0.9.0-4.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libstdc++@8.3.1-5.0.3.el8",
                   "pkgId": "libstdc++@8.3.1-5.0.3.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libtasn1@4.13-3.el8",
                   "pkgId": "libtasn1@4.13-3.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libtirpc@1.1.4-4.el8",
                   "pkgId": "libtirpc@1.1.4-4.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libunistring@0.9.9-3.el8",
                   "pkgId": "libunistring@0.9.9-3.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libusbx@1.0.22-1.el8",
                   "pkgId": "libusbx@1.0.22-1.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libuser@0.62-23.el8",
                   "pkgId": "libuser@0.62-23.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libutempter@1.1.6-14.el8",
                   "pkgId": "libutempter@1.1.6-14.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libuuid@2.32.1-22.el8",
                   "pkgId": "libuuid@2.32.1-22.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libverto@0.3.0-5.el8",
                   "pkgId": "libverto@0.3.0-5.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libxcrypt@4.1.1-4.el8",
                   "pkgId": "libxcrypt@4.1.1-4.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libxml2@2.9.7-7.0.1.el8",
                   "pkgId": "libxml2@2.9.7-7.0.1.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libyaml@0.1.7-5.el8",
                   "pkgId": "libyaml@0.1.7-5.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libzstd@1.4.2-2.el8",
                   "pkgId": "libzstd@1.4.2-2.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "logrotate@3.14.0-3.el8",
                   "pkgId": "logrotate@3.14.0-3.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "lua-libs@5.3.4-11.el8",
                   "pkgId": "lua-libs@5.3.4-11.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "lz4-libs@1.8.1.2-4.el8",
                   "pkgId": "lz4-libs@1.8.1.2-4.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "mpfr@3.1.6-1.el8",
                   "pkgId": "mpfr@3.1.6-1.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "ncurses@6.1-7.20180224.el8",
                   "pkgId": "ncurses@6.1-7.20180224.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "ncurses-base@6.1-7.20180224.el8",
                   "pkgId": "ncurses-base@6.1-7.20180224.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "ncurses-libs@6.1-7.20180224.el8",
                   "pkgId": "ncurses-libs@6.1-7.20180224.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "nettle@3.4.1-1.el8",
                   "pkgId": "nettle@3.4.1-1.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "npth@1.5-4.el8",
                   "pkgId": "npth@1.5-4.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "openldap@2.4.46-11.el8_1",
                   "pkgId": "openldap@2.4.46-11.el8_1",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "openssh@8.0p1-4.el8_1",
                   "pkgId": "openssh@8.0p1-4.el8_1",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "openssh-clients@8.0p1-4.el8_1",
                   "pkgId": "openssh-clients@8.0p1-4.el8_1",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "openssh-server@8.0p1-4.el8_1",
                   "pkgId": "openssh-server@8.0p1-4.el8_1",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "openssl-libs@1:1.1.1c-15.el8",
                   "pkgId": "openssl-libs@1:1.1.1c-15.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "oraclelinux-release@8:8.2-1.0.8.el8",
                   "pkgId": "oraclelinux-release@8:8.2-1.0.8.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "oraclelinux-release-el8@1.0-12.el8",
                   "pkgId": "oraclelinux-release-el8@1.0-12.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "p11-kit@0.23.14-5.el8_0",
                   "pkgId": "p11-kit@0.23.14-5.el8_0",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "p11-kit-trust@0.23.14-5.el8_0",
                   "pkgId": "p11-kit-trust@0.23.14-5.el8_0",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "pam@1.3.1-8.el8",
                   "pkgId": "pam@1.3.1-8.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "passwd@0.80-3.el8",
                   "pkgId": "passwd@0.80-3.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "pcre@8.42-4.el8",
                   "pkgId": "pcre@8.42-4.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "pcre2@10.32-1.el8",
                   "pkgId": "pcre2@10.32-1.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "platform-python@3.6.8-23.0.1.el8",
                   "pkgId": "platform-python@3.6.8-23.0.1.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "platform-python-setuptools@39.2.0-5.el8",
                   "pkgId": "platform-python-setuptools@39.2.0-5.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "policycoreutils@2.9-9.0.1.el8",
                   "pkgId": "policycoreutils@2.9-9.0.1.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "popt@1.16-14.el8",
                   "pkgId": "popt@1.16-14.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "procps-ng@3.3.15-1.el8",
                   "pkgId": "procps-ng@3.3.15-1.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "publicsuffix-list-dafsa@20180723-1.el8",
                   "pkgId": "publicsuffix-list-dafsa@20180723-1.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "python3-dateutil@1:2.6.1-6.el8",
                   "pkgId": "python3-dateutil@1:2.6.1-6.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "python3-dnf@4.2.17-7.el8_2",
                   "pkgId": "python3-dnf@4.2.17-7.el8_2",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "python3-dnf-plugins-core@4.0.12-4.el8_2",
                   "pkgId": "python3-dnf-plugins-core@4.0.12-4.el8_2",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "python3-gpg@1.10.0-6.0.1.el8",
                   "pkgId": "python3-gpg@1.10.0-6.0.1.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "python3-hawkey@0.39.1-6.0.1.el8_2",
                   "pkgId": "python3-hawkey@0.39.1-6.0.1.el8_2",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "python3-libcomps@0.1.11-4.el8",
                   "pkgId": "python3-libcomps@0.1.11-4.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "python3-libdnf@0.39.1-6.0.1.el8_2",
                   "pkgId": "python3-libdnf@0.39.1-6.0.1.el8_2",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "python3-libs@3.6.8-23.0.1.el8",
                   "pkgId": "python3-libs@3.6.8-23.0.1.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "python3-pip-wheel@9.0.3-16.el8",
                   "pkgId": "python3-pip-wheel@9.0.3-16.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "python3-rpm@4.14.2-37.el8",
                   "pkgId": "python3-rpm@4.14.2-37.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "python3-setuptools-wheel@39.2.0-5.el8",
                   "pkgId": "python3-setuptools-wheel@39.2.0-5.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "python3-six@1.11.0-8.el8",
                   "pkgId": "python3-six@1.11.0-8.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "readline@7.0-10.el8",
                   "pkgId": "readline@7.0-10.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "redhat-release@2:8.2-1.0.0.1.el8",
                   "pkgId": "redhat-release@2:8.2-1.0.0.1.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "rootfiles@8.1-22.el8",
                   "pkgId": "rootfiles@8.1-22.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "rpm@4.14.2-37.el8",
                   "pkgId": "rpm@4.14.2-37.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "rpm-build-libs@4.14.2-37.el8",
                   "pkgId": "rpm-build-libs@4.14.2-37.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "rpm-libs@4.14.2-37.el8",
                   "pkgId": "rpm-libs@4.14.2-37.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "rsyslog@8.1911.0-3.el8",
                   "pkgId": "rsyslog@8.1911.0-3.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "sed@4.5-1.el8",
                   "pkgId": "sed@4.5-1.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "setup@2.12.2-5.el8",
                   "pkgId": "setup@2.12.2-5.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "shadow-utils@2:4.6-8.el8",
                   "pkgId": "shadow-utils@2:4.6-8.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "sqlite-libs@3.26.0-6.el8",
                   "pkgId": "sqlite-libs@3.26.0-6.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "systemd@239-31.0.1.el8_2.2",
                   "pkgId": "systemd@239-31.0.1.el8_2.2",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "systemd-libs@239-31.0.1.el8_2.2",
                   "pkgId": "systemd-libs@239-31.0.1.el8_2.2",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "systemd-pam@239-31.0.1.el8_2.2",
                   "pkgId": "systemd-pam@239-31.0.1.el8_2.2",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "tzdata@2020a-1.el8",
                   "pkgId": "tzdata@2020a-1.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "util-linux@2.32.1-22.el8",
                   "pkgId": "util-linux@2.32.1-22.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "vim-minimal@2:8.0.1763-13.0.1.el8",
                   "pkgId": "vim-minimal@2:8.0.1763-13.0.1.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "xz-libs@5.2.4-3.el8",
                   "pkgId": "xz-libs@5.2.4-3.el8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "yum@4.2.17-7.el8_2",
                   "pkgId": "yum@4.2.17-7.el8_2",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "yum-utils@4.0.12-4.el8_2",
                   "pkgId": "yum-utils@4.0.12-4.el8_2",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "zlib@1.2.11-16.el8_2",
                   "pkgId": "zlib@1.2.11-16.el8_2",
                 },
               ],
               "rootNodeId": "root-node",
             },
-            "pkgManager": Object {
+            "pkgManager": {
               "name": "rpm",
-              "repositories": Array [
-                Object {
+              "repositories": [
+                {
                   "alias": "oracle:8",
                 },
               ],
             },
-            "pkgs": Array [
-              Object {
+            "pkgs": [
+              {
                 "id": "docker-image|oraclelinux@",
-                "info": Object {
+                "info": {
                   "name": "docker-image|oraclelinux",
                   "version": undefined,
                 },
               },
-              Object {
+              {
                 "id": "acl@2.2.53-1.el8",
-                "info": Object {
+                "info": {
                   "name": "acl",
                   "purl": "pkg:rpm/oracle/acl@2.2.53-1.el8?distro=oracle-8&upstream=acl%402.2.53-1.el8",
                   "version": "2.2.53-1.el8",
                 },
               },
-              Object {
+              {
                 "id": "audit-libs@3.0-0.17.20191104git1c2f876.el8",
-                "info": Object {
+                "info": {
                   "name": "audit-libs",
                   "purl": "pkg:rpm/oracle/audit-libs@3.0-0.17.20191104git1c2f876.el8?distro=oracle-8&upstream=audit%403.0-0.17.20191104git1c2f876.el8",
                   "version": "3.0-0.17.20191104git1c2f876.el8",
                 },
               },
-              Object {
+              {
                 "id": "basesystem@11-5.el8",
-                "info": Object {
+                "info": {
                   "name": "basesystem",
                   "purl": "pkg:rpm/oracle/basesystem@11-5.el8?distro=oracle-8&upstream=basesystem%4011-5.el8",
                   "version": "11-5.el8",
                 },
               },
-              Object {
+              {
                 "id": "bash@4.4.19-10.el8",
-                "info": Object {
+                "info": {
                   "name": "bash",
                   "purl": "pkg:rpm/oracle/bash@4.4.19-10.el8?distro=oracle-8&upstream=bash%404.4.19-10.el8",
                   "version": "4.4.19-10.el8",
                 },
               },
-              Object {
+              {
                 "id": "bind-export-libs@32:9.11.13-6.el8_2.1",
-                "info": Object {
+                "info": {
                   "name": "bind-export-libs",
                   "purl": "pkg:rpm/oracle/bind-export-libs@32:9.11.13-6.el8_2.1?distro=oracle-8&epoch=32&upstream=bind%409.11.13-6.el8_2.1",
                   "version": "32:9.11.13-6.el8_2.1",
                 },
               },
-              Object {
+              {
                 "id": "brotli@1.0.6-1.el8",
-                "info": Object {
+                "info": {
                   "name": "brotli",
                   "purl": "pkg:rpm/oracle/brotli@1.0.6-1.el8?distro=oracle-8&upstream=brotli%401.0.6-1.el8",
                   "version": "1.0.6-1.el8",
                 },
               },
-              Object {
+              {
                 "id": "bzip2-libs@1.0.6-26.el8",
-                "info": Object {
+                "info": {
                   "name": "bzip2-libs",
                   "purl": "pkg:rpm/oracle/bzip2-libs@1.0.6-26.el8?distro=oracle-8&upstream=bzip2%401.0.6-26.el8",
                   "version": "1.0.6-26.el8",
                 },
               },
-              Object {
+              {
                 "id": "ca-certificates@2020.2.41-80.0.el8_2",
-                "info": Object {
+                "info": {
                   "name": "ca-certificates",
                   "purl": "pkg:rpm/oracle/ca-certificates@2020.2.41-80.0.el8_2?distro=oracle-8&upstream=ca-certificates%402020.2.41-80.0.el8_2",
                   "version": "2020.2.41-80.0.el8_2",
                 },
               },
-              Object {
+              {
                 "id": "chkconfig@1.11-1.el8",
-                "info": Object {
+                "info": {
                   "name": "chkconfig",
                   "purl": "pkg:rpm/oracle/chkconfig@1.11-1.el8?distro=oracle-8&upstream=chkconfig%401.11-1.el8",
                   "version": "1.11-1.el8",
                 },
               },
-              Object {
+              {
                 "id": "coreutils@8.30-7.0.1.el8_2.1",
-                "info": Object {
+                "info": {
                   "name": "coreutils",
                   "purl": "pkg:rpm/oracle/coreutils@8.30-7.0.1.el8_2.1?distro=oracle-8&upstream=coreutils%408.30-7.0.1.el8_2.1",
                   "version": "8.30-7.0.1.el8_2.1",
                 },
               },
-              Object {
+              {
                 "id": "coreutils-common@8.30-7.0.1.el8_2.1",
-                "info": Object {
+                "info": {
                   "name": "coreutils-common",
                   "purl": "pkg:rpm/oracle/coreutils-common@8.30-7.0.1.el8_2.1?distro=oracle-8&upstream=coreutils%408.30-7.0.1.el8_2.1",
                   "version": "8.30-7.0.1.el8_2.1",
                 },
               },
-              Object {
+              {
                 "id": "cracklib@2.9.6-15.el8",
-                "info": Object {
+                "info": {
                   "name": "cracklib",
                   "purl": "pkg:rpm/oracle/cracklib@2.9.6-15.el8?distro=oracle-8&upstream=cracklib%402.9.6-15.el8",
                   "version": "2.9.6-15.el8",
                 },
               },
-              Object {
+              {
                 "id": "crypto-policies@20191128-2.git23e1bf1.el8",
-                "info": Object {
+                "info": {
                   "name": "crypto-policies",
                   "purl": "pkg:rpm/oracle/crypto-policies@20191128-2.git23e1bf1.el8?distro=oracle-8&upstream=crypto-policies%4020191128-2.git23e1bf1.el8",
                   "version": "20191128-2.git23e1bf1.el8",
                 },
               },
-              Object {
+              {
                 "id": "cryptsetup-libs@2.2.2-1.el8",
-                "info": Object {
+                "info": {
                   "name": "cryptsetup-libs",
                   "purl": "pkg:rpm/oracle/cryptsetup-libs@2.2.2-1.el8?distro=oracle-8&upstream=cryptsetup%402.2.2-1.el8",
                   "version": "2.2.2-1.el8",
                 },
               },
-              Object {
+              {
                 "id": "curl@7.61.1-12.el8",
-                "info": Object {
+                "info": {
                   "name": "curl",
                   "purl": "pkg:rpm/oracle/curl@7.61.1-12.el8?distro=oracle-8&upstream=curl%407.61.1-12.el8",
                   "version": "7.61.1-12.el8",
                 },
               },
-              Object {
+              {
                 "id": "cyrus-sasl-lib@2.1.27-1.el8",
-                "info": Object {
+                "info": {
                   "name": "cyrus-sasl-lib",
                   "purl": "pkg:rpm/oracle/cyrus-sasl-lib@2.1.27-1.el8?distro=oracle-8&upstream=cyrus-sasl%402.1.27-1.el8",
                   "version": "2.1.27-1.el8",
                 },
               },
-              Object {
+              {
                 "id": "dbus@1:1.12.8-10.0.1.el8_2",
-                "info": Object {
+                "info": {
                   "name": "dbus",
                   "purl": "pkg:rpm/oracle/dbus@1:1.12.8-10.0.1.el8_2?distro=oracle-8&epoch=1&upstream=dbus%401.12.8-10.0.1.el8_2",
                   "version": "1:1.12.8-10.0.1.el8_2",
                 },
               },
-              Object {
+              {
                 "id": "dbus-common@1:1.12.8-10.0.1.el8_2",
-                "info": Object {
+                "info": {
                   "name": "dbus-common",
                   "purl": "pkg:rpm/oracle/dbus-common@1:1.12.8-10.0.1.el8_2?distro=oracle-8&epoch=1&upstream=dbus%401.12.8-10.0.1.el8_2",
                   "version": "1:1.12.8-10.0.1.el8_2",
                 },
               },
-              Object {
+              {
                 "id": "dbus-daemon@1:1.12.8-10.0.1.el8_2",
-                "info": Object {
+                "info": {
                   "name": "dbus-daemon",
                   "purl": "pkg:rpm/oracle/dbus-daemon@1:1.12.8-10.0.1.el8_2?distro=oracle-8&epoch=1&upstream=dbus%401.12.8-10.0.1.el8_2",
                   "version": "1:1.12.8-10.0.1.el8_2",
                 },
               },
-              Object {
+              {
                 "id": "dbus-libs@1:1.12.8-10.0.1.el8_2",
-                "info": Object {
+                "info": {
                   "name": "dbus-libs",
                   "purl": "pkg:rpm/oracle/dbus-libs@1:1.12.8-10.0.1.el8_2?distro=oracle-8&epoch=1&upstream=dbus%401.12.8-10.0.1.el8_2",
                   "version": "1:1.12.8-10.0.1.el8_2",
                 },
               },
-              Object {
+              {
                 "id": "dbus-tools@1:1.12.8-10.0.1.el8_2",
-                "info": Object {
+                "info": {
                   "name": "dbus-tools",
                   "purl": "pkg:rpm/oracle/dbus-tools@1:1.12.8-10.0.1.el8_2?distro=oracle-8&epoch=1&upstream=dbus%401.12.8-10.0.1.el8_2",
                   "version": "1:1.12.8-10.0.1.el8_2",
                 },
               },
-              Object {
+              {
                 "id": "device-mapper@8:1.02.169-3.el8",
-                "info": Object {
+                "info": {
                   "name": "device-mapper",
                   "purl": "pkg:rpm/oracle/device-mapper@8:1.02.169-3.el8?distro=oracle-8&epoch=8&upstream=lvm2%402.03.08-3.el8",
                   "version": "8:1.02.169-3.el8",
                 },
               },
-              Object {
+              {
                 "id": "device-mapper-libs@8:1.02.169-3.el8",
-                "info": Object {
+                "info": {
                   "name": "device-mapper-libs",
                   "purl": "pkg:rpm/oracle/device-mapper-libs@8:1.02.169-3.el8?distro=oracle-8&epoch=8&upstream=lvm2%402.03.08-3.el8",
                   "version": "8:1.02.169-3.el8",
                 },
               },
-              Object {
+              {
                 "id": "dhcp-client@12:4.3.6-40.el8",
-                "info": Object {
+                "info": {
                   "name": "dhcp-client",
                   "purl": "pkg:rpm/oracle/dhcp-client@12:4.3.6-40.el8?distro=oracle-8&epoch=12&upstream=dhcp%404.3.6-40.el8",
                   "version": "12:4.3.6-40.el8",
                 },
               },
-              Object {
+              {
                 "id": "dhcp-common@12:4.3.6-40.el8",
-                "info": Object {
+                "info": {
                   "name": "dhcp-common",
                   "purl": "pkg:rpm/oracle/dhcp-common@12:4.3.6-40.el8?distro=oracle-8&epoch=12&upstream=dhcp%404.3.6-40.el8",
                   "version": "12:4.3.6-40.el8",
                 },
               },
-              Object {
+              {
                 "id": "dhcp-libs@12:4.3.6-40.el8",
-                "info": Object {
+                "info": {
                   "name": "dhcp-libs",
                   "purl": "pkg:rpm/oracle/dhcp-libs@12:4.3.6-40.el8?distro=oracle-8&epoch=12&upstream=dhcp%404.3.6-40.el8",
                   "version": "12:4.3.6-40.el8",
                 },
               },
-              Object {
+              {
                 "id": "diffutils@3.6-6.el8",
-                "info": Object {
+                "info": {
                   "name": "diffutils",
                   "purl": "pkg:rpm/oracle/diffutils@3.6-6.el8?distro=oracle-8&upstream=diffutils%403.6-6.el8",
                   "version": "3.6-6.el8",
                 },
               },
-              Object {
+              {
                 "id": "dnf@4.2.17-7.el8_2",
-                "info": Object {
+                "info": {
                   "name": "dnf",
                   "purl": "pkg:rpm/oracle/dnf@4.2.17-7.el8_2?distro=oracle-8&upstream=dnf%404.2.17-7.el8_2",
                   "version": "4.2.17-7.el8_2",
                 },
               },
-              Object {
+              {
                 "id": "dnf-data@4.2.17-7.el8_2",
-                "info": Object {
+                "info": {
                   "name": "dnf-data",
                   "purl": "pkg:rpm/oracle/dnf-data@4.2.17-7.el8_2?distro=oracle-8&upstream=dnf%404.2.17-7.el8_2",
                   "version": "4.2.17-7.el8_2",
                 },
               },
-              Object {
+              {
                 "id": "dnf-plugins-core@4.0.12-4.el8_2",
-                "info": Object {
+                "info": {
                   "name": "dnf-plugins-core",
                   "purl": "pkg:rpm/oracle/dnf-plugins-core@4.0.12-4.el8_2?distro=oracle-8&upstream=dnf-plugins-core%404.0.12-4.el8_2",
                   "version": "4.0.12-4.el8_2",
                 },
               },
-              Object {
+              {
                 "id": "elfutils-default-yama-scope@0.178-7.el8",
-                "info": Object {
+                "info": {
                   "name": "elfutils-default-yama-scope",
                   "purl": "pkg:rpm/oracle/elfutils-default-yama-scope@0.178-7.el8?distro=oracle-8&upstream=elfutils%400.178-7.el8",
                   "version": "0.178-7.el8",
                 },
               },
-              Object {
+              {
                 "id": "elfutils-libelf@0.178-7.el8",
-                "info": Object {
+                "info": {
                   "name": "elfutils-libelf",
                   "purl": "pkg:rpm/oracle/elfutils-libelf@0.178-7.el8?distro=oracle-8&upstream=elfutils%400.178-7.el8",
                   "version": "0.178-7.el8",
                 },
               },
-              Object {
+              {
                 "id": "elfutils-libs@0.178-7.el8",
-                "info": Object {
+                "info": {
                   "name": "elfutils-libs",
                   "purl": "pkg:rpm/oracle/elfutils-libs@0.178-7.el8?distro=oracle-8&upstream=elfutils%400.178-7.el8",
                   "version": "0.178-7.el8",
                 },
               },
-              Object {
+              {
                 "id": "expat@2.2.5-3.el8",
-                "info": Object {
+                "info": {
                   "name": "expat",
                   "purl": "pkg:rpm/oracle/expat@2.2.5-3.el8?distro=oracle-8&upstream=expat%402.2.5-3.el8",
                   "version": "2.2.5-3.el8",
                 },
               },
-              Object {
+              {
                 "id": "file-libs@5.33-13.el8",
-                "info": Object {
+                "info": {
                   "name": "file-libs",
                   "purl": "pkg:rpm/oracle/file-libs@5.33-13.el8?distro=oracle-8&upstream=file%405.33-13.el8",
                   "version": "5.33-13.el8",
                 },
               },
-              Object {
+              {
                 "id": "filesystem@3.8-2.el8",
-                "info": Object {
+                "info": {
                   "name": "filesystem",
                   "purl": "pkg:rpm/oracle/filesystem@3.8-2.el8?distro=oracle-8&upstream=filesystem%403.8-2.el8",
                   "version": "3.8-2.el8",
                 },
               },
-              Object {
+              {
                 "id": "findutils@1:4.6.0-20.el8",
-                "info": Object {
+                "info": {
                   "name": "findutils",
                   "purl": "pkg:rpm/oracle/findutils@1:4.6.0-20.el8?distro=oracle-8&epoch=1&upstream=findutils%404.6.0-20.el8",
                   "version": "1:4.6.0-20.el8",
                 },
               },
-              Object {
+              {
                 "id": "fipscheck@1.5.0-4.el8",
-                "info": Object {
+                "info": {
                   "name": "fipscheck",
                   "purl": "pkg:rpm/oracle/fipscheck@1.5.0-4.el8?distro=oracle-8&upstream=fipscheck%401.5.0-4.el8",
                   "version": "1.5.0-4.el8",
                 },
               },
-              Object {
+              {
                 "id": "fipscheck-lib@1.5.0-4.el8",
-                "info": Object {
+                "info": {
                   "name": "fipscheck-lib",
                   "purl": "pkg:rpm/oracle/fipscheck-lib@1.5.0-4.el8?distro=oracle-8&upstream=fipscheck%401.5.0-4.el8",
                   "version": "1.5.0-4.el8",
                 },
               },
-              Object {
+              {
                 "id": "gawk@4.2.1-1.el8",
-                "info": Object {
+                "info": {
                   "name": "gawk",
                   "purl": "pkg:rpm/oracle/gawk@4.2.1-1.el8?distro=oracle-8&upstream=gawk%404.2.1-1.el8",
                   "version": "4.2.1-1.el8",
                 },
               },
-              Object {
+              {
                 "id": "gdbm@1:1.18-1.el8",
-                "info": Object {
+                "info": {
                   "name": "gdbm",
                   "purl": "pkg:rpm/oracle/gdbm@1:1.18-1.el8?distro=oracle-8&epoch=1&upstream=gdbm%401.18-1.el8",
                   "version": "1:1.18-1.el8",
                 },
               },
-              Object {
+              {
                 "id": "gdbm-libs@1:1.18-1.el8",
-                "info": Object {
+                "info": {
                   "name": "gdbm-libs",
                   "purl": "pkg:rpm/oracle/gdbm-libs@1:1.18-1.el8?distro=oracle-8&epoch=1&upstream=gdbm%401.18-1.el8",
                   "version": "1:1.18-1.el8",
                 },
               },
-              Object {
+              {
                 "id": "glib2@2.56.4-8.el8",
-                "info": Object {
+                "info": {
                   "name": "glib2",
                   "purl": "pkg:rpm/oracle/glib2@2.56.4-8.el8?distro=oracle-8&upstream=glib2%402.56.4-8.el8",
                   "version": "2.56.4-8.el8",
                 },
               },
-              Object {
+              {
                 "id": "glibc@2.28-101.0.1.el8",
-                "info": Object {
+                "info": {
                   "name": "glibc",
                   "purl": "pkg:rpm/oracle/glibc@2.28-101.0.1.el8?distro=oracle-8&upstream=glibc%402.28-101.0.1.el8",
                   "version": "2.28-101.0.1.el8",
                 },
               },
-              Object {
+              {
                 "id": "glibc-all-langpacks@2.28-101.0.1.el8",
-                "info": Object {
+                "info": {
                   "name": "glibc-all-langpacks",
                   "purl": "pkg:rpm/oracle/glibc-all-langpacks@2.28-101.0.1.el8?distro=oracle-8&upstream=glibc%402.28-101.0.1.el8",
                   "version": "2.28-101.0.1.el8",
                 },
               },
-              Object {
+              {
                 "id": "glibc-common@2.28-101.0.1.el8",
-                "info": Object {
+                "info": {
                   "name": "glibc-common",
                   "purl": "pkg:rpm/oracle/glibc-common@2.28-101.0.1.el8?distro=oracle-8&upstream=glibc%402.28-101.0.1.el8",
                   "version": "2.28-101.0.1.el8",
                 },
               },
-              Object {
+              {
                 "id": "gmp@1:6.1.2-10.el8",
-                "info": Object {
+                "info": {
                   "name": "gmp",
                   "purl": "pkg:rpm/oracle/gmp@1:6.1.2-10.el8?distro=oracle-8&epoch=1&upstream=gmp%406.1.2-10.el8",
                   "version": "1:6.1.2-10.el8",
                 },
               },
-              Object {
+              {
                 "id": "gnupg2@2.2.9-1.el8",
-                "info": Object {
+                "info": {
                   "name": "gnupg2",
                   "purl": "pkg:rpm/oracle/gnupg2@2.2.9-1.el8?distro=oracle-8&upstream=gnupg2%402.2.9-1.el8",
                   "version": "2.2.9-1.el8",
                 },
               },
-              Object {
+              {
                 "id": "gnutls@3.6.8-11.el8_2",
-                "info": Object {
+                "info": {
                   "name": "gnutls",
                   "purl": "pkg:rpm/oracle/gnutls@3.6.8-11.el8_2?distro=oracle-8&upstream=gnutls%403.6.8-11.el8_2",
                   "version": "3.6.8-11.el8_2",
                 },
               },
-              Object {
+              {
                 "id": "gpg-pubkey@ad986da3-5cabf60d",
-                "info": Object {
+                "info": {
                   "name": "gpg-pubkey",
                   "purl": "pkg:rpm/oracle/gpg-pubkey@ad986da3-5cabf60d?distro=oracle-8",
                   "version": "ad986da3-5cabf60d",
                 },
               },
-              Object {
+              {
                 "id": "gpgme@1.10.0-6.0.1.el8",
-                "info": Object {
+                "info": {
                   "name": "gpgme",
                   "purl": "pkg:rpm/oracle/gpgme@1.10.0-6.0.1.el8?distro=oracle-8&upstream=gpgme%401.10.0-6.0.1.el8",
                   "version": "1.10.0-6.0.1.el8",
                 },
               },
-              Object {
+              {
                 "id": "grep@3.1-6.el8",
-                "info": Object {
+                "info": {
                   "name": "grep",
                   "purl": "pkg:rpm/oracle/grep@3.1-6.el8?distro=oracle-8&upstream=grep%403.1-6.el8",
                   "version": "3.1-6.el8",
                 },
               },
-              Object {
+              {
                 "id": "gzip@1.9-9.el8",
-                "info": Object {
+                "info": {
                   "name": "gzip",
                   "purl": "pkg:rpm/oracle/gzip@1.9-9.el8?distro=oracle-8&upstream=gzip%401.9-9.el8",
                   "version": "1.9-9.el8",
                 },
               },
-              Object {
+              {
                 "id": "ima-evm-utils@1.1-5.el8",
-                "info": Object {
+                "info": {
                   "name": "ima-evm-utils",
                   "purl": "pkg:rpm/oracle/ima-evm-utils@1.1-5.el8?distro=oracle-8&upstream=ima-evm-utils%401.1-5.el8",
                   "version": "1.1-5.el8",
                 },
               },
-              Object {
+              {
                 "id": "info@6.5-6.el8",
-                "info": Object {
+                "info": {
                   "name": "info",
                   "purl": "pkg:rpm/oracle/info@6.5-6.el8?distro=oracle-8&upstream=texinfo%406.5-6.el8",
                   "version": "6.5-6.el8",
                 },
               },
-              Object {
+              {
                 "id": "initscripts@10.00.6-1.0.1.el8_2.2",
-                "info": Object {
+                "info": {
                   "name": "initscripts",
                   "purl": "pkg:rpm/oracle/initscripts@10.00.6-1.0.1.el8_2.2?distro=oracle-8&upstream=initscripts%4010.00.6-1.0.1.el8_2.2",
                   "version": "10.00.6-1.0.1.el8_2.2",
                 },
               },
-              Object {
+              {
                 "id": "ipcalc@0.2.4-4.el8",
-                "info": Object {
+                "info": {
                   "name": "ipcalc",
                   "purl": "pkg:rpm/oracle/ipcalc@0.2.4-4.el8?distro=oracle-8&upstream=ipcalc%400.2.4-4.el8",
                   "version": "0.2.4-4.el8",
                 },
               },
-              Object {
+              {
                 "id": "iproute@5.3.0-1.el8",
-                "info": Object {
+                "info": {
                   "name": "iproute",
                   "purl": "pkg:rpm/oracle/iproute@5.3.0-1.el8?distro=oracle-8&upstream=iproute%405.3.0-1.el8",
                   "version": "5.3.0-1.el8",
                 },
               },
-              Object {
+              {
                 "id": "iptables-libs@1.8.4-10.el8_2.1",
-                "info": Object {
+                "info": {
                   "name": "iptables-libs",
                   "purl": "pkg:rpm/oracle/iptables-libs@1.8.4-10.el8_2.1?distro=oracle-8&upstream=iptables%401.8.4-10.el8_2.1",
                   "version": "1.8.4-10.el8_2.1",
                 },
               },
-              Object {
+              {
                 "id": "iputils@20180629-2.el8",
-                "info": Object {
+                "info": {
                   "name": "iputils",
                   "purl": "pkg:rpm/oracle/iputils@20180629-2.el8?distro=oracle-8&upstream=iputils%4020180629-2.el8",
                   "version": "20180629-2.el8",
                 },
               },
-              Object {
+              {
                 "id": "json-c@0.13.1-0.2.el8",
-                "info": Object {
+                "info": {
                   "name": "json-c",
                   "purl": "pkg:rpm/oracle/json-c@0.13.1-0.2.el8?distro=oracle-8&upstream=json-c%400.13.1-0.2.el8",
                   "version": "0.13.1-0.2.el8",
                 },
               },
-              Object {
+              {
                 "id": "keyutils-libs@1.5.10-6.el8",
-                "info": Object {
+                "info": {
                   "name": "keyutils-libs",
                   "purl": "pkg:rpm/oracle/keyutils-libs@1.5.10-6.el8?distro=oracle-8&upstream=keyutils%401.5.10-6.el8",
                   "version": "1.5.10-6.el8",
                 },
               },
-              Object {
+              {
                 "id": "kmod-libs@25-16.0.1.el8",
-                "info": Object {
+                "info": {
                   "name": "kmod-libs",
                   "purl": "pkg:rpm/oracle/kmod-libs@25-16.0.1.el8?distro=oracle-8&upstream=kmod%4025-16.0.1.el8",
                   "version": "25-16.0.1.el8",
                 },
               },
-              Object {
+              {
                 "id": "krb5-libs@1.17-18.el8",
-                "info": Object {
+                "info": {
                   "name": "krb5-libs",
                   "purl": "pkg:rpm/oracle/krb5-libs@1.17-18.el8?distro=oracle-8&upstream=krb5%401.17-18.el8",
                   "version": "1.17-18.el8",
                 },
               },
-              Object {
+              {
                 "id": "libacl@2.2.53-1.el8",
-                "info": Object {
+                "info": {
                   "name": "libacl",
                   "purl": "pkg:rpm/oracle/libacl@2.2.53-1.el8?distro=oracle-8&upstream=acl%402.2.53-1.el8",
                   "version": "2.2.53-1.el8",
                 },
               },
-              Object {
+              {
                 "id": "libarchive@3.3.2-8.el8_1",
-                "info": Object {
+                "info": {
                   "name": "libarchive",
                   "purl": "pkg:rpm/oracle/libarchive@3.3.2-8.el8_1?distro=oracle-8&upstream=libarchive%403.3.2-8.el8_1",
                   "version": "3.3.2-8.el8_1",
                 },
               },
-              Object {
+              {
                 "id": "libassuan@2.5.1-3.el8",
-                "info": Object {
+                "info": {
                   "name": "libassuan",
                   "purl": "pkg:rpm/oracle/libassuan@2.5.1-3.el8?distro=oracle-8&upstream=libassuan%402.5.1-3.el8",
                   "version": "2.5.1-3.el8",
                 },
               },
-              Object {
+              {
                 "id": "libattr@2.4.48-3.el8",
-                "info": Object {
+                "info": {
                   "name": "libattr",
                   "purl": "pkg:rpm/oracle/libattr@2.4.48-3.el8?distro=oracle-8&upstream=attr%402.4.48-3.el8",
                   "version": "2.4.48-3.el8",
                 },
               },
-              Object {
+              {
                 "id": "libblkid@2.32.1-22.el8",
-                "info": Object {
+                "info": {
                   "name": "libblkid",
                   "purl": "pkg:rpm/oracle/libblkid@2.32.1-22.el8?distro=oracle-8&upstream=util-linux%402.32.1-22.el8",
                   "version": "2.32.1-22.el8",
                 },
               },
-              Object {
+              {
                 "id": "libcap@2.26-3.el8",
-                "info": Object {
+                "info": {
                   "name": "libcap",
                   "purl": "pkg:rpm/oracle/libcap@2.26-3.el8?distro=oracle-8&upstream=libcap%402.26-3.el8",
                   "version": "2.26-3.el8",
                 },
               },
-              Object {
+              {
                 "id": "libcap-ng@0.7.9-5.el8",
-                "info": Object {
+                "info": {
                   "name": "libcap-ng",
                   "purl": "pkg:rpm/oracle/libcap-ng@0.7.9-5.el8?distro=oracle-8&upstream=libcap-ng%400.7.9-5.el8",
                   "version": "0.7.9-5.el8",
                 },
               },
-              Object {
+              {
                 "id": "libcom_err@1.45.4-3.el8",
-                "info": Object {
+                "info": {
                   "name": "libcom_err",
                   "purl": "pkg:rpm/oracle/libcom_err@1.45.4-3.el8?distro=oracle-8&upstream=e2fsprogs%401.45.4-3.el8",
                   "version": "1.45.4-3.el8",
                 },
               },
-              Object {
+              {
                 "id": "libcomps@0.1.11-4.el8",
-                "info": Object {
+                "info": {
                   "name": "libcomps",
                   "purl": "pkg:rpm/oracle/libcomps@0.1.11-4.el8?distro=oracle-8&upstream=libcomps%400.1.11-4.el8",
                   "version": "0.1.11-4.el8",
                 },
               },
-              Object {
+              {
                 "id": "libcurl@7.61.1-12.el8",
-                "info": Object {
+                "info": {
                   "name": "libcurl",
                   "purl": "pkg:rpm/oracle/libcurl@7.61.1-12.el8?distro=oracle-8&upstream=curl%407.61.1-12.el8",
                   "version": "7.61.1-12.el8",
                 },
               },
-              Object {
+              {
                 "id": "libdb@5.3.28-37.el8",
-                "info": Object {
+                "info": {
                   "name": "libdb",
                   "purl": "pkg:rpm/oracle/libdb@5.3.28-37.el8?distro=oracle-8&upstream=libdb%405.3.28-37.el8",
                   "version": "5.3.28-37.el8",
                 },
               },
-              Object {
+              {
                 "id": "libdb-utils@5.3.28-37.el8",
-                "info": Object {
+                "info": {
                   "name": "libdb-utils",
                   "purl": "pkg:rpm/oracle/libdb-utils@5.3.28-37.el8?distro=oracle-8&upstream=libdb%405.3.28-37.el8",
                   "version": "5.3.28-37.el8",
                 },
               },
-              Object {
+              {
                 "id": "libdnf@0.39.1-6.0.1.el8_2",
-                "info": Object {
+                "info": {
                   "name": "libdnf",
                   "purl": "pkg:rpm/oracle/libdnf@0.39.1-6.0.1.el8_2?distro=oracle-8&upstream=libdnf%400.39.1-6.0.1.el8_2",
                   "version": "0.39.1-6.0.1.el8_2",
                 },
               },
-              Object {
+              {
                 "id": "libedit@3.1-23.20170329cvs.el8",
-                "info": Object {
+                "info": {
                   "name": "libedit",
                   "purl": "pkg:rpm/oracle/libedit@3.1-23.20170329cvs.el8?distro=oracle-8&upstream=libedit%403.1-23.20170329cvs.el8",
                   "version": "3.1-23.20170329cvs.el8",
                 },
               },
-              Object {
+              {
                 "id": "libestr@0.1.10-1.el8",
-                "info": Object {
+                "info": {
                   "name": "libestr",
                   "purl": "pkg:rpm/oracle/libestr@0.1.10-1.el8?distro=oracle-8&upstream=libestr%400.1.10-1.el8",
                   "version": "0.1.10-1.el8",
                 },
               },
-              Object {
+              {
                 "id": "libfastjson@0.99.8-2.el8",
-                "info": Object {
+                "info": {
                   "name": "libfastjson",
                   "purl": "pkg:rpm/oracle/libfastjson@0.99.8-2.el8?distro=oracle-8&upstream=libfastjson%400.99.8-2.el8",
                   "version": "0.99.8-2.el8",
                 },
               },
-              Object {
+              {
                 "id": "libfdisk@2.32.1-22.el8",
-                "info": Object {
+                "info": {
                   "name": "libfdisk",
                   "purl": "pkg:rpm/oracle/libfdisk@2.32.1-22.el8?distro=oracle-8&upstream=util-linux%402.32.1-22.el8",
                   "version": "2.32.1-22.el8",
                 },
               },
-              Object {
+              {
                 "id": "libffi@3.1-21.el8",
-                "info": Object {
+                "info": {
                   "name": "libffi",
                   "purl": "pkg:rpm/oracle/libffi@3.1-21.el8?distro=oracle-8&upstream=libffi%403.1-21.el8",
                   "version": "3.1-21.el8",
                 },
               },
-              Object {
+              {
                 "id": "libgcc@8.3.1-5.0.3.el8",
-                "info": Object {
+                "info": {
                   "name": "libgcc",
                   "purl": "pkg:rpm/oracle/libgcc@8.3.1-5.0.3.el8?distro=oracle-8&upstream=gcc%408.3.1-5.0.3.el8",
                   "version": "8.3.1-5.0.3.el8",
                 },
               },
-              Object {
+              {
                 "id": "libgcrypt@1.8.3-4.el8",
-                "info": Object {
+                "info": {
                   "name": "libgcrypt",
                   "purl": "pkg:rpm/oracle/libgcrypt@1.8.3-4.el8?distro=oracle-8&upstream=libgcrypt%401.8.3-4.el8",
                   "version": "1.8.3-4.el8",
                 },
               },
-              Object {
+              {
                 "id": "libgpg-error@1.31-1.el8",
-                "info": Object {
+                "info": {
                   "name": "libgpg-error",
                   "purl": "pkg:rpm/oracle/libgpg-error@1.31-1.el8?distro=oracle-8&upstream=libgpg-error%401.31-1.el8",
                   "version": "1.31-1.el8",
                 },
               },
-              Object {
+              {
                 "id": "libidn2@2.2.0-1.el8",
-                "info": Object {
+                "info": {
                   "name": "libidn2",
                   "purl": "pkg:rpm/oracle/libidn2@2.2.0-1.el8?distro=oracle-8&upstream=libidn2%402.2.0-1.el8",
                   "version": "2.2.0-1.el8",
                 },
               },
-              Object {
+              {
                 "id": "libksba@1.3.5-7.el8",
-                "info": Object {
+                "info": {
                   "name": "libksba",
                   "purl": "pkg:rpm/oracle/libksba@1.3.5-7.el8?distro=oracle-8&upstream=libksba%401.3.5-7.el8",
                   "version": "1.3.5-7.el8",
                 },
               },
-              Object {
+              {
                 "id": "libmetalink@0.1.3-7.el8",
-                "info": Object {
+                "info": {
                   "name": "libmetalink",
                   "purl": "pkg:rpm/oracle/libmetalink@0.1.3-7.el8?distro=oracle-8&upstream=libmetalink%400.1.3-7.el8",
                   "version": "0.1.3-7.el8",
                 },
               },
-              Object {
+              {
                 "id": "libmnl@1.0.4-6.el8",
-                "info": Object {
+                "info": {
                   "name": "libmnl",
                   "purl": "pkg:rpm/oracle/libmnl@1.0.4-6.el8?distro=oracle-8&upstream=libmnl%401.0.4-6.el8",
                   "version": "1.0.4-6.el8",
                 },
               },
-              Object {
+              {
                 "id": "libmodulemd1@1.8.16-0.2.8.2.1",
-                "info": Object {
+                "info": {
                   "name": "libmodulemd1",
                   "purl": "pkg:rpm/oracle/libmodulemd1@1.8.16-0.2.8.2.1?distro=oracle-8&upstream=libmodulemd%402.8.2-1.el8",
                   "version": "1.8.16-0.2.8.2.1",
                 },
               },
-              Object {
+              {
                 "id": "libmount@2.32.1-22.el8",
-                "info": Object {
+                "info": {
                   "name": "libmount",
                   "purl": "pkg:rpm/oracle/libmount@2.32.1-22.el8?distro=oracle-8&upstream=util-linux%402.32.1-22.el8",
                   "version": "2.32.1-22.el8",
                 },
               },
-              Object {
+              {
                 "id": "libnghttp2@1.33.0-3.el8_2.1",
-                "info": Object {
+                "info": {
                   "name": "libnghttp2",
                   "purl": "pkg:rpm/oracle/libnghttp2@1.33.0-3.el8_2.1?distro=oracle-8&upstream=nghttp2%401.33.0-3.el8_2.1",
                   "version": "1.33.0-3.el8_2.1",
                 },
               },
-              Object {
+              {
                 "id": "libnsl2@1.2.0-2.20180605git4a062cf.el8",
-                "info": Object {
+                "info": {
                   "name": "libnsl2",
                   "purl": "pkg:rpm/oracle/libnsl2@1.2.0-2.20180605git4a062cf.el8?distro=oracle-8&upstream=libnsl2%401.2.0-2.20180605git4a062cf.el8",
                   "version": "1.2.0-2.20180605git4a062cf.el8",
                 },
               },
-              Object {
+              {
                 "id": "libpcap@14:1.9.0-3.el8",
-                "info": Object {
+                "info": {
                   "name": "libpcap",
                   "purl": "pkg:rpm/oracle/libpcap@14:1.9.0-3.el8?distro=oracle-8&epoch=14&upstream=libpcap%401.9.0-3.el8",
                   "version": "14:1.9.0-3.el8",
                 },
               },
-              Object {
+              {
                 "id": "libpsl@0.20.2-5.el8",
-                "info": Object {
+                "info": {
                   "name": "libpsl",
                   "purl": "pkg:rpm/oracle/libpsl@0.20.2-5.el8?distro=oracle-8&upstream=libpsl%400.20.2-5.el8",
                   "version": "0.20.2-5.el8",
                 },
               },
-              Object {
+              {
                 "id": "libpwquality@1.4.0-9.el8",
-                "info": Object {
+                "info": {
                   "name": "libpwquality",
                   "purl": "pkg:rpm/oracle/libpwquality@1.4.0-9.el8?distro=oracle-8&upstream=libpwquality%401.4.0-9.el8",
                   "version": "1.4.0-9.el8",
                 },
               },
-              Object {
+              {
                 "id": "librepo@1.11.0-3.el8_2",
-                "info": Object {
+                "info": {
                   "name": "librepo",
                   "purl": "pkg:rpm/oracle/librepo@1.11.0-3.el8_2?distro=oracle-8&upstream=librepo%401.11.0-3.el8_2",
                   "version": "1.11.0-3.el8_2",
                 },
               },
-              Object {
+              {
                 "id": "libreport-filesystem@2.9.5-10.0.1.el8",
-                "info": Object {
+                "info": {
                   "name": "libreport-filesystem",
                   "purl": "pkg:rpm/oracle/libreport-filesystem@2.9.5-10.0.1.el8?distro=oracle-8&upstream=libreport%402.9.5-10.0.1.el8",
                   "version": "2.9.5-10.0.1.el8",
                 },
               },
-              Object {
+              {
                 "id": "libseccomp@2.4.1-1.el8",
-                "info": Object {
+                "info": {
                   "name": "libseccomp",
                   "purl": "pkg:rpm/oracle/libseccomp@2.4.1-1.el8?distro=oracle-8&upstream=libseccomp%402.4.1-1.el8",
                   "version": "2.4.1-1.el8",
                 },
               },
-              Object {
+              {
                 "id": "libselinux@2.9-3.el8",
-                "info": Object {
+                "info": {
                   "name": "libselinux",
                   "purl": "pkg:rpm/oracle/libselinux@2.9-3.el8?distro=oracle-8&upstream=libselinux%402.9-3.el8",
                   "version": "2.9-3.el8",
                 },
               },
-              Object {
+              {
                 "id": "libselinux-utils@2.9-3.el8",
-                "info": Object {
+                "info": {
                   "name": "libselinux-utils",
                   "purl": "pkg:rpm/oracle/libselinux-utils@2.9-3.el8?distro=oracle-8&upstream=libselinux%402.9-3.el8",
                   "version": "2.9-3.el8",
                 },
               },
-              Object {
+              {
                 "id": "libsemanage@2.9-2.el8",
-                "info": Object {
+                "info": {
                   "name": "libsemanage",
                   "purl": "pkg:rpm/oracle/libsemanage@2.9-2.el8?distro=oracle-8&upstream=libsemanage%402.9-2.el8",
                   "version": "2.9-2.el8",
                 },
               },
-              Object {
+              {
                 "id": "libsepol@2.9-1.el8",
-                "info": Object {
+                "info": {
                   "name": "libsepol",
                   "purl": "pkg:rpm/oracle/libsepol@2.9-1.el8?distro=oracle-8&upstream=libsepol%402.9-1.el8",
                   "version": "2.9-1.el8",
                 },
               },
-              Object {
+              {
                 "id": "libsigsegv@2.11-5.el8",
-                "info": Object {
+                "info": {
                   "name": "libsigsegv",
                   "purl": "pkg:rpm/oracle/libsigsegv@2.11-5.el8?distro=oracle-8&upstream=libsigsegv%402.11-5.el8",
                   "version": "2.11-5.el8",
                 },
               },
-              Object {
+              {
                 "id": "libsmartcols@2.32.1-22.el8",
-                "info": Object {
+                "info": {
                   "name": "libsmartcols",
                   "purl": "pkg:rpm/oracle/libsmartcols@2.32.1-22.el8?distro=oracle-8&upstream=util-linux%402.32.1-22.el8",
                   "version": "2.32.1-22.el8",
                 },
               },
-              Object {
+              {
                 "id": "libsolv@0.7.7-1.el8",
-                "info": Object {
+                "info": {
                   "name": "libsolv",
                   "purl": "pkg:rpm/oracle/libsolv@0.7.7-1.el8?distro=oracle-8&upstream=libsolv%400.7.7-1.el8",
                   "version": "0.7.7-1.el8",
                 },
               },
-              Object {
+              {
                 "id": "libssh@0.9.0-4.el8",
-                "info": Object {
+                "info": {
                   "name": "libssh",
                   "purl": "pkg:rpm/oracle/libssh@0.9.0-4.el8?distro=oracle-8&upstream=libssh%400.9.0-4.el8",
                   "version": "0.9.0-4.el8",
                 },
               },
-              Object {
+              {
                 "id": "libssh-config@0.9.0-4.el8",
-                "info": Object {
+                "info": {
                   "name": "libssh-config",
                   "purl": "pkg:rpm/oracle/libssh-config@0.9.0-4.el8?distro=oracle-8&upstream=libssh%400.9.0-4.el8",
                   "version": "0.9.0-4.el8",
                 },
               },
-              Object {
+              {
                 "id": "libstdc++@8.3.1-5.0.3.el8",
-                "info": Object {
+                "info": {
                   "name": "libstdc++",
                   "purl": "pkg:rpm/oracle/libstdc%2B%2B@8.3.1-5.0.3.el8?distro=oracle-8&upstream=gcc%408.3.1-5.0.3.el8",
                   "version": "8.3.1-5.0.3.el8",
                 },
               },
-              Object {
+              {
                 "id": "libtasn1@4.13-3.el8",
-                "info": Object {
+                "info": {
                   "name": "libtasn1",
                   "purl": "pkg:rpm/oracle/libtasn1@4.13-3.el8?distro=oracle-8&upstream=libtasn1%404.13-3.el8",
                   "version": "4.13-3.el8",
                 },
               },
-              Object {
+              {
                 "id": "libtirpc@1.1.4-4.el8",
-                "info": Object {
+                "info": {
                   "name": "libtirpc",
                   "purl": "pkg:rpm/oracle/libtirpc@1.1.4-4.el8?distro=oracle-8&upstream=libtirpc%401.1.4-4.el8",
                   "version": "1.1.4-4.el8",
                 },
               },
-              Object {
+              {
                 "id": "libunistring@0.9.9-3.el8",
-                "info": Object {
+                "info": {
                   "name": "libunistring",
                   "purl": "pkg:rpm/oracle/libunistring@0.9.9-3.el8?distro=oracle-8&upstream=libunistring%400.9.9-3.el8",
                   "version": "0.9.9-3.el8",
                 },
               },
-              Object {
+              {
                 "id": "libusbx@1.0.22-1.el8",
-                "info": Object {
+                "info": {
                   "name": "libusbx",
                   "purl": "pkg:rpm/oracle/libusbx@1.0.22-1.el8?distro=oracle-8&upstream=libusbx%401.0.22-1.el8",
                   "version": "1.0.22-1.el8",
                 },
               },
-              Object {
+              {
                 "id": "libuser@0.62-23.el8",
-                "info": Object {
+                "info": {
                   "name": "libuser",
                   "purl": "pkg:rpm/oracle/libuser@0.62-23.el8?distro=oracle-8&upstream=libuser%400.62-23.el8",
                   "version": "0.62-23.el8",
                 },
               },
-              Object {
+              {
                 "id": "libutempter@1.1.6-14.el8",
-                "info": Object {
+                "info": {
                   "name": "libutempter",
                   "purl": "pkg:rpm/oracle/libutempter@1.1.6-14.el8?distro=oracle-8&upstream=libutempter%401.1.6-14.el8",
                   "version": "1.1.6-14.el8",
                 },
               },
-              Object {
+              {
                 "id": "libuuid@2.32.1-22.el8",
-                "info": Object {
+                "info": {
                   "name": "libuuid",
                   "purl": "pkg:rpm/oracle/libuuid@2.32.1-22.el8?distro=oracle-8&upstream=util-linux%402.32.1-22.el8",
                   "version": "2.32.1-22.el8",
                 },
               },
-              Object {
+              {
                 "id": "libverto@0.3.0-5.el8",
-                "info": Object {
+                "info": {
                   "name": "libverto",
                   "purl": "pkg:rpm/oracle/libverto@0.3.0-5.el8?distro=oracle-8&upstream=libverto%400.3.0-5.el8",
                   "version": "0.3.0-5.el8",
                 },
               },
-              Object {
+              {
                 "id": "libxcrypt@4.1.1-4.el8",
-                "info": Object {
+                "info": {
                   "name": "libxcrypt",
                   "purl": "pkg:rpm/oracle/libxcrypt@4.1.1-4.el8?distro=oracle-8&upstream=libxcrypt%404.1.1-4.el8",
                   "version": "4.1.1-4.el8",
                 },
               },
-              Object {
+              {
                 "id": "libxml2@2.9.7-7.0.1.el8",
-                "info": Object {
+                "info": {
                   "name": "libxml2",
                   "purl": "pkg:rpm/oracle/libxml2@2.9.7-7.0.1.el8?distro=oracle-8&upstream=libxml2%402.9.7-7.0.1.el8",
                   "version": "2.9.7-7.0.1.el8",
                 },
               },
-              Object {
+              {
                 "id": "libyaml@0.1.7-5.el8",
-                "info": Object {
+                "info": {
                   "name": "libyaml",
                   "purl": "pkg:rpm/oracle/libyaml@0.1.7-5.el8?distro=oracle-8&upstream=libyaml%400.1.7-5.el8",
                   "version": "0.1.7-5.el8",
                 },
               },
-              Object {
+              {
                 "id": "libzstd@1.4.2-2.el8",
-                "info": Object {
+                "info": {
                   "name": "libzstd",
                   "purl": "pkg:rpm/oracle/libzstd@1.4.2-2.el8?distro=oracle-8&upstream=zstd%401.4.2-2.el8",
                   "version": "1.4.2-2.el8",
                 },
               },
-              Object {
+              {
                 "id": "logrotate@3.14.0-3.el8",
-                "info": Object {
+                "info": {
                   "name": "logrotate",
                   "purl": "pkg:rpm/oracle/logrotate@3.14.0-3.el8?distro=oracle-8&upstream=logrotate%403.14.0-3.el8",
                   "version": "3.14.0-3.el8",
                 },
               },
-              Object {
+              {
                 "id": "lua-libs@5.3.4-11.el8",
-                "info": Object {
+                "info": {
                   "name": "lua-libs",
                   "purl": "pkg:rpm/oracle/lua-libs@5.3.4-11.el8?distro=oracle-8&upstream=lua%405.3.4-11.el8",
                   "version": "5.3.4-11.el8",
                 },
               },
-              Object {
+              {
                 "id": "lz4-libs@1.8.1.2-4.el8",
-                "info": Object {
+                "info": {
                   "name": "lz4-libs",
                   "purl": "pkg:rpm/oracle/lz4-libs@1.8.1.2-4.el8?distro=oracle-8&upstream=lz4%401.8.1.2-4.el8",
                   "version": "1.8.1.2-4.el8",
                 },
               },
-              Object {
+              {
                 "id": "mpfr@3.1.6-1.el8",
-                "info": Object {
+                "info": {
                   "name": "mpfr",
                   "purl": "pkg:rpm/oracle/mpfr@3.1.6-1.el8?distro=oracle-8&upstream=mpfr%403.1.6-1.el8",
                   "version": "3.1.6-1.el8",
                 },
               },
-              Object {
+              {
                 "id": "ncurses@6.1-7.20180224.el8",
-                "info": Object {
+                "info": {
                   "name": "ncurses",
                   "purl": "pkg:rpm/oracle/ncurses@6.1-7.20180224.el8?distro=oracle-8&upstream=ncurses%406.1-7.20180224.el8",
                   "version": "6.1-7.20180224.el8",
                 },
               },
-              Object {
+              {
                 "id": "ncurses-base@6.1-7.20180224.el8",
-                "info": Object {
+                "info": {
                   "name": "ncurses-base",
                   "purl": "pkg:rpm/oracle/ncurses-base@6.1-7.20180224.el8?distro=oracle-8&upstream=ncurses%406.1-7.20180224.el8",
                   "version": "6.1-7.20180224.el8",
                 },
               },
-              Object {
+              {
                 "id": "ncurses-libs@6.1-7.20180224.el8",
-                "info": Object {
+                "info": {
                   "name": "ncurses-libs",
                   "purl": "pkg:rpm/oracle/ncurses-libs@6.1-7.20180224.el8?distro=oracle-8&upstream=ncurses%406.1-7.20180224.el8",
                   "version": "6.1-7.20180224.el8",
                 },
               },
-              Object {
+              {
                 "id": "nettle@3.4.1-1.el8",
-                "info": Object {
+                "info": {
                   "name": "nettle",
                   "purl": "pkg:rpm/oracle/nettle@3.4.1-1.el8?distro=oracle-8&upstream=nettle%403.4.1-1.el8",
                   "version": "3.4.1-1.el8",
                 },
               },
-              Object {
+              {
                 "id": "npth@1.5-4.el8",
-                "info": Object {
+                "info": {
                   "name": "npth",
                   "purl": "pkg:rpm/oracle/npth@1.5-4.el8?distro=oracle-8&upstream=npth%401.5-4.el8",
                   "version": "1.5-4.el8",
                 },
               },
-              Object {
+              {
                 "id": "openldap@2.4.46-11.el8_1",
-                "info": Object {
+                "info": {
                   "name": "openldap",
                   "purl": "pkg:rpm/oracle/openldap@2.4.46-11.el8_1?distro=oracle-8&upstream=openldap%402.4.46-11.el8_1",
                   "version": "2.4.46-11.el8_1",
                 },
               },
-              Object {
+              {
                 "id": "openssh@8.0p1-4.el8_1",
-                "info": Object {
+                "info": {
                   "name": "openssh",
                   "purl": "pkg:rpm/oracle/openssh@8.0p1-4.el8_1?distro=oracle-8&upstream=openssh%408.0p1-4.el8_1",
                   "version": "8.0p1-4.el8_1",
                 },
               },
-              Object {
+              {
                 "id": "openssh-clients@8.0p1-4.el8_1",
-                "info": Object {
+                "info": {
                   "name": "openssh-clients",
                   "purl": "pkg:rpm/oracle/openssh-clients@8.0p1-4.el8_1?distro=oracle-8&upstream=openssh%408.0p1-4.el8_1",
                   "version": "8.0p1-4.el8_1",
                 },
               },
-              Object {
+              {
                 "id": "openssh-server@8.0p1-4.el8_1",
-                "info": Object {
+                "info": {
                   "name": "openssh-server",
                   "purl": "pkg:rpm/oracle/openssh-server@8.0p1-4.el8_1?distro=oracle-8&upstream=openssh%408.0p1-4.el8_1",
                   "version": "8.0p1-4.el8_1",
                 },
               },
-              Object {
+              {
                 "id": "openssl-libs@1:1.1.1c-15.el8",
-                "info": Object {
+                "info": {
                   "name": "openssl-libs",
                   "purl": "pkg:rpm/oracle/openssl-libs@1:1.1.1c-15.el8?distro=oracle-8&epoch=1&upstream=openssl%401.1.1c-15.el8",
                   "version": "1:1.1.1c-15.el8",
                 },
               },
-              Object {
+              {
                 "id": "oraclelinux-release@8:8.2-1.0.8.el8",
-                "info": Object {
+                "info": {
                   "name": "oraclelinux-release",
                   "purl": "pkg:rpm/oracle/oraclelinux-release@8:8.2-1.0.8.el8?distro=oracle-8&epoch=8&upstream=oraclelinux-release%408.2-1.0.8.el8",
                   "version": "8:8.2-1.0.8.el8",
                 },
               },
-              Object {
+              {
                 "id": "oraclelinux-release-el8@1.0-12.el8",
-                "info": Object {
+                "info": {
                   "name": "oraclelinux-release-el8",
                   "purl": "pkg:rpm/oracle/oraclelinux-release-el8@1.0-12.el8?distro=oracle-8&upstream=oraclelinux-release-el8%401.0-12.el8",
                   "version": "1.0-12.el8",
                 },
               },
-              Object {
+              {
                 "id": "p11-kit@0.23.14-5.el8_0",
-                "info": Object {
+                "info": {
                   "name": "p11-kit",
                   "purl": "pkg:rpm/oracle/p11-kit@0.23.14-5.el8_0?distro=oracle-8&upstream=p11-kit%400.23.14-5.el8_0",
                   "version": "0.23.14-5.el8_0",
                 },
               },
-              Object {
+              {
                 "id": "p11-kit-trust@0.23.14-5.el8_0",
-                "info": Object {
+                "info": {
                   "name": "p11-kit-trust",
                   "purl": "pkg:rpm/oracle/p11-kit-trust@0.23.14-5.el8_0?distro=oracle-8&upstream=p11-kit%400.23.14-5.el8_0",
                   "version": "0.23.14-5.el8_0",
                 },
               },
-              Object {
+              {
                 "id": "pam@1.3.1-8.el8",
-                "info": Object {
+                "info": {
                   "name": "pam",
                   "purl": "pkg:rpm/oracle/pam@1.3.1-8.el8?distro=oracle-8&upstream=pam%401.3.1-8.el8",
                   "version": "1.3.1-8.el8",
                 },
               },
-              Object {
+              {
                 "id": "passwd@0.80-3.el8",
-                "info": Object {
+                "info": {
                   "name": "passwd",
                   "purl": "pkg:rpm/oracle/passwd@0.80-3.el8?distro=oracle-8&upstream=passwd%400.80-3.el8",
                   "version": "0.80-3.el8",
                 },
               },
-              Object {
+              {
                 "id": "pcre@8.42-4.el8",
-                "info": Object {
+                "info": {
                   "name": "pcre",
                   "purl": "pkg:rpm/oracle/pcre@8.42-4.el8?distro=oracle-8&upstream=pcre%408.42-4.el8",
                   "version": "8.42-4.el8",
                 },
               },
-              Object {
+              {
                 "id": "pcre2@10.32-1.el8",
-                "info": Object {
+                "info": {
                   "name": "pcre2",
                   "purl": "pkg:rpm/oracle/pcre2@10.32-1.el8?distro=oracle-8&upstream=pcre2%4010.32-1.el8",
                   "version": "10.32-1.el8",
                 },
               },
-              Object {
+              {
                 "id": "platform-python@3.6.8-23.0.1.el8",
-                "info": Object {
+                "info": {
                   "name": "platform-python",
                   "purl": "pkg:rpm/oracle/platform-python@3.6.8-23.0.1.el8?distro=oracle-8&upstream=python3%403.6.8-23.0.1.el8",
                   "version": "3.6.8-23.0.1.el8",
                 },
               },
-              Object {
+              {
                 "id": "platform-python-setuptools@39.2.0-5.el8",
-                "info": Object {
+                "info": {
                   "name": "platform-python-setuptools",
                   "purl": "pkg:rpm/oracle/platform-python-setuptools@39.2.0-5.el8?distro=oracle-8&upstream=python-setuptools%4039.2.0-5.el8",
                   "version": "39.2.0-5.el8",
                 },
               },
-              Object {
+              {
                 "id": "policycoreutils@2.9-9.0.1.el8",
-                "info": Object {
+                "info": {
                   "name": "policycoreutils",
                   "purl": "pkg:rpm/oracle/policycoreutils@2.9-9.0.1.el8?distro=oracle-8&upstream=policycoreutils%402.9-9.0.1.el8",
                   "version": "2.9-9.0.1.el8",
                 },
               },
-              Object {
+              {
                 "id": "popt@1.16-14.el8",
-                "info": Object {
+                "info": {
                   "name": "popt",
                   "purl": "pkg:rpm/oracle/popt@1.16-14.el8?distro=oracle-8&upstream=popt%401.16-14.el8",
                   "version": "1.16-14.el8",
                 },
               },
-              Object {
+              {
                 "id": "procps-ng@3.3.15-1.el8",
-                "info": Object {
+                "info": {
                   "name": "procps-ng",
                   "purl": "pkg:rpm/oracle/procps-ng@3.3.15-1.el8?distro=oracle-8&upstream=procps-ng%403.3.15-1.el8",
                   "version": "3.3.15-1.el8",
                 },
               },
-              Object {
+              {
                 "id": "publicsuffix-list-dafsa@20180723-1.el8",
-                "info": Object {
+                "info": {
                   "name": "publicsuffix-list-dafsa",
                   "purl": "pkg:rpm/oracle/publicsuffix-list-dafsa@20180723-1.el8?distro=oracle-8&upstream=publicsuffix-list%4020180723-1.el8",
                   "version": "20180723-1.el8",
                 },
               },
-              Object {
+              {
                 "id": "python3-dateutil@1:2.6.1-6.el8",
-                "info": Object {
+                "info": {
                   "name": "python3-dateutil",
                   "purl": "pkg:rpm/oracle/python3-dateutil@1:2.6.1-6.el8?distro=oracle-8&epoch=1&upstream=python-dateutil%402.6.1-6.el8",
                   "version": "1:2.6.1-6.el8",
                 },
               },
-              Object {
+              {
                 "id": "python3-dnf@4.2.17-7.el8_2",
-                "info": Object {
+                "info": {
                   "name": "python3-dnf",
                   "purl": "pkg:rpm/oracle/python3-dnf@4.2.17-7.el8_2?distro=oracle-8&upstream=dnf%404.2.17-7.el8_2",
                   "version": "4.2.17-7.el8_2",
                 },
               },
-              Object {
+              {
                 "id": "python3-dnf-plugins-core@4.0.12-4.el8_2",
-                "info": Object {
+                "info": {
                   "name": "python3-dnf-plugins-core",
                   "purl": "pkg:rpm/oracle/python3-dnf-plugins-core@4.0.12-4.el8_2?distro=oracle-8&upstream=dnf-plugins-core%404.0.12-4.el8_2",
                   "version": "4.0.12-4.el8_2",
                 },
               },
-              Object {
+              {
                 "id": "python3-gpg@1.10.0-6.0.1.el8",
-                "info": Object {
+                "info": {
                   "name": "python3-gpg",
                   "purl": "pkg:rpm/oracle/python3-gpg@1.10.0-6.0.1.el8?distro=oracle-8&upstream=gpgme%401.10.0-6.0.1.el8",
                   "version": "1.10.0-6.0.1.el8",
                 },
               },
-              Object {
+              {
                 "id": "python3-hawkey@0.39.1-6.0.1.el8_2",
-                "info": Object {
+                "info": {
                   "name": "python3-hawkey",
                   "purl": "pkg:rpm/oracle/python3-hawkey@0.39.1-6.0.1.el8_2?distro=oracle-8&upstream=libdnf%400.39.1-6.0.1.el8_2",
                   "version": "0.39.1-6.0.1.el8_2",
                 },
               },
-              Object {
+              {
                 "id": "python3-libcomps@0.1.11-4.el8",
-                "info": Object {
+                "info": {
                   "name": "python3-libcomps",
                   "purl": "pkg:rpm/oracle/python3-libcomps@0.1.11-4.el8?distro=oracle-8&upstream=libcomps%400.1.11-4.el8",
                   "version": "0.1.11-4.el8",
                 },
               },
-              Object {
+              {
                 "id": "python3-libdnf@0.39.1-6.0.1.el8_2",
-                "info": Object {
+                "info": {
                   "name": "python3-libdnf",
                   "purl": "pkg:rpm/oracle/python3-libdnf@0.39.1-6.0.1.el8_2?distro=oracle-8&upstream=libdnf%400.39.1-6.0.1.el8_2",
                   "version": "0.39.1-6.0.1.el8_2",
                 },
               },
-              Object {
+              {
                 "id": "python3-libs@3.6.8-23.0.1.el8",
-                "info": Object {
+                "info": {
                   "name": "python3-libs",
                   "purl": "pkg:rpm/oracle/python3-libs@3.6.8-23.0.1.el8?distro=oracle-8&upstream=python3%403.6.8-23.0.1.el8",
                   "version": "3.6.8-23.0.1.el8",
                 },
               },
-              Object {
+              {
                 "id": "python3-pip-wheel@9.0.3-16.el8",
-                "info": Object {
+                "info": {
                   "name": "python3-pip-wheel",
                   "purl": "pkg:rpm/oracle/python3-pip-wheel@9.0.3-16.el8?distro=oracle-8&upstream=python-pip%409.0.3-16.el8",
                   "version": "9.0.3-16.el8",
                 },
               },
-              Object {
+              {
                 "id": "python3-rpm@4.14.2-37.el8",
-                "info": Object {
+                "info": {
                   "name": "python3-rpm",
                   "purl": "pkg:rpm/oracle/python3-rpm@4.14.2-37.el8?distro=oracle-8&upstream=rpm%404.14.2-37.el8",
                   "version": "4.14.2-37.el8",
                 },
               },
-              Object {
+              {
                 "id": "python3-setuptools-wheel@39.2.0-5.el8",
-                "info": Object {
+                "info": {
                   "name": "python3-setuptools-wheel",
                   "purl": "pkg:rpm/oracle/python3-setuptools-wheel@39.2.0-5.el8?distro=oracle-8&upstream=python-setuptools%4039.2.0-5.el8",
                   "version": "39.2.0-5.el8",
                 },
               },
-              Object {
+              {
                 "id": "python3-six@1.11.0-8.el8",
-                "info": Object {
+                "info": {
                   "name": "python3-six",
                   "purl": "pkg:rpm/oracle/python3-six@1.11.0-8.el8?distro=oracle-8&upstream=python-six%401.11.0-8.el8",
                   "version": "1.11.0-8.el8",
                 },
               },
-              Object {
+              {
                 "id": "readline@7.0-10.el8",
-                "info": Object {
+                "info": {
                   "name": "readline",
                   "purl": "pkg:rpm/oracle/readline@7.0-10.el8?distro=oracle-8&upstream=readline%407.0-10.el8",
                   "version": "7.0-10.el8",
                 },
               },
-              Object {
+              {
                 "id": "redhat-release@2:8.2-1.0.0.1.el8",
-                "info": Object {
+                "info": {
                   "name": "redhat-release",
                   "purl": "pkg:rpm/oracle/redhat-release@2:8.2-1.0.0.1.el8?distro=oracle-8&epoch=2&upstream=redhat-release%408.2-1.0.0.1.el8",
                   "version": "2:8.2-1.0.0.1.el8",
                 },
               },
-              Object {
+              {
                 "id": "rootfiles@8.1-22.el8",
-                "info": Object {
+                "info": {
                   "name": "rootfiles",
                   "purl": "pkg:rpm/oracle/rootfiles@8.1-22.el8?distro=oracle-8&upstream=rootfiles%408.1-22.el8",
                   "version": "8.1-22.el8",
                 },
               },
-              Object {
+              {
                 "id": "rpm@4.14.2-37.el8",
-                "info": Object {
+                "info": {
                   "name": "rpm",
                   "purl": "pkg:rpm/oracle/rpm@4.14.2-37.el8?distro=oracle-8&upstream=rpm%404.14.2-37.el8",
                   "version": "4.14.2-37.el8",
                 },
               },
-              Object {
+              {
                 "id": "rpm-build-libs@4.14.2-37.el8",
-                "info": Object {
+                "info": {
                   "name": "rpm-build-libs",
                   "purl": "pkg:rpm/oracle/rpm-build-libs@4.14.2-37.el8?distro=oracle-8&upstream=rpm%404.14.2-37.el8",
                   "version": "4.14.2-37.el8",
                 },
               },
-              Object {
+              {
                 "id": "rpm-libs@4.14.2-37.el8",
-                "info": Object {
+                "info": {
                   "name": "rpm-libs",
                   "purl": "pkg:rpm/oracle/rpm-libs@4.14.2-37.el8?distro=oracle-8&upstream=rpm%404.14.2-37.el8",
                   "version": "4.14.2-37.el8",
                 },
               },
-              Object {
+              {
                 "id": "rsyslog@8.1911.0-3.el8",
-                "info": Object {
+                "info": {
                   "name": "rsyslog",
                   "purl": "pkg:rpm/oracle/rsyslog@8.1911.0-3.el8?distro=oracle-8&upstream=rsyslog%408.1911.0-3.el8",
                   "version": "8.1911.0-3.el8",
                 },
               },
-              Object {
+              {
                 "id": "sed@4.5-1.el8",
-                "info": Object {
+                "info": {
                   "name": "sed",
                   "purl": "pkg:rpm/oracle/sed@4.5-1.el8?distro=oracle-8&upstream=sed%404.5-1.el8",
                   "version": "4.5-1.el8",
                 },
               },
-              Object {
+              {
                 "id": "setup@2.12.2-5.el8",
-                "info": Object {
+                "info": {
                   "name": "setup",
                   "purl": "pkg:rpm/oracle/setup@2.12.2-5.el8?distro=oracle-8&upstream=setup%402.12.2-5.el8",
                   "version": "2.12.2-5.el8",
                 },
               },
-              Object {
+              {
                 "id": "shadow-utils@2:4.6-8.el8",
-                "info": Object {
+                "info": {
                   "name": "shadow-utils",
                   "purl": "pkg:rpm/oracle/shadow-utils@2:4.6-8.el8?distro=oracle-8&epoch=2&upstream=shadow-utils%404.6-8.el8",
                   "version": "2:4.6-8.el8",
                 },
               },
-              Object {
+              {
                 "id": "sqlite-libs@3.26.0-6.el8",
-                "info": Object {
+                "info": {
                   "name": "sqlite-libs",
                   "purl": "pkg:rpm/oracle/sqlite-libs@3.26.0-6.el8?distro=oracle-8&upstream=sqlite%403.26.0-6.el8",
                   "version": "3.26.0-6.el8",
                 },
               },
-              Object {
+              {
                 "id": "systemd@239-31.0.1.el8_2.2",
-                "info": Object {
+                "info": {
                   "name": "systemd",
                   "purl": "pkg:rpm/oracle/systemd@239-31.0.1.el8_2.2?distro=oracle-8&upstream=systemd%40239-31.0.1.el8_2.2",
                   "version": "239-31.0.1.el8_2.2",
                 },
               },
-              Object {
+              {
                 "id": "systemd-libs@239-31.0.1.el8_2.2",
-                "info": Object {
+                "info": {
                   "name": "systemd-libs",
                   "purl": "pkg:rpm/oracle/systemd-libs@239-31.0.1.el8_2.2?distro=oracle-8&upstream=systemd%40239-31.0.1.el8_2.2",
                   "version": "239-31.0.1.el8_2.2",
                 },
               },
-              Object {
+              {
                 "id": "systemd-pam@239-31.0.1.el8_2.2",
-                "info": Object {
+                "info": {
                   "name": "systemd-pam",
                   "purl": "pkg:rpm/oracle/systemd-pam@239-31.0.1.el8_2.2?distro=oracle-8&upstream=systemd%40239-31.0.1.el8_2.2",
                   "version": "239-31.0.1.el8_2.2",
                 },
               },
-              Object {
+              {
                 "id": "tzdata@2020a-1.el8",
-                "info": Object {
+                "info": {
                   "name": "tzdata",
                   "purl": "pkg:rpm/oracle/tzdata@2020a-1.el8?distro=oracle-8&upstream=tzdata%402020a-1.el8",
                   "version": "2020a-1.el8",
                 },
               },
-              Object {
+              {
                 "id": "util-linux@2.32.1-22.el8",
-                "info": Object {
+                "info": {
                   "name": "util-linux",
                   "purl": "pkg:rpm/oracle/util-linux@2.32.1-22.el8?distro=oracle-8&upstream=util-linux%402.32.1-22.el8",
                   "version": "2.32.1-22.el8",
                 },
               },
-              Object {
+              {
                 "id": "vim-minimal@2:8.0.1763-13.0.1.el8",
-                "info": Object {
+                "info": {
                   "name": "vim-minimal",
                   "purl": "pkg:rpm/oracle/vim-minimal@2:8.0.1763-13.0.1.el8?distro=oracle-8&epoch=2&upstream=vim%408.0.1763-13.0.1.el8",
                   "version": "2:8.0.1763-13.0.1.el8",
                 },
               },
-              Object {
+              {
                 "id": "xz-libs@5.2.4-3.el8",
-                "info": Object {
+                "info": {
                   "name": "xz-libs",
                   "purl": "pkg:rpm/oracle/xz-libs@5.2.4-3.el8?distro=oracle-8&upstream=xz%405.2.4-3.el8",
                   "version": "5.2.4-3.el8",
                 },
               },
-              Object {
+              {
                 "id": "yum@4.2.17-7.el8_2",
-                "info": Object {
+                "info": {
                   "name": "yum",
                   "purl": "pkg:rpm/oracle/yum@4.2.17-7.el8_2?distro=oracle-8&upstream=dnf%404.2.17-7.el8_2",
                   "version": "4.2.17-7.el8_2",
                 },
               },
-              Object {
+              {
                 "id": "yum-utils@4.0.12-4.el8_2",
-                "info": Object {
+                "info": {
                   "name": "yum-utils",
                   "purl": "pkg:rpm/oracle/yum-utils@4.0.12-4.el8_2?distro=oracle-8&upstream=dnf-plugins-core%404.0.12-4.el8_2",
                   "version": "4.0.12-4.el8_2",
                 },
               },
-              Object {
+              {
                 "id": "zlib@1.2.11-16.el8_2",
-                "info": Object {
+                "info": {
                   "name": "zlib",
                   "purl": "pkg:rpm/oracle/zlib@1.2.11-16.el8_2?distro=oracle-8&upstream=zlib%401.2.11-16.el8_2",
                   "version": "1.2.11-16.el8_2",
@@ -2951,18 +2951,18 @@ Object {
           },
           "type": "depGraph",
         },
-        Object {
+        {
           "data": "sha256:c23ddcc8aacfa4742804c99faabc26042a1864254af7107dbb5126628a18f3d7",
           "type": "imageId",
         },
-        Object {
-          "data": Array [
+        {
+          "data": [
             "sha256:8f5b0a4c155316ae86167c983db7048fe2db2e9691093b35377eaf9d9b28ecc9",
           ],
           "type": "imageLayers",
         },
-        Object {
-          "data": Object {
+        {
+          "data": {
             "org.opencontainers.image.authors": "Oracle Linux Product Team <ol-ovm-info_ww@oracle.com>",
             "org.opencontainers.image.description": "Oracle Linux is an open-source       operating system available under the GNU General Public License (GPLv2) and       is suitable for both general purpose or Oracle workloads.",
             "org.opencontainers.image.source": "https://github.com/oracle/container-images/tree/dist-amd64/8.2",
@@ -2972,14 +2972,14 @@ Object {
           },
           "type": "imageLabels",
         },
-        Object {
-          "data": Object {
+        {
+          "data": {
             "argsEscaped": true,
-            "cmd": Array [
+            "cmd": [
               "/bin/bash",
             ],
             "entrypoint": null,
-            "env": Array [
+            "env": [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
             "user": "",
@@ -2988,63 +2988,63 @@ Object {
           },
           "type": "containerConfig",
         },
-        Object {
-          "data": Array [
-            Object {
+        {
+          "data": [
+            {
               "created": "2020-09-15T21:21:01.942772217Z",
               "createdBy": "/bin/sh -c #(nop)  LABEL org.opencontainers.image.authors=Oracle Linux Product Team <ol-ovm-info_ww@oracle.com> org.opencontainers.image.url=https://github.com/oracle/container-images org.opencontainers.image.source=https://github.com/oracle/container-images/tree/dist-amd64/8.2 org.opencontainers.image.vendor=Oracle America, Inc org.opencontainers.image.title=Oracle Linux 8 org.opencontainers.image.description=Oracle Linux is an open-source       operating system available under the GNU General Public License (GPLv2) and       is suitable for both general purpose or Oracle workloads.",
               "emptyLayer": true,
             },
-            Object {
+            {
               "created": "2020-09-15T21:21:12.827888302Z",
               "createdBy": "/bin/sh -c #(nop) ADD file:2a819d4d306fe14756f74012798619430645e989be5462c1363009c8920cea3b in / ",
             },
-            Object {
+            {
               "created": "2020-09-15T21:21:13.371332071Z",
-              "createdBy": "/bin/sh -c #(nop)  CMD [\\"/bin/bash\\"]",
+              "createdBy": "/bin/sh -c #(nop)  CMD ["/bin/bash"]",
               "emptyLayer": true,
             },
           ],
           "type": "history",
         },
-        Object {
+        {
           "data": "2020-09-15T21:21:13.371332071Z",
           "type": "imageCreationTime",
         },
-        Object {
-          "data": Array [
+        {
+          "data": [
             "sha256:8f5b0a4c155316ae86167c983db7048fe2db2e9691093b35377eaf9d9b28ecc9",
           ],
           "type": "rootFs",
         },
-        Object {
+        {
           "data": "Oracle Linux Server 8.2",
           "type": "imageOsReleasePrettyName",
         },
-        Object {
-          "data": Object {
-            "names": Array [
+        {
+          "data": {
+            "names": [
               "oraclelinux@sha256:652409ec0fd4e79b07ecf82e35ebf50277be69f6b8e873129a55a0bdedf827d0",
             ],
           },
           "type": "imageNames",
         },
-        Object {
+        {
           "data": "linux/amd64",
           "type": "platform",
         },
-        Object {
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
       ],
-      "identity": Object {
-        "args": Object {
+      "identity": {
+        "args": {
           "platform": "linux/amd64",
         },
         "type": "rpm",
       },
-      "target": Object {
+      "target": {
         "image": "docker-image|oraclelinux",
       },
     },

@@ -1,34 +1,34 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`poetry application scan should correctly return applications as multiple scan results 1`] = `
-Object {
-  "scanResults": Array [
-    Object {
-      "facts": Array [
-        Object {
-          "data": Object {
-            "graph": Object {
-              "nodes": Array [
-                Object {
-                  "deps": Array [],
+{
+  "scanResults": [
+    {
+      "facts": [
+        {
+          "data": {
+            "graph": {
+              "nodes": [
+                {
+                  "deps": [],
                   "nodeId": "root-node",
                   "pkgId": "docker-image|poetry.tar@",
                 },
               ],
               "rootNodeId": "root-node",
             },
-            "pkgManager": Object {
+            "pkgManager": {
               "name": "linux",
-              "repositories": Array [
-                Object {
+              "repositories": [
+                {
                   "alias": "unknown:0.0",
                 },
               ],
             },
-            "pkgs": Array [
-              Object {
+            "pkgs": [
+              {
                 "id": "docker-image|poetry.tar@",
-                "info": Object {
+                "info": {
                   "name": "docker-image|poetry.tar",
                   "version": undefined,
                 },
@@ -38,28 +38,28 @@ Object {
           },
           "type": "depGraph",
         },
-        Object {
+        {
           "data": "sha256:83878e4a19e2c44d6efc14d3aa75b0cda05a44927575480cf3cef8889efa26f9",
           "type": "imageId",
         },
-        Object {
-          "data": Array [
+        {
+          "data": [
             "a5ceb4cf1de62292b28ff91de7c88878fe655a60cfb0042d5b0a7db7cc998d97/layer.tar",
           ],
           "type": "imageLayers",
         },
-        Object {
-          "data": Object {
-            "env": Array [
+        {
+          "data": {
+            "env": [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
             "workingDir": "/",
           },
           "type": "containerConfig",
         },
-        Object {
-          "data": Array [
-            Object {
+        {
+          "data": [
+            {
               "comment": "buildkit.dockerfile.v0",
               "created": "2022-08-04T13:17:10.411032291Z",
               "createdBy": "COPY /app/. /app/. # buildkit",
@@ -67,174 +67,174 @@ Object {
           ],
           "type": "history",
         },
-        Object {
+        {
           "data": "2022-08-04T13:17:10.411032291Z",
           "type": "imageCreationTime",
         },
-        Object {
-          "data": Array [
+        {
+          "data": [
             "sha256:1a94d0e60a13af7e273a428cb3f439f1f8872c806a70c41895bfd95de875c4c4",
           ],
           "type": "rootFs",
         },
-        Object {
+        {
           "data": "linux/amd64",
           "type": "platform",
         },
-        Object {
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
       ],
-      "identity": Object {
-        "args": Object {
+      "identity": {
+        "args": {
           "platform": "linux/amd64",
         },
         "type": "linux",
       },
-      "target": Object {
+      "target": {
         "image": "docker-image|poetry.tar",
       },
     },
-    Object {
-      "facts": Array [
-        Object {
-          "data": Object {
-            "graph": Object {
-              "nodes": Array [
-                Object {
-                  "deps": Array [
-                    Object {
+    {
+      "facts": [
+        {
+          "data": {
+            "graph": {
+              "nodes": [
+                {
+                  "deps": [
+                    {
                       "nodeId": "six",
                     },
-                    Object {
+                    {
                       "nodeId": "flask",
                     },
-                    Object {
+                    {
                       "nodeId": "rpc.py",
                     },
                   ],
                   "nodeId": "root-node",
                   "pkgId": "myPkg@1.42.2",
                 },
-                Object {
-                  "deps": Array [],
-                  "info": Object {
-                    "labels": Object {
+                {
+                  "deps": [],
+                  "info": {
+                    "labels": {
                       "scope": "prod",
                     },
                   },
                   "nodeId": "six",
                   "pkgId": "six@1.16.0",
                 },
-                Object {
-                  "deps": Array [
-                    Object {
+                {
+                  "deps": [
+                    {
                       "nodeId": "click",
                     },
-                    Object {
+                    {
                       "nodeId": "importlib-metadata",
                     },
-                    Object {
+                    {
                       "nodeId": "itsdangerous",
                     },
-                    Object {
+                    {
                       "nodeId": "jinja2",
                     },
-                    Object {
+                    {
                       "nodeId": "werkzeug",
                     },
                   ],
-                  "info": Object {
-                    "labels": Object {
+                  "info": {
+                    "labels": {
                       "scope": "prod",
                     },
                   },
                   "nodeId": "flask",
                   "pkgId": "flask@2.2.0",
                 },
-                Object {
-                  "deps": Array [
-                    Object {
+                {
+                  "deps": [
+                    {
                       "nodeId": "colorama",
                     },
-                    Object {
+                    {
                       "nodeId": "importlib-metadata",
                     },
                   ],
-                  "info": Object {
-                    "labels": Object {
+                  "info": {
+                    "labels": {
                       "scope": "prod",
                     },
                   },
                   "nodeId": "click",
                   "pkgId": "click@8.1.3",
                 },
-                Object {
-                  "deps": Array [],
-                  "info": Object {
-                    "labels": Object {
+                {
+                  "deps": [],
+                  "info": {
+                    "labels": {
                       "scope": "prod",
                     },
                   },
                   "nodeId": "colorama",
                   "pkgId": "colorama@0.4.5",
                 },
-                Object {
-                  "deps": Array [
-                    Object {
+                {
+                  "deps": [
+                    {
                       "nodeId": "typing-extensions",
                     },
-                    Object {
+                    {
                       "nodeId": "zipp",
                     },
                   ],
-                  "info": Object {
-                    "labels": Object {
+                  "info": {
+                    "labels": {
                       "scope": "prod",
                     },
                   },
                   "nodeId": "importlib-metadata",
                   "pkgId": "importlib-metadata@4.12.0",
                 },
-                Object {
-                  "deps": Array [],
-                  "info": Object {
-                    "labels": Object {
+                {
+                  "deps": [],
+                  "info": {
+                    "labels": {
                       "scope": "prod",
                     },
                   },
                   "nodeId": "typing-extensions",
                   "pkgId": "typing-extensions@3.10.0.2",
                 },
-                Object {
-                  "deps": Array [],
-                  "info": Object {
-                    "labels": Object {
+                {
+                  "deps": [],
+                  "info": {
+                    "labels": {
                       "scope": "prod",
                     },
                   },
                   "nodeId": "zipp",
                   "pkgId": "zipp@3.8.1",
                 },
-                Object {
-                  "deps": Array [],
-                  "info": Object {
-                    "labels": Object {
+                {
+                  "deps": [],
+                  "info": {
+                    "labels": {
                       "scope": "prod",
                     },
                   },
                   "nodeId": "itsdangerous",
                   "pkgId": "itsdangerous@2.1.2",
                 },
-                Object {
-                  "deps": Array [
-                    Object {
+                {
+                  "deps": [
+                    {
                       "nodeId": "markupsafe",
                     },
                   ],
-                  "info": Object {
-                    "labels": Object {
+                  "info": {
+                    "labels": {
                       "pkgIdProvenance": "Jinja2@3.1.2",
                       "scope": "prod",
                     },
@@ -242,10 +242,10 @@ Object {
                   "nodeId": "jinja2",
                   "pkgId": "jinja2@3.1.2",
                 },
-                Object {
-                  "deps": Array [],
-                  "info": Object {
-                    "labels": Object {
+                {
+                  "deps": [],
+                  "info": {
+                    "labels": {
                       "pkgIdProvenance": "MarkupSafe@2.1.1",
                       "scope": "prod",
                     },
@@ -253,14 +253,14 @@ Object {
                   "nodeId": "markupsafe",
                   "pkgId": "markupsafe@2.1.1",
                 },
-                Object {
-                  "deps": Array [
-                    Object {
+                {
+                  "deps": [
+                    {
                       "nodeId": "markupsafe",
                     },
                   ],
-                  "info": Object {
-                    "labels": Object {
+                  "info": {
+                    "labels": {
                       "pkgIdProvenance": "Werkzeug@2.2.1",
                       "scope": "prod",
                     },
@@ -268,14 +268,14 @@ Object {
                   "nodeId": "werkzeug",
                   "pkgId": "werkzeug@2.2.1",
                 },
-                Object {
-                  "deps": Array [
-                    Object {
+                {
+                  "deps": [
+                    {
                       "nodeId": "typing-extensions",
                     },
                   ],
-                  "info": Object {
-                    "labels": Object {
+                  "info": {
+                    "labels": {
                       "scope": "prod",
                     },
                   },
@@ -285,97 +285,97 @@ Object {
               ],
               "rootNodeId": "root-node",
             },
-            "pkgManager": Object {
+            "pkgManager": {
               "name": "poetry",
             },
-            "pkgs": Array [
-              Object {
+            "pkgs": [
+              {
                 "id": "myPkg@1.42.2",
-                "info": Object {
+                "info": {
                   "name": "myPkg",
                   "version": "1.42.2",
                 },
               },
-              Object {
+              {
                 "id": "six@1.16.0",
-                "info": Object {
+                "info": {
                   "name": "six",
                   "version": "1.16.0",
                 },
               },
-              Object {
+              {
                 "id": "flask@2.2.0",
-                "info": Object {
+                "info": {
                   "name": "flask",
                   "version": "2.2.0",
                 },
               },
-              Object {
+              {
                 "id": "click@8.1.3",
-                "info": Object {
+                "info": {
                   "name": "click",
                   "version": "8.1.3",
                 },
               },
-              Object {
+              {
                 "id": "colorama@0.4.5",
-                "info": Object {
+                "info": {
                   "name": "colorama",
                   "version": "0.4.5",
                 },
               },
-              Object {
+              {
                 "id": "importlib-metadata@4.12.0",
-                "info": Object {
+                "info": {
                   "name": "importlib-metadata",
                   "version": "4.12.0",
                 },
               },
-              Object {
+              {
                 "id": "typing-extensions@3.10.0.2",
-                "info": Object {
+                "info": {
                   "name": "typing-extensions",
                   "version": "3.10.0.2",
                 },
               },
-              Object {
+              {
                 "id": "zipp@3.8.1",
-                "info": Object {
+                "info": {
                   "name": "zipp",
                   "version": "3.8.1",
                 },
               },
-              Object {
+              {
                 "id": "itsdangerous@2.1.2",
-                "info": Object {
+                "info": {
                   "name": "itsdangerous",
                   "version": "2.1.2",
                 },
               },
-              Object {
+              {
                 "id": "jinja2@3.1.2",
-                "info": Object {
+                "info": {
                   "name": "jinja2",
                   "version": "3.1.2",
                 },
               },
-              Object {
+              {
                 "id": "markupsafe@2.1.1",
-                "info": Object {
+                "info": {
                   "name": "markupsafe",
                   "version": "2.1.1",
                 },
               },
-              Object {
+              {
                 "id": "werkzeug@2.2.1",
-                "info": Object {
+                "info": {
                   "name": "werkzeug",
                   "version": "2.2.1",
                 },
               },
-              Object {
+              {
                 "id": "rpc.py@0.4.2",
-                "info": Object {
+                "info": {
                   "name": "rpc.py",
                   "version": "0.4.2",
                 },
@@ -385,27 +385,27 @@ Object {
           },
           "type": "depGraph",
         },
-        Object {
-          "data": Array [
+        {
+          "data": [
             "pyproject.toml",
             "poetry.lock",
           ],
           "type": "testedFiles",
         },
-        Object {
+        {
           "data": "sha256:83878e4a19e2c44d6efc14d3aa75b0cda05a44927575480cf3cef8889efa26f9",
           "type": "imageId",
         },
-        Object {
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
       ],
-      "identity": Object {
+      "identity": {
         "targetFile": "/app/pyproject.toml",
         "type": "poetry",
       },
-      "target": Object {
+      "target": {
         "image": "docker-image|poetry.tar",
       },
     },

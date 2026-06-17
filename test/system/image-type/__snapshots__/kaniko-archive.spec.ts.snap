@@ -1,34 +1,34 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`kaniko archive scanning should correctly scan a kaniko archive 1`] = `
-Object {
-  "scanResults": Array [
-    Object {
-      "facts": Array [
-        Object {
-          "data": Object {
-            "graph": Object {
-              "nodes": Array [
-                Object {
-                  "deps": Array [],
+{
+  "scanResults": [
+    {
+      "facts": [
+        {
+          "data": {
+            "graph": {
+              "nodes": [
+                {
+                  "deps": [],
                   "nodeId": "root-node",
                   "pkgId": "docker-image|kaniko-busybox.tar@",
                 },
               ],
               "rootNodeId": "root-node",
             },
-            "pkgManager": Object {
+            "pkgManager": {
               "name": "linux",
-              "repositories": Array [
-                Object {
+              "repositories": [
+                {
                   "alias": "unknown:0.0",
                 },
               ],
             },
-            "pkgs": Array [
-              Object {
+            "pkgs": [
+              {
                 "id": "docker-image|kaniko-busybox.tar@",
-                "info": Object {
+                "info": {
                   "name": "docker-image|kaniko-busybox.tar",
                   "version": undefined,
                 },
@@ -38,30 +38,30 @@ Object {
           },
           "type": "depGraph",
         },
-        Object {
+        {
           "data": "sha256:c5003bd0bae2d0bcb5419307c9cf54264a9e5783626caf218f8aa177173b7cf4",
           "type": "imageId",
         },
-        Object {
-          "data": Array [
+        {
+          "data": [
             "3a8623bc3269ca3a4a66522ced0d4c0052cc57cd1fa7f437e9678f547a5a8e4f.tar.gz",
           ],
           "type": "imageLayers",
         },
-        Object {
-          "data": Object {
-            "cmd": Array [
+        {
+          "data": {
+            "cmd": [
               "sh",
             ],
-            "env": Array [
+            "env": [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
           },
           "type": "containerConfig",
         },
-        Object {
-          "data": Array [
-            Object {
+        {
+          "data": [
+            {
               "author": "kaniko",
               "created": "0001-01-01T00:00:00Z",
               "createdBy": "ADD busybox.tar.gz /",
@@ -69,32 +69,32 @@ Object {
           ],
           "type": "history",
         },
-        Object {
+        {
           "data": "2025-02-01T18:19:26.85532607Z",
           "type": "imageCreationTime",
         },
-        Object {
-          "data": Array [
+        {
+          "data": [
             "sha256:2b299159176aca1d1237ec4955d09d1449646bef17befd28b3090e7450ddf6bc",
           ],
           "type": "rootFs",
         },
-        Object {
+        {
           "data": "linux/amd64",
           "type": "platform",
         },
-        Object {
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
       ],
-      "identity": Object {
-        "args": Object {
+      "identity": {
+        "args": {
           "platform": "linux/amd64",
         },
         "type": "linux",
       },
-      "target": Object {
+      "target": {
         "image": "docker-image|kaniko-busybox.tar",
       },
     },
