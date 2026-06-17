@@ -1740,7 +1740,6 @@ describe("buildResponse", () => {
       );
 
       const pkgNames = getDepPkgs(result.scanResults[0]).map((p) => p.name);
-      console.dir(pkgNames, { depth: null });
       expect(pkgNames).toEqual(
         expect.arrayContaining([
           "foo/foo",
