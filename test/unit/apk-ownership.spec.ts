@@ -204,6 +204,31 @@ describe("apk-ownership", () => {
     expect(ownership?.packageName).toBe("py-foo");
   });
 
+  it("returns undefined when one directory is declared by multiple packages", () => {
+    // On Chainguard node images, /usr/lib/node_modules is declared by both
+    // node-gyp and npm. Neither wholly owns it, so ownership is ambiguous and
+    // must fail closed rather than attributing the whole tree to an arbitrary one.
+    const packages = [
+      makePackage(
+        "node-gyp",
+        "13.0.0-r0",
+        "node-gyp",
+        [],
+        ["/usr/lib/node_modules"],
+      ),
+      makePackage("npm", "10.9.0-r0", "npm", [], ["/usr/lib/node_modules"]),
+    ];
+    const index = buildApkPathIndex(packages, symlinkGraph);
+    const ownership = resolveApkOwnership(
+      ["/usr/lib/node_modules"],
+      index,
+      symlinkGraph,
+      { name: "wolfi", version: "20230201", prettyName: "Wolfi" },
+    );
+
+    expect(ownership).toBeUndefined();
+  });
+
   it("returns undefined for a directory-depth tie between different owners", () => {
     const packages = [
       makePackage("pkg-a", "1-r0", "pkg-a", [], ["/usr/lib/a"]),

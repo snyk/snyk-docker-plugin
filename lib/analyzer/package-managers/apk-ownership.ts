@@ -105,7 +105,8 @@ function resolveDirectoryOwner(
 ): PathOwnerMatch | undefined {
   const segments = canonicalPath.split("/").filter(Boolean);
   let node = index.directoryTrie;
-  let best: PathOwnerMatch | undefined;
+  let deepestOwners: AnalyzedPackageWithVersion[] | undefined;
+  let deepestPrefix = 0;
 
   for (let i = 0; i < segments.length; i++) {
     const child = node.children.get(segments[i]);
@@ -114,15 +115,32 @@ function resolveDirectoryOwner(
     }
     node = child;
     if (node.owners.length > 0) {
-      best = {
-        owner: pickExactOwner(node.owners),
-        matchKind: "directory",
-        prefixLength: i + 1,
-      };
+      deepestOwners = node.owners;
+      deepestPrefix = i + 1;
     }
   }
 
-  return best;
+  if (!deepestOwners) {
+    return undefined;
+  }
+
+  // A directory declared by more than one distinct package is shared, so no
+  // single package wholly owns its contents. Fail closed rather than guess.
+  const owner = uniqueDeclaredOwner(deepestOwners);
+  if (!owner) {
+    return undefined;
+  }
+
+  return { owner, matchKind: "directory", prefixLength: deepestPrefix };
+}
+
+function uniqueDeclaredOwner(
+  owners: AnalyzedPackageWithVersion[],
+): AnalyzedPackageWithVersion | undefined {
+  const first = owners[0];
+  return owners.every((o) => ownerKey(o) === ownerKey(first))
+    ? first
+    : undefined;
 }
 
 /**
