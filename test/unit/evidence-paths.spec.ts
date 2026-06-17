@@ -21,9 +21,35 @@ describe("evidence-paths", () => {
     expect(extractEvidencePaths(scanResult)).toEqual(
       expect.arrayContaining([
         "/app/package.json",
-        "package-lock.json",
+        // basename testedFiles are anchored to the app directory, not "/"
+        "/app/package-lock.json",
         "/app/lib/foo.jar",
       ]),
     );
+  });
+
+  it("anchors basename testedFiles to the app directory of targetFile", () => {
+    const scanResult: AppDepsScanResultWithoutTarget = {
+      identity: { type: "composer", targetFile: "/srv/app/composer.lock" },
+      facts: [
+        { type: "testedFiles", data: ["composer.json", "composer.lock"] },
+      ],
+    };
+
+    expect(extractEvidencePaths(scanResult).sort()).toEqual([
+      "/srv/app/composer.json",
+      "/srv/app/composer.lock",
+    ]);
+  });
+
+  it("skips relative testedFiles when there is no targetFile to anchor to", () => {
+    const scanResult: AppDepsScanResultWithoutTarget = {
+      identity: { type: "composer" },
+      facts: [
+        { type: "testedFiles", data: ["composer.json", "/abs/path.jar"] },
+      ],
+    };
+
+    expect(extractEvidencePaths(scanResult)).toEqual(["/abs/path.jar"]);
   });
 });
