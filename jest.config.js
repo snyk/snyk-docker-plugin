@@ -23,10 +23,15 @@ module.exports = {
   // https://github.com/facebook/jest/issues/10550
   // https://snyk.slack.com/archives/CLW30N31V/p1602232569018000?thread_ts=1602230753.017500&cid=CLW30N31V
   transform: {
-    '^.+\\.tsx?$': [
-      'ts-jest', {
-        isolatedModules: true
+    "^.+\\.tsx?$": [
+      "ts-jest",
+      {
+        isolatedModules: true,
       },
     ],
   },
+  // Use 3 of 4 CircleCI cores
+  // https://github.com/jestjs/jest/issues/11956#issuecomment-1212925677
+  maxWorkers: 3,
+  reporters: ["default", ["jest-junit", { outputDirectory: "test/reports" }]],
 };
