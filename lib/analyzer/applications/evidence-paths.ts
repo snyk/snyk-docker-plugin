@@ -29,7 +29,14 @@ export function extractEvidencePaths(
   for (const fact of scanResult.facts) {
     if (fact.type === "testedFiles") {
       const testedFilesFact = fact as TestedFilesFact;
-      for (const filePath of testedFilesFact.data) {
+      // Some analyzers (node, pnpm) emit data as a bare string rather than the
+      // declared string[]. Treat a string as a single path so it isn't iterated
+      // character-by-character into bogus paths.
+      const testedFiles =
+        typeof testedFilesFact.data === "string"
+          ? [testedFilesFact.data as string]
+          : testedFilesFact.data;
+      for (const filePath of testedFiles) {
         addPath(filePath);
       }
     }
