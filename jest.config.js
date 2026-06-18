@@ -5,7 +5,6 @@ const shared = {
     "<rootDir>/test/matchers/setup.ts",
   ],
   testEnvironment: "node",
-  testTimeout: 600000, // 10 minutes
   // TODO: This is here until a bug in Jest (which in turn affects ts-jest) is resolved.
   // It affects our CI/CD runs and makes the machine run out of memory.
   // https://github.com/facebook/jest/issues/10550
@@ -21,6 +20,7 @@ const shared = {
 };
 
 module.exports = {
+  testTimeout: 600000, // 10 minutes
   // Use 3 of 4 CircleCI cores
   // https://github.com/jestjs/jest/issues/11956#issuecomment-1212925677
   maxWorkers: 3,
