@@ -50,7 +50,7 @@ module.exports = {
     },
     {
       ...shared,
-      displayName: "windows:docker",
+      displayName: "windows-docker",
       testMatch: [
         "<rootDir>/test/windows/lib/image-inspector.spec.ts",
         "<rootDir>/test/windows/registry-scan.spec.ts",

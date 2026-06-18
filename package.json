@@ -23,7 +23,7 @@
     "test:unit": "jest --logHeapUsage --colors --selectProjects unit",
     "test:system": "jest --logHeapUsage --colors --selectProjects system",
     "test:windows": "jest --logHeapUsage --colors --selectProjects windows",
-    "test:windows:docker": "jest --logHeapUsage --colors --selectProjects 'windows:docker'",
+    "test:windows:docker": "jest --logHeapUsage --colors --selectProjects windows-docker",
     "prepare": "npm run build"
   },
   "engines": {
