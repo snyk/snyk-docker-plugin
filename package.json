@@ -19,11 +19,11 @@
     "lint:eslint": "eslint \"{lib,test}/**/*.ts\"",
     "lint:commit": "commitlint --from=HEAD~1",
     "format": "prettier --loglevel warn --write '{lib,test}/**/*.ts' && eslint --fix '{lib,test}/**/*.ts'",
-    "test": "jest --logHeapUsage --colors",
-    "test:unit": "jest --logHeapUsage --colors --testPathPattern='test/(lib|unit)/'",
-    "test:system": "jest --logHeapUsage --colors --testPathPattern='test/system/'",
-    "test:windows": "jest --logHeapUsage --config test/windows/jest.config.js",
-    "test:windows:docker": "jest --logHeapUsage --config test/windows/jest.docker.config.js",
+    "test": "jest --logHeapUsage --colors --selectProjects unit system",
+    "test:unit": "jest --logHeapUsage --colors --selectProjects unit",
+    "test:system": "jest --logHeapUsage --colors --selectProjects system",
+    "test:windows": "jest --logHeapUsage --colors --selectProjects windows",
+    "test:windows:docker": "jest --logHeapUsage --colors --selectProjects windows-docker",
     "prepare": "npm run build"
   },
   "engines": {

@@ -93,7 +93,6 @@ aren't, say so explicitly rather than skipping silently.
 - **New tests must be Jest, with the `.spec.ts` suffix.** Files ending in
   `.test.ts` are legacy `tap` tests — do not add new ones, and prefer migrating
   rather than extending them.
-- Jest config: `jest.config.js` (root) and `test/windows/jest.config.js`.
 - System tests need:
   - A running Docker daemon (with "Use containerd for pulling and storing
     images" **disabled** in Docker Desktop — containerd causes SHA mismatches).
