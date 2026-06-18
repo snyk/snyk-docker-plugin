@@ -177,9 +177,6 @@ jobs:
           at: ~/snyk-docker-plugin
       - run:
           command: npm run test:unit
-          environment:
-            JEST_JUNIT_OUTPUT_DIR: ./test/reports
-            JEST_JUNIT_ADD_FILE_ATTRIBUTE: "true"
       - store_test_results:
           path: ./test/reports
   test_system:
@@ -192,9 +189,6 @@ jobs:
       - run:
           command: npm run test:system
           no_output_timeout: 20m
-          environment:
-            JEST_JUNIT_OUTPUT_DIR: ./test/reports
-            JEST_JUNIT_ADD_FILE_ATTRIBUTE: "true"
       - store_test_results:
           path: ./test/reports
   test_windows_with_docker:
@@ -217,9 +211,6 @@ jobs:
       - run:
           command: npm run test:windows:docker
           no_output_timeout: 20m
-          environment:
-            JEST_JUNIT_OUTPUT_DIR: ./test/reports
-            JEST_JUNIT_ADD_FILE_ATTRIBUTE: "true"
       - store_test_results:
           path: ./test/reports
   test_windows_no_docker:
@@ -243,9 +234,6 @@ jobs:
       - run:
           command: npm run test:windows
           no_output_timeout: 20m
-          environment:
-            JEST_JUNIT_OUTPUT_DIR: ./test/reports
-            JEST_JUNIT_ADD_FILE_ATTRIBUTE: "true"
       - store_test_results:
           path: ./test/reports
   build:

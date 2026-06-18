@@ -18,17 +18,16 @@ const shared = {
       },
     ],
   },
-  snapshotFormat: {
-    escapeString: true,
-    printBasicPrototype: true,
-  },
 };
 
 module.exports = {
   // Use 3 of 4 CircleCI cores
   // https://github.com/jestjs/jest/issues/11956#issuecomment-1212925677
   maxWorkers: 3,
-  reporters: ["default", ["jest-junit", { outputDirectory: "test/reports" }]],
+  reporters: [
+    "default",
+    ["jest-junit", { outputDirectory: "test/reports", addFileAttribute: true }],
+  ],
   projects: [
     {
       ...shared,
