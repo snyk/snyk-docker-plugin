@@ -25,6 +25,8 @@ export interface Extractor {
   ): string[];
 }
 
+export type SymlinkMap = Record<string, string>;
+
 export interface ExtractionResult {
   imageId: string;
   manifestLayers: string[];
@@ -37,6 +39,7 @@ export interface ExtractionResult {
    * Populated only when the `layer-attribution` option is enabled.
    */
   orderedLayers?: ExtractedLayers[];
+  symlinks?: SymlinkMap;
   rootFsLayers?: string[];
   autoDetectedUserInstructions?: AutoDetectedUserInstructions;
   platform?: string;
@@ -66,6 +69,7 @@ export interface KanikoArchiveManifest extends TarArchiveManifest {}
 
 export interface ExtractedLayersAndManifest {
   layers: ExtractedLayers[];
+  symlinkLayers?: SymlinkMap[];
   manifest: TarArchiveManifest | OciArchiveManifest;
   imageConfig: ImageConfig;
 }
