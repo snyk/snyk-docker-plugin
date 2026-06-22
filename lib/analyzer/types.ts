@@ -17,6 +17,10 @@ export interface AnalyzedPackage {
   };
   Purl?: string;
   AutoInstalled?: boolean;
+  /** File paths declared by APK installed-db R: records (F:+R:). */
+  Files?: string[];
+  /** Directory paths declared by APK installed-db F: and M: records. */
+  Directories?: string[];
 }
 export interface AnalyzedPackageWithVersion extends AnalyzedPackage {
   Version: string;
