@@ -44,8 +44,8 @@ const debug = Debug("snyk");
 
 const CHAINGUARD_DISTROS = new Set(["wolfi", "chainguard"]);
 
-export function isChainguardDistro(osRelease: OSRelease): boolean {
-  return CHAINGUARD_DISTROS.has(osRelease.name);
+export function isChainguardDistro(osRelease?: OSRelease): boolean {
+  return !!osRelease && CHAINGUARD_DISTROS.has(osRelease.name.toLowerCase());
 }
 
 export function toSymlinkGraph(symlinks?: SymlinkMap): SymlinkGraph {
@@ -105,7 +105,8 @@ function resolveDirectoryOwner(
 ): PathOwnerMatch | undefined {
   const segments = canonicalPath.split("/").filter(Boolean);
   let node = index.directoryTrie;
-  let best: PathOwnerMatch | undefined;
+  let deepestOwners: AnalyzedPackageWithVersion[] | undefined;
+  let deepestPrefix = 0;
 
   for (let i = 0; i < segments.length; i++) {
     const child = node.children.get(segments[i]);
@@ -114,15 +115,32 @@ function resolveDirectoryOwner(
     }
     node = child;
     if (node.owners.length > 0) {
-      best = {
-        owner: pickExactOwner(node.owners),
-        matchKind: "directory",
-        prefixLength: i + 1,
-      };
+      deepestOwners = node.owners;
+      deepestPrefix = i + 1;
     }
   }
 
-  return best;
+  if (!deepestOwners) {
+    return undefined;
+  }
+
+  // A directory declared by more than one distinct package is shared, so no
+  // single package wholly owns its contents. Fail closed rather than guess.
+  const owner = uniqueDeclaredOwner(deepestOwners);
+  if (!owner) {
+    return undefined;
+  }
+
+  return { owner, matchKind: "directory", prefixLength: deepestPrefix };
+}
+
+function uniqueDeclaredOwner(
+  owners: AnalyzedPackageWithVersion[],
+): AnalyzedPackageWithVersion | undefined {
+  const first = owners[0];
+  return owners.every((o) => ownerKey(o) === ownerKey(first))
+    ? first
+    : undefined;
 }
 
 /**
@@ -138,15 +156,14 @@ function resolveDirectoryOwner(
  */
 export function resolveApkOwnership(
   evidencePaths: string[],
-  packages: AnalyzedPackageWithVersion[],
-  osRelease: OSRelease,
+  index: ApkPathIndex,
   symlinkGraph: SymlinkGraph,
+  osRelease: OSRelease,
 ): ApkPackageOwnership | undefined {
   if (!isChainguardDistro(osRelease) || evidencePaths.length === 0) {
     return undefined;
   }
 
-  const index = buildApkPathIndex(packages, symlinkGraph);
   const perPathMatches: PathOwnerMatch[] = [];
 
   for (const evidencePath of evidencePaths) {

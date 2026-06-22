@@ -1,5 +1,6 @@
 import {
   buildApkPathIndex,
+  isChainguardDistro,
   resolveApkOwnership,
   resolveOwnerForEvidencePath,
 } from "../../lib/analyzer/package-managers/apk-ownership";
@@ -47,12 +48,12 @@ describe("apk-ownership", () => {
     const packages = [
       makePackage("nodejs", "20-r1", "nodejs", ["/usr/bin/node"], ["/usr/bin"]),
     ];
-    const ownership = resolveApkOwnership(
-      ["/bin/node"],
-      packages,
-      { name: "wolfi", version: "20230201", prettyName: "Wolfi" },
-      symlinkGraph,
-    );
+    const index = buildApkPathIndex(packages, symlinkGraph);
+    const ownership = resolveApkOwnership(["/bin/node"], index, symlinkGraph, {
+      name: "wolfi",
+      version: "20230201",
+      prettyName: "Wolfi",
+    });
 
     expect(ownership).toEqual({
       distroId: "wolfi",
@@ -67,11 +68,12 @@ describe("apk-ownership", () => {
     const packages = [
       makePackage("bash", "5.2-r1", "bash", ["/bin/bash"], ["/bin"]),
     ];
+    const index = buildApkPathIndex(packages, symlinkGraph);
     const ownership = resolveApkOwnership(
       ["/opt/custom/app"],
-      packages,
-      { name: "chainguard", version: "20230214", prettyName: "Chainguard" },
+      index,
       symlinkGraph,
+      { name: "chainguard", version: "20230214", prettyName: "Chainguard" },
     );
 
     expect(ownership).toBeUndefined();
@@ -81,11 +83,12 @@ describe("apk-ownership", () => {
     const packages = [
       makePackage("nodejs", "20-r1", "nodejs", ["/usr/bin/node"], ["/usr/bin"]),
     ];
+    const index = buildApkPathIndex(packages, symlinkGraph);
     const ownership = resolveApkOwnership(
       ["/usr/bin/node"],
-      packages,
-      { name: "alpine", version: "3.19", prettyName: "Alpine" },
+      index,
       symlinkGraph,
+      { name: "alpine", version: "3.19", prettyName: "Alpine" },
     );
 
     expect(ownership).toBeUndefined();
@@ -118,11 +121,12 @@ describe("apk-ownership", () => {
     const packages = [
       makePackage("nodejs", "20-r1", "nodejs", ["/usr/bin/node"], ["/usr/bin"]),
     ];
+    const index = buildApkPathIndex(packages, symlinkGraph);
     const ownership = resolveApkOwnership(
       ["/usr/bin/node", "/opt/custom/app.jar"],
-      packages,
-      { name: "wolfi", version: "20230201", prettyName: "Wolfi" },
+      index,
       symlinkGraph,
+      { name: "wolfi", version: "20230201", prettyName: "Wolfi" },
     );
 
     expect(ownership).toBeUndefined();
@@ -145,14 +149,15 @@ describe("apk-ownership", () => {
         ["/usr/share/java"],
       ),
     ];
+    const index = buildApkPathIndex(packages, symlinkGraph);
     const ownership = resolveApkOwnership(
       [
         "/usr/share/java/gradle/lib/gradle.jar", // exact: gradle
         "/usr/share/java/other.jar", // directory: java-common
       ],
-      packages,
-      { name: "wolfi", version: "20230201", prettyName: "Wolfi" },
+      index,
       symlinkGraph,
+      { name: "wolfi", version: "20230201", prettyName: "Wolfi" },
     );
 
     expect(ownership?.packageName).toBe("gradle");
@@ -163,11 +168,12 @@ describe("apk-ownership", () => {
       makePackage("pkg-a", "1-r0", "pkg-a", ["/usr/bin/a"], ["/usr/bin"]),
       makePackage("pkg-b", "1-r0", "pkg-b", ["/usr/bin/some-b"], ["/usr/bin"]),
     ];
+    const index = buildApkPathIndex(packages, symlinkGraph);
     const ownership = resolveApkOwnership(
       ["/usr/bin/a", "/usr/bin/some-b"],
-      packages,
-      { name: "wolfi", version: "20230201", prettyName: "Wolfi" },
+      index,
       symlinkGraph,
+      { name: "wolfi", version: "20230201", prettyName: "Wolfi" },
     );
 
     expect(ownership).toBeUndefined();
@@ -184,17 +190,43 @@ describe("apk-ownership", () => {
         ["/usr/lib/python3.12/site-packages/foo"],
       ),
     ];
+    const index = buildApkPathIndex(packages, symlinkGraph);
     const ownership = resolveApkOwnership(
       [
         "/usr/lib/python3.12/site-packages/foo/mod.py", // directory: py-foo (deeper)
         "/usr/lib/python3.12/abc.py", // directory: python (shallower)
       ],
-      packages,
-      { name: "wolfi", version: "20230201", prettyName: "Wolfi" },
+      index,
       symlinkGraph,
+      { name: "wolfi", version: "20230201", prettyName: "Wolfi" },
     );
 
     expect(ownership?.packageName).toBe("py-foo");
+  });
+
+  it("returns undefined when one directory is declared by multiple packages", () => {
+    // On Chainguard node images, /usr/lib/node_modules is declared by both
+    // node-gyp and npm. Neither wholly owns it, so ownership is ambiguous and
+    // must fail closed rather than attributing the whole tree to an arbitrary one.
+    const packages = [
+      makePackage(
+        "node-gyp",
+        "13.0.0-r0",
+        "node-gyp",
+        [],
+        ["/usr/lib/node_modules"],
+      ),
+      makePackage("npm", "10.9.0-r0", "npm", [], ["/usr/lib/node_modules"]),
+    ];
+    const index = buildApkPathIndex(packages, symlinkGraph);
+    const ownership = resolveApkOwnership(
+      ["/usr/lib/node_modules"],
+      index,
+      symlinkGraph,
+      { name: "wolfi", version: "20230201", prettyName: "Wolfi" },
+    );
+
+    expect(ownership).toBeUndefined();
   });
 
   it("returns undefined for a directory-depth tie between different owners", () => {
@@ -202,11 +234,12 @@ describe("apk-ownership", () => {
       makePackage("pkg-a", "1-r0", "pkg-a", [], ["/usr/lib/a"]),
       makePackage("pkg-b", "1-r0", "pkg-b", [], ["/usr/lib/b"]),
     ];
+    const index = buildApkPathIndex(packages, symlinkGraph);
     const ownership = resolveApkOwnership(
       ["/usr/lib/a/x.so", "/usr/lib/b/y.so"],
-      packages,
-      { name: "wolfi", version: "20230201", prettyName: "Wolfi" },
+      index,
       symlinkGraph,
+      { name: "wolfi", version: "20230201", prettyName: "Wolfi" },
     );
 
     expect(ownership).toBeUndefined();
@@ -221,5 +254,26 @@ describe("apk-ownership", () => {
     expect(index.exactFileOwners.get(canonicalApkPath)?.[0].Name).toBe(
       "nodejs",
     );
+  });
+
+  it("matches the distro id case-insensitively", () => {
+    expect(
+      isChainguardDistro({
+        name: "Wolfi",
+        version: "20230201",
+        prettyName: "",
+      }),
+    ).toBe(true);
+    expect(
+      isChainguardDistro({
+        name: "CHAINGUARD",
+        version: "20230214",
+        prettyName: "",
+      }),
+    ).toBe(true);
+    expect(
+      isChainguardDistro({ name: "alpine", version: "3.19", prettyName: "" }),
+    ).toBe(false);
+    expect(isChainguardDistro(undefined)).toBe(false);
   });
 });
