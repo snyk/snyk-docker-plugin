@@ -1,4 +1,11 @@
 import { legacy } from "@snyk/dep-graph";
+import { extractEvidencePaths } from "./analyzer/applications/evidence-paths";
+import {
+  buildApkPathIndex,
+  getApkPackagesFromResults,
+  resolveApkOwnership,
+  toSymlinkGraph,
+} from "./analyzer/package-managers/apk-ownership";
 import { IntroducingLayerByPackage, StaticAnalysis } from "./analyzer/types";
 import * as facts from "./facts";
 // Module that provides functions to collect and build response after all
@@ -240,6 +247,16 @@ async function buildResponse(
     additionalFacts.push(autoDetectedUserInstructionsFact);
   }
 
+  // The APK ownership inputs are image-global, so build the path index once
+  // here rather than rebuilding it for every application scan result below.
+  // resolveApkOwnership decides which distros the index actually applies to.
+  const osRelease = depsAnalysis.osRelease;
+  const apkSymlinkGraph = toSymlinkGraph(depsAnalysis.symlinks);
+  const apkPathIndex = buildApkPathIndex(
+    getApkPackagesFromResults(depsAnalysis.results),
+    apkSymlinkGraph,
+  );
+
   const applicationDependenciesScanResults: types.ScanResult[] = (
     depsAnalysis.applicationDependenciesScanResults || []
   ).map((appDepsScanResult) => {
@@ -291,6 +308,20 @@ async function buildResponse(
     //     appDepsScanResult.facts.push(historyFact);
     //   }
     // }
+
+    const ownership = resolveApkOwnership(
+      extractEvidencePaths(appDepsScanResult),
+      apkPathIndex,
+      apkSymlinkGraph,
+      osRelease,
+    );
+    if (ownership) {
+      const ownershipFact: facts.ApkPackageOwnershipFact = {
+        type: "apkPackageOwnership",
+        data: ownership,
+      };
+      appDepsScanResult.facts.push(ownershipFact);
+    }
 
     return {
       ...appDepsScanResult,

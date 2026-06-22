@@ -27,4 +27,22 @@ describe("path-canonicalization", () => {
       "/opt/app/binary",
     );
   });
+
+  it("resolves a symlink whose target sits under another symlinked directory", () => {
+    const symlinkGraph = new Map<string, string>([
+      ["/lib64", "/lib/x"],
+      ["/lib", "/usr/lib"],
+    ]);
+
+    expect(canonicalizePath("/lib64/foo", symlinkGraph)).toBe("/usr/lib/x/foo");
+  });
+
+  it("terminates on a symlink cycle instead of looping forever", () => {
+    const symlinkGraph = new Map<string, string>([
+      ["/a", "/b"],
+      ["/b", "/a"],
+    ]);
+
+    expect(canonicalizePath("/a/foo", symlinkGraph)).toMatch(/^\/(a|b)\/foo$/);
+  });
 });
