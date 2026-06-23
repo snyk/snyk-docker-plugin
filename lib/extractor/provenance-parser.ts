@@ -223,7 +223,7 @@ function getAttestedManifestDigest(statement: InTotoStatement): string | null {
     return null;
   }
 
-  const [algorithm, value] = Object.entries(digest)[0] ?? []; // Bella todo
+  const [algorithm, value] = Object.entries(digest)[0] ?? [];
   if (!algorithm || !value) {
     return null;
   }
