@@ -2,28 +2,31 @@ import {
   parseProvenanceAttestations,
   ProvenanceMetadata,
 } from "../../../lib/extractor/provenance-parser";
-import { ProvenanceAttestation } from "../../../lib/extractor/types";
+import { ResolvedProvenanceAttestationManifest } from "../../../lib/extractor/types";
 
 function makeRawAttestation(
   inTotoStatement: Record<string, unknown>,
-): ProvenanceAttestation {
+): ResolvedProvenanceAttestationManifest {
+  const layerDigest = "sha256:layerdigest";
   return {
-    attestationManifestDigest: "sha256:abc123",
-    mediaType: "application/vnd.oci.image.manifest.v1+json",
-    annotations: {
-      "vnd.docker.reference.digest": "sha256:targetdigest",
-      "vnd.docker.reference.type": "attestation-manifest",
-    },
-    provenanceLayers: [
-      {
-        digest: "sha256:layerdigest",
-        mediaType: "application/vnd.in-toto+json",
-        annotations: {
-          "in-toto.io/predicate-type": "https://slsa.dev/provenance/v0.2",
+    manifestDigest: "sha256:abc123",
+    manifest: {
+      schemaVersion: "2",
+      mediaType: "application/vnd.oci.image.manifest.v1+json",
+      config: { digest: "sha256:config" },
+      layers: [
+        {
+          digest: layerDigest,
+          mediaType: "application/vnd.in-toto+json",
+          annotations: {
+            "in-toto.io/predicate-type": "https://slsa.dev/provenance/v0.2",
+          },
         },
-        inTotoStatement: inTotoStatement as any,
-      },
-    ],
+      ],
+    },
+    inTotoStatements: {
+      [layerDigest]: inTotoStatement as any,
+    },
   };
 }
 
@@ -341,29 +344,32 @@ describe("provenance-parser", () => {
 
   describe("attestation digest", () => {
     it("surfaces the attestation manifest digest distinct from the image digest", async () => {
-      const attestation: ProvenanceAttestation = {
-        attestationManifestDigest: "sha256:attestationmanifest",
-        mediaType: "application/vnd.oci.image.manifest.v1+json",
-        annotations: {
-          "vnd.docker.reference.type": "attestation-manifest",
+      const attestation: ResolvedProvenanceAttestationManifest = {
+        manifestDigest: "sha256:attestationmanifest",
+        manifest: {
+          schemaVersion: "2",
+          mediaType: "application/vnd.oci.image.manifest.v1+json",
+          config: { digest: "sha256:config" },
+          layers: [
+            {
+              digest: "sha256:layerdigest",
+              mediaType: "application/vnd.in-toto+json",
+            },
+          ],
         },
-        provenanceLayers: [
-          {
-            digest: "sha256:layerdigest",
-            mediaType: "application/vnd.in-toto+json",
-            inTotoStatement: {
-              _type: "https://in-toto.io/Statement/v0.1",
-              predicateType: "https://slsa.dev/provenance/v0.2",
-              subject: [{ name: "test", digest: { sha256: "imagedigest" } }],
-              predicate: {
-                builder: { id: "buildkit" },
-                buildType: "test",
-                metadata: { buildStartedOn: "2025-01-01T00:00:00Z" },
-                invocation: { configSource: {} },
-              },
-            } as any,
-          },
-        ],
+        inTotoStatements: {
+          "sha256:layerdigest": {
+            _type: "https://in-toto.io/Statement/v0.1",
+            predicateType: "https://slsa.dev/provenance/v0.2",
+            subject: [{ name: "test", digest: { sha256: "imagedigest" } }],
+            predicate: {
+              builder: { id: "buildkit" },
+              buildType: "test",
+              metadata: { buildStartedOn: "2025-01-01T00:00:00Z" },
+              invocation: { configSource: {} },
+            },
+          } as any,
+        },
       };
 
       const result = await parseProvenanceAttestations([attestation]);
@@ -378,7 +384,7 @@ describe("provenance-parser", () => {
 
   describe("limits and edge cases", () => {
     it("limits to 10 attestations per image", async () => {
-      const attestations: ProvenanceAttestation[] = Array.from(
+      const attestations: ResolvedProvenanceAttestationManifest[] = Array.from(
         { length: 15 },
         (_, i) =>
           makeRawAttestation({
@@ -407,27 +413,32 @@ describe("provenance-parser", () => {
     it("selects the same digest-sorted subset regardless of input order when over the limit", async () => {
       const makeAttestationWithDigest = (
         manifestDigest: string,
-      ): ProvenanceAttestation => ({
-        attestationManifestDigest: manifestDigest,
-        mediaType: "application/vnd.oci.image.manifest.v1+json",
-        annotations: { "vnd.docker.reference.type": "attestation-manifest" },
-        provenanceLayers: [
-          {
-            digest: "sha256:layer",
-            mediaType: "application/vnd.in-toto+json",
-            inTotoStatement: {
-              _type: "https://in-toto.io/Statement/v0.1",
-              predicateType: "https://slsa.dev/provenance/v0.2",
-              subject: [{ name: "test", digest: { sha256: "img" } }],
-              predicate: {
-                builder: { id: "buildkit" },
-                buildType: "test",
-                metadata: { buildStartedOn: "2025-01-01T00:00:00Z" },
-                invocation: { configSource: {} },
-              },
-            } as any,
-          },
-        ],
+      ): ResolvedProvenanceAttestationManifest => ({
+        manifestDigest,
+        manifest: {
+          schemaVersion: "2",
+          mediaType: "application/vnd.oci.image.manifest.v1+json",
+          config: { digest: "sha256:config" },
+          layers: [
+            {
+              digest: "sha256:layer",
+              mediaType: "application/vnd.in-toto+json",
+            },
+          ],
+        },
+        inTotoStatements: {
+          "sha256:layer": {
+            _type: "https://in-toto.io/Statement/v0.1",
+            predicateType: "https://slsa.dev/provenance/v0.2",
+            subject: [{ name: "test", digest: { sha256: "img" } }],
+            predicate: {
+              builder: { id: "buildkit" },
+              buildType: "test",
+              metadata: { buildStartedOn: "2025-01-01T00:00:00Z" },
+              invocation: { configSource: {} },
+            },
+          } as any,
+        },
       });
 
       const digests = Array.from(
@@ -451,16 +462,20 @@ describe("provenance-parser", () => {
     });
 
     it("skips layers without inTotoStatement", async () => {
-      const attestation: ProvenanceAttestation = {
-        attestationManifestDigest: "sha256:abc",
-        mediaType: "application/vnd.oci.image.manifest.v1+json",
-        annotations: {},
-        provenanceLayers: [
-          {
-            digest: "sha256:noblob",
-            mediaType: "application/vnd.in-toto+json",
-          },
-        ],
+      const attestation: ResolvedProvenanceAttestationManifest = {
+        manifestDigest: "sha256:abc",
+        manifest: {
+          schemaVersion: "2",
+          mediaType: "application/vnd.oci.image.manifest.v1+json",
+          config: { digest: "sha256:config" },
+          layers: [
+            {
+              digest: "sha256:noblob",
+              mediaType: "application/vnd.in-toto+json",
+            },
+          ],
+        },
+        inTotoStatements: {},
       };
 
       const result = await parseProvenanceAttestations([attestation]);

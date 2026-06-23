@@ -19,7 +19,7 @@ import {
   OciImageIndex,
   OciManifestInfo,
   OciPlatformInfo,
-  ProvenanceAttestation,
+  ResolvedProvenanceAttestationManifest,
 } from "../types";
 
 const debug = Debug("snyk");
@@ -382,7 +382,7 @@ function resolveManifestAndConfig(
 ): {
   manifest: OciArchiveManifest;
   imageConfig: ImageConfig;
-  provenanceAttestations: ProvenanceAttestation[];
+  provenanceAttestations: ResolvedProvenanceAttestationManifest[];
 } {
   const filteredConfigs = metadata.configs.filter((config) => {
     return config?.os !== "unknown" || config?.architecture !== "unknown";
@@ -566,8 +566,8 @@ function getImageConfig(
 function extractProvenanceAttestations(
   metadata: ArchiveMetadata,
   imageManifestDigest: string | undefined,
-): ProvenanceAttestation[] {
-  const attestations: ProvenanceAttestation[] = [];
+): ResolvedProvenanceAttestationManifest[] {
+  const attestations: ResolvedProvenanceAttestationManifest[] = [];
 
   if (!metadata.mainIndexFile) {
     return attestations;
@@ -606,33 +606,22 @@ function extractProvenanceAttestations(
       continue;
     }
 
-    const attestation: ProvenanceAttestation = {
-      attestationManifestDigest: descriptor.digest,
-      mediaType: descriptor.mediaType,
-      annotations: descriptor.annotations || {},
-      provenanceLayers: attestationManifest.layers.map((layer) => ({
-        digest: layer.digest,
-        mediaType: layer.mediaType,
-        annotations: layer.annotations,
-      })),
-    };
-
-    attestations.push(attestation);
+    attestations.push({
+      manifestDigest: descriptor.digest,
+      manifest: attestationManifest,
+      inTotoStatements: {},
+    });
   }
 
   return attestations;
 }
 
-/**
- * Collects the digests of in-toto attestation blobs that need to be fetched in
- * pass 2 (the layer-extraction pass).
- */
 function collectInTotoDigests(
-  attestations: ProvenanceAttestation[],
+  attestations: ResolvedProvenanceAttestationManifest[],
 ): Set<string> {
   const digests = new Set<string>();
   for (const attestation of attestations) {
-    for (const layer of attestation.provenanceLayers) {
+    for (const layer of attestation.manifest.layers) {
       if (layer.mediaType === MEDIATYPE_IN_TOTO) {
         digests.add(layer.digest);
       }
@@ -641,22 +630,18 @@ function collectInTotoDigests(
   return digests;
 }
 
-/**
- * Attaches the in-toto statements fetched in pass 2 back onto their attestation
- * layers, matching by blob digest.
- */
 function attachInTotoStatements(
-  attestations: ProvenanceAttestation[],
+  attestations: ResolvedProvenanceAttestationManifest[],
   inTotoStatements: Record<string, InTotoStatement>,
 ): void {
   for (const attestation of attestations) {
-    for (const layer of attestation.provenanceLayers) {
+    for (const layer of attestation.manifest.layers) {
       if (layer.mediaType !== MEDIATYPE_IN_TOTO) {
         continue;
       }
       const statement = inTotoStatements[layer.digest];
       if (statement) {
-        layer.inTotoStatement = statement;
+        attestation.inTotoStatements[layer.digest] = statement;
       }
     }
   }

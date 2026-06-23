@@ -1,7 +1,10 @@
 import * as Debug from "debug";
 import { analyseDockerfile } from "../dockerfile";
 import { DockerFileAnalysis } from "../dockerfile/types";
-import { InTotoStatement, ProvenanceAttestation } from "./types";
+import {
+  InTotoStatement,
+  ResolvedProvenanceAttestationManifest,
+} from "./types";
 
 const debug = Debug("snyk");
 
@@ -287,20 +290,20 @@ async function parseStatement(
 }
 
 export async function parseProvenanceAttestations(
-  attestationManifests: ProvenanceAttestation[],
+  attestationManifests: ResolvedProvenanceAttestationManifest[],
 ): Promise<ProvenanceMetadata[]> {
   const results: ProvenanceMetadata[] = [];
 
   const sortedManifests = [...attestationManifests].sort((a, b) =>
-    a.attestationManifestDigest.localeCompare(b.attestationManifestDigest),
+    a.manifestDigest.localeCompare(b.manifestDigest),
   );
 
-  for (const manifest of sortedManifests) {
-    const sortedLayers = [...manifest.provenanceLayers].sort((a, b) =>
+  for (const attestation of sortedManifests) {
+    const sortedLayers = [...attestation.manifest.layers].sort((a, b) =>
       a.digest.localeCompare(b.digest),
     );
 
-    for (const provenanceLayer of sortedLayers) {
+    for (const layer of sortedLayers) {
       if (results.length >= MAX_ATTESTATIONS_PER_IMAGE) {
         debug(
           `[provenance] Reached max attestation limit (${MAX_ATTESTATIONS_PER_IMAGE}), skipping remaining`,
@@ -308,13 +311,14 @@ export async function parseProvenanceAttestations(
         return results;
       }
 
-      if (!provenanceLayer.inTotoStatement) {
+      const inTotoStatement = attestation.inTotoStatements[layer.digest];
+      if (!inTotoStatement) {
         continue;
       }
 
       const parsed = await parseStatement(
-        provenanceLayer.inTotoStatement,
-        manifest.attestationManifestDigest,
+        inTotoStatement,
+        attestation.manifestDigest,
       );
       if (parsed) {
         results.push(parsed);
