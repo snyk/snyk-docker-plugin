@@ -116,7 +116,7 @@ function getConfigSourceCommit(digest?: {
   return `${algorithm}:${value}`;
 }
 
-async function extractFieldsSlsa02(
+async function extractFieldsSlsaV0_2(
   predicate: SlsaPredicateV0_2,
   attestedManifestDigest: string,
   attestationManifestDigest: string,
@@ -166,7 +166,7 @@ async function extractFieldsSlsa02(
   };
 }
 
-async function extractFieldsSlsa10(
+async function extractFieldsSlsaV1_0(
   predicate: SlsaPredicateV1_0,
   attestedManifestDigest: string,
   attestationManifestDigest: string,
@@ -268,13 +268,13 @@ async function parseStatement(
 
   switch (version) {
     case "https://slsa.dev/provenance/v0.2":
-      return extractFieldsSlsa02(
+      return extractFieldsSlsaV0_2(
         predicate as SlsaPredicateV0_2,
         attestedManifestDigest,
         attestationManifestDigest,
       );
     case "https://slsa.dev/provenance/v1":
-      return extractFieldsSlsa10(
+      return extractFieldsSlsaV1_0(
         predicate as SlsaPredicateV1_0,
         attestedManifestDigest,
         attestationManifestDigest,
