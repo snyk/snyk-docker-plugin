@@ -246,6 +246,7 @@ function getSlsaProvenanceVersion(
 async function parseStatement(
   statement: InTotoStatement,
   attestationManifestDigest: string,
+  attestedManifestDigest: string | undefined,
 ): Promise<ProvenanceMetadata | null> {
   const predicate = statement.predicate;
   if (!predicate) {
@@ -253,9 +254,10 @@ async function parseStatement(
     return null;
   }
 
-  const attestedManifestDigest = getAttestedManifestDigest(statement);
-  if (!attestedManifestDigest) {
-    debug("[provenance] No valid subject digest in in-toto statement");
+  const resolvedAttestedManifestDigest =
+    attestedManifestDigest || getAttestedManifestDigest(statement);
+  if (!resolvedAttestedManifestDigest) {
+    debug("[provenance] Could not determine the attested manifest digest");
     return null;
   }
 
@@ -270,13 +272,13 @@ async function parseStatement(
     case "https://slsa.dev/provenance/v0.2":
       return extractFieldsSlsaV0_2(
         predicate as SlsaPredicateV0_2,
-        attestedManifestDigest,
+        resolvedAttestedManifestDigest,
         attestationManifestDigest,
       );
     case "https://slsa.dev/provenance/v1":
       return extractFieldsSlsaV1_0(
         predicate as SlsaPredicateV1_0,
-        attestedManifestDigest,
+        resolvedAttestedManifestDigest,
         attestationManifestDigest,
       );
     default: {
@@ -316,6 +318,7 @@ export async function parseProvenanceAttestations(
       const parsed = await parseStatement(
         inTotoStatement,
         attestation.manifestDigest,
+        attestation.attestedManifestDigest,
       );
       if (parsed) {
         results.push(parsed);

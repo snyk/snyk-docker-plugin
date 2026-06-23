@@ -607,6 +607,7 @@ function extractAttestations(
 
     attestations.push({
       manifestDigest: descriptor.digest,
+      attestedManifestDigest: imageManifestDigest,
       manifest: attestationManifest,
       inTotoStatements: {},
     });

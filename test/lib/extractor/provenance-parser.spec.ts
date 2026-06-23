@@ -346,6 +346,7 @@ describe("provenance-parser", () => {
     it("surfaces the attestation manifest digest distinct from the image digest", async () => {
       const attestation: ResolvedAttestationManifest = {
         manifestDigest: "sha256:attestationmanifest",
+        attestedManifestDigest: "sha256:imagedigest",
         manifest: {
           schemaVersion: "2",
           mediaType: "application/vnd.oci.image.manifest.v1+json",
@@ -361,7 +362,7 @@ describe("provenance-parser", () => {
           "sha256:layerdigest": {
             _type: "https://in-toto.io/Statement/v0.1",
             predicateType: "https://slsa.dev/provenance/v0.2",
-            subject: [{ name: "test", digest: { sha256: "imagedigest" } }],
+            subject: [{ name: "test", digest: { sha256: "differentsubject" } }],
             predicate: {
               builder: { id: "buildkit" },
               buildType: "test",

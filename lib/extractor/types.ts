@@ -142,6 +142,7 @@ export interface InTotoStatement {
 
 export interface ResolvedAttestationManifest {
   manifestDigest: string;
+  attestedManifestDigest?: string;
   manifest: OciArchiveManifest;
   inTotoStatements: Record<string, InTotoStatement>;
 }
