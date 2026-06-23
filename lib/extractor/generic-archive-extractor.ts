@@ -15,10 +15,9 @@ export class InvalidArchiveError extends Error {
   }
 }
 import { HashAlgorithm, PluginOptions } from "../types";
-import { extractImageLayer } from "./layer";
+import { extractImageLayer, LayerExtractionResult } from "./layer";
 import {
   ExtractAction,
-  ExtractedLayers,
   ExtractedLayersAndManifest,
   ImageConfig,
   TarArchiveManifest,
@@ -60,7 +59,7 @@ export function createExtractArchive(
   return (archiveFilesystemPath, extractActions, _options) =>
     new Promise((resolve, reject) => {
       const tarExtractor: Extract = extract();
-      const layers: Record<string, ExtractedLayers> = {};
+      const layers: Record<string, LayerExtractionResult> = {};
       let manifest: TarArchiveManifest;
       let imageConfig: ImageConfig;
 
@@ -124,22 +123,23 @@ export function createExtractArchive(
 function assembleLayersAndManifest(
   manifest: TarArchiveManifest,
   imageConfig: ImageConfig,
-  layers: Record<string, ExtractedLayers>,
+  layers: Record<string, LayerExtractionResult>,
 ): ExtractedLayersAndManifest {
   const layersWithNormalizedNames = manifest.Layers.map((layerName) =>
     normalizePath(layerName),
   );
-  const filteredLayers = layersWithNormalizedNames
+  const filteredLayerResults = layersWithNormalizedNames
     .filter((layerName) => layers[layerName])
     .map((layerName) => layers[layerName])
     .reverse();
 
-  if (filteredLayers.length === 0) {
+  if (filteredLayerResults.length === 0) {
     throw new Error("We found no layers in the provided image");
   }
 
   return {
-    layers: filteredLayers,
+    layers: filteredLayerResults.map((r) => r.extractedLayers),
+    symlinkLayers: filteredLayerResults.map((r) => r.symlinks),
     manifest,
     imageConfig,
   };

@@ -25,10 +25,21 @@ export interface Extractor {
   ): string[];
 }
 
+export type SymlinkMap = Record<string, string>;
+
 export interface ExtractionResult {
   imageId: string;
   manifestLayers: string[];
   extractedLayers: ExtractedLayers;
+  /**
+   * Per-layer extracted file contents in FROM->top order, aligned 1:1 with
+   * `rootFsLayers` (index `i` is the same rootfs layer in both). Unlike
+   * `extractedLayers` (a single "latest wins" merge across all layers), this
+   * preserves the per-layer view the layer-attribution algorithm diffs.
+   * Populated only when the `layer-attribution` option is enabled.
+   */
+  orderedLayers?: ExtractedLayers[];
+  symlinks?: SymlinkMap;
   rootFsLayers?: string[];
   autoDetectedUserInstructions?: AutoDetectedUserInstructions;
   platform?: string;
@@ -59,6 +70,7 @@ export interface KanikoArchiveManifest extends TarArchiveManifest {}
 
 export interface ExtractedLayersAndManifest {
   layers: ExtractedLayers[];
+  symlinkLayers?: SymlinkMap[];
   manifest: TarArchiveManifest | OciArchiveManifest;
   imageConfig: ImageConfig;
   attestations?: ResolvedAttestationManifest[];

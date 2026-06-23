@@ -1,5 +1,5 @@
 import { ImageName } from "../extractor/image";
-import { ResolvedAttestationManifest } from "../extractor/types";
+import { ResolvedAttestationManifest, SymlinkMap } from "../extractor/types";
 import { BaseRuntime } from "../facts";
 import { AutoDetectedUserInstructions, ManifestFile } from "../types";
 import {
@@ -18,6 +18,10 @@ export interface AnalyzedPackage {
   };
   Purl?: string;
   AutoInstalled?: boolean;
+  /** File paths declared by APK installed-db R: records (F:+R:). */
+  Files?: string[];
+  /** Directory paths declared by APK installed-db F: and M: records. */
+  Directories?: string[];
 }
 export interface AnalyzedPackageWithVersion extends AnalyzedPackage {
   Version: string;
@@ -46,6 +50,21 @@ export enum AnalysisType {
   Binaries = "binaries",
   Linux = "linux", // default/unknown/tech-debt
 }
+
+/**
+ * Per-package introducing-layer diffID, keyed by the canonical
+ * dep-graph node name `<fullName>@<version>` (where `fullName` is the
+ * string minted by `depFullName`: `<source>/<binary>` for OS packages
+ * with a known source/origin, else `<binary>`). Value is the
+ * `sha256:…` diffID of the rootfs layer that introduced the surviving
+ * copy of the package.
+ *
+ * Shared between the producer (`computeOsLayerAttribution` and friends
+ * in `lib/analyzer/layer-attribution.ts`) and the consumer
+ * (`response-builder.annotateDockerLayerDiffIds`, which stamps the
+ * `dockerLayerDiffId` label on each matching dep-graph node).
+ */
+export type IntroducingLayerByPackage = Map<string, string>;
 
 export interface OSRelease {
   name: string;
@@ -80,6 +99,25 @@ export interface StaticAnalysis {
   baseRuntimes?: BaseRuntime[];
   imageLayers: string[];
   rootFsLayers?: string[];
+  /**
+   * Per-package introducing-layer diffID. Populated only when the
+   * `layer-attribution` option is enabled and an OS package manager
+   * attribution succeeded.
+   *
+   * Consumed by `response-builder` to annotate dep-graph nodes with
+   * the new `dockerLayerDiffId` label, which the backend then joins to
+   * a `createdBy` instruction at read time using the duplicated
+   * `rootFs` / `history` facts on the same scan result.
+   */
+  introducingLayerByPackage?: IntroducingLayerByPackage;
+  /**
+   * Non-fatal warnings produced by the layer-attribution path (e.g. the
+   * image's `history` array does not align 1:1 with `rootfs.diff_ids[]`).
+   * Surfaced to the user via the `pluginWarnings` fact. The per-package
+   * `dockerLayerDiffId` labels remain correct; these messages flag that
+   * downstream joins from diffID to Dockerfile instruction may not work.
+   */
+  layerAttributionWarnings?: string[];
   autoDetectedUserInstructions?: AutoDetectedUserInstructions;
   applicationDependenciesScanResults: AppDepsScanResultWithoutTarget[];
   manifestFiles: ManifestFile[];
@@ -105,6 +143,7 @@ export interface StaticAnalysis {
     empty_layer?: boolean | null;
   }> | null;
   attestations?: ResolvedAttestationManifest[];
+  symlinks?: SymlinkMap;
   timings?: Record<string, number>;
 }
 

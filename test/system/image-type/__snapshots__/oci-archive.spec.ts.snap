@@ -1,34 +1,34 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`oci archive scanning should correctly scan a busybox oci archive 1`] = `
-Object {
-  "scanResults": Array [
-    Object {
-      "facts": Array [
-        Object {
-          "data": Object {
-            "graph": Object {
-              "nodes": Array [
-                Object {
-                  "deps": Array [],
+{
+  "scanResults": [
+    {
+      "facts": [
+        {
+          "data": {
+            "graph": {
+              "nodes": [
+                {
+                  "deps": [],
                   "nodeId": "root-node",
                   "pkgId": "docker-image|busybox-1.31.1.tar@",
                 },
               ],
               "rootNodeId": "root-node",
             },
-            "pkgManager": Object {
+            "pkgManager": {
               "name": "linux",
-              "repositories": Array [
-                Object {
+              "repositories": [
+                {
                   "alias": "unknown:0.0",
                 },
               ],
             },
-            "pkgs": Array [
-              Object {
+            "pkgs": [
+              {
                 "id": "docker-image|busybox-1.31.1.tar@",
-                "info": Object {
+                "info": {
                   "name": "docker-image|busybox-1.31.1.tar",
                   "version": undefined,
                 },
@@ -38,67 +38,67 @@ Object {
           },
           "type": "depGraph",
         },
-        Object {
+        {
           "data": "sha256:2f2d4db2ef818c1c897eb71421e8a250daf19e21a4ec4c00a549b16ed0c2b46b",
           "type": "imageId",
         },
-        Object {
-          "data": Array [
+        {
+          "data": [
             "sha256:76df9210b28cbd4bc127844914d0a23937ed213048dc6289b2a2d4f7d675c75e",
           ],
           "type": "imageLayers",
         },
-        Object {
-          "data": Object {
-            "cmd": Array [
+        {
+          "data": {
+            "cmd": [
               "sh",
             ],
-            "env": Array [
+            "env": [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
           },
           "type": "containerConfig",
         },
-        Object {
-          "data": Array [
-            Object {
+        {
+          "data": [
+            {
               "created": "2020-06-02T21:19:57.100247864Z",
               "createdBy": "/bin/sh -c #(nop) ADD file:a84c53d2fe5207d17b5110e1eeeff0ab5d7ca831d743070eab1e87dc74129049 in / ",
             },
-            Object {
+            {
               "created": "2020-06-02T21:19:57.279412246Z",
-              "createdBy": "/bin/sh -c #(nop)  CMD [\\"sh\\"]",
+              "createdBy": "/bin/sh -c #(nop)  CMD ["sh"]",
               "emptyLayer": true,
             },
           ],
           "type": "history",
         },
-        Object {
+        {
           "data": "2020-06-02T21:19:57.279412246Z",
           "type": "imageCreationTime",
         },
-        Object {
-          "data": Array [
+        {
+          "data": [
             "sha256:1be74353c3d0fd55fb5638a52953e6f1bc441e5b1710921db9ec2aa202725569",
           ],
           "type": "rootFs",
         },
-        Object {
+        {
           "data": "linux/amd64",
           "type": "platform",
         },
-        Object {
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
       ],
-      "identity": Object {
-        "args": Object {
+      "identity": {
+        "args": {
           "platform": "linux/amd64",
         },
         "type": "linux",
       },
-      "target": Object {
+      "target": {
         "image": "docker-image|busybox-1.31.1.tar",
       },
     },
@@ -107,235 +107,235 @@ Object {
 `;
 
 exports[`oci archive scanning should correctly scan an oci archive 1`] = `
-Object {
-  "scanResults": Array [
-    Object {
-      "facts": Array [
-        Object {
-          "data": Object {
-            "graph": Object {
-              "nodes": Array [
-                Object {
-                  "deps": Array [
-                    Object {
+{
+  "scanResults": [
+    {
+      "facts": [
+        {
+          "data": {
+            "graph": {
+              "nodes": [
+                {
+                  "deps": [
+                    {
                       "nodeId": "alpine-baselayout/alpine-baselayout@3.2.0-r6",
                     },
-                    Object {
+                    {
                       "nodeId": "alpine-keys/alpine-keys@2.2-r0",
                     },
-                    Object {
+                    {
                       "nodeId": "apk-tools/apk-tools@2.10.5-r1",
                     },
-                    Object {
+                    {
                       "nodeId": "busybox/busybox@1.31.1-r16|2",
                     },
-                    Object {
+                    {
                       "nodeId": "busybox/ssl_client@1.31.1-r16",
                     },
-                    Object {
+                    {
                       "nodeId": "ca-certificates/ca-certificates-bundle@20191127-r2",
                     },
-                    Object {
+                    {
                       "nodeId": "libc-dev/libc-utils@0.7.2-r3",
                     },
-                    Object {
+                    {
                       "nodeId": "libtls-standalone/libtls-standalone@2.9.1-r1|2",
                     },
-                    Object {
+                    {
                       "nodeId": "musl/musl@1.1.24-r8",
                     },
-                    Object {
+                    {
                       "nodeId": "musl/musl-utils@1.1.24-r8|2",
                     },
-                    Object {
+                    {
                       "nodeId": "openssl/libcrypto1.1@1.1.1g-r0|2",
                     },
-                    Object {
+                    {
                       "nodeId": "openssl/libssl1.1@1.1.1g-r0|2",
                     },
-                    Object {
+                    {
                       "nodeId": "pax-utils/scanelf@1.2.6-r0|2",
                     },
-                    Object {
+                    {
                       "nodeId": "zlib/zlib@1.2.11-r3|2",
                     },
                   ],
                   "nodeId": "root-node",
                   "pkgId": "docker-image|alpine-3.12.0.tar@",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "busybox/busybox@1.31.1-r16|1",
                   "pkgId": "busybox/busybox@1.31.1-r16",
                 },
-                Object {
-                  "deps": Array [
-                    Object {
+                {
+                  "deps": [
+                    {
                       "nodeId": "musl/musl@1.1.24-r8",
                     },
                   ],
                   "nodeId": "busybox/busybox@1.31.1-r16|2",
                   "pkgId": "busybox/busybox@1.31.1-r16",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "musl/musl@1.1.24-r8",
                   "pkgId": "musl/musl@1.1.24-r8",
                 },
-                Object {
-                  "deps": Array [
-                    Object {
+                {
+                  "deps": [
+                    {
                       "nodeId": "busybox/busybox@1.31.1-r16|1",
                     },
-                    Object {
+                    {
                       "nodeId": "musl/musl@1.1.24-r8",
                     },
                   ],
                   "nodeId": "alpine-baselayout/alpine-baselayout@3.2.0-r6",
                   "pkgId": "alpine-baselayout/alpine-baselayout@3.2.0-r6",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "alpine-keys/alpine-keys@2.2-r0",
                   "pkgId": "alpine-keys/alpine-keys@2.2-r0",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "openssl/libcrypto1.1@1.1.1g-r0|1",
                   "pkgId": "openssl/libcrypto1.1@1.1.1g-r0",
                 },
-                Object {
-                  "deps": Array [
-                    Object {
+                {
+                  "deps": [
+                    {
                       "nodeId": "musl/musl@1.1.24-r8",
                     },
                   ],
                   "nodeId": "openssl/libcrypto1.1@1.1.1g-r0|2",
                   "pkgId": "openssl/libcrypto1.1@1.1.1g-r0",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "openssl/libssl1.1@1.1.1g-r0|1",
                   "pkgId": "openssl/libssl1.1@1.1.1g-r0",
                 },
-                Object {
-                  "deps": Array [
-                    Object {
+                {
+                  "deps": [
+                    {
                       "nodeId": "musl/musl@1.1.24-r8",
                     },
-                    Object {
+                    {
                       "nodeId": "openssl/libcrypto1.1@1.1.1g-r0|1",
                     },
                   ],
                   "nodeId": "openssl/libssl1.1@1.1.1g-r0|2",
                   "pkgId": "openssl/libssl1.1@1.1.1g-r0",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "zlib/zlib@1.2.11-r3|1",
                   "pkgId": "zlib/zlib@1.2.11-r3",
                 },
-                Object {
-                  "deps": Array [
-                    Object {
+                {
+                  "deps": [
+                    {
                       "nodeId": "musl/musl@1.1.24-r8",
                     },
                   ],
                   "nodeId": "zlib/zlib@1.2.11-r3|2",
                   "pkgId": "zlib/zlib@1.2.11-r3",
                 },
-                Object {
-                  "deps": Array [
-                    Object {
+                {
+                  "deps": [
+                    {
                       "nodeId": "musl/musl@1.1.24-r8",
                     },
-                    Object {
+                    {
                       "nodeId": "openssl/libcrypto1.1@1.1.1g-r0|1",
                     },
-                    Object {
+                    {
                       "nodeId": "openssl/libssl1.1@1.1.1g-r0|1",
                     },
-                    Object {
+                    {
                       "nodeId": "zlib/zlib@1.2.11-r3|1",
                     },
                   ],
                   "nodeId": "apk-tools/apk-tools@2.10.5-r1",
                   "pkgId": "apk-tools/apk-tools@2.10.5-r1",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libtls-standalone/libtls-standalone@2.9.1-r1|1",
                   "pkgId": "libtls-standalone/libtls-standalone@2.9.1-r1",
                 },
-                Object {
-                  "deps": Array [
-                    Object {
+                {
+                  "deps": [
+                    {
                       "nodeId": "ca-certificates/ca-certificates-bundle@20191127-r2",
                     },
-                    Object {
+                    {
                       "nodeId": "musl/musl@1.1.24-r8",
                     },
-                    Object {
+                    {
                       "nodeId": "openssl/libcrypto1.1@1.1.1g-r0|1",
                     },
-                    Object {
+                    {
                       "nodeId": "openssl/libssl1.1@1.1.1g-r0|1",
                     },
                   ],
                   "nodeId": "libtls-standalone/libtls-standalone@2.9.1-r1|2",
                   "pkgId": "libtls-standalone/libtls-standalone@2.9.1-r1",
                 },
-                Object {
-                  "deps": Array [
-                    Object {
+                {
+                  "deps": [
+                    {
                       "nodeId": "libtls-standalone/libtls-standalone@2.9.1-r1|1",
                     },
-                    Object {
+                    {
                       "nodeId": "musl/musl@1.1.24-r8",
                     },
                   ],
                   "nodeId": "busybox/ssl_client@1.31.1-r16",
                   "pkgId": "busybox/ssl_client@1.31.1-r16",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "ca-certificates/ca-certificates-bundle@20191127-r2",
                   "pkgId": "ca-certificates/ca-certificates-bundle@20191127-r2",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "musl/musl-utils@1.1.24-r8|1",
                   "pkgId": "musl/musl-utils@1.1.24-r8",
                 },
-                Object {
-                  "deps": Array [
-                    Object {
+                {
+                  "deps": [
+                    {
                       "nodeId": "musl/musl@1.1.24-r8",
                     },
-                    Object {
+                    {
                       "nodeId": "pax-utils/scanelf@1.2.6-r0|1",
                     },
                   ],
                   "nodeId": "musl/musl-utils@1.1.24-r8|2",
                   "pkgId": "musl/musl-utils@1.1.24-r8",
                 },
-                Object {
-                  "deps": Array [
-                    Object {
+                {
+                  "deps": [
+                    {
                       "nodeId": "musl/musl-utils@1.1.24-r8|1",
                     },
                   ],
                   "nodeId": "libc-dev/libc-utils@0.7.2-r3",
                   "pkgId": "libc-dev/libc-utils@0.7.2-r3",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "pax-utils/scanelf@1.2.6-r0|1",
                   "pkgId": "pax-utils/scanelf@1.2.6-r0",
                 },
-                Object {
-                  "deps": Array [
-                    Object {
+                {
+                  "deps": [
+                    {
                       "nodeId": "musl/musl@1.1.24-r8",
                     },
                   ],
@@ -345,116 +345,116 @@ Object {
               ],
               "rootNodeId": "root-node",
             },
-            "pkgManager": Object {
+            "pkgManager": {
               "name": "apk",
-              "repositories": Array [
-                Object {
+              "repositories": [
+                {
                   "alias": "alpine:3.12.0",
                 },
               ],
             },
-            "pkgs": Array [
-              Object {
+            "pkgs": [
+              {
                 "id": "docker-image|alpine-3.12.0.tar@",
-                "info": Object {
+                "info": {
                   "name": "docker-image|alpine-3.12.0.tar",
                   "version": undefined,
                 },
               },
-              Object {
+              {
                 "id": "busybox/busybox@1.31.1-r16",
-                "info": Object {
+                "info": {
                   "name": "busybox/busybox",
                   "version": "1.31.1-r16",
                 },
               },
-              Object {
+              {
                 "id": "musl/musl@1.1.24-r8",
-                "info": Object {
+                "info": {
                   "name": "musl/musl",
                   "version": "1.1.24-r8",
                 },
               },
-              Object {
+              {
                 "id": "alpine-baselayout/alpine-baselayout@3.2.0-r6",
-                "info": Object {
+                "info": {
                   "name": "alpine-baselayout/alpine-baselayout",
                   "version": "3.2.0-r6",
                 },
               },
-              Object {
+              {
                 "id": "alpine-keys/alpine-keys@2.2-r0",
-                "info": Object {
+                "info": {
                   "name": "alpine-keys/alpine-keys",
                   "version": "2.2-r0",
                 },
               },
-              Object {
+              {
                 "id": "openssl/libcrypto1.1@1.1.1g-r0",
-                "info": Object {
+                "info": {
                   "name": "openssl/libcrypto1.1",
                   "version": "1.1.1g-r0",
                 },
               },
-              Object {
+              {
                 "id": "openssl/libssl1.1@1.1.1g-r0",
-                "info": Object {
+                "info": {
                   "name": "openssl/libssl1.1",
                   "version": "1.1.1g-r0",
                 },
               },
-              Object {
+              {
                 "id": "zlib/zlib@1.2.11-r3",
-                "info": Object {
+                "info": {
                   "name": "zlib/zlib",
                   "version": "1.2.11-r3",
                 },
               },
-              Object {
+              {
                 "id": "apk-tools/apk-tools@2.10.5-r1",
-                "info": Object {
+                "info": {
                   "name": "apk-tools/apk-tools",
                   "version": "2.10.5-r1",
                 },
               },
-              Object {
+              {
                 "id": "libtls-standalone/libtls-standalone@2.9.1-r1",
-                "info": Object {
+                "info": {
                   "name": "libtls-standalone/libtls-standalone",
                   "version": "2.9.1-r1",
                 },
               },
-              Object {
+              {
                 "id": "busybox/ssl_client@1.31.1-r16",
-                "info": Object {
+                "info": {
                   "name": "busybox/ssl_client",
                   "version": "1.31.1-r16",
                 },
               },
-              Object {
+              {
                 "id": "ca-certificates/ca-certificates-bundle@20191127-r2",
-                "info": Object {
+                "info": {
                   "name": "ca-certificates/ca-certificates-bundle",
                   "version": "20191127-r2",
                 },
               },
-              Object {
+              {
                 "id": "musl/musl-utils@1.1.24-r8",
-                "info": Object {
+                "info": {
                   "name": "musl/musl-utils",
                   "version": "1.1.24-r8",
                 },
               },
-              Object {
+              {
                 "id": "libc-dev/libc-utils@0.7.2-r3",
-                "info": Object {
+                "info": {
                   "name": "libc-dev/libc-utils",
                   "version": "0.7.2-r3",
                 },
               },
-              Object {
+              {
                 "id": "pax-utils/scanelf@1.2.6-r0",
-                "info": Object {
+                "info": {
                   "name": "pax-utils/scanelf",
                   "version": "1.2.6-r0",
                 },
@@ -464,71 +464,71 @@ Object {
           },
           "type": "depGraph",
         },
-        Object {
+        {
           "data": "sha256:0f5f445df8ccbd8a062ad3d02d459e8549d9998c62a5b7cbf77baf68aa73bf5b",
           "type": "imageId",
         },
-        Object {
-          "data": Array [
+        {
+          "data": [
             "sha256:df20fa9351a15782c64e6dddb2d4a6f50bf6d3688060a34c4014b0d9a752eb4c",
           ],
           "type": "imageLayers",
         },
-        Object {
-          "data": Object {
-            "cmd": Array [
+        {
+          "data": {
+            "cmd": [
               "/bin/sh",
             ],
-            "env": Array [
+            "env": [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
           },
           "type": "containerConfig",
         },
-        Object {
-          "data": Array [
-            Object {
+        {
+          "data": [
+            {
               "created": "2020-05-29T21:19:46.192045972Z",
               "createdBy": "/bin/sh -c #(nop) ADD file:c92c248239f8c7b9b3c067650954815f391b7bcb09023f984972c082ace2a8d0 in / ",
             },
-            Object {
+            {
               "created": "2020-05-29T21:19:46.363518345Z",
-              "createdBy": "/bin/sh -c #(nop)  CMD [\\"/bin/sh\\"]",
+              "createdBy": "/bin/sh -c #(nop)  CMD ["/bin/sh"]",
               "emptyLayer": true,
             },
           ],
           "type": "history",
         },
-        Object {
+        {
           "data": "2020-05-29T21:19:46.363518345Z",
           "type": "imageCreationTime",
         },
-        Object {
-          "data": Array [
+        {
+          "data": [
             "sha256:50644c29ef5a27c9a40c393a73ece2479de78325cae7d762ef3cdc19bf42dd0a",
           ],
           "type": "rootFs",
         },
-        Object {
+        {
           "data": "Alpine Linux v3.12",
           "type": "imageOsReleasePrettyName",
         },
-        Object {
+        {
           "data": "linux/amd64",
           "type": "platform",
         },
-        Object {
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
       ],
-      "identity": Object {
-        "args": Object {
+      "identity": {
+        "args": {
           "platform": "linux/amd64",
         },
         "type": "apk",
       },
-      "target": Object {
+      "target": {
         "image": "docker-image|alpine-3.12.0.tar",
       },
     },
@@ -537,235 +537,235 @@ Object {
 `;
 
 exports[`should correctly scan an oci archive with nested index files 1`] = `
-Object {
-  "scanResults": Array [
-    Object {
-      "facts": Array [
-        Object {
-          "data": Object {
-            "graph": Object {
-              "nodes": Array [
-                Object {
-                  "deps": Array [
-                    Object {
+{
+  "scanResults": [
+    {
+      "facts": [
+        {
+          "data": {
+            "graph": {
+              "nodes": [
+                {
+                  "deps": [
+                    {
                       "nodeId": "alpine-baselayout/alpine-baselayout@3.2.0-r16",
                     },
-                    Object {
+                    {
                       "nodeId": "alpine-keys/alpine-keys@2.4-r0",
                     },
-                    Object {
+                    {
                       "nodeId": "apk-tools/apk-tools@2.12.7-r0",
                     },
-                    Object {
+                    {
                       "nodeId": "busybox/busybox@1.33.1-r8|2",
                     },
-                    Object {
+                    {
                       "nodeId": "busybox/ssl_client@1.33.1-r8",
                     },
-                    Object {
+                    {
                       "nodeId": "ca-certificates/ca-certificates-bundle@20220614-r0",
                     },
-                    Object {
+                    {
                       "nodeId": "libc-dev/libc-utils@0.7.2-r3",
                     },
-                    Object {
+                    {
                       "nodeId": "libretls/libretls@3.3.3p1-r3|2",
                     },
-                    Object {
+                    {
                       "nodeId": "musl/musl@1.2.2-r3",
                     },
-                    Object {
+                    {
                       "nodeId": "musl/musl-utils@1.2.2-r3|2",
                     },
-                    Object {
+                    {
                       "nodeId": "openssl/libcrypto1.1@1.1.1q-r0|2",
                     },
-                    Object {
+                    {
                       "nodeId": "openssl/libssl1.1@1.1.1q-r0|2",
                     },
-                    Object {
+                    {
                       "nodeId": "pax-utils/scanelf@1.3.2-r0|2",
                     },
-                    Object {
+                    {
                       "nodeId": "zlib/zlib@1.2.12-r3|2",
                     },
                   ],
                   "nodeId": "root-node",
                   "pkgId": "docker-image|oci-nested-index.tar@",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "busybox/busybox@1.33.1-r8|1",
                   "pkgId": "busybox/busybox@1.33.1-r8",
                 },
-                Object {
-                  "deps": Array [
-                    Object {
+                {
+                  "deps": [
+                    {
                       "nodeId": "musl/musl@1.2.2-r3",
                     },
                   ],
                   "nodeId": "busybox/busybox@1.33.1-r8|2",
                   "pkgId": "busybox/busybox@1.33.1-r8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "musl/musl@1.2.2-r3",
                   "pkgId": "musl/musl@1.2.2-r3",
                 },
-                Object {
-                  "deps": Array [
-                    Object {
+                {
+                  "deps": [
+                    {
                       "nodeId": "busybox/busybox@1.33.1-r8|1",
                     },
-                    Object {
+                    {
                       "nodeId": "musl/musl@1.2.2-r3",
                     },
                   ],
                   "nodeId": "alpine-baselayout/alpine-baselayout@3.2.0-r16",
                   "pkgId": "alpine-baselayout/alpine-baselayout@3.2.0-r16",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "alpine-keys/alpine-keys@2.4-r0",
                   "pkgId": "alpine-keys/alpine-keys@2.4-r0",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "openssl/libcrypto1.1@1.1.1q-r0|1",
                   "pkgId": "openssl/libcrypto1.1@1.1.1q-r0",
                 },
-                Object {
-                  "deps": Array [
-                    Object {
+                {
+                  "deps": [
+                    {
                       "nodeId": "musl/musl@1.2.2-r3",
                     },
                   ],
                   "nodeId": "openssl/libcrypto1.1@1.1.1q-r0|2",
                   "pkgId": "openssl/libcrypto1.1@1.1.1q-r0",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "openssl/libssl1.1@1.1.1q-r0|1",
                   "pkgId": "openssl/libssl1.1@1.1.1q-r0",
                 },
-                Object {
-                  "deps": Array [
-                    Object {
+                {
+                  "deps": [
+                    {
                       "nodeId": "musl/musl@1.2.2-r3",
                     },
-                    Object {
+                    {
                       "nodeId": "openssl/libcrypto1.1@1.1.1q-r0|1",
                     },
                   ],
                   "nodeId": "openssl/libssl1.1@1.1.1q-r0|2",
                   "pkgId": "openssl/libssl1.1@1.1.1q-r0",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "zlib/zlib@1.2.12-r3|1",
                   "pkgId": "zlib/zlib@1.2.12-r3",
                 },
-                Object {
-                  "deps": Array [
-                    Object {
+                {
+                  "deps": [
+                    {
                       "nodeId": "musl/musl@1.2.2-r3",
                     },
                   ],
                   "nodeId": "zlib/zlib@1.2.12-r3|2",
                   "pkgId": "zlib/zlib@1.2.12-r3",
                 },
-                Object {
-                  "deps": Array [
-                    Object {
+                {
+                  "deps": [
+                    {
                       "nodeId": "musl/musl@1.2.2-r3",
                     },
-                    Object {
+                    {
                       "nodeId": "openssl/libcrypto1.1@1.1.1q-r0|1",
                     },
-                    Object {
+                    {
                       "nodeId": "openssl/libssl1.1@1.1.1q-r0|1",
                     },
-                    Object {
+                    {
                       "nodeId": "zlib/zlib@1.2.12-r3|1",
                     },
                   ],
                   "nodeId": "apk-tools/apk-tools@2.12.7-r0",
                   "pkgId": "apk-tools/apk-tools@2.12.7-r0",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "libretls/libretls@3.3.3p1-r3|1",
                   "pkgId": "libretls/libretls@3.3.3p1-r3",
                 },
-                Object {
-                  "deps": Array [
-                    Object {
+                {
+                  "deps": [
+                    {
                       "nodeId": "ca-certificates/ca-certificates-bundle@20220614-r0",
                     },
-                    Object {
+                    {
                       "nodeId": "musl/musl@1.2.2-r3",
                     },
-                    Object {
+                    {
                       "nodeId": "openssl/libcrypto1.1@1.1.1q-r0|1",
                     },
-                    Object {
+                    {
                       "nodeId": "openssl/libssl1.1@1.1.1q-r0|1",
                     },
                   ],
                   "nodeId": "libretls/libretls@3.3.3p1-r3|2",
                   "pkgId": "libretls/libretls@3.3.3p1-r3",
                 },
-                Object {
-                  "deps": Array [
-                    Object {
+                {
+                  "deps": [
+                    {
                       "nodeId": "libretls/libretls@3.3.3p1-r3|1",
                     },
-                    Object {
+                    {
                       "nodeId": "musl/musl@1.2.2-r3",
                     },
                   ],
                   "nodeId": "busybox/ssl_client@1.33.1-r8",
                   "pkgId": "busybox/ssl_client@1.33.1-r8",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "ca-certificates/ca-certificates-bundle@20220614-r0",
                   "pkgId": "ca-certificates/ca-certificates-bundle@20220614-r0",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "musl/musl-utils@1.2.2-r3|1",
                   "pkgId": "musl/musl-utils@1.2.2-r3",
                 },
-                Object {
-                  "deps": Array [
-                    Object {
+                {
+                  "deps": [
+                    {
                       "nodeId": "musl/musl@1.2.2-r3",
                     },
-                    Object {
+                    {
                       "nodeId": "pax-utils/scanelf@1.3.2-r0|1",
                     },
                   ],
                   "nodeId": "musl/musl-utils@1.2.2-r3|2",
                   "pkgId": "musl/musl-utils@1.2.2-r3",
                 },
-                Object {
-                  "deps": Array [
-                    Object {
+                {
+                  "deps": [
+                    {
                       "nodeId": "musl/musl-utils@1.2.2-r3|1",
                     },
                   ],
                   "nodeId": "libc-dev/libc-utils@0.7.2-r3",
                   "pkgId": "libc-dev/libc-utils@0.7.2-r3",
                 },
-                Object {
-                  "deps": Array [],
+                {
+                  "deps": [],
                   "nodeId": "pax-utils/scanelf@1.3.2-r0|1",
                   "pkgId": "pax-utils/scanelf@1.3.2-r0",
                 },
-                Object {
-                  "deps": Array [
-                    Object {
+                {
+                  "deps": [
+                    {
                       "nodeId": "musl/musl@1.2.2-r3",
                     },
                   ],
@@ -775,116 +775,116 @@ Object {
               ],
               "rootNodeId": "root-node",
             },
-            "pkgManager": Object {
+            "pkgManager": {
               "name": "apk",
-              "repositories": Array [
-                Object {
+              "repositories": [
+                {
                   "alias": "alpine:3.14.8",
                 },
               ],
             },
-            "pkgs": Array [
-              Object {
+            "pkgs": [
+              {
                 "id": "docker-image|oci-nested-index.tar@",
-                "info": Object {
+                "info": {
                   "name": "docker-image|oci-nested-index.tar",
                   "version": undefined,
                 },
               },
-              Object {
+              {
                 "id": "busybox/busybox@1.33.1-r8",
-                "info": Object {
+                "info": {
                   "name": "busybox/busybox",
                   "version": "1.33.1-r8",
                 },
               },
-              Object {
+              {
                 "id": "musl/musl@1.2.2-r3",
-                "info": Object {
+                "info": {
                   "name": "musl/musl",
                   "version": "1.2.2-r3",
                 },
               },
-              Object {
+              {
                 "id": "alpine-baselayout/alpine-baselayout@3.2.0-r16",
-                "info": Object {
+                "info": {
                   "name": "alpine-baselayout/alpine-baselayout",
                   "version": "3.2.0-r16",
                 },
               },
-              Object {
+              {
                 "id": "alpine-keys/alpine-keys@2.4-r0",
-                "info": Object {
+                "info": {
                   "name": "alpine-keys/alpine-keys",
                   "version": "2.4-r0",
                 },
               },
-              Object {
+              {
                 "id": "openssl/libcrypto1.1@1.1.1q-r0",
-                "info": Object {
+                "info": {
                   "name": "openssl/libcrypto1.1",
                   "version": "1.1.1q-r0",
                 },
               },
-              Object {
+              {
                 "id": "openssl/libssl1.1@1.1.1q-r0",
-                "info": Object {
+                "info": {
                   "name": "openssl/libssl1.1",
                   "version": "1.1.1q-r0",
                 },
               },
-              Object {
+              {
                 "id": "zlib/zlib@1.2.12-r3",
-                "info": Object {
+                "info": {
                   "name": "zlib/zlib",
                   "version": "1.2.12-r3",
                 },
               },
-              Object {
+              {
                 "id": "apk-tools/apk-tools@2.12.7-r0",
-                "info": Object {
+                "info": {
                   "name": "apk-tools/apk-tools",
                   "version": "2.12.7-r0",
                 },
               },
-              Object {
+              {
                 "id": "libretls/libretls@3.3.3p1-r3",
-                "info": Object {
+                "info": {
                   "name": "libretls/libretls",
                   "version": "3.3.3p1-r3",
                 },
               },
-              Object {
+              {
                 "id": "busybox/ssl_client@1.33.1-r8",
-                "info": Object {
+                "info": {
                   "name": "busybox/ssl_client",
                   "version": "1.33.1-r8",
                 },
               },
-              Object {
+              {
                 "id": "ca-certificates/ca-certificates-bundle@20220614-r0",
-                "info": Object {
+                "info": {
                   "name": "ca-certificates/ca-certificates-bundle",
                   "version": "20220614-r0",
                 },
               },
-              Object {
+              {
                 "id": "musl/musl-utils@1.2.2-r3",
-                "info": Object {
+                "info": {
                   "name": "musl/musl-utils",
                   "version": "1.2.2-r3",
                 },
               },
-              Object {
+              {
                 "id": "libc-dev/libc-utils@0.7.2-r3",
-                "info": Object {
+                "info": {
                   "name": "libc-dev/libc-utils",
                   "version": "0.7.2-r3",
                 },
               },
-              Object {
+              {
                 "id": "pax-utils/scanelf@1.3.2-r0",
-                "info": Object {
+                "info": {
                   "name": "pax-utils/scanelf",
                   "version": "1.3.2-r0",
                 },
@@ -894,12 +894,12 @@ Object {
           },
           "type": "depGraph",
         },
-        Object {
+        {
           "data": "sha256:7d1747f4be20690d6ed734d573f358a38fc5a7c46081b8d6e4d9958f4cde71ef",
           "type": "imageId",
         },
-        Object {
-          "data": Array [
+        {
+          "data": [
             "sha256:c7ed990a2339ee598662849de4f56e2241399f5a32340c8c4a7bbd5378a12b5f",
             "sha256:debbbdcce2103a7ef4f2dd4cb9aa756635989dc97065391ac8a8f62da478cedc",
             "sha256:df14bd8d33e8c659b8d7ec667b269ee70f8204989a7e95ffa8080798e74df9cb",
@@ -907,61 +907,61 @@ Object {
           ],
           "type": "imageLayers",
         },
-        Object {
-          "data": Object {
+        {
+          "data": {
             "argsEscaped": true,
-            "cmd": Array [
+            "cmd": [
               "/bin/sh",
               "-c",
               "echo hello",
             ],
-            "env": Array [
+            "env": [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
           },
           "type": "containerConfig",
         },
-        Object {
-          "data": Array [
-            Object {
+        {
+          "data": [
+            {
               "created": "2022-08-09T17:20:07.901188109Z",
               "createdBy": "/bin/sh -c #(nop) ADD file:b9bd10cf83356cb7281baa0fbaca5186cf27491f59eda87abe57f83a5aaf5ec1 in / ",
             },
-            Object {
+            {
               "created": "2022-08-09T17:20:08.015648568Z",
-              "createdBy": "/bin/sh -c #(nop)  CMD [\\"/bin/sh\\"]",
+              "createdBy": "/bin/sh -c #(nop)  CMD ["/bin/sh"]",
               "emptyLayer": true,
             },
-            Object {
+            {
               "comment": "buildkit.dockerfile.v0",
               "created": "2022-08-24T07:47:15.086347637Z",
-              "createdBy": "RUN /bin/sh -c echo \\"dfsdfsd\\" >> t1.txt # buildkit",
+              "createdBy": "RUN /bin/sh -c echo "dfsdfsd" >> t1.txt # buildkit",
             },
-            Object {
+            {
               "comment": "buildkit.dockerfile.v0",
               "created": "2022-08-24T07:47:15.174100088Z",
-              "createdBy": "RUN /bin/sh -c echo \\"fsdjfsd\\" >> t2.txt # buildkit",
+              "createdBy": "RUN /bin/sh -c echo "fsdjfsd" >> t2.txt # buildkit",
             },
-            Object {
+            {
               "comment": "buildkit.dockerfile.v0",
               "created": "2022-08-24T07:47:15.252640403Z",
-              "createdBy": "RUN /bin/sh -c echo \\"fsdjfsd\\" >> t3.txt # buildkit",
+              "createdBy": "RUN /bin/sh -c echo "fsdjfsd" >> t3.txt # buildkit",
             },
-            Object {
+            {
               "comment": "buildkit.dockerfile.v0",
               "created": "2022-08-24T07:47:15.252640403Z",
-              "createdBy": "CMD [\\"/bin/sh\\" \\"-c\\" \\"echo hello\\"]",
+              "createdBy": "CMD ["/bin/sh" "-c" "echo hello"]",
               "emptyLayer": true,
             },
           ],
           "type": "history",
         },
-        Object {
+        {
           "data": "2022-08-24T07:47:15.252640403Z",
           "type": "imageCreationTime",
         },
-        Object {
-          "data": Array [
+        {
+          "data": [
             "sha256:63493a9ab2d41e319e25dd7474e184d875e28cb267f7e6856ca91dccdd90ee28",
             "sha256:7a628373689eb5aec92736169f59a9ebc04703488fe7a32223311f229aa06ef0",
             "sha256:eda4469752763535afaff092d917aed73e23a18cb0cde932bd4cab8229c2fbe4",
@@ -969,26 +969,26 @@ Object {
           ],
           "type": "rootFs",
         },
-        Object {
+        {
           "data": "Alpine Linux v3.14",
           "type": "imageOsReleasePrettyName",
         },
-        Object {
+        {
           "data": "linux/amd64",
           "type": "platform",
         },
-        Object {
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
       ],
-      "identity": Object {
-        "args": Object {
+      "identity": {
+        "args": {
           "platform": "linux/amd64",
         },
         "type": "apk",
       },
-      "target": Object {
+      "target": {
         "image": "docker-image|oci-nested-index.tar",
       },
     },

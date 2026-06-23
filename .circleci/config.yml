@@ -6,6 +6,11 @@ orbs:
   slack: circleci/slack@5
   prodsec: snyk/prodsec-orb@1
 
+parameters:
+  run_snapshot_update:
+    type: boolean
+    default: false
+
 defaults: &defaults
   resource_class: small
   docker:
@@ -35,6 +40,37 @@ slack-success-notify: &slack-success-notify
     channel: team-container-pipeline-info
     branch_pattern: "main"
     template: basic_success_1
+
+slack-snapshot-notify: &slack-snapshot-notify
+  slack/notify:
+    event: always
+    channel: team-container-pipeline-info
+    custom: |
+      {
+        "blocks": [
+          {
+            "type": "section",
+            "text": {
+              "type": "mrkdwn",
+              "text": "*snyk-docker-plugin*\n\n:camera_with_flash: Snapshot update jobs finished!"
+            }
+          },
+          {
+            "type": "divider"
+          },
+          {
+            "type": "section",
+            "text": {
+              "type": "mrkdwn",
+              "text": "Download the patch from each job's *Artifacts* tab:\n\n• <${LINUX_JOB_URL}|Linux snapshots> → `snapshots.patch`\n• <${WINDOWS_JOB_URL}|Windows snapshots> → `snapshots-windows.patch`"
+            }
+          },
+          {
+            "type": "markdown",
+            "text": "Apply the patches locally with:\n\n```bash\ngit apply snapshots.patch snapshots-windows.patch\n```"
+          }
+        ]
+      }
 
 windows_big: &windows_big
   executor:
@@ -70,12 +106,12 @@ commands:
       - checkout
       - restore_cache:
           keys:
-            - v2-npm-cache-{{ checksum "package.json" }}
+            - v2-npm-cache-{{ checksum "package-lock.json" }}
             - v2-npm-cache-
       - setup_npm_user
       - run: npm ci
       - save_cache:
-          key: v2-npm-cache-{{ checksum "package.json" }}
+          key: v2-npm-cache-{{ checksum "package-lock.json" }}
           paths:
             - ~/.npm
       - persist_to_workspace:
@@ -139,10 +175,10 @@ jobs:
       - checkout
       - attach_workspace:
           at: ~/snyk-docker-plugin
-      - run: npm run test:unit > test-unit-logs.txt 2>&1
-      - store_artifacts:
-          path: test-unit-logs.txt
-          destination: test-unit-logs
+      - run:
+          command: npm run test:unit
+      - store_test_results:
+          path: ./test/reports
   test_system:
     <<: *defaults
     steps:
@@ -151,41 +187,64 @@ jobs:
       - attach_workspace:
           at: ~/snyk-docker-plugin
       - run:
-          command: npm run test:system > test-system-logs.txt 2>&1
+          command: npm run test:system
           no_output_timeout: 20m
-      - store_artifacts:
-          path: test-system-logs.txt
-          destination: test-system-logs
-  test_jest_windows_with_docker:
+      - store_test_results:
+          path: ./test/reports
+  test_windows_with_docker:
     <<: *windows_big
     steps:
       - checkout
       - install_node_npm:
           node_version: << parameters.node_version >>
       - setup_npm_user
+      - restore_cache:
+          keys:
+            - v1-windows-npm-cache-{{ checksum "package-lock.json" }}
+            - v1-windows-npm-cache-
       - run: npm ci
+      - save_cache:
+          key: v1-windows-npm-cache-{{ checksum "package-lock.json" }}
+          paths:
+            - ~/AppData/Roaming/npm-cache
       - run: docker version
       - run:
-          command: npm run test-jest-windows
+          command: npm run test:windows:docker
           no_output_timeout: 20m
-  test_jest_windows_no_docker:
+      - store_test_results:
+          path: ./test/reports
+  test_windows_no_docker:
     <<: *windows_big
     steps:
       - checkout
       - install_node_npm:
           node_version: << parameters.node_version >>
       - setup_npm_user
+      - restore_cache:
+          keys:
+            - v1-windows-npm-cache-{{ checksum "package-lock.json" }}
+            - v1-windows-npm-cache-
       - run: npm ci
+      - save_cache:
+          key: v1-windows-npm-cache-{{ checksum "package-lock.json" }}
+          paths:
+            - ~/AppData/Roaming/npm-cache
         # make docker appear to be broken.
       - run: "function docker() { return 1; }"
       - run:
-          command: npm run test-jest-windows
+          command: npm run test:windows
           no_output_timeout: 20m
+      - store_test_results:
+          path: ./test/reports
   build:
     <<: *defaults
     steps:
       - checkout_and_merge
       - setup_npm_user
+      - restore_cache:
+          keys:
+            - v2-npm-cache-{{ checksum "package-lock.json" }}
+            - v2-npm-cache-
       - run: npm ci
       - run: npm run build
   build_cli:
@@ -209,6 +268,85 @@ jobs:
       - run:
           name: Run Go binaries unit test
           command: npx jest test/unit/go-binaries.spec.ts
+  update_snapshots:
+    <<: *defaults
+    resource_class: medium
+    steps:
+      - install_deps
+      - setup_remote_docker
+      - run:
+          name: Regenerate Jest snapshots
+          command: npx jest -u --colors --selectProjects unit system
+          no_output_timeout: 20m
+      - run:
+          name: Build snapshot patch
+          when: always
+          command: |
+            git add -A -- '*.snap'
+            git diff --cached -- '*.snap' > snapshots.patch
+            git diff --cached --stat -- '*.snap'
+      - store_artifacts:
+          path: snapshots.patch
+          destination: snapshots.patch
+      - run:
+          name: Record job URL
+          when: always
+          command: |
+            mkdir -p snapshot-meta
+            echo "$CIRCLE_BUILD_URL" > snapshot-meta/linux-job-url.txt
+      - persist_to_workspace:
+          when: always
+          root: .
+          paths:
+            - snapshot-meta/linux-job-url.txt
+  update_snapshots_windows:
+    <<: *windows_big
+    steps:
+      - checkout
+      - install_node_npm:
+          node_version: << parameters.node_version >>
+      - setup_npm_user
+      - restore_cache:
+          keys:
+            - v1-windows-npm-cache-{{ checksum "package-lock.json" }}
+            - v1-windows-npm-cache-
+      - run: npm ci
+      - run:
+          name: Regenerate Windows Jest snapshots
+          command: npx jest -u --selectProjects windows
+          no_output_timeout: 20m
+      - run:
+          name: Build snapshot patch
+          when: always
+          command: |
+            git add -A -- '*.snap'
+            git diff --cached -- '*.snap' > snapshots-windows.patch
+            git diff --cached --stat -- '*.snap'
+      - store_artifacts:
+          path: snapshots-windows.patch
+          destination: snapshots-windows.patch
+      - run:
+          name: Record job URL
+          when: always
+          command: |
+            mkdir -p snapshot-meta
+            echo "$CIRCLE_BUILD_URL" > snapshot-meta/windows-job-url.txt
+      - persist_to_workspace:
+          when: always
+          root: .
+          paths:
+            - snapshot-meta/windows-job-url.txt
+  notify_snapshots:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/snyk-docker-plugin
+      - run:
+          name: Load job URLs into environment
+          command: |
+            echo "export LINUX_JOB_URL=$(cat snapshot-meta/linux-job-url.txt)" >> "$BASH_ENV"
+            echo "export WINDOWS_JOB_URL=$(cat snapshot-meta/windows-job-url.txt)" >> "$BASH_ENV"
+      - *slack-snapshot-notify
   release:
     <<: *release_defaults
     steps:
@@ -225,9 +363,17 @@ workflows:
   version: 2
   test_and_release:
     when:
-      # do not run on a pipeline schedule
-      not:
-        equal: [scheduled_pipeline, << pipeline.trigger_source >>]
+      and:
+        # do not run on a pipeline schedule
+        - not:
+            equal: [scheduled_pipeline, << pipeline.trigger_source >>]
+        # do not run on graphite temporary branches
+        - not:
+            matches:
+              pattern: "^graphite-base/.*"
+              value: << pipeline.git.branch >>
+        # do not run when manually triggered to update snapshots
+        - equal: [false, << pipeline.parameters.run_snapshot_update >>]
     jobs:
       - prodsec/secrets-scan:
           name: Scan repository for secrets
@@ -282,8 +428,8 @@ workflows:
             - Build
           post-steps:
             - *slack-fail-notify
-      - test_jest_windows_with_docker:
-          name: Test Jest Windows with Docker
+      - test_windows_with_docker:
+          name: Test Windows with Docker
           context:
             - nodejs-install
             - snyk-bot-slack
@@ -292,8 +438,8 @@ workflows:
             - Build
           post-steps:
             - *slack-fail-notify
-      - test_jest_windows_no_docker:
-          name: Test Jest Windows no Docker
+      - test_windows_no_docker:
+          name: Test Windows no Docker
           context:
             - nodejs-install
             - snyk-bot-slack
@@ -322,13 +468,12 @@ workflows:
               only:
                 - main
           requires:
-            - Lint
-            - Build
             - Security Scans
+            - Build CLI with changes
             - Unit Test
             - System Test
-            - Test Jest Windows with Docker
-            - Test Jest Windows no Docker
+            - Test Windows with Docker
+            - Test Windows no Docker
           post-steps:
             - *slack-fail-notify
             - *slack-success-notify
@@ -352,3 +497,23 @@ workflows:
             - Install
           post-steps:
             - *slack-fail-notify
+  update_snapshots:
+    when: << pipeline.parameters.run_snapshot_update >>
+    jobs:
+      - update_snapshots:
+          name: Update Snapshots
+          context:
+            - nodejs-install
+      - update_snapshots_windows:
+          name: Update Windows Snapshots
+          node_version: *windows_node_version
+          context:
+            - nodejs-install
+      - notify_snapshots:
+          name: Notify Snapshots
+          context:
+            - nodejs-install
+            - snyk-bot-slack
+          requires:
+            - Update Snapshots: terminal
+            - Update Windows Snapshots: terminal

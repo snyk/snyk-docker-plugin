@@ -156,6 +156,16 @@ export interface PluginWarningsFact {
       };
     };
     parameterChecks?: string[];
+    /**
+     * Image-level warnings emitted by the layer-attribution path. Present
+     * only when `layer-attribution` is on and the image deviated from the
+     * OCI invariants the feature relies on (e.g. non-empty history entries
+     * not matching `rootfs.diff_ids[]` 1:1). The per-package
+     * `dockerLayerDiffId` labels are still correct; these messages flag
+     * that downstream consumers may not be able to translate diffIDs back
+     * to Dockerfile instruction text.
+     */
+    layerAttribution?: string[];
   };
 }
 
@@ -167,4 +177,15 @@ export interface BaseRuntime {
 export interface BaseRuntimesFact {
   type: "baseRuntimes";
   data: BaseRuntime[];
+}
+
+export interface ApkPackageOwnershipFact {
+  type: "apkPackageOwnership";
+  data: {
+    distroId: string;
+    packageName: string;
+    packageVersion: string;
+    originPackage: string;
+    evidencePaths: string[];
+  };
 }

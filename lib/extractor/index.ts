@@ -5,6 +5,7 @@ import {
   getPackagesFromRunInstructions,
 } from "../dockerfile/instruction-parser";
 import { getErrorMessage } from "../error-utils";
+import { isTrue } from "../option-utils";
 import { AutoDetectedUserInstructions, ImageType } from "../types";
 import { PluginOptions } from "../types";
 import * as dockerExtractor from "./docker-archive";
@@ -22,6 +23,7 @@ import {
   FileContent,
   ImageConfig,
   OciArchiveManifest,
+  SymlinkMap,
 } from "./types";
 
 const debug = Debug("snyk");
@@ -143,6 +145,16 @@ export async function extractImageContent(
     manifestLayers: extractor.getManifestLayers(archiveContent.manifest),
     imageCreationTime: archiveContent.imageConfig.created,
     extractedLayers: layersWithLatestFileModifications(archiveContent.layers),
+    // `archiveContent.layers` is top→bottom here; `orderedLayers` is FROM→top
+    // (see its doc on `ExtractionResult`). Copy before reversing so we don't
+    // mutate the array `layersWithLatestFileModifications` consumed above.
+    orderedLayers: isTrue(options?.["layer-attribution"])
+      ? [...archiveContent.layers].reverse()
+      : undefined,
+    symlinks: symlinksWithLatestModifications(
+      archiveContent.symlinkLayers,
+      archiveContent.layers,
+    ),
     rootFsLayers: getRootFsLayersFromConfig(archiveContent.imageConfig),
     autoDetectedUserInstructions: getDetectedLayersInfoFromConfig(
       archiveContent.imageConfig,
@@ -225,6 +237,62 @@ export function getUserInstructionLayersFromConfig(imageConfig) {
     return [];
   }
   return userInstructionLayers;
+}
+
+/**
+ * Merge per-layer symlink maps into a single view of the running container.
+ * Layers arrive newest-first (see generic-archive / OCI extractors) and the
+ * first layer seen wins, mirroring layersWithLatestFileModifications. A
+ * whiteout entry only hides paths in lower (older) layers; a whiteout and an
+ * entry for the same path may coexist within one layer (e.g. a directory
+ * replaced by a symlink), in which case that layer's own entry survives.
+ */
+export function symlinksWithLatestModifications(
+  symlinkLayers?: SymlinkMap[],
+  fileLayers?: ExtractedLayers[],
+): SymlinkMap | undefined {
+  if (!symlinkLayers || symlinkLayers.length === 0) {
+    return undefined;
+  }
+
+  const merged: SymlinkMap = {};
+  const removedPathsToIgnore: Set<string> = new Set();
+
+  for (let i = 0; i < symlinkLayers.length; i++) {
+    for (const [symlinkPath, target] of Object.entries(symlinkLayers[i])) {
+      if (removedPathsToIgnore.has(symlinkPath)) {
+        continue;
+      }
+      if (isSymlinkInARemovedFolder(symlinkPath, removedPathsToIgnore)) {
+        continue;
+      }
+      if (!Reflect.has(merged, symlinkPath)) {
+        merged[symlinkPath] = target;
+      }
+    }
+
+    // Register this layer's whiteouts only after its own entries are merged:
+    // they delete paths from older layers, not from this layer or newer ones.
+    const fileLayer = fileLayers?.[i];
+    if (fileLayer) {
+      for (const filename of Object.keys(fileLayer)) {
+        if (isWhitedOutFile(filename)) {
+          removedPathsToIgnore.add(filename.replace(/.wh./, ""));
+        }
+      }
+    }
+  }
+
+  return Object.keys(merged).length > 0 ? merged : undefined;
+}
+
+function isSymlinkInARemovedFolder(
+  symlinkPath: string,
+  removedPathsToIgnore: Set<string>,
+): boolean {
+  return Array.from(removedPathsToIgnore).some((removedPath) =>
+    isFileInFolder(symlinkPath, removedPath),
+  );
 }
 
 function layersWithLatestFileModifications(

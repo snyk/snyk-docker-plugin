@@ -26,6 +26,32 @@ describe("extractImageContent", () => {
     expect(typeof extractedContent.imageCreationTime).toEqual("string");
   });
 
+  describe("orderedLayers (layer-attribution)", () => {
+    const fixture = getFixture(
+      "docker-archives/docker-save/nginx-with-buildinfo.tar",
+    );
+
+    it("is undefined when the layer-attribution option is off", () => {
+      // `extractedContent` above was extracted with `{}` (flag off).
+      expect(extractedContent.orderedLayers).toBeUndefined();
+    });
+
+    it("is populated with the per-layer view when the option is on", async () => {
+      const result = await extractImageContent(
+        ImageType.DockerArchive,
+        fixture,
+        [getRedHatRepositoriesContentAction],
+        { "layer-attribution": true },
+      );
+
+      // Asserts the opt-in gating only. The reversal to FROM->top order and
+      // its 1:1 alignment with rootFsLayers need a complete multi-layer image
+      // (unit fixtures are trimmed), so they live in the system tests.
+      expect(result.orderedLayers).toBeDefined();
+      expect(result.orderedLayers!.length).toBe(result.manifestLayers.length);
+    });
+  });
+
   describe("RedHat support", () => {
     it("extracts red hat repositories information from layers", async () => {
       const numOfFoundFiles = Object.keys(

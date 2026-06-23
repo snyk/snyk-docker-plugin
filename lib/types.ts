@@ -83,7 +83,9 @@ export type FactType =
   // Used for application dependencies scanning; shows which files were used in the analysis of the dependencies.
   | "testedFiles"
   // Application files observed in the image
-  | "applicationFiles";
+  | "applicationFiles"
+  // Chainguard/Wolfi: APK package that owns application dependency evidence paths
+  | "apkPackageOwnership";
 
 export interface PluginAnalytics {
   name: string;
@@ -244,6 +246,9 @@ export interface PluginOptions {
 
   /** Include system-level JARs and WARs from /usr/lib in scan results. The default is "false". */
   "include-system-jars": boolean | string;
+
+  /** Compute and emit per-layer package attribution. The default is "false". */
+  "layer-attribution": boolean | string;
 
   "target-reference": string;
 

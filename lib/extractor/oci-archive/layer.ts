@@ -8,10 +8,12 @@ import { getErrorMessage } from "../../error-utils";
 import { streamToJson } from "../../stream-utils";
 import { PluginOptions } from "../../types";
 import { decompressMaybe } from "../decompress-maybe";
-import { extractImageLayer } from "../layer";
+import {
+  extractImageLayer,
+  LayerExtractionResult as ImageLayerExtractionResult,
+} from "../layer";
 import {
   ExtractAction,
-  ExtractedLayers,
   ExtractedLayersAndManifest,
   ImageConfig,
   InTotoStatement,
@@ -87,10 +89,11 @@ export async function extractArchive(
   }
 
   // Build the result
-  const filteredLayers = manifest.layers
+  const filteredLayerResults = manifest.layers
     .filter((layer) => layers[layer.digest])
     .map((layer) => layers[layer.digest])
     .reverse();
+  const filteredLayers = filteredLayerResults.map((r) => r.extractedLayers);
 
   if (filteredLayers.length === 0) {
     // Provide more context about why extraction failed
@@ -120,6 +123,7 @@ export async function extractArchive(
 
   return {
     layers: filteredLayers,
+    symlinkLayers: filteredLayerResults.map((r) => r.symlinks),
     manifest,
     imageConfig,
     attestations,
@@ -272,8 +276,8 @@ async function tryParseJsonMetadata(stream: Readable): Promise<unknown> {
   });
 }
 
-interface LayerExtractionResult {
-  layers: Record<string, ExtractedLayers>;
+interface OciLayerExtractionPassResult {
+  layers: Record<string, ImageLayerExtractionResult>;
   failedDigests: Map<string, string>;
   inTotoStatements: Record<string, InTotoStatement>;
 }
@@ -288,10 +292,10 @@ async function extractLayers(
   requiredDigests: Set<string>,
   inTotoDigests: Set<string>,
   extractActions: ExtractAction[],
-): Promise<LayerExtractionResult> {
+): Promise<OciLayerExtractionPassResult> {
   return new Promise((resolve, reject) => {
     const tarExtractor: Extract = extract();
-    const layers: Record<string, ExtractedLayers> = {};
+    const layers: Record<string, ImageLayerExtractionResult> = {};
     const failedDigests: Map<string, string> = new Map();
     const inTotoStatements: Record<string, InTotoStatement> = {};
 

@@ -1,34 +1,34 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`jar binaries scanning should return expected result 1`] = `
-Object {
-  "scanResults": Array [
-    Object {
-      "facts": Array [
-        Object {
-          "data": Object {
-            "graph": Object {
-              "nodes": Array [
-                Object {
-                  "deps": Array [],
+{
+  "scanResults": [
+    {
+      "facts": [
+        {
+          "data": {
+            "graph": {
+              "nodes": [
+                {
+                  "deps": [],
                   "nodeId": "root-node",
                   "pkgId": "docker-image|java.tar@",
                 },
               ],
               "rootNodeId": "root-node",
             },
-            "pkgManager": Object {
+            "pkgManager": {
               "name": "linux",
-              "repositories": Array [
-                Object {
+              "repositories": [
+                {
                   "alias": "unknown:0.0",
                 },
               ],
             },
-            "pkgs": Array [
-              Object {
+            "pkgs": [
+              {
                 "id": "docker-image|java.tar@",
-                "info": Object {
+                "info": {
                   "name": "docker-image|java.tar",
                   "version": undefined,
                 },
@@ -38,21 +38,21 @@ Object {
           },
           "type": "depGraph",
         },
-        Object {
+        {
           "data": "sha256:e997a24cd4633de60213a23debcfb37dcc9fa6578a112976fc80aaa094ea1f59",
           "type": "imageId",
         },
-        Object {
-          "data": Array [
+        {
+          "data": [
             "d446fd2d006bff0982827588b2b613f91a4e2a59d619da68fa7ce1c880b8d907/layer.tar",
           ],
           "type": "imageLayers",
         },
-        Object {
-          "data": Object {
+        {
+          "data": {
             "cmd": null,
             "entrypoint": null,
-            "env": Array [
+            "env": [
               "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             ],
             "user": "",
@@ -61,51 +61,51 @@ Object {
           },
           "type": "containerConfig",
         },
-        Object {
-          "data": Array [
-            Object {
+        {
+          "data": [
+            {
               "created": "2020-03-24T13:05:21.8612979Z",
               "createdBy": "/bin/sh -c #(nop) COPY file:bce2cee6987787fb031d18e5a54b0be7f67e9075105d699f56a7ee7a85e13893 in . ",
             },
           ],
           "type": "history",
         },
-        Object {
+        {
           "data": "2020-03-24T13:05:21.8612979Z",
           "type": "imageCreationTime",
         },
-        Object {
-          "data": Array [
+        {
+          "data": [
             "sha256:05356880e40587a7dedbdcb39f8a9f99f2f48e094c7e1d2fae64f4774cc7a4aa",
           ],
           "type": "rootFs",
         },
-        Object {
+        {
           "data": "linux/amd64",
           "type": "platform",
         },
-        Object {
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
       ],
-      "identity": Object {
-        "args": Object {
+      "identity": {
+        "args": {
           "platform": "linux/amd64",
         },
         "type": "linux",
       },
-      "target": Object {
+      "target": {
         "image": "docker-image|java.tar",
       },
     },
-    Object {
-      "facts": Array [
-        Object {
-          "data": Object {
-            "fingerprints": Array [
-              Object {
-                "dependencies": Array [],
+    {
+      "facts": [
+        {
+          "data": {
+            "fingerprints": [
+              {
+                "dependencies": [],
                 "digest": "485de3a253e23f645037828c07f1d7f1af40763a",
                 "location": "/app/activation-1.1.1.jar",
               },
@@ -115,39 +115,39 @@ Object {
           },
           "type": "jarFingerprints",
         },
-        Object {
+        {
           "data": "sha256:e997a24cd4633de60213a23debcfb37dcc9fa6578a112976fc80aaa094ea1f59",
           "type": "imageId",
         },
-        Object {
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
       ],
-      "identity": Object {
+      "identity": {
         "targetFile": "/app",
         "type": "maven",
       },
-      "target": Object {
+      "target": {
         "image": "docker-image|java.tar",
       },
     },
-    Object {
-      "facts": Array [
-        Object {
-          "data": Object {
-            "fingerprints": Array [
-              Object {
+    {
+      "facts": [
+        {
+          "data": {
+            "fingerprints": [
+              {
                 "artifactId": "aopalliance-repackaged",
-                "dependencies": Array [],
+                "dependencies": [],
                 "digest": null,
                 "groupId": "org.glassfish.hk2.external",
                 "location": "/libs/aopalliance-repackaged-2.5.0.jar",
                 "version": "2.5.0",
               },
-              Object {
+              {
                 "artifactId": "audience-annotations",
-                "dependencies": Array [],
+                "dependencies": [],
                 "digest": null,
                 "groupId": "org.apache.yetus",
                 "location": "/libs/audience-annotations-0.5.0.jar",
@@ -159,20 +159,20 @@ Object {
           },
           "type": "jarFingerprints",
         },
-        Object {
+        {
           "data": "sha256:e997a24cd4633de60213a23debcfb37dcc9fa6578a112976fc80aaa094ea1f59",
           "type": "imageId",
         },
-        Object {
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
       ],
-      "identity": Object {
+      "identity": {
         "targetFile": "/libs",
         "type": "maven",
       },
-      "target": Object {
+      "target": {
         "image": "docker-image|java.tar",
       },
     },
