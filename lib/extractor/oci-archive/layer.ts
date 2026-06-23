@@ -19,7 +19,7 @@ import {
   OciImageIndex,
   OciManifestInfo,
   OciPlatformInfo,
-  ResolvedProvenanceAttestationManifest,
+  ResolvedAttestationManifest,
 } from "../types";
 
 const debug = Debug("snyk");
@@ -59,13 +59,15 @@ export async function extractArchive(
   // Pass 1: Extract JSON metadata
   const metadata = await extractMetadata(ociArchiveFilesystemPath);
 
-  const { manifest, imageConfig, provenanceAttestations } =
-    resolveManifestAndConfig(metadata, options);
+  const { manifest, imageConfig, attestations } = resolveManifestAndConfig(
+    metadata,
+    options,
+  );
 
   const requiredLayerDigests = new Set(
     manifest.layers.map((layer) => layer.digest),
   );
-  const inTotoDigests = collectInTotoDigests(provenanceAttestations);
+  const inTotoDigests = collectInTotoDigests(attestations);
 
   const { layers, failedDigests, inTotoStatements } = await extractLayers(
     ociArchiveFilesystemPath,
@@ -74,7 +76,7 @@ export async function extractArchive(
     extractActions,
   );
 
-  attachInTotoStatements(provenanceAttestations, inTotoStatements);
+  attachInTotoStatements(attestations, inTotoStatements);
 
   // Report any layer extraction failures
   if (failedDigests.size > 0) {
@@ -120,7 +122,7 @@ export async function extractArchive(
     layers: filteredLayers,
     manifest,
     imageConfig,
-    provenanceAttestations,
+    attestations,
   };
 }
 
@@ -382,7 +384,7 @@ function resolveManifestAndConfig(
 ): {
   manifest: OciArchiveManifest;
   imageConfig: ImageConfig;
-  provenanceAttestations: ResolvedProvenanceAttestationManifest[];
+  attestations: ResolvedAttestationManifest[];
 } {
   const filteredConfigs = metadata.configs.filter((config) => {
     return config?.os !== "unknown" || config?.architecture !== "unknown";
@@ -423,12 +425,9 @@ function resolveManifestAndConfig(
     (digest) => metadata.manifests[digest] === manifest,
   );
 
-  const provenanceAttestations = extractProvenanceAttestations(
-    metadata,
-    imageManifestDigest,
-  );
+  const attestations = extractAttestations(metadata, imageManifestDigest);
 
-  return { manifest, imageConfig, provenanceAttestations };
+  return { manifest, imageConfig, attestations };
 }
 
 const IMAGE_CONFIG_MEDIA_TYPES = new Set([
@@ -436,12 +435,10 @@ const IMAGE_CONFIG_MEDIA_TYPES = new Set([
   "application/vnd.docker.container.image.v1+json",
 ]);
 
-// Exported for testing.
 export function isImageManifest(manifest: OciArchiveManifest): boolean {
   return IMAGE_CONFIG_MEDIA_TYPES.has(manifest.config?.mediaType || "");
 }
 
-// Exported for testing.
 export function getManifest(
   imageIndex: OciImageIndex | undefined,
   manifestCollection: Record<string, OciArchiveManifest>,
@@ -565,11 +562,11 @@ function getImageConfig(
   );
 }
 
-function extractProvenanceAttestations(
+function extractAttestations(
   metadata: ArchiveMetadata,
   imageManifestDigest: string | undefined,
-): ResolvedProvenanceAttestationManifest[] {
-  const attestations: ResolvedProvenanceAttestationManifest[] = [];
+): ResolvedAttestationManifest[] {
+  const attestations: ResolvedAttestationManifest[] = [];
 
   if (!metadata.mainIndexFile) {
     return attestations;
@@ -619,7 +616,7 @@ function extractProvenanceAttestations(
 }
 
 function collectInTotoDigests(
-  attestations: ResolvedProvenanceAttestationManifest[],
+  attestations: ResolvedAttestationManifest[],
 ): Set<string> {
   const digests = new Set<string>();
   for (const attestation of attestations) {
@@ -633,7 +630,7 @@ function collectInTotoDigests(
 }
 
 function attachInTotoStatements(
-  attestations: ResolvedProvenanceAttestationManifest[],
+  attestations: ResolvedAttestationManifest[],
   inTotoStatements: Record<string, InTotoStatement>,
 ): void {
   for (const attestation of attestations) {

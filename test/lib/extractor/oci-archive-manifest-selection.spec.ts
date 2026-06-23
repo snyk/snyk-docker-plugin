@@ -9,12 +9,20 @@ describe("getManifest with no image index (known broken)", () => {
   it.failing("returns the real image manifest, not the attestation", () => {
     const attestation: OciArchiveManifest = {
       schemaVersion: "2",
-      config: { digest: "sha256:cfg", mediaType: "application/vnd.oci.image.config.v1+json" },
-      layers: [{ digest: "sha256:intoto", mediaType: "application/vnd.in-toto+json" }],
+      config: {
+        digest: "sha256:cfg",
+        mediaType: "application/vnd.oci.image.config.v1+json",
+      },
+      layers: [
+        { digest: "sha256:intoto", mediaType: "application/vnd.in-toto+json" },
+      ],
     };
     const image: OciArchiveManifest = {
       schemaVersion: "2",
-      config: { digest: "sha256:cfg2", mediaType: "application/vnd.oci.image.config.v1+json" },
+      config: {
+        digest: "sha256:cfg2",
+        mediaType: "application/vnd.oci.image.config.v1+json",
+      },
       layers: [{ digest: "sha256:layer" }],
     };
 

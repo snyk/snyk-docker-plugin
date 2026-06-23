@@ -1,10 +1,7 @@
 import * as Debug from "debug";
 import { analyseDockerfile } from "../dockerfile";
 import { DockerFileAnalysis } from "../dockerfile/types";
-import {
-  InTotoStatement,
-  ResolvedProvenanceAttestationManifest,
-} from "./types";
+import { InTotoStatement, ResolvedAttestationManifest } from "./types";
 
 const debug = Debug("snyk");
 
@@ -290,7 +287,7 @@ async function parseStatement(
 }
 
 export async function parseProvenanceAttestations(
-  attestationManifests: ResolvedProvenanceAttestationManifest[],
+  attestationManifests: ResolvedAttestationManifest[],
 ): Promise<ProvenanceMetadata[]> {
   const results: ProvenanceMetadata[] = [];
 

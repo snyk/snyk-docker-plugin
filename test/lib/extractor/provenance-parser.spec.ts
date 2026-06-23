@@ -2,11 +2,11 @@ import {
   parseProvenanceAttestations,
   ProvenanceMetadata,
 } from "../../../lib/extractor/provenance-parser";
-import { ResolvedProvenanceAttestationManifest } from "../../../lib/extractor/types";
+import { ResolvedAttestationManifest } from "../../../lib/extractor/types";
 
 function makeRawAttestation(
   inTotoStatement: Record<string, unknown>,
-): ResolvedProvenanceAttestationManifest {
+): ResolvedAttestationManifest {
   const layerDigest = "sha256:layerdigest";
   return {
     manifestDigest: "sha256:abc123",
@@ -344,7 +344,7 @@ describe("provenance-parser", () => {
 
   describe("attestation digest", () => {
     it("surfaces the attestation manifest digest distinct from the image digest", async () => {
-      const attestation: ResolvedProvenanceAttestationManifest = {
+      const attestation: ResolvedAttestationManifest = {
         manifestDigest: "sha256:attestationmanifest",
         manifest: {
           schemaVersion: "2",
@@ -384,7 +384,7 @@ describe("provenance-parser", () => {
 
   describe("limits and edge cases", () => {
     it("limits to 10 attestations per image", async () => {
-      const attestations: ResolvedProvenanceAttestationManifest[] = Array.from(
+      const attestations: ResolvedAttestationManifest[] = Array.from(
         { length: 15 },
         (_, i) =>
           makeRawAttestation({
@@ -413,7 +413,7 @@ describe("provenance-parser", () => {
     it("selects the same digest-sorted subset regardless of input order when over the limit", async () => {
       const makeAttestationWithDigest = (
         manifestDigest: string,
-      ): ResolvedProvenanceAttestationManifest => ({
+      ): ResolvedAttestationManifest => ({
         manifestDigest,
         manifest: {
           schemaVersion: "2",
@@ -462,7 +462,7 @@ describe("provenance-parser", () => {
     });
 
     it("skips layers without inTotoStatement", async () => {
-      const attestation: ResolvedProvenanceAttestationManifest = {
+      const attestation: ResolvedAttestationManifest = {
         manifestDigest: "sha256:abc",
         manifest: {
           schemaVersion: "2",

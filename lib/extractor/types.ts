@@ -36,7 +36,7 @@ export interface ExtractionResult {
   imageCreationTime?: string;
   containerConfig?: ContainerConfig | null;
   history?: HistoryEntry[] | null;
-  provenanceAttestations?: ResolvedProvenanceAttestationManifest[];
+  attestations?: ResolvedAttestationManifest[];
 }
 
 export interface ExtractedLayers {
@@ -61,7 +61,7 @@ export interface ExtractedLayersAndManifest {
   layers: ExtractedLayers[];
   manifest: TarArchiveManifest | OciArchiveManifest;
   imageConfig: ImageConfig;
-  provenanceAttestations?: ResolvedProvenanceAttestationManifest[];
+  attestations?: ResolvedAttestationManifest[];
 }
 
 export interface ContainerConfig {
@@ -140,7 +140,7 @@ export interface InTotoStatement {
   predicate?: Record<string, unknown>;
 }
 
-export interface ResolvedProvenanceAttestationManifest {
+export interface ResolvedAttestationManifest {
   manifestDigest: string;
   manifest: OciArchiveManifest;
   inTotoStatements: Record<string, InTotoStatement>;

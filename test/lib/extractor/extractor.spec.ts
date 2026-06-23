@@ -167,7 +167,7 @@ describe("extractImageContent", () => {
         );
 
         const result = await extractImageContent(type, fixture, [], {});
-        const attestations = result.provenanceAttestations ?? [];
+        const attestations = result.attestations ?? [];
 
         expect(attestations).toHaveLength(1);
 

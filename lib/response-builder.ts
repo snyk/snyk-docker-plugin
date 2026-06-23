@@ -303,13 +303,8 @@ async function buildResponse(
     additionalFacts.push(metadataFact);
   }
 
-  if (
-    depsAnalysis.provenanceAttestations &&
-    depsAnalysis.provenanceAttestations.length > 0
-  ) {
-    const parsed = await parseProvenanceAttestations(
-      depsAnalysis.provenanceAttestations,
-    );
+  if (depsAnalysis.attestations && depsAnalysis.attestations.length > 0) {
+    const parsed = await parseProvenanceAttestations(depsAnalysis.attestations);
     if (parsed.length > 0) {
       const provenanceMetadataFact: facts.ProvenanceMetadataFact = {
         type: "provenanceMetadata",
