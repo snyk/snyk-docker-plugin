@@ -436,11 +436,13 @@ const IMAGE_CONFIG_MEDIA_TYPES = new Set([
   "application/vnd.docker.container.image.v1+json",
 ]);
 
-function isImageManifest(manifest: OciArchiveManifest): boolean {
+// Exported for testing.
+export function isImageManifest(manifest: OciArchiveManifest): boolean {
   return IMAGE_CONFIG_MEDIA_TYPES.has(manifest.config?.mediaType || "");
 }
 
-function getManifest(
+// Exported for testing.
+export function getManifest(
   imageIndex: OciImageIndex | undefined,
   manifestCollection: Record<string, OciArchiveManifest>,
   indexFiles: Record<string, OciImageIndex>,
