@@ -2446,8 +2446,10 @@ Object {
         Object {
           "data": Array [
             Object {
-              "buildConfigCommit": null,
-              "buildConfigCommitSource": null,
+              "attestationManifestDigest": "sha256:2f26b09e0167127d5ceb3cd414032165590297dd068b2a9b140ded93dc6c71aa",
+              "attestedManifestDigest": "sha256:b9df823acf7ff76ccff20b1b68e3ce99eb90d3c7d19c6132a3486af888909ec9",
+              "buildConfigDigest": null,
+              "buildConfigDigestSource": null,
               "buildConfigSourceUri": null,
               "buildTimestamp": "2025-10-22T15:17:20.705984586Z",
               "buildType": "https://mobyproject.org/buildkit@v1",
@@ -2456,8 +2458,6 @@ Object {
                 "analysis": null,
                 "name": "esbuild-test-dockerfile",
               },
-              "sourceAttestationDigest": "sha256:2f26b09e0167127d5ceb3cd414032165590297dd068b2a9b140ded93dc6c71aa",
-              "sourceImageDigest": "sha256:b9df823acf7ff76ccff20b1b68e3ce99eb90d3c7d19c6132a3486af888909ec9",
             },
           ],
           "type": "provenanceMetadata",

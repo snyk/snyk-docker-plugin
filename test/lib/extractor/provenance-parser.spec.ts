@@ -64,10 +64,10 @@ describe("provenance-parser", () => {
       expect(result).toHaveLength(1);
       expect(result[0]).toEqual<ProvenanceMetadata>({
         buildTimestamp: "2025-01-15T10:30:00Z",
-        buildConfigCommit: "sha1:abc123def456",
-        buildConfigCommitSource: "remote",
-        sourceImageDigest: "sha256:deadbeef1234",
-        sourceAttestationDigest: "sha256:abc123",
+        buildConfigDigest: "sha1:abc123def456",
+        buildConfigDigestSource: "remote",
+        attestedManifestDigest: "sha256:deadbeef1234",
+        attestationManifestDigest: "sha256:abc123",
         buildConfigSourceUri: "https://github.com/myorg/myrepo",
         builderId: "https://github.com/docker/buildx",
         buildType:
@@ -107,8 +107,8 @@ describe("provenance-parser", () => {
       const result = await parseProvenanceAttestations([attestation]);
 
       expect(result).toHaveLength(1);
-      expect(result[0].buildConfigCommit).toBe("localcommitsha");
-      expect(result[0].buildConfigCommitSource).toBe("local");
+      expect(result[0].buildConfigDigest).toBe("localcommitsha");
+      expect(result[0].buildConfigDigestSource).toBe("local");
       expect(result[0].dockerfileMetadata.name).toBe("docker/Dockerfile.prod");
     });
 
@@ -254,10 +254,10 @@ describe("provenance-parser", () => {
       expect(result).toHaveLength(1);
       expect(result[0]).toEqual<ProvenanceMetadata>({
         buildTimestamp: "2025-06-01T14:00:00Z",
-        buildConfigCommit: "sha1:remote1sha",
-        buildConfigCommitSource: "remote",
-        sourceImageDigest: "sha256:cafebabe9999",
-        sourceAttestationDigest: "sha256:abc123",
+        buildConfigDigest: "sha1:remote1sha",
+        buildConfigDigestSource: "remote",
+        attestedManifestDigest: "sha256:cafebabe9999",
+        attestationManifestDigest: "sha256:abc123",
         buildConfigSourceUri: "https://github.com/team/project",
         builderId: "https://github.com/actions/runner",
         buildType:
@@ -296,8 +296,8 @@ describe("provenance-parser", () => {
       const result = await parseProvenanceAttestations([attestation]);
 
       expect(result).toHaveLength(1);
-      expect(result[0].buildConfigCommit).toBe("localv1commit");
-      expect(result[0].buildConfigCommitSource).toBe("local");
+      expect(result[0].buildConfigDigest).toBe("localv1commit");
+      expect(result[0].buildConfigDigestSource).toBe("local");
     });
 
     it("decodes and parses dockerfile contents from a mode=max build", async () => {
@@ -375,10 +375,10 @@ describe("provenance-parser", () => {
       const result = await parseProvenanceAttestations([attestation]);
 
       expect(result).toHaveLength(1);
-      expect(result[0].sourceAttestationDigest).toBe(
+      expect(result[0].attestationManifestDigest).toBe(
         "sha256:attestationmanifest",
       );
-      expect(result[0].sourceImageDigest).toBe("sha256:imagedigest");
+      expect(result[0].attestedManifestDigest).toBe("sha256:imagedigest");
     });
   });
 
@@ -452,9 +452,9 @@ describe("provenance-parser", () => {
 
       const resultAscending = (
         await parseProvenanceAttestations(ascending)
-      ).map((r) => r.sourceAttestationDigest);
+      ).map((r) => r.attestationManifestDigest);
       const resultShuffled = (await parseProvenanceAttestations(shuffled)).map(
-        (r) => r.sourceAttestationDigest,
+        (r) => r.attestationManifestDigest,
       );
 
       expect(resultAscending).toEqual(expectedSubset);
@@ -516,10 +516,10 @@ describe("provenance-parser", () => {
       expect(result).toHaveLength(1);
       expect(result[0]).toEqual<ProvenanceMetadata>({
         buildTimestamp: null,
-        buildConfigCommit: null,
-        buildConfigCommitSource: null,
-        sourceImageDigest: "sha256:abc123",
-        sourceAttestationDigest: "sha256:abc123",
+        buildConfigDigest: null,
+        buildConfigDigestSource: null,
+        attestedManifestDigest: "sha256:abc123",
+        attestationManifestDigest: "sha256:abc123",
         buildConfigSourceUri: null,
         builderId: "",
         buildType: "",

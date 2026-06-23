@@ -18,10 +18,10 @@ export interface DockerfileMetadata {
 
 export interface ProvenanceMetadata {
   buildTimestamp: string | null;
-  buildConfigCommit: string | null;
-  buildConfigCommitSource: "remote" | "local" | null;
-  sourceImageDigest: string;
-  sourceAttestationDigest: string;
+  buildConfigDigest: string | null;
+  buildConfigDigestSource: "remote" | "local" | null;
+  attestedManifestDigest: string;
+  attestationManifestDigest: string;
   buildConfigSourceUri: string | null;
   builderId: string;
   buildType: string;
@@ -118,8 +118,8 @@ function getConfigSourceCommit(digest?: {
 
 async function extractFieldsSlsa02(
   predicate: SlsaPredicateV0_2,
-  sourceImageDigest: string,
-  sourceAttestationDigest: string,
+  attestedManifestDigest: string,
+  attestationManifestDigest: string,
 ): Promise<ProvenanceMetadata> {
   const buildTimestamp = predicate.metadata?.buildStartedOn || null;
 
@@ -130,8 +130,8 @@ async function extractFieldsSlsa02(
     predicate.invocation?.configSource?.digest,
   );
   const localCommit = buildkitMeta?.vcs?.revision;
-  const buildConfigCommit = remoteCommit || localCommit || null;
-  const buildConfigCommitSource = remoteCommit
+  const buildConfigDigest = remoteCommit || localCommit || null;
+  const buildConfigDigestSource = remoteCommit
     ? "remote"
     : localCommit
     ? "local"
@@ -152,10 +152,10 @@ async function extractFieldsSlsa02(
 
   return {
     buildTimestamp,
-    buildConfigCommit,
-    buildConfigCommitSource,
-    sourceImageDigest,
-    sourceAttestationDigest,
+    buildConfigDigest,
+    buildConfigDigestSource,
+    attestedManifestDigest,
+    attestationManifestDigest,
     buildConfigSourceUri,
     builderId,
     buildType,
@@ -168,8 +168,8 @@ async function extractFieldsSlsa02(
 
 async function extractFieldsSlsa10(
   predicate: SlsaPredicateV1_0,
-  sourceImageDigest: string,
-  sourceAttestationDigest: string,
+  attestedManifestDigest: string,
+  attestationManifestDigest: string,
 ): Promise<ProvenanceMetadata> {
   const runDetails = predicate.runDetails;
   const buildDefinition = predicate.buildDefinition;
@@ -180,8 +180,8 @@ async function extractFieldsSlsa10(
     buildDefinition?.externalParameters?.configSource?.digest,
   );
   const localCommit = runDetails?.metadata?.buildkit_metadata?.vcs?.revision;
-  const buildConfigCommit = remoteCommit || localCommit || null;
-  const buildConfigCommitSource = remoteCommit
+  const buildConfigDigest = remoteCommit || localCommit || null;
+  const buildConfigDigestSource = remoteCommit
     ? "remote"
     : localCommit
     ? "local"
@@ -203,10 +203,10 @@ async function extractFieldsSlsa10(
 
   return {
     buildTimestamp,
-    buildConfigCommit,
-    buildConfigCommitSource,
-    sourceImageDigest,
-    sourceAttestationDigest,
+    buildConfigDigest,
+    buildConfigDigestSource,
+    attestedManifestDigest,
+    attestationManifestDigest,
     buildConfigSourceUri,
     builderId,
     buildType,
@@ -217,7 +217,7 @@ async function extractFieldsSlsa10(
   };
 }
 
-function getSourceImageDigest(statement: InTotoStatement): string | null {
+function getAttestedManifestDigest(statement: InTotoStatement): string | null {
   const digest = statement.subject?.[0]?.digest;
   if (!digest) {
     return null;
@@ -245,7 +245,7 @@ function getSlsaProvenanceVersion(
 
 async function parseStatement(
   statement: InTotoStatement,
-  sourceAttestationDigest: string,
+  attestationManifestDigest: string,
 ): Promise<ProvenanceMetadata | null> {
   const predicate = statement.predicate;
   if (!predicate) {
@@ -253,8 +253,8 @@ async function parseStatement(
     return null;
   }
 
-  const sourceImageDigest = getSourceImageDigest(statement);
-  if (!sourceImageDigest) {
+  const attestedManifestDigest = getAttestedManifestDigest(statement);
+  if (!attestedManifestDigest) {
     debug("[provenance] No valid subject digest in in-toto statement");
     return null;
   }
@@ -270,14 +270,14 @@ async function parseStatement(
     case "https://slsa.dev/provenance/v0.2":
       return extractFieldsSlsa02(
         predicate as SlsaPredicateV0_2,
-        sourceImageDigest,
-        sourceAttestationDigest,
+        attestedManifestDigest,
+        attestationManifestDigest,
       );
     case "https://slsa.dev/provenance/v1":
       return extractFieldsSlsa10(
         predicate as SlsaPredicateV1_0,
-        sourceImageDigest,
-        sourceAttestationDigest,
+        attestedManifestDigest,
+        attestationManifestDigest,
       );
     default: {
       const _exhaustiveCheck: never = version;
