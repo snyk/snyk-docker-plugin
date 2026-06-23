@@ -156,3 +156,27 @@ target Node major (`20`) when validating locally.
 - How a scan flows end-to-end: start at `lib/scan.ts`.
 - How to add support for a new ecosystem: look at an existing one under
   `lib/inputs/` + `lib/analyzer/applications/` + `lib/parser/` as a template.
+
+## Cursor Cloud specific instructions
+
+This is a library, not a runnable app — there is no server/dev process to start.
+"Running it" means calling `scan(...)` (exported from `lib/index.ts`) against an
+image archive, e.g. a fixture under `test/fixtures/oci-archives/`. See the
+standard `Commands` table above for build/lint/test; only the non-obvious
+caveats below are Cloud-specific.
+
+- **Node version:** `.nvmrc` pins Node 20 and CI uses `20.19`. The VM's default
+  `node` may be a newer major (e.g. 22) from the agent runtime; it satisfies
+  `engines >=20.19` and build/lint/unit all pass on it, but to match CI run
+  `nvm use 20` (Node 20 is preinstalled via nvm; `nvm alias default 20` is set).
+- **Unit-test color gotcha:** the 4 tests in `test/lib/display.spec.ts` compare
+  against ANSI-colored fixtures. `chalk` only emits color when it detects color
+  support, so in a non-TTY shell those 4 tests fail spuriously with a
+  color-vs-plain diff. Run unit tests with `FORCE_COLOR=1`
+  (`FORCE_COLOR=1 npm run test:unit`) and they all pass.
+- **System tests need secrets + Docker:** `npm run test:system` requires a
+  running Docker daemon plus the private creds `DOCKER_HUB_PRIVATE_IMAGE`,
+  `DOCKER_HUB_USERNAME`, `DOCKER_HUB_PASSWORD` (and at runtime the plugin reads
+  `SNYK_REGISTRY_USERNAME` / `SNYK_REGISTRY_PASSWORD`). Neither Docker nor those
+  secrets are present by default here, so system tests cannot run until they are
+  provided. Unit tests and archive-based `scan()` calls need neither.
