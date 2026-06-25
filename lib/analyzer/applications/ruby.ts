@@ -21,8 +21,13 @@ interface RubyGemSpec {
 }
 
 interface ParsedGemfileLock {
-  specs: Map<string, RubyGemSpec>;
+  specs: Map<string, RubyGemSpec[]>;
   dependencies: string[];
+}
+
+interface ParsedGemfileManifest {
+  dependencies: Set<string>;
+  foundGemDeclarations: boolean;
 }
 
 export async function rubyFilesToScannedProjects(
@@ -37,6 +42,7 @@ export async function rubyFilesToScannedProjects(
       depGraph = await buildDepGraphFromGemfileLock(
         filePathToContent[pathPair.lock],
         pathPair.lock,
+        filePathToContent[pathPair.manifest],
       );
     } catch (err) {
       debug(
@@ -73,9 +79,15 @@ export async function rubyFilesToScannedProjects(
 async function buildDepGraphFromGemfileLock(
   content: string,
   lockFilePath: string,
+  manifestContent: string,
 ): Promise<DepGraph | null> {
   const parsedLock = parseGemfileLock(content);
-  if (parsedLock.specs.size === 0 || parsedLock.dependencies.length === 0) {
+  const manifest = parseGemfileManifestDependencies(manifestContent);
+  const directDependencies = manifest.foundGemDeclarations
+    ? Array.from(manifest.dependencies)
+    : parsedLock.dependencies;
+
+  if (parsedLock.specs.size === 0 || directDependencies.length === 0) {
     return null;
   }
 
@@ -85,7 +97,7 @@ async function buildDepGraphFromGemfileLock(
   );
   const visited = new Set<string>();
 
-  for (const dependency of parsedLock.dependencies) {
+  for (const dependency of directDependencies) {
     await addDependencyToDepGraph(
       builder.rootNodeId,
       dependency,
@@ -106,7 +118,7 @@ async function buildDepGraphFromGemfileLock(
 async function addDependencyToDepGraph(
   parentNodeId: string,
   dependencyName: string,
-  specs: Map<string, RubyGemSpec>,
+  specs: Map<string, RubyGemSpec[]>,
   visited: Set<string>,
   builder: DepGraphBuilder,
 ): Promise<void> {
@@ -114,11 +126,23 @@ async function addDependencyToDepGraph(
     await eventLoopSpinner.spin();
   }
 
-  const spec = specs.get(dependencyName.toLowerCase());
-  if (!spec) {
+  const matchingSpecs = specs.get(dependencyName.toLowerCase());
+  if (!matchingSpecs) {
     return;
   }
 
+  for (const spec of matchingSpecs) {
+    await addSpecToDepGraph(parentNodeId, spec, specs, visited, builder);
+  }
+}
+
+async function addSpecToDepGraph(
+  parentNodeId: string,
+  spec: RubyGemSpec,
+  specs: Map<string, RubyGemSpec[]>,
+  visited: Set<string>,
+  builder: DepGraphBuilder,
+): Promise<void> {
   const nodeId = `${spec.name}@${spec.version}`;
   if (!visited.has(nodeId)) {
     visited.add(nodeId);
@@ -132,7 +156,7 @@ async function addDependencyToDepGraph(
 }
 
 function parseGemfileLock(content: string): ParsedGemfileLock {
-  const specs = new Map<string, RubyGemSpec>();
+  const specs = new Map<string, RubyGemSpec[]>();
   const dependencies: string[] = [];
   const lines = content.split(/\r?\n/);
 
@@ -185,6 +209,57 @@ function parseGemfileLock(content: string): ParsedGemfileLock {
   return { specs, dependencies };
 }
 
+function parseGemfileManifestDependencies(
+  content: string,
+): ParsedGemfileManifest {
+  const dependencies = new Set<string>();
+  let foundGemDeclarations = false;
+  const blockStack: Array<{ type: "group" | "other"; groups: string[] }> = [];
+
+  for (const rawLine of content.split(/\r?\n/)) {
+    const line = stripTrailingComment(rawLine);
+    const trimmedLine = line.trim();
+    if (!trimmedLine) {
+      continue;
+    }
+
+    const groupBlock = trimmedLine.match(/^group\s+(.+?)\s+do\b/);
+    if (groupBlock) {
+      blockStack.push({
+        type: "group",
+        groups: parseRubySymbols(groupBlock[1]),
+      });
+      continue;
+    }
+
+    if (trimmedLine === "end") {
+      blockStack.pop();
+      continue;
+    }
+
+    const gemName = parseGemName(trimmedLine);
+    if (gemName) {
+      foundGemDeclarations = true;
+      const groups = [
+        ...blockStack
+          .filter((block) => block.type === "group")
+          .flatMap((block) => block.groups),
+        ...parseInlineGemGroups(trimmedLine),
+      ];
+      if (shouldIncludeGemGroup(groups)) {
+        dependencies.add(gemName);
+      }
+      continue;
+    }
+
+    if (/\bdo\b/.test(trimmedLine)) {
+      blockStack.push({ type: "other", groups: [] });
+    }
+  }
+
+  return { dependencies, foundGemDeclarations };
+}
+
 function isSectionHeader(line: string): boolean {
   return /^[A-Z][A-Z0-9 _-]*$/.test(line);
 }
@@ -214,11 +289,42 @@ function parseDependencyName(line: string): string | null {
   return match ? match[1] : null;
 }
 
-function addSpec(specs: Map<string, RubyGemSpec>, spec: RubyGemSpec): void {
+function stripTrailingComment(line: string): string {
+  return line.replace(/\s+#.*$/, "");
+}
+
+function parseGemName(line: string): string | null {
+  const match = line.match(/^gem\s+["']([^"']+)["']/);
+  return match ? match[1] : null;
+}
+
+function parseInlineGemGroups(line: string): string[] {
+  const groups: string[] = [];
+  const groupMatches = line.matchAll(/(?:group|groups):\s*(\[[^\]]+\]|:\w+)/g);
+  for (const match of groupMatches) {
+    groups.push(...parseRubySymbols(match[1]));
+  }
+  return groups;
+}
+
+function parseRubySymbols(value: string): string[] {
+  return Array.from(value.matchAll(/:(\w+)/g)).map((match) => match[1]);
+}
+
+function shouldIncludeGemGroup(groups: string[]): boolean {
+  if (groups.length === 0) {
+    return true;
+  }
+  const excludedGroups = new Set(["development", "test"]);
+  return groups.some((group) => !excludedGroups.has(group));
+}
+
+function addSpec(specs: Map<string, RubyGemSpec[]>, spec: RubyGemSpec): void {
   const key = spec.name.toLowerCase();
   if (!specs.has(key)) {
-    specs.set(key, spec);
+    specs.set(key, []);
   }
+  specs.get(key)!.push(spec);
 }
 
 function findManifestLockPairsInSameDirectory(

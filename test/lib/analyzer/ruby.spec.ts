@@ -35,6 +35,21 @@ BUNDLED WITH
    2.5.6
 `;
 
+const gemfileWithGroups = `source "https://rubygems.org"
+
+gem "rails"
+gem "puma", group: :production
+gem "debug", group: :development
+
+group :development, :test do
+  gem "rspec"
+end
+
+group :production do
+  gem "pg"
+end
+`;
+
 function getDepGraph(result: AppDepsScanResultWithoutTarget): DepGraph {
   return result.facts.find((fact) => fact.type === "depGraph")!.data;
 }
@@ -132,7 +147,10 @@ describe("ruby Gemfile.lock analyzer", () => {
 
   it("parses path or git dependencies marked with a bang", async () => {
     const results = await rubyFilesToScannedProjects({
-      "/app/Gemfile": gemfile,
+      "/app/Gemfile": `source "https://rubygems.org"
+
+gem "local_tool", git: "https://example.com/local-tool.git"
+`,
       "/app/Gemfile.lock": `GIT
   remote: https://example.com/local-tool.git
   revision: abc123
@@ -162,5 +180,111 @@ DEPENDENCIES
       ]),
     );
     expect(getNodeDeps(depGraph, "local_tool@0.1.0")).toEqual(["thor@1.3.0"]);
+  });
+
+  it("excludes dependencies that are only in development and test groups", async () => {
+    const results = await rubyFilesToScannedProjects({
+      "/app/Gemfile": gemfileWithGroups,
+      "/app/Gemfile.lock": `GEM
+  remote: https://rubygems.org/
+  specs:
+    debug (1.9.2)
+    nio4r (2.7.0)
+    pg (1.5.6)
+    puma (6.4.2)
+      nio4r (~> 2.0)
+    rails (7.0.8)
+    rspec (3.13.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  debug
+  pg
+  puma
+  rails
+  rspec
+`,
+    });
+
+    expect(results).toHaveLength(1);
+    const depGraph = getDepGraph(results[0]);
+    expect(getNodeDeps(depGraph, "root-node")).toEqual([
+      "pg@1.5.6",
+      "puma@6.4.2",
+      "rails@7.0.8",
+    ]);
+    expect(depGraph.getPkgs()).not.toEqual(
+      expect.arrayContaining([
+        { name: "debug", version: "1.9.2" },
+        { name: "rspec", version: "3.13.0" },
+      ]),
+    );
+  });
+
+  it("returns no scan result when every declared gem is excluded by group", async () => {
+    const results = await rubyFilesToScannedProjects({
+      "/app/Gemfile": `source "https://rubygems.org"
+
+group :development, :test do
+  gem "debug"
+  gem "rspec"
+end
+`,
+      "/app/Gemfile.lock": `GEM
+  remote: https://rubygems.org/
+  specs:
+    debug (1.9.2)
+    rspec (3.13.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  debug
+  rspec
+`,
+    });
+
+    expect(results).toHaveLength(0);
+  });
+
+  it("keeps multiple locked specs for the same gem name", async () => {
+    const results = await rubyFilesToScannedProjects({
+      "/app/Gemfile": `source "https://rubygems.org"
+
+gem "nokogiri"
+`,
+      "/app/Gemfile.lock": `GEM
+  remote: https://rubygems.org/
+  specs:
+    mini_portile2 (2.8.7)
+    nokogiri (1.18.10)
+      mini_portile2 (~> 2.8.2)
+    nokogiri (1.18.10-aarch64-linux-gnu)
+
+PLATFORMS
+  aarch64-linux-gnu
+  ruby
+
+DEPENDENCIES
+  nokogiri
+`,
+    });
+
+    expect(results).toHaveLength(1);
+    const depGraph = getDepGraph(results[0]);
+    expect(depGraph.getPkgs()).toEqual(
+      expect.arrayContaining([
+        { name: "nokogiri", version: "1.18.10" },
+        { name: "nokogiri", version: "1.18.10-aarch64-linux-gnu" },
+        { name: "mini_portile2", version: "2.8.7" },
+      ]),
+    );
+    expect(getNodeDeps(depGraph, "root-node")).toEqual([
+      "nokogiri@1.18.10",
+      "nokogiri@1.18.10-aarch64-linux-gnu",
+    ]);
   });
 });

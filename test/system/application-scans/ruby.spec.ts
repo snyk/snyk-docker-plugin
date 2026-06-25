@@ -29,6 +29,19 @@ describe("ruby application scans", () => {
     )!.data;
     expect(depGraph.pkgManager.name).toBe("rubygems");
     expect(depGraph.getDepPkgs().length).toBeGreaterThan(0);
+    expect(depGraph.getPkgs()).toEqual(
+      expect.arrayContaining([
+        { name: "logstash-core", version: "7.17.5-java" },
+        { name: "elasticsearch", version: "7.17.1" },
+        { name: "elasticsearch-api", version: "7.17.1" },
+      ]),
+    );
+    const elasticsearchNode = depGraph
+      .toJSON()
+      .graph.nodes.find((node) => node.nodeId === "elasticsearch@7.17.1");
+    expect(elasticsearchNode?.deps).toEqual(
+      expect.arrayContaining([{ nodeId: "elasticsearch-api@7.17.1" }]),
+    );
 
     const testedFiles = rubyScanResult!.facts.find(
       (fact) => fact.type === "testedFiles",
