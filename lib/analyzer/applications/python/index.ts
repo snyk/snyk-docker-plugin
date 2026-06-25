@@ -1,4 +1,9 @@
 import { pipFilesToScannedProjects } from "./pip";
 import { poetryFilesToScannedProjects } from "./poetry";
+import { uvFilesToScannedProjects } from "./uv";
 
-export { pipFilesToScannedProjects, poetryFilesToScannedProjects };
+export {
+  pipFilesToScannedProjects,
+  poetryFilesToScannedProjects,
+  uvFilesToScannedProjects,
+};
