@@ -156,3 +156,22 @@ target Node major (`20`) when validating locally.
 - How a scan flows end-to-end: start at `lib/scan.ts`.
 - How to add support for a new ecosystem: look at an existing one under
   `lib/inputs/` + `lib/analyzer/applications/` + `lib/parser/` as a template.
+
+## Cursor Cloud specific instructions
+
+This is a library with no CLI/GUI. To exercise the core `scan()` path without
+Docker, point it at an image archive fixture, e.g.
+`scan({ path: "oci-archive:test/fixtures/oci-archives/alpine-3.12.0.tar" })`
+(also supports `docker-archive:` and `kaniko-archive:`). This returns a
+`PluginResponse` with a `depGraph` fact and OS facts — no daemon or network
+needed.
+
+- Unit tests: `npm run test:unit` reports 4 failures in `test/lib/display.spec.ts`
+  when run without a TTY. The display fixtures embed chalk ANSI color codes, and
+  chalk strips colors when stdout isn't a TTY. Run `FORCE_COLOR=1 npm run test:unit`
+  to make output match the fixtures (all 873 pass). This is purely a color-detection
+  artifact, not a code issue.
+- System tests (`npm run test:system`) need a running Docker daemon plus the
+  private Docker Hub creds (`DOCKER_HUB_*`); neither is present in this environment
+  by default, so these are skipped here. The default dev loop (build, lint,
+  `test:unit`) needs neither.
