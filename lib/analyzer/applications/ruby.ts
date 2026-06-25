@@ -6,6 +6,11 @@ import { getErrorMessage } from "../../error-utils";
 import { DepGraphFact, TestedFilesFact } from "../../facts";
 import { AppDepsScanResultWithoutTarget, FilePathToContent } from "./types";
 
+// Builds rubygems dep-graphs from Bundler files found in a container image.
+// Gemfile.lock is the source of truth for the resolved tree (every gem and its
+// pinned version + edges). The Gemfile manifest, when present, is consulted only
+// to decide which top-level gems are graph roots and to drop development/test-only
+// gems, which the lockfile alone cannot distinguish.
 const debug = Debug("snyk");
 const PACKAGE_MANAGER_TYPE = "rubygems";
 
@@ -145,6 +150,9 @@ async function addDependencyToDepGraph(
     await eventLoopSpinner.spin();
   }
 
+  // A single gem name can resolve to several locked specs (one per platform,
+  // e.g. nokogiri pure-ruby + nokogiri-aarch64-linux-gnu). We connect every
+  // variant — this mirrors the lockfile's own multi-platform resolution.
   const matchingSpecs = specs.get(dependencyName.toLowerCase());
   if (!matchingSpecs) {
     return;
@@ -162,6 +170,9 @@ async function addSpecToDepGraph(
   visited: Set<string>,
   builder: DepGraphBuilder,
 ): Promise<void> {
+  // Create each pkg node (and recurse into its children) exactly once, but
+  // always connect the parent->child edge — the same gem can be depended on by
+  // multiple parents even though we only want to walk its subtree once.
   const nodeId = `${spec.name}@${spec.version}`;
   if (!visited.has(nodeId)) {
     visited.add(nodeId);
@@ -174,6 +185,18 @@ async function addSpecToDepGraph(
   builder.connectDep(parentNodeId, nodeId);
 }
 
+// Parses the relevant slices of a Gemfile.lock. The format is indentation-based:
+//
+//   GEM
+//     specs:
+//       rails (7.0.8)          <- 4-space indent: a resolved spec (name + version)
+//         actionpack (= 7.0.8) <- 6-space indent: that spec's dependency
+//   DEPENDENCIES
+//     rails                    <- the gems declared directly in the Gemfile
+//
+// We collect every spec (keyed lowercase, since a gem may have multiple platform
+// variants) and the DEPENDENCIES list (used as roots only when the Gemfile is
+// unavailable).
 function parseGemfileLock(content: string): ParsedGemfileLock {
   const specs = new Map<string, RubyGemSpec[]>();
   const dependencies = new Set<string>();
@@ -228,6 +251,12 @@ function parseGemfileLock(content: string): ParsedGemfileLock {
   return { specs, dependencies: [...dependencies] };
 }
 
+// Extracts the gem names declared in a Gemfile, excluding any that live only in
+// development/test groups. Groups can be set two ways: a `group :x do ... end`
+// block, or an inline `gem "x", group: :y` option. blockStack tracks the
+// enclosing `do`/`end` blocks so we know which group(s) a gem sits inside;
+// non-group blocks (e.g. `source ... do`) are pushed too so `end` lines stay
+// balanced.
 function parseGemfileManifestDependencies(
   content: string,
 ): ParsedGemfileManifest {
@@ -235,35 +264,30 @@ function parseGemfileManifestDependencies(
   let foundGemDeclarations = false;
   const blockStack: Array<{ type: "group" | "other"; groups: string[] }> = [];
 
-  for (const rawLine of content.split(/\r?\n/)) {
-    const line = stripTrailingComment(rawLine);
-    const trimmedLine = line.trim();
-    if (!trimmedLine) {
-      continue;
-    }
-
-    const groupBlock = trimmedLine.match(/^group\s+(.+?)\s+do\b/);
+  for (const statement of toLogicalLines(content)) {
+    // Matches both `group :x do` and the method-call form `group(:x) do`.
+    const groupBlock = statement.match(/^group\s*\(?\s*(.+?)\s*\)?\s+do\b/);
     if (groupBlock) {
       blockStack.push({
         type: "group",
-        groups: parseRubySymbols(groupBlock[1]),
+        groups: parseGroupNames(groupBlock[1]),
       });
       continue;
     }
 
-    if (trimmedLine === "end") {
+    if (statement === "end") {
       blockStack.pop();
       continue;
     }
 
-    const gemName = parseGemName(trimmedLine);
+    const gemName = parseGemName(statement);
     if (gemName) {
       foundGemDeclarations = true;
       const groups = [
         ...blockStack
           .filter((block) => block.type === "group")
           .flatMap((block) => block.groups),
-        ...parseInlineGemGroups(trimmedLine),
+        ...parseInlineGemGroups(statement),
       ];
       if (shouldIncludeGemGroup(groups)) {
         dependencies.add(gemName);
@@ -271,12 +295,41 @@ function parseGemfileManifestDependencies(
       continue;
     }
 
-    if (/\bdo\b/.test(trimmedLine)) {
+    if (/\bdo\b/.test(statement)) {
       blockStack.push({ type: "other", groups: [] });
     }
   }
 
   return { dependencies, foundGemDeclarations };
+}
+
+// Collapses a Gemfile into logical statements: blank lines and full-line comments
+// are dropped, and a line ending in a comma (a Ruby line continuation — e.g. a
+// `gem` call whose options spill onto the next line) is joined with the line(s)
+// that follow. This keeps inline group options attached to their gem, and stops a
+// comment that merely contains the word "do" from being mistaken for a block opener.
+function toLogicalLines(content: string): string[] {
+  const statements: string[] = [];
+  let buffer = "";
+
+  for (const rawLine of content.split(/\r?\n/)) {
+    const trimmedLine = stripTrailingComment(rawLine).trim();
+    if (trimmedLine === "" || trimmedLine.startsWith("#")) {
+      continue;
+    }
+    buffer = buffer === "" ? trimmedLine : `${buffer} ${trimmedLine}`;
+    if (buffer.endsWith(",")) {
+      continue;
+    }
+    statements.push(buffer);
+    buffer = "";
+  }
+
+  if (buffer !== "") {
+    statements.push(buffer);
+  }
+
+  return statements;
 }
 
 function isSectionHeader(line: string): boolean {
@@ -303,8 +356,10 @@ function parseSpecDependencyLine(line: string): string | null {
   return parseDependencyName(line.trim());
 }
 
+// Pulls the gem name off a dependency line, stopping at whitespace, a version
+// constraint `(`, a `!` (marks a path/git-pinned gem in DEPENDENCIES), or `;`.
 function parseDependencyName(line: string): string | null {
-  const match = line.match(/^([^\s(!;]+)!?/);
+  const match = line.match(/^([^\s(!;]+)/);
   return match ? match[1] : null;
 }
 
@@ -317,17 +372,40 @@ function parseGemName(line: string): string | null {
   return match ? match[1] : null;
 }
 
+// Reads the group(s) assigned inline on a gem line, via either the keyword form
+// (`group: :x` / `groups: [...]`) or the hash-rocket form (`:group => :x`). The
+// value may be a symbol, a quoted string, a symbol/string array, or a percent
+// array (`%i[...]` / `%w[...]`).
 function parseInlineGemGroups(line: string): string[] {
   const groups: string[] = [];
-  const groupMatches = line.matchAll(/(?:group|groups):\s*(\[[^\]]+\]|:\w+)/g);
+  const groupMatches = line.matchAll(
+    /(?::(?:group|groups)\s*=>|(?:group|groups):)\s*(%[iw]\[[^\]]*\]|\[[^\]]*\]|:\w+|"[^"]*"|'[^']*')/g,
+  );
   for (const match of groupMatches) {
-    groups.push(...parseRubySymbols(match[1]));
+    groups.push(...parseGroupNames(match[1]));
   }
   return groups;
 }
 
-function parseRubySymbols(value: string): string[] {
-  return [...value.matchAll(/:(\w+)/g)].map((match) => match[1]);
+// Extracts group names from a Ruby group expression, accepting every form Bundler
+// allows: symbols (`:development`), quoted strings (`"development"`), symbol/string
+// arrays (`[:development, :test]`), and percent arrays (`%i[development test]`,
+// `%w[development test]`).
+function parseGroupNames(value: string): string[] {
+  const symbols = [...value.matchAll(/:(\w+)/g)].map((match) => match[1]);
+  const strings = [...value.matchAll(/["']([^"']+)["']/g)].map(
+    (match) => match[1],
+  );
+  const named = [...symbols, ...strings];
+  if (named.length > 0) {
+    return named;
+  }
+  // Percent arrays (%i[...], %w[...]) carry bare, whitespace-separated words.
+  const bracket = value.match(/\[([^\]]*)\]/);
+  if (bracket) {
+    return bracket[1].split(/\s+/).filter(Boolean);
+  }
+  return [];
 }
 
 function shouldIncludeGemGroup(groups: string[]): boolean {
@@ -335,6 +413,8 @@ function shouldIncludeGemGroup(groups: string[]): boolean {
     return true;
   }
   const excludedGroups = new Set(["development", "test"]);
+  // Include if ANY group is not excluded — a gem shared between e.g. :production
+  // and :development must be kept, so this is `some`, not `every`.
   return groups.some((group) => !excludedGroups.has(group));
 }
 

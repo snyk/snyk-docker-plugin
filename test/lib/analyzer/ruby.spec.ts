@@ -1,4 +1,4 @@
-import { DepGraph } from "@snyk/dep-graph";
+import { DepGraph, DepGraphBuilder } from "@snyk/dep-graph";
 import { rubyFilesToScannedProjects } from "../../../lib/analyzer/applications";
 import { AppDepsScanResultWithoutTarget } from "../../../lib/analyzer/applications/types";
 
@@ -167,7 +167,7 @@ describe("ruby Gemfile.lock analyzer", () => {
     expect(results).toHaveLength(0);
   });
 
-  it("skips a malformed project but still scans valid ones", async () => {
+  it("skips an unparseable lockfile that yields no specs but still scans valid ones", async () => {
     const results = await rubyFilesToScannedProjects({
       "/broken/Gemfile": gemfile,
       "/broken/Gemfile.lock": "this is not a lockfile",
@@ -177,6 +177,30 @@ describe("ruby Gemfile.lock analyzer", () => {
 
     expect(results).toHaveLength(1);
     expect(results[0].identity.targetFile).toBe("/app/Gemfile.lock");
+  });
+
+  it("skips a project whose dep-graph construction throws but still scans valid ones", async () => {
+    // The "no specs" case above returns null; this exercises the catch path by
+    // forcing the graph builder to throw for the first project only.
+    const buildSpy = jest
+      .spyOn(DepGraphBuilder.prototype, "build")
+      .mockImplementationOnce(() => {
+        throw new Error("synthetic dep-graph failure");
+      });
+
+    try {
+      const results = await rubyFilesToScannedProjects({
+        "/broken/Gemfile": gemfile,
+        "/broken/Gemfile.lock": gemfileLock,
+        "/app/Gemfile": gemfile,
+        "/app/Gemfile.lock": gemfileLock,
+      });
+
+      expect(results).toHaveLength(1);
+      expect(results[0].identity.targetFile).toBe("/app/Gemfile.lock");
+    } finally {
+      buildSpy.mockRestore();
+    }
   });
 
   it("parses path or git dependencies marked with a bang", async () => {
@@ -320,5 +344,186 @@ DEPENDENCIES
       "nokogiri@1.18.10",
       "nokogiri@1.18.10-aarch64-linux-gnu",
     ]);
+  });
+
+  it("does not let a comment containing 'do' corrupt group parsing", async () => {
+    const results = await rubyFilesToScannedProjects({
+      "/app/Gemfile": `source "https://rubygems.org"
+
+group :development do
+# do not edit the gems below
+  gem "rspec"
+end
+
+gem "rails"
+gem "puma"
+`,
+      "/app/Gemfile.lock": `GEM
+  remote: https://rubygems.org/
+  specs:
+    puma (6.4.2)
+    rails (7.0.8)
+    rspec (3.13.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  puma
+  rails
+  rspec
+`,
+    });
+
+    expect(results).toHaveLength(1);
+    const depGraph = getDepGraph(results[0]);
+    // rails and puma are production gems declared after the group block — they
+    // must survive even though a comment inside the block contains "do".
+    expect(getNodeDeps(depGraph, "root-node")).toEqual([
+      "puma@6.4.2",
+      "rails@7.0.8",
+    ]);
+    expect(depGraph.getPkgs()).not.toEqual(
+      expect.arrayContaining([{ name: "rspec", version: "3.13.0" }]),
+    );
+  });
+
+  it("excludes a gem whose group is set with hash-rocket syntax", async () => {
+    const results = await rubyFilesToScannedProjects({
+      "/app/Gemfile": `source "https://rubygems.org"
+
+gem "rails"
+gem "byebug", :group => :development
+`,
+      "/app/Gemfile.lock": `GEM
+  remote: https://rubygems.org/
+  specs:
+    byebug (11.1.3)
+    rails (7.0.8)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  byebug
+  rails
+`,
+    });
+
+    expect(results).toHaveLength(1);
+    const depGraph = getDepGraph(results[0]);
+    expect(getNodeDeps(depGraph, "root-node")).toEqual(["rails@7.0.8"]);
+  });
+
+  it("excludes a gem whose groups use a %i[] array literal", async () => {
+    const results = await rubyFilesToScannedProjects({
+      "/app/Gemfile": `source "https://rubygems.org"
+
+gem "rails"
+gem "rspec-rails", groups: %i[development test]
+`,
+      "/app/Gemfile.lock": `GEM
+  remote: https://rubygems.org/
+  specs:
+    rails (7.0.8)
+    rspec-rails (6.1.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  rails
+  rspec-rails
+`,
+    });
+
+    expect(results).toHaveLength(1);
+    const depGraph = getDepGraph(results[0]);
+    expect(getNodeDeps(depGraph, "root-node")).toEqual(["rails@7.0.8"]);
+  });
+
+  it("excludes a gem whose group is given as a quoted string", async () => {
+    const results = await rubyFilesToScannedProjects({
+      "/app/Gemfile": `source "https://rubygems.org"
+
+gem "rails"
+gem "byebug", group: "development"
+`,
+      "/app/Gemfile.lock": `GEM
+  remote: https://rubygems.org/
+  specs:
+    byebug (11.1.3)
+    rails (7.0.8)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  byebug
+  rails
+`,
+    });
+
+    expect(results).toHaveLength(1);
+    const depGraph = getDepGraph(results[0]);
+    expect(getNodeDeps(depGraph, "root-node")).toEqual(["rails@7.0.8"]);
+  });
+
+  it("applies group filtering across a multi-line gem declaration", async () => {
+    const results = await rubyFilesToScannedProjects({
+      "/app/Gemfile": `source "https://rubygems.org"
+
+gem "rails"
+gem "rspec",
+  "~> 3.13",
+  groups: [:development, :test]
+`,
+      "/app/Gemfile.lock": `GEM
+  remote: https://rubygems.org/
+  specs:
+    rails (7.0.8)
+    rspec (3.13.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  rails
+  rspec
+`,
+    });
+
+    expect(results).toHaveLength(1);
+    const depGraph = getDepGraph(results[0]);
+    expect(getNodeDeps(depGraph, "root-node")).toEqual(["rails@7.0.8"]);
+  });
+
+  it("excludes gems inside a group(...) method-call block", async () => {
+    const results = await rubyFilesToScannedProjects({
+      "/app/Gemfile": `source "https://rubygems.org"
+
+gem "rails"
+group(:development) do
+  gem "rspec"
+end
+`,
+      "/app/Gemfile.lock": `GEM
+  remote: https://rubygems.org/
+  specs:
+    rails (7.0.8)
+    rspec (3.13.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  rails
+  rspec
+`,
+    });
+
+    expect(results).toHaveLength(1);
+    const depGraph = getDepGraph(results[0]);
+    expect(getNodeDeps(depGraph, "root-node")).toEqual(["rails@7.0.8"]);
   });
 });
