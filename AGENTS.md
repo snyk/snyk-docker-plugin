@@ -183,21 +183,36 @@ needed.
   Agent network access settings. The default dev loop (build, lint, `test:unit`)
   needs no Docker or network.
 
-### Testing changes against snyk/cli with the local plugin
+### Building snyk/cli against this working copy
 
-To build `snyk/cli` against this working copy (it's the main consumer), pack the
-plugin and install the tarball into a CLI checkout. Two gotchas:
+`snyk/cli` is the main consumer. To have a CLI checkout use this live working
+copy (so plugin edits flow through after `npm run build` here), link it rather
+than installing a published version:
 
-- `package.json` has no `version` field (semantic-release injects it at release),
-  so `npm pack` fails until you set a temporary version. Set it, pack, then
-  revert: `npm version 9.11.0 --no-git-tag-version`, `npm pack`, then
-  `git checkout package.json package-lock.json`. Packing uses `.npmignore`
-  (not `.gitignore`), so `dist/` is included as long as you ran `npm run build`.
-- The CLI pins `npm ^11.10` with `engine-strict=true`. With the npm 10 that ships
-  here, pass `--engine-strict=false` to npm in the CLI checkout.
+1. In the CLI checkout: `npm install --engine-strict=false` (the CLI pins
+   `npm ^11.10` with `engine-strict=true`; pass `--engine-strict=false` when the
+   environment ships npm 10).
+2. Point the CLI at this directory: `npm install /workspace --engine-strict=false`.
+   This symlinks `node_modules/snyk-docker-plugin` to `/workspace`, so
+   `require.resolve("snyk-docker-plugin")` resolves to `/workspace/dist/index.js`.
+   It works even though this `package.json` has no `version` field.
+3. Build the live plugin output: `npm run build` here (the symlink exposes
+   `/workspace/dist`).
+4. Build the CLI: `npm run build:dev`. Webpack follows the symlink and bundles
+   the local plugin code.
 
-Then in the CLI: `npm install --engine-strict=false`, override the dep with
-`npm install /path/to/snyk-docker-plugin-<ver>.tgz --engine-strict=false`, and
-`npm run build:dev`. The webpack build bundles `node_modules/snyk-docker-plugin/dist`,
-so the built CLI carries the local plugin code. `snyk container test` still needs
-an authenticated account (`snyk auth` / `SNYK_TOKEN`) before it runs the scan.
+Gotcha: linking moves the plugin's transitive deps under `/workspace/node_modules`
+instead of the CLI's. The CLI's `webpack.common.ts` copies
+`node_modules/sql.js/dist/sql-wasm.wasm` by path (sql.js comes in via
+`@snyk/rpm-parser`), so the build fails with "unable to locate .../sql-wasm.wasm"
+until you expose it in the CLI tree:
+`ln -sfn /workspace/node_modules/sql.js <cli>/node_modules/sql.js`.
+
+`snyk container test` still needs an authenticated account (`snyk auth` /
+`SNYK_TOKEN`) before it runs the scan.
+
+If you only need a frozen snapshot instead of a live link, `npm pack` works too,
+but `package.json` has no `version` field, so set a temporary one first
+(`npm version 9.11.0 --no-git-tag-version`, `npm pack`, then
+`git checkout package.json package-lock.json`); packing uses `.npmignore`, so
+`dist/` is included after `npm run build`.
