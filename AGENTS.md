@@ -216,3 +216,25 @@ but `package.json` has no `version` field, so set a temporary one first
 (`npm version 9.11.0 --no-git-tag-version`, `npm pack`, then
 `git checkout package.json package-lock.json`); packing uses `.npmignore`, so
 `dist/` is included after `npm run build`.
+
+### Local CLI smoke test for SDP changes
+
+`~/smoke-test-sdp-cli.sh` automates the full loop from the Confluence runbooks
+([Container CLI Onboarding](https://snyksec.atlassian.net/wiki/spaces/CONTAINER/pages/3377367228),
+[Debugging the Snyk Docker Plugin](https://snyksec.atlassian.net/wiki/spaces/CONTAINER/pages/3824615425)):
+build this plugin, link it into `~/snyk-cli`, apply the `sql.js` symlink fix,
+build the CLI, then run `node dist/cli/index.js container test <image>` so your
+local plugin code is exercised end-to-end. It's idempotent and clones the CLI if
+missing. Pass an image as `$1` (defaults to the bundled
+`oci-archive:.../alpine-3.12.0.tar`, so no registry pull is needed).
+
+A full scan needs two things this environment lacks by default:
+
+- `SNYK_TOKEN` (or run `node dist/cli/index.js auth` once). Without it the CLI
+  stops at "requires an authenticated account" before the plugin runs.
+- Network egress to `snyk.io`. It's currently blocked (`api.snyk.io` /
+  `app.snyk.io` return HTTP 000), so `container test` can't reach the API to
+  return results. Broaden the Cloud Agent network access settings to enable it.
+
+The script (and the link setup) live outside this repo, so they won't persist to
+a fresh Cloud VM; re-run the script to recreate everything.
