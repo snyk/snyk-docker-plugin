@@ -172,6 +172,13 @@ needed.
   to make output match the fixtures (all 873 pass). This is purely a color-detection
   artifact, not a code issue.
 - System tests (`npm run test:system`) need a running Docker daemon plus the
-  private Docker Hub creds (`DOCKER_HUB_*`); neither is present in this environment
-  by default, so these are skipped here. The default dev loop (build, lint,
-  `test:unit`) needs neither.
+  private Docker Hub creds (`DOCKER_HUB_USERNAME`, `DOCKER_HUB_PASSWORD`,
+  `DOCKER_HUB_PRIVATE_IMAGE`), which are wired up as Cloud secrets. There's no
+  systemd here, so start the daemon yourself and expose the socket to the test
+  user: `sudo dockerd &` then `sudo chmod 666 /var/run/docker.sock`.
+- Network egress to container registries is restricted in this environment, so
+  the system tests that pull images fail with `read ECONNRESET`. The fixture- and
+  local-daemon-based tests pass (~195/253); the ~53 registry-pull failures are
+  purely the egress limit, not code or setup. To run those, broaden the Cloud
+  Agent network access settings. The default dev loop (build, lint, `test:unit`)
+  needs no Docker or network.
