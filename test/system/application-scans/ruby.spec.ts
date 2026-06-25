@@ -18,6 +18,26 @@ describe("ruby application scans", () => {
 
     expect(pluginResult.scanResults.length).toBeGreaterThan(0);
 
+    const rubyScanResult = pluginResult.scanResults.find(
+      (scanResult) => scanResult.identity.type === "rubygems",
+    );
+    expect(rubyScanResult).toBeDefined();
+    expect(rubyScanResult!.identity.targetFile).toMatch(/Gemfile\.lock$/);
+
+    const depGraph = rubyScanResult!.facts.find(
+      (fact) => fact.type === "depGraph",
+    )!.data;
+    expect(depGraph.pkgManager.name).toBe("rubygems");
+    expect(depGraph.getDepPkgs().length).toBeGreaterThan(0);
+
+    const testedFiles = rubyScanResult!.facts.find(
+      (fact) => fact.type === "testedFiles",
+    );
+    expect(testedFiles).toEqual({
+      type: "testedFiles",
+      data: ["Gemfile", "Gemfile.lock"],
+    });
+
     const imageManifestFiles = pluginResult.scanResults[0].facts.find(
       (fact) => fact.type === "imageManifestFiles",
     )! as ImageManifestFilesFact;

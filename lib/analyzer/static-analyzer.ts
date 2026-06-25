@@ -47,6 +47,7 @@ import {
   getPoetryAppFileContentAction,
   getPythonAppFileContentAction,
 } from "../inputs/python/static";
+import { getRubyAppFileContentAction } from "../inputs/ruby/static";
 import {
   getRedHatRepositoriesContentAction,
   getRedHatRepositoriesFromExtractedLayers,
@@ -66,6 +67,7 @@ import {
   nodeFilesToScannedProjects,
   phpFilesToScannedProjects,
   poetryFilesToScannedProjects,
+  rubyFilesToScannedProjects,
 } from "./applications";
 import { jarFilesToScannedResults } from "./applications/java";
 import { pipFilesToScannedProjects } from "./applications/python";
@@ -147,6 +149,7 @@ export async function analyze(
       ...[
         getNodeAppFileContentAction,
         getPhpAppFileContentAction,
+        getRubyAppFileContentAction,
         getPoetryAppFileContentAction,
         getPipAppFileContentAction,
         getDotnetAppFileContentAction,
@@ -324,6 +327,12 @@ export async function analyze(
     timings.phpAnalysisMs = Date.now() - phaseStart;
 
     phaseStart = Date.now();
+    const rubyDependenciesScanResults = await rubyFilesToScannedProjects(
+      getFileContent(extractedLayers, getRubyAppFileContentAction.actionName),
+    );
+    timings.rubyAnalysisMs = Date.now() - phaseStart;
+
+    phaseStart = Date.now();
     const poetryDependenciesScanResults = await poetryFilesToScannedProjects(
       getFileContent(extractedLayers, getPoetryAppFileContentAction.actionName),
     );
@@ -372,6 +381,7 @@ export async function analyze(
       ...nodeDependenciesScanResults,
       ...nodeApplicationFilesScanResults,
       ...phpDependenciesScanResults,
+      ...rubyDependenciesScanResults,
       ...poetryDependenciesScanResults,
       ...pipDependenciesScanResults,
       ...pythonApplicationFilesScanResults,
