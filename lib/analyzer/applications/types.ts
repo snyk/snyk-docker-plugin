@@ -1,8 +1,14 @@
 import { Elf } from "../../go-parser/types";
 import { ScanResult } from "../../types";
+import type { NodeModulesPackagePath } from "../types";
 
 export interface AppDepsScanResultWithoutTarget
-  extends Omit<ScanResult, "target"> {}
+  extends Omit<ScanResult, "target"> {
+  // Internal-only: per-package node_modules install dirs used to resolve
+  // per-dependency APK ownership. Destructured out before the result becomes a
+  // public ScanResult, so it never reaches the wire.
+  nodeModulesPackagePaths?: NodeModulesPackagePath[];
+}
 
 export interface FilePathToContent {
   [filePath: string]: string;

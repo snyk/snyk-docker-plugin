@@ -1,4 +1,3 @@
-import * as Debug from "debug";
 import { SymlinkMap } from "../../extractor/types";
 import {
   AnalysisType,
@@ -13,12 +12,35 @@ import {
   SymlinkGraph,
 } from "./path-canonicalization";
 
+export interface OwnedPackage {
+  // The file(s)/dir(s) that justify this ownership. Always present — the
+  // universal key across ecosystems (jar files, npm install dirs, Go binaries).
+  evidencePaths: string[];
+  // The apk package that owns the evidence paths.
+  apkPackageName: string;
+  apkPackageVersion: string;
+  // apk Source package (falls back to apkPackageName).
+  originPackage: string;
+  // Dependency coordinate (name@version) for per-package ecosystems where only
+  // some of a result's dependencies are owned — npm global modules. Absent for
+  // whole-result entries (Go binaries, Java jar dirs), where the entire result
+  // is owned and downstream relabels every dependency it produced.
+  name?: string;
+  version?: string;
+}
+
 export interface ApkPackageOwnership {
   distroId: string;
-  packageName: string;
-  packageVersion: string;
-  originPackage: string;
+  ownedPackages: OwnedPackage[];
+}
+
+// A unit of evidence to resolve ownership for. Each candidate is resolved
+// independently (fail closed per candidate): all of its evidence paths must
+// resolve to one consistent apk package, or it is omitted.
+export interface OwnershipCandidate {
   evidencePaths: string[];
+  name?: string;
+  version?: string;
 }
 
 export type MatchKind = "exact" | "directory";
@@ -39,8 +61,6 @@ export interface ApkPathIndex {
   exactFileOwners: Map<string, AnalyzedPackageWithVersion[]>;
   directoryTrie: DirectoryTrieNode;
 }
-
-const debug = Debug("snyk");
 
 const CHAINGUARD_DISTROS = new Set(["wolfi", "chainguard"]);
 
@@ -144,52 +164,104 @@ function uniqueDeclaredOwner(
 }
 
 /**
- * Resolve APK package ownership for app evidence paths on Wolfi/Chainguard images.
- *
- * Per Chainguard's scanner spec, an app dependency is owned by an APK package
- * only when its evidence paths are wholly contained in that package's declared
- * paths; a dependency with any unowned path is not covered by Chainguard's
- * advisory data and must keep its findings. This fact drives downstream
- * suppression, so we skip it rather than guess and risk suppressing real
- * vulnerabilities in user-added software.
+ * Resolve APK package ownership for a set of candidates on Wolfi/Chainguard
+ * images. Each candidate (a single npm package, or a whole Go/Java result) is
+ * resolved independently: all of its evidence paths must be wholly owned by one
+ * consistent APK package, or the candidate is omitted (fail closed per
+ * candidate). Per Chainguard's scanner spec, a dependency with any unowned path
+ * is not covered by advisory data and must keep its findings — we skip rather
+ * than guess and risk suppressing real vulnerabilities in user-added software.
+ * Candidates carrying a coordinate (name@version) are deduplicated, keeping an
+ * owned occurrence over an unowned one.
  * https://github.com/chainguard-dev/vulnerability-scanner-support/blob/main/docs/scanning_implementation.md
  */
 export function resolveApkOwnership(
-  evidencePaths: string[],
+  candidates: OwnershipCandidate[],
   index: ApkPathIndex,
   symlinkGraph: SymlinkGraph,
   osRelease: OSRelease,
 ): ApkPackageOwnership | undefined {
-  if (!isChainguardDistro(osRelease) || evidencePaths.length === 0) {
+  if (!isChainguardDistro(osRelease) || candidates.length === 0) {
     return undefined;
   }
 
-  const perPathMatches: PathOwnerMatch[] = [];
+  const ownedPackages: OwnedPackage[] = [];
+  // `seen` holds matched coordinates only, so an owned occurrence always wins
+  // over an unowned one. It must NOT include unmatched coordinates, or a later
+  // owned copy of the same coordinate would be skipped.
+  const seen = new Set<string>();
+  // Memoize per-path owner lookups so a path shared by several candidates (or an
+  // unmatched coordinate seen repeatedly) is resolved only once.
+  const resolvedByPath = new Map<
+    string,
+    ReturnType<typeof resolveOwnerForEvidencePath>
+  >();
+  // Sort by first evidence path so coordinate dedup is deterministic regardless
+  // of discovery order: when a coordinate is bundled under more than one apk
+  // package, the lexicographically-first evidence path wins. Which origin is
+  // "correct" in that case is a downstream (@snyk/vuln) question.
+  const ordered = [...candidates].sort((a, b) =>
+    (a.evidencePaths[0] ?? "").localeCompare(b.evidencePaths[0] ?? ""),
+  );
 
-  for (const evidencePath of evidencePaths) {
-    const normalized = normalizeAbsolutePath(evidencePath);
-    const match = resolveOwnerForEvidencePath(normalized, index, symlinkGraph);
-    if (!match) {
-      debug(
-        `apk ownership skipped: no owning package for evidence path ${normalized}`,
-      );
-      return undefined;
+  for (const candidate of ordered) {
+    if (candidate.evidencePaths.length === 0) {
+      continue;
     }
-    perPathMatches.push(match);
+    const coordinate =
+      candidate.name && candidate.version
+        ? `${candidate.name}@${candidate.version}`
+        : undefined;
+    if (coordinate && seen.has(coordinate)) {
+      continue;
+    }
+
+    // Fail closed per candidate: every evidence path must resolve to one
+    // consistent owner, else the candidate keeps its findings.
+    const matches: PathOwnerMatch[] = [];
+    let allOwned = true;
+    for (const evidencePath of candidate.evidencePaths) {
+      const normalized = normalizeAbsolutePath(evidencePath);
+      if (!resolvedByPath.has(normalized)) {
+        resolvedByPath.set(
+          normalized,
+          resolveOwnerForEvidencePath(normalized, index, symlinkGraph),
+        );
+      }
+      const match = resolvedByPath.get(normalized);
+      if (!match) {
+        allOwned = false;
+        break;
+      }
+      matches.push(match);
+    }
+    if (!allOwned) {
+      continue;
+    }
+
+    const owner = pickConsistentOwner(matches);
+    if (!owner) {
+      continue;
+    }
+
+    if (coordinate) {
+      seen.add(coordinate);
+    }
+    ownedPackages.push({
+      evidencePaths: candidate.evidencePaths,
+      apkPackageName: owner.Name,
+      apkPackageVersion: owner.Version,
+      originPackage: owner.Source ?? owner.Name,
+      ...(candidate.name ? { name: candidate.name } : {}),
+      ...(candidate.version ? { version: candidate.version } : {}),
+    });
   }
 
-  const owner = pickConsistentOwner(perPathMatches);
-  if (!owner) {
+  if (ownedPackages.length === 0) {
     return undefined;
   }
 
-  return {
-    distroId: osRelease.name,
-    packageName: owner.Name,
-    packageVersion: owner.Version,
-    originPackage: owner.Source ?? owner.Name,
-    evidencePaths,
-  };
+  return { distroId: osRelease.name, ownedPackages };
 }
 
 function ownerKey(pkg: AnalyzedPackageWithVersion): string {

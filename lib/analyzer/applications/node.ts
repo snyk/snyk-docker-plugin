@@ -23,6 +23,7 @@ import {
   groupNodeModulesFilesByDirectory,
   persistNodeModules,
 } from "./node-modules-utils";
+import { NodeModulesPackagePath } from "../types";
 import {
   AppDepsScanResultWithoutTarget,
   FilePathToContent,
@@ -38,6 +39,10 @@ interface ManifestLockPathPair {
 export async function nodeFilesToScannedProjects(
   filePathToContent: FilePathToContent,
   shouldIncludeNodeModules: boolean,
+  // Per-package install paths are only consumed for APK ownership on
+  // Chainguard/Wolfi images, so collection is gated to avoid parsing every
+  // node_modules package.json on images that will never use it.
+  collectOwnershipPaths = false,
 ): Promise<AppDepsScanResultWithoutTarget[]> {
   const scanResults: AppDepsScanResultWithoutTarget[] = [];
   /**
@@ -81,6 +86,7 @@ export async function nodeFilesToScannedProjects(
           filePathToContent,
           nodeProjects,
           appNodeModulesGroupedByDirectory,
+          collectOwnershipPaths,
         )),
       );
     }
@@ -89,10 +95,68 @@ export async function nodeFilesToScannedProjects(
   return scanResults;
 }
 
+const nodeModulesPackageJsonRegex = /\/node_modules\/.+\/package\.json$/;
+
+/**
+ * Collect the on-disk install directory of each package under a project's
+ * node_modules, from the image paths already gathered for the scan. Used to
+ * resolve per-package APK ownership downstream (response-builder), since the
+ * scan result itself only records the shared node_modules root. Skips pnpm/.bin
+ * virtual entries and any package.json without a name+version.
+ */
+export function collectNodeModulesPackagePaths(
+  project: string,
+  fileNamesGroupedByDirectory: FilesByDirMap,
+  filePathToContent: FilePathToContent,
+): NodeModulesPackagePath[] {
+  const files = fileNamesGroupedByDirectory.get(project);
+  if (!files) {
+    return [];
+  }
+
+  const packages: NodeModulesPackagePath[] = [];
+  for (const filePath of files) {
+    // Skip dot-prefixed node_modules entries (.pnpm virtual store, .bin, .cache).
+    // Safe because npm package names cannot begin with ".", so a real package
+    // dir is never excluded by this guard.
+    if (
+      !nodeModulesPackageJsonRegex.test(filePath) ||
+      filePath.includes("/node_modules/.")
+    ) {
+      continue;
+    }
+
+    const content = filePathToContent[filePath];
+    if (!content) {
+      continue;
+    }
+
+    let parsed: { name?: string; version?: string };
+    try {
+      parsed = JSON.parse(content);
+    } catch {
+      continue;
+    }
+
+    if (!parsed.name || !parsed.version) {
+      continue;
+    }
+
+    packages.push({
+      name: parsed.name,
+      version: parsed.version,
+      installDir: path.posix.dirname(filePath),
+    });
+  }
+
+  return packages;
+}
+
 async function depGraphFromNodeModules(
   filePathToContent: FilePathToContent,
   nodeProjects: string[],
   fileNamesGroupedByDirectory: FilesByDirMap,
+  collectOwnershipPaths: boolean,
 ): Promise<AppDepsScanResultWithoutTarget[]> {
   const scanResults: AppDepsScanResultWithoutTarget[] = [];
   for (const project of nodeProjects) {
@@ -141,6 +205,16 @@ async function depGraphFromNodeModules(
         pkgTree.type || "npm",
       );
 
+      // Only collected on Chainguard/Wolfi (the caller passes the distro gate),
+      // since per-package ownership is the only consumer.
+      const nodeModulesPackages = collectOwnershipPaths
+        ? collectNodeModulesPackagePaths(
+            project,
+            fileNamesGroupedByDirectory,
+            filePathToContent,
+          )
+        : [];
+
       scanResults.push({
         facts: [
           {
@@ -160,6 +234,9 @@ async function depGraphFromNodeModules(
             ? manifestPath
             : path.join(project, "node_modules"),
         },
+        ...(nodeModulesPackages.length > 0
+          ? { nodeModulesPackagePaths: nodeModulesPackages }
+          : {}),
       });
     } catch (error) {
       debug(

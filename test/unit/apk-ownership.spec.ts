@@ -25,6 +25,8 @@ function makePackage(
   };
 }
 
+const wolfi = { name: "wolfi", version: "20230201", prettyName: "Wolfi" };
+
 describe("apk-ownership", () => {
   const symlinkGraph = new Map<string, string>([["/bin", "usr/bin"]]);
 
@@ -49,18 +51,23 @@ describe("apk-ownership", () => {
       makePackage("nodejs", "20-r1", "nodejs", ["/usr/bin/node"], ["/usr/bin"]),
     ];
     const index = buildApkPathIndex(packages, symlinkGraph);
-    const ownership = resolveApkOwnership(["/bin/node"], index, symlinkGraph, {
-      name: "wolfi",
-      version: "20230201",
-      prettyName: "Wolfi",
-    });
+    const ownership = resolveApkOwnership(
+      [{ evidencePaths: ["/bin/node"] }],
+      index,
+      symlinkGraph,
+      wolfi,
+    );
 
     expect(ownership).toEqual({
       distroId: "wolfi",
-      packageName: "nodejs",
-      packageVersion: "20-r1",
-      originPackage: "nodejs",
-      evidencePaths: ["/bin/node"],
+      ownedPackages: [
+        {
+          evidencePaths: ["/bin/node"],
+          apkPackageName: "nodejs",
+          apkPackageVersion: "20-r1",
+          originPackage: "nodejs",
+        },
+      ],
     });
   });
 
@@ -70,7 +77,7 @@ describe("apk-ownership", () => {
     ];
     const index = buildApkPathIndex(packages, symlinkGraph);
     const ownership = resolveApkOwnership(
-      ["/opt/custom/app"],
+      [{ evidencePaths: ["/opt/custom/app"] }],
       index,
       symlinkGraph,
       { name: "chainguard", version: "20230214", prettyName: "Chainguard" },
@@ -85,7 +92,7 @@ describe("apk-ownership", () => {
     ];
     const index = buildApkPathIndex(packages, symlinkGraph);
     const ownership = resolveApkOwnership(
-      ["/usr/bin/node"],
+      [{ evidencePaths: ["/usr/bin/node"] }],
       index,
       symlinkGraph,
       { name: "alpine", version: "3.19", prettyName: "Alpine" },
@@ -115,18 +122,18 @@ describe("apk-ownership", () => {
     expect(exact?.matchKind).toBe("exact");
   });
 
-  it("returns undefined when only some evidence paths are owned", () => {
-    // Chainguard spec: evidence paths must be wholly contained in the owning
-    // package's declared paths; a partially-owned app keeps its findings.
+  it("omits a candidate when only some of its evidence paths are owned", () => {
+    // Chainguard spec: a candidate's evidence paths must be wholly contained in
+    // the owning package's declared paths; a partially-owned unit keeps findings.
     const packages = [
       makePackage("nodejs", "20-r1", "nodejs", ["/usr/bin/node"], ["/usr/bin"]),
     ];
     const index = buildApkPathIndex(packages, symlinkGraph);
     const ownership = resolveApkOwnership(
-      ["/usr/bin/node", "/opt/custom/app.jar"],
+      [{ evidencePaths: ["/usr/bin/node", "/opt/custom/app.jar"] }],
       index,
       symlinkGraph,
-      { name: "wolfi", version: "20230201", prettyName: "Wolfi" },
+      wolfi,
     );
 
     expect(ownership).toBeUndefined();
@@ -152,15 +159,19 @@ describe("apk-ownership", () => {
     const index = buildApkPathIndex(packages, symlinkGraph);
     const ownership = resolveApkOwnership(
       [
-        "/usr/share/java/gradle/lib/gradle.jar", // exact: gradle
-        "/usr/share/java/other.jar", // directory: java-common
+        {
+          evidencePaths: [
+            "/usr/share/java/gradle/lib/gradle.jar", // exact: gradle
+            "/usr/share/java/other.jar", // directory: java-common
+          ],
+        },
       ],
       index,
       symlinkGraph,
-      { name: "wolfi", version: "20230201", prettyName: "Wolfi" },
+      wolfi,
     );
 
-    expect(ownership?.packageName).toBe("gradle");
+    expect(ownership?.ownedPackages[0].apkPackageName).toBe("gradle");
   });
 
   it("returns undefined when different owners each have exact matches", () => {
@@ -170,10 +181,10 @@ describe("apk-ownership", () => {
     ];
     const index = buildApkPathIndex(packages, symlinkGraph);
     const ownership = resolveApkOwnership(
-      ["/usr/bin/a", "/usr/bin/some-b"],
+      [{ evidencePaths: ["/usr/bin/a", "/usr/bin/some-b"] }],
       index,
       symlinkGraph,
-      { name: "wolfi", version: "20230201", prettyName: "Wolfi" },
+      wolfi,
     );
 
     expect(ownership).toBeUndefined();
@@ -193,15 +204,19 @@ describe("apk-ownership", () => {
     const index = buildApkPathIndex(packages, symlinkGraph);
     const ownership = resolveApkOwnership(
       [
-        "/usr/lib/python3.12/site-packages/foo/mod.py", // directory: py-foo (deeper)
-        "/usr/lib/python3.12/abc.py", // directory: python (shallower)
+        {
+          evidencePaths: [
+            "/usr/lib/python3.12/site-packages/foo/mod.py", // directory: py-foo (deeper)
+            "/usr/lib/python3.12/abc.py", // directory: python (shallower)
+          ],
+        },
       ],
       index,
       symlinkGraph,
-      { name: "wolfi", version: "20230201", prettyName: "Wolfi" },
+      wolfi,
     );
 
-    expect(ownership?.packageName).toBe("py-foo");
+    expect(ownership?.ownedPackages[0].apkPackageName).toBe("py-foo");
   });
 
   it("returns undefined when one directory is declared by multiple packages", () => {
@@ -220,10 +235,10 @@ describe("apk-ownership", () => {
     ];
     const index = buildApkPathIndex(packages, symlinkGraph);
     const ownership = resolveApkOwnership(
-      ["/usr/lib/node_modules"],
+      [{ evidencePaths: ["/usr/lib/node_modules"] }],
       index,
       symlinkGraph,
-      { name: "wolfi", version: "20230201", prettyName: "Wolfi" },
+      wolfi,
     );
 
     expect(ownership).toBeUndefined();
@@ -236,10 +251,10 @@ describe("apk-ownership", () => {
     ];
     const index = buildApkPathIndex(packages, symlinkGraph);
     const ownership = resolveApkOwnership(
-      ["/usr/lib/a/x.so", "/usr/lib/b/y.so"],
+      [{ evidencePaths: ["/usr/lib/a/x.so", "/usr/lib/b/y.so"] }],
       index,
       symlinkGraph,
-      { name: "wolfi", version: "20230201", prettyName: "Wolfi" },
+      wolfi,
     );
 
     expect(ownership).toBeUndefined();
@@ -275,5 +290,183 @@ describe("apk-ownership", () => {
       isChainguardDistro({ name: "alpine", version: "3.19", prettyName: "" }),
     ).toBe(false);
     expect(isChainguardDistro(undefined)).toBe(false);
+  });
+});
+
+describe("resolveApkOwnership per-package (npm)", () => {
+  const symlinkGraph = new Map<string, string>();
+
+  // The npm apk package bundles its own dependencies under its subtree, so each
+  // bundled package's directory is owned even though the node_modules root is not.
+  const npmPackage = makePackage(
+    "npm",
+    "10.9.0-r0",
+    "npm",
+    [],
+    [
+      "/usr/lib/node_modules/npm",
+      "/usr/lib/node_modules/npm/node_modules/brace-expansion",
+    ],
+  );
+
+  it("resolves a coordinate-bearing candidate to its owning APK origin", () => {
+    const index = buildApkPathIndex([npmPackage], symlinkGraph);
+    const ownership = resolveApkOwnership(
+      [
+        {
+          evidencePaths: [
+            "/usr/lib/node_modules/npm/node_modules/brace-expansion",
+          ],
+          name: "brace-expansion",
+          version: "2.0.1",
+        },
+      ],
+      index,
+      symlinkGraph,
+      wolfi,
+    );
+
+    expect(ownership).toEqual({
+      distroId: "wolfi",
+      ownedPackages: [
+        {
+          evidencePaths: [
+            "/usr/lib/node_modules/npm/node_modules/brace-expansion",
+          ],
+          apkPackageName: "npm",
+          apkPackageVersion: "10.9.0-r0",
+          originPackage: "npm",
+          name: "brace-expansion",
+          version: "2.0.1",
+        },
+      ],
+    });
+  });
+
+  it("resolves each candidate independently, omitting unowned ones", () => {
+    const index = buildApkPathIndex([npmPackage], symlinkGraph);
+    const ownership = resolveApkOwnership(
+      [
+        {
+          evidencePaths: [
+            "/usr/lib/node_modules/npm/node_modules/brace-expansion",
+          ],
+          name: "brace-expansion",
+          version: "2.0.1",
+        },
+        {
+          evidencePaths: ["/usr/local/lib/node_modules/left-pad"],
+          name: "left-pad",
+          version: "1.3.0",
+        },
+      ],
+      index,
+      symlinkGraph,
+      wolfi,
+    );
+
+    expect(ownership?.ownedPackages.map((p) => p.name)).toEqual([
+      "brace-expansion",
+    ]);
+  });
+
+  it("does not resolve ownership for the shared node_modules root", () => {
+    const sharedRoot = [
+      npmPackage,
+      makePackage(
+        "node-gyp",
+        "13.0.0-r0",
+        "node-gyp",
+        [],
+        ["/usr/lib/node_modules"],
+      ),
+      makePackage("npm", "10.9.0-r0", "npm", [], ["/usr/lib/node_modules"]),
+    ];
+    const index = buildApkPathIndex(sharedRoot, symlinkGraph);
+    const ownership = resolveApkOwnership(
+      [
+        {
+          evidencePaths: ["/usr/lib/node_modules"],
+          name: "root",
+          version: "0",
+        },
+      ],
+      index,
+      symlinkGraph,
+      wolfi,
+    );
+
+    expect(ownership).toBeUndefined();
+  });
+
+  it("dedupes a coordinate by name@version, keeping the owned occurrence", () => {
+    const index = buildApkPathIndex([npmPackage], symlinkGraph);
+    const ownership = resolveApkOwnership(
+      [
+        // unowned copy
+        {
+          evidencePaths: ["/app/node_modules/brace-expansion"],
+          name: "brace-expansion",
+          version: "2.0.1",
+        },
+        // owned copy
+        {
+          evidencePaths: [
+            "/usr/lib/node_modules/npm/node_modules/brace-expansion",
+          ],
+          name: "brace-expansion",
+          version: "2.0.1",
+        },
+      ],
+      index,
+      symlinkGraph,
+      wolfi,
+    );
+
+    expect(ownership?.ownedPackages).toHaveLength(1);
+    expect(ownership?.ownedPackages[0].originPackage).toBe("npm");
+  });
+
+  it("returns undefined for non-Chainguard distros", () => {
+    const index = buildApkPathIndex([npmPackage], symlinkGraph);
+    const ownership = resolveApkOwnership(
+      [
+        {
+          evidencePaths: [
+            "/usr/lib/node_modules/npm/node_modules/brace-expansion",
+          ],
+          name: "brace-expansion",
+          version: "2.0.1",
+        },
+      ],
+      index,
+      symlinkGraph,
+      { name: "alpine", version: "3.19", prettyName: "Alpine" },
+    );
+
+    expect(ownership).toBeUndefined();
+  });
+
+  it("returns undefined when no candidate is owned", () => {
+    const index = buildApkPathIndex([npmPackage], symlinkGraph);
+    const ownership = resolveApkOwnership(
+      [
+        {
+          evidencePaths: ["/app/left-pad"],
+          name: "left-pad",
+          version: "1.3.0",
+        },
+      ],
+      index,
+      symlinkGraph,
+      wolfi,
+    );
+
+    expect(ownership).toBeUndefined();
+  });
+
+  it("returns undefined for empty input", () => {
+    const index = buildApkPathIndex([npmPackage], symlinkGraph);
+    expect(resolveApkOwnership([], index, symlinkGraph, wolfi)).toBeUndefined();
   });
 });

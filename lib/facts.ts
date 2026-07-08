@@ -1,5 +1,6 @@
 import { DepGraph } from "@snyk/dep-graph";
 import { ApplicationFiles } from "./analyzer/applications/types";
+import { ApkPackageOwnership } from "./analyzer/package-managers/apk-ownership";
 import { JarFingerprint } from "./analyzer/types";
 import { DockerFileAnalysis } from "./dockerfile/types";
 import { OCIDistributionMetadata } from "./extractor/oci-distribution-metadata";
@@ -175,11 +176,6 @@ export interface BaseRuntimesFact {
 
 export interface ApkPackageOwnershipFact {
   type: "apkPackageOwnership";
-  data: {
-    distroId: string;
-    packageName: string;
-    packageVersion: string;
-    originPackage: string;
-    evidencePaths: string[];
-  };
+  // Shape owned by the resolver so the contract and the lib stay in lockstep.
+  data: ApkPackageOwnership;
 }
