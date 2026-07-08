@@ -315,7 +315,7 @@ async function buildResponse(
 
     if (ownershipEnabled && apkPathIndex) {
       // One ownership fact per app-dep result. buildOwnershipCandidates shapes
-      // the units per ecosystem (npm: per package; Java: per jar; Go/other: one
+      // the units per ecosystem (npm: one per package; Java/Go/other: a single
       // whole-result unit) and resolveApkOwnership attributes each to its owning
       // APK package, failing closed per candidate.
       const ownership = resolveApkOwnership(

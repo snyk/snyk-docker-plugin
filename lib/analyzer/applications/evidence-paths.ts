@@ -63,7 +63,7 @@ export function extractEvidencePaths(
  *   package's own dir resolves to a single owner.
  * - Java jars, Go binaries, everything else: a single whole-result unit over the
  *   result's evidence paths — owned only when one apk package owns them all
- *   (fail closed), matching the pre-merge whole-result behavior.
+ *   (fail closed), the same whole-result behavior #872 introduced.
  */
 export function buildOwnershipCandidates(
   scanResult: AppDepsScanResultWithoutTarget,
