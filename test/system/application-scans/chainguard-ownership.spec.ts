@@ -1,9 +1,12 @@
 import { scan } from "../../../lib/index";
 
+// Self-hosted on the snykgoof Docker Hub org (mirrored from chainguard/bash)
+// since chainguard.dev requires auth to pull non-`latest` tags, which would
+// break this in CI.
 const BASH_IMAGE =
-  "chainguard/bash@sha256:642933df66209814502599053ca3dfa97cccf847badc4219d2b1fd6565f6559a";
-// Both images are digest-pinned for reproducibility and pulled from docker.io,
-// matching the registry the rest of the system suite already uses.
+  "snykgoof/chainguard-bash@sha256:bf932e4dc71966dcab75dae6ec518ff3d1dde8f473ddb7bbaebdaab52b5efae8";
+// Digest-pinned for reproducibility and pulled from docker.io, matching the
+// registry the rest of the system suite already uses.
 const NODE_IMAGE =
   "chainguard/node@sha256:27bf957bdf6d189108c8908c958fd966d9814f78e7172c2d791940f4e208a334";
 
