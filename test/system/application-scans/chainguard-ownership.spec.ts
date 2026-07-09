@@ -1,14 +1,16 @@
 import { scan } from "../../../lib/index";
 
-// Self-hosted on the snykgoof Docker Hub org (mirrored from chainguard/bash)
-// since chainguard.dev requires auth to pull non-`latest` tags, which would
-// break this in CI.
+// Self-hosted on the snykgoof Docker Hub org (mirrored from chainguard/bash,
+// preserving the original multi-arch amd64+arm64 manifest index) since
+// chainguard.dev requires auth to pull non-`latest` tags, which would break
+// this in CI. The mirror was pushed with `docker buildx imagetools create`,
+// which copies the manifest index verbatim, so the digest is unchanged.
 const BASH_IMAGE =
-  "snykgoof/chainguard-bash@sha256:bf932e4dc71966dcab75dae6ec518ff3d1dde8f473ddb7bbaebdaab52b5efae8";
+  "snykgoof/chainguard-bash@sha256:642933df66209814502599053ca3dfa97cccf847badc4219d2b1fd6565f6559a";
 // Self-hosted on the snykgoof Docker Hub org (mirrored from chainguard/node)
 // for the same reason as BASH_IMAGE above.
 const NODE_IMAGE =
-  "snykgoof/chainguard-node@sha256:858d431f75ac714496d61ad63da99152ce884d58367234d9b82fe79cf4e16f2c";
+  "snykgoof/chainguard-node@sha256:27bf957bdf6d189108c8908c958fd966d9814f78e7172c2d791940f4e208a334";
 
 describe("chainguard app ownership", () => {
   afterAll(async () => {
