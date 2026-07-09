@@ -5,10 +5,10 @@ import { scan } from "../../../lib/index";
 // break this in CI.
 const BASH_IMAGE =
   "snykgoof/chainguard-bash@sha256:bf932e4dc71966dcab75dae6ec518ff3d1dde8f473ddb7bbaebdaab52b5efae8";
-// Digest-pinned for reproducibility and pulled from docker.io, matching the
-// registry the rest of the system suite already uses.
+// Self-hosted on the snykgoof Docker Hub org (mirrored from chainguard/node)
+// for the same reason as BASH_IMAGE above.
 const NODE_IMAGE =
-  "chainguard/node@sha256:27bf957bdf6d189108c8908c958fd966d9814f78e7172c2d791940f4e208a334";
+  "snykgoof/chainguard-node@sha256:858d431f75ac714496d61ad63da99152ce884d58367234d9b82fe79cf4e16f2c";
 
 describe("chainguard app ownership", () => {
   afterAll(async () => {
