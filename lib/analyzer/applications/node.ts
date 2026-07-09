@@ -23,6 +23,7 @@ import {
   groupNodeModulesFilesByDirectory,
   persistNodeModules,
 } from "./node-modules-utils";
+import { normalizeAbsolutePath } from "../package-managers/path-canonicalization";
 import { NodeModulesPackagePath } from "../types";
 import {
   AppDepsScanResultWithoutTarget,
@@ -95,7 +96,12 @@ export async function nodeFilesToScannedProjects(
   return scanResults;
 }
 
-const nodeModulesPackageJsonRegex = /\/node_modules\/.+\/package\.json$/;
+// Match a package.json only at a real package root (parent is an immediate
+// child of node_modules, optional @scope/), so bundled fixtures nested deeper
+// aren't collected as packages. [\\/] handles both POSIX and Windows paths.
+const nodeModulesPackageJsonRegex =
+  /[\\/]node_modules[\\/](?:@[^\\/]+[\\/])?[^\\/]+[\\/]package\.json$/;
+const nodeModulesDotDirRegex = /[\\/]node_modules[\\/]\./;
 
 /**
  * Collect the on-disk install directory of each package under a project's
@@ -116,12 +122,11 @@ export function collectNodeModulesPackagePaths(
 
   const packages: NodeModulesPackagePath[] = [];
   for (const filePath of files) {
-    // Skip dot-prefixed node_modules entries (.pnpm virtual store, .bin, .cache).
-    // Safe because npm package names cannot begin with ".", so a real package
-    // dir is never excluded by this guard.
+    // Skip dot-prefixed node_modules entries (.pnpm, .bin, .cache); npm package
+    // names never start with ".", so no real package dir is excluded.
     if (
       !nodeModulesPackageJsonRegex.test(filePath) ||
-      filePath.includes("/node_modules/.")
+      nodeModulesDotDirRegex.test(filePath)
     ) {
       continue;
     }
@@ -131,21 +136,29 @@ export function collectNodeModulesPackagePaths(
       continue;
     }
 
-    let parsed: { name?: string; version?: string };
+    let parsed: { name?: unknown; version?: unknown };
     try {
       parsed = JSON.parse(content);
     } catch {
       continue;
     }
 
-    if (!parsed.name || !parsed.version) {
+    // JSON.parse returns any; require non-empty strings since the coordinate
+    // flows into the apkPackageOwnership fact as name/version.
+    if (
+      typeof parsed.name !== "string" ||
+      typeof parsed.version !== "string" ||
+      !parsed.name ||
+      !parsed.version
+    ) {
       continue;
     }
 
     packages.push({
       name: parsed.name,
       version: parsed.version,
-      installDir: path.posix.dirname(filePath),
+      // Normalize first so posix.dirname works on Windows backslash paths.
+      installDir: path.posix.dirname(normalizeAbsolutePath(filePath)),
     });
   }
 

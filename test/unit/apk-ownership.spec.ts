@@ -427,6 +427,105 @@ describe("resolveApkOwnership per-package (npm)", () => {
     expect(ownership?.ownedPackages[0].originPackage).toBe("npm");
   });
 
+  it("dedupes a coordinate when the owned occurrence is resolved first", () => {
+    // Owned copy sorts first ("/usr" < "/zzz"), so it fills `seen` and the later
+    // duplicate hits the seen.has skip — the reverse order of the test above.
+    const index = buildApkPathIndex([npmPackage], symlinkGraph);
+    const ownership = resolveApkOwnership(
+      [
+        {
+          evidencePaths: [
+            "/usr/lib/node_modules/npm/node_modules/brace-expansion",
+          ],
+          name: "brace-expansion",
+          version: "2.0.1",
+        },
+        {
+          evidencePaths: ["/zzz/node_modules/brace-expansion"],
+          name: "brace-expansion",
+          version: "2.0.1",
+        },
+      ],
+      index,
+      symlinkGraph,
+      wolfi,
+    );
+
+    expect(ownership?.ownedPackages).toHaveLength(1);
+    expect(ownership?.ownedPackages[0].originPackage).toBe("npm");
+  });
+
+  it("deterministically resolves a coordinate bundled by two different apk packages", () => {
+    // Same coordinate under two apk packages: the localeCompare sort picks the
+    // lexicographically-first evidence path ("aaa" < "npm") regardless of order.
+    const aaaPackage = makePackage(
+      "aaa",
+      "1.0.0-r0",
+      "aaa",
+      [],
+      ["/usr/lib/node_modules/aaa/node_modules/brace-expansion"],
+    );
+    const index = buildApkPathIndex([npmPackage, aaaPackage], symlinkGraph);
+
+    const candidates = [
+      {
+        evidencePaths: [
+          "/usr/lib/node_modules/npm/node_modules/brace-expansion",
+        ],
+        name: "brace-expansion",
+        version: "2.0.1",
+      },
+      {
+        evidencePaths: [
+          "/usr/lib/node_modules/aaa/node_modules/brace-expansion",
+        ],
+        name: "brace-expansion",
+        version: "2.0.1",
+      },
+    ];
+
+    const ownership = resolveApkOwnership(
+      candidates,
+      index,
+      symlinkGraph,
+      wolfi,
+    );
+    const reversed = resolveApkOwnership(
+      [...candidates].reverse(),
+      index,
+      symlinkGraph,
+      wolfi,
+    );
+
+    expect(ownership?.ownedPackages).toHaveLength(1);
+    expect(ownership?.ownedPackages[0].originPackage).toBe("aaa");
+    // Input order must not change the winner.
+    expect(reversed?.ownedPackages[0].originPackage).toBe("aaa");
+  });
+
+  it("skips a candidate whose evidencePaths is empty", () => {
+    const index = buildApkPathIndex([npmPackage], symlinkGraph);
+    const ownership = resolveApkOwnership(
+      [
+        { evidencePaths: [], name: "phantom", version: "0.0.0" },
+        {
+          evidencePaths: [
+            "/usr/lib/node_modules/npm/node_modules/brace-expansion",
+          ],
+          name: "brace-expansion",
+          version: "2.0.1",
+        },
+      ],
+      index,
+      symlinkGraph,
+      wolfi,
+    );
+
+    expect(ownership?.ownedPackages.map((p) => p.name)).toEqual([
+      "brace-expansion",
+    ]);
+  });
+
   it("returns undefined for non-Chainguard distros", () => {
     const index = buildApkPathIndex([npmPackage], symlinkGraph);
     const ownership = resolveApkOwnership(

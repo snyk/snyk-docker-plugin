@@ -126,6 +126,60 @@ describe("collectNodeModulesPackagePaths", () => {
     );
   });
 
+  it("excludes bundled fixtures/examples that are not real package roots", () => {
+    // Nested below a package root, so it must not be collected even though it
+    // declares a real-looking coordinate that would collide with the real dep.
+    const fixture =
+      "/usr/lib/node_modules/npm/node_modules/brace-expansion/test/fixtures/package.json";
+    const files: FilesByDirMap = new Map([[project, new Set([fixture])]]);
+    const contents: FilePathToContent = {
+      [fixture]: pkgJson("lodash", "4.17.21"),
+    };
+
+    expect(collectNodeModulesPackagePaths(project, files, contents)).toEqual(
+      [],
+    );
+  });
+
+  it("collects packages from Windows-style backslash paths", () => {
+    // On Windows the extractor emits backslash paths; they must still match and
+    // installDir must be normalized to POSIX for the resolver.
+    const winProject = "\\usr\\lib";
+    const braceJson =
+      "\\usr\\lib\\node_modules\\npm\\node_modules\\brace-expansion\\package.json";
+    const files: FilesByDirMap = new Map([[winProject, new Set([braceJson])]]);
+    const contents: FilePathToContent = {
+      [braceJson]: pkgJson("brace-expansion", "2.0.1"),
+    };
+
+    expect(collectNodeModulesPackagePaths(winProject, files, contents)).toEqual(
+      [
+        {
+          name: "brace-expansion",
+          version: "2.0.1",
+          installDir: "/usr/lib/node_modules/npm/node_modules/brace-expansion",
+        },
+      ],
+    );
+  });
+
+  it("skips a manifest whose name/version are not strings", () => {
+    // Numeric or empty name/version must not reach the coordinate.
+    const numeric = "/usr/lib/node_modules/numeric/package.json";
+    const emptyName = "/usr/lib/node_modules/empty/package.json";
+    const files: FilesByDirMap = new Map([
+      [project, new Set([numeric, emptyName])],
+    ]);
+    const contents: FilePathToContent = {
+      [numeric]: JSON.stringify({ name: 123, version: 4.5 }),
+      [emptyName]: JSON.stringify({ name: "", version: "1.0.0" }),
+    };
+
+    expect(collectNodeModulesPackagePaths(project, files, contents)).toEqual(
+      [],
+    );
+  });
+
   it("returns empty when the project has no grouped files", () => {
     expect(collectNodeModulesPackagePaths("/missing", new Map(), {})).toEqual(
       [],

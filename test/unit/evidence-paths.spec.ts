@@ -21,14 +21,15 @@ describe("evidence-paths", () => {
       ],
     };
 
-    expect(extractEvidencePaths(scanResult)).toEqual(
-      expect.arrayContaining([
-        "/app/package.json",
-        // basename testedFiles are anchored to the app directory, not "/"
-        "/app/package-lock.json",
-        "/app/lib/foo.jar",
-      ]),
-    );
+    // Exact match, not arrayContaining, so extra bogus paths would fail here.
+    const result = extractEvidencePaths(scanResult);
+    expect(result).toEqual([
+      "/app/package.json",
+      // basename testedFiles are anchored to the app directory, not "/"
+      "/app/package-lock.json",
+      "/app/lib/foo.jar",
+    ]);
+    expect(result).toHaveLength(3);
   });
 
   it("anchors basename testedFiles to the app directory of targetFile", () => {

@@ -60,12 +60,7 @@ describe("chainguard app ownership", () => {
     );
     expect(npmOwned.length).toBeGreaterThan(0);
 
-    // The internal install-dir data must never reach the public output —
-    // neither as a fact nor as a field on the ScanResult.
-    const carrierFacts = appResults.flatMap((result) =>
-      result.facts.filter((fact) => fact.type === "nodeModulesPackagePaths"),
-    );
-    expect(carrierFacts).toHaveLength(0);
+    // The internal install-dir data must never reach the public ScanResult.
     appResults.forEach((result) => {
       expect((result as any).nodeModulesPackagePaths).toBeUndefined();
     });

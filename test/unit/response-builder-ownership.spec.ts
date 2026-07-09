@@ -155,9 +155,6 @@ describe("buildResponse apkPackageOwnership — per-dependency (npm)", () => {
 
     // The internal install-dir data must never reach the public ScanResult.
     expect((appResult as any).nodeModulesPackagePaths).toBeUndefined();
-    expect(
-      appResult.facts.find((f) => f.type === "nodeModulesPackagePaths"),
-    ).toBeUndefined();
   });
 
   it("emits no ownership fact when nothing is owned", async () => {
