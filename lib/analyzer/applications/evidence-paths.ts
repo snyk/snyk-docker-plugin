@@ -1,5 +1,6 @@
 import { posix as path } from "path";
 import { JarFingerprintsFact, TestedFilesFact } from "../../facts";
+import { OwnershipCandidate } from "../package-managers/apk-ownership";
 import { AppDepsScanResultWithoutTarget } from "./types";
 
 /** Collect filesystem paths from an app scan result used to resolve APK ownership. */
@@ -52,4 +53,30 @@ export function extractEvidencePaths(
   }
 
   return [...paths];
+}
+
+/**
+ * Build the ownership units for an app scan result, each resolved independently
+ * by resolveApkOwnership:
+ * - npm global modules: one unit per package, keyed by its own install dir. The
+ *   shared node_modules root is declared by several apk packages, so only each
+ *   package's own dir resolves to a single owner.
+ * - Java jars, Go binaries, everything else: a single whole-result unit over the
+ *   result's evidence paths — owned only when one apk package owns them all
+ *   (fail closed), the same whole-result behavior #872 introduced.
+ */
+export function buildOwnershipCandidates(
+  scanResult: AppDepsScanResultWithoutTarget,
+): OwnershipCandidate[] {
+  const npmPackages = scanResult.nodeModulesPackagePaths;
+  if (npmPackages && npmPackages.length > 0) {
+    return npmPackages.map((pkg) => ({
+      evidencePaths: [pkg.installDir],
+      name: pkg.name,
+      version: pkg.version,
+    }));
+  }
+
+  const evidencePaths = extractEvidencePaths(scanResult);
+  return evidencePaths.length > 0 ? [{ evidencePaths }] : [];
 }

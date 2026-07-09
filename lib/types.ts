@@ -83,7 +83,8 @@ export type FactType =
   | "testedFiles"
   // Application files observed in the image
   | "applicationFiles"
-  // Chainguard/Wolfi: APK package that owns application dependency evidence paths
+  // Chainguard/Wolfi: APK packages that own application dependency evidence
+  // (per-dependency for npm, whole-result for Go/Java)
   | "apkPackageOwnership";
 
 export interface PluginAnalytics {

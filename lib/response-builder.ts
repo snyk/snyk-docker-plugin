@@ -1,8 +1,9 @@
 import { legacy } from "@snyk/dep-graph";
-import { extractEvidencePaths } from "./analyzer/applications/evidence-paths";
+import { buildOwnershipCandidates } from "./analyzer/applications/evidence-paths";
 import {
   buildApkPathIndex,
   getApkPackagesFromResults,
+  isChainguardDistro,
   resolveApkOwnership,
   toSymlinkGraph,
 } from "./analyzer/package-managers/apk-ownership";
@@ -247,15 +248,18 @@ async function buildResponse(
     additionalFacts.push(autoDetectedUserInstructionsFact);
   }
 
-  // The APK ownership inputs are image-global, so build the path index once
-  // here rather than rebuilding it for every application scan result below.
-  // resolveApkOwnership decides which distros the index actually applies to.
+  // APK package ownership only applies to Chainguard/Wolfi images, so the
+  // image-global path index is built once here and only when it will be used;
+  // non-Chainguard images skip the build (and all resolution below) entirely.
   const osRelease = depsAnalysis.osRelease;
+  const ownershipEnabled = isChainguardDistro(osRelease);
   const apkSymlinkGraph = toSymlinkGraph(depsAnalysis.symlinks);
-  const apkPathIndex = buildApkPathIndex(
-    getApkPackagesFromResults(depsAnalysis.results),
-    apkSymlinkGraph,
-  );
+  const apkPathIndex = ownershipEnabled
+    ? buildApkPathIndex(
+        getApkPackagesFromResults(depsAnalysis.results),
+        apkSymlinkGraph,
+      )
+    : undefined;
 
   const applicationDependenciesScanResults: types.ScanResult[] = (
     depsAnalysis.applicationDependenciesScanResults || []
@@ -309,22 +313,29 @@ async function buildResponse(
     //   }
     // }
 
-    const ownership = resolveApkOwnership(
-      extractEvidencePaths(appDepsScanResult),
-      apkPathIndex,
-      apkSymlinkGraph,
-      osRelease,
-    );
-    if (ownership) {
-      const ownershipFact: facts.ApkPackageOwnershipFact = {
-        type: "apkPackageOwnership",
-        data: ownership,
-      };
-      appDepsScanResult.facts.push(ownershipFact);
+    if (ownershipEnabled && apkPathIndex) {
+      // One ownership fact per app-dep result; candidates fail closed independently.
+      const ownership = resolveApkOwnership(
+        buildOwnershipCandidates(appDepsScanResult),
+        apkPathIndex,
+        apkSymlinkGraph,
+        osRelease,
+      );
+      if (ownership) {
+        const ownershipFact: facts.ApkPackageOwnershipFact = {
+          type: "apkPackageOwnership",
+          data: ownership,
+        };
+        appDepsScanResult.facts.push(ownershipFact);
+      }
     }
 
+    // Drop the internal-only install-dir data so it never reaches the wire.
+    const { nodeModulesPackagePaths: _internal, ...publicResult } =
+      appDepsScanResult;
+
     return {
-      ...appDepsScanResult,
+      ...publicResult,
       target: {
         image: depGraph.rootPkg.name,
       },

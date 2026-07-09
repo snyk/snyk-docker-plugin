@@ -23,6 +23,8 @@ import {
   groupNodeModulesFilesByDirectory,
   persistNodeModules,
 } from "./node-modules-utils";
+import { normalizeAbsolutePath } from "../package-managers/path-canonicalization";
+import { NodeModulesPackagePath } from "../types";
 import {
   AppDepsScanResultWithoutTarget,
   FilePathToContent,
@@ -38,6 +40,10 @@ interface ManifestLockPathPair {
 export async function nodeFilesToScannedProjects(
   filePathToContent: FilePathToContent,
   shouldIncludeNodeModules: boolean,
+  // Per-package install paths are only consumed for APK ownership on
+  // Chainguard/Wolfi images, so collection is gated to avoid parsing every
+  // node_modules package.json on images that will never use it.
+  collectOwnershipPaths = false,
 ): Promise<AppDepsScanResultWithoutTarget[]> {
   const scanResults: AppDepsScanResultWithoutTarget[] = [];
   /**
@@ -81,6 +87,7 @@ export async function nodeFilesToScannedProjects(
           filePathToContent,
           nodeProjects,
           appNodeModulesGroupedByDirectory,
+          collectOwnershipPaths,
         )),
       );
     }
@@ -89,10 +96,80 @@ export async function nodeFilesToScannedProjects(
   return scanResults;
 }
 
+// Match a package.json only at a real package root (parent is an immediate
+// child of node_modules, optional @scope/), so bundled fixtures nested deeper
+// aren't collected as packages. [\\/] handles both POSIX and Windows paths.
+const nodeModulesPackageJsonRegex =
+  /[\\/]node_modules[\\/](?:@[^\\/]+[\\/])?[^\\/]+[\\/]package\.json$/;
+const nodeModulesDotDirRegex = /[\\/]node_modules[\\/]\./;
+
+/**
+ * Collect the on-disk install directory of each package under a project's
+ * node_modules, from the image paths already gathered for the scan. Used to
+ * resolve per-package APK ownership downstream (response-builder), since the
+ * scan result itself only records the shared node_modules root. Skips pnpm/.bin
+ * virtual entries and any package.json without a name+version.
+ */
+export function collectNodeModulesPackagePaths(
+  project: string,
+  fileNamesGroupedByDirectory: FilesByDirMap,
+  filePathToContent: FilePathToContent,
+): NodeModulesPackagePath[] {
+  const files = fileNamesGroupedByDirectory.get(project);
+  if (!files) {
+    return [];
+  }
+
+  const packages: NodeModulesPackagePath[] = [];
+  for (const filePath of files) {
+    // Skip dot-prefixed node_modules entries (.pnpm, .bin, .cache); npm package
+    // names never start with ".", so no real package dir is excluded.
+    if (
+      !nodeModulesPackageJsonRegex.test(filePath) ||
+      nodeModulesDotDirRegex.test(filePath)
+    ) {
+      continue;
+    }
+
+    const content = filePathToContent[filePath];
+    if (!content) {
+      continue;
+    }
+
+    let parsed: { name?: unknown; version?: unknown };
+    try {
+      parsed = JSON.parse(content);
+    } catch {
+      continue;
+    }
+
+    // JSON.parse returns any; require non-empty strings since the coordinate
+    // flows into the apkPackageOwnership fact as name/version.
+    if (
+      typeof parsed.name !== "string" ||
+      typeof parsed.version !== "string" ||
+      !parsed.name ||
+      !parsed.version
+    ) {
+      continue;
+    }
+
+    packages.push({
+      name: parsed.name,
+      version: parsed.version,
+      // Normalize first so posix.dirname works on Windows backslash paths.
+      installDir: path.posix.dirname(normalizeAbsolutePath(filePath)),
+    });
+  }
+
+  return packages;
+}
+
 async function depGraphFromNodeModules(
   filePathToContent: FilePathToContent,
   nodeProjects: string[],
   fileNamesGroupedByDirectory: FilesByDirMap,
+  collectOwnershipPaths: boolean,
 ): Promise<AppDepsScanResultWithoutTarget[]> {
   const scanResults: AppDepsScanResultWithoutTarget[] = [];
   for (const project of nodeProjects) {
@@ -141,6 +218,16 @@ async function depGraphFromNodeModules(
         pkgTree.type || "npm",
       );
 
+      // Only collected on Chainguard/Wolfi (the caller passes the distro gate),
+      // since per-package ownership is the only consumer.
+      const nodeModulesPackages = collectOwnershipPaths
+        ? collectNodeModulesPackagePaths(
+            project,
+            fileNamesGroupedByDirectory,
+            filePathToContent,
+          )
+        : [];
+
       scanResults.push({
         facts: [
           {
@@ -160,6 +247,9 @@ async function depGraphFromNodeModules(
             ? manifestPath
             : path.join(project, "node_modules"),
         },
+        ...(nodeModulesPackages.length > 0
+          ? { nodeModulesPackagePaths: nodeModulesPackages }
+          : {}),
       });
     } catch (error) {
       debug(

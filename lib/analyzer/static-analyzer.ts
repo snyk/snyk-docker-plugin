@@ -78,6 +78,7 @@ import {
 } from "./layer-attribution";
 import * as osReleaseDetector from "./os-release";
 import { analyze as apkAnalyze } from "./package-managers/apk";
+import { isChainguardDistro } from "./package-managers/apk-ownership";
 import {
   analyze as aptAnalyze,
   analyzeDistroless as aptDistrolessAnalyze,
@@ -303,6 +304,7 @@ export async function analyze(
     const nodeDependenciesScanResults = await nodeFilesToScannedProjects(
       getFileContent(extractedLayers, getNodeAppFileContentAction.actionName),
       nodeModulesScan,
+      isChainguardDistro(osRelease),
     );
     let nodeApplicationFilesScanResults: AppDepsScanResultWithoutTarget[] = [];
     if (collectApplicationFiles) {

@@ -1,4 +1,7 @@
-import { extractEvidencePaths } from "../../lib/analyzer/applications/evidence-paths";
+import {
+  buildOwnershipCandidates,
+  extractEvidencePaths,
+} from "../../lib/analyzer/applications/evidence-paths";
 import { AppDepsScanResultWithoutTarget } from "../../lib/analyzer/applications/types";
 
 describe("evidence-paths", () => {
@@ -18,14 +21,15 @@ describe("evidence-paths", () => {
       ],
     };
 
-    expect(extractEvidencePaths(scanResult)).toEqual(
-      expect.arrayContaining([
-        "/app/package.json",
-        // basename testedFiles are anchored to the app directory, not "/"
-        "/app/package-lock.json",
-        "/app/lib/foo.jar",
-      ]),
-    );
+    // Exact match, not arrayContaining, so extra bogus paths would fail here.
+    const result = extractEvidencePaths(scanResult);
+    expect(result).toEqual([
+      "/app/package.json",
+      // basename testedFiles are anchored to the app directory, not "/"
+      "/app/package-lock.json",
+      "/app/lib/foo.jar",
+    ]);
+    expect(result).toHaveLength(3);
   });
 
   it("anchors basename testedFiles to the app directory of targetFile", () => {
@@ -63,5 +67,80 @@ describe("evidence-paths", () => {
     };
 
     expect(extractEvidencePaths(scanResult)).toEqual(["/abs/path.jar"]);
+  });
+});
+
+describe("buildOwnershipCandidates", () => {
+  it("emits one coordinate-bearing candidate per npm global package", () => {
+    const scanResult: AppDepsScanResultWithoutTarget = {
+      identity: { type: "npm", targetFile: "/usr/lib/node_modules" },
+      facts: [{ type: "testedFiles", data: "/usr/lib/node_modules" as any }],
+      nodeModulesPackagePaths: [
+        {
+          name: "brace-expansion",
+          version: "2.0.1",
+          installDir: "/usr/lib/node_modules/npm/node_modules/brace-expansion",
+        },
+        {
+          name: "semver",
+          version: "7.6.0",
+          installDir: "/usr/lib/node_modules/npm/node_modules/semver",
+        },
+      ],
+    };
+
+    expect(buildOwnershipCandidates(scanResult)).toEqual([
+      {
+        evidencePaths: [
+          "/usr/lib/node_modules/npm/node_modules/brace-expansion",
+        ],
+        name: "brace-expansion",
+        version: "2.0.1",
+      },
+      {
+        evidencePaths: ["/usr/lib/node_modules/npm/node_modules/semver"],
+        name: "semver",
+        version: "7.6.0",
+      },
+    ]);
+  });
+
+  it("emits a single whole-result candidate (no coordinate) for jars/Go/other", () => {
+    // Java jars and Go binaries resolve as one whole-result unit — owned only
+    // when one apk package owns every evidence path. No per-coordinate split.
+    const scanResult: AppDepsScanResultWithoutTarget = {
+      identity: { type: "gomodules", targetFile: "/usr/bin/manager" },
+      facts: [
+        { type: "testedFiles", data: ["/usr/bin/manager"] },
+        {
+          type: "jarFingerprints",
+          data: {
+            origin: "image",
+            path: "/usr/share/java/maven/lib",
+            fingerprints: [
+              { location: "/usr/share/java/maven/lib/asm-9.9.1.jar" } as any,
+            ],
+          },
+        },
+      ],
+    };
+
+    expect(buildOwnershipCandidates(scanResult)).toEqual([
+      {
+        evidencePaths: [
+          "/usr/bin/manager",
+          "/usr/share/java/maven/lib/asm-9.9.1.jar",
+        ],
+      },
+    ]);
+  });
+
+  it("returns no candidates when there is no ownership evidence", () => {
+    const scanResult: AppDepsScanResultWithoutTarget = {
+      identity: { type: "composer" },
+      facts: [{ type: "testedFiles", data: ["composer.json"] }],
+    };
+
+    expect(buildOwnershipCandidates(scanResult)).toEqual([]);
   });
 });

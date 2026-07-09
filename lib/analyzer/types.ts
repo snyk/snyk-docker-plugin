@@ -90,6 +90,14 @@ export interface JarFingerprint {
   version?: string;
   dependencies: JarCoords[];
 }
+// Per-package install directory under a node_modules root. Carried internally
+// from the node scanner to response-builder to resolve per-dependency APK
+// ownership; never serialized into the public scan output.
+export interface NodeModulesPackagePath {
+  name: string;
+  version: string;
+  installDir: string;
+}
 export interface StaticAnalysis {
   imageId: string;
   platform?: string;
