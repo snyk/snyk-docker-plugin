@@ -2,8 +2,8 @@ import { scan } from "../../../lib/index";
 
 const BASH_IMAGE =
   "chainguard/bash@sha256:642933df66209814502599053ca3dfa97cccf847badc4219d2b1fd6565f6559a";
-// Digest-pinned for reproducibility (mirrors BASH_IMAGE) and pulled from
-// docker.io to match the registry the rest of the system suite already uses.
+// Both images are digest-pinned for reproducibility and pulled from docker.io,
+// matching the registry the rest of the system suite already uses.
 const NODE_IMAGE =
   "chainguard/node@sha256:27bf957bdf6d189108c8908c958fd966d9814f78e7172c2d791940f4e208a334";
 
