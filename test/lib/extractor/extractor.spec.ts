@@ -186,6 +186,42 @@ describe("extractImageContent", () => {
           extractImageContent(type, fixture, [], {}),
         ).resolves.not.toThrow();
       });
+
+      it("extracts the attestation manifest and its in-toto provenance layer", async () => {
+        const fixture = getFixture(
+          "containerd-archives/busybox-single-arch-with-attestation-manifest.tar",
+        );
+
+        const result = await extractImageContent(type, fixture, [], {});
+        const attestations = result.attestations ?? [];
+
+        expect(attestations).toHaveLength(1);
+
+        // Only attestations referencing the scanned platform image are kept,
+        // so the single resolved attestation here confirms filtering worked.
+        const [attestation] = attestations;
+        expect(attestation.manifestDigest).toBe(
+          "sha256:c39be7154f939a9bf312c255b98ef2b46c77a0f8944b58c104570fc3bc19abb6",
+        );
+
+        expect(attestation.manifest.layers).toHaveLength(1);
+        const [layer] = attestation.manifest.layers;
+        expect(layer.mediaType).toBe("application/vnd.in-toto+json");
+        expect(layer.digest).toBe(
+          "sha256:4f62f95682318843696bbf8eb884d5c904c1f2fa70c0f0523bf2cac8f902db14",
+        );
+
+        // The raw in-toto blob must be resolved against the layer digest, and
+        // its subject digest must match the referenced platform image.
+        const inTotoStatement = attestation.inTotoStatements[layer.digest];
+        expect(inTotoStatement).toBeDefined();
+        expect(inTotoStatement?.predicateType).toBe(
+          "https://slsa.dev/provenance/v0.2",
+        );
+        expect(inTotoStatement?.subject?.[0]?.digest?.sha256).toBe(
+          "cf7d823e4eea96316ae629fb9a45b4211869162a5f5dc1654928c7ca530ed810",
+        );
+      });
     });
   });
 });

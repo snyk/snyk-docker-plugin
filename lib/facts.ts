@@ -4,6 +4,7 @@ import { ApkPackageOwnership } from "./analyzer/package-managers/apk-ownership";
 import { JarFingerprint } from "./analyzer/types";
 import { DockerFileAnalysis } from "./dockerfile/types";
 import { OCIDistributionMetadata } from "./extractor/oci-distribution-metadata";
+import { ProvenanceMetadata } from "./extractor/provenance-parser";
 import {
   AutoDetectedUserInstructions,
   ImageNameInfo,
@@ -103,6 +104,11 @@ export interface LoadedPackagesFact {
 export interface OCIDistributionMetadataFact {
   type: "ociDistributionMetadata";
   data: OCIDistributionMetadata;
+}
+
+export interface ProvenanceMetadataFact {
+  type: "provenanceMetadata";
+  data: ProvenanceMetadata[];
 }
 
 export interface PlatformFact {
