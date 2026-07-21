@@ -2455,7 +2455,7 @@ exports[`go binaries scanning with esbuild npm path that previously failed exten
               "buildType": "https://mobyproject.org/buildkit@v1",
               "builderId": "",
               "dockerfileMetadata": {
-                "analysis": null,
+                "contents": null,
                 "name": "esbuild-test-dockerfile",
               },
             },
