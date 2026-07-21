@@ -1,6 +1,4 @@
 import * as Debug from "debug";
-import { analyseDockerfile } from "../dockerfile";
-import { DockerFileAnalysis } from "../dockerfile/types";
 import { InTotoStatement, ResolvedAttestationManifest } from "./types";
 
 const debug = Debug("snyk");
@@ -13,7 +11,7 @@ type SlsaProvenanceVersion =
 
 export interface DockerfileMetadata {
   name: string;
-  analysis: DockerFileAnalysis | null;
+  contents: string | null;
 }
 
 export interface ProvenanceMetadata {
@@ -79,26 +77,12 @@ interface SlsaPredicateV1_0 {
   };
 }
 
-function getDecodedDockerfileContents(
+function getEncodedDockerfileContents(
   infos: BuildkitSourceInfo[] | undefined,
   dockerfileName: string,
 ): string | null {
   const match = infos?.find((info) => info.filename === dockerfileName);
-  if (!match?.data) {
-    return null;
-  }
-  return Buffer.from(match.data, "base64").toString("utf8");
-}
-
-async function analyseDecodedDockerfile(
-  infos: BuildkitSourceInfo[] | undefined,
-  dockerfileName: string,
-): Promise<DockerFileAnalysis | null> {
-  const contents = getDecodedDockerfileContents(infos, dockerfileName);
-  if (contents === null) {
-    return null;
-  }
-  return analyseDockerfile(contents);
+  return match?.data ?? null;
 }
 
 function getConfigSourceCommit(digest?: {
@@ -145,7 +129,7 @@ async function extractFieldsSlsaV0_2(
   const dockerfileName =
     predicate.invocation?.configSource?.entryPoint || "Dockerfile";
 
-  const dockerfileAnalysis = await analyseDecodedDockerfile(
+  const dockerfileContents = getEncodedDockerfileContents(
     buildkitMeta?.source?.infos,
     dockerfileName,
   );
@@ -161,7 +145,7 @@ async function extractFieldsSlsaV0_2(
     buildType,
     dockerfileMetadata: {
       name: dockerfileName,
-      analysis: dockerfileAnalysis,
+      contents: dockerfileContents,
     },
   };
 }
@@ -196,7 +180,7 @@ async function extractFieldsSlsaV1_0(
   const dockerfileName =
     buildDefinition?.externalParameters?.configSource?.path || "Dockerfile";
 
-  const dockerfileAnalysis = await analyseDecodedDockerfile(
+  const dockerfileContents = getEncodedDockerfileContents(
     runDetails?.metadata?.buildkit_metadata?.source?.infos,
     dockerfileName,
   );
@@ -212,7 +196,7 @@ async function extractFieldsSlsaV1_0(
     buildType,
     dockerfileMetadata: {
       name: dockerfileName,
-      analysis: dockerfileAnalysis,
+      contents: dockerfileContents,
     },
   };
 }

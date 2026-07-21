@@ -74,7 +74,7 @@ describe("provenance-parser", () => {
           "https://github.com/moby/buildkit/blob/master/docs/attestations/slsa-definitions.md",
         dockerfileMetadata: {
           name: "Dockerfile",
-          analysis: null,
+          contents: null,
         },
       });
     });
@@ -145,10 +145,8 @@ describe("provenance-parser", () => {
       expect(result).toHaveLength(1);
       expect(result[0].dockerfileMetadata.name).toBe("Dockerfile");
 
-      // The base64 contents are decoded and parsed into a DockerFileAnalysis;
-      // no raw base64 is surfaced.
-      expect(result[0].dockerfileMetadata.analysis?.baseImage).toBe("node:18");
-      expect(JSON.stringify(result[0])).not.toContain(dockerfileBase64);
+      // The raw base64 contents are surfaced verbatim.
+      expect(result[0].dockerfileMetadata.contents).toBe(dockerfileBase64);
     });
 
     it("selects dockerfile contents by filename when multiple sources exist", async () => {
@@ -180,10 +178,10 @@ describe("provenance-parser", () => {
       const result = await parseProvenanceAttestations([attestation]);
 
       expect(result).toHaveLength(1);
-      expect(result[0].dockerfileMetadata.analysis?.baseImage).toBe("alpine");
+      expect(result[0].dockerfileMetadata.contents).toBe(wanted);
     });
 
-    it("produces null analysis when no source matches the dockerfile name", async () => {
+    it("produces null contents when no source matches the dockerfile name", async () => {
       const a = Buffer.from("FROM alpine\n").toString("base64");
       const b = Buffer.from("FROM scratch\n").toString("base64");
 
@@ -213,7 +211,7 @@ describe("provenance-parser", () => {
 
       expect(result).toHaveLength(1);
       expect(result[0].dockerfileMetadata.name).toBe("Dockerfile");
-      expect(result[0].dockerfileMetadata.analysis).toBeNull();
+      expect(result[0].dockerfileMetadata.contents).toBeNull();
     });
   });
 
@@ -264,7 +262,7 @@ describe("provenance-parser", () => {
           "https://github.com/moby/buildkit/blob/master/docs/attestations/slsa-definitions.md",
         dockerfileMetadata: {
           name: "build/Dockerfile",
-          analysis: null,
+          contents: null,
         },
       });
     });
@@ -336,9 +334,7 @@ describe("provenance-parser", () => {
 
       expect(result).toHaveLength(1);
       expect(result[0].dockerfileMetadata.name).toBe("Dockerfile");
-      expect(result[0].dockerfileMetadata.analysis?.baseImage).toBe(
-        "python:3.11",
-      );
+      expect(result[0].dockerfileMetadata.contents).toBe(dockerfileBase64);
     });
   });
 
@@ -526,7 +522,7 @@ describe("provenance-parser", () => {
         buildType: "",
         dockerfileMetadata: {
           name: "Dockerfile",
-          analysis: null,
+          contents: null,
         },
       });
     });
