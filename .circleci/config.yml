@@ -379,6 +379,7 @@ workflows:
           name: Scan repository for secrets
           context:
             - snyk-bot-slack
+            - prodsec-orb-runtime
           channel: snyk-vuln-alerts-container
           filters:
             branches:
@@ -407,7 +408,9 @@ workflows:
             - *slack-fail-notify
       - security-scans:
           name: Security Scans
-          context: infrasec_container
+          context:
+            - infrasec_container
+            - prodsec-orb-runtime
           post-steps:
             - *slack-fail-notify
       - test_unit:
