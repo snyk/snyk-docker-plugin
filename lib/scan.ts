@@ -1,5 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
+import { extract } from "tar-stream";
 
 import { getImageArchive } from "./analyzer/image-inspector";
 import { readDockerfileAndAnalyse } from "./dockerfile";
@@ -151,6 +152,48 @@ function getAndValidateArchivePath(targetImage: string) {
   return archivePath;
 }
 
+// Reads the image reference embedded in an OCI archive's index.json
+// (io.containerd.image.name, falling back to org.opencontainers.image.ref.name).
+// This lets an `oci-archive:` scan be attributed to the actual image name instead of
+// the tar filename, so the resulting asset has the correct registry/repository identity.
+async function getImageNameFromOciArchive(
+  archivePath: string,
+): Promise<string | undefined> {
+  return new Promise<string | undefined>((resolve) => {
+    let imageName: string | undefined;
+    const tarExtractor = extract();
+
+    tarExtractor.on("entry", (header, stream, next) => {
+      if (header.name === "index.json" || header.name === "./index.json") {
+        let contents = "";
+        stream.on("data", (chunk) => (contents += chunk.toString()));
+        stream.on("end", () => {
+          try {
+            const index = JSON.parse(contents);
+            const annotations = index?.manifests?.[0]?.annotations ?? {};
+            imageName =
+              annotations["io.containerd.image.name"] ||
+              annotations["org.opencontainers.image.ref.name"] ||
+              undefined;
+          } catch {
+            // Malformed index — fall back to the archive filename.
+          }
+          next();
+        });
+        stream.on("error", () => next());
+      } else {
+        stream.on("end", next);
+        stream.resume();
+      }
+    });
+
+    tarExtractor.on("finish", () => resolve(imageName));
+    tarExtractor.on("error", () => resolve(undefined));
+
+    fs.createReadStream(archivePath).pipe(tarExtractor);
+  });
+}
+
 async function localArchiveAnalysis(
   targetImage: string,
   imageType: ImageType,
@@ -163,8 +206,17 @@ async function localArchiveAnalysis(
   };
 
   const archivePath = getAndValidateArchivePath(targetImage);
+
+  // For OCI archives, prefer the image name embedded in the archive's index.json over
+  // the tar filename, so the asset gets the correct registry/repository identity.
+  const embeddedImageName =
+    !options.imageNameAndTag && imageType === ImageType.OciArchive
+      ? await getImageNameFromOciArchive(archivePath)
+      : undefined;
+
   const imageIdentifier =
     options.imageNameAndTag ||
+    embeddedImageName ||
     // The target image becomes the base of the path, e.g. "archive.tar" for "/var/tmp/archive.tar"
     path.basename(archivePath);
 
@@ -177,6 +229,8 @@ async function localArchiveAnalysis(
       manifest: options.digests?.manifest,
       index: options.digests?.index,
     });
+  } else if (embeddedImageName) {
+    imageName = new ImageName(embeddedImageName);
   }
 
   return await staticModule.analyzeStatically(
