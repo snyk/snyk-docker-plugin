@@ -68,7 +68,7 @@ interface SlsaPredicateV1_0 {
     metadata?: {
       startedOn?: string;
       buildkit_metadata?: {
-        vcs?: { revision?: string };
+        vcs?: { source?: string; revision?: string };
         source?: {
           infos?: BuildkitSourceInfo[];
         };
@@ -121,7 +121,11 @@ async function extractFieldsSlsaV0_2(
     ? "local"
     : null;
 
-  const buildConfigSourceUri = predicate.invocation?.configSource?.uri || null;
+  // configSource.uri is only set for remote (git-context) builds. For local
+  // builds (`docker buildx build .`), fall back to the git remote recorded by
+  // BuildKit in vcs.source so the source repository is still surfaced.
+  const buildConfigSourceUri =
+    predicate.invocation?.configSource?.uri || buildkitMeta?.vcs?.source || null;
 
   const builderId = predicate.builder?.id || "";
   const buildType = predicate.buildType || "";
@@ -171,8 +175,12 @@ async function extractFieldsSlsaV1_0(
     ? "local"
     : null;
 
+  // configSource.uri is only set for remote (git-context) builds. For local
+  // builds, fall back to the git remote recorded by BuildKit in vcs.source.
   const buildConfigSourceUri =
-    buildDefinition?.externalParameters?.configSource?.uri || null;
+    buildDefinition?.externalParameters?.configSource?.uri ||
+    runDetails?.metadata?.buildkit_metadata?.vcs?.source ||
+    null;
 
   const builderId = runDetails?.builder?.id || "";
   const buildType = buildDefinition?.buildType || "";
