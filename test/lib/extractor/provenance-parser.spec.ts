@@ -109,6 +109,10 @@ describe("provenance-parser", () => {
       expect(result).toHaveLength(1);
       expect(result[0].buildConfigDigest).toBe("localcommitsha");
       expect(result[0].buildConfigDigestSource).toBe("local");
+      // Local builds have no configSource.uri; the source repo falls back to vcs.source.
+      expect(result[0].buildConfigSourceUri).toBe(
+        "https://github.com/org/repo.git",
+      );
       expect(result[0].dockerfileMetadata.name).toBe("docker/Dockerfile.prod");
     });
 
@@ -283,6 +287,7 @@ describe("provenance-parser", () => {
               startedOn: "2025-07-01T09:00:00Z",
               buildkit_metadata: {
                 vcs: {
+                  source: "https://github.com/team/project.git",
                   revision: "localv1commit",
                 },
               },
@@ -296,6 +301,10 @@ describe("provenance-parser", () => {
       expect(result).toHaveLength(1);
       expect(result[0].buildConfigDigest).toBe("localv1commit");
       expect(result[0].buildConfigDigestSource).toBe("local");
+      // Local builds have no configSource.uri; the source repo falls back to vcs.source.
+      expect(result[0].buildConfigSourceUri).toBe(
+        "https://github.com/team/project.git",
+      );
     });
 
     it("decodes and parses dockerfile contents from a mode=max build", async () => {
