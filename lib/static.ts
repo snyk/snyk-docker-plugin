@@ -1,8 +1,13 @@
 import * as analyzer from "./analyzer";
+import { extractImageDetails } from "./analyzer/image-inspector";
 import { StaticAnalysis } from "./analyzer/types";
 import { buildTree } from "./dependency-tree";
 import { DockerFileAnalysis } from "./dockerfile/types";
 import { getImageNames, ImageName } from "./extractor/image";
+import {
+  fetchAttestationsFromRegistry,
+  parsePlatform,
+} from "./extractor/registry-attestations";
 import {
   constructOCIDisributionMetadata,
   OCIDistributionMetadata,
@@ -57,6 +62,28 @@ export async function analyzeStatically(
     imageLayers: parsedAnalysisResult.imageLayers,
     packageFormat: parsedAnalysisResult.packageFormat,
   };
+
+  // For registry-reference scans, the attestation manifest is dropped by docker pull /
+  // docker save, so extraction finds no provenance. Fetch it straight from the source
+  // registry so provenance is surfaced without depending on the daemon/image store.
+  if (
+    imageType === ImageType.Identifier &&
+    (!analysis.attestations || analysis.attestations.length === 0)
+  ) {
+    try {
+      const { hostname, imageName: repo, tag } = extractImageDetails(targetImage);
+      analysis.attestations = await fetchAttestationsFromRegistry({
+        registryBase: hostname,
+        repo,
+        imageReference: tag,
+        username: options.username,
+        password: options.password,
+        platform: parsePlatform(options.platform),
+      });
+    } catch {
+      // Best-effort: provenance is optional; never fail the scan over it.
+    }
+  }
 
   const excludeBaseImageVulns = isTrue(options["exclude-base-image-vulns"]);
 
