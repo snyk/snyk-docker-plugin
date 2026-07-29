@@ -160,6 +160,76 @@ describe("registry-attestations", () => {
       expect(Object.keys(result[0].inTotoStatements)).toEqual([intotoDigest]);
     });
 
+    it("fetches only the provenance layer when an SBOM attestation is also present", async () => {
+      const provDigest = "sha256:prov";
+      const sbomDigest = "sha256:sbom";
+      const manifest = attestationManifest([
+        {
+          digest: sbomDigest,
+          mediaType: IN_TOTO_MEDIATYPE,
+          annotations: {
+            "in-toto.io/predicate-type": "https://spdx.dev/Document",
+          },
+        },
+        {
+          digest: provDigest,
+          mediaType: IN_TOTO_MEDIATYPE,
+          annotations: {
+            "in-toto.io/predicate-type": "https://slsa.dev/provenance/v0.2",
+          },
+        },
+      ]);
+      mockGetAttestationManifest.mockResolvedValue(manifest as any);
+      mockGetLayer.mockResolvedValue(
+        Buffer.from(JSON.stringify(inTotoStatement)),
+      );
+
+      const result = await fetchAttestationsFromRegistry(ref);
+
+      // The SBOM blob is never downloaded — only the provenance layer.
+      expect(mockGetLayer).toHaveBeenCalledTimes(1);
+      expect(mockGetLayer).toHaveBeenCalledWith(
+        ref.registryBase,
+        ref.repo,
+        provDigest,
+        undefined,
+        undefined,
+      );
+      expect(Object.keys(result[0].inTotoStatements)).toEqual([provDigest]);
+    });
+
+    it("returns [] when the only in-toto layer is a non-provenance predicate", async () => {
+      mockGetAttestationManifest.mockResolvedValue(
+        attestationManifest([
+          {
+            digest: "sha256:sbom",
+            mediaType: IN_TOTO_MEDIATYPE,
+            annotations: {
+              "in-toto.io/predicate-type": "https://spdx.dev/Document",
+            },
+          },
+        ]) as any,
+      );
+
+      expect(await fetchAttestationsFromRegistry(ref)).toEqual([]);
+      expect(mockGetLayer).not.toHaveBeenCalled();
+    });
+
+    it("falls back to fetching an in-toto layer that has no predicate-type annotation", async () => {
+      const digest = "sha256:noannotation";
+      mockGetAttestationManifest.mockResolvedValue(
+        attestationManifest([{ digest, mediaType: IN_TOTO_MEDIATYPE }]) as any,
+      );
+      mockGetLayer.mockResolvedValue(
+        Buffer.from(JSON.stringify(inTotoStatement)),
+      );
+
+      const result = await fetchAttestationsFromRegistry(ref);
+
+      expect(mockGetLayer).toHaveBeenCalledTimes(1);
+      expect(Object.keys(result[0].inTotoStatements)).toEqual([digest]);
+    });
+
     it("returns [] when getAttestationManifest throws", async () => {
       mockGetAttestationManifest.mockRejectedValue(new Error("404 not found"));
 

@@ -7,6 +7,8 @@ import { createHash } from "crypto";
 import { InTotoStatement, ResolvedAttestationManifest } from "./types";
 
 const MEDIATYPE_IN_TOTO = "application/vnd.in-toto+json";
+const PREDICATE_TYPE_ANNOTATION = "in-toto.io/predicate-type";
+const SLSA_PROVENANCE_PREFIX = "https://slsa.dev/provenance/";
 
 interface RegistryImageRef {
   registryBase: string;
@@ -17,23 +19,12 @@ interface RegistryImageRef {
   platform?: { os: string; architecture: string; variant?: string };
 }
 
-/**
- * Fetches provenance attestations for an image directly from its source registry.
- *
- * When an image is obtained via `docker pull` (or exported with `docker save` on the
- * classic image store), the attestation manifest — a `platform: unknown/unknown` sidecar
- * in the image index — is dropped, so a registry-reference scan never sees provenance.
- * This fetches the attestation manifest and its in-toto layers straight from the registry
- * so provenance can be surfaced regardless of how the image reached the daemon.
- *
- * Best-effort: returns [] on any failure (no attestation present, registry doesn't
- * support the referrers/attestation lookup, auth or network error) so it never breaks
- * a scan.
- */
+// Fetches provenance attestations for an image directly from its source registry.
 export async function fetchAttestationsFromRegistry(
   ref: RegistryImageRef,
 ): Promise<ResolvedAttestationManifest[]> {
-  const { registryBase, repo, imageReference, username, password, platform } = ref;
+  const { registryBase, repo, imageReference, username, password, platform } =
+    ref;
 
   let manifest;
   try {
@@ -61,6 +52,16 @@ export async function fetchAttestationsFromRegistry(
   const inTotoStatements: Record<string, InTotoStatement> = {};
   for (const layer of manifest.layers) {
     if (layer.mediaType !== MEDIATYPE_IN_TOTO) {
+      continue;
+    }
+    // An attestation manifest can carry several in-toto statements sharing the same
+    // mediaType (e.g. SLSA provenance AND an SPDX SBOM). The `in-toto.io/predicate-type`
+    // annotation is what distinguishes them, so use it to fetch only provenance layers and
+    // avoid downloading (potentially large) SBOM blobs we'd discard downstream. When the
+    // annotation is absent (a tool that didn't set it) we fall back to fetching and let
+    // the provenance parser decide, so we never miss a genuine provenance statement.
+    const predicateType = layer.annotations?.[PREDICATE_TYPE_ANNOTATION];
+    if (predicateType && !predicateType.startsWith(SLSA_PROVENANCE_PREFIX)) {
       continue;
     }
     try {
