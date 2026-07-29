@@ -36,7 +36,7 @@ const MEDIATYPE_IN_TOTO = "application/vnd.in-toto+json";
 
 // Maximum size for JSON metadata files. Matches the limit in streamToJson.
 // Files larger than this are layer blobs, not JSON metadata.
-const MAX_JSON_SIZE_BYTES = 2 * 1024 * 1024;
+export const MAX_JSON_SIZE_BYTES = 2 * 1024 * 1024;
 
 /**
  * Retrieve the products of files content from the specified oci-archive.
@@ -513,7 +513,9 @@ function isMainIndexFile(name: string): boolean {
   return name === "index.json";
 }
 
-function getOciPlatformInfoFromOptionString(platform: string): OciPlatformInfo {
+export function getOciPlatformInfoFromOptionString(
+  platform: string,
+): OciPlatformInfo {
   const [os, architecture, variant] = platform.split("/") as [
     os: string,
     architecture: string,
