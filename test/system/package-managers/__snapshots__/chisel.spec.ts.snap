@@ -387,6 +387,25 @@ exports[`chisel package manager tests should correctly analyze a chiseled Ubuntu
           "type": "imageNames",
         },
         {
+          "data": [
+            {
+              "attestationManifestDigest": "sha256:f101de37d43140670c7cdd2f3d5d350d67f0994d5e54112e8bd38a6eef617e06",
+              "attestedManifestDigest": "sha256:6c33709164fe0c9bc20e3d13ba3c1f2fcd6fc7fcf6357b84fbc1c50c483a1178",
+              "buildConfigDigest": "1efa343828a18eebdc60d8ebd949c1ff64b90771",
+              "buildConfigDigestSource": "local",
+              "buildConfigSourceUri": "git@github.com:snyk/snyk-docker-plugin.git",
+              "buildTimestamp": "2025-10-22T17:27:23.749743509Z",
+              "buildType": "https://mobyproject.org/buildkit@v1",
+              "builderId": "",
+              "dockerfileMetadata": {
+                "contents": null,
+                "name": "chisel.dockerfile",
+              },
+            },
+          ],
+          "type": "provenanceMetadata",
+        },
+        {
           "data": "linux/amd64",
           "type": "platform",
         },
