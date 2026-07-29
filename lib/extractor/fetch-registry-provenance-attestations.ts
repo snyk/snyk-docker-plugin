@@ -6,6 +6,10 @@ import * as Debug from "debug";
 
 import { getErrorMessage } from "../error-utils";
 import {
+  getOciPlatformInfoFromOptionString,
+  MAX_JSON_SIZE_BYTES,
+} from "./oci-archive/layer";
+import {
   InTotoStatement,
   OciArchiveManifest,
   ResolvedAttestationManifest,
@@ -71,6 +75,13 @@ export async function fetchAttestationsFromRegistry(
     if (predicateType && !predicateType.startsWith(SLSA_PROVENANCE_PREFIX)) {
       continue;
     }
+
+    if (typeof layer.size === "number" && layer.size > MAX_JSON_SIZE_BYTES) {
+      debug(
+        `[provenance] skipping oversized attestation layer ${layer.digest} (${layer.size} bytes > ${MAX_JSON_SIZE_BYTES})`,
+      );
+      continue;
+    }
     try {
       const blob = await getLayer(
         registryBase,
@@ -129,9 +140,14 @@ export function parsePlatform(
   if (!platform) {
     return undefined;
   }
-  const [os, architecture, variant] = platform.split("/");
-  if (!os || !architecture) {
+
+  const info = getOciPlatformInfoFromOptionString(platform);
+  if (!info.os || !info.architecture) {
     return undefined;
   }
-  return { os, architecture, variant };
+  return {
+    os: info.os,
+    architecture: info.architecture,
+    variant: info.variant,
+  };
 }

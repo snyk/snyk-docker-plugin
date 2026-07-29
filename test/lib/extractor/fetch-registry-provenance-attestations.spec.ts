@@ -147,5 +147,23 @@ describe("fetch-registry-provenance-attestations", () => {
       expect(await fetchAttestationsFromRegistry(ref)).toEqual([]);
       expect(mockGetLayer).not.toHaveBeenCalled();
     });
+
+    it("skips an attestation layer larger than the 2 MB limit without downloading it", async () => {
+      mockGetAttestationManifest.mockResolvedValue({
+        manifestDigest: "sha256:attmanifest",
+        config: { digest: "sha256:config" },
+        layers: [
+          {
+            digest: "sha256:huge",
+            mediaType: IN_TOTO,
+            annotations: { "in-toto.io/predicate-type": SLSA_PROVENANCE },
+            size: 2 * 1024 * 1024 + 1,
+          },
+        ],
+      } as any);
+
+      expect(await fetchAttestationsFromRegistry(ref)).toEqual([]);
+      expect(mockGetLayer).not.toHaveBeenCalled();
+    });
   });
 });
