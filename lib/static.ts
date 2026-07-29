@@ -1,13 +1,15 @@
+import * as Debug from "debug";
 import * as analyzer from "./analyzer";
 import { extractImageDetails } from "./analyzer/image-inspector";
 import { StaticAnalysis } from "./analyzer/types";
 import { buildTree } from "./dependency-tree";
 import { DockerFileAnalysis } from "./dockerfile/types";
+import { getErrorMessage } from "./error-utils";
 import { getImageNames, ImageName } from "./extractor/image";
 import {
   fetchAttestationsFromRegistry,
   parsePlatform,
-} from "./extractor/registry-attestations";
+} from "./extractor/fetch-registry-provenance-attestations";
 import {
   constructOCIDisributionMetadata,
   OCIDistributionMetadata,
@@ -16,6 +18,8 @@ import { isTrue } from "./option-utils";
 import { parseAnalysisResults } from "./parser";
 import { buildResponse } from "./response-builder";
 import { DepTree, ImageType, PluginOptions, PluginResponse } from "./types";
+
+const debug = Debug("snyk");
 
 export async function analyzeStatically(
   targetImage: string,
@@ -63,15 +67,16 @@ export async function analyzeStatically(
     packageFormat: parsedAnalysisResult.packageFormat,
   };
 
-  // For registry-reference scans, the attestation manifest is dropped by docker pull /
-  // docker save, so extraction finds no provenance. Fetch it straight from the source
-  // registry so provenance is surfaced without depending on the daemon/image store.
   if (
     imageType === ImageType.Identifier &&
     (!analysis.attestations || analysis.attestations.length === 0)
   ) {
     try {
-      const { hostname, imageName: repo, tag } = extractImageDetails(targetImage);
+      const {
+        hostname,
+        imageName: repo,
+        tag,
+      } = extractImageDetails(targetImage);
       analysis.attestations = await fetchAttestationsFromRegistry({
         registryBase: hostname,
         repo,
@@ -80,8 +85,13 @@ export async function analyzeStatically(
         password: options.password,
         platform: parsePlatform(options.platform),
       });
-    } catch {
+    } catch (error) {
       // Best-effort: provenance is optional; never fail the scan over it.
+      debug(
+        `[provenance] failed to fetch attestations from registry for ${targetImage}: ${getErrorMessage(
+          error,
+        )}`,
+      );
     }
   }
 

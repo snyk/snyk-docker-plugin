@@ -2,9 +2,16 @@ import {
   getAttestationManifest,
   getLayer,
 } from "@snyk/docker-registry-v2-client";
-import { createHash } from "crypto";
+import * as Debug from "debug";
 
-import { InTotoStatement, ResolvedAttestationManifest } from "./types";
+import { getErrorMessage } from "../error-utils";
+import {
+  InTotoStatement,
+  OciArchiveManifest,
+  ResolvedAttestationManifest,
+} from "./types";
+
+const debug = Debug("snyk");
 
 const MEDIATYPE_IN_TOTO = "application/vnd.in-toto+json";
 const PREDICATE_TYPE_ANNOTATION = "in-toto.io/predicate-type";
@@ -37,7 +44,12 @@ export async function fetchAttestationsFromRegistry(
       undefined,
       platform,
     );
-  } catch {
+  } catch (error) {
+    debug(
+      `[provenance] failed to fetch attestation manifest for ${repo}@${imageReference}: ${getErrorMessage(
+        error,
+      )}`,
+    );
     return [];
   }
 
@@ -54,12 +66,7 @@ export async function fetchAttestationsFromRegistry(
     if (layer.mediaType !== MEDIATYPE_IN_TOTO) {
       continue;
     }
-    // An attestation manifest can carry several in-toto statements sharing the same
-    // mediaType (e.g. SLSA provenance AND an SPDX SBOM). The `in-toto.io/predicate-type`
-    // annotation is what distinguishes them, so use it to fetch only provenance layers and
-    // avoid downloading (potentially large) SBOM blobs we'd discard downstream. When the
-    // annotation is absent (a tool that didn't set it) we fall back to fetching and let
-    // the provenance parser decide, so we never miss a genuine provenance statement.
+
     const predicateType = layer.annotations?.[PREDICATE_TYPE_ANNOTATION];
     if (predicateType && !predicateType.startsWith(SLSA_PROVENANCE_PREFIX)) {
       continue;
@@ -75,8 +82,12 @@ export async function fetchAttestationsFromRegistry(
       inTotoStatements[layer.digest] = JSON.parse(
         blob.toString("utf-8"),
       ) as InTotoStatement;
-    } catch {
-      // Skip a layer we can't fetch or parse; other layers may still be usable.
+    } catch (error) {
+      debug(
+        `[provenance] skipping layer ${layer.digest}: ${getErrorMessage(
+          error,
+        )}`,
+      );
     }
   }
 
@@ -84,22 +95,34 @@ export async function fetchAttestationsFromRegistry(
     return [];
   }
 
+  if (!manifest.manifestDigest) {
+    debug(
+      `[provenance] no descriptor digest for attestation manifest ${repo}@${imageReference}; skipping`,
+    );
+    return [];
+  }
+
+  const resolvedManifest: OciArchiveManifest = {
+    schemaVersion: String(manifest.schemaVersion),
+    mediaType: manifest.mediaType,
+    config: { digest: manifest.config.digest },
+    layers: manifest.layers.map((layer) => ({
+      digest: layer.digest,
+      mediaType: layer.mediaType,
+      size: layer.size,
+      annotations: layer.annotations,
+    })),
+  };
+
   return [
     {
-      // NOTE: the client doesn't expose the descriptor digest for the fetched
-      // attestation manifest, so we derive a stable digest from its content. This is
-      // used as `source_attestation_digest`; if the exact registry descriptor digest is
-      // required, resolve it from the image index's attestation-manifest descriptor.
-      manifestDigest:
-        "sha256:" +
-        createHash("sha256").update(JSON.stringify(manifest)).digest("hex"),
-      manifest: manifest as unknown as ResolvedAttestationManifest["manifest"],
+      manifestDigest: manifest.manifestDigest,
+      manifest: resolvedManifest,
       inTotoStatements,
     },
   ];
 }
 
-/** Parses an "os/arch[/variant]" platform string into the registry client's shape. */
 export function parsePlatform(
   platform?: string,
 ): { os: string; architecture: string; variant?: string } | undefined {
