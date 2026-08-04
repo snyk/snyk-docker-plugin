@@ -162,6 +162,14 @@ export interface StaticPackagesAnalysis extends StaticAnalysis {
 export interface ArchiveResult {
   imageName: ImageName;
   path: string;
+  /**
+   * True when the archive came from pulling the image out of its registry, false
+   * when it was saved from an image already present on the local daemon. Callers
+   * that want to reach back out to the registry for optional extras need to know
+   * the difference: a reference can look like a registry one and still have never
+   * come from a registry, so the registry may not exist or be reachable at all.
+   */
+  pulledFromRegistry: boolean;
   removeArchive(): void;
 }
 

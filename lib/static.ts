@@ -29,6 +29,7 @@ export async function analyzeStatically(
   globsToFind: { include: string[]; exclude: string[] },
   options: Partial<PluginOptions>,
   imageName?: ImageName,
+  pulledFromRegistry = false,
 ): Promise<PluginResponse> {
   const totalStart = Date.now();
 
@@ -67,8 +68,17 @@ export async function analyzeStatically(
     packageFormat: parsedAnalysisResult.packageFormat,
   };
 
+  // Only reach back out to the registry for an image that actually came from one.
+  // An Identifier reference merely *looks* like a registry reference: an image that
+  // was built or loaded locally and tagged `my-registry.local/app:tag` never touched
+  // a registry, and that host may not resolve at all. Attempting it there produces a
+  // transport failure rather than a "no attestations" answer, and while this function
+  // swallows that error, the failed request is still visible to the HTTP layer that
+  // carried it -- which can append a second error document to an otherwise successful
+  // `--json` result. Skipping the request avoids the failure instead of handling it.
   if (
     imageType === ImageType.Identifier &&
+    pulledFromRegistry &&
     (!analysis.attestations || analysis.attestations.length === 0)
   ) {
     try {

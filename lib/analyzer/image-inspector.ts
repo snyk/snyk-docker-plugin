@@ -246,6 +246,7 @@ async function getImageArchive(
     return {
       imageName,
       path: saveLocation,
+      pulledFromRegistry: true,
       removeArchive: destination.removeCallback,
     };
   }
@@ -267,6 +268,7 @@ async function getImageArchive(
     return {
       imageName,
       path: saveLocation,
+      pulledFromRegistry: true,
       removeArchive: destination.removeCallback,
     };
   } else {
@@ -275,6 +277,7 @@ async function getImageArchive(
     return {
       imageName,
       path: saveLocation,
+      pulledFromRegistry: false,
       removeArchive: destination.removeCallback,
     };
   }

@@ -228,6 +228,7 @@ async function imageIdentifierAnalysis(
       globToFind,
       options,
       imageName,
+      archiveResult.pulledFromRegistry,
     );
   } finally {
     archiveResult.removeArchive();
