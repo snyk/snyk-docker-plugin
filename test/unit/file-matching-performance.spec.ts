@@ -274,7 +274,6 @@ describe("file matching performance", () => {
       const baselineBest = bestOf(baselineRuns, 1);
       const shippedBest = bestOf(shippedRuns, 1);
 
-       
       console.log(
         `file matching e2e best-of-3 ms: baseline=${baselineBest.toFixed(
           3,

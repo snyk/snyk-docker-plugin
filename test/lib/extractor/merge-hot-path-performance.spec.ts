@@ -404,7 +404,6 @@ describe("merge hot path performance", () => {
         }
       }, 5);
 
-       
       console.log(
         `isWhitedOutFile timing: baseline=${baselineMs.toFixed(
           3,
@@ -440,7 +439,6 @@ describe("merge hot path performance", () => {
         runAllMerges(optimizedLayersWithLatestFileModifications);
       }, 5);
 
-       
       console.log(
         `file merge timing: baseline=${baselineMs.toFixed(
           3,
@@ -461,7 +459,6 @@ describe("merge hot path performance", () => {
       {},
     );
     const elapsedMs = performance.now() - start;
-     
     console.log(
       `extractImageContent(nginx.tar) elapsed=${elapsedMs.toFixed(3)}ms`,
     );

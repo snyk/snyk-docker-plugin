@@ -243,7 +243,6 @@ describe("applyCallbacks stream passthrough bypass", () => {
     const baselineMs = await measure(baselineApplyCallbacks);
     const optimizedMs = await measure(applyCallbacks);
 
-     
     console.log(
       `applyCallbacks single-action: optimized=${optimizedMs.toFixed(
         2,
