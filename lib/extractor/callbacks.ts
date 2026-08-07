@@ -8,6 +8,21 @@ export async function applyCallbacks(
   streamSize?: number,
 ): Promise<FileNameAndContent> {
   const result: FileNameAndContent = {};
+
+  if (matchedActions.length === 1) {
+    const action = matchedActions[0];
+    const content =
+      action.callback !== undefined
+        ? await action.callback(fileContentStream, streamSize)
+        : await streamToString(fileContentStream);
+
+    if (content) {
+      result[action.actionName] = content;
+    }
+
+    return result;
+  }
+
   const actionsToAwait = matchedActions.map((action) => {
     // Using a pass through allows us to read the stream multiple times.
     const streamCopy = new PassThrough();
