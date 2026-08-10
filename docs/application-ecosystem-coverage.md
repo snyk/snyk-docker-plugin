@@ -53,12 +53,12 @@ There is no [`lib/analyzer/applications/python.ts`](../lib/analyzer/applications
 
 ## Not detected
 
-The following ecosystems named in the request against Snyk Open Source's supported application-manifest ecosystems have **no** extract action and **no** analyzer anywhere under `lib/`. Each claim below is falsifiable by the searches in the [Evidence appendix](#evidence-appendix): searching `lib/` for the manifest filenames associated with each ecosystem returns no code that reads them from the image filesystem.
+The following ecosystems named in the request against Snyk Open Source's supported application-manifest ecosystems are **not detected** end-to-end during scanning. With one exception (Cargo — see that row), each has **no** extract action and **no** analyzer anywhere under `lib/`. Each claim below is falsifiable by the searches in the [Evidence appendix](#evidence-appendix): for most rows, searching `lib/` for the manifest filenames associated with each ecosystem returns no code that reads them from the image filesystem.
 
 | Ecosystem | Manifest(s) that would indicate support | Result of searching `lib/` |
 | --- | --- | --- |
 | RubyGems / Bundler | `Gemfile`, `Gemfile.lock`, `*.gemspec` | No `ExtractAction` matches these names. The only hit for `Gemfile` anywhere in `lib/` is a code comment ([`lib/types.ts:64`](../lib/types.ts)) naming `Gemfile.lock` as an example manifest in a type description; it is not read from an image |
-| Cargo (Rust) | `Cargo.toml`, `Cargo.lock` | No hits, no `ExtractAction`, no analyzer |
+| Cargo (Rust) | `Cargo.toml`, `Cargo.lock` | Unconsumed pieces exist but Cargo dependencies are still not detected: an `ExtractAction` path matcher at [`lib/inputs/cargo/static.ts`](../lib/inputs/cargo/static.ts) (action `cargo-app-files`) matches `Cargo.toml` and `Cargo.lock`, and a `Cargo.lock` parser lives at [`lib/cargo-parser/`](../lib/cargo-parser/) ([`cargo-lock-parser.ts`](../lib/cargo-parser/cargo-lock-parser.ts), [`types.ts`](../lib/cargo-parser/types.ts)). Neither is registered in [`lib/analyzer/static-analyzer.ts`](../lib/analyzer/static-analyzer.ts), and no analyzer consumes either |
 | CocoaPods | `Podfile`, `Podfile.lock`, `*.podspec` | No hits, no `ExtractAction`, no analyzer |
 | Swift Package Manager | `Package.swift` | No hits, no `ExtractAction`, no analyzer |
 | Hex / Elixir | `mix.exs`, `mix.lock` | No hits, no `ExtractAction`, no analyzer |
@@ -75,7 +75,7 @@ This document could not fetch or verify Snyk Open Source's current supported-eco
 
 ## Evidence appendix
 
-Two greps against `lib/` were run to check whether any manifest-filename string for the "not detected" ecosystems appears anywhere in the source, including places that would not by themselves indicate real detection (comments, unrelated identifiers). Both are reproducible with the commands below; a reviewer re-running them should see the audit hits listed below plus the new NuGet matcher/parser hit sites named in each check.
+Two greps against `lib/` were run to check whether any manifest-filename string for the "not detected" ecosystems appears anywhere in the source, including places that would not by themselves indicate real detection (comments, unrelated identifiers). Both are reproducible with the commands below; a reviewer re-running them should see the audit hits listed below plus the NuGet matcher/parser and Cargo path-matcher hit sites named in each check.
 
 **Check A — narrow manifest-filename sweep.** Pattern (case-insensitive): `Gemfile|gemspec|Cargo\.toml|Podfile|packages\.config|paket|pubspec|mix\.exs|Package\.swift|\.sbt|pom\.xml|build\.gradle`
 
@@ -83,12 +83,13 @@ As of the audit commit, before the NuGet matchers in this change landed, this re
 
 - [`lib/types.ts:64`](../lib/types.ts) — a code comment reading `// Package manager manifests (e.g. requirements.txt, Gemfile.lock) collected as part of an application scan.` This is a comment on a type describing collected manifest filenames for reporting purposes, not an `ExtractAction` matcher; it does not indicate Gemfile detection.
 
-After the NuGet matcher/parser change, re-running this pattern also hits:
+After the NuGet matcher/parser and Cargo path-matcher changes, re-running this pattern also hits:
 
 - [`lib/inputs/dotnet/static.ts`](../lib/inputs/dotnet/static.ts) — the widened `filePathMatches` for `packages.config`, project files, `packages.lock.json`, and `obj/project.assets.json`
 - [`lib/dotnet-parser/`](../lib/dotnet-parser/) — in-repo parsers for the newly matched NuGet manifest/lockfile formats
+- [`lib/inputs/cargo/static.ts`](../lib/inputs/cargo/static.ts) — `filePathMatches` for `Cargo.toml` and `Cargo.lock`; not registered in [`static-analyzer.ts`](../lib/analyzer/static-analyzer.ts) and not consumed by any analyzer
 
-Notably, this narrow pattern does **not** match [`lib/inputs/java/static.ts:6`](../lib/inputs/java/static.ts) (`const ignoredPaths = [usrLibPath, "gradle/cache"];`), because that line contains the bare substring `gradle` without `build.gradle`, and the pattern does not include bare `gradle`.
+Notably, this narrow pattern does **not** match [`lib/cargo-parser/cargo-lock-parser.ts`](../lib/cargo-parser/cargo-lock-parser.ts) (its comment reads `Cargo.lock TOML`, which does not match `Cargo\.toml`), and does **not** match [`lib/inputs/java/static.ts:6`](../lib/inputs/java/static.ts) (`const ignoredPaths = [usrLibPath, "gradle/cache"];`), because that line contains the bare substring `gradle` without `build.gradle`, and the pattern does not include bare `gradle`.
 
 **Check B — broadened sweep.** Pattern (case-insensitive), narrow pattern plus bare `gradle|maven|nuget`: `Gemfile|gemspec|Cargo\.toml|Podfile|packages\.config|paket|pubspec|mix\.exs|Package\.swift|\.sbt|pom\.xml|build\.gradle|gradle|maven|nuget`
 
@@ -104,10 +105,11 @@ As of the audit commit, before the NuGet matchers in this change landed, this re
 - [`lib/analyzer/applications/java.ts:230`](../lib/analyzer/applications/java.ts) — a comment about the sha1 fallback for Maven Central
 - [`lib/analyzer/applications/java.ts:258`](../lib/analyzer/applications/java.ts) — a comment about resolving JARs via "maven-deps"
 
-After the NuGet matcher/parser change, re-running this pattern also hits the same new sites as Check A:
+After the NuGet matcher/parser and Cargo path-matcher changes, re-running this pattern also hits the same new sites as Check A:
 
 - [`lib/inputs/dotnet/static.ts`](../lib/inputs/dotnet/static.ts) — the widened `filePathMatches` for `packages.config`, project files, `packages.lock.json`, and `obj/project.assets.json`
 - [`lib/dotnet-parser/`](../lib/dotnet-parser/) — in-repo parsers for the newly matched NuGet manifest/lockfile formats
+- [`lib/inputs/cargo/static.ts`](../lib/inputs/cargo/static.ts) — `filePathMatches` for `Cargo.toml` and `Cargo.lock`; not registered in [`static-analyzer.ts`](../lib/analyzer/static-analyzer.ts) and not consumed by any analyzer
 
 None of the audit hits is a `pom.xml`, `build.gradle`, or `paket.lock` filesystem matcher. This confirms the "manifest half" gaps stated in the [Detected](#detected) table and the [Not detected](#not-detected) table above.
 
