@@ -21,7 +21,7 @@ Application-ecosystem extraction and analysis are gated on `exclude-app-vulns` b
 | **PHP / Composer** | Supported | `composer.json`, `composer.lock`, and `vendor/composer/installed.json` (anchored on the `vendor/composer/` path segment) ([`lib/inputs/php/static.ts:6-13`](../lib/inputs/php/static.ts)) | [`lib/inputs/php/static.ts`](../lib/inputs/php/static.ts), action `php-app-files` | [`lib/analyzer/applications/php.ts`](../lib/analyzer/applications/php.ts); `identity.type` = `depGraph.pkgManager.name` ([`:75`, `:140`](../lib/analyzer/applications/php.ts)) | **Delegated** for a `composer.json`+`composer.lock` pair — [`@snyk/composer-lockfile-parser`](https://www.npmjs.com/package/@snyk/composer-lockfile-parser) (`package.json:33`); **Native** fallback when only `composer.lock` or only `vendor/composer/installed.json` is present — in-repo [`lib/php-parser/composer-lock-parser.ts`](../lib/php-parser/composer-lock-parser.ts), consumed by `buildScanResultFromPackages` in `php.ts`. A `composer.json` with no `composer.lock` is not reported: it carries version constraints, not pinned versions |
 | **Python — Poetry** | Supported | `pyproject.toml`, `poetry.lock` ([`lib/inputs/python/static.ts:6`](../lib/inputs/python/static.ts)) | [`lib/inputs/python/static.ts`](../lib/inputs/python/static.ts), action `poetry-app-files` | [`lib/analyzer/applications/python/poetry.ts`](../lib/analyzer/applications/python/poetry.ts); `identity.type` = `depGraph.pkgManager.name` ([`:42`](../lib/analyzer/applications/python/poetry.ts)) | **Delegated** — [`snyk-poetry-lockfile-parser`](https://www.npmjs.com/package/snyk-poetry-lockfile-parser) (`package.json:53`) |
 | **Python — pip** | Supported | `requirements.txt`; installed-package `METADATA` under `lib/python*/site-packages/` or `dist-packages/` matching [`lib/inputs/python/static.ts:9–10`](../lib/inputs/python/static.ts) | [`lib/inputs/python/static.ts`](../lib/inputs/python/static.ts), action `pip-app-files` | [`lib/analyzer/applications/python/pip.ts`](../lib/analyzer/applications/python/pip.ts); literal `identity.type` `'pip'` ([`:172`](../lib/analyzer/applications/python/pip.ts)) | **Native** — in-repo [`lib/python-parser/metadata-parser`](../lib/python-parser/metadata-parser) and [`lib/python-parser/requirements-parser`](../lib/python-parser/requirements-parser) ([`pip.ts:8–10`](../lib/analyzer/applications/python/pip.ts)) |
-| **.NET / NuGet** | Partially supported | `*.deps.json` only, excluding paths containing `/dotnet/shared/` or `/dotnet/packs/` ([`lib/inputs/dotnet/static.ts:9–18`](../lib/inputs/dotnet/static.ts)) | [`lib/inputs/dotnet/static.ts`](../lib/inputs/dotnet/static.ts), action `dotnet-app-files` | [`lib/analyzer/applications/dotnet.ts`](../lib/analyzer/applications/dotnet.ts); literal `identity.type` `'nuget'` ([`:115`](../lib/analyzer/applications/dotnet.ts)) | **Native** — parsed in-repo from publish output `.deps.json` |
+| **.NET / NuGet** | Partially supported | `*.deps.json`, `packages.config`, `*.csproj` / `*.fsproj` / `*.vbproj`, `packages.lock.json`, and `obj/project.assets.json`, excluding paths containing `/dotnet/shared/`, `/dotnet/packs/`, `/dotnet/sdk/`, or `/.nuget/packages/` ([`lib/inputs/dotnet/static.ts`](../lib/inputs/dotnet/static.ts)) | [`lib/inputs/dotnet/static.ts`](../lib/inputs/dotnet/static.ts), action `dotnet-app-files` | [`lib/analyzer/applications/dotnet.ts`](../lib/analyzer/applications/dotnet.ts); literal `identity.type` `'nuget'` ([`:115`](../lib/analyzer/applications/dotnet.ts)) | **Native** — parsed in-repo from publish output `.deps.json` and from manifest/lockfile formats via [`lib/dotnet-parser/`](../lib/dotnet-parser/) |
 | **Java / Maven** | Partially supported | `.jar` and `.war` on the image filesystem ([`lib/inputs/java/static.ts:7`](../lib/inputs/java/static.ts)); `/usr/lib` and `gradle/cache` paths ignored at [`static.ts:6`](../lib/inputs/java/static.ts) (re-added for system JARs via `getUsrLibJarFileContentAction` when `include-system-jars` is set) | [`lib/inputs/java/static.ts`](../lib/inputs/java/static.ts), action `jar` | [`lib/analyzer/applications/java.ts`](../lib/analyzer/applications/java.ts); `identity.type` `'maven'` ([`:62`](../lib/analyzer/applications/java.ts)); emits `jarFingerprints` facts, not a dep graph | **Native** — in-repo [`adm-zip`](https://www.npmjs.com/package/adm-zip) archive traversal and `pom.properties` parsing ([`:135–154`](../lib/analyzer/applications/java.ts), [`getCoordsFromPomProperties` `:269–285`](../lib/analyzer/applications/java.ts), [`parsePomProperties` `:292–303`](../lib/analyzer/applications/java.ts)); SHA-1 fingerprint fallback when coordinates are absent ([`:227–236`](../lib/analyzer/applications/java.ts)). **Gap:** no `pom.xml` or `build.gradle` filesystem matcher anywhere in `lib/`; Maven coordinates are read only from `pom.properties` entries inside unpacked archives, never from build files on the image filesystem |
 | **Go modules** | Partially supported | Extension-less files outside a fixed ignore list ([`lib/go-parser/index.ts:38–50`](../lib/go-parser/index.ts)); callback `findGoBinaries` keeps only ELF binaries carrying `.go.buildinfo` or `.note.go.buildid` sections ([`:66–107`](../lib/go-parser/index.ts)); module data from embedded build info ([`lib/go-parser/go-binary.ts`](../lib/go-parser/go-binary.ts)) | [`lib/go-parser/index.ts`](../lib/go-parser/index.ts), action `gomodules` ([`:52–56`](../lib/go-parser/index.ts)) | [`goModulesToScannedProjects`](../lib/go-parser/index.ts); literal `identity.type` `'gomodules'` ([`:36`, `:205`](../lib/go-parser/index.ts)) | **Native** — in-repo ELF reader and Go build-info parser. **Gap:** no `go.mod` or `go.sum` filesystem matcher |
 
@@ -29,7 +29,7 @@ Application-ecosystem extraction and analysis are gated on `exclude-app-vulns` b
 
 | Ecosystem | What is detected | What is missing |
 | --- | --- | --- |
-| .NET / NuGet | Published `*.deps.json` (excluding shared runtime/pack paths) | No matcher for `.csproj`, `packages.config`, `paket.lock`, or `packages.lock.json` |
+| .NET / NuGet | Published `*.deps.json`, `packages.config`, PackageReference project files (`.csproj` / `.fsproj` / `.vbproj`), `packages.lock.json`, and `obj/project.assets.json` (excluding shared runtime, pack, SDK, and NuGet cache paths) | No matcher for `paket.lock` |
 | Java / Maven | `.jar`/`.war` archives; Maven coordinates from `pom.properties` inside unpacked archives; SHA-1 fallback for Maven Central lookup | No `pom.xml` or `build.gradle` matcher; no Gradle lockfile support; coordinates never read from build files on the image filesystem |
 | Go modules | ELF binaries with embedded Go module build info | No `go.mod` or `go.sum` matcher; only compiled binaries, not source-tree manifests |
 
@@ -64,7 +64,7 @@ The following ecosystems named in the request against Snyk Open Source's support
 | Hex / Elixir | `mix.exs`, `mix.lock` | No hits, no `ExtractAction`, no analyzer |
 | Dart / Pub | `pubspec.yaml`, `pubspec.lock` | No hits, no `ExtractAction`, no analyzer |
 | Scala / sbt | `build.sbt`, `*.sbt` | No hits, no `ExtractAction`, no analyzer |
-| NuGet — manifest half | `packages.config`, `paket.lock`, `packages.lock.json`, `*.csproj` | No hits for `paket` or `packages.config`; NuGet detection ([above](#detected)) is limited to published `*.deps.json` |
+| NuGet — manifest half | `paket.lock` | Only `paket.lock` remains unmatched; NuGet detection ([above](#detected)) now covers `packages.config`, PackageReference project files, `packages.lock.json`, `obj/project.assets.json`, and published `*.deps.json` |
 | Maven/Gradle — manifest half | `pom.xml`, `build.gradle` | No hits for `pom.xml` or `build.gradle` as filesystem matchers; Java/Maven detection ([above](#detected)) reads coordinates only from `pom.properties` inside already-extracted `.jar`/`.war` archives |
 
 `Pipfile` (Pipenv's manifest) is a partial exception: it appears once in `lib/`, in `pythonApplicationFileSuffixes` ([`lib/inputs/python/static.ts:13`](../lib/inputs/python/static.ts)). That list feeds `collect-application-files`, a source-file collection path used for reporting which application files exist on the image — it is not consumed by any dependency-graph analyzer, and no `Pipfile.lock` matcher or Pipenv analyzer exists. So Pipenv dependencies are not detected even though the bare filename `Pipfile` is recognised for an unrelated purpose.
@@ -75,19 +75,24 @@ This document could not fetch or verify Snyk Open Source's current supported-eco
 
 ## Evidence appendix
 
-Two greps against `lib/` were run to check whether any manifest-filename string for the "not detected" ecosystems appears anywhere in the source, including places that would not by themselves indicate real detection (comments, unrelated identifiers). Both are reproducible with the commands below; a reviewer re-running them should see the same hit counts and locations.
+Two greps against `lib/` were run to check whether any manifest-filename string for the "not detected" ecosystems appears anywhere in the source, including places that would not by themselves indicate real detection (comments, unrelated identifiers). Both are reproducible with the commands below; a reviewer re-running them should see the audit hits listed below plus the new NuGet matcher/parser hit sites named in each check.
 
 **Check A — narrow manifest-filename sweep.** Pattern (case-insensitive): `Gemfile|gemspec|Cargo\.toml|Podfile|packages\.config|paket|pubspec|mix\.exs|Package\.swift|\.sbt|pom\.xml|build\.gradle`
 
-This returns exactly **one** hit in the whole of `lib/`:
+As of the audit commit, before the NuGet matchers in this change landed, this returned exactly **one** hit in the whole of `lib/`:
 
 - [`lib/types.ts:64`](../lib/types.ts) — a code comment reading `// Package manager manifests (e.g. requirements.txt, Gemfile.lock) collected as part of an application scan.` This is a comment on a type describing collected manifest filenames for reporting purposes, not an `ExtractAction` matcher; it does not indicate Gemfile detection.
+
+After the NuGet matcher/parser change, re-running this pattern also hits:
+
+- [`lib/inputs/dotnet/static.ts`](../lib/inputs/dotnet/static.ts) — the widened `filePathMatches` for `packages.config`, project files, `packages.lock.json`, and `obj/project.assets.json`
+- [`lib/dotnet-parser/`](../lib/dotnet-parser/) — in-repo parsers for the newly matched NuGet manifest/lockfile formats
 
 Notably, this narrow pattern does **not** match [`lib/inputs/java/static.ts:6`](../lib/inputs/java/static.ts) (`const ignoredPaths = [usrLibPath, "gradle/cache"];`), because that line contains the bare substring `gradle` without `build.gradle`, and the pattern does not include bare `gradle`.
 
 **Check B — broadened sweep.** Pattern (case-insensitive), narrow pattern plus bare `gradle|maven|nuget`: `Gemfile|gemspec|Cargo\.toml|Podfile|packages\.config|paket|pubspec|mix\.exs|Package\.swift|\.sbt|pom\.xml|build\.gradle|gradle|maven|nuget`
 
-This returns **nine** hits in `lib/`, none of which are filesystem manifest matchers:
+As of the audit commit, before the NuGet matchers in this change landed, this returned **nine** hits in `lib/`, none of which are filesystem manifest matchers:
 
 - [`lib/types.ts:64`](../lib/types.ts) — the same comment as Check A
 - [`lib/inputs/java/static.ts:6`](../lib/inputs/java/static.ts) — `ignoredPaths` list excluding `gradle/cache` from `.jar`/`.war` matching, not a Gradle manifest matcher
@@ -99,12 +104,17 @@ This returns **nine** hits in `lib/`, none of which are filesystem manifest matc
 - [`lib/analyzer/applications/java.ts:230`](../lib/analyzer/applications/java.ts) — a comment about the sha1 fallback for Maven Central
 - [`lib/analyzer/applications/java.ts:258`](../lib/analyzer/applications/java.ts) — a comment about resolving JARs via "maven-deps"
 
-None of the nine hits is a `pom.xml`, `build.gradle`, `packages.config`, or `paket` filesystem matcher. This confirms the "manifest half" gaps stated in the [Detected](#detected) table and the [Not detected](#not-detected) table above.
+After the NuGet matcher/parser change, re-running this pattern also hits the same new sites as Check A:
+
+- [`lib/inputs/dotnet/static.ts`](../lib/inputs/dotnet/static.ts) — the widened `filePathMatches` for `packages.config`, project files, `packages.lock.json`, and `obj/project.assets.json`
+- [`lib/dotnet-parser/`](../lib/dotnet-parser/) — in-repo parsers for the newly matched NuGet manifest/lockfile formats
+
+None of the audit hits is a `pom.xml`, `build.gradle`, or `paket.lock` filesystem matcher. This confirms the "manifest half" gaps stated in the [Detected](#detected) table and the [Not detected](#not-detected) table above.
 
 ## Caveats
 
 - **No network access at audit time.** This document is built entirely from static inspection of this repository's source at the commit it was written against. It could not cross-check against Snyk Open Source's live supported-ecosystem documentation; see [Completeness against Snyk Open Source's supported ecosystems](#completeness-against-snyk-open-sources-supported-ecosystems).
 - **Gate assumed open.** All "Detected" rows assume `exclude-app-vulns` is unset/false. If a caller sets `exclude-app-vulns`, none of the application-ecosystem extraction or analysis described here runs, and every ecosystem — including the ones in the Detected table — behaves as "not detected" for that scan.
 - **Runtime-only signal for Go.** Go module detection depends on binaries retaining embedded build info (`.go.buildinfo` / `.note.go.buildid` ELF sections); a stripped binary or a Go source tree with only `go.mod`/`go.sum` on the image filesystem produces no detection, even though the ecosystem is nominally "supported" here.
-- **Partial support is not full support.** The "Partially supported" rows in the Detected table (.NET/NuGet, Java/Maven, Go modules) detect only the code paths named there. A manifest-only project (e.g. a `.csproj` with no published `*.deps.json`, or a Java source tree with a `pom.xml` but no built `.jar`/`.war`) is not detected despite the ecosystem having a row in that table.
-- **This document does not change plugin behavior.** It is an audit artifact only; none of the gaps identified here have been fixed as part of producing this document.
+- **Partial support is not full support.** The "Partially supported" rows in the Detected table (.NET/NuGet, Java/Maven, Go modules) detect only the code paths named there. A manifest-only project that lacks the matched artifacts (e.g. a Java source tree with a `pom.xml` but no built `.jar`/`.war`, or a Paket-only project with only `paket.lock` and no other matched NuGet manifest) is not detected despite the ecosystem having a row in that table.
+- **This document does not change plugin behavior.** It is an audit artifact only; the NuGet manifest gaps named here (except `paket.lock`) have since been addressed in the plugin source.
