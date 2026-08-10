@@ -303,9 +303,24 @@ function finalizePackage(
 }
 
 function stripComment(line: string): string {
-  const commentIndex = line.indexOf("#");
-  if (commentIndex >= 0) {
-    return line.slice(0, commentIndex);
+  let inString = false;
+
+  for (let index = 0; index < line.length; index++) {
+    const char = line[index];
+
+    if (inString && char === "\\") {
+      index++;
+      continue;
+    }
+
+    if (char === '"') {
+      inString = !inString;
+      continue;
+    }
+
+    if (char === "#" && !inString) {
+      return line.slice(0, index);
+    }
   }
 
   return line;
