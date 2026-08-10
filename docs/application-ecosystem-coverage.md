@@ -49,3 +49,61 @@ Application-ecosystem extraction and analysis are gated on `exclude-app-vulns` b
 - Go — literal `'gomodules'` ([`lib/go-parser/index.ts:36`, `:205`](../lib/go-parser/index.ts)); in-repo ELF reader
 
 There is no [`lib/analyzer/applications/python.ts`](../lib/analyzer/applications/python.ts); Python consumers live in [`lib/analyzer/applications/python/pip.ts`](../lib/analyzer/applications/python/pip.ts) and [`lib/analyzer/applications/python/poetry.ts`](../lib/analyzer/applications/python/poetry.ts) behind [`lib/analyzer/applications/python/index.ts`](../lib/analyzer/applications/python/index.ts).
+
+## Not detected
+
+The following ecosystems named in the request against Snyk Open Source's supported application-manifest ecosystems have **no** extract action and **no** analyzer anywhere under `lib/`. Each claim below is falsifiable by the searches in the [Evidence appendix](#evidence-appendix): searching `lib/` for the manifest filenames associated with each ecosystem returns no code that reads them from the image filesystem.
+
+| Ecosystem | Manifest(s) that would indicate support | Result of searching `lib/` |
+| --- | --- | --- |
+| RubyGems / Bundler | `Gemfile`, `Gemfile.lock`, `*.gemspec` | No `ExtractAction` matches these names. The only hit for `Gemfile` anywhere in `lib/` is a code comment ([`lib/types.ts:64`](../lib/types.ts)) naming `Gemfile.lock` as an example manifest in a type description; it is not read from an image |
+| Cargo (Rust) | `Cargo.toml`, `Cargo.lock` | No hits, no `ExtractAction`, no analyzer |
+| CocoaPods | `Podfile`, `Podfile.lock`, `*.podspec` | No hits, no `ExtractAction`, no analyzer |
+| Swift Package Manager | `Package.swift` | No hits, no `ExtractAction`, no analyzer |
+| Hex / Elixir | `mix.exs`, `mix.lock` | No hits, no `ExtractAction`, no analyzer |
+| Dart / Pub | `pubspec.yaml`, `pubspec.lock` | No hits, no `ExtractAction`, no analyzer |
+| Scala / sbt | `build.sbt`, `*.sbt` | No hits, no `ExtractAction`, no analyzer |
+| NuGet — manifest half | `packages.config`, `paket.lock`, `packages.lock.json`, `*.csproj` | No hits for `paket` or `packages.config`; NuGet detection ([above](#detected)) is limited to published `*.deps.json` |
+| Maven/Gradle — manifest half | `pom.xml`, `build.gradle` | No hits for `pom.xml` or `build.gradle` as filesystem matchers; Java/Maven detection ([above](#detected)) reads coordinates only from `pom.properties` inside already-extracted `.jar`/`.war` archives |
+
+`Pipfile` (Pipenv's manifest) is a partial exception: it appears once in `lib/`, in `pythonApplicationFileSuffixes` ([`lib/inputs/python/static.ts:13`](../lib/inputs/python/static.ts)). That list feeds `collect-application-files`, a source-file collection path used for reporting which application files exist on the image — it is not consumed by any dependency-graph analyzer, and no `Pipfile.lock` matcher or Pipenv analyzer exists. So Pipenv dependencies are not detected even though the bare filename `Pipfile` is recognised for an unrelated purpose.
+
+### Completeness against Snyk Open Source's supported ecosystems
+
+This document could not fetch or verify Snyk Open Source's current supported-ecosystem list from a live source (this audit is limited to static inspection of this repository, with no network access). The ecosystems covered above are therefore exactly the set named in the originating request — npm/yarn/pnpm, pip/Poetry/Pipenv, Maven/Gradle, RubyGems/Bundler, NuGet/Paket, Composer, Go modules, Cargo, and CocoaPods — plus Swift, Hex/Elixir, Dart/Pub, and Scala/sbt added here because they are commonly listed as Snyk Open Source application ecosystems and their absence is worth stating explicitly rather than by omission. If Snyk Open Source supports an application ecosystem not named above, this document does not cover it, and that gap is itself a caveat (see [Caveats](#caveats)) rather than a verified "not detected" claim.
+
+## Evidence appendix
+
+Two greps against `lib/` were run to check whether any manifest-filename string for the "not detected" ecosystems appears anywhere in the source, including places that would not by themselves indicate real detection (comments, unrelated identifiers). Both are reproducible with the commands below; a reviewer re-running them should see the same hit counts and locations.
+
+**Check A — narrow manifest-filename sweep.** Pattern (case-insensitive): `Gemfile|gemspec|Cargo\.toml|Podfile|packages\.config|paket|pubspec|mix\.exs|Package\.swift|\.sbt|pom\.xml|build\.gradle`
+
+This returns exactly **one** hit in the whole of `lib/`:
+
+- [`lib/types.ts:64`](../lib/types.ts) — a code comment reading `// Package manager manifests (e.g. requirements.txt, Gemfile.lock) collected as part of an application scan.` This is a comment on a type describing collected manifest filenames for reporting purposes, not an `ExtractAction` matcher; it does not indicate Gemfile detection.
+
+Notably, this narrow pattern does **not** match [`lib/inputs/java/static.ts:6`](../lib/inputs/java/static.ts) (`const ignoredPaths = [usrLibPath, "gradle/cache"];`), because that line contains the bare substring `gradle` without `build.gradle`, and the pattern does not include bare `gradle`.
+
+**Check B — broadened sweep.** Pattern (case-insensitive), narrow pattern plus bare `gradle|maven|nuget`: `Gemfile|gemspec|Cargo\.toml|Podfile|packages\.config|paket|pubspec|mix\.exs|Package\.swift|\.sbt|pom\.xml|build\.gradle|gradle|maven|nuget`
+
+This returns **nine** hits in `lib/`, none of which are filesystem manifest matchers:
+
+- [`lib/types.ts:64`](../lib/types.ts) — the same comment as Check A
+- [`lib/inputs/java/static.ts:6`](../lib/inputs/java/static.ts) — `ignoredPaths` list excluding `gradle/cache` from `.jar`/`.war` matching, not a Gradle manifest matcher
+- [`lib/analyzer/applications/dotnet.ts:54`](../lib/analyzer/applications/dotnet.ts) — a comment about the canonical NuGet id format
+- [`lib/analyzer/applications/dotnet.ts:115`](../lib/analyzer/applications/dotnet.ts) — the literal `identity.type: "nuget"` already documented in the Detected table above
+- [`lib/analyzer/applications/dotnet.ts:171`](../lib/analyzer/applications/dotnet.ts) — `{ name: "nuget" }`, part of the same identity, not a new matcher
+- [`lib/analyzer/applications/java.ts:62`](../lib/analyzer/applications/java.ts) — the literal `identity.type: "maven"` already documented above
+- [`lib/analyzer/applications/java.ts:200`](../lib/analyzer/applications/java.ts) — a comment about reducing dependence on Maven Central search
+- [`lib/analyzer/applications/java.ts:230`](../lib/analyzer/applications/java.ts) — a comment about the sha1 fallback for Maven Central
+- [`lib/analyzer/applications/java.ts:258`](../lib/analyzer/applications/java.ts) — a comment about resolving JARs via "maven-deps"
+
+None of the nine hits is a `pom.xml`, `build.gradle`, `packages.config`, or `paket` filesystem matcher. This confirms the "manifest half" gaps stated in the [Detected](#detected) table and the [Not detected](#not-detected) table above.
+
+## Caveats
+
+- **No network access at audit time.** This document is built entirely from static inspection of this repository's source at the commit it was written against. It could not cross-check against Snyk Open Source's live supported-ecosystem documentation; see [Completeness against Snyk Open Source's supported ecosystems](#completeness-against-snyk-open-sources-supported-ecosystems).
+- **Gate assumed open.** All "Detected" rows assume `exclude-app-vulns` is unset/false. If a caller sets `exclude-app-vulns`, none of the application-ecosystem extraction or analysis described here runs, and every ecosystem — including the ones in the Detected table — behaves as "not detected" for that scan.
+- **Runtime-only signal for Go.** Go module detection depends on binaries retaining embedded build info (`.go.buildinfo` / `.note.go.buildid` ELF sections); a stripped binary or a Go source tree with only `go.mod`/`go.sum` on the image filesystem produces no detection, even though the ecosystem is nominally "supported" here.
+- **Partial support is not full support.** The "Partially supported" rows in the Detected table (.NET/NuGet, Java/Maven, Go modules) detect only the code paths named there. A manifest-only project (e.g. a `.csproj` with no published `*.deps.json`, or a Java source tree with a `pom.xml` but no built `.jar`/`.war`) is not detected despite the ecosystem having a row in that table.
+- **This document does not change plugin behavior.** It is an audit artifact only; none of the gaps identified here have been fixed as part of producing this document.
