@@ -1,0 +1,8 @@
+github.com/another/old v2.0.0 h1:abc123another=
+github.com/another/old v2.0.0/go.mod h1:anothermod=
+github.com/local/drop v1.0.0 h1:localdrop=
+github.com/local/drop v1.0.0/go.mod h1:localmod=
+github.com/new/module v2.0.0 h1:newmodule=
+github.com/new/module v2.0.0/go.mod h1:newmod=
+github.com/old/module v1.0.0 h1:oldmodule=
+github.com/old/module v1.0.0/go.mod h1:oldmod=

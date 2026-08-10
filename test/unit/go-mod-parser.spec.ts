@@ -51,6 +51,51 @@ describe("go mod parser", () => {
     );
   });
 
+  it("applies block-form replace directives and drops local path replacements", () => {
+    const goMod = readFixture("replace-block/go.mod");
+    const goSum = readFixture("replace-block/go.sum");
+
+    const result = parseGoModules(goMod, goSum);
+
+    expect(result.modulePath).toBe("example.com/replace-block");
+    expect(result.dependencies).toEqual(
+      expect.arrayContaining([
+        { name: "github.com/new/module", version: "v2.0.0" },
+        { name: "github.com/another/old", version: "v2.0.0" },
+      ]),
+    );
+    expect(result.dependencies).toHaveLength(2);
+    expect(result.dependencies).not.toEqual(
+      expect.arrayContaining([
+        { name: "github.com/old/module", version: "v1.0.0" },
+        { name: "github.com/local/drop", version: "v1.0.0" },
+      ]),
+    );
+  });
+
+  it("falls back to the go.sum version when a require entry has no inline version", () => {
+    const goMod = readFixture("sum-fallback/go.mod");
+    const goSum = readFixture("sum-fallback/go.sum");
+
+    const result = parseGoModules(goMod, goSum);
+
+    expect(result.modulePath).toBe("example.com/sum-fallback");
+    expect(result.dependencies).toEqual([
+      { name: "github.com/no-version/module", version: "v1.2.3" },
+    ]);
+  });
+
+  it("applies a replace directive with no version on the left side regardless of the dep's resolved version", () => {
+    const goMod = readFixture("replace-no-version/go.mod");
+
+    const result = parseGoModules(goMod);
+
+    expect(result.modulePath).toBe("example.com/replace-no-version");
+    expect(result.dependencies).toEqual([
+      { name: "github.com/new/module", version: "v1.2.3" },
+    ]);
+  });
+
   it("parses go.mod without go.sum", () => {
     const goMod = readFixture("no-sum/go.mod");
 

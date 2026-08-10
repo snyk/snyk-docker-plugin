@@ -69,11 +69,27 @@ function parseGoMod(content: string): {
   let modulePath = "";
   const requires = new Map<string, string | undefined>();
   const replaces: ReplaceDirective[] = [];
-  let inRequireBlock = false;
+  let blockType: "require" | "replace" | undefined;
 
   for (const rawLine of content.split("\n")) {
     const line = stripComment(rawLine).trim();
     if (!line) {
+      continue;
+    }
+
+    if (blockType) {
+      if (line === ")") {
+        blockType = undefined;
+        continue;
+      }
+      if (blockType === "require") {
+        parseRequireEntry(line, requires);
+      } else {
+        const replace = parseReplaceEntry(line);
+        if (replace) {
+          replaces.push(replace);
+        }
+      }
       continue;
     }
 
@@ -83,16 +99,12 @@ function parseGoMod(content: string): {
     }
 
     if (line === "require (" || line.startsWith("require(")) {
-      inRequireBlock = true;
+      blockType = "require";
       continue;
     }
 
-    if (inRequireBlock) {
-      if (line === ")") {
-        inRequireBlock = false;
-        continue;
-      }
-      parseRequireEntry(line, requires);
+    if (line === "replace (" || line.startsWith("replace(")) {
+      blockType = "replace";
       continue;
     }
 
