@@ -1,0 +1,6 @@
+github.com/gorilla/mux v1.8.0 h1:329qvw05ZWFXj9j1RW1Q8sH3Lq2D7QZ8J6dY3b5n5k=
+github.com/gorilla/mux v1.8.0/go.mod h1:DVbg23sWSpFRCP0SfiEN6jmj59UnW/n46BH5rLB71So=
+github.com/inconshreveable/mousetrap v1.1.0 h1:7N4XaHzgXzZ6RqMtCboDVwAA7B+1ztCfnq4g+Jtj/vZ=
+github.com/inconshreveable/mousetrap v1.1.0/go.mod h1:OpnC5Un0jUg2icV5DJ+8tI03Ohcq7KnFafIXT+1K5Rg=
+github.com/spf13/cobra v1.7.0 h1:hyqWnYt1ZQShMdxk0U8Re5V+KFzrrY9aXhXS8HZS1YM=
+github.com/spf13/cobra v1.7.0/go.mod h1:uLxWILGyhQT5TKcUXi0swQsQfDdDbS8U0pELokm5gok=
