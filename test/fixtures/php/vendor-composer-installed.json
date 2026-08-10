@@ -1,0 +1,16 @@
+{
+  "packages": [
+    {
+      "name": "symfony/console",
+      "version": "v6.4.0",
+      "install-path": "../symfony/console"
+    },
+    {
+      "name": "symfony/polyfill-mbstring",
+      "version": "v1.28.0",
+      "install-path": "../symfony/polyfill-mbstring"
+    }
+  ],
+  "dev": false,
+  "dev-package-names": []
+}

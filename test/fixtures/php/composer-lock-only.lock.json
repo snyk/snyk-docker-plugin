@@ -1,0 +1,26 @@
+{
+  "_readme": ["Fixture composer.lock with packages and packages-dev for unit tests."],
+  "content-hash": "abc123def456",
+  "packages": [
+    {
+      "name": "vendor/pkg-a",
+      "version": "1.0.0"
+    },
+    {
+      "name": "vendor/pkg-b",
+      "version": "2.0.0"
+    },
+    {
+      "name": "vendor/missing-version"
+    },
+    {
+      "version": "9.9.9"
+    }
+  ],
+  "packages-dev": [
+    {
+      "name": "vendor/dev-only",
+      "version": "0.1.0"
+    }
+  ]
+}
