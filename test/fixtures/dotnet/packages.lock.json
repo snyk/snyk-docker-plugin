@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "dependencies": {
+    "net8.0": {
+      "VulnApp": {
+        "type": "Project",
+        "dependencies": {
+          "AutoMapper": "13.0.1"
+        }
+      },
+      "AutoMapper": {
+        "type": "Direct",
+        "requested": "13.0.1",
+        "resolved": "13.0.1",
+        "contentHash": "abc123",
+        "dependencies": {
+          "Microsoft.Extensions.Options": "6.0.0"
+        }
+      },
+      "Microsoft.Extensions.Options": {
+        "type": "Transitive",
+        "resolved": "6.0.0",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "6.0.0"
+        }
+      },
+      "Microsoft.Extensions.DependencyInjection.Abstractions": {
+        "type": "Transitive",
+        "resolved": "6.0.0"
+      }
+    }
+  }
+}
