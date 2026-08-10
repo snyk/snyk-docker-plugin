@@ -161,4 +161,137 @@ describe("dotnet deps.json analyzer", () => {
       expect(results).toHaveLength(2);
     });
   });
+
+  describe("new NuGet manifest/lockfile formats reach the scan pipeline", () => {
+    it("parses packages.config into a nuget scan result", async () => {
+      const filePathToContent = {
+        "/app/packages.config": loadFixture("packages.config"),
+      };
+
+      const results = await dotnetFilesToScannedProjects(filePathToContent);
+
+      expect(results).toHaveLength(1);
+      expect(results[0].identity.type).toBe("nuget");
+      expect(results[0].identity.targetFile).toBe("/app/packages.config");
+
+      const pkgs = results[0].facts
+        .find((f) => f.type === "depGraph")!
+        .data.getPkgs();
+      expect(
+        pkgs.some((p) => p.name === "AutoMapper" && p.version === "13.0.1"),
+      ).toBe(true);
+      expect(pkgs.some((p) => p.name === "DevOnly")).toBe(false);
+    });
+
+    it("parses a .csproj into a nuget scan result", async () => {
+      const filePathToContent = {
+        "/app/VulnApp.csproj": loadFixture("VulnApp.csproj"),
+      };
+
+      const results = await dotnetFilesToScannedProjects(filePathToContent);
+
+      expect(results).toHaveLength(1);
+      expect(results[0].identity.type).toBe("nuget");
+
+      const pkgs = results[0].facts
+        .find((f) => f.type === "depGraph")!
+        .data.getPkgs();
+      expect(
+        pkgs.some((p) => p.name === "AutoMapper" && p.version === "13.0.1"),
+      ).toBe(true);
+    });
+
+    it("parses packages.lock.json into a nuget scan result with transitive deps", async () => {
+      const filePathToContent = {
+        "/app/packages.lock.json": loadFixture("packages.lock.json"),
+      };
+
+      const results = await dotnetFilesToScannedProjects(filePathToContent);
+
+      expect(results).toHaveLength(1);
+      expect(results[0].identity.type).toBe("nuget");
+
+      const pkgs = results[0].facts
+        .find((f) => f.type === "depGraph")!
+        .data.getPkgs();
+      expect(
+        pkgs.some((p) => p.name === "AutoMapper" && p.version === "13.0.1"),
+      ).toBe(true);
+      expect(
+        pkgs.some(
+          (p) =>
+            p.name === "Microsoft.Extensions.DependencyInjection.Abstractions",
+        ),
+      ).toBe(true);
+    });
+
+    it("parses obj/project.assets.json into a nuget scan result", async () => {
+      const filePathToContent = {
+        "/app/obj/project.assets.json": loadFixture("project.assets.json"),
+      };
+
+      const results = await dotnetFilesToScannedProjects(filePathToContent);
+
+      expect(results).toHaveLength(1);
+      expect(results[0].identity.type).toBe("nuget");
+      expect(results[0].identity.targetFile).toBe(
+        "/app/obj/project.assets.json",
+      );
+
+      const depGraph = results[0].facts.find(
+        (f) => f.type === "depGraph",
+      )!.data;
+      expect(depGraph.rootPkg.name).toBe("VulnApp");
+      const pkgs = depGraph.getPkgs();
+      expect(
+        pkgs.some((p) => p.name === "AutoMapper" && p.version === "13.0.1"),
+      ).toBe(true);
+    });
+
+    it("prefers project.assets.json over packages.lock.json, packages.config, and a project file in the same root", async () => {
+      const filePathToContent = {
+        "/app/obj/project.assets.json": loadFixture("project.assets.json"),
+        "/app/packages.lock.json": loadFixture("packages.lock.json"),
+        "/app/packages.config": loadFixture("packages.config"),
+        "/app/VulnApp.csproj": loadFixture("VulnApp.csproj"),
+      };
+
+      const results = await dotnetFilesToScannedProjects(filePathToContent);
+
+      expect(results).toHaveLength(1);
+      expect(results[0].identity.targetFile).toBe(
+        "/app/obj/project.assets.json",
+      );
+    });
+
+    it("suppresses the new-format result when a deps.json exists under the same project root", async () => {
+      const filePathToContent = {
+        "/app/VulnApp.csproj": loadFixture("VulnApp.csproj"),
+        "/app/bin/publish/VulnApp.deps.json": loadFixture("VulnApp.deps.json"),
+      };
+
+      const results = await dotnetFilesToScannedProjects(filePathToContent);
+
+      expect(results).toHaveLength(1);
+      expect(results[0].identity.targetFile).toBe(
+        "/app/bin/publish/VulnApp.deps.json",
+      );
+    });
+
+    it("does not suppress a new-format result when deps.json belongs to an unrelated root", async () => {
+      const filePathToContent = {
+        "/app1/VulnApp.csproj": loadFixture("VulnApp.csproj"),
+        "/app2/VulnApp.deps.json": loadFixture("VulnApp.deps.json"),
+      };
+
+      const results = await dotnetFilesToScannedProjects(filePathToContent);
+
+      expect(results).toHaveLength(2);
+      const targetFiles = results.map((r) => r.identity.targetFile).sort();
+      expect(targetFiles).toEqual([
+        "/app1/VulnApp.csproj",
+        "/app2/VulnApp.deps.json",
+      ]);
+    });
+  });
 });
