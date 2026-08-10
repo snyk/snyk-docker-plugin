@@ -374,9 +374,11 @@ export async function analyze(
     );
     timings.goAnalysisMs = Date.now() - phaseStart;
 
+    phaseStart = Date.now();
     const cargoScanResults = await cargoFilesToScannedProjects(
       getFileContent(extractedLayers, getCargoAppFileContentAction.actionName),
     );
+    timings.cargoAnalysisMs = Date.now() - phaseStart;
 
     applicationDependenciesScanResults.push(
       ...nodeDependenciesScanResults,
