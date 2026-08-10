@@ -35,6 +35,7 @@ import {
   getJarFileContentAction,
   getUsrLibJarFileContentAction,
 } from "../inputs/java/static";
+import { getCargoAppFileContentAction } from "../inputs/cargo/static";
 import { getDotnetAppFileContentAction } from "../inputs/dotnet/static";
 import {
   getNodeAppFileContentAction,
@@ -62,6 +63,7 @@ import {
 import { isTrue } from "../option-utils";
 import { ImageType, ManifestFile, PluginOptions } from "../types";
 import {
+  cargoFilesToScannedProjects,
   dotnetFilesToScannedProjects,
   nodeFilesToScannedProjects,
   phpFilesToScannedProjects,
@@ -153,6 +155,7 @@ export async function analyze(
         getDotnetAppFileContentAction,
         ...jarActions,
         getGoModulesContentAction,
+        getCargoAppFileContentAction,
       ],
     );
 
@@ -371,6 +374,12 @@ export async function analyze(
     );
     timings.goAnalysisMs = Date.now() - phaseStart;
 
+    phaseStart = Date.now();
+    const cargoScanResults = await cargoFilesToScannedProjects(
+      getFileContent(extractedLayers, getCargoAppFileContentAction.actionName),
+    );
+    timings.cargoAnalysisMs = Date.now() - phaseStart;
+
     applicationDependenciesScanResults.push(
       ...nodeDependenciesScanResults,
       ...nodeApplicationFilesScanResults,
@@ -381,6 +390,7 @@ export async function analyze(
       ...dotnetDependenciesScanResults,
       ...jarFingerprintScanResults,
       ...goModulesScanResult,
+      ...cargoScanResults,
     );
   }
 
