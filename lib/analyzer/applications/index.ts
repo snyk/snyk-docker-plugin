@@ -1,3 +1,4 @@
+import { cargoFilesToScannedProjects } from "./cargo";
 import { dotnetFilesToScannedProjects } from "./dotnet";
 import { nodeFilesToScannedProjects } from "./node";
 import { phpFilesToScannedProjects } from "./php";
@@ -7,6 +8,7 @@ import {
 } from "./python";
 
 export {
+  cargoFilesToScannedProjects,
   dotnetFilesToScannedProjects,
   nodeFilesToScannedProjects,
   phpFilesToScannedProjects,
