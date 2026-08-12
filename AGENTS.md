@@ -166,3 +166,27 @@ target Node major (`20`) when validating locally.
 - How a scan flows end-to-end: start at `lib/scan.ts`.
 - How to add support for a new ecosystem: look at an existing one under
   `lib/inputs/` + `lib/analyzer/applications/` + `lib/parser/` as a template.
+
+## Cursor Cloud specific instructions
+
+Cloud Agent shells run with `NO_COLOR=1` (and `FORCE_COLOR=0`) injected by the
+runtime. The four `test/lib/display.spec.ts` cases compare `display()` output
+against fixtures that contain ANSI color codes, so they fail under `NO_COLOR`
+even though the code is fine. CircleCI doesn't hit this because `supports-color`
+treats the `CIRCLECI` env var as color-capable.
+
+Run the unit suite with color forced on to match CI:
+
+```sh
+FORCE_COLOR=1 npm run test:unit
+```
+
+The `install` step (`npm ci`) doesn't run tests, so environment builds aren't
+affected — this only matters when you run the tests yourself.
+
+System tests (`npm run test:system`) additionally need a running Docker daemon
+plus the Docker Hub private-image credentials (`DOCKER_HUB_PRIVATE_IMAGE`,
+`DOCKER_HUB_USERNAME`, `DOCKER_HUB_PASSWORD`, from 1Password). Neither is
+provisioned by default in Cloud Agents, so that layer is skipped unless you add
+them. Build, lint, unit tests, and calling `scan()` on a `docker-archive:` /
+`oci-archive:` fixture under `test/fixtures/` all work without Docker.
