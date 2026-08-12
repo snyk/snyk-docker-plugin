@@ -2,6 +2,7 @@ export interface CycloneDxComponent {
   type: "library";
   name: string;
   version?: string;
+  purl?: string;
   "bom-ref": string;
 }
 
