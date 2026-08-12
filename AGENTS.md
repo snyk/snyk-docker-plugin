@@ -166,3 +166,85 @@ target Node major (`20`) when validating locally.
 - How a scan flows end-to-end: start at `lib/scan.ts`.
 - How to add support for a new ecosystem: look at an existing one under
   `lib/inputs/` + `lib/analyzer/applications/` + `lib/parser/` as a template.
+
+## Cursor Cloud specific instructions
+
+This is a library with no CLI/GUI. To exercise the core `scan()` path without
+Docker, point it at an image archive fixture, e.g.
+`scan({ path: "oci-archive:test/fixtures/oci-archives/alpine-3.12.0.tar" })`
+(also supports `docker-archive:` and `kaniko-archive:`). This returns a
+`PluginResponse` with a `depGraph` fact and OS facts — no daemon or network
+needed.
+
+- Unit tests: `npm run test:unit` reports 4 failures in `test/lib/display.spec.ts`
+  when run without a TTY. The display fixtures embed chalk ANSI color codes, and
+  chalk strips colors when stdout isn't a TTY. Run `FORCE_COLOR=1 npm run test:unit`
+  to make output match the fixtures (all 873 pass). This is purely a color-detection
+  artifact, not a code issue.
+- System tests (`npm run test:system`) need a running Docker daemon plus the
+  private Docker Hub creds (`DOCKER_HUB_USERNAME`, `DOCKER_HUB_PASSWORD`,
+  `DOCKER_HUB_PRIVATE_IMAGE`), which are wired up as Cloud secrets. There's no
+  systemd here, so start the daemon yourself and expose the socket to the test
+  user: `sudo dockerd &` then `sudo chmod 666 /var/run/docker.sock`.
+- Network egress to container registries is restricted in this environment, so
+  the system tests that pull images fail with `read ECONNRESET`. The fixture- and
+  local-daemon-based tests pass (~195/253); the ~53 registry-pull failures are
+  purely the egress limit, not code or setup. To run those, broaden the Cloud
+  Agent network access settings. The default dev loop (build, lint, `test:unit`)
+  needs no Docker or network.
+
+### Building snyk/cli against this working copy
+
+`snyk/cli` is the main consumer. To have a CLI checkout use this live working
+copy (so plugin edits flow through after `npm run build` here), link it rather
+than installing a published version:
+
+1. In the CLI checkout: `npm install --engine-strict=false` (the CLI pins
+   `npm ^11.10` with `engine-strict=true`; pass `--engine-strict=false` when the
+   environment ships npm 10).
+2. Point the CLI at this directory: `npm install /workspace --engine-strict=false`.
+   This symlinks `node_modules/snyk-docker-plugin` to `/workspace`, so
+   `require.resolve("snyk-docker-plugin")` resolves to `/workspace/dist/index.js`.
+   It works even though this `package.json` has no `version` field.
+3. Build the live plugin output: `npm run build` here (the symlink exposes
+   `/workspace/dist`).
+4. Build the CLI: `npm run build:dev`. Webpack follows the symlink and bundles
+   the local plugin code.
+
+Gotcha: linking moves the plugin's transitive deps under `/workspace/node_modules`
+instead of the CLI's. The CLI's `webpack.common.ts` copies
+`node_modules/sql.js/dist/sql-wasm.wasm` by path (sql.js comes in via
+`@snyk/rpm-parser`), so the build fails with "unable to locate .../sql-wasm.wasm"
+until you expose it in the CLI tree:
+`ln -sfn /workspace/node_modules/sql.js <cli>/node_modules/sql.js`.
+
+`snyk container test` still needs an authenticated account (`snyk auth` /
+`SNYK_TOKEN`) before it runs the scan.
+
+If you only need a frozen snapshot instead of a live link, `npm pack` works too,
+but `package.json` has no `version` field, so set a temporary one first
+(`npm version 9.11.0 --no-git-tag-version`, `npm pack`, then
+`git checkout package.json package-lock.json`); packing uses `.npmignore`, so
+`dist/` is included after `npm run build`.
+
+### Local CLI smoke test for SDP changes
+
+`~/smoke-test-sdp-cli.sh` automates the full loop from the Confluence runbooks
+([Container CLI Onboarding](https://snyksec.atlassian.net/wiki/spaces/CONTAINER/pages/3377367228),
+[Debugging the Snyk Docker Plugin](https://snyksec.atlassian.net/wiki/spaces/CONTAINER/pages/3824615425)):
+build this plugin, link it into `~/snyk-cli`, apply the `sql.js` symlink fix,
+build the CLI, then run `node dist/cli/index.js container test <image>` so your
+local plugin code is exercised end-to-end. It's idempotent and clones the CLI if
+missing. Pass an image as `$1` (defaults to the bundled
+`oci-archive:.../alpine-3.12.0.tar`, so no registry pull is needed).
+
+A full scan needs two things this environment lacks by default:
+
+- `SNYK_TOKEN` (or run `node dist/cli/index.js auth` once). Without it the CLI
+  stops at "requires an authenticated account" before the plugin runs.
+- Network egress to `snyk.io`. It's currently blocked (`api.snyk.io` /
+  `app.snyk.io` return HTTP 000), so `container test` can't reach the API to
+  return results. Broaden the Cloud Agent network access settings to enable it.
+
+The script (and the link setup) live outside this repo, so they won't persist to
+a fresh Cloud VM; re-run the script to recreate everything.
