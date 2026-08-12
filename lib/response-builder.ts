@@ -18,6 +18,7 @@ import { OCIDistributionMetadata } from "./extractor/oci-distribution-metadata";
 import { parseProvenanceAttestations } from "./extractor/provenance-parser";
 
 import { computeScanPayloadMetrics } from "./scan-payload-metrics";
+import { depGraphsToCycloneDx, parseSbomFormat } from "./sbom";
 import * as types from "./types";
 import { truncateAdditionalFacts } from "./utils";
 import { PLUGIN_VERSION } from "./version";
@@ -438,6 +439,23 @@ async function buildResponse(
     ...result,
     facts: truncateAdditionalFacts(result.facts || []),
   }));
+
+  const sbomFormat = parseSbomFormat(options?.["sbom-format"]);
+  if (sbomFormat) {
+    const depGraphs = truncatedScanResults
+      .map((result) => result.facts.find((f) => f.type === "depGraph")?.data)
+      .filter(
+        (data): data is NonNullable<typeof data> =>
+          data != null && typeof data.getDepPkgs === "function",
+      );
+
+    const sbomDocument = depGraphsToCycloneDx(depGraphs);
+    const sbomFact: facts.SbomFact = {
+      type: "sbom",
+      data: sbomDocument,
+    };
+    truncatedScanResults[0].facts.push(sbomFact);
+  }
 
   const scanPayloadMetrics = computeScanPayloadMetrics(truncatedScanResults);
 
