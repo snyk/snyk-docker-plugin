@@ -123,7 +123,8 @@ Each component has a `bom-ref` of the form `pkgManager:name[@version]`. The
 `version` field is omitted when the package has no version. Duplicate
 `bom-ref` values across graphs collapse to a single component. The `purl`
 field is omitted when the package manager has no purl type mapping — in
-practice this applies to pnpm and Go (`gomodules`) components.
+practice this applies to yarn, pnpm, Poetry, and Go (`gomodules`)
+components.
 
 ## Tests
 
