@@ -2130,4 +2130,120 @@ describe("buildResponse", () => {
       expect(pluginWarnings).toBeUndefined();
     });
   });
+
+  describe("sbom generation", () => {
+    it("emits an sbom fact on the OS scan result when sbom-format is cyclonedx1.5+json", async () => {
+      const analysis = createMockAnalysis({ platform: "linux/amd64" });
+
+      const result = await buildResponse(
+        analysis as any,
+        undefined,
+        false,
+        undefined,
+        undefined,
+        { "sbom-format": "cyclonedx1.5+json" },
+      );
+
+      const sbomFact = result.scanResults[0].facts?.find(
+        (fact) => fact.type === "sbom",
+      );
+      expect(sbomFact).toBeDefined();
+      expect(sbomFact?.data).toEqual(
+        expect.objectContaining({
+          bomFormat: "CycloneDX",
+          specVersion: "1.5",
+          version: 1,
+        }),
+      );
+    });
+
+    it("still emits an sbom fact when an app scan result only has jarFingerprints", async () => {
+      const analysis = createMockAnalysis({
+        platform: "linux/amd64",
+        applicationDependenciesScanResults: [
+          {
+            facts: [
+              {
+                type: "jarFingerprints" as const,
+                data: {
+                  fingerprints: [],
+                  origin: "java",
+                  path: "/app/lib/app.jar",
+                },
+              },
+            ],
+            identity: { type: "maven" },
+            target: { image: "test-app" },
+          },
+        ],
+      });
+
+      const result = await buildResponse(
+        analysis as any,
+        undefined,
+        false,
+        undefined,
+        undefined,
+        { "sbom-format": "cyclonedx1.5+json" },
+      );
+
+      const sbomFact = result.scanResults[0].facts?.find(
+        (fact) => fact.type === "sbom",
+      );
+      expect(sbomFact).toBeDefined();
+      expect(sbomFact?.data).toEqual(
+        expect.objectContaining({
+          bomFormat: "CycloneDX",
+          specVersion: "1.5",
+          version: 1,
+        }),
+      );
+    });
+
+    it("still emits an sbom fact when an app scan result has a placeholder depGraph", async () => {
+      const analysis = createMockAnalysis({
+        platform: "linux/amd64",
+        applicationDependenciesScanResults: [
+          {
+            facts: [{ type: "depGraph" as const, data: {} as any }],
+            identity: { type: "npm" },
+            target: { image: "test-app" },
+          },
+        ],
+      });
+
+      const result = await buildResponse(
+        analysis as any,
+        undefined,
+        false,
+        undefined,
+        undefined,
+        { "sbom-format": "cyclonedx1.5+json" },
+      );
+
+      const sbomFact = result.scanResults[0].facts?.find(
+        (fact) => fact.type === "sbom",
+      );
+      expect(sbomFact).toBeDefined();
+      expect(sbomFact?.data).toEqual(
+        expect.objectContaining({
+          bomFormat: "CycloneDX",
+          specVersion: "1.5",
+          version: 1,
+        }),
+      );
+    });
+
+    it("does not emit an sbom fact when sbom-format is omitted", async () => {
+      const analysis = createMockAnalysis({ platform: "linux/amd64" });
+
+      const result = await buildResponse(analysis as any, undefined, false);
+
+      for (const scanResult of result.scanResults) {
+        expect(scanResult.facts?.some((fact) => fact.type === "sbom")).toBe(
+          false,
+        );
+      }
+    });
+  });
 });

@@ -46,6 +46,19 @@ Others:
 - running on Windows (_not_ the same as scanning Windows containers)
 - collecting the `rootFs` hashes for base image detection and recommendation
 
+## SBOM generation
+
+Pass `--sbom-format=cyclonedx1.5+json` when scanning an image to request a
+Software Bill of Materials (SBOM) for the image's dependencies. The only
+supported value is `cyclonedx1.5+json`, which produces a CycloneDX 1.5 JSON
+document.
+
+When the option is supplied, the scan response includes an `sbom` fact on the
+first scan result (the OS dependencies result). The fact's `data` field
+contains the CycloneDX document with `bomFormat: "CycloneDX"`,
+`specVersion: "1.5"`, and `version: 1`. When the option is omitted, no `sbom`
+fact is emitted and scan behavior is unchanged.
+
 ## Tests
 
 Refer to [test/README.md](test/README.md) for running and writing tests.

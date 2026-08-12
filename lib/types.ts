@@ -54,6 +54,7 @@ export interface ImageNameInfo {
 export type FactType =
   | "autoDetectedUserInstructions"
   | "depGraph"
+  | "sbom"
   | "dockerfileAnalysis"
   | "history"
   | "imageCreationTime"
@@ -250,6 +251,13 @@ export interface PluginOptions {
 
   /** Compute and emit per-layer package attribution. The default is "false". */
   "layer-attribution": boolean | string;
+
+  /**
+   * Request SBOM generation for the scanned image. When set, the scan result
+   * includes an `sbom` fact containing a CycloneDX document.
+   * Supported value: `cyclonedx1.5+json`.
+   */
+  "sbom-format": boolean | string;
 
   "target-reference": string;
 

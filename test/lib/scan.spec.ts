@@ -1,6 +1,7 @@
 import {
   appendLatestTagIfMissing,
   mergeEnvVarsIntoCredentials,
+  scan,
 } from "../../lib/scan";
 
 describe("mergeEnvVarsIntoCredentials", () => {
@@ -104,6 +105,26 @@ describe("appendLatestTagIfMissing", () => {
     const imageWithoutTag = "image";
     expect(appendLatestTagIfMissing(imageWithoutTag)).toEqual(
       `${imageWithoutTag}:latest`,
+    );
+  });
+});
+
+describe("scan sbom-format validation", () => {
+  it("rejects unsupported sbom-format before archive access", async () => {
+    await expect(
+      scan({
+        path: "docker-archive:not-here.tar",
+        "sbom-format": "spdx2.3+json",
+      }),
+    ).rejects.toThrow("spdx2.3+json");
+
+    await expect(
+      scan({
+        path: "docker-archive:not-here.tar",
+        "sbom-format": "spdx2.3+json",
+      }),
+    ).rejects.not.toThrow(
+      "The provided archive path does not exist on the filesystem",
     );
   });
 });
