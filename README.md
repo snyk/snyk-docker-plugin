@@ -51,15 +51,25 @@ Others:
 Pass `--sbom-format=cyclonedx1.5+json` when scanning an image to request a
 Software Bill of Materials (SBOM) for the image's dependencies. The only
 supported value is `cyclonedx1.5+json`, which produces a CycloneDX 1.5 JSON
-document.
+document. The value is required — a bare `--sbom-format` flag or a boolean
+`true` is rejected. When the option is omitted, null, or empty, no SBOM is
+generated and scan behavior is unchanged.
+
+The option is validated before the image is read. Unsupported values throw an
+error listing the accepted format.
 
 When the option is supplied, the scan response includes an `sbom` fact on the
 first scan result (the OS dependencies result). The fact's `data` field
 contains the CycloneDX document with `bomFormat: "CycloneDX"`,
-`specVersion: "1.5"`, and `version: 1`. When the option is omitted, no `sbom`
-fact is emitted and scan behavior is unchanged.
+`specVersion: "1.5"`, and `version: 1`.
 
-For example, scanning a `docker-archive` image with the option set:
+For example, with the Snyk CLI flag:
+
+```
+--sbom-format=cyclonedx1.5+json
+```
+
+Or programmatically, scanning a `docker-archive` image:
 
 ```js
 const { scan } = require("snyk-docker-plugin");
@@ -86,6 +96,35 @@ const sbomFact = result.scanResults[0].facts.find(
   ]
 }
 ```
+
+A scan-produced SBOM does not include `serialNumber` or `metadata.timestamp`.
+
+### Limitations
+
+SBOM components come from `depGraph` facts the scan produces. Included
+ecosystems:
+
+- OS packages: deb, apk, rpm
+- Node (npm, yarn, pnpm)
+- Python: pip and Poetry
+- .NET (nuget)
+- Go (gomodules)
+- PHP (composer)
+
+Not included in the SBOM:
+
+- Java JAR dependencies — these yield a `jarFingerprints` fact only, with no
+  dep graph
+- Detect-only package manager manifests surfaced as `imageManifestFiles`
+- Application dependencies when `--exclude-app-vulns` is set
+- Node `node_modules` dependencies when `--exclude-node-modules` is set
+
+Each component has a `bom-ref` of the form `pkgManager:name[@version]`. The
+`version` field is omitted when the package has no version. Duplicate
+`bom-ref` values across graphs collapse to a single component. The `purl`
+field is omitted when the package manager has no purl type mapping — in
+practice this applies to yarn, pnpm, Poetry, and Go (`gomodules`)
+components.
 
 ## Tests
 

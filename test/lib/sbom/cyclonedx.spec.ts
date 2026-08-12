@@ -87,6 +87,40 @@ describe("depGraphsToCycloneDx", () => {
     ]);
   });
 
+  it("omits purl for yarn components, which have no purl type mapping", () => {
+    const graph = buildGraph("yarn", "root-app", [
+      { name: "widget", version: "1.0.0" },
+    ]);
+
+    const document = depGraphsToCycloneDx(graph);
+
+    expect(document.components).toEqual([
+      {
+        type: "library",
+        name: "widget",
+        version: "1.0.0",
+        "bom-ref": "yarn:widget@1.0.0",
+      },
+    ]);
+  });
+
+  it("omits purl for poetry components, which have no purl type mapping", () => {
+    const graph = buildGraph("poetry", "root-app", [
+      { name: "widget", version: "1.0.0" },
+    ]);
+
+    const document = depGraphsToCycloneDx(graph);
+
+    expect(document.components).toEqual([
+      {
+        type: "library",
+        name: "widget",
+        version: "1.0.0",
+        "bom-ref": "poetry:widget@1.0.0",
+      },
+    ]);
+  });
+
   it("keeps the verbatim source/binary name on the component while the purl only uses the segment after the last '/'", () => {
     const graph = buildGraph("deb", "os", [
       { name: "glibc/libc-bin", version: "2.31" },
