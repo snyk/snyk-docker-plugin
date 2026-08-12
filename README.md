@@ -59,6 +59,34 @@ contains the CycloneDX document with `bomFormat: "CycloneDX"`,
 `specVersion: "1.5"`, and `version: 1`. When the option is omitted, no `sbom`
 fact is emitted and scan behavior is unchanged.
 
+For example, scanning a `docker-archive` image with the option set:
+
+```js
+const { scan } = require("snyk-docker-plugin");
+
+const result = await scan({
+  path: "docker-archive:./image.tar",
+  "sbom-format": "cyclonedx1.5+json",
+});
+
+const sbomFact = result.scanResults[0].facts.find(
+  (fact) => fact.type === "sbom",
+);
+```
+
+`sbomFact.data` is the CycloneDX document, with these top-level fields:
+
+```json
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "version": 1,
+  "components": [
+    { "type": "library", "name": "...", "version": "...", "bom-ref": "...", "purl": "..." }
+  ]
+}
+```
+
 ## Tests
 
 Refer to [test/README.md](test/README.md) for running and writing tests.

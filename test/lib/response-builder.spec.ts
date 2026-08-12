@@ -2132,8 +2132,38 @@ describe("buildResponse", () => {
   });
 
   describe("sbom generation", () => {
-    it("emits an sbom fact on the OS scan result when sbom-format is cyclonedx1.5+json", async () => {
-      const analysis = createMockAnalysis({ platform: "linux/amd64" });
+    const depsWithNamedOsPkg = {
+      curl: node("curl").build(),
+    };
+
+    const osDepTreeOverrides = {
+      depTree: {
+        dependencies: structuredClone(depsWithNamedOsPkg),
+        name: "my-image",
+        version: "1.0.0",
+        packageFormatVersion: "apk:0.0.1",
+        targetOS: {
+          name: "alpine",
+          prettyName: "Alpine 3.18",
+          version: "3.18",
+        },
+      },
+      packageFormat: "apk",
+    };
+
+    const expectedOsComponent = {
+      type: "library",
+      name: "curl",
+      version: "1.0",
+      "bom-ref": "apk:curl@1.0",
+      purl: "pkg:apk/curl@1.0",
+    };
+
+    it("emits an sbom fact on the OS scan result with components built from the OS depGraph when sbom-format is cyclonedx1.5+json", async () => {
+      const analysis = createMockAnalysis({
+        platform: "linux/amd64",
+        ...osDepTreeOverrides,
+      });
 
       const result = await buildResponse(
         analysis as any,
@@ -2155,11 +2185,13 @@ describe("buildResponse", () => {
           version: 1,
         }),
       );
+      expect(sbomFact?.data.components).toEqual([expectedOsComponent]);
     });
 
-    it("still emits an sbom fact when an app scan result only has jarFingerprints", async () => {
+    it("filters out an app scan result that only has jarFingerprints, while the OS depGraph's packages still make it into the components", async () => {
       const analysis = createMockAnalysis({
         platform: "linux/amd64",
+        ...osDepTreeOverrides,
         applicationDependenciesScanResults: [
           {
             facts: [
@@ -2191,18 +2223,13 @@ describe("buildResponse", () => {
         (fact) => fact.type === "sbom",
       );
       expect(sbomFact).toBeDefined();
-      expect(sbomFact?.data).toEqual(
-        expect.objectContaining({
-          bomFormat: "CycloneDX",
-          specVersion: "1.5",
-          version: 1,
-        }),
-      );
+      expect(sbomFact?.data.components).toEqual([expectedOsComponent]);
     });
 
-    it("still emits an sbom fact when an app scan result has a placeholder depGraph", async () => {
+    it("filters out an app scan result with a placeholder depGraph, while the OS depGraph's packages still make it into the components", async () => {
       const analysis = createMockAnalysis({
         platform: "linux/amd64",
+        ...osDepTreeOverrides,
         applicationDependenciesScanResults: [
           {
             facts: [{ type: "depGraph" as const, data: {} as any }],
@@ -2225,13 +2252,7 @@ describe("buildResponse", () => {
         (fact) => fact.type === "sbom",
       );
       expect(sbomFact).toBeDefined();
-      expect(sbomFact?.data).toEqual(
-        expect.objectContaining({
-          bomFormat: "CycloneDX",
-          specVersion: "1.5",
-          version: 1,
-        }),
-      );
+      expect(sbomFact?.data.components).toEqual([expectedOsComponent]);
     });
 
     it("does not emit an sbom fact when sbom-format is omitted", async () => {
