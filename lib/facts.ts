@@ -1,4 +1,5 @@
 import { DepGraph } from "@snyk/dep-graph";
+import { CycloneDxDocument } from "./sbom/types";
 import { ApplicationFiles } from "./analyzer/applications/types";
 import { ApkPackageOwnership } from "./analyzer/package-managers/apk-ownership";
 import { JarFingerprint } from "./analyzer/types";
@@ -184,4 +185,9 @@ export interface ApkPackageOwnershipFact {
   type: "apkPackageOwnership";
   // Shape owned by the resolver so the contract and the lib stay in lockstep.
   data: ApkPackageOwnership;
+}
+
+export interface SbomFact {
+  type: "sbom";
+  data: CycloneDxDocument;
 }

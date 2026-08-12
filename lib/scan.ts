@@ -17,6 +17,7 @@ import {
   resolveNestedJarsOption,
 } from "./option-utils";
 import * as staticModule from "./static";
+import { parseSbomFormat } from "./sbom";
 import { ImageType, PluginOptions, PluginResponse } from "./types";
 import { isValidDockerImageReference } from "./utils";
 
@@ -82,6 +83,8 @@ async function getAnalysisParameters(
       "--nested-jars-depth accepts only numbers bigger than or equal to 0",
     );
   }
+
+  parseSbomFormat(options["sbom-format"]);
 
   // TODO temporary solution to avoid double results for PHP if exists in `globsToFind`
   if (options.globsToFind) {
