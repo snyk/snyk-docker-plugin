@@ -67,8 +67,16 @@ export async function analyzeStatically(
     packageFormat: parsedAnalysisResult.packageFormat,
   };
 
+  // Archives pulled from a registry do not contain the attestation manifest --
+  // it is a separate manifest in the image index, so it is never part of the
+  // tarball. Callers that pulled the archive themselves (e.g. DRA) can opt in
+  // to fetching provenance from the registry by reference.
+  const canFetchAttestationsFromRegistry =
+    imageType === ImageType.Identifier ||
+    isTrue(options.fetchProvenanceFromRegistry);
+
   if (
-    imageType === ImageType.Identifier &&
+    canFetchAttestationsFromRegistry &&
     (!analysis.attestations || analysis.attestations.length === 0)
   ) {
     try {
