@@ -5,6 +5,7 @@ import { JarFingerprint } from "./analyzer/types";
 import { DockerFileAnalysis } from "./dockerfile/types";
 import { OCIDistributionMetadata } from "./extractor/oci-distribution-metadata";
 import { ProvenanceMetadata } from "./extractor/provenance-parser";
+import { CycloneDxBom } from "./sbom/cyclonedx";
 import {
   AutoDetectedUserInstructions,
   ImageNameInfo,
@@ -184,4 +185,9 @@ export interface ApkPackageOwnershipFact {
   type: "apkPackageOwnership";
   // Shape owned by the resolver so the contract and the lib stay in lockstep.
   data: ApkPackageOwnership;
+}
+
+export interface SbomFact {
+  type: "sbom";
+  data: CycloneDxBom;
 }
