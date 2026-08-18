@@ -288,6 +288,55 @@ describe("buildResponse sbom wiring", () => {
 
       const git = bom.components.find((c) => c.name === "git");
       expect(findProperty(git!, "snyk:sbom:source")).toBe("dockerfile");
+
+      expect(bom.metadata.component).toBeDefined();
+      expect(bom.metadata.component?.type).toBe("container");
+      expect(bom.metadata.component?.name).toBe("test-image");
+    });
+
+    it("suffixes metadata.component's bom-ref when it collides with a same-named dockerfile base-image component", async () => {
+      const mockAnalysis = createMockAnalysis({
+        depTree: {
+          dependencies: {},
+          // depGraph.rootPkg.name (and thus sbomSource.imageName) is
+          // derived from depTree.name, so this matches the
+          // dockerfileAnalysis.baseImage below.
+          name: "node:18-alpine",
+          version: "1.0.0",
+          packageFormatVersion: "deb:0.0.1",
+          targetOS: { prettyName: "Debian" },
+        },
+        packageFormat: "deb",
+      });
+
+      const dockerfileAnalysis = {
+        baseImage: "node:18-alpine",
+        dockerfilePackages: {},
+        dockerfileLayers: {},
+      };
+
+      const result = await buildResponse(
+        mockAnalysis as any,
+        dockerfileAnalysis as any,
+        false,
+        undefined,
+        undefined,
+        { sbom: true },
+      );
+
+      const bom = getSbomFacts(result.scanResults[0])[0].data;
+
+      const baseImageComponent = bom.components.find(
+        (c) => c.name === "node:18-alpine",
+      );
+      expect(baseImageComponent).toBeDefined();
+
+      const metadataComponent = bom.metadata.component!;
+      expect(metadataComponent).toBeDefined();
+      expect(metadataComponent.name).toBe("node:18-alpine");
+      expect(metadataComponent["bom-ref"]).not.toBe(
+        baseImageComponent!["bom-ref"],
+      );
     });
 
     it('treats the string "true" the same as boolean true', async () => {

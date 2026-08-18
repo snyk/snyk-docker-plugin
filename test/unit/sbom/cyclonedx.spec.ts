@@ -26,6 +26,14 @@ function assertWellFormed(bom: CycloneDxBom): void {
   expect(bom.metadata.tools[0].version).toBe(PLUGIN_VERSION);
 
   const bomRefs = new Set<string>();
+
+  if (bom.metadata.component) {
+    const metadataComponent = bom.metadata.component;
+    expect(metadataComponent.name.length).toBeGreaterThan(0);
+    expect(["library", "container"]).toContain(metadataComponent.type);
+    bomRefs.add(metadataComponent["bom-ref"]);
+  }
+
   for (const component of bom.components) {
     expect(component.name.length).toBeGreaterThan(0);
     expect(["library", "container"]).toContain(component.type);
@@ -88,6 +96,11 @@ describe("buildCycloneDxBom", () => {
       expect(withPurl?.purl).toBe("pkg:deb/debian/openssl@3.0.11-1");
       expect(withoutPurl).toBeDefined();
       expect(withoutPurl).not.toHaveProperty("purl");
+    });
+
+    it("omits metadata.component when no imageName was supplied", () => {
+      const bom = buildCycloneDxBom(source);
+      expect(bom.metadata.component).toBeUndefined();
     });
   });
 
@@ -241,6 +254,34 @@ describe("buildCycloneDxBom", () => {
       expect(findProperty(openssl!, "snyk:sbom:source")).toBe("image");
       expect(findProperty(lodash!, "snyk:sbom:source")).toBe("application");
       expect(findProperty(git!, "snyk:sbom:source")).toBe("dockerfile");
+    });
+
+    it("emits metadata.component describing the scanned image", () => {
+      const bom = buildCycloneDxBom(source);
+      expect(bom.metadata.component).toBeDefined();
+      expect(bom.metadata.component?.type).toBe("container");
+      expect(bom.metadata.component?.name).toBe("node:18-alpine");
+    });
+
+    it("gives metadata.component a bom-ref distinct from the same-named dockerfile base-image component", () => {
+      // imageName and dockerfileAnalysis.baseImage are both
+      // "node:18-alpine", so both a `components` entry (from the
+      // dockerfile) and `metadata.component` (from imageName) are named
+      // "node:18-alpine". makeUniqueBomRef must suffix one of them so the
+      // two bom-refs don't collide.
+      const bom = buildCycloneDxBom(source);
+
+      const baseImageComponent = bom.components.find(
+        (c) => c.name === "node:18-alpine",
+      );
+      expect(baseImageComponent).toBeDefined();
+      expect(baseImageComponent!["bom-ref"]).toBe("node:18-alpine");
+
+      const metadataComponent = bom.metadata.component!;
+      expect(metadataComponent["bom-ref"]).not.toBe(
+        baseImageComponent!["bom-ref"],
+      );
+      expect(metadataComponent["bom-ref"]).toBe("node:18-alpine-2");
     });
   });
 });
