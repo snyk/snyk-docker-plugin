@@ -16,6 +16,7 @@ import {
   isTrue,
   resolveNestedJarsOption,
 } from "./option-utils";
+import { scanDockerfileOnly } from "./sbom/dockerfile-only";
 import * as staticModule from "./static";
 import { ImageType, PluginOptions, PluginResponse } from "./types";
 import { isValidDockerImageReference } from "./utils";
@@ -107,6 +108,15 @@ async function getAnalysisParameters(
 export async function scan(
   options?: Partial<PluginOptions>,
 ): Promise<PluginResponse> {
+  if (isTrue(options?.sbom) && !options?.path) {
+    if (!options?.file) {
+      throw new Error(
+        "--sbom requires a scan target: provide an image identifier or archive path, or a Dockerfile via --file",
+      );
+    }
+    return scanDockerfileOnly(options.file);
+  }
+
   const {
     targetImage,
     imageType,
