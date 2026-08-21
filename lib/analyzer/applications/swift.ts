@@ -50,9 +50,7 @@ function extractPins(parsed: PackageResolved): ResolvedPin[] {
   if (parsed.version === 1) {
     const pins = parsed.object?.pins ?? [];
     return pins.map((pin) => ({
-      name: pin.repositoryURL
-        ? nameFromUrl(pin.repositoryURL)
-        : pin.package,
+      name: pin.repositoryURL ? nameFromUrl(pin.repositoryURL) : pin.package,
       version: pin.state?.version,
     }));
   }
