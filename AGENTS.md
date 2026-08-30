@@ -166,3 +166,59 @@ target Node major (`20`) when validating locally.
 - How a scan flows end-to-end: start at `lib/scan.ts`.
 - How to add support for a new ecosystem: look at an existing one under
   `lib/inputs/` + `lib/analyzer/applications/` + `lib/parser/` as a template.
+
+## Cursor Cloud specific instructions
+
+These notes are specific to the Cursor Cloud Agent VM. Standard commands live in
+the tables above and in `package.json` — only the non-obvious caveats are here.
+
+### Running unit tests — set `FORCE_COLOR`
+
+`npm run test:unit` passes, but you **must** export `FORCE_COLOR=1` (or higher),
+e.g. `FORCE_COLOR=3 npm run test:unit`. Without it, the 4 `display` tests in
+`test/lib/display.spec.ts` fail: their expected fixtures embed ANSI color
+escapes, and `chalk` strips colors when stdout is not a TTY (as in the cloud
+shell). This is an environment artifact, not a code bug — do not "fix" the
+fixtures.
+
+### Docker is installed but Docker Hub pulls are blocked
+
+- The Docker engine is installed and configured for docker-in-docker
+  (`fuse-overlayfs` storage driver in `/etc/docker/daemon.json`). It is **not**
+  auto-started: run `sudo dockerd >/tmp/dockerd.log 2>&1 &` once per VM if you
+  need it. The socket is left world-readable/writable so `docker` works without
+  `sudo`.
+- Network egress to Docker Hub **blob storage** (`*.s3...amazonaws.com` /
+  `production.cloudflare.docker.com`) is blocked, so `docker pull <docker.io image>`
+  fails with TLS/`EOF` errors after the manifest fetch. Pull Docker official
+  images from the AWS public mirror instead, e.g.
+  `docker pull public.ecr.aws/docker/library/node:18-alpine`.
+- Consequently `npm run test:system` (and the sibling `snyk-docker-pull` repo's
+  tests) cannot pull their target images here and will fail on network — run
+  `npm run test:unit` for the inner loop and rely on CI for system tests, unless
+  the user widens network access and provides the `DOCKER_HUB_*` creds.
+
+### Quick end-to-end smoke of the library
+
+`scan()` works fully offline against a saved archive — no daemon or network
+needed once the tar exists:
+
+```bash
+docker pull public.ecr.aws/docker/library/node:18-alpine
+docker save public.ecr.aws/docker/library/node:18-alpine -o /tmp/img.tar
+node -e 'require("./dist").scan({path:"docker-archive:/tmp/img.tar"}).then(r=>console.log(r.scanResults[0].facts.map(f=>f.type)))'
+```
+
+(`npm run build` first so `dist/` exists.)
+
+### Workspace-wide credential note
+
+This VM contains several sibling Snyk repos under `repos/`. The public libraries
+(`snyk-docker-plugin`, `snyk-docker-pull`, `docker-registry-v2-client`) install
+from the public npm registry with no auth. The service repos
+(`docker-deps`, `container-image-collector`, `docker-registry-agent`, `registry`)
+depend on **private `@snyk/*` npm packages** and need an `NPM_TOKEN`; the Go
+services (`container-image-service`, `container-importer`, `container-monitor-data`)
+depend on **private `github.com/snyk/*` modules** (`GOPRIVATE=github.com/snyk`)
+and need a GitHub credential with access to the Snyk org. Without those secrets
+their dependency installs fail with 404 / "repository not found".
