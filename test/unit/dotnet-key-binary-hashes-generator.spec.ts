@@ -104,7 +104,11 @@ const SAMPLE_RELEASES_JSON: DotnetReleasesJson = {
 describe("dotnet key binary hashes generator helpers", () => {
   it("builds a download plan from releases.json for requested versions and RIDs", () => {
     expect(
-      buildDownloadPlan(SAMPLE_RELEASES_JSON, ["8.0.30"], ["linux-x64", "linux-arm64"]),
+      buildDownloadPlan(
+        SAMPLE_RELEASES_JSON,
+        ["8.0.30"],
+        ["linux-x64", "linux-arm64"],
+      ),
     ).toEqual([
       {
         version: "8.0.30",
@@ -155,7 +159,7 @@ describe("dotnet key binary hashes generator helpers", () => {
         "  string,",
         "  DotnetSharedFrameworkBinaryInfo",
         "> = {",
-        '  abc123def4567890abc123def4567890abc123def4567890abc123def4567890: {',
+        "  abc123def4567890abc123def4567890abc123def4567890abc123def4567890: {",
         '    version: "8.0.30",',
         '    binary: "libcoreclr.so",',
         '    rids: ["linux-arm64", "linux-x64"],',
