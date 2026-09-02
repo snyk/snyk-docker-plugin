@@ -31,9 +31,7 @@ describe("getDotnetBinariesFileContentAction.filePathMatches", () => {
 
   it("matches on win32-style backslash paths", () => {
     expect(
-      matches(
-        "\\dotnet\\shared\\Microsoft.NETCore.App\\8.0.1\\libcoreclr.so",
-      ),
+      matches("\\dotnet\\shared\\Microsoft.NETCore.App\\8.0.1\\libcoreclr.so"),
     ).toBe(true);
   });
 
