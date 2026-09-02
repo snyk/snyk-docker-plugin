@@ -13,9 +13,29 @@ export const getNodeBinariesFileContentAction: ExtractAction = {
   callback: streamToSha256,
 };
 
+const DOTNET_SHARED_FRAMEWORK_PATH = "/dotnet/shared/Microsoft.NETCore.App/";
+const DOTNET_KEY_BINARY_NAMES = new Set([
+  "libcoreclr.so",
+  "System.Private.CoreLib.dll",
+]);
+
+export const getDotnetBinariesFileContentAction: ExtractAction = {
+  actionName: "dotnet",
+  filePathMatches: (filePath) => {
+    const p = filePath.replace(/\\/g, "/");
+    if (!p.includes(DOTNET_SHARED_FRAMEWORK_PATH)) {
+      return false;
+    }
+    const basename = p.split("/").pop();
+    return basename !== undefined && DOTNET_KEY_BINARY_NAMES.has(basename);
+  },
+  callback: streamToSha256,
+};
+
 const binariesExtractActions = [
   getNodeBinariesFileContentAction,
   getOpenJDKBinariesFileContentAction,
+  getDotnetBinariesFileContentAction,
 ];
 
 export function getBinariesHashes(extractedLayers: ExtractedLayers): string[] {
