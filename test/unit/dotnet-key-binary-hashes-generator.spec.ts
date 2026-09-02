@@ -1,12 +1,52 @@
+import { createHash } from "crypto";
 import * as prettier from "prettier";
+import { Readable } from "stream";
+import * as tar from "tar-stream";
+import { gzipSync } from "zlib";
 
+import { streamToBuffer } from "../../lib/stream-utils";
 import {
   buildDownloadPlan,
   DotnetReleasesJson,
+  hashKeyBinariesFromRuntimeArchive,
   mergeDotnetSharedFrameworkHashEntries,
   PendingDotnetSharedFrameworkHashEntry,
   serializeDotnetSharedFrameworkHashesModule,
 } from "../../scripts/update-dotnet-key-binary-hashes";
+
+function sha256(content: string): string {
+  return createHash("sha256").update(content).digest("hex");
+}
+
+interface FixtureTarEntry {
+  name: string;
+  type?: "file" | "directory" | "symlink";
+  content?: string;
+  linkname?: string;
+}
+
+async function buildGzippedTarArchive(
+  entries: FixtureTarEntry[],
+): Promise<Readable> {
+  const pack = tar.pack();
+  for (const entry of entries) {
+    if (entry.type === "directory") {
+      pack.entry({ name: entry.name, type: "directory" });
+    } else if (entry.type === "symlink") {
+      pack.entry({
+        name: entry.name,
+        type: "symlink",
+        linkname: entry.linkname,
+      });
+    } else {
+      pack.entry({ name: entry.name, type: "file" }, entry.content ?? "");
+    }
+  }
+  pack.finalize();
+
+  const tarBuffer = await streamToBuffer(pack);
+  return Readable.from([gzipSync(tarBuffer)]);
+}
 
 const SAMPLE_RELEASES_JSON: DotnetReleasesJson = {
   "channel-version": "8.0",
@@ -231,5 +271,130 @@ describe("dotnet key binary hashes generator helpers", () => {
     ).toThrow(
       /conflicting binaries libcoreclr\.so and System\.Private\.CoreLib\.dll/,
     );
+  });
+});
+
+describe("hashKeyBinariesFromRuntimeArchive", () => {
+  const source =
+    "https://builds.dotnet.microsoft.com/dotnet/Runtime/8.0.30/dotnet-runtime-8.0.30-linux-x64.tar.gz";
+
+  it("hashes only key binaries under the requested version's shared framework path", async () => {
+    const coreclrContent = "coreclr-binary-8.0.30";
+    const corelibContent = "corelib-binary-8.0.30";
+
+    const archiveStream = await buildGzippedTarArchive([
+      {
+        name: "shared/Microsoft.NETCore.App/8.0.30/libcoreclr.so",
+        content: coreclrContent,
+      },
+      {
+        name: "shared/Microsoft.NETCore.App/8.0.30/System.Private.CoreLib.dll",
+        content: corelibContent,
+      },
+      {
+        name: "shared/Microsoft.NETCore.App/8.0.30/System.Runtime.dll",
+        content: "not-a-key-binary",
+      },
+      {
+        name: "shared/Microsoft.NETCore.App/8.0.29/libcoreclr.so",
+        content: "wrong-version",
+      },
+      {
+        name: "shared/Microsoft.AspNetCore.App/8.0.30/libcoreclr.so",
+        content: "wrong-framework",
+      },
+      {
+        name: "shared/Microsoft.NETCore.App/8.0.30/nested/",
+        type: "directory",
+      },
+    ]);
+
+    const entries = await hashKeyBinariesFromRuntimeArchive(
+      archiveStream,
+      "8.0.30",
+      "linux-x64",
+      source,
+    );
+
+    expect(entries).toEqual([
+      {
+        hash: sha256(coreclrContent),
+        version: "8.0.30",
+        binary: "libcoreclr.so",
+        rid: "linux-x64",
+        source,
+      },
+      {
+        hash: sha256(corelibContent),
+        version: "8.0.30",
+        binary: "System.Private.CoreLib.dll",
+        rid: "linux-x64",
+        source,
+      },
+    ]);
+  });
+
+  it("matches on backslash-style archive paths", async () => {
+    const content = "coreclr-backslash";
+    const archiveStream = await buildGzippedTarArchive([
+      {
+        name: "shared\\Microsoft.NETCore.App\\8.0.30\\libcoreclr.so",
+        content,
+      },
+    ]);
+
+    const entries = await hashKeyBinariesFromRuntimeArchive(
+      archiveStream,
+      "8.0.30",
+      "linux-x64",
+      source,
+    );
+
+    expect(entries).toEqual([
+      {
+        hash: sha256(content),
+        version: "8.0.30",
+        binary: "libcoreclr.so",
+        rid: "linux-x64",
+        source,
+      },
+    ]);
+  });
+
+  it("skips non-file entries even when their path and name match a key binary", async () => {
+    const archiveStream = await buildGzippedTarArchive([
+      {
+        name: "shared/Microsoft.NETCore.App/8.0.30/libcoreclr.so",
+        type: "symlink",
+        linkname: "libcoreclr.so.real",
+      },
+    ]);
+
+    const entries = await hashKeyBinariesFromRuntimeArchive(
+      archiveStream,
+      "8.0.30",
+      "linux-x64",
+      source,
+    );
+
+    expect(entries).toEqual([]);
+  });
+
+  it("returns no entries when nothing matches the requested version", async () => {
+    const archiveStream = await buildGzippedTarArchive([
+      {
+        name: "shared/Microsoft.NETCore.App/8.0.29/libcoreclr.so",
+        content: "wrong-version",
+      },
+    ]);
+
+    const entries = await hashKeyBinariesFromRuntimeArchive(
+      archiveStream,
+      "8.0.30",
+      "linux-x64",
+      source,
+    );
+
+    expect(entries).toEqual([]);
   });
 });

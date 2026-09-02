@@ -228,7 +228,7 @@ async function downloadRuntimeArchive(url: string): Promise<Readable> {
   return Readable.fromWeb(response.body as import("stream/web").ReadableStream);
 }
 
-async function hashKeyBinariesFromRuntimeArchive(
+export async function hashKeyBinariesFromRuntimeArchive(
   archiveStream: Readable,
   version: string,
   rid: string,
