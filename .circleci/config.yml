@@ -30,21 +30,14 @@ windows_defaults: &windows_defaults
 slack-fail-notify: &slack-fail-notify
   slack/notify:
     event: fail
-    channel: team-container-pipeline-info
+    channel: team-sca-scanners-alerts
     branch_pattern: "main"
     template: basic_fail_1
-
-slack-success-notify: &slack-success-notify
-  slack/notify:
-    event: pass
-    channel: team-container-pipeline-info
-    branch_pattern: "main"
-    template: basic_success_1
 
 slack-snapshot-notify: &slack-snapshot-notify
   slack/notify:
     event: always
-    channel: team-container-pipeline-info
+    channel: team-sca-scanners-alerts
     custom: |
       {
         "blocks": [
@@ -479,7 +472,6 @@ workflows:
             - Test Windows no Docker
           post-steps:
             - *slack-fail-notify
-            - *slack-success-notify
   go_regression_test:
     when:
       and:
