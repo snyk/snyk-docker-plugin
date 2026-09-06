@@ -1,5 +1,64 @@
+import * as fs from "fs";
+import * as path from "path";
+
 import { facts } from "../../lib/index";
 import { Fact, FactType } from "../../lib/types";
+
+const publicFactTypes = [
+  "autoDetectedUserInstructions",
+  "depGraph",
+  "dockerfileAnalysis",
+  "history",
+  "imageCreationTime",
+  "imageId",
+  "imageLabels",
+  "imageLayers",
+  "imageManifestFiles",
+  "imageNames",
+  "imageOsReleasePrettyName",
+  "imageSizeBytes",
+  "jarFingerprints",
+  "keyBinariesHashes",
+  "baseRuntimes",
+  "loadedPackages",
+  "ociDistributionMetadata",
+  "provenanceMetadata",
+  "containerConfig",
+  "platform",
+  "pluginVersion",
+  "pluginWarnings",
+  "rootFs",
+  "testedFiles",
+  "applicationFiles",
+  "apkPackageOwnership",
+] as const satisfies readonly FactType[];
+
+type MissingPublicFactTypes = Exclude<
+  FactType,
+  (typeof publicFactTypes)[number]
+>;
+const allPublicFactTypesAreListed: MissingPublicFactTypes extends never
+  ? true
+  : MissingPublicFactTypes = true;
+
+function getFactTypesFromCommonSchema(): string[] {
+  const commonSchema = fs.readFileSync(
+    path.join(__dirname, "../../components/common.yaml"),
+    "utf8",
+  );
+  const factTypeBlock = commonSchema.match(
+    /  FactType:\n(?:    .+\n)*    enum:\n((?:      - .+\n)+)/,
+  );
+
+  if (!factTypeBlock) {
+    throw new Error("FactType enum not found in components/common.yaml");
+  }
+
+  return factTypeBlock[1]
+    .trim()
+    .split("\n")
+    .map((line) => line.trim().replace("- ", ""));
+}
 
 describe("Facts", () => {
   it("correctly compiles and exports all the supported facts", () => {
@@ -98,6 +157,18 @@ describe("Facts", () => {
         truncatedFacts: {},
       },
     };
+    const baseRuntimesFact: facts.BaseRuntimesFact = {
+      type: "baseRuntimes",
+      data: [],
+    };
+    const provenanceMetadataFact: facts.ProvenanceMetadataFact = {
+      type: "provenanceMetadata",
+      data: [],
+    };
+    const apkPackageOwnershipFact: facts.ApkPackageOwnershipFact = {
+      type: "apkPackageOwnership",
+      data: {},
+    };
 
     // This would catch compilation errors.
     const allFacts: Fact[] = [
@@ -124,10 +195,22 @@ describe("Facts", () => {
       containerConfigFact,
       historyFact,
       pluginWarningsFact,
+      baseRuntimesFact,
+      provenanceMetadataFact,
+      apkPackageOwnershipFact,
     ];
     expect(allFacts).toBeDefined();
 
     const allFactsTypes: FactType[] = allFacts.map((fact) => fact.type);
     expect(allFactsTypes).toBeDefined();
+    expect(allPublicFactTypesAreListed).toBe(true);
+  });
+
+  it("lists all public fact types in the shared OpenAPI schema", () => {
+    const commonSchemaFactTypes = getFactTypesFromCommonSchema();
+
+    expect(commonSchemaFactTypes).toEqual(
+      expect.arrayContaining(publicFactTypes),
+    );
   });
 });
