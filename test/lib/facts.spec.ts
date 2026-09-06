@@ -1,5 +1,7 @@
 import { facts } from "../../lib/index";
 import { Fact, FactType } from "../../lib/types";
+import { readFileSync } from "fs";
+import { join } from "path";
 
 describe("Facts", () => {
   it("correctly compiles and exports all the supported facts", () => {
@@ -129,5 +131,14 @@ describe("Facts", () => {
 
     const allFactsTypes: FactType[] = allFacts.map((fact) => fact.type);
     expect(allFactsTypes).toBeDefined();
+  });
+
+  it("exposes apkPackageOwnership in the shared OpenAPI components", () => {
+    const commonComponents = readFileSync(
+      join(__dirname, "../../components/common.yaml"),
+      "utf8",
+    );
+
+    expect(commonComponents).toContain("      - apkPackageOwnership");
   });
 });
