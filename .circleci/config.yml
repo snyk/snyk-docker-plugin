@@ -309,7 +309,7 @@ workflows:
           context:
             - snyk-bot-slack
             - prodsec-orb-runtime
-          channel: snyk-vuln-alerts-container
+          channel: snyk-vuln-alerts-sca
           filters:
             branches:
               ignore: main
