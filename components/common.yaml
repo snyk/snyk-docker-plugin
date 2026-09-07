@@ -37,6 +37,7 @@ schemas:
       - redHatRepositories
       - rootFs
       - testedFiles
+      - applicationFiles
       - workloadMetadata
       - containerConfig
       - history
@@ -44,6 +45,7 @@ schemas:
       - pluginVersion
       - pluginWarnings
       - provenanceMetadata
+      - apkPackageOwnership
   Identity:
     type: object
     description: Identity defines "what" you found.
