@@ -34,37 +34,6 @@ slack-fail-notify: &slack-fail-notify
     branch_pattern: "main"
     template: basic_fail_1
 
-slack-snapshot-notify: &slack-snapshot-notify
-  slack/notify:
-    event: always
-    channel: team-sca-scanners-alerts
-    custom: |
-      {
-        "blocks": [
-          {
-            "type": "section",
-            "text": {
-              "type": "mrkdwn",
-              "text": "*snyk-docker-plugin*\n\n:camera_with_flash: Snapshot update jobs finished!"
-            }
-          },
-          {
-            "type": "divider"
-          },
-          {
-            "type": "section",
-            "text": {
-              "type": "mrkdwn",
-              "text": "Download the patch from each job's *Artifacts* tab:\n\n• <${LINUX_JOB_URL}|Linux snapshots> → `snapshots.patch`\n• <${WINDOWS_JOB_URL}|Windows snapshots> → `snapshots-windows.patch`"
-            }
-          },
-          {
-            "type": "markdown",
-            "text": "Apply the patches locally with:\n\n```bash\ngit apply snapshots.patch snapshots-windows.patch\n```"
-          }
-        ]
-      }
-
 windows_big: &windows_big
   executor:
     name: win/server-2022
@@ -281,17 +250,6 @@ jobs:
       - store_artifacts:
           path: snapshots.patch
           destination: snapshots.patch
-      - run:
-          name: Record job URL
-          when: always
-          command: |
-            mkdir -p snapshot-meta
-            echo "$CIRCLE_BUILD_URL" > snapshot-meta/linux-job-url.txt
-      - persist_to_workspace:
-          when: always
-          root: .
-          paths:
-            - snapshot-meta/linux-job-url.txt
   update_snapshots_windows:
     <<: *windows_big
     steps:
@@ -318,28 +276,6 @@ jobs:
       - store_artifacts:
           path: snapshots-windows.patch
           destination: snapshots-windows.patch
-      - run:
-          name: Record job URL
-          when: always
-          command: |
-            mkdir -p snapshot-meta
-            echo "$CIRCLE_BUILD_URL" > snapshot-meta/windows-job-url.txt
-      - persist_to_workspace:
-          when: always
-          root: .
-          paths:
-            - snapshot-meta/windows-job-url.txt
-  notify_snapshots:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: ~/snyk-docker-plugin
-      - run:
-          name: Load job URLs into environment
-          command: |
-            echo "export LINUX_JOB_URL=$(cat snapshot-meta/linux-job-url.txt)" >> "$BASH_ENV"
-            echo "export WINDOWS_JOB_URL=$(cat snapshot-meta/windows-job-url.txt)" >> "$BASH_ENV"
-      - *slack-snapshot-notify
   release:
     <<: *release_defaults
     steps:
@@ -504,11 +440,3 @@ workflows:
           node_version: *windows_node_version
           context:
             - nodejs-install
-      - notify_snapshots:
-          name: Notify Snapshots
-          context:
-            - nodejs-install
-            - snyk-bot-slack
-          requires:
-            - Update Snapshots: terminal
-            - Update Windows Snapshots: terminal
