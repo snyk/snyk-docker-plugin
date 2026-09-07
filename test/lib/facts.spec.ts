@@ -1,3 +1,5 @@
+import { readFileSync } from "fs";
+
 import { facts } from "../../lib/index";
 import { Fact, FactType } from "../../lib/types";
 
@@ -98,6 +100,14 @@ describe("Facts", () => {
         truncatedFacts: {},
       },
     };
+    const provenanceMetadataFact: facts.ProvenanceMetadataFact = {
+      type: "provenanceMetadata",
+      data: [],
+    };
+    const apkPackageOwnershipFact: facts.ApkPackageOwnershipFact = {
+      type: "apkPackageOwnership",
+      data: {} as any,
+    };
 
     // This would catch compilation errors.
     const allFacts: Fact[] = [
@@ -124,10 +134,17 @@ describe("Facts", () => {
       containerConfigFact,
       historyFact,
       pluginWarningsFact,
+      provenanceMetadataFact,
+      apkPackageOwnershipFact,
     ];
     expect(allFacts).toBeDefined();
 
     const allFactsTypes: FactType[] = allFacts.map((fact) => fact.type);
     expect(allFactsTypes).toBeDefined();
+
+    const commonSchema = readFileSync("components/common.yaml", "utf8");
+    for (const factType of allFactsTypes) {
+      expect(commonSchema).toContain(`      - ${factType}`);
+    }
   });
 });
