@@ -41,14 +41,17 @@ const exhaustiveFactTypes: MissingFactTypes extends never ? true : never = true;
 function getOpenApiFactTypes(): string[] {
   const commonSchema = readFileSync("components/common.yaml", "utf8");
   const factTypeEnum = commonSchema.match(
-    /^  FactType:\n(?:    .+\n)*?    enum:\n((?:      - .+\n)+)/m,
+    /^ {2}FactType:\n(?: {4}.+\n)*? {4}enum:\n((?: {6}- .+\n)+)/m,
   );
 
   if (!factTypeEnum) {
     throw new Error("could not find FactType enum in components/common.yaml");
   }
 
-  return factTypeEnum[1].trim().split("\n").map((line) => line.trim().slice(2));
+  return factTypeEnum[1]
+    .trim()
+    .split("\n")
+    .map((line) => line.trim().slice(2));
 }
 
 describe("Facts", () => {
