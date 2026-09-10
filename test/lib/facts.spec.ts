@@ -1,5 +1,7 @@
 import { facts } from "../../lib/index";
 import { Fact, FactType } from "../../lib/types";
+import * as fs from "fs";
+import * as path from "path";
 
 describe("Facts", () => {
   it("correctly compiles and exports all the supported facts", () => {
@@ -129,5 +131,52 @@ describe("Facts", () => {
 
     const allFactsTypes: FactType[] = allFacts.map((fact) => fact.type);
     expect(allFactsTypes).toBeDefined();
+  });
+
+  it("keeps the shared OpenAPI fact enum aligned with exported facts", () => {
+    const commonSchema = fs.readFileSync(
+      path.resolve(__dirname, "../../components/common.yaml"),
+      "utf8",
+    );
+
+    const exportedFactTypes: FactType[] = [
+      "autoDetectedUserInstructions",
+      "binaries",
+      "baseRuntimes",
+      "depGraph",
+      "dockerfileAnalysis",
+      "dockerLayers",
+      "imageCreationTime",
+      "imageId",
+      "imageLabels",
+      "imageLayers",
+      "imageManifestFiles",
+      "imageNames",
+      "imageOsReleasePrettyName",
+      "imageSizeBytes",
+      "hashes",
+      "jarFingerprints",
+      "keyBinariesHashes",
+      "loadedPackages",
+      "ociDistributionMetadata",
+      "redHatRepositories",
+      "rootFs",
+      "testedFiles",
+      "workloadMetadata",
+      "containerConfig",
+      "history",
+      "platform",
+      "pluginVersion",
+      "pluginWarnings",
+      "provenanceMetadata",
+      "apkPackageOwnership",
+    ];
+
+    expect(commonSchema).toEqual(
+      expect.stringContaining("- apkPackageOwnership"),
+    );
+    for (const factType of exportedFactTypes) {
+      expect(commonSchema).toEqual(expect.stringContaining(`- ${factType}`));
+    }
   });
 });

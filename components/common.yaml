@@ -44,6 +44,7 @@ schemas:
       - pluginVersion
       - pluginWarnings
       - provenanceMetadata
+      - apkPackageOwnership
   Identity:
     type: object
     description: Identity defines "what" you found.
