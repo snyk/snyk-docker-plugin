@@ -49,3 +49,4 @@ Others:
 ## Tests
 
 Refer to [test/README.md](test/README.md) for running and writing tests.
+Pull requests run the project CI checks before changes are merged.
