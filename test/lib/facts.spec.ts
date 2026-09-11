@@ -1,5 +1,7 @@
 import { facts } from "../../lib/index";
 import { Fact, FactType } from "../../lib/types";
+import { readFileSync } from "fs";
+import { join } from "path";
 
 describe("Facts", () => {
   it("correctly compiles and exports all the supported facts", () => {
@@ -98,6 +100,20 @@ describe("Facts", () => {
         truncatedFacts: {},
       },
     };
+    const apkPackageOwnershipFact: facts.ApkPackageOwnershipFact = {
+      type: "apkPackageOwnership",
+      data: {
+        distroId: "chainguard",
+        ownedPackages: [
+          {
+            evidencePaths: ["/usr/bin/node"],
+            originPackage: "nodejs",
+            apkPackageName: "nodejs",
+            apkPackageVersion: "20.0.0-r0",
+          },
+        ],
+      },
+    };
 
     // This would catch compilation errors.
     const allFacts: Fact[] = [
@@ -124,10 +140,17 @@ describe("Facts", () => {
       containerConfigFact,
       historyFact,
       pluginWarningsFact,
+      apkPackageOwnershipFact,
     ];
     expect(allFacts).toBeDefined();
 
     const allFactsTypes: FactType[] = allFacts.map((fact) => fact.type);
     expect(allFactsTypes).toBeDefined();
+
+    const commonSchema = readFileSync(
+      join(__dirname, "../../components/common.yaml"),
+      "utf8",
+    );
+    expect(commonSchema).toContain("      - apkPackageOwnership");
   });
 });
