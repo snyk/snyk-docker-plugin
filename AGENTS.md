@@ -134,8 +134,7 @@ CircleCI (`.circleci/config.yml`) runs build, lint, and tests on:
 - Linux (`cimg/node:20.19`) — full Jest suite, including system tests
 - Windows (`win/server-2022`) — `test/windows/` suite via `npm run test:windows` (fixture-only) and `npm run test:windows:docker` (requires Docker daemon)
 
-`main`-branch failures notify Slack `#team-container-pipeline-info`. Match the
-target Node major (`20`) when validating locally.
+Match the target Node major (`20`) when validating locally.
 
 ## Commit & PR conventions
 
@@ -144,7 +143,7 @@ target Node major (`20`) when validating locally.
   Header max length 100. Example: `fix: handle empty layer in OCI archive`.
 - For a bug fix, prefer committing a **failing test first**, then the fix in a
   separate commit (see `.github/CONTRIBUTING.md`).
-- CODEOWNERS: `@snyk/container_container` reviews everything by default.
+- CODEOWNERS: `@snyk/engines_sca-scanners` reviews everything by default.
 
 ## Things not to touch
 

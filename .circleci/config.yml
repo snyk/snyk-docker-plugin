@@ -3,7 +3,6 @@ version: 2.1
 orbs:
   win: circleci/windows@5.0.0
   node: circleci/node@5.1.0
-  slack: circleci/slack@5
   prodsec: snyk/prodsec-orb@1
 
 parameters:
@@ -26,13 +25,6 @@ windows_defaults: &windows_defaults
       type: string
       default: ""
   working_directory: ~/snyk-docker-plugin
-
-slack-fail-notify: &slack-fail-notify
-  slack/notify:
-    event: fail
-    channel: team-sca-scanners-alerts
-    branch_pattern: "main"
-    template: basic_fail_1
 
 windows_big: &windows_big
   executor:
@@ -309,7 +301,7 @@ workflows:
           context:
             - snyk-bot-slack
             - prodsec-orb-runtime
-          channel: snyk-vuln-alerts-sca
+          channel: snyk-vuln-alerts-sca-scanners
           filters:
             branches:
               ignore: main
@@ -324,8 +316,6 @@ workflows:
             - snyk-bot-slack
           requires:
             - Install
-          post-steps:
-            - *slack-fail-notify
       - build:
           name: Build
           context:
@@ -333,15 +323,11 @@ workflows:
             - snyk-bot-slack
           requires:
             - Lint
-          post-steps:
-            - *slack-fail-notify
       - security-scans:
           name: Security Scans
           context:
-            - infrasec_container
+            - engines_sca-scanners
             - prodsec-orb-runtime
-          post-steps:
-            - *slack-fail-notify
       - test_unit:
           name: Unit Test
           context:
@@ -349,8 +335,6 @@ workflows:
             - snyk-bot-slack
           requires:
             - Build
-          post-steps:
-            - *slack-fail-notify
       - test_system:
           name: System Test
           context:
@@ -358,8 +342,6 @@ workflows:
             - snyk-bot-slack
           requires:
             - Build
-          post-steps:
-            - *slack-fail-notify
       - test_windows_with_docker:
           name: Test Windows with Docker
           context:
@@ -368,8 +350,6 @@ workflows:
           node_version: *windows_node_version
           requires:
             - Build
-          post-steps:
-            - *slack-fail-notify
       - test_windows_no_docker:
           name: Test Windows no Docker
           context:
@@ -378,8 +358,6 @@ workflows:
           node_version: *windows_node_version
           requires:
             - Build
-          post-steps:
-            - *slack-fail-notify
       - build_cli:
           name: Build CLI with changes
           context:
@@ -387,8 +365,6 @@ workflows:
             - snyk-bot-slack
           requires:
             - Build
-          post-steps:
-            - *slack-fail-notify
       - release:
           name: Release to GitHub
           context:
@@ -406,8 +382,6 @@ workflows:
             - System Test
             - Test Windows with Docker
             - Test Windows no Docker
-          post-steps:
-            - *slack-fail-notify
   go_regression_test:
     when:
       and:
@@ -418,16 +392,12 @@ workflows:
           name: Install
           context:
             - nodejs-install
-          post-steps:
-            - *slack-fail-notify
       - build_and_test_latest_go_binary:
           name: Build Go binary
           context:
             - nodejs-install
           requires:
             - Install
-          post-steps:
-            - *slack-fail-notify
   update_snapshots:
     when: << pipeline.parameters.run_snapshot_update >>
     jobs:
