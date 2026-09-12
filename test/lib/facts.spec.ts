@@ -1,3 +1,6 @@
+import { readFileSync } from "fs";
+import { join } from "path";
+
 import { facts } from "../../lib/index";
 import { Fact, FactType } from "../../lib/types";
 
@@ -98,6 +101,14 @@ describe("Facts", () => {
         truncatedFacts: {},
       },
     };
+    const provenanceMetadataFact: facts.ProvenanceMetadataFact = {
+      type: "provenanceMetadata",
+      data: {},
+    };
+    const apkPackageOwnershipFact: facts.ApkPackageOwnershipFact = {
+      type: "apkPackageOwnership",
+      data: {},
+    };
 
     // This would catch compilation errors.
     const allFacts: Fact[] = [
@@ -124,10 +135,29 @@ describe("Facts", () => {
       containerConfigFact,
       historyFact,
       pluginWarningsFact,
+      provenanceMetadataFact,
+      apkPackageOwnershipFact,
     ];
     expect(allFacts).toBeDefined();
 
     const allFactsTypes: FactType[] = allFacts.map((fact) => fact.type);
     expect(allFactsTypes).toBeDefined();
+  });
+
+  it("documents all emitted fact types in the shared OpenAPI component", () => {
+    const commonComponent = readFileSync(
+      join(__dirname, "../../components/common.yaml"),
+      "utf8",
+    );
+
+    const emittedFactTypes: FactType[] = [
+      "applicationFiles",
+      "apkPackageOwnership",
+      "provenanceMetadata",
+    ];
+
+    for (const factType of emittedFactTypes) {
+      expect(commonComponent).toContain(`- ${factType}`);
+    }
   });
 });
