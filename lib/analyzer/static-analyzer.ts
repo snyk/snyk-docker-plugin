@@ -19,6 +19,7 @@ import {
 import { getJavaRuntimeReleaseAction } from "../inputs/base-runtimes/static";
 import {
   getBinariesHashes,
+  getDotnetBinariesFileContentAction,
   getNodeBinariesFileContentAction,
   getOpenJDKBinariesFileContentAction,
 } from "../inputs/binaries/static";
@@ -116,6 +117,7 @@ export async function analyze(
     ...getOsReleaseActions,
     getNodeBinariesFileContentAction,
     getOpenJDKBinariesFileContentAction,
+    getDotnetBinariesFileContentAction,
     getJavaRuntimeReleaseAction,
     getDpkgPackageFileContentAction,
     getRedHatRepositoriesContentAction,
