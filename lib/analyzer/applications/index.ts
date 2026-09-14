@@ -5,6 +5,7 @@ import {
   pipFilesToScannedProjects,
   poetryFilesToScannedProjects,
 } from "./python";
+import { swiftFilesToScannedProjects } from "./swift";
 
 export {
   dotnetFilesToScannedProjects,
@@ -12,4 +13,5 @@ export {
   phpFilesToScannedProjects,
   poetryFilesToScannedProjects,
   pipFilesToScannedProjects,
+  swiftFilesToScannedProjects,
 };
