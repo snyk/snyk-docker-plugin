@@ -7,8 +7,10 @@ import { applyCallbacks, isResultEmpty } from "./callbacks";
 import { decompressMaybe } from "./decompress-maybe";
 import { ExtractAction, ExtractedLayers, SymlinkMap } from "./types";
 
-export function isWhitedOutFile(filename: string) {
-  return filename.match(/.wh./gm);
+const WHITEOUT_PATTERN = /.wh./;
+
+export function isWhitedOutFile(filename: string): boolean {
+  return WHITEOUT_PATTERN.test(filename);
 }
 
 const debug = Debug("snyk");
@@ -37,11 +39,10 @@ export async function extractImageLayer(
     const tarExtractor: Extract = extract();
 
     tarExtractor.on("entry", async (headers, stream, next) => {
-      const absoluteFileName = path.join(path.sep, headers.name);
-
       // Symlinks are path redirects; hard links are alternate names for the same
       // inode and must not be treated as redirects during path canonicalization.
       if (headers.type === "symlink") {
+        const absoluteFileName = path.join(path.sep, headers.name);
         const linkTarget = headers.linkname;
         if (linkTarget) {
           symlinks[absoluteFileName] = absoluteLinkTarget(
@@ -50,10 +51,18 @@ export async function extractImageLayer(
           );
         }
       } else if (headers.type === "file") {
-        const matchedActions = extractActions.filter((action) =>
-          action.filePathMatches(absoluteFileName),
-        );
-        if (matchedActions.length > 0) {
+        const absoluteFileName = path.join(path.sep, headers.name);
+        let matchedActions: ExtractAction[] | undefined;
+        for (const action of extractActions) {
+          if (action.filePathMatches(absoluteFileName)) {
+            if (matchedActions === undefined) {
+              matchedActions = [action];
+            } else {
+              matchedActions.push(action);
+            }
+          }
+        }
+        if (matchedActions !== undefined && matchedActions.length > 0) {
           try {
             const callbackResult = await applyCallbacks(
               matchedActions,

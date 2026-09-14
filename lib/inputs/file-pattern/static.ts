@@ -1,4 +1,4 @@
-import { minimatch, MinimatchOptions } from "minimatch";
+import { Minimatch, MinimatchOptions } from "minimatch";
 import * as path from "path";
 
 import { ExtractAction, ExtractedLayers } from "../../extractor/types";
@@ -18,12 +18,19 @@ function generatePathMatcher(
     optimizationLevel: 0,
   };
 
+  const excludeMatchers = globsExclude.map(
+    (glob) => new Minimatch(glob, matchOptions),
+  );
+  const includeMatchers = globsInclude.map(
+    (glob) => new Minimatch(glob, matchOptions),
+  );
+
   return (filePath: string): boolean => {
-    if (globsExclude.some((glob) => minimatch(filePath, glob, matchOptions))) {
+    if (excludeMatchers.some((matcher) => matcher.match(filePath))) {
       return false;
     }
 
-    return globsInclude.some((glob) => minimatch(filePath, glob, matchOptions));
+    return includeMatchers.some((matcher) => matcher.match(filePath));
   };
 }
 

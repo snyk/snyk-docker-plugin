@@ -28,6 +28,12 @@ import {
 
 const debug = Debug("snyk");
 
+const WHITEOUT_PATH_PATTERN = /.wh./;
+
+function whiteoutToRemovedPath(filename: string): string {
+  return path.normalize(filename.replace(WHITEOUT_PATH_PATTERN, ""));
+}
+
 export { InvalidArchiveError } from "./generic-archive-extractor";
 class ArchiveExtractor {
   private extractor: Extractor;
@@ -277,7 +283,7 @@ export function symlinksWithLatestModifications(
     if (fileLayer) {
       for (const filename of Object.keys(fileLayer)) {
         if (isWhitedOutFile(filename)) {
-          removedPathsToIgnore.add(filename.replace(/.wh./, ""));
+          removedPathsToIgnore.add(whiteoutToRemovedPath(filename));
         }
       }
     }
@@ -290,9 +296,7 @@ function isSymlinkInARemovedFolder(
   symlinkPath: string,
   removedPathsToIgnore: Set<string>,
 ): boolean {
-  return Array.from(removedPathsToIgnore).some((removedPath) =>
-    isFileInFolder(symlinkPath, removedPath),
-  );
+  return isPathUnderAnyRemovedPath(symlinkPath, removedPathsToIgnore);
 }
 
 function layersWithLatestFileModifications(
@@ -308,7 +312,7 @@ function layersWithLatestFileModifications(
       // if finding a deleted file - trimming to its original file name for excluding it from extractedLayers
       // + not adding this file
       if (isWhitedOutFile(filename)) {
-        removedFilesToIgnore.add(filename.replace(/.wh./, ""));
+        removedFilesToIgnore.add(whiteoutToRemovedPath(filename));
         continue;
       }
       // not adding previously found to be whited out files to extractedLayers
@@ -358,32 +362,38 @@ function getContent(
   extractedLayers: ExtractedLayers,
   extractAction: ExtractAction,
 ): FileContent | undefined {
-  const fileNames = Object.keys(extractedLayers);
-  const fileNamesProducedByTheExtractAction = fileNames.filter(
-    (name) => extractAction.actionName in extractedLayers[name],
-  );
-
-  const firstFileNameMatch = fileNamesProducedByTheExtractAction.find((match) =>
-    extractAction.filePathMatches(match),
-  );
-
-  return firstFileNameMatch !== undefined
-    ? extractedLayers[firstFileNameMatch][extractAction.actionName]
-    : undefined;
+  for (const fileName of Object.keys(extractedLayers)) {
+    if (
+      extractAction.actionName in extractedLayers[fileName] &&
+      extractAction.filePathMatches(fileName)
+    ) {
+      return extractedLayers[fileName][extractAction.actionName];
+    }
+  }
+  return undefined;
 }
 
-function isFileInFolder(file: string, folder: string): boolean {
-  const folderPath = path.normalize(folder);
-  const filePath = path.normalize(file);
-
-  return filePath.startsWith(path.join(folderPath, path.sep));
+function isPathUnderAnyRemovedPath(
+  candidatePath: string,
+  removedPaths: Set<string>,
+): boolean {
+  let current = path.normalize(candidatePath);
+  while (true) {
+    const parent = path.dirname(current);
+    if (parent === current) {
+      break;
+    }
+    if (removedPaths.has(parent)) {
+      return true;
+    }
+    current = parent;
+  }
+  return false;
 }
 
 function isFileInARemovedFolder(
   filename: string,
   removedFilesToIgnore: Set<string>,
 ): boolean {
-  return Array.from(removedFilesToIgnore).some((removedFile) =>
-    isFileInFolder(filename, removedFile),
-  );
+  return isPathUnderAnyRemovedPath(filename, removedFilesToIgnore);
 }
