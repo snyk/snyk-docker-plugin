@@ -2,6 +2,7 @@ import { sep } from "path";
 import {
   getPipAppFileContentAction,
   getPythonAppFileContentAction,
+  getUvAppFileContentAction,
 } from "../../../../lib/inputs/python/static";
 
 describe("Python pip file path matching", () => {
@@ -52,6 +53,26 @@ describe("Python pip file path matching", () => {
       expect(filePathMatches("/app/METADATA")).toBe(false);
       expect(filePathMatches("/usr/lib/METADATA")).toBe(false);
     });
+  });
+});
+
+describe("Python uv file path matching", () => {
+  const { filePathMatches } = getUvAppFileContentAction;
+
+  it("should match uv.lock, including nested paths", () => {
+    expect(filePathMatches("/app/uv.lock")).toBe(true);
+    expect(filePathMatches("/srv/app/current/uv.lock")).toBe(true);
+  });
+
+  it("should match deleted uv.lock whiteouts", () => {
+    expect(filePathMatches("/app/.wh.uv.lock")).toBe(true);
+  });
+
+  it("should not match pyproject.toml or other files", () => {
+    expect(filePathMatches("/app/pyproject.toml")).toBe(false);
+    expect(filePathMatches("/app/poetry.lock")).toBe(false);
+    expect(filePathMatches("/app/requirements.txt")).toBe(false);
+    expect(filePathMatches("/app/uv.toml")).toBe(false);
   });
 });
 

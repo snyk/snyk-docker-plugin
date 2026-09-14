@@ -1,0 +1,17 @@
+[project]
+name = "sample-uv-app"
+version = "1.2.3"
+requires-python = ">=3.11"
+dependencies = [
+    "flask==3.0.3",
+    "requests==2.32.3",
+]
+
+[dependency-groups]
+dev = [
+    "pytest==8.3.3",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

@@ -4,6 +4,7 @@ import { phpFilesToScannedProjects } from "./php";
 import {
   pipFilesToScannedProjects,
   poetryFilesToScannedProjects,
+  uvFilesToScannedProjects,
 } from "./python";
 
 export {
@@ -12,4 +13,5 @@ export {
   phpFilesToScannedProjects,
   poetryFilesToScannedProjects,
   pipFilesToScannedProjects,
+  uvFilesToScannedProjects,
 };

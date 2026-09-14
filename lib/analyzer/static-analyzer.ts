@@ -46,6 +46,7 @@ import {
   getPipAppFileContentAction,
   getPoetryAppFileContentAction,
   getPythonAppFileContentAction,
+  getUvAppFileContentAction,
 } from "../inputs/python/static";
 import {
   getRedHatRepositoriesContentAction,
@@ -68,7 +69,10 @@ import {
   poetryFilesToScannedProjects,
 } from "./applications";
 import { jarFilesToScannedResults } from "./applications/java";
-import { pipFilesToScannedProjects } from "./applications/python";
+import {
+  pipFilesToScannedProjects,
+  uvFilesToScannedProjects,
+} from "./applications/python";
 import { getApplicationFiles } from "./applications/runtime-common";
 import { AppDepsScanResultWithoutTarget } from "./applications/types";
 import { detectJavaRuntime } from "./base-runtimes";
@@ -149,6 +153,7 @@ export async function analyze(
         getNodeAppFileContentAction,
         getPhpAppFileContentAction,
         getPoetryAppFileContentAction,
+        getUvAppFileContentAction,
         getPipAppFileContentAction,
         getDotnetAppFileContentAction,
         ...jarActions,
@@ -333,6 +338,12 @@ export async function analyze(
     timings.poetryAnalysisMs = Date.now() - phaseStart;
 
     phaseStart = Date.now();
+    const uvDependenciesScanResults = await uvFilesToScannedProjects(
+      getFileContent(extractedLayers, getUvAppFileContentAction.actionName),
+    );
+    timings.uvAnalysisMs = Date.now() - phaseStart;
+
+    phaseStart = Date.now();
     const pipDependenciesScanResults = await pipFilesToScannedProjects(
       getFileContent(extractedLayers, getPipAppFileContentAction.actionName),
     );
@@ -376,6 +387,7 @@ export async function analyze(
       ...nodeApplicationFilesScanResults,
       ...phpDependenciesScanResults,
       ...poetryDependenciesScanResults,
+      ...uvDependenciesScanResults,
       ...pipDependenciesScanResults,
       ...pythonApplicationFilesScanResults,
       ...dotnetDependenciesScanResults,

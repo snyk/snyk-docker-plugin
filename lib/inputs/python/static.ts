@@ -5,11 +5,13 @@ import { streamToString } from "../../stream-utils";
 
 const poetryManifestFiles = ["pyproject.toml", "poetry.lock"];
 const pipManifestFiles = ["requirements.txt"];
+const uvManifestFiles = ["uv.lock"];
 // Match both forward slashes (POSIX/macOS/Linux) and backslashes (Windows)
 const pythonMetadataFilesRegex =
   /[\/\\]lib[\/\\]python.*?[\/\\](?:dist|site)-packages[\/\\].*?\.dist-info[\/\\]METADATA/;
 const deletedPoetryAppFiles = poetryManifestFiles.map((file) => ".wh." + file);
 const deletedPipAppFiles = pipManifestFiles.map((file) => ".wh." + file);
+const deletedUvAppFiles = uvManifestFiles.map((file) => ".wh." + file);
 const pythonApplicationFileSuffixes = [".py", "requirements.txt", "Pipfile"];
 
 function poetryFilePathMatches(filePath: string): boolean {
@@ -38,6 +40,19 @@ function pipFilePathMatches(filePath: string): boolean {
 export const getPipAppFileContentAction: ExtractAction = {
   actionName: "pip-app-files",
   filePathMatches: pipFilePathMatches,
+  callback: streamToString,
+};
+
+function uvFilePathMatches(filePath: string): boolean {
+  const fileName = basename(filePath);
+  return (
+    uvManifestFiles.includes(fileName) || deletedUvAppFiles.includes(fileName)
+  );
+}
+
+export const getUvAppFileContentAction: ExtractAction = {
+  actionName: "uv-app-files",
+  filePathMatches: uvFilePathMatches,
   callback: streamToString,
 };
 
