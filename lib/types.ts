@@ -190,6 +190,23 @@ export interface PluginOptions {
   digests: { manifest?: string; index?: string };
 
   /**
+   * WARNING! This is NOT used by the Snyk CLI!
+   *
+   * Opt in to fetching provenance attestations from the container registry when
+   * scanning an archive. Attestations live in a separate manifest in the image
+   * index, so they are never present in a pulled archive; without this the only
+   * provenance available is whatever the archive itself carries.
+   *
+   * Requires "imageNameAndTag" (to resolve the registry reference) and, for
+   * private registries, "username"/"password". Best-effort: a failed fetch is
+   * logged and never fails the scan.
+   *
+   * Deliberately opt-in rather than the default for archives -- it adds a
+   * network call to a caller-controlled host, which the CLI must not do.
+   */
+  fetchProvenanceFromRegistry: boolean | string;
+
+  /**
    * Provide patterns on which to match for detecting package manager manifest files.
    * Used for the APP+OS deps feature, not by the CLI.
    */
