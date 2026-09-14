@@ -37,7 +37,8 @@ Applications:
 
 - Node (npm, yarn)
 - Java (jar files)
-- detecting package manager manifests (Python, Ruby)
+- Ruby (bundler)
+- detecting package manager manifests (Python)
 
 Others:
 
