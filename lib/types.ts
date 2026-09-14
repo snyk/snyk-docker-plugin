@@ -80,6 +80,9 @@ export type FactType =
   | "pluginVersion"
   | "pluginWarnings"
   | "rootFs"
+  // A CycloneDX Software Bill of Materials for the scan target, emitted
+  // only when the "sbom" option is set.
+  | "sbom"
   // Used for application dependencies scanning; shows which files were used in the analysis of the dependencies.
   | "testedFiles"
   // Application files observed in the image
@@ -252,6 +255,14 @@ export interface PluginOptions {
   "layer-attribution": boolean | string;
 
   "target-reference": string;
+
+  /**
+   * Whether to additionally emit a CycloneDX Software Bill of Materials for
+   * the scan target, as a "sbom" fact on the first scan result. The default
+   * is "false". Requires a scan target: an image identifier/archive path
+   * (via "path"), a Dockerfile (via "file"), or both.
+   */
+  sbom: boolean | string;
 
   parameterWarnings?: string[];
 }

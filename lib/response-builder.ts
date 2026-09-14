@@ -1,5 +1,6 @@
 import { legacy } from "@snyk/dep-graph";
 import { buildOwnershipCandidates } from "./analyzer/applications/evidence-paths";
+import { AppDepsScanResultWithoutTarget } from "./analyzer/applications/types";
 import {
   buildApkPathIndex,
   getApkPackagesFromResults,
@@ -16,8 +17,14 @@ import { instructionDigest } from "./dockerfile";
 import { DockerFileAnalysis, DockerFilePackages } from "./dockerfile/types";
 import { OCIDistributionMetadata } from "./extractor/oci-distribution-metadata";
 import { parseProvenanceAttestations } from "./extractor/provenance-parser";
+import { isTrue } from "./option-utils";
 
 import { computeScanPayloadMetrics } from "./scan-payload-metrics";
+import {
+  buildCycloneDxBom,
+  SbomAppComponent,
+  SbomSource,
+} from "./sbom/cyclonedx";
 import * as types from "./types";
 import { truncateAdditionalFacts } from "./utils";
 import { PLUGIN_VERSION } from "./version";
@@ -347,6 +354,23 @@ async function buildResponse(
     };
   });
 
+  if (isTrue(options?.sbom)) {
+    const appComponents = extractSbomAppComponents(
+      depsAnalysis.applicationDependenciesScanResults || [],
+    );
+    const sbomSource: SbomSource = {
+      imageName: depGraph.rootPkg.name,
+      depTree: depsAnalysis.depTree,
+      appComponents,
+      dockerfileAnalysis,
+    };
+    const sbomFact: facts.SbomFact = {
+      type: "sbom",
+      data: buildCycloneDxBom(sbomSource),
+    };
+    additionalFacts.push(sbomFact);
+  }
+
   const args =
     depsAnalysis.platform !== undefined
       ? { platform: depsAnalysis.platform }
@@ -450,6 +474,57 @@ async function buildResponse(
       },
     ],
   };
+}
+
+/**
+ * Turns the per-application-manager scan results collected for this image
+ * into the flat `SbomAppComponent[]` shape `buildCycloneDxBom` expects.
+ *
+ * `depGraph` facts carry an actual `DepGraph` instance (guarded here since
+ * `Fact.data` is typed `any`); `jarFingerprints` facts only contribute a
+ * component when a jar's Maven coordinates were resolved (both `name` and
+ * `version` present) — a fingerprint-only jar has no coordinates to name a
+ * component with.
+ */
+function extractSbomAppComponents(
+  applicationDependenciesScanResults: AppDepsScanResultWithoutTarget[],
+): SbomAppComponent[] {
+  const components: SbomAppComponent[] = [];
+
+  for (const result of applicationDependenciesScanResults) {
+    const targetFile = result.identity?.targetFile;
+
+    const depGraphData = result.facts?.find(
+      (fact) => fact.type === "depGraph",
+    )?.data;
+    if (depGraphData && typeof depGraphData.getDepPkgs === "function") {
+      for (const pkg of depGraphData.getDepPkgs()) {
+        components.push({
+          name: pkg.name,
+          ...(pkg.version ? { version: pkg.version } : {}),
+          ...(pkg.purl ? { purl: pkg.purl } : {}),
+          ...(targetFile ? { targetFile } : {}),
+        });
+      }
+    }
+
+    const jarFingerprintsFacts = (result.facts ?? []).filter(
+      (fact) => fact.type === "jarFingerprints",
+    );
+    for (const jarFingerprintsFact of jarFingerprintsFacts) {
+      for (const fingerprint of jarFingerprintsFact.data?.fingerprints ?? []) {
+        if (fingerprint.name && fingerprint.version) {
+          components.push({
+            name: fingerprint.name,
+            version: fingerprint.version,
+            ...(targetFile ? { targetFile } : {}),
+          });
+        }
+      }
+    }
+  }
+
+  return components;
 }
 
 /**

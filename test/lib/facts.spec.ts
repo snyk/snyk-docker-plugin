@@ -98,6 +98,10 @@ describe("Facts", () => {
         truncatedFacts: {},
       },
     };
+    const sbomFact: facts.SbomFact = {
+      type: "sbom",
+      data: {} as any,
+    };
 
     // This would catch compilation errors.
     const allFacts: Fact[] = [
@@ -124,6 +128,7 @@ describe("Facts", () => {
       containerConfigFact,
       historyFact,
       pluginWarningsFact,
+      sbomFact,
     ];
     expect(allFacts).toBeDefined();
 
