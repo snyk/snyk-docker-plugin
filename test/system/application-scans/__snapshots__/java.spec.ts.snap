@@ -120,6 +120,10 @@ exports[`jar binaries scanning should return expected result 1`] = `
           "type": "imageId",
         },
         {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
@@ -162,6 +166,10 @@ exports[`jar binaries scanning should return expected result 1`] = `
         {
           "data": "sha256:e997a24cd4633de60213a23debcfb37dcc9fa6578a112976fc80aaa094ea1f59",
           "type": "imageId",
+        },
+        {
+          "data": "linux/amd64",
+          "type": "platform",
         },
         {
           "data": "0.0.0-local",

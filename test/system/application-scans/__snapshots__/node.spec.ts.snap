@@ -1860,6 +1860,14 @@ exports[`node application scans should correctly return applications as multiple
           "type": "imageId",
         },
         {
+          "data": "Amazon Linux 2",
+          "type": "imageOsReleasePrettyName",
+        },
+        {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
@@ -12152,6 +12160,14 @@ exports[`node application scans should correctly return applications as multiple
         {
           "data": "sha256:7f335821efb5e5b95b36541004fa0287732a11f97a4a0ff807cc065746f82538",
           "type": "imageId",
+        },
+        {
+          "data": "Amazon Linux 2",
+          "type": "imageOsReleasePrettyName",
+        },
+        {
+          "data": "linux/amd64",
+          "type": "platform",
         },
         {
           "data": "0.0.0-local",
@@ -14030,6 +14046,14 @@ exports[`node application scans should correctly return applications as multiple
           "type": "imageId",
         },
         {
+          "data": "Amazon Linux 2",
+          "type": "imageOsReleasePrettyName",
+        },
+        {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
@@ -24322,6 +24346,14 @@ exports[`node application scans should correctly return applications as multiple
         {
           "data": "sha256:7f335821efb5e5b95b36541004fa0287732a11f97a4a0ff807cc065746f82538",
           "type": "imageId",
+        },
+        {
+          "data": "Amazon Linux 2",
+          "type": "imageOsReleasePrettyName",
+        },
+        {
+          "data": "linux/amd64",
+          "type": "platform",
         },
         {
           "data": "0.0.0-local",
@@ -30002,6 +30034,14 @@ exports[`node application scans should correctly return depgraph for npm lockfil
           "type": "imageId",
         },
         {
+          "data": "Alpine Linux v3.20",
+          "type": "imageOsReleasePrettyName",
+        },
+        {
+          "data": "linux/arm64",
+          "type": "platform",
+        },
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
@@ -35680,6 +35720,14 @@ exports[`node application scans should correctly return depgraph for npm lockfil
           "type": "imageId",
         },
         {
+          "data": "Alpine Linux v3.20",
+          "type": "imageOsReleasePrettyName",
+        },
+        {
+          "data": "linux/arm64",
+          "type": "platform",
+        },
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
@@ -36235,6 +36283,14 @@ exports[`node application scans should correctly return depgraph for pnpm lockfi
           "type": "imageId",
         },
         {
+          "data": "Alpine Linux v3.18",
+          "type": "imageOsReleasePrettyName",
+        },
+        {
+          "data": "linux/arm64",
+          "type": "platform",
+        },
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
@@ -36788,6 +36844,14 @@ exports[`node application scans should correctly return depgraph for pnpm lockfi
         {
           "data": "sha256:f22a6df242f9d718888e91c36f625ea24b80327572753918685337c6a9a0fab0",
           "type": "imageId",
+        },
+        {
+          "data": "Alpine Linux v3.18",
+          "type": "imageOsReleasePrettyName",
+        },
+        {
+          "data": "linux/arm64",
+          "type": "platform",
         },
         {
           "data": "0.0.0-local",
@@ -43052,6 +43116,14 @@ exports[`node application scans should correctly return depgraph for yarn lockfi
           "type": "imageId",
         },
         {
+          "data": "Alpine Linux v3.20",
+          "type": "imageOsReleasePrettyName",
+        },
+        {
+          "data": "linux/arm64",
+          "type": "platform",
+        },
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
@@ -49314,6 +49386,14 @@ exports[`node application scans should correctly return depgraph for yarn lockfi
           "type": "imageId",
         },
         {
+          "data": "Alpine Linux v3.20",
+          "type": "imageOsReleasePrettyName",
+        },
+        {
+          "data": "linux/arm64",
+          "type": "platform",
+        },
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
@@ -51872,6 +51952,14 @@ exports[`node application scans should exclude scanning of node_modules projects
         "type": "imageId",
       },
       {
+        "data": "Alpine Linux v3.11",
+        "type": "imageOsReleasePrettyName",
+      },
+      {
+        "data": "linux/amd64",
+        "type": "platform",
+      },
+      {
         "data": "0.0.0-local",
         "type": "pluginVersion",
       },
@@ -53967,6 +54055,14 @@ exports[`node application scans should generate a scanResult from multiple node.
         "type": "imageId",
       },
       {
+        "data": "Alpine Linux v3.11",
+        "type": "imageOsReleasePrettyName",
+      },
+      {
+        "data": "linux/amd64",
+        "type": "platform",
+      },
+      {
         "data": "0.0.0-local",
         "type": "pluginVersion",
       },
@@ -55196,6 +55292,14 @@ exports[`node application scans should generate a scanResult from multiple node.
         "type": "imageId",
       },
       {
+        "data": "Alpine Linux v3.11",
+        "type": "imageOsReleasePrettyName",
+      },
+      {
+        "data": "linux/amd64",
+        "type": "platform",
+      },
+      {
         "data": "0.0.0-local",
         "type": "pluginVersion",
       },
@@ -56387,6 +56491,14 @@ exports[`node application scans should generate a scanResult from multiple node.
       {
         "data": "sha256:d60c3644cc5048e48a45c9de94fec3f17ee2eb72eb835434dc13ec5b9d3c532b",
         "type": "imageId",
+      },
+      {
+        "data": "Alpine Linux v3.11",
+        "type": "imageOsReleasePrettyName",
+      },
+      {
+        "data": "linux/amd64",
+        "type": "platform",
       },
       {
         "data": "0.0.0-local",
@@ -63676,6 +63788,14 @@ exports[`node application scans should generate a scanResult from multiple node.
       {
         "data": "sha256:d60c3644cc5048e48a45c9de94fec3f17ee2eb72eb835434dc13ec5b9d3c532b",
         "type": "imageId",
+      },
+      {
+        "data": "Alpine Linux v3.11",
+        "type": "imageOsReleasePrettyName",
+      },
+      {
+        "data": "linux/amd64",
+        "type": "platform",
       },
       {
         "data": "0.0.0-local",

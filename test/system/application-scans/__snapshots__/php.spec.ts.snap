@@ -692,6 +692,14 @@ exports[`php application scans should correctly return applications as multiple 
           "type": "imageId",
         },
         {
+          "data": "Alpine Linux v3.6",
+          "type": "imageOsReleasePrettyName",
+        },
+        {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
@@ -1398,6 +1406,14 @@ exports[`php application scans should not return PHP manifest files 1`] = `
         {
           "data": "sha256:a4837fa95bd797412aca5c73854c8f196e584a33cbc53df0f6f9e88a37cd41a3",
           "type": "imageId",
+        },
+        {
+          "data": "Alpine Linux v3.6",
+          "type": "imageOsReleasePrettyName",
+        },
+        {
+          "data": "linux/amd64",
+          "type": "platform",
         },
         {
           "data": "0.0.0-local",

@@ -397,6 +397,10 @@ exports[`poetry application scan should correctly return applications as multipl
           "type": "imageId",
         },
         {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
