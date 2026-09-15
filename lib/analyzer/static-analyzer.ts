@@ -47,6 +47,7 @@ import {
   getPoetryAppFileContentAction,
   getPythonAppFileContentAction,
 } from "../inputs/python/static";
+import { getCargoAppFileContentAction } from "../inputs/rust/static";
 import {
   getRedHatRepositoriesContentAction,
   getRedHatRepositoriesFromExtractedLayers,
@@ -62,6 +63,7 @@ import {
 import { isTrue } from "../option-utils";
 import { ImageType, ManifestFile, PluginOptions } from "../types";
 import {
+  cargoFilesToScannedProjects,
   dotnetFilesToScannedProjects,
   nodeFilesToScannedProjects,
   phpFilesToScannedProjects,
@@ -151,6 +153,7 @@ export async function analyze(
         getPoetryAppFileContentAction,
         getPipAppFileContentAction,
         getDotnetAppFileContentAction,
+        getCargoAppFileContentAction,
         ...jarActions,
         getGoModulesContentAction,
       ],
@@ -357,6 +360,12 @@ export async function analyze(
     timings.dotnetAnalysisMs = Date.now() - phaseStart;
 
     phaseStart = Date.now();
+    const cargoDependenciesScanResults = await cargoFilesToScannedProjects(
+      getFileContent(extractedLayers, getCargoAppFileContentAction.actionName),
+    );
+    timings.cargoAnalysisMs = Date.now() - phaseStart;
+
+    phaseStart = Date.now();
     const desiredLevelsOfUnpacking = getNestedJarsDesiredDepth(options);
     const jarFingerprintScanResults = await jarFilesToScannedResults(
       getBufferContent(extractedLayers, getJarFileContentAction.actionName),
@@ -379,6 +388,7 @@ export async function analyze(
       ...pipDependenciesScanResults,
       ...pythonApplicationFilesScanResults,
       ...dotnetDependenciesScanResults,
+      ...cargoDependenciesScanResults,
       ...jarFingerprintScanResults,
       ...goModulesScanResult,
     );

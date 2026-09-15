@@ -38,6 +38,7 @@ Applications:
 - Node (npm, yarn)
 - Java (jar files)
 - detecting package manager manifests (Python, Ruby)
+- Rust (Cargo.lock with adjacent Cargo.toml manifest+lockfile scanning). Compiled Rust binaries are not fingerprinted because they carry no Go-style embedded build-info section — unlike Go binaries, there is nothing to read out of the ELF.
 
 Others:
 
