@@ -1,0 +1,14 @@
+version = 3
+
+[[package]]
+name = "v3-app"
+version = "0.1.0"
+dependencies = [
+ "git-dep",
+]
+
+[[package]]
+name = "git-dep"
+version = "0.5.0"
+source = "git+https://github.com/example/repo?branch=master#abc123def456"
+checksum = "d99bc703928d8e8e8c8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8"

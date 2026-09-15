@@ -1,0 +1,14 @@
+version = 4
+
+[[package]]
+name = "v4-app"
+version = "0.1.0"
+dependencies = [
+ "encoded-dep",
+]
+
+[[package]]
+name = "encoded-dep"
+version = "1.0.0"
+source = "git+https://github.com/example/repo?branch=foo+bar#abc123def456"
+checksum = "d99bc703928d8e8e8c8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8"

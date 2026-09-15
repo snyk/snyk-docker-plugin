@@ -1,0 +1,13 @@
+version = 3
+
+[[package]]
+name = "standalone-crate"
+version = "0.2.0"
+dependencies = [
+ "log 0.4.20",
+]
+
+[[package]]
+name = "log"
+version = "0.4.20"
+source = "registry+https://github.com/rust-lang/crates.io-index"
