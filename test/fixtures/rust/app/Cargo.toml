@@ -1,0 +1,8 @@
+[package]
+name = "my-rust-app"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+serde = "1.0"
+tokio = "1.0"

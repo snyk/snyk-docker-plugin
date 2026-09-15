@@ -1,0 +1,21 @@
+[[package]]
+name = "v1-app"
+version = "0.1.0"
+dependencies = [
+ "serde 1.0.130 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc 0.2.147 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "serde"
+version = "1.0.130"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[[package]]
+name = "libc"
+version = "0.2.147"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[metadata]
+"checksum serde 1.0.130 (registry+https://github.com/rust-lang/crates.io-index)" = "d99bc703928d8e8e8c8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8"
+"checksum libc 0.2.147 (registry+https://github.com/rust-lang/crates.io-index)" = "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2"
