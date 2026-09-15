@@ -70,9 +70,9 @@ describe("buildResponse — image-level facts on application scan results", () =
     expect(
       appResult.facts.filter((f) => f.type === "imageOsReleasePrettyName"),
     ).toHaveLength(1);
-    expect(
-      appResult.facts.filter((f) => f.type === "platform"),
-    ).toHaveLength(1);
+    expect(appResult.facts.filter((f) => f.type === "platform")).toHaveLength(
+      1,
+    );
   });
 
   it("omits both facts from application scan results when absent on the image", async () => {
@@ -86,8 +86,6 @@ describe("buildResponse — image-level facts on application scan results", () =
     expect(
       appResult.facts.find((f) => f.type === "imageOsReleasePrettyName"),
     ).toBeUndefined();
-    expect(
-      appResult.facts.find((f) => f.type === "platform"),
-    ).toBeUndefined();
+    expect(appResult.facts.find((f) => f.type === "platform")).toBeUndefined();
   });
 });
