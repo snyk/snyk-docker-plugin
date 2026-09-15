@@ -505,16 +505,16 @@ exports[`redhat ubi9 tests should correctly analyze an ubi9 image by tag 1`] = `
           "type": "imageOsReleasePrettyName",
         },
         {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        {
           "data": {
             "names": [
               "redhat/ubi9-micro:9.3",
             ],
           },
           "type": "imageNames",
-        },
-        {
-          "data": "linux/amd64",
-          "type": "platform",
         },
         {
           "data": "0.0.0-local",

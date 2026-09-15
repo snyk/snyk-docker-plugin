@@ -1977,6 +1977,10 @@ exports[`AMD platform tests should correctly scan an AMD image and return platfo
           "type": "imageOsReleasePrettyName",
         },
         {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        {
           "data": {
             "dockerfileLayers": {
               "L2Jpbi9zaCAtYyBzZXQgLWV1eDsgCQlzYXZlZEFwdE1hcms9IiQoYXB0LW1hcmsgc2hvd21hbnVhbCkiOyAJYXB0LWdldCB1cGRhdGU7IAlhcHQtZ2V0IGluc3RhbGwgLXkgLS1uby1pbnN0YWxsLXJlY29tbWVuZHMgCQljYS1jZXJ0aWZpY2F0ZXMgCQl3Z2V0IAkJCQlnY2MgCQlsaWJjNi1kZXYgCQlsaWJzc2wtZGV2IAkJbWFrZSAJOyAJcm0gLXJmIC92YXIvbGliL2FwdC9saXN0cy8qOyAJCXdnZXQgLU8gcmVkaXMudGFyLmd6ICIkUkVESVNfRE9XTkxPQURfVVJMIjsgCWVjaG8gIiRSRURJU19ET1dOTE9BRF9TSEEgKnJlZGlzLnRhci5neiIgfCBzaGEyNTZzdW0gLWMgLTsgCW1rZGlyIC1wIC91c3Ivc3JjL3JlZGlzOyAJdGFyIC14emYgcmVkaXMudGFyLmd6IC1DIC91c3Ivc3JjL3JlZGlzIC0tc3RyaXAtY29tcG9uZW50cz0xOyAJcm0gcmVkaXMudGFyLmd6OyAJCWdyZXAgLUUgJ14gKmNyZWF0ZUJvb2xDb25maWdbKF0icHJvdGVjdGVkLW1vZGUiLC4qLCAqMSAqLC4qWyldLCQnIC91c3Ivc3JjL3JlZGlzL3NyYy9jb25maWcuYzsgCXNlZCAtcmkgJ3MhXiggKmNyZWF0ZUJvb2xDb25maWdbKF0icHJvdGVjdGVkLW1vZGUiLC4qLCAqKTEoICosLipbKV0sKSQhXDEwXDIhJyAvdXNyL3NyYy9yZWRpcy9zcmMvY29uZmlnLmM7IAlncmVwIC1FICdeICpjcmVhdGVCb29sQ29uZmlnWyhdInByb3RlY3RlZC1tb2RlIiwuKiwgKjAgKiwuKlspXSwkJyAvdXNyL3NyYy9yZWRpcy9zcmMvY29uZmlnLmM7IAkJZXhwb3J0IEJVSUxEX1RMUz15ZXM7IAltYWtlIC1DIC91c3Ivc3JjL3JlZGlzIC1qICIkKG5wcm9jKSIgYWxsOyAJbWFrZSAtQyAvdXNyL3NyYy9yZWRpcyBpbnN0YWxsOyAJCXNlcnZlck1kNT0iJChtZDVzdW0gL3Vzci9sb2NhbC9iaW4vcmVkaXMtc2VydmVyIHwgY3V0IC1kJyAnIC1mMSkiOyBleHBvcnQgc2VydmVyTWQ1OyAJZmluZCAvdXNyL2xvY2FsL2Jpbi9yZWRpcyogLW1heGRlcHRoIDAgCQktdHlwZSBmIC1ub3QgLW5hbWUgcmVkaXMtc2VydmVyIAkJLWV4ZWMgc2ggLWV1eCAtYyAnIAkJCW1kNT0iJChtZDVzdW0gIiQxIiB8IGN1dCAtZCIgIiAtZjEpIjsgCQkJdGVzdCAiJG1kNSIgPSAiJHNlcnZlck1kNSI7IAkJJyAtLSAne30nICc7JyAJCS1leGVjIGxuIC1zdmZUICdyZWRpcy1zZXJ2ZXInICd7fScgJzsnIAk7IAkJcm0gLXIgL3Vzci9zcmMvcmVkaXM7IAkJYXB0LW1hcmsgYXV0byAnLionID4gL2Rldi9udWxsOyAJWyAteiAiJHNhdmVkQXB0TWFyayIgXSB8fCBhcHQtbWFyayBtYW51YWwgJHNhdmVkQXB0TWFyayA+IC9kZXYvbnVsbDsgCWZpbmQgL3Vzci9sb2NhbCAtdHlwZSBmIC1leGVjdXRhYmxlIC1leGVjIGxkZCAne30nICc7JyAJCXwgYXdrICcvPT4vIHsgcHJpbnQgJChORi0xKSB9JyAJCXwgc29ydCAtdSAJCXwgeGFyZ3MgLXIgZHBrZy1xdWVyeSAtLXNlYXJjaCAJCXwgY3V0IC1kOiAtZjEgCQl8IHNvcnQgLXUgCQl8IHhhcmdzIC1yIGFwdC1tYXJrIG1hbnVhbCAJOyAJYXB0LWdldCBwdXJnZSAteSAtLWF1dG8tcmVtb3ZlIC1vIEFQVDo6QXV0b1JlbW92ZTo6UmVjb21tZW5kc0ltcG9ydGFudD1mYWxzZTsgCQlyZWRpcy1jbGkgLS12ZXJzaW9uOyAJcmVkaXMtc2VydmVyIC0tdmVyc2lvbg==": {
@@ -2030,10 +2034,6 @@ exports[`AMD platform tests should correctly scan an AMD image and return platfo
             ],
           },
           "type": "imageNames",
-        },
-        {
-          "data": "linux/amd64",
-          "type": "platform",
         },
         {
           "data": "0.0.0-local",
@@ -4031,6 +4031,10 @@ exports[`AMD platform tests should correctly scan an AMD image when the user pro
           "type": "imageOsReleasePrettyName",
         },
         {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        {
           "data": {
             "dockerfileLayers": {
               "L2Jpbi9zaCAtYyBzZXQgLWV1eDsgCQlzYXZlZEFwdE1hcms9IiQoYXB0LW1hcmsgc2hvd21hbnVhbCkiOyAJYXB0LWdldCB1cGRhdGU7IAlhcHQtZ2V0IGluc3RhbGwgLXkgLS1uby1pbnN0YWxsLXJlY29tbWVuZHMgCQljYS1jZXJ0aWZpY2F0ZXMgCQl3Z2V0IAkJCQlnY2MgCQlsaWJjNi1kZXYgCQlsaWJzc2wtZGV2IAkJbWFrZSAJOyAJcm0gLXJmIC92YXIvbGliL2FwdC9saXN0cy8qOyAJCXdnZXQgLU8gcmVkaXMudGFyLmd6ICIkUkVESVNfRE9XTkxPQURfVVJMIjsgCWVjaG8gIiRSRURJU19ET1dOTE9BRF9TSEEgKnJlZGlzLnRhci5neiIgfCBzaGEyNTZzdW0gLWMgLTsgCW1rZGlyIC1wIC91c3Ivc3JjL3JlZGlzOyAJdGFyIC14emYgcmVkaXMudGFyLmd6IC1DIC91c3Ivc3JjL3JlZGlzIC0tc3RyaXAtY29tcG9uZW50cz0xOyAJcm0gcmVkaXMudGFyLmd6OyAJCWdyZXAgLUUgJ14gKmNyZWF0ZUJvb2xDb25maWdbKF0icHJvdGVjdGVkLW1vZGUiLC4qLCAqMSAqLC4qWyldLCQnIC91c3Ivc3JjL3JlZGlzL3NyYy9jb25maWcuYzsgCXNlZCAtcmkgJ3MhXiggKmNyZWF0ZUJvb2xDb25maWdbKF0icHJvdGVjdGVkLW1vZGUiLC4qLCAqKTEoICosLipbKV0sKSQhXDEwXDIhJyAvdXNyL3NyYy9yZWRpcy9zcmMvY29uZmlnLmM7IAlncmVwIC1FICdeICpjcmVhdGVCb29sQ29uZmlnWyhdInByb3RlY3RlZC1tb2RlIiwuKiwgKjAgKiwuKlspXSwkJyAvdXNyL3NyYy9yZWRpcy9zcmMvY29uZmlnLmM7IAkJZXhwb3J0IEJVSUxEX1RMUz15ZXM7IAltYWtlIC1DIC91c3Ivc3JjL3JlZGlzIC1qICIkKG5wcm9jKSIgYWxsOyAJbWFrZSAtQyAvdXNyL3NyYy9yZWRpcyBpbnN0YWxsOyAJCXNlcnZlck1kNT0iJChtZDVzdW0gL3Vzci9sb2NhbC9iaW4vcmVkaXMtc2VydmVyIHwgY3V0IC1kJyAnIC1mMSkiOyBleHBvcnQgc2VydmVyTWQ1OyAJZmluZCAvdXNyL2xvY2FsL2Jpbi9yZWRpcyogLW1heGRlcHRoIDAgCQktdHlwZSBmIC1ub3QgLW5hbWUgcmVkaXMtc2VydmVyIAkJLWV4ZWMgc2ggLWV1eCAtYyAnIAkJCW1kNT0iJChtZDVzdW0gIiQxIiB8IGN1dCAtZCIgIiAtZjEpIjsgCQkJdGVzdCAiJG1kNSIgPSAiJHNlcnZlck1kNSI7IAkJJyAtLSAne30nICc7JyAJCS1leGVjIGxuIC1zdmZUICdyZWRpcy1zZXJ2ZXInICd7fScgJzsnIAk7IAkJcm0gLXIgL3Vzci9zcmMvcmVkaXM7IAkJYXB0LW1hcmsgYXV0byAnLionID4gL2Rldi9udWxsOyAJWyAteiAiJHNhdmVkQXB0TWFyayIgXSB8fCBhcHQtbWFyayBtYW51YWwgJHNhdmVkQXB0TWFyayA+IC9kZXYvbnVsbDsgCWZpbmQgL3Vzci9sb2NhbCAtdHlwZSBmIC1leGVjdXRhYmxlIC1leGVjIGxkZCAne30nICc7JyAJCXwgYXdrICcvPT4vIHsgcHJpbnQgJChORi0xKSB9JyAJCXwgc29ydCAtdSAJCXwgeGFyZ3MgLXIgZHBrZy1xdWVyeSAtLXNlYXJjaCAJCXwgY3V0IC1kOiAtZjEgCQl8IHNvcnQgLXUgCQl8IHhhcmdzIC1yIGFwdC1tYXJrIG1hbnVhbCAJOyAJYXB0LWdldCBwdXJnZSAteSAtLWF1dG8tcmVtb3ZlIC1vIEFQVDo6QXV0b1JlbW92ZTo6UmVjb21tZW5kc0ltcG9ydGFudD1mYWxzZTsgCQlyZWRpcy1jbGkgLS12ZXJzaW9uOyAJcmVkaXMtc2VydmVyIC0tdmVyc2lvbg==": {
@@ -4084,10 +4088,6 @@ exports[`AMD platform tests should correctly scan an AMD image when the user pro
             ],
           },
           "type": "imageNames",
-        },
-        {
-          "data": "linux/amd64",
-          "type": "platform",
         },
         {
           "data": "0.0.0-local",
