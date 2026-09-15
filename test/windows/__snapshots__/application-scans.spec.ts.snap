@@ -1916,6 +1916,10 @@ exports[`go binaries scanning should return expected result 1`] = `
           "type": "imageId",
         },
         {
+          "data": "linux/arm64",
+          "type": "platform",
+        },
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
@@ -2444,6 +2448,10 @@ exports[`go binaries scanning with esbuild npm path that previously failed exten
           "type": "imageOsReleasePrettyName",
         },
         {
+          "data": "linux/arm64",
+          "type": "platform",
+        },
+        {
           "data": [
             {
               "attestationManifestDigest": "sha256:2f26b09e0167127d5ceb3cd414032165590297dd068b2a9b140ded93dc6c71aa",
@@ -2461,10 +2469,6 @@ exports[`go binaries scanning with esbuild npm path that previously failed exten
             },
           ],
           "type": "provenanceMetadata",
-        },
-        {
-          "data": "linux/arm64",
-          "type": "platform",
         },
         {
           "data": "0.0.0-local",
@@ -2531,6 +2535,14 @@ exports[`go binaries scanning with esbuild npm path that previously failed exten
           "type": "imageId",
         },
         {
+          "data": "Alpine Linux v3.22",
+          "type": "imageOsReleasePrettyName",
+        },
+        {
+          "data": "linux/arm64",
+          "type": "platform",
+        },
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
@@ -2591,6 +2603,14 @@ exports[`go binaries scanning with esbuild npm path that previously failed exten
         {
           "data": "sha256:d995f79578b2f268b71e4cb7360f3baeddd0f07f8a5cf98977472dc563e67825",
           "type": "imageId",
+        },
+        {
+          "data": "Alpine Linux v3.22",
+          "type": "imageOsReleasePrettyName",
+        },
+        {
+          "data": "linux/arm64",
+          "type": "platform",
         },
         {
           "data": "0.0.0-local",
@@ -2698,6 +2718,14 @@ exports[`go binaries scanning with esbuild npm path that previously failed exten
         {
           "data": "sha256:d995f79578b2f268b71e4cb7360f3baeddd0f07f8a5cf98977472dc563e67825",
           "type": "imageId",
+        },
+        {
+          "data": "Alpine Linux v3.22",
+          "type": "imageOsReleasePrettyName",
+        },
+        {
+          "data": "linux/arm64",
+          "type": "platform",
         },
         {
           "data": "0.0.0-local",
@@ -2844,6 +2872,10 @@ exports[`jar binaries scanning should return expected result 1`] = `
           "type": "imageId",
         },
         {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
@@ -2886,6 +2918,10 @@ exports[`jar binaries scanning should return expected result 1`] = `
         {
           "data": "sha256:bf756fb1ae65adf866bd8c456593cd24beb6a0a061dedf42b26a993176745f6b",
           "type": "imageId",
+        },
+        {
+          "data": "linux/amd64",
+          "type": "platform",
         },
         {
           "data": "0.0.0-local",
@@ -4762,6 +4798,14 @@ exports[`scanning a container image with 2 applications should return expected r
         {
           "data": "sha256:7f335821efb5e5b95b36541004fa0287732a11f97a4a0ff807cc065746f82538",
           "type": "imageId",
+        },
+        {
+          "data": "Amazon Linux 2",
+          "type": "imageOsReleasePrettyName",
+        },
+        {
+          "data": "linux/amd64",
+          "type": "platform",
         },
         {
           "data": "0.0.0-local",
@@ -15056,6 +15100,14 @@ exports[`scanning a container image with 2 applications should return expected r
         {
           "data": "sha256:7f335821efb5e5b95b36541004fa0287732a11f97a4a0ff807cc065746f82538",
           "type": "imageId",
+        },
+        {
+          "data": "Amazon Linux 2",
+          "type": "imageOsReleasePrettyName",
+        },
+        {
+          "data": "linux/amd64",
+          "type": "platform",
         },
         {
           "data": "0.0.0-local",

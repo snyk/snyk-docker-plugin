@@ -3640,6 +3640,14 @@ exports[`app vulns flag scans app vulns by default 1`] = `
           "type": "imageId",
         },
         {
+          "data": "Amazon Linux 2",
+          "type": "imageOsReleasePrettyName",
+        },
+        {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
@@ -13932,6 +13940,14 @@ exports[`app vulns flag scans app vulns by default 1`] = `
         {
           "data": "sha256:7f335821efb5e5b95b36541004fa0287732a11f97a4a0ff807cc065746f82538",
           "type": "imageId",
+        },
+        {
+          "data": "Amazon Linux 2",
+          "type": "imageOsReleasePrettyName",
+        },
+        {
+          "data": "linux/amd64",
+          "type": "platform",
         },
         {
           "data": "0.0.0-local",
