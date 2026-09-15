@@ -1,0 +1,22 @@
+version = 3
+
+[[package]]
+name = "cyclic-root"
+version = "1.0.0"
+dependencies = [
+ "crate-a 1.0.0",
+]
+
+[[package]]
+name = "crate-a"
+version = "1.0.0"
+dependencies = [
+ "crate-b 1.0.0",
+]
+
+[[package]]
+name = "crate-b"
+version = "1.0.0"
+dependencies = [
+ "crate-a 1.0.0",
+]

@@ -1,0 +1,7 @@
+[workspace]
+members = ["member-a", "member-b"]
+resolver = "2"
+
+[workspace.package]
+name = "ignored-workspace-name"
+version = "9.9.9"

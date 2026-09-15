@@ -1,0 +1,21 @@
+version = 4
+
+[[package]]
+name = "member-a"
+version = "0.1.0"
+dependencies = [
+ "serde 1.0.193",
+]
+
+[[package]]
+name = "member-b"
+version = "0.2.0"
+dependencies = [
+ "member-a 0.1.0",
+]
+
+[[package]]
+name = "serde"
+version = "1.0.193"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5821c8d29c6571dfe1c8e7ff55211f794276f708177e692f58866796254153b4"
