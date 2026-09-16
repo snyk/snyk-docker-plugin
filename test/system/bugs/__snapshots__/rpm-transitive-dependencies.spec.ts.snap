@@ -2772,6 +2772,10 @@ exports[`BUG: Dockerfile analysis does not produce transitive dependencies for R
           "type": "imageOsReleasePrettyName",
         },
         {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        {
           "data": {
             "dockerfileLayers": {
               "L2Jpbi9zaCAtYyB5dW0gaW5zdGFsbCAteSAibm9kZWpzLSR7Tk9ERV9WRVJ9IiB5YXJuIG1ha2UgZ2NjLWMrKyAgICYmIHl1bSBjbGVhbiBhbGw=": {
@@ -2798,10 +2802,6 @@ exports[`BUG: Dockerfile analysis does not produce transitive dependencies for R
             },
           },
           "type": "autoDetectedUserInstructions",
-        },
-        {
-          "data": "linux/amd64",
-          "type": "platform",
         },
         {
           "data": "0.0.0-local",

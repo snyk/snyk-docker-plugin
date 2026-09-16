@@ -9138,6 +9138,10 @@ exports[`dockerfile analysis should correctly return annotated packages saying w
           "type": "imageOsReleasePrettyName",
         },
         {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        {
           "data": {
             "dockerfileLayers": {
               "L2Jpbi9zaCAtYyBhcHQtZ2V0IGluc3RhbGwgLXkgaW1hZ2VtYWdpY2s=": {
@@ -9388,10 +9392,6 @@ exports[`dockerfile analysis should correctly return annotated packages saying w
             ],
           },
           "type": "imageNames",
-        },
-        {
-          "data": "linux/amd64",
-          "type": "platform",
         },
         {
           "data": "0.0.0-local",

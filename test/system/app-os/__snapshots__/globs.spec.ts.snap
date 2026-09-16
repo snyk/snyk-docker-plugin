@@ -1976,6 +1976,10 @@ exports[`find globs tests should correctly return manifest files when detected b
           "type": "imageOsReleasePrettyName",
         },
         {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        {
           "data": [
             {
               "contents": "UFJFVFRZX05BTUU9IkRlYmlhbiBHTlUvTGludXggMTAgKGJ1c3RlcikiCk5BTUU9IkRlYmlhbiBHTlUvTGludXgiClZFUlNJT05fSUQ9IjEwIgpWRVJTSU9OPSIxMCAoYnVzdGVyKSIKVkVSU0lPTl9DT0RFTkFNRT1idXN0ZXIKSUQ9ZGViaWFuCkhPTUVfVVJMPSJodHRwczovL3d3dy5kZWJpYW4ub3JnLyIKU1VQUE9SVF9VUkw9Imh0dHBzOi8vd3d3LmRlYmlhbi5vcmcvc3VwcG9ydCIKQlVHX1JFUE9SVF9VUkw9Imh0dHBzOi8vYnVncy5kZWJpYW4ub3JnLyIK",
@@ -1992,10 +1996,6 @@ exports[`find globs tests should correctly return manifest files when detected b
             ],
           },
           "type": "imageNames",
-        },
-        {
-          "data": "linux/amd64",
-          "type": "platform",
         },
         {
           "data": "0.0.0-local",

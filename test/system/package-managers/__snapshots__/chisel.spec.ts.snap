@@ -377,6 +377,10 @@ exports[`chisel package manager tests should correctly analyze a chiseled Ubuntu
           "type": "imageOsReleasePrettyName",
         },
         {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        {
           "data": {
             "names": [
               "snykgoof/dockerhub-goof:ubuntu-chisel-24.04",
@@ -404,10 +408,6 @@ exports[`chisel package manager tests should correctly analyze a chiseled Ubuntu
             },
           ],
           "type": "provenanceMetadata",
-        },
-        {
-          "data": "linux/amd64",
-          "type": "platform",
         },
         {
           "data": "0.0.0-local",

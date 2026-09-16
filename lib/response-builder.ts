@@ -208,12 +208,27 @@ async function buildResponse(
     additionalFacts.push(rootFsFact);
   }
 
+  // Hoisted (rather than declared inline) so the same fact instances can also
+  // be attached to each application scan result below, alongside the OS scan
+  // result — these describe the whole image, not just the OS dependency graph.
+  let imageOsReleasePrettyNameFact:
+    | facts.ImageOsReleasePrettyNameFact
+    | undefined;
   if (depsAnalysis.depTree.targetOS.prettyName) {
-    const imageOsReleasePrettyNameFact: facts.ImageOsReleasePrettyNameFact = {
+    imageOsReleasePrettyNameFact = {
       type: "imageOsReleasePrettyName",
       data: depsAnalysis.depTree.targetOS.prettyName,
     };
     additionalFacts.push(imageOsReleasePrettyNameFact);
+  }
+
+  let platformFact: facts.PlatformFact | undefined;
+  if (depsAnalysis.platform) {
+    platformFact = {
+      type: "platform",
+      data: depsAnalysis.platform,
+    };
+    additionalFacts.push(platformFact);
   }
 
   const manifestFiles =
@@ -287,6 +302,14 @@ async function buildResponse(
         data: ociDistributionMetadata,
       };
       appDepsScanResult.facts.push(metadataFact);
+    }
+
+    if (imageOsReleasePrettyNameFact) {
+      appDepsScanResult.facts.push(imageOsReleasePrettyNameFact);
+    }
+
+    if (platformFact) {
+      appDepsScanResult.facts.push(platformFact);
     }
 
     const appPluginVersionFact: facts.PluginVersionFact = {
@@ -385,14 +408,6 @@ async function buildResponse(
       };
       additionalFacts.push(provenanceMetadataFact);
     }
-  }
-
-  if (depsAnalysis.platform) {
-    const platformFact: facts.PlatformFact = {
-      type: "platform",
-      data: depsAnalysis.platform,
-    };
-    additionalFacts.push(platformFact);
   }
 
   const pluginVersionFact: facts.PluginVersionFact = {

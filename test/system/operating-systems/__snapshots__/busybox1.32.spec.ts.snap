@@ -89,16 +89,16 @@ exports[`busybox tests should correctly analyze a busybox image by sha256 1`] = 
           "type": "rootFs",
         },
         {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        {
           "data": {
             "names": [
               "busybox@sha256:32dc7202280d641c9c0d94a13247195adc83dba83aca0eed383888c01311cfc2",
             ],
           },
           "type": "imageNames",
-        },
-        {
-          "data": "linux/amd64",
-          "type": "platform",
         },
         {
           "data": "0.0.0-local",
