@@ -36,6 +36,7 @@ import {
   getUsrLibJarFileContentAction,
 } from "../inputs/java/static";
 import { getDotnetAppFileContentAction } from "../inputs/dotnet/static";
+import { getRustAppFileContentAction } from "../inputs/rust/static";
 import {
   getNodeAppFileContentAction,
   getNodeJsTsAppFileContentAction,
@@ -62,6 +63,7 @@ import {
 import { isTrue } from "../option-utils";
 import { ImageType, ManifestFile, PluginOptions } from "../types";
 import {
+  cargoFilesToScannedProjects,
   dotnetFilesToScannedProjects,
   nodeFilesToScannedProjects,
   phpFilesToScannedProjects,
@@ -153,6 +155,7 @@ export async function analyze(
         getDotnetAppFileContentAction,
         ...jarActions,
         getGoModulesContentAction,
+        getRustAppFileContentAction,
       ],
     );
 
@@ -357,6 +360,12 @@ export async function analyze(
     timings.dotnetAnalysisMs = Date.now() - phaseStart;
 
     phaseStart = Date.now();
+    const rustDependenciesScanResults = await cargoFilesToScannedProjects(
+      getFileContent(extractedLayers, getRustAppFileContentAction.actionName),
+    );
+    timings.rustAnalysisMs = Date.now() - phaseStart;
+
+    phaseStart = Date.now();
     const desiredLevelsOfUnpacking = getNestedJarsDesiredDepth(options);
     const jarFingerprintScanResults = await jarFilesToScannedResults(
       getBufferContent(extractedLayers, getJarFileContentAction.actionName),
@@ -379,6 +388,7 @@ export async function analyze(
       ...pipDependenciesScanResults,
       ...pythonApplicationFilesScanResults,
       ...dotnetDependenciesScanResults,
+      ...rustDependenciesScanResults,
       ...jarFingerprintScanResults,
       ...goModulesScanResult,
     );
