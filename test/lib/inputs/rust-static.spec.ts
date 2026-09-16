@@ -23,7 +23,15 @@ describe("Rust app file path matching", () => {
       filePathMatches("/root/.cargo/git/checkouts/foo-abc123/Cargo.lock"),
     ).toBe(false);
     expect(
+      filePathMatches(
+        "/usr/local/cargo/git/checkouts/my-dep-1a2b3c4d/9f8e7d6/Cargo.lock",
+      ),
+    ).toBe(false);
+    expect(
       filePathMatches("/app/target/package/mycrate-0.1.0/Cargo.lock"),
+    ).toBe(false);
+    expect(
+      filePathMatches("/app/vendor/some-crate-1.2.3/Cargo.lock"),
     ).toBe(false);
     expect(filePathMatches("")).toBe(false);
   });

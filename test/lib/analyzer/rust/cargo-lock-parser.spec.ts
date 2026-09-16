@@ -26,7 +26,7 @@ describe("parseCargoLock", () => {
       result = parseCargoLock(loadFixture("v1"));
     });
 
-    it("defaults lockfileVersion to 1", () => {
+    it("reports lockfileVersion 1 from the [metadata] table when no top-level version key is present", () => {
       expect(result.lockfileVersion).toBe(1);
     });
 
@@ -52,8 +52,8 @@ describe("parseCargoLock", () => {
       result = parseCargoLock(loadFixture("v2"));
     });
 
-    it("defaults lockfileVersion to 1", () => {
-      expect(result.lockfileVersion).toBe(1);
+    it("reports lockfileVersion 2 when there is neither a top-level version key nor a [metadata] table", () => {
+      expect(result.lockfileVersion).toBe(2);
     });
 
     it("parses bare dependency refs without version", () => {
@@ -80,6 +80,10 @@ describe("parseCargoLock", () => {
       expect(result.packages.some((p) => p.name === "ignored-crate")).toBe(
         false,
       );
+    });
+
+    it("does not treat lockfile version as a package version", () => {
+      expect(result.packages.every((p) => p.version !== "2")).toBe(true);
     });
   });
 

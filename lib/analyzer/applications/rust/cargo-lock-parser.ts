@@ -99,7 +99,8 @@ export function parseCargoLock(content: string): CargoLock {
 
 function parseCargoLockInternal(content: string): CargoLock {
   const lines = content.split(/\r?\n/);
-  let lockfileVersion = 1;
+  let explicitVersion: number | undefined;
+  let sawMetadataTable = false;
   let sawFirstPackage = false;
   let inIgnoredTable = false;
   let currentPackage: PartialPackage | null = null;
@@ -147,6 +148,9 @@ function parseCargoLockInternal(content: string): CargoLock {
         flushCurrentPackage();
         inIgnoredTable = true;
         currentPackage = null;
+        if (line === "[metadata]") {
+          sawMetadataTable = true;
+        }
       }
       continue;
     }
@@ -166,7 +170,7 @@ function parseCargoLockInternal(content: string): CargoLock {
     if (!sawFirstPackage && key === "version") {
       const parsed = parseInt(parseStringValue(valuePart), 10);
       if (!Number.isNaN(parsed)) {
-        lockfileVersion = parsed;
+        explicitVersion = parsed;
       }
       continue;
     }
@@ -202,6 +206,12 @@ function parseCargoLockInternal(content: string): CargoLock {
   }
 
   flushCurrentPackage();
+
+  // Cargo itself distinguishes v1 from v2 by the presence of an explicit
+  // top-level `version` key. Absent that key, v1 lockfiles still carry a
+  // `[metadata]` checksum table while v2 lockfiles carry neither.
+  const lockfileVersion =
+    explicitVersion !== undefined ? explicitVersion : sawMetadataTable ? 1 : 2;
 
   return { lockfileVersion, packages };
 }
