@@ -30,9 +30,9 @@ describe("Rust app file path matching", () => {
     expect(
       filePathMatches("/app/target/package/mycrate-0.1.0/Cargo.lock"),
     ).toBe(false);
-    expect(
-      filePathMatches("/app/vendor/some-crate-1.2.3/Cargo.lock"),
-    ).toBe(false);
+    expect(filePathMatches("/app/vendor/some-crate-1.2.3/Cargo.lock")).toBe(
+      false,
+    );
     expect(filePathMatches("")).toBe(false);
   });
 

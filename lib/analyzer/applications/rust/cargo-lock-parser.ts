@@ -217,10 +217,10 @@ function parseCargoLockInternal(content: string): CargoLock {
     explicitVersion !== undefined
       ? explicitVersion
       : sawMetadataTable
-        ? 1
-        : sawFirstPackage
-          ? 2
-          : 1;
+      ? 1
+      : sawFirstPackage
+      ? 2
+      : 1;
 
   return { lockfileVersion, packages };
 }
