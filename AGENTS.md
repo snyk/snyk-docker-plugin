@@ -93,6 +93,15 @@ Use these exact scripts — don't invent new ones.
 | System tests         | `npm run test:system` (requires Docker — see below) |
 | All tests            | `npm test`                                          |
 
+`npm run lint` runs Prettier, ESLint, and commitlint. For source-only
+feedback, use `npm run lint:prettier` and `npm run lint:eslint`;
+`npm run lint:commit` checks commits starting at `HEAD~1`, so it requires
+commit history and does not validate an uncommitted commit message.
+
+`npm run format` rewrites TypeScript under `lib/` and `test/`; it does not
+format Markdown. Avoid running it for documentation-only changes, and
+review its diff before committing source changes.
+
 For a quick inner loop, `npm run test:unit` is fastest. Run
 `npm run test:system` (or full `npm test`) before declaring a change done,
 provided Docker and the required env vars are available — see below. If they
@@ -100,6 +109,13 @@ aren't, say so explicitly rather than skipping silently.
 
 ## Testing rules
 
+- `jest.config.js` defines four projects: `unit`, `system`, `windows`, and
+  `windows-docker`. `npm test` selects only `unit` and `system`; use the
+  Windows scripts listed under CI for the other two projects.
+- To run one unit test file, use
+  `npm run test:unit -- --runTestsByPath test/unit/<file>.spec.ts`.
+  Keep the project-selecting npm script when narrowing tests so unrelated
+  Docker-dependent suites are not selected.
 - **New tests must be Jest, with the `.spec.ts` suffix.** Files ending in
   `.test.ts` are legacy `tap` tests — do not add new ones, and prefer migrating
   rather than extending them.
@@ -114,10 +130,13 @@ aren't, say so explicitly rather than skipping silently.
 
 ### Snapshots
 
-Some tests use Jest snapshots (`__snapshots__/` directories). Update with
-`npx jest -u <pattern>` and **review the diff** — snapshot churn often hides
-real behavior changes. Note: `jest.config.js` pins a custom `snapshotFormat`
-to keep pre-Jest-29 snapshots readable; don't change it casually.
+Some tests use Jest snapshots (`__snapshots__/` directories). Update a unit
+test's snapshots with
+`npm run test:unit -- --runTestsByPath test/unit/<file>.spec.ts -u`
+(use `test:system` and the corresponding path for system tests), and
+**review the diff** — snapshot churn often hides real behavior changes.
+Shared snapshot setup lives in `test/jest-snapshot-strip-analytics.cjs`;
+check it before changing snapshot serialization.
 
 ## Debugging
 
@@ -154,7 +173,8 @@ Match the target Node major (`20`) when validating locally.
 ## Style
 
 - TypeScript, formatted by Prettier (`{ "trailingComma": "all", "arrowParens": "always" }`)
-  and linted by tslint. Run `npm run format` before sending changes.
+  and linted by ESLint using `eslint.config.mjs`. Run `npm run format`
+  before sending TypeScript changes.
 - Prefer editing existing files in `lib/<area>/` over creating new top-level
   modules. Mirror the existing per-ecosystem layout (`inputs/<eco>`,
   `analyzer/applications/<eco>`, `parser/<eco>`).
