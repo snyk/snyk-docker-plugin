@@ -209,9 +209,18 @@ function parseCargoLockInternal(content: string): CargoLock {
 
   // Cargo itself distinguishes v1 from v2 by the presence of an explicit
   // top-level `version` key. Absent that key, v1 lockfiles still carry a
-  // `[metadata]` checksum table while v2 lockfiles carry neither.
+  // `[metadata]` checksum table while v2 lockfiles carry neither. Content
+  // that never parsed into a single `[[package]]` block isn't a lockfile
+  // we can classify at all, so it isn't claimed to be v2 - it stays at
+  // the default of 1, matching the degrade-safely contract for garbage input.
   const lockfileVersion =
-    explicitVersion !== undefined ? explicitVersion : sawMetadataTable ? 1 : 2;
+    explicitVersion !== undefined
+      ? explicitVersion
+      : sawMetadataTable
+        ? 1
+        : sawFirstPackage
+          ? 2
+          : 1;
 
   return { lockfileVersion, packages };
 }
