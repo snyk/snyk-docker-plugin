@@ -2297,6 +2297,10 @@ exports[`rpm package manager tests should correctly analyze a CentOS Stream 9 im
           "type": "imageOsReleasePrettyName",
         },
         {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        {
           "data": {
             "names": [
               "snykgoof/dockerhub-goof:centos-stream9",
@@ -2304,10 +2308,6 @@ exports[`rpm package manager tests should correctly analyze a CentOS Stream 9 im
             ],
           },
           "type": "imageNames",
-        },
-        {
-          "data": "linux/amd64",
-          "type": "platform",
         },
         {
           "data": "0.0.0-local",
@@ -5025,6 +5025,10 @@ exports[`rpm package manager tests should correctly analyze a CentOS Stream 10 i
           "type": "imageOsReleasePrettyName",
         },
         {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        {
           "data": {
             "names": [
               "snykgoof/dockerhub-goof:centos-stream10",
@@ -5032,10 +5036,6 @@ exports[`rpm package manager tests should correctly analyze a CentOS Stream 10 i
             ],
           },
           "type": "imageNames",
-        },
-        {
-          "data": "linux/amd64",
-          "type": "platform",
         },
         {
           "data": "0.0.0-local",
@@ -8218,6 +8218,10 @@ exports[`rpm package manager tests should correctly analyze a RHEL 9 UBI image 1
           "type": "imageOsReleasePrettyName",
         },
         {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        {
           "data": {
             "names": [
               "registry.access.redhat.com/ubi9/ubi@sha256:c113f67e8e70940af28116d75e32f0aa4ffd3bf6fab30e970850475ab1de697f",
@@ -8225,10 +8229,6 @@ exports[`rpm package manager tests should correctly analyze a RHEL 9 UBI image 1
             ],
           },
           "type": "imageNames",
-        },
-        {
-          "data": "linux/amd64",
-          "type": "platform",
         },
         {
           "data": "0.0.0-local",
@@ -11205,6 +11205,10 @@ exports[`rpm package manager tests should correctly analyze a RHEL 10 UBI Beta i
           "type": "imageOsReleasePrettyName",
         },
         {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        {
           "data": {
             "names": [
               "registry.access.redhat.com/ubi10-beta/ubi@sha256:4b4976d86eefeedab6884c9d2923206c6c3c2e2471206f97fd9d7aaaecbc04ac",
@@ -11212,10 +11216,6 @@ exports[`rpm package manager tests should correctly analyze a RHEL 10 UBI Beta i
             ],
           },
           "type": "imageNames",
-        },
-        {
-          "data": "linux/amd64",
-          "type": "platform",
         },
         {
           "data": "0.0.0-local",
@@ -12994,6 +12994,10 @@ exports[`rpm package manager tests should correctly analyze an rpm image 1`] = `
           "type": "imageOsReleasePrettyName",
         },
         {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        {
           "data": {
             "names": [
               "amazonlinux:2.0.20200722.0",
@@ -13002,10 +13006,6 @@ exports[`rpm package manager tests should correctly analyze an rpm image 1`] = `
             ],
           },
           "type": "imageNames",
-        },
-        {
-          "data": "linux/amd64",
-          "type": "platform",
         },
         {
           "data": "0.0.0-local",
@@ -15135,6 +15135,10 @@ exports[`rpm package manager tests should correctly analyze an rpm image with sq
           "type": "imageOsReleasePrettyName",
         },
         {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        {
           "data": {
             "names": [
               "amazonlinux:2022.0.20220504.1",
@@ -15143,10 +15147,6 @@ exports[`rpm package manager tests should correctly analyze an rpm image with sq
             ],
           },
           "type": "imageNames",
-        },
-        {
-          "data": "linux/amd64",
-          "type": "platform",
         },
         {
           "data": "0.0.0-local",

@@ -3344,16 +3344,16 @@ exports[`CentOS 6 tests can scan a centos6-based image 1`] = `
           "type": "rootFs",
         },
         {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        {
           "data": {
             "names": [
               "dokken/centos-6@sha256:494b9b280814f1e661597b48e229156e4dccb60dce198d9210f7572ff22626d2",
             ],
           },
           "type": "imageNames",
-        },
-        {
-          "data": "linux/amd64",
-          "type": "platform",
         },
         {
           "data": "0.0.0-local",
@@ -6718,16 +6718,16 @@ exports[`CentOS 6 tests can scan a centos6-based image with app vulns 1`] = `
           "type": "rootFs",
         },
         {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        {
           "data": {
             "names": [
               "dokken/centos-6@sha256:494b9b280814f1e661597b48e229156e4dccb60dce198d9210f7572ff22626d2",
             ],
           },
           "type": "imageNames",
-        },
-        {
-          "data": "linux/amd64",
-          "type": "platform",
         },
         {
           "data": "0.0.0-local",
@@ -6771,6 +6771,10 @@ exports[`CentOS 6 tests can scan a centos6-based image with app vulns 1`] = `
             ],
           },
           "type": "imageNames",
+        },
+        {
+          "data": "linux/amd64",
+          "type": "platform",
         },
         {
           "data": "0.0.0-local",

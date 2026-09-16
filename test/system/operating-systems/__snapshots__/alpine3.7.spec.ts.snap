@@ -395,16 +395,16 @@ exports[`alpine tests should correctly analyze an alpine image by sha256 1`] = `
           "type": "imageOsReleasePrettyName",
         },
         {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        {
           "data": {
             "names": [
               "alpine@sha256:92251458088c638061cda8fd8b403b76d661a4dc6b7ee71b6affcf1872557b2b",
             ],
           },
           "type": "imageNames",
-        },
-        {
-          "data": "linux/amd64",
-          "type": "platform",
         },
         {
           "data": "0.0.0-local",
@@ -820,16 +820,16 @@ exports[`alpine tests should correctly analyze an alpine image by tag 1`] = `
           "type": "imageOsReleasePrettyName",
         },
         {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        {
           "data": {
             "names": [
               "alpine:3.7.3",
             ],
           },
           "type": "imageNames",
-        },
-        {
-          "data": "linux/amd64",
-          "type": "platform",
         },
         {
           "data": "0.0.0-local",

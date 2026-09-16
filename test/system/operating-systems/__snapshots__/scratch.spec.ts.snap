@@ -88,16 +88,16 @@ exports[`scratch tests should correctly analyze an scratch image by sha256 1`] =
           "type": "rootFs",
         },
         {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        {
           "data": {
             "names": [
               "snyk/runtime-fixtures:scratch",
             ],
           },
           "type": "imageNames",
-        },
-        {
-          "data": "linux/amd64",
-          "type": "platform",
         },
         {
           "data": "0.0.0-local",

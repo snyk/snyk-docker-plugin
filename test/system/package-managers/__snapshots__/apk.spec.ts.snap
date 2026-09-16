@@ -413,16 +413,16 @@ exports[`apk package manager tests should correctly analyze an apk image 1`] = `
           "type": "imageOsReleasePrettyName",
         },
         {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        {
           "data": {
             "names": [
               "alpine:3.12.0",
             ],
           },
           "type": "imageNames",
-        },
-        {
-          "data": "linux/amd64",
-          "type": "platform",
         },
         {
           "data": "0.0.0-local",
@@ -1326,16 +1326,16 @@ exports[`apk package manager tests should correctly analyze an apk image with ne
           "type": "imageOsReleasePrettyName",
         },
         {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        {
           "data": {
             "names": [
               "chainguard/bash@sha256:642933df66209814502599053ca3dfa97cccf847badc4219d2b1fd6565f6559a",
             ],
           },
           "type": "imageNames",
-        },
-        {
-          "data": "linux/amd64",
-          "type": "platform",
         },
         {
           "data": "0.0.0-local",

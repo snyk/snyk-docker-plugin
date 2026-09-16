@@ -1224,6 +1224,14 @@ exports[`gomodules binaries scanning should return expected result 1`] = `
           "type": "imageId",
         },
         {
+          "data": "Alpine Linux v3.12",
+          "type": "imageOsReleasePrettyName",
+        },
+        {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
@@ -1544,6 +1552,10 @@ exports[`parse go modules from various versions of compiled binaries go 1.17 1`]
         {
           "data": "sha256:b5a5cea3c00c659a3bd14bf786644ec0deed22bc30e99260177aca1dc8600449",
           "type": "imageId",
+        },
+        {
+          "data": "linux/amd64",
+          "type": "platform",
         },
         {
           "data": "0.0.0-local",
@@ -1868,6 +1880,10 @@ exports[`parse go modules from various versions of compiled binaries go 1.18 1`]
           "type": "imageId",
         },
         {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
@@ -2173,6 +2189,10 @@ exports[`parse go modules from various versions of compiled binaries go 1.19 1`]
         {
           "data": "sha256:f12d5cc86a0c5c078e16dca419459a91cc555e8cd9ef5750a6b809f2db19a47f",
           "type": "imageId",
+        },
+        {
+          "data": "linux/amd64",
+          "type": "platform",
         },
         {
           "data": "0.0.0-local",

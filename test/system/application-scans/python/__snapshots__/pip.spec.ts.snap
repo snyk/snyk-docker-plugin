@@ -264,6 +264,10 @@ exports[`pip application scan should correctly return applications as multiple s
           "type": "imageId",
         },
         {
+          "data": "linux/amd64",
+          "type": "platform",
+        },
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
@@ -542,6 +546,10 @@ exports[`pip application scan should correctly return applications as multiple s
         {
           "data": "sha256:436a467a4bbbe103e2417a965e290f27f4030b74c5de64a088f1e67c7b4caa10",
           "type": "imageId",
+        },
+        {
+          "data": "linux/arm64",
+          "type": "platform",
         },
         {
           "data": "0.0.0-local",
