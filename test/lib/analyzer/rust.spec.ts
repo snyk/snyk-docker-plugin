@@ -49,16 +49,17 @@ describe("rust Cargo.lock analyzer", () => {
       const filePathToContent = { "/app/Cargo.lock": content };
 
       const results = await rustFilesToScannedProjects(filePathToContent);
-      const depGraph = results[0].facts.find((f) => f.type === "depGraph")!
-        .data;
+      const depGraph = results[0].facts.find(
+        (f) => f.type === "depGraph",
+      )!.data;
 
       expect(depGraph.rootPkg.name).toBe("simple-app");
       expect(depGraph.rootPkg.version).toBe("0.1.0");
 
       const pkgs = depGraph.getPkgs();
-      expect(pkgs.some((p) => p.name === "libc" && p.version === "0.2.150")).toBe(
-        true,
-      );
+      expect(
+        pkgs.some((p) => p.name === "libc" && p.version === "0.2.150"),
+      ).toBe(true);
       expect(pkgs.some((p) => p.name === "log" && p.version === "0.4.20")).toBe(
         true,
       );
@@ -92,8 +93,9 @@ describe("rust Cargo.lock analyzer", () => {
       const filePathToContent = { "/app/Cargo.lock": content };
 
       const results = await rustFilesToScannedProjects(filePathToContent);
-      const depGraph = results[0].facts.find((f) => f.type === "depGraph")!
-        .data;
+      const depGraph = results[0].facts.find(
+        (f) => f.type === "depGraph",
+      )!.data;
 
       const pkgs = depGraph.getPkgs();
       expect(pkgs.some((p) => p.name === "reqwest")).toBe(true);
@@ -114,8 +116,9 @@ describe("rust Cargo.lock analyzer", () => {
       const filePathToContent = { "/app/Cargo.lock": content };
 
       const results = await rustFilesToScannedProjects(filePathToContent);
-      const depGraph = results[0].facts.find((f) => f.type === "depGraph")!
-        .data;
+      const depGraph = results[0].facts.find(
+        (f) => f.type === "depGraph",
+      )!.data;
 
       const pkgs = depGraph.getPkgs();
       const randPkgs = pkgs.filter((p) => p.name === "rand");
@@ -125,9 +128,9 @@ describe("rust Cargo.lock analyzer", () => {
       expect(randPkgs.some((p) => p.version === "0.8.5")).toBe(true);
 
       const depPkgs = depGraph.getDepPkgs();
-      expect(depPkgs.some((p) => p.name === "rand" && p.version === "0.8.5")).toBe(
-        true,
-      );
+      expect(
+        depPkgs.some((p) => p.name === "rand" && p.version === "0.8.5"),
+      ).toBe(true);
       expect(
         depPkgs.some((p) => p.name === "rand" && p.version === "0.7.3"),
       ).toBe(false);
@@ -142,8 +145,9 @@ describe("rust Cargo.lock analyzer", () => {
       };
 
       const results = await rustFilesToScannedProjects(filePathToContent);
-      const depGraph = results[0].facts.find((f) => f.type === "depGraph")!
-        .data;
+      const depGraph = results[0].facts.find(
+        (f) => f.type === "depGraph",
+      )!.data;
 
       expect(depGraph.rootPkg.name).toBe("my-workspace");
       expect(depGraph.rootPkg.version).toBe("0.0.0");

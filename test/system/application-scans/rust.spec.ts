@@ -27,7 +27,9 @@ describe("rust application scans", () => {
     expect(depGraphFact!.data.rootPkg.version).toBe("0.1.0");
 
     const pkgs = depGraphFact!.data.getPkgs();
-    expect(pkgs.find((p) => p.name === "log" && p.version === "0.4.20")).toBeDefined();
+    expect(
+      pkgs.find((p) => p.name === "log" && p.version === "0.4.20"),
+    ).toBeDefined();
 
     const testedFilesFact = cargoResult!.facts.find(
       (fact) => fact.type === "testedFiles",
