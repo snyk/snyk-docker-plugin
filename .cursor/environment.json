@@ -1,0 +1,4 @@
+{
+  "name": "snyk-docker-plugin",
+  "install": "bash .cursor/install.sh"
+}
