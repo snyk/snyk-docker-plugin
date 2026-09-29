@@ -171,8 +171,9 @@ Match the target Node major (`20`) when validating locally.
 - Environment bootstrap is defined in `.cursor/environment.json` (`bash .cursor/install.sh`).
   The install script pins Node.js 20 via `nvm` (matching `.nvmrc`) and runs `npm ci` (which
   compiles TypeScript via the `prepare` script).
-- In interactive shells, run `nvm use 20` (or `source ~/.nvm/nvm.sh && nvm use`) if
-  `node -v` is not 20.x — the default VM shim may point at a newer Node.
+- `.cursor/start.sh` prepends the nvm Node 20 binary directory to `PATH` on each boot.
+  If `node -v` is still not 20.x in a shell, run
+  `export PATH="$HOME/.nvm/versions/node/v20.20.2/bin:$PATH"`.
 - Quick validation without Docker: `npm run test:unit`, `npm run build`, and
   `npx jest --selectProjects system --testPathPattern=docker-archive.spec` (fixture archive scan).
 - Full `npm run test:system` needs a Docker daemon plus `DOCKER_HUB_PRIVATE_IMAGE`,
