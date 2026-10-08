@@ -163,33 +163,50 @@ export class GoBinary {
       // extract the package name out of it.
       // Go source files will not be matched by any module, so they will be
       // skipped automatically.
-      for (const module of this.modules) {
-        const modFullName = moduleName(module);
-        if (pkgFile.startsWith(modFullName)) {
-          // For example, the filename "github.com/my/pkg@v0.0.1/a/a.go" will be
-          // split into "github.com/my/pkg@v0.0.1/" and "a/a.go". We then get
-          // the package name from the package and file section, and add the
-          // normalized module name (without the version) in front. This will
-          // result in the package name "github.com/my/pkg/a".
-          const parts = pkgFile.split(modFullName);
-          if (parts.length !== 2 || parts[0] !== "") {
-            throw new GoFileNameError(pkgFile, modFullName);
-          }
-
-          // for files in the "root" of a module
-          // (github.com/my/pkg@v0.0.1/a.go), the path.parse expression returns
-          // just a slash. This would result in a package name with a trailing
-          // slash, which is incorrect.
-          let dirName = path.parse(parts[1]).dir;
-          if (dirName === path.sep) {
-            dirName = "";
-          }
-
-          const pkgName = module.name + dirName;
-          if (!module.packages.includes(pkgName)) {
-            module.packages.push(pkgName);
-          }
+      // A module only matches on a path boundary, and the longest match wins.
+      // Vendored paths carry no version, so otherwise a module that is a plain
+      // string prefix of another (github.com/aws/aws-sdk-go vs
+      // github.com/aws/aws-sdk-go-v2) or a parent of a nested module
+      // (github.com/aws/aws-sdk-go-v2 vs github.com/aws/aws-sdk-go-v2/service/s3)
+      // would also claim the file, reporting its package at the wrong version.
+      let module: GoModule | undefined;
+      let modFullName = "";
+      for (const candidate of this.modules) {
+        const candidateName = moduleName(candidate);
+        if (
+          candidateName.length > modFullName.length &&
+          pkgFile.startsWith(candidateName + path.sep)
+        ) {
+          module = candidate;
+          modFullName = candidateName;
         }
+      }
+      if (!module) {
+        continue;
+      }
+
+      // For example, the filename "github.com/my/pkg@v0.0.1/a/a.go" will be
+      // split into "github.com/my/pkg@v0.0.1/" and "a/a.go". We then get
+      // the package name from the package and file section, and add the
+      // normalized module name (without the version) in front. This will
+      // result in the package name "github.com/my/pkg/a".
+      const parts = pkgFile.split(modFullName);
+      if (parts.length !== 2 || parts[0] !== "") {
+        throw new GoFileNameError(pkgFile, modFullName);
+      }
+
+      // for files in the "root" of a module
+      // (github.com/my/pkg@v0.0.1/a.go), the path.parse expression returns
+      // just a slash. This would result in a package name with a trailing
+      // slash, which is incorrect.
+      let dirName = path.parse(parts[1]).dir;
+      if (dirName === path.sep) {
+        dirName = "";
+      }
+
+      const pkgName = module.name + dirName;
+      if (!module.packages.includes(pkgName)) {
+        module.packages.push(pkgName);
       }
     }
   }
