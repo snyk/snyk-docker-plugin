@@ -61,6 +61,19 @@ function normalizePackageName(name: string): string {
     : name;
 }
 
+// PreserveCompilationContext=true makes the SDK write every shared-framework
+// reference assembly into deps.json as a "referenceassembly" library keyed by
+// its 4-part assembly version (e.g. Microsoft.AspNetCore.DataProtection/10.0.0.0).
+// That is not a NuGet package coordinate: the deployed version comes from the
+// shared framework. Matching it against NuGet advisories yields false positives.
+// Compile-only *packages* ("type": "package") are real NuGet ids and are kept.
+function isReferenceAssembly(
+  key: string,
+  libraries: NonNullable<DepsJson["libraries"]>,
+): boolean {
+  return libraries[key]?.type === "referenceassembly";
+}
+
 async function addDependency(
   parentNodeId: string,
   depName: string,
@@ -174,6 +187,9 @@ async function buildDepGraphFromDepsJson(content: string, filePath: string) {
 
   const packageIndex: PackageIndex = new Map();
   for (const key of allPackages) {
+    if (isReferenceAssembly(key, libraries)) {
+      continue;
+    }
     const parsed = parsePackageKey(key);
     if (!parsed) {
       continue;
