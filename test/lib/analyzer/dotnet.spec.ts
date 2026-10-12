@@ -115,8 +115,8 @@ describe("dotnet deps.json analyzer", () => {
 
   // Fixtures are a `dotnet new web` (net10.0) app referencing Swashbuckle.AspNetCore,
   // published with and without PreserveCompilationContext=true. The PCC file is
-  // trimmed to 6 of the SDK's 307 "referenceassembly" entries, and
-  // Swashbuckle.AspNetCore is marked compileOnly, as seen in real-world deps.json.
+  // trimmed to 6 of the SDK's 307 "referenceassembly" entries. Swashbuckle.AspNetCore
+  // is hand-marked compileOnly to mirror a shape seen in a production deps.json.
   describe("PreserveCompilationContext publishes", () => {
     async function pkgsOf(fixture: string): Promise<string[]> {
       const results = await dotnetFilesToScannedProjects({
@@ -165,6 +165,42 @@ describe("dotnet deps.json analyzer", () => {
           "Microsoft.Extensions.ApiDescription.Server@10.0.0",
         ].sort(),
       );
+    });
+    it("should prefer a real package over a same-named reference assembly", async () => {
+      // The SDK renames clashing reference assemblies to "<name>.Reference", but
+      // other producers may not. Put the reference assembly last, where a
+      // last-wins index would otherwise pick it.
+      const content = JSON.stringify({
+        runtimeTarget: { name: ".NETCoreApp,Version=v10.0" },
+        targets: {
+          ".NETCoreApp,Version=v10.0": {
+            "WebApp/1.0.0": {
+              dependencies: { "System.Security.Cryptography.Xml": "10.0.6" },
+            },
+            "System.Security.Cryptography.Xml/10.0.6": {},
+            "System.Security.Cryptography.Xml/10.0.0.0": { compileOnly: true },
+          },
+        },
+        libraries: {
+          "WebApp/1.0.0": { type: "project" },
+          "System.Security.Cryptography.Xml/10.0.6": { type: "package" },
+          "System.Security.Cryptography.Xml/10.0.0.0": {
+            type: "referenceassembly",
+          },
+        },
+      });
+      const results = await dotnetFilesToScannedProjects({
+        "/app/WebApp.deps.json": content,
+      });
+      const depGraph = results[0].facts.find(
+        (f) => f.type === "depGraph",
+      )!.data;
+      expect(
+        depGraph
+          .getPkgs()
+          .map((p) => `${p.name}@${p.version}`)
+          .sort(),
+      ).toEqual(["System.Security.Cryptography.Xml@10.0.6", "WebApp@1.0.0"]);
     });
   });
 

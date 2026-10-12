@@ -61,17 +61,19 @@ function normalizePackageName(name: string): string {
     : name;
 }
 
-// PreserveCompilationContext=true makes the SDK write every shared-framework
-// reference assembly into deps.json as a "referenceassembly" library keyed by
-// its 4-part assembly version (e.g. Microsoft.AspNetCore.DataProtection/10.0.0.0).
-// That is not a NuGet package coordinate: the deployed version comes from the
-// shared framework. Matching it against NuGet advisories yields false positives.
+// PreserveCompilationContext=true makes the SDK write compile-time-only
+// reference assemblies into deps.json as "referenceassembly" libraries keyed by
+// their 4-part assembly version (e.g. Microsoft.AspNetCore.DataProtection/10.0.0.0).
+// These are mostly the shared framework, plus any <Reference Private="false">
+// DLLs. None is a NuGet package coordinate, and a default publish omits them, so
+// matching them against NuGet advisories yields false positives.
 // Compile-only *packages* ("type": "package") are real NuGet ids and are kept.
+// Library types are compared case-insensitively, as Microsoft.Extensions.DependencyModel does.
 function isReferenceAssembly(
   key: string,
   libraries: NonNullable<DepsJson["libraries"]>,
 ): boolean {
-  return libraries[key]?.type === "referenceassembly";
+  return libraries[key]?.type?.toLowerCase() === "referenceassembly";
 }
 
 async function addDependency(
