@@ -165,3 +165,16 @@ Match the target Node major (`20`) when validating locally.
 - How a scan flows end-to-end: start at `lib/scan.ts`.
 - How to add support for a new ecosystem: look at an existing one under
   `lib/inputs/` + `lib/analyzer/applications/` + `lib/parser/` as a template.
+
+## Cursor Cloud specific instructions
+
+- Environment bootstrap is defined in `.cursor/environment.json` (`bash .cursor/install.sh`).
+  The install script pins Node.js 20 via `nvm` (matching `.nvmrc`) and runs `npm ci` (which
+  compiles TypeScript via the `prepare` script).
+- `.cursor/start.sh` prepends the nvm Node 20 binary directory to `PATH` on each boot.
+  If `node -v` is still not 20.x in a shell, run
+  `export PATH="$HOME/.nvm/versions/node/v20.20.2/bin:$PATH"`.
+- Quick validation without Docker: `npm run test:unit`, `npm run build`, and
+  `npx jest --selectProjects system --testPathPattern=docker-archive.spec` (fixture archive scan).
+- Full `npm run test:system` needs a Docker daemon plus `DOCKER_HUB_PRIVATE_IMAGE`,
+  `DOCKER_HUB_USERNAME`, and `DOCKER_HUB_PASSWORD` (see `test/README.md`).
