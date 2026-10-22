@@ -1754,6 +1754,107 @@ describe("buildResponse", () => {
     });
   });
 
+  describe("Debian packages whose dpkg Source differs from the binary name", () => {
+    const runInstruction = "RUN apt-get install -y python3 curl";
+    const expectedDigest = Buffer.from(runInstruction).toString("base64");
+
+    // Dockerfile packages are keyed by the literal `apt-get install` argument,
+    // which is always the binary package name.
+    const dockerfileAnalysis = {
+      baseImage: "ubuntu:24.04",
+      dockerfilePackages: {
+        python3: { instruction: runInstruction, installCommand: "apt-get" },
+        curl: { instruction: runInstruction, installCommand: "apt-get" },
+      },
+      dockerfileLayers: {
+        [expectedDigest]: { instruction: runInstruction },
+      },
+    };
+
+    // `python3` is built from source package `python3-defaults`, so the
+    // dep-tree key is `python3-defaults/python3`. `curl` has no distinct
+    // Source and keeps a plain key.
+    const debDeps = () => ({
+      "python3-defaults/python3": node("python3-defaults/python3")
+        .withChild("python3.12/python3.12-minimal")
+        .build(),
+      curl: node("curl").build(),
+      "base-src/base-pkg": node("base-src/base-pkg").build(),
+    });
+
+    const buildDebResponse = () =>
+      buildResponse(
+        createMockAnalysis({
+          depTree: {
+            dependencies: debDeps(),
+            name: "my-image",
+            version: "1.0.0",
+            packageFormatVersion: "deb:0.0.1",
+            targetOS: { name: "ubuntu", prettyName: "Ubuntu 24.04" },
+          },
+          packageFormat: "deb",
+        }) as any,
+        structuredClone(dockerfileAnalysis) as any,
+        true,
+      );
+
+    it("retains a Dockerfile-installed package under excludeBaseImageVulns and still drops base image packages", async () => {
+      const result = await buildDebResponse();
+
+      const pkgNames = getDepPkgs(result.scanResults[0]).map((p) => p.name);
+      expect(pkgNames).toContain("python3-defaults/python3");
+      expect(pkgNames).toContain("python3.12/python3.12-minimal");
+      expect(pkgNames).toContain("curl");
+      expect(pkgNames).not.toContain("base-src/base-pkg");
+    });
+
+    it("still excludes a base image package that shares the source of an installed package", async () => {
+      const deps = {
+        ...debDeps(),
+        "python3-defaults/python3-distutils": node(
+          "python3-defaults/python3-distutils",
+        ).build(),
+      };
+      const result = await buildResponse(
+        createMockAnalysis({
+          depTree: {
+            dependencies: deps,
+            name: "my-image",
+            version: "1.0.0",
+            packageFormatVersion: "deb:0.0.1",
+            targetOS: { name: "ubuntu", prettyName: "Ubuntu 24.04" },
+          },
+          packageFormat: "deb",
+        }) as any,
+        structuredClone(dockerfileAnalysis) as any,
+        true,
+      );
+
+      const pkgNames = getDepPkgs(result.scanResults[0]).map((p) => p.name);
+      expect(pkgNames).toContain("python3-defaults/python3");
+      expect(pkgNames).not.toContain("python3-defaults/python3-distutils");
+    });
+
+    it("attributes the Dockerfile layer to the package and its transitive dependency", async () => {
+      const result = await buildDebResponse();
+
+      const depGraph = result.scanResults[0].facts?.find(
+        (f) => f.type === "depGraph",
+      )?.data;
+      const layerIdOf = (name: string) =>
+        depGraph
+          .getPkgs()
+          .filter((p) => p.name === name)
+          .flatMap((p) => depGraph.getPkgNodes(p))
+          .map((n) => n.info?.labels?.dockerLayerId)[0];
+
+      expect(layerIdOf("python3-defaults/python3")).toBe(expectedDigest);
+      expect(layerIdOf("python3.12/python3.12-minimal")).toBe(expectedDigest);
+      expect(layerIdOf("curl")).toBe(expectedDigest);
+      expect(layerIdOf("base-src/base-pkg")).toBeUndefined();
+    });
+  });
+
   describe("dockerLayerDiffId attribution", () => {
     // `annotateDockerLayerDiffIds` walks the dep tree and stamps a
     // `dockerLayerDiffId` label on every node whose `${name}@${version}`
