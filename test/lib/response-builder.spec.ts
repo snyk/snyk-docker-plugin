@@ -1808,6 +1808,33 @@ describe("buildResponse", () => {
       expect(pkgNames).not.toContain("base-src/base-pkg");
     });
 
+    it("still excludes a base image package that shares the source of an installed package", async () => {
+      const deps = {
+        ...debDeps(),
+        "python3-defaults/python3-distutils": node(
+          "python3-defaults/python3-distutils",
+        ).build(),
+      };
+      const result = await buildResponse(
+        createMockAnalysis({
+          depTree: {
+            dependencies: deps,
+            name: "my-image",
+            version: "1.0.0",
+            packageFormatVersion: "deb:0.0.1",
+            targetOS: { name: "ubuntu", prettyName: "Ubuntu 24.04" },
+          },
+          packageFormat: "deb",
+        }) as any,
+        structuredClone(dockerfileAnalysis) as any,
+        true,
+      );
+
+      const pkgNames = getDepPkgs(result.scanResults[0]).map((p) => p.name);
+      expect(pkgNames).toContain("python3-defaults/python3");
+      expect(pkgNames).not.toContain("python3-defaults/python3-distutils");
+    });
+
     it("attributes the Dockerfile layer to the package and its transitive dependency", async () => {
       const result = await buildDebResponse();
 
