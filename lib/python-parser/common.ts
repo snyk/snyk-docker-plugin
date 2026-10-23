@@ -17,6 +17,13 @@ export function specifierValidRange(
   return versionPartsLength === 2 ? "^" : "~";
 }
 
+// Package names that differ only in case or in runs of "-", "_" and "." name the
+// same package, so pydantic-core is the package whose METADATA says pydantic_core.
+// See https://packaging.python.org/en/latest/specifications/name-normalization/
+export function normalizePackageName(name: string): string {
+  return name.toLowerCase().replace(/[-_.]+/g, "-");
+}
+
 // This regex is used to extract the "semver" part from the version string.
 // See the tests for a better understanding (Also the reason why this is exported)
 export const VERSION_EXTRACTION_REGEX = /(?<VERSION>(\d+\.)*\d+).*/;
