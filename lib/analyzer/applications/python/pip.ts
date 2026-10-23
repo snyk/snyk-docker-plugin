@@ -5,7 +5,10 @@ import * as path from "path";
 import * as semver from "semver";
 import { getErrorMessage } from "../../../error-utils";
 import { DepGraphFact } from "../../../facts";
-import { compareVersions } from "../../../python-parser/common";
+import {
+  compareVersions,
+  normalizePackageName,
+} from "../../../python-parser/common";
 import { getPackageInfo } from "../../../python-parser/metadata-parser";
 import { getRequirements } from "../../../python-parser/requirements-parser";
 import {
@@ -94,7 +97,7 @@ class PythonDepGraphBuilder {
 
   // find the best match for a dependency in found metadata files
   private findMetadata(dep: PythonRequirement): PythonPackage | null {
-    const nameMatches = this.metadata[dep.name.toLowerCase()];
+    const nameMatches = this.metadata[normalizePackageName(dep.name)];
     if (!nameMatches || nameMatches.length === 0) {
       return null;
     }
@@ -129,10 +132,11 @@ export async function pipFilesToScannedProjects(
     } else if (fileBaseName === "METADATA") {
       try {
         const packageInfo = getPackageInfo(filePathToContent[filepath]);
-        if (!metadataItems[packageInfo.name.toLowerCase()]) {
-          metadataItems[packageInfo.name.toLowerCase()] = [];
+        const key = normalizePackageName(packageInfo.name);
+        if (!metadataItems[key]) {
+          metadataItems[key] = [];
         }
-        metadataItems[packageInfo.name.toLowerCase()].push(packageInfo);
+        metadataItems[key].push(packageInfo);
       } catch (err) {
         debug(getErrorMessage(err));
       }
