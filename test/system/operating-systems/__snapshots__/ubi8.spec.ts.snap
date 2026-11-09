@@ -6164,6 +6164,16 @@ exports[`redhat modules tests should correctly analyze redhat module 1`] = `
           "type": "imageNames",
         },
         {
+          "data": {
+            "imageTag": undefined,
+            "indexDigest": undefined,
+            "manifestDigest": "sha256:d344ac95abeeb0d5e2b2897caca0c806fae925b12f82242fc34e0a9d2eb785ca",
+            "registryHost": "registry.access.redhat.com",
+            "repository": "ubi8/nodejs-10",
+          },
+          "type": "ociDistributionMetadata",
+        },
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
@@ -16121,6 +16131,16 @@ exports[`redhat modules tests should correctly analyze redhat module 1`] = `
           "type": "imageNames",
         },
         {
+          "data": {
+            "imageTag": undefined,
+            "indexDigest": undefined,
+            "manifestDigest": "sha256:d344ac95abeeb0d5e2b2897caca0c806fae925b12f82242fc34e0a9d2eb785ca",
+            "registryHost": "registry.access.redhat.com",
+            "repository": "ubi8/nodejs-10",
+          },
+          "type": "ociDistributionMetadata",
+        },
+        {
           "data": "Red Hat Enterprise Linux 8.2 (Ootpa)",
           "type": "imageOsReleasePrettyName",
         },
@@ -19140,6 +19160,16 @@ exports[`redhat ubi8 tests should correctly analyze an ubi8 image by tag 1`] = `
             ],
           },
           "type": "imageNames",
+        },
+        {
+          "data": {
+            "imageTag": "8.2-347",
+            "indexDigest": "sha256:d748c21a55796827da82c61f162b505c59451cba24f1874e5185f21275b6bddc",
+            "manifestDigest": "sha256:3ce39afb014c36f0a285cd832d6722733eea40385e2c53bfeb9d6121ba6a940e",
+            "registryHost": "registry.access.redhat.com",
+            "repository": "ubi8/ubi",
+          },
+          "type": "ociDistributionMetadata",
         },
         {
           "data": "0.0.0-local",

@@ -100,6 +100,16 @@ exports[`scratch tests should correctly analyze an scratch image by sha256 1`] =
           "type": "imageNames",
         },
         {
+          "data": {
+            "imageTag": "scratch",
+            "indexDigest": undefined,
+            "manifestDigest": "sha256:8f6283b7f48f51c674a6270bfa0fb0637cfd96c7b49cdddf1dede94fe4ee77f9",
+            "registryHost": "docker.io",
+            "repository": "snyk/runtime-fixtures",
+          },
+          "type": "ociDistributionMetadata",
+        },
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
