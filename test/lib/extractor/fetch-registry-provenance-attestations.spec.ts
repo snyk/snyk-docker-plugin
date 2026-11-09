@@ -5,6 +5,7 @@ import {
 
 import {
   fetchAttestationsFromRegistry,
+  keepAttestationsForManifest,
   parsePlatform,
 } from "../../../lib/extractor/fetch-registry-provenance-attestations";
 
@@ -164,6 +165,55 @@ describe("fetch-registry-provenance-attestations", () => {
 
       expect(await fetchAttestationsFromRegistry(ref)).toEqual([]);
       expect(mockGetLayer).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("keepAttestationsForManifest", () => {
+    const AMD64_MANIFEST = `sha256:${"a".repeat(64)}`;
+    const ARM64_MANIFEST = `sha256:${"b".repeat(64)}`;
+    const statementFor = (manifestDigest: string) => ({
+      predicateType: SLSA_PROVENANCE,
+      subject: [{ digest: { sha256: manifestDigest.replace("sha256:", "") } }],
+    });
+    const attestationFor = (manifestDigest: string) => ({
+      manifestDigest: "sha256:attmanifest",
+      manifest: {
+        schemaVersion: "2",
+        config: { digest: "sha256:config" },
+        layers: [{ digest: "sha256:layer1", mediaType: IN_TOTO }],
+      } as any,
+      inTotoStatements: { "sha256:layer1": statementFor(manifestDigest) },
+    });
+
+    it("keeps attestations whose subject is the scanned manifest", () => {
+      const result = keepAttestationsForManifest(
+        [attestationFor(ARM64_MANIFEST)],
+        ARM64_MANIFEST,
+      );
+
+      expect(result).toHaveLength(1);
+      expect(result[0].attestedManifestDigest).toEqual(ARM64_MANIFEST);
+      expect(Object.keys(result[0].inTotoStatements)).toEqual([
+        "sha256:layer1",
+      ]);
+    });
+
+    it("drops attestations for another platform's manifest", () => {
+      expect(
+        keepAttestationsForManifest(
+          [attestationFor(AMD64_MANIFEST)],
+          ARM64_MANIFEST,
+        ),
+      ).toEqual([]);
+    });
+
+    it("drops attestations when the scanned manifest digest is unknown", () => {
+      expect(
+        keepAttestationsForManifest(
+          [attestationFor(ARM64_MANIFEST)],
+          undefined,
+        ),
+      ).toEqual([]);
     });
   });
 });
