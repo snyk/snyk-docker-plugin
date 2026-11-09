@@ -134,6 +134,56 @@ export async function fetchAttestationsFromRegistry(
   ];
 }
 
+/**
+ * Keeps only the in-toto statements that attest the scanned image manifest.
+ * A registry index holds one attestation manifest per platform, and the lookup
+ * above can return another platform's, so unverifiable provenance is dropped
+ * rather than attributed to the wrong image.
+ */
+export function keepAttestationsForManifest(
+  attestations: ResolvedAttestationManifest[],
+  scannedManifestDigest: string | undefined,
+): ResolvedAttestationManifest[] {
+  if (!scannedManifestDigest) {
+    return [];
+  }
+
+  const kept: ResolvedAttestationManifest[] = [];
+  for (const attestation of attestations) {
+    const inTotoStatements: Record<string, InTotoStatement> = {};
+    for (const [layerDigest, statement] of Object.entries(
+      attestation.inTotoStatements,
+    )) {
+      if (statementAttests(statement, scannedManifestDigest)) {
+        inTotoStatements[layerDigest] = statement;
+      }
+    }
+    if (Object.keys(inTotoStatements).length > 0) {
+      kept.push({
+        ...attestation,
+        attestedManifestDigest: scannedManifestDigest,
+        inTotoStatements,
+      });
+    } else {
+      debug(
+        `[provenance] dropping attestation manifest ${attestation.manifestDigest}: it does not attest ${scannedManifestDigest}`,
+      );
+    }
+  }
+  return kept;
+}
+
+function statementAttests(
+  statement: InTotoStatement,
+  manifestDigest: string,
+): boolean {
+  return (statement.subject ?? []).some((subject) =>
+    Object.entries(subject.digest ?? {}).some(
+      ([algorithm, value]) => `${algorithm}:${value}` === manifestDigest,
+    ),
+  );
+}
+
 export function parsePlatform(
   platform?: string,
 ): { os: string; architecture: string; variant?: string } | undefined {
