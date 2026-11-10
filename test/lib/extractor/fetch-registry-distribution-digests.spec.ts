@@ -53,11 +53,13 @@ describe("fetchDistributionDigestsFromRegistry", () => {
       "1.27",
       "user",
       "pass",
-      {
+      expect.objectContaining({
         acceptManifest: expect.stringContaining(
           "application/vnd.oci.image.index.v1+json",
         ),
-      },
+        response_timeout: expect.any(Number),
+        read_timeout: expect.any(Number),
+      }),
       { os: "linux", architecture: "amd64" },
     );
   });

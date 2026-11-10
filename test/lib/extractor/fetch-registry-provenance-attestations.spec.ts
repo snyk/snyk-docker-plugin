@@ -27,6 +27,11 @@ const ref = {
   imageReference: "latest",
 };
 
+const requestTimeouts = expect.objectContaining({
+  response_timeout: expect.any(Number),
+  read_timeout: expect.any(Number),
+});
+
 const statement = { predicateType: SLSA_PROVENANCE };
 const statementBlob = Buffer.from(JSON.stringify(statement));
 
@@ -83,7 +88,7 @@ describe("fetch-registry-provenance-attestations", () => {
         ref.imageReference,
         "user",
         "pass",
-        undefined,
+        requestTimeouts,
         platform,
       );
       expect(mockGetLayer).toHaveBeenCalledWith(
@@ -92,6 +97,7 @@ describe("fetch-registry-provenance-attestations", () => {
         "sha256:layer1",
         "user",
         "pass",
+        requestTimeouts,
       );
     });
 
@@ -126,6 +132,7 @@ describe("fetch-registry-provenance-attestations", () => {
         "sha256:prov",
         undefined,
         undefined,
+        requestTimeouts,
       );
       expect(Object.keys(result[0].inTotoStatements)).toEqual(["sha256:prov"]);
     });

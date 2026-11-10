@@ -2,7 +2,10 @@ import { StaticAnalysis } from "../../lib/analyzer/types";
 import { fetchDistributionDigestsFromRegistry } from "../../lib/extractor/fetch-registry-distribution-digests";
 import { fetchAttestationsFromRegistry } from "../../lib/extractor/fetch-registry-provenance-attestations";
 import { resolveRegistryCredentials } from "../../lib/extractor/registry-credentials";
-import { fetchRegistryMetadata } from "../../lib/static";
+import {
+  fetchRegistryMetadata,
+  REGISTRY_METADATA_DEADLINE_MS,
+} from "../../lib/static";
 
 jest.mock("../../lib/extractor/registry-credentials");
 jest.mock("../../lib/extractor/fetch-registry-distribution-digests");
@@ -80,5 +83,36 @@ describe("fetchRegistryMetadata", () => {
 
     expect(result.digests).toEqual({ manifest: ARM64_MANIFEST, index: INDEX });
     expect(result.attestations).toEqual([]);
+  });
+
+  it("gives up on registry metadata that never arrives", async () => {
+    jest.useFakeTimers();
+    try {
+      mockAttestations.mockReturnValue(new Promise(() => undefined));
+      mockDigests.mockReturnValue(new Promise(() => undefined));
+
+      const pending = fetchRegistryMetadata("org/image:1.0", analysis, {});
+      await jest.advanceTimersByTimeAsync(REGISTRY_METADATA_DEADLINE_MS);
+
+      await expect(pending).resolves.toEqual({});
+    } finally {
+      jest.useRealTimers();
+    }
+  });
+
+  it.each([
+    "nginx:1.27",
+    "docker.io/nginx:1.27",
+    "index.docker.io/nginx:1.27",
+    "registry-1.docker.io/library/nginx:1.27",
+  ])("uses the Docker Hub official repository for %s", async (image) => {
+    mockAttestations.mockResolvedValue([]);
+
+    await fetchRegistryMetadata(image, analysis, {});
+
+    const ref = mockDigests.mock.calls[0][0];
+    expect(ref.registryBase).toEqual("registry-1.docker.io");
+    expect(ref.repo).toEqual("library/nginx");
+    expect(mockAttestations.mock.calls[0][0].repo).toEqual("library/nginx");
   });
 });

@@ -1,3 +1,4 @@
+import * as Debug from "debug";
 import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
@@ -223,6 +224,34 @@ describe("resolveRegistryCredentials", () => {
     writeDockerConfig(configDir, { credsStore: "../../bin/sh" });
 
     expect(await resolveRegistryCredentials("myregistry.io")).toEqual({});
+  });
+
+  it("never logs config contents when the config is not valid JSON", async () => {
+    // Newer Node versions quote part of the input in JSON.parse errors.
+    const secret = "hunter2-secret";
+    fs.writeFileSync(
+      path.join(configDir, "config.json"),
+      `{"auths":{"r":{"password":${secret}}}}`,
+    );
+    jest.spyOn(JSON, "parse").mockImplementationOnce(() => {
+      throw new SyntaxError(
+        `Unexpected token, ..."${secret}"... is not valid JSON`,
+      );
+    });
+    const logs: string[] = [];
+    const originalLog = Debug.log;
+    Debug.log = (...args: unknown[]) => logs.push(args.join(" "));
+    Debug.enable("snyk");
+    try {
+      expect(await resolveRegistryCredentials("r")).toEqual({});
+    } finally {
+      Debug.disable();
+      Debug.log = originalLog;
+      jest.restoreAllMocks();
+    }
+
+    expect(logs.join("\n")).toContain("invalid docker config");
+    expect(logs.join("\n")).not.toContain(secret);
   });
 
   it("returns no credentials when the config is not valid JSON", async () => {
