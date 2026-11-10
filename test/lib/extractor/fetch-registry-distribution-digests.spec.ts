@@ -100,6 +100,26 @@ describe("fetchDistributionDigestsFromRegistry", () => {
     );
   });
 
+  it("retries amd64 with the v1 baseline variant", async () => {
+    mockGetManifest
+      .mockRejectedValueOnce(
+        new Error('no supported manifest found for platform: {"os":"linux"}'),
+      )
+      .mockResolvedValueOnce(manifestWith(CONFIG_DIGEST));
+
+    const result = await fetchDistributionDigestsFromRegistry({
+      ...ref,
+      platform: { os: "linux", architecture: "amd64" },
+    });
+
+    expect(result).toEqual({ manifest: MANIFEST_DIGEST, index: INDEX_DIGEST });
+    expect(mockGetManifest.mock.calls[1][6]).toEqual({
+      os: "linux",
+      architecture: "amd64",
+      variant: "v1",
+    });
+  });
+
   it("returns only the manifest digest for single-platform images", async () => {
     mockGetManifest.mockResolvedValue({
       ...manifestWith(CONFIG_DIGEST),
