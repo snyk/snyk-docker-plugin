@@ -32,6 +32,8 @@ Image protocols:
 - Docker archive, OCI archive
 - pulling images from a Docker socket
 - pulling from container registries (with support for username and password authentication)
+  - without explicit credentials, registry metadata lookups (manifest/index digests, provenance)
+    use the `docker login` credentials from the Docker config and credential helpers
 
 Applications:
 
