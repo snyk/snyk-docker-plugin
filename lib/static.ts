@@ -141,7 +141,7 @@ export async function analyzeStatically(
  * credentials, and run concurrently.
  * Best-effort: this metadata is optional, so it never fails the scan.
  */
-async function fetchRegistryMetadata(
+export async function fetchRegistryMetadata(
   targetImage: string,
   analysis: StaticAnalysis,
   options: Partial<PluginOptions>,

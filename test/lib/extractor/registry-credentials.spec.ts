@@ -167,6 +167,45 @@ describe("resolveRegistryCredentials", () => {
     });
   });
 
+  it("asks a Docker Hub credHelper for the canonical Hub address", async () => {
+    writeCredentialHelper(
+      binDir,
+      "testhelper",
+      "https://index.docker.io/v1/",
+      "hubuser",
+      "hubsecret",
+    );
+    writeDockerConfig(configDir, {
+      credHelpers: { "docker.io": "testhelper" },
+    });
+
+    expect(await resolveRegistryCredentials("docker.io")).toEqual({
+      username: "hubuser",
+      password: "hubsecret",
+    });
+  });
+
+  it("falls back to credsStore when the credHelper has no entry", async () => {
+    writeCredentialHelper(binDir, "testhelper", "other.io", "x", "y");
+    writeCredentialHelper(
+      binDir,
+      "teststore",
+      "https://index.docker.io/v1/",
+      "storeuser",
+      "storesecret",
+    );
+    writeDockerConfig(configDir, {
+      auths: { "https://index.docker.io/v1/": {} },
+      credsStore: "teststore",
+      credHelpers: { "registry-1.docker.io": "testhelper" },
+    });
+
+    expect(await resolveRegistryCredentials("docker.io")).toEqual({
+      username: "storeuser",
+      password: "storesecret",
+    });
+  });
+
   it("ignores identity tokens, which basic auth cannot use", async () => {
     writeCredentialHelper(
       binDir,

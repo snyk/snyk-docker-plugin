@@ -215,5 +215,22 @@ describe("fetch-registry-provenance-attestations", () => {
         ),
       ).toEqual([]);
     });
+
+    it("skips malformed statements and keeps valid ones", () => {
+      const attestation = attestationFor(ARM64_MANIFEST);
+      attestation.inTotoStatements = {
+        "sha256:null": null,
+        "sha256:badsubject": { predicateType: SLSA_PROVENANCE, subject: "x" },
+        "sha256:baddigest": { subject: [null, { digest: "x" }] },
+        ...attestation.inTotoStatements,
+      } as any;
+
+      const result = keepAttestationsForManifest([attestation], ARM64_MANIFEST);
+
+      expect(result).toHaveLength(1);
+      expect(Object.keys(result[0].inTotoStatements)).toEqual([
+        "sha256:layer1",
+      ]);
+    });
   });
 });
