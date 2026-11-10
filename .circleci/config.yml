@@ -13,7 +13,7 @@ parameters:
 defaults: &defaults
   resource_class: small
   docker:
-    - image: cimg/node:22.22
+    - image: cimg/node:22
   working_directory: ~/snyk-docker-plugin
 
 windows_defaults: &windows_defaults
@@ -44,10 +44,10 @@ windows_big: &windows_big
 release_defaults: &release_defaults
   resource_class: small
   docker:
-    - image: cimg/node:24.15
+    - image: cimg/node:22
   working_directory: ~/snyk-docker-plugin
 
-define: &windows_node_version "20.19.1"
+define: &windows_node_version "22"
 
 commands:
   setup_npm_user:
@@ -125,6 +125,11 @@ jobs:
   test_unit:
     <<: *defaults
     resource_class: medium
+    parameters:
+      node_version:
+        type: string
+    docker:
+      - image: cimg/node:<< parameters.node_version >>
     steps:
       - checkout
       - attach_workspace:
@@ -135,6 +140,11 @@ jobs:
           path: ./test/reports
   test_system:
     <<: *defaults
+    parameters:
+      node_version:
+        type: string
+    docker:
+      - image: cimg/node:<< parameters.node_version >>
     steps:
       - checkout
       - setup_remote_docker
@@ -329,14 +339,22 @@ workflows:
             - engines_sca-scanners
             - prodsec-orb-runtime
       - test_unit:
-          name: Unit Test
+          name: Unit Test for Node=<< matrix.node_version >>
+          matrix:
+            alias: Unit Test
+            parameters:
+              node_version: ['22', '24', '26']
           context:
             - nodejs-install
             - snyk-bot-slack
           requires:
             - Build
       - test_system:
-          name: System Test
+          name: System Test for Node=<< matrix.node_version >>
+          matrix:
+            alias: System Test
+            parameters:
+              node_version: ['22', '24', '26']
           context:
             - nodejs-install
             - snyk-bot-slack
