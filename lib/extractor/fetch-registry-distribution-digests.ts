@@ -14,8 +14,14 @@ const ACCEPT_MANIFEST = [
   contentTypes.MANIFEST_V2,
 ].join(",");
 
-// Registries list these architectures with a variant that local images often omit.
-const DEFAULT_VARIANTS: Record<string, string> = { arm64: "v8", arm: "v7" };
+// The variant an architecture implies when none is given, as Docker normalizes it.
+// Registries may list it explicitly (arm64/v8, arm/v7, amd64/v1) while local images
+// omit it. Kept in sync with the registry client's platform matching.
+const DEFAULT_VARIANTS: Record<string, string> = {
+  amd64: "v1",
+  arm64: "v8",
+  arm: "v7",
+};
 
 type Platform = { os: string; architecture: string; variant?: string };
 
