@@ -131,7 +131,7 @@ to keep pre-Jest-29 snapshots readable; don't change it casually.
 
 CircleCI (`.circleci/config.yml`) runs build, lint, and tests on:
 
-- Linux (`cimg/node:22`, `24` and `26`) — full Jest suite, including system tests
+- Linux (`cimg/node:22`) — full Jest suite, including system tests
 - Windows (`win/server-2022`) — `test/windows/` suite via `npm run test:windows` (fixture-only) and `npm run test:windows:docker` (requires Docker daemon)
 
 Match the target Node major (`22`) when validating locally.

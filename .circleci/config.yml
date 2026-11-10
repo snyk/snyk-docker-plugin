@@ -125,11 +125,6 @@ jobs:
   test_unit:
     <<: *defaults
     resource_class: medium
-    parameters:
-      node_version:
-        type: string
-    docker:
-      - image: cimg/node:<< parameters.node_version >>
     steps:
       - checkout
       - attach_workspace:
@@ -140,11 +135,6 @@ jobs:
           path: ./test/reports
   test_system:
     <<: *defaults
-    parameters:
-      node_version:
-        type: string
-    docker:
-      - image: cimg/node:<< parameters.node_version >>
     steps:
       - checkout
       - setup_remote_docker
@@ -339,22 +329,14 @@ workflows:
             - engines_sca-scanners
             - prodsec-orb-runtime
       - test_unit:
-          name: Unit Test for Node=<< matrix.node_version >>
-          matrix:
-            alias: Unit Test
-            parameters:
-              node_version: ['22', '24', '26']
+          name: Unit Test
           context:
             - nodejs-install
             - snyk-bot-slack
           requires:
             - Build
       - test_system:
-          name: System Test for Node=<< matrix.node_version >>
-          matrix:
-            alias: System Test
-            parameters:
-              node_version: ['22', '24', '26']
+          name: System Test
           context:
             - nodejs-install
             - snyk-bot-slack
