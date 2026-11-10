@@ -173,15 +173,25 @@ export function keepAttestationsForManifest(
   return kept;
 }
 
+// Statements come from registry blobs, so their shape is not guaranteed.
 function statementAttests(
-  statement: InTotoStatement,
+  statement: InTotoStatement | null | undefined,
   manifestDigest: string,
 ): boolean {
-  return (statement.subject ?? []).some((subject) =>
-    Object.entries(subject.digest ?? {}).some(
-      ([algorithm, value]) => `${algorithm}:${value}` === manifestDigest,
-    ),
-  );
+  const subjects: unknown = statement?.subject;
+  if (!Array.isArray(subjects)) {
+    return false;
+  }
+  return subjects.some((subject) => {
+    const digest = subject?.digest;
+    return (
+      typeof digest === "object" &&
+      digest !== null &&
+      Object.entries(digest).some(
+        ([algorithm, value]) => `${algorithm}:${value}` === manifestDigest,
+      )
+    );
+  });
 }
 
 export function parsePlatform(

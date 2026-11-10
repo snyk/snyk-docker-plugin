@@ -84,18 +84,30 @@ async function getDockerConfigCredentials(
       (key) => normalizeRegistryHost(key) === host,
     );
 
+  // Helpers store Docker Hub credentials under its canonical server address,
+  // whichever alias the config uses.
+  const serverAddress = (key: string) =>
+    host === DOCKER_HUB_HOST ? DOCKER_HUB_SERVER_URL : key;
+
   const helperKey = findKey(config.credHelpers);
   if (helperKey) {
-    return runCredentialHelper(config.credHelpers![helperKey], helperKey);
+    const credentials = await runCredentialHelper(
+      config.credHelpers![helperKey],
+      serverAddress(helperKey),
+    );
+    if (credentials) {
+      return credentials;
+    }
   }
 
   const authKey = findKey(config.auths);
   if (config.credsStore) {
     // Stores are keyed by the server address used at `docker login`, which
     // `auths` records (with an empty entry) when a store is in use.
-    const serverUrl =
-      authKey ?? (host === DOCKER_HUB_HOST ? DOCKER_HUB_SERVER_URL : host);
-    const credentials = await runCredentialHelper(config.credsStore, serverUrl);
+    const credentials = await runCredentialHelper(
+      config.credsStore,
+      serverAddress(authKey ?? host),
+    );
     if (credentials) {
       return credentials;
     }

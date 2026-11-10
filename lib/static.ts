@@ -163,22 +163,29 @@ export async function fetchRegistryMetadata(
       ...credentials,
     };
 
+    // The requested platform, else the platform of the image that was scanned.
+    const platform = parsePlatform(options.platform || analysis.platform);
+
     const needsAttestations =
       !analysis.attestations || analysis.attestations.length === 0;
+    // Each lookup is optional, so one failing must not discard the other.
     const [attestations, digests] = await Promise.all([
       needsAttestations
-        ? fetchAttestationsFromRegistry({
-            ...registryRef,
-            platform: parsePlatform(options.platform),
-          })
+        ? bestEffort(
+            "provenance",
+            fetchAttestationsFromRegistry({ ...registryRef, platform }),
+          )
         : undefined,
       options.digests?.manifest
         ? undefined
-        : fetchDistributionDigestsFromRegistry({
-            ...registryRef,
-            platform: parsePlatform(options.platform || analysis.platform),
-            expectedConfigDigest: analysis.imageId,
-          }),
+        : bestEffort(
+            "distribution digests",
+            fetchDistributionDigestsFromRegistry({
+              ...registryRef,
+              platform,
+              expectedConfigDigest: analysis.imageId,
+            }),
+          ),
     ]);
     // Only keep provenance that attests the exact image that was scanned.
     const scannedManifestDigest =
@@ -196,5 +203,17 @@ export async function fetchRegistryMetadata(
       )}`,
     );
     return {};
+  }
+}
+
+async function bestEffort<T>(
+  label: string,
+  promise: Promise<T>,
+): Promise<T | undefined> {
+  try {
+    return await promise;
+  } catch (error) {
+    debug(`failed to fetch registry ${label}: ${getErrorMessage(error)}`);
+    return undefined;
   }
 }
