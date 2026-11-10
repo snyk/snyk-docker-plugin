@@ -134,6 +134,37 @@ export async function analyzeStatically(
   };
 }
 
+export const REGISTRY_METADATA_DEADLINE_MS = 30_000;
+
+const DOCKER_HUB_REGISTRY = "registry-1.docker.io";
+const DOCKER_HUB_HOSTS = ["docker.io", "index.docker.io", DOCKER_HUB_REGISTRY];
+
+interface RegistryMetadata {
+  attestations?: ResolvedAttestationManifest[];
+  digests?: DistributionDigests;
+}
+
+/**
+ * Where to fetch the image from. Docker Hub official images live under
+ * "library/", whichever way the name was written (nginx, docker.io/nginx,
+ * docker.io/library/nginx).
+ */
+function registryImageReference(targetImage: string): {
+  registryBase: string;
+  repo: string;
+  tag: string;
+} {
+  const { hostname, imageName, tag } = extractImageDetails(targetImage);
+  if (!DOCKER_HUB_HOSTS.includes(hostname)) {
+    return { registryBase: hostname, repo: imageName, tag };
+  }
+  return {
+    registryBase: DOCKER_HUB_REGISTRY,
+    repo: imageName.includes("/") ? imageName : `library/${imageName}`,
+    tag,
+  };
+}
+
 /**
  * Fetches registry-side metadata for an image identifier scan: provenance
  * attestations and the manifest/index digests of the scanned platform.
@@ -145,19 +176,41 @@ export async function fetchRegistryMetadata(
   targetImage: string,
   analysis: StaticAnalysis,
   options: Partial<PluginOptions>,
-): Promise<{
-  attestations?: ResolvedAttestationManifest[];
-  digests?: DistributionDigests;
-}> {
+): Promise<RegistryMetadata> {
+  // The metadata is optional, so a slow registry must not hold up the scan.
+  let timer: NodeJS.Timeout | undefined;
+  const deadline = new Promise<RegistryMetadata>((resolve) => {
+    timer = setTimeout(() => {
+      debug(
+        `registry metadata for ${targetImage} took longer than ${REGISTRY_METADATA_DEADLINE_MS}ms; skipping`,
+      );
+      resolve({});
+    }, REGISTRY_METADATA_DEADLINE_MS);
+  });
   try {
-    const { hostname, imageName: repo, tag } = extractImageDetails(targetImage);
+    return await Promise.race([
+      lookupRegistryMetadata(targetImage, analysis, options),
+      deadline,
+    ]);
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+async function lookupRegistryMetadata(
+  targetImage: string,
+  analysis: StaticAnalysis,
+  options: Partial<PluginOptions>,
+): Promise<RegistryMetadata> {
+  try {
+    const { registryBase, repo, tag } = registryImageReference(targetImage);
     const credentials = await resolveRegistryCredentials(
-      hostname,
+      registryBase,
       options.username,
       options.password,
     );
     const registryRef = {
-      registryBase: hostname,
+      registryBase,
       repo,
       imageReference: tag,
       ...credentials,

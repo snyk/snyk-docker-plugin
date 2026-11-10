@@ -17,6 +17,13 @@ import {
 
 const debug = Debug("snyk");
 
+// Needle has no response or read timeout by default, so without these a registry
+// that accepts the connection and then stalls would hang the scan.
+export const REGISTRY_REQUEST_TIMEOUTS = {
+  response_timeout: 10_000,
+  read_timeout: 20_000,
+};
+
 const MEDIATYPE_IN_TOTO = "application/vnd.in-toto+json";
 const PREDICATE_TYPE_ANNOTATION = "in-toto.io/predicate-type";
 const SLSA_PROVENANCE_PREFIX = "https://slsa.dev/provenance/";
@@ -45,7 +52,7 @@ export async function fetchAttestationsFromRegistry(
       imageReference,
       username,
       password,
-      undefined,
+      REGISTRY_REQUEST_TIMEOUTS,
       platform,
     );
   } catch (error) {
@@ -89,6 +96,7 @@ export async function fetchAttestationsFromRegistry(
         layer.digest,
         username,
         password,
+        REGISTRY_REQUEST_TIMEOUTS,
       );
       inTotoStatements[layer.digest] = JSON.parse(
         blob.toString("utf-8"),

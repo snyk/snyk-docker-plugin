@@ -2,6 +2,7 @@ import { contentTypes, getManifest } from "@snyk/docker-registry-v2-client";
 import * as Debug from "debug";
 
 import { getErrorMessage } from "../error-utils";
+import { REGISTRY_REQUEST_TIMEOUTS } from "./fetch-registry-provenance-attestations";
 
 const debug = Debug("snyk");
 
@@ -53,7 +54,7 @@ export async function fetchDistributionDigestsFromRegistry(
         imageReference,
         username,
         password,
-        { acceptManifest: ACCEPT_MANIFEST },
+        { acceptManifest: ACCEPT_MANIFEST, ...REGISTRY_REQUEST_TIMEOUTS },
         platform,
       );
 

@@ -125,8 +125,9 @@ function readDockerConfig(): DockerConfig | undefined {
   }
   try {
     return JSON.parse(fs.readFileSync(configPath, "utf-8")) as DockerConfig;
-  } catch (error) {
-    debug(`invalid docker config at ${configPath}: ${getErrorMessage(error)}`);
+  } catch {
+    // The parse error is not logged: it can quote config contents, which hold credentials.
+    debug(`invalid docker config at ${configPath}`);
     return undefined;
   }
 }
