@@ -129,7 +129,7 @@ to keep pre-Jest-29 snapshots readable; don't change it casually.
 
 ## CI
 
-CircleCI (`.circleci/config.yml`) runs build, lint, and tests on:
+CircleCI (`.circleci/config.yml`) runs lint, build and the release on Linux (`cimg/node:24`), and the tests on:
 
 - Linux (`cimg/node:22`) — full Jest suite, including system tests
 - Windows (`win/server-2022`) — `test/windows/` suite via `npm run test:windows` (fixture-only) and `npm run test:windows:docker` (requires Docker daemon)
