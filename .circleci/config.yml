@@ -13,7 +13,7 @@ parameters:
 defaults: &defaults
   resource_class: small
   docker:
-    - image: cimg/node:22.22
+    - image: cimg/node:24
   working_directory: ~/snyk-docker-plugin
 
 windows_defaults: &windows_defaults
@@ -44,10 +44,13 @@ windows_big: &windows_big
 release_defaults: &release_defaults
   resource_class: small
   docker:
-    - image: cimg/node:24.15
+    - image: cimg/node:24  # npm 11+ (Node 24) is needed for OIDC trusted publishing
   working_directory: ~/snyk-docker-plugin
 
-define: &windows_node_version "20.19.1"
+# The pinned Windows image (2023.05.1) ships nvm-windows 1.1.9, which only accepts
+# a full version: it rejects both "22" and "22.23". Use the latest 22.x release
+# until the image is updated.
+define: &windows_node_version "22.23.4"
 
 commands:
   setup_npm_user:
@@ -113,6 +116,8 @@ jobs:
           iac-scan: disabled
   install:
     <<: *defaults
+    docker:
+      - image: cimg/node:22  # the test jobs reuse these node_modules
     steps:
       - install_deps
   lint:
@@ -124,6 +129,8 @@ jobs:
       - run: npm run lint
   test_unit:
     <<: *defaults
+    docker:
+      - image: cimg/node:22  # tests run on the oldest supported Node.js
     resource_class: medium
     steps:
       - checkout
@@ -135,6 +142,8 @@ jobs:
           path: ./test/reports
   test_system:
     <<: *defaults
+    docker:
+      - image: cimg/node:22  # tests run on the oldest supported Node.js
     steps:
       - checkout
       - setup_remote_docker
@@ -212,6 +221,8 @@ jobs:
           command: ./.circleci/build-cli.sh
   build_and_test_latest_go_binary:
     <<: *defaults
+    docker:
+      - image: cimg/node:22  # tests run on the oldest supported Node.js
     resource_class: medium
     steps:
       - setup_remote_docker
@@ -224,6 +235,8 @@ jobs:
           command: npx jest test/unit/go-binaries.spec.ts
   update_snapshots:
     <<: *defaults
+    docker:
+      - image: cimg/node:22  # tests run on the oldest supported Node.js
     resource_class: medium
     steps:
       - install_deps
