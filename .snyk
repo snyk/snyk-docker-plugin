@@ -1,5 +1,19 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
 version: v1.25.0
 # ignores vulnerabilities until expiry date; change duration by modifying expiry date
-ignore: {}
+ignore:
+  SNYK-JS-BRACES-19963945:
+    - 'snyk-nodejs-lockfile-parser > micromatch > braces':
+        reason: >-
+          No fixed release exists. braces 3.0.3 is the latest release,
+          micromatch 4.0.8 (latest) requires braces ^3.0.3, and
+          snyk-nodejs-lockfile-parser 2.10.6 (latest) requires micromatch
+          ^4.0.8. GitHub withdrew the upstream advisory GHSA-vfj7-8cjw-p6xm
+          (CVE-2026-93687) on 2026-10-23 as not practically exploitable, and
+          Snyk reachability finds no path. The only call is micromatch.isMatch
+          on a scanned lockfile's workspace globs. A stack overflow there
+          throws inside the try/catch in lib/analyzer/applications/node.ts,
+          which skips that lockfile.
+        expires: 2027-02-09T00:00:00.000Z
+        created: 2026-11-11T00:00:00.000Z
 patch: {}
