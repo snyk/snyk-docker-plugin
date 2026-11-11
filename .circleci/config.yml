@@ -47,7 +47,9 @@ release_defaults: &release_defaults
     - image: cimg/node:22
   working_directory: ~/snyk-docker-plugin
 
-define: &windows_node_version "22"
+# The pinned Windows image (2023.05.1) ships nvm-windows 1.1.9, which cannot
+# resolve a bare major such as "22". Pin major.minor until the image is updated.
+define: &windows_node_version "22.23"
 
 commands:
   setup_npm_user:
