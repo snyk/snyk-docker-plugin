@@ -214,6 +214,16 @@ exports[`distroless tests should correctly analyze a distroless image by sha256 
           "type": "imageNames",
         },
         {
+          "data": {
+            "imageTag": undefined,
+            "indexDigest": undefined,
+            "manifestDigest": "sha256:8756a25c4c5e902c4fe20322cc69d510a0517b51eab630c614efbd612ed568bf",
+            "registryHost": "gcr.io",
+            "repository": "distroless/base-debian10",
+          },
+          "type": "ociDistributionMetadata",
+        },
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },

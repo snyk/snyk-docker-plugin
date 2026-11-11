@@ -3356,6 +3356,16 @@ exports[`CentOS 6 tests can scan a centos6-based image 1`] = `
           "type": "imageNames",
         },
         {
+          "data": {
+            "imageTag": undefined,
+            "indexDigest": undefined,
+            "manifestDigest": "sha256:494b9b280814f1e661597b48e229156e4dccb60dce198d9210f7572ff22626d2",
+            "registryHost": "docker.io",
+            "repository": "dokken/centos-6",
+          },
+          "type": "ociDistributionMetadata",
+        },
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
@@ -6730,6 +6740,16 @@ exports[`CentOS 6 tests can scan a centos6-based image with app vulns 1`] = `
           "type": "imageNames",
         },
         {
+          "data": {
+            "imageTag": undefined,
+            "indexDigest": undefined,
+            "manifestDigest": "sha256:494b9b280814f1e661597b48e229156e4dccb60dce198d9210f7572ff22626d2",
+            "registryHost": "docker.io",
+            "repository": "dokken/centos-6",
+          },
+          "type": "ociDistributionMetadata",
+        },
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
@@ -6771,6 +6791,16 @@ exports[`CentOS 6 tests can scan a centos6-based image with app vulns 1`] = `
             ],
           },
           "type": "imageNames",
+        },
+        {
+          "data": {
+            "imageTag": undefined,
+            "indexDigest": undefined,
+            "manifestDigest": "sha256:494b9b280814f1e661597b48e229156e4dccb60dce198d9210f7572ff22626d2",
+            "registryHost": "docker.io",
+            "repository": "dokken/centos-6",
+          },
+          "type": "ociDistributionMetadata",
         },
         {
           "data": "linux/amd64",
