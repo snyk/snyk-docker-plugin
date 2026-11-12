@@ -1,9 +1,11 @@
 version: 2.1
 
 orbs:
-  win: circleci/windows@5.0.0
-  node: circleci/node@5.1.0
+  # Snyk-owned orbs: track the latest release of the major version
   prodsec: snyk/prodsec-orb@1
+  # Third-party orbs: always pin an exact version
+  win: circleci/windows@5.1.1
+  node: circleci/node@7.2.1
 
 parameters:
   run_snapshot_update:
@@ -96,8 +98,9 @@ commands:
         type: string
         default: ""
     steps:
-      - node/install:
-          node-version: << parameters.node_version >>
+      - run:
+          name: Install Node.js << parameters.node_version >>
+          command: nvm install << parameters.node_version >>
       - run:
           name: Use currently installed node version
           command: nvm list | awk '/<< parameters.node_version >>/ {print $1}' | xargs nvm use
