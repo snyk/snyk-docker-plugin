@@ -39,6 +39,7 @@ Applications:
 
 - Node (npm, yarn)
 - Java (jar files)
+- Rust (Cargo.lock)
 - detecting package manager manifests (Python, Ruby)
 
 Others:
