@@ -517,6 +517,16 @@ exports[`redhat ubi9 tests should correctly analyze an ubi9 image by tag 1`] = `
           "type": "imageNames",
         },
         {
+          "data": {
+            "imageTag": "9.3",
+            "indexDigest": "sha256:8e33df2832f039b4b1adc53efd783f9404449994b46ae321ee4a0bf4499d5c42",
+            "manifestDigest": "sha256:69372661891a4d32e9663a50d7d7eafddf4e91d6915c319905ce5d92e3dfbe31",
+            "registryHost": "docker.io",
+            "repository": "redhat/ubi9-micro",
+          },
+          "type": "ociDistributionMetadata",
+        },
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },

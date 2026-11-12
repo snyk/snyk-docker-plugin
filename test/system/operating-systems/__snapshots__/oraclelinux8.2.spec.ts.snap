@@ -3034,6 +3034,16 @@ exports[`oracle linux tests should correctly analyze an oracle linux image by sh
           "type": "imageNames",
         },
         {
+          "data": {
+            "imageTag": undefined,
+            "indexDigest": undefined,
+            "manifestDigest": "sha256:652409ec0fd4e79b07ecf82e35ebf50277be69f6b8e873129a55a0bdedf827d0",
+            "registryHost": "docker.io",
+            "repository": "library/oraclelinux",
+          },
+          "type": "ociDistributionMetadata",
+        },
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },

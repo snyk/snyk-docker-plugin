@@ -7,7 +7,7 @@ cd cli
 echo "Replacing snyk-docker-plugin dependency with SHA $CIRCLE_SHA1"
 sed -iE  "s/\"snyk-docker-plugin\": \".*\",/\"snyk-docker-plugin\": \"git:\/\/github.com\/snyk\/snyk-docker-plugin.git#$CIRCLE_SHA1\",/" package.json
 sudo npm i -g npm@11
-echo "Running npm install"
-npm i
+echo "Running npm install (min-release-age=0: picks up freshly published Snyk deps)"
+npm i --min-release-age=0
 echo "Running build"
 npm run build

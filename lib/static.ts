@@ -5,15 +5,22 @@ import { StaticAnalysis } from "./analyzer/types";
 import { buildTree } from "./dependency-tree";
 import { DockerFileAnalysis } from "./dockerfile/types";
 import { getErrorMessage } from "./error-utils";
-import { getImageNames, ImageName } from "./extractor/image";
+import {
+  DistributionDigests,
+  fetchDistributionDigestsFromRegistry,
+} from "./extractor/fetch-registry-distribution-digests";
 import {
   fetchAttestationsFromRegistry,
+  keepAttestationsForManifest,
   parsePlatform,
 } from "./extractor/fetch-registry-provenance-attestations";
+import { getImageNames, ImageName } from "./extractor/image";
 import {
   constructOCIDisributionMetadata,
   OCIDistributionMetadata,
 } from "./extractor/oci-distribution-metadata";
+import { resolveRegistryCredentials } from "./extractor/registry-credentials";
+import { ResolvedAttestationManifest } from "./extractor/types";
 import { isTrue } from "./option-utils";
 import { parseAnalysisResults } from "./parser";
 import { buildResponse } from "./response-builder";
@@ -67,31 +74,21 @@ export async function analyzeStatically(
     packageFormat: parsedAnalysisResult.packageFormat,
   };
 
-  if (
-    imageType === ImageType.Identifier &&
-    (!analysis.attestations || analysis.attestations.length === 0)
-  ) {
-    try {
-      const {
-        hostname,
-        imageName: repo,
-        tag,
-      } = extractImageDetails(targetImage);
-      analysis.attestations = await fetchAttestationsFromRegistry({
-        registryBase: hostname,
-        repo,
-        imageReference: tag,
-        username: options.username,
-        password: options.password,
-        platform: parsePlatform(options.platform),
-      });
-    } catch (error) {
-      // Best-effort: provenance is optional; never fail the scan over it.
-      debug(
-        `[provenance] failed to fetch attestations from registry for ${targetImage}: ${getErrorMessage(
-          error,
-        )}`,
-      );
+  // Callers that pulled the image themselves (e.g. Docker Registry Agent) pass the digests in.
+  let digests = options.digests;
+  let digestsImageName = options.imageNameAndTag;
+  if (imageType === ImageType.Identifier) {
+    const registryMetadata = await fetchRegistryMetadata(
+      targetImage,
+      analysis,
+      options,
+    );
+    if (registryMetadata.attestations) {
+      analysis.attestations = registryMetadata.attestations;
+    }
+    if (!digests?.manifest && registryMetadata.digests) {
+      digests = registryMetadata.digests;
+      digestsImageName = targetImage;
     }
   }
 
@@ -99,11 +96,11 @@ export async function analyzeStatically(
 
   const names = getImageNames(options, imageName);
   let ociDistributionMetadata: OCIDistributionMetadata | undefined;
-  if (options.imageNameAndTag && options.digests?.manifest) {
+  if (digestsImageName && digests?.manifest) {
     ociDistributionMetadata = constructOCIDisributionMetadata({
-      imageName: options.imageNameAndTag,
-      manifestDigest: options.digests.manifest,
-      indexDigest: options.digests.index,
+      imageName: digestsImageName,
+      manifestDigest: digests.manifest,
+      indexDigest: digests.index,
     });
   }
 
@@ -135,4 +132,141 @@ export async function analyzeStatically(
       },
     ],
   };
+}
+
+export const REGISTRY_METADATA_DEADLINE_MS = 30_000;
+
+const DOCKER_HUB_REGISTRY = "registry-1.docker.io";
+const DOCKER_HUB_HOSTS = ["docker.io", "index.docker.io", DOCKER_HUB_REGISTRY];
+
+interface RegistryMetadata {
+  attestations?: ResolvedAttestationManifest[];
+  digests?: DistributionDigests;
+}
+
+/**
+ * Where to fetch the image from. Docker Hub official images live under
+ * "library/", whichever way the name was written (nginx, docker.io/nginx,
+ * docker.io/library/nginx).
+ */
+function registryImageReference(targetImage: string): {
+  registryBase: string;
+  repo: string;
+  tag: string;
+} {
+  const { hostname, imageName, tag } = extractImageDetails(targetImage);
+  if (!DOCKER_HUB_HOSTS.includes(hostname)) {
+    return { registryBase: hostname, repo: imageName, tag };
+  }
+  return {
+    registryBase: DOCKER_HUB_REGISTRY,
+    repo: imageName.includes("/") ? imageName : `library/${imageName}`,
+    tag,
+  };
+}
+
+/**
+ * Fetches registry-side metadata for an image identifier scan: provenance
+ * attestations and the manifest/index digests of the scanned platform.
+ * Both requests use explicit credentials, falling back to `docker login`
+ * credentials, and run concurrently.
+ * Best-effort: this metadata is optional, so it never fails the scan.
+ */
+export async function fetchRegistryMetadata(
+  targetImage: string,
+  analysis: StaticAnalysis,
+  options: Partial<PluginOptions>,
+): Promise<RegistryMetadata> {
+  // The metadata is optional, so a slow registry must not hold up the scan.
+  let timer: NodeJS.Timeout | undefined;
+  const deadline = new Promise<RegistryMetadata>((resolve) => {
+    timer = setTimeout(() => {
+      debug(
+        `registry metadata for ${targetImage} took longer than ${REGISTRY_METADATA_DEADLINE_MS}ms; skipping`,
+      );
+      resolve({});
+    }, REGISTRY_METADATA_DEADLINE_MS);
+  });
+  try {
+    return await Promise.race([
+      lookupRegistryMetadata(targetImage, analysis, options),
+      deadline,
+    ]);
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+async function lookupRegistryMetadata(
+  targetImage: string,
+  analysis: StaticAnalysis,
+  options: Partial<PluginOptions>,
+): Promise<RegistryMetadata> {
+  try {
+    const { registryBase, repo, tag } = registryImageReference(targetImage);
+    const credentials = await resolveRegistryCredentials(
+      registryBase,
+      options.username,
+      options.password,
+    );
+    const registryRef = {
+      registryBase,
+      repo,
+      imageReference: tag,
+      ...credentials,
+    };
+
+    // The requested platform, else the platform of the image that was scanned.
+    const platform = parsePlatform(options.platform || analysis.platform);
+
+    const needsAttestations =
+      !analysis.attestations || analysis.attestations.length === 0;
+    // Each lookup is optional, so one failing must not discard the other.
+    const [attestations, digests] = await Promise.all([
+      needsAttestations
+        ? bestEffort(
+            "provenance",
+            fetchAttestationsFromRegistry({ ...registryRef, platform }),
+          )
+        : undefined,
+      options.digests?.manifest
+        ? undefined
+        : bestEffort(
+            "distribution digests",
+            fetchDistributionDigestsFromRegistry({
+              ...registryRef,
+              platform,
+              expectedConfigDigest: analysis.imageId,
+            }),
+          ),
+    ]);
+    // Only keep provenance that attests the exact image that was scanned.
+    const scannedManifestDigest =
+      options.digests?.manifest ?? digests?.manifest;
+    return {
+      attestations:
+        attestations &&
+        keepAttestationsForManifest(attestations, scannedManifestDigest),
+      digests,
+    };
+  } catch (error) {
+    debug(
+      `failed to fetch registry metadata for ${targetImage}: ${getErrorMessage(
+        error,
+      )}`,
+    );
+    return {};
+  }
+}
+
+async function bestEffort<T>(
+  label: string,
+  promise: Promise<T>,
+): Promise<T | undefined> {
+  try {
+    return await promise;
+  } catch (error) {
+    debug(`failed to fetch registry ${label}: ${getErrorMessage(error)}`);
+    return undefined;
+  }
 }

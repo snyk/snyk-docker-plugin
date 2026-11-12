@@ -1871,6 +1871,16 @@ exports[`deb package manager tests should correctly analyze a deb image 1`] = `
           "type": "imageNames",
         },
         {
+          "data": {
+            "imageTag": undefined,
+            "indexDigest": "sha256:89ff9e144a438f6bdf89fba6a1fdcb614b6d03bc14433bbb937088ca7c7a7b6d",
+            "manifestDigest": "sha256:f183f95e31b3a0d8144bfce58a5ba2b42df726a745d0cf03dd81e238c4861cc6",
+            "registryHost": "docker.io",
+            "repository": "library/debian",
+          },
+          "type": "ociDistributionMetadata",
+        },
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },

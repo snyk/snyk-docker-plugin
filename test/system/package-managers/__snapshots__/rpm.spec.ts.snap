@@ -2310,6 +2310,16 @@ exports[`rpm package manager tests should correctly analyze a CentOS Stream 9 im
           "type": "imageNames",
         },
         {
+          "data": {
+            "imageTag": "centos-stream9",
+            "indexDigest": undefined,
+            "manifestDigest": "sha256:afa4e96dd42cec591af30331b45b68fc00de9a95e7c148b847914b749e10e651",
+            "registryHost": "docker.io",
+            "repository": "snykgoof/dockerhub-goof",
+          },
+          "type": "ociDistributionMetadata",
+        },
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
@@ -5036,6 +5046,16 @@ exports[`rpm package manager tests should correctly analyze a CentOS Stream 10 i
             ],
           },
           "type": "imageNames",
+        },
+        {
+          "data": {
+            "imageTag": "centos-stream10",
+            "indexDigest": undefined,
+            "manifestDigest": "sha256:211cc59e39702f1bfc1a0bebe2271c9e506459cef382594f319a591a119a62dd",
+            "registryHost": "docker.io",
+            "repository": "snykgoof/dockerhub-goof",
+          },
+          "type": "ociDistributionMetadata",
         },
         {
           "data": "0.0.0-local",
@@ -8231,6 +8251,16 @@ exports[`rpm package manager tests should correctly analyze a RHEL 9 UBI image 1
           "type": "imageNames",
         },
         {
+          "data": {
+            "imageTag": undefined,
+            "indexDigest": undefined,
+            "manifestDigest": "sha256:c113f67e8e70940af28116d75e32f0aa4ffd3bf6fab30e970850475ab1de697f",
+            "registryHost": "registry.access.redhat.com",
+            "repository": "ubi9/ubi",
+          },
+          "type": "ociDistributionMetadata",
+        },
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
@@ -11218,6 +11248,16 @@ exports[`rpm package manager tests should correctly analyze a RHEL 10 UBI Beta i
           "type": "imageNames",
         },
         {
+          "data": {
+            "imageTag": undefined,
+            "indexDigest": undefined,
+            "manifestDigest": "sha256:4b4976d86eefeedab6884c9d2923206c6c3c2e2471206f97fd9d7aaaecbc04ac",
+            "registryHost": "registry.access.redhat.com",
+            "repository": "ubi10-beta/ubi",
+          },
+          "type": "ociDistributionMetadata",
+        },
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
@@ -13006,6 +13046,16 @@ exports[`rpm package manager tests should correctly analyze an rpm image 1`] = `
             ],
           },
           "type": "imageNames",
+        },
+        {
+          "data": {
+            "imageTag": "2.0.20200722.0",
+            "indexDigest": "sha256:2c99363fc74d3a39f02365b964e73cceb2b2524c00e9977e16680156e2f79ee8",
+            "manifestDigest": "sha256:1481659e18042055e174f9f5e61998bf7ab57f8c9432f3c9412a56d116cc0c68",
+            "registryHost": "docker.io",
+            "repository": "library/amazonlinux",
+          },
+          "type": "ociDistributionMetadata",
         },
         {
           "data": "0.0.0-local",
@@ -15147,6 +15197,16 @@ exports[`rpm package manager tests should correctly analyze an rpm image with sq
             ],
           },
           "type": "imageNames",
+        },
+        {
+          "data": {
+            "imageTag": "2022.0.20220504.1",
+            "indexDigest": "sha256:3b1eddcdaaf8d664e960b9d48c77c29ee81f108e54673e4015f924993ea81cdf",
+            "manifestDigest": "sha256:8453a47334b50bd11a6dc8a9ff7c3e40a4ba284f0dc68c5e0edf328b11fe372f",
+            "registryHost": "docker.io",
+            "repository": "library/amazonlinux",
+          },
+          "type": "ociDistributionMetadata",
         },
         {
           "data": "0.0.0-local",
