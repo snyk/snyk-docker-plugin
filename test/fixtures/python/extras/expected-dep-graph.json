@@ -46,6 +46,13 @@
       }
     },
     {
+      "id": "typing_extensions@4.12.2",
+      "info": {
+        "name": "typing_extensions",
+        "version": "4.12.2"
+      }
+    },
+    {
       "id": "pydantic@2.9.2",
       "info": {
         "name": "pydantic",
@@ -57,6 +64,13 @@
       "info": {
         "name": "annotated-types",
         "version": "0.7.0"
+      }
+    },
+    {
+      "id": "pydantic_core@2.23.4",
+      "info": {
+        "name": "pydantic_core",
+        "version": "2.23.4"
       }
     },
     {
@@ -212,6 +226,20 @@
         "name": "python-multipart",
         "version": "0.0.17"
       }
+    },
+    {
+      "id": "email_validator@2.2.0",
+      "info": {
+        "name": "email_validator",
+        "version": "2.2.0"
+      }
+    },
+    {
+      "id": "dnspython@2.7.0",
+      "info": {
+        "name": "dnspython",
+        "version": "2.7.0"
+      }
     }
   ],
   "graph": {
@@ -237,6 +265,9 @@
             "nodeId": "pydantic@2.9.2"
           },
           {
+            "nodeId": "typing_extensions@4.12.2"
+          },
+          {
             "nodeId": "fastapi-cli@0.0.5:standard"
           },
           {
@@ -249,6 +280,9 @@
             "nodeId": "python-multipart@0.0.17"
           },
           {
+            "nodeId": "email_validator@2.2.0"
+          },
+          {
             "nodeId": "uvicorn@0.32.0:standard"
           }
         ]
@@ -259,6 +293,9 @@
         "deps": [
           {
             "nodeId": "anyio@4.6.2"
+          },
+          {
+            "nodeId": "typing_extensions@4.12.2"
           }
         ]
       },
@@ -271,6 +308,9 @@
           },
           {
             "nodeId": "sniffio@1.3.1"
+          },
+          {
+            "nodeId": "typing_extensions@4.12.2"
           }
         ]
       },
@@ -285,18 +325,42 @@
         "deps": []
       },
       {
+        "nodeId": "typing_extensions@4.12.2",
+        "pkgId": "typing_extensions@4.12.2",
+        "deps": []
+      },
+      {
         "nodeId": "pydantic@2.9.2",
         "pkgId": "pydantic@2.9.2",
         "deps": [
           {
             "nodeId": "annotated-types@0.7.0"
+          },
+          {
+            "nodeId": "pydantic_core@2.23.4"
+          },
+          {
+            "nodeId": "typing_extensions@4.12.2"
           }
         ]
       },
       {
         "nodeId": "annotated-types@0.7.0",
         "pkgId": "annotated-types@0.7.0",
-        "deps": []
+        "deps": [
+          {
+            "nodeId": "typing_extensions@4.12.2"
+          }
+        ]
+      },
+      {
+        "nodeId": "pydantic_core@2.23.4",
+        "pkgId": "pydantic_core@2.23.4",
+        "deps": [
+          {
+            "nodeId": "typing_extensions@4.12.2"
+          }
+        ]
       },
       {
         "nodeId": "fastapi-cli@0.0.5:standard",
@@ -316,6 +380,9 @@
         "deps": [
           {
             "nodeId": "click@8.1.7"
+          },
+          {
+            "nodeId": "typing_extensions@4.12.2"
           },
           {
             "nodeId": "shellingham@1.5.4"
@@ -344,6 +411,9 @@
           },
           {
             "nodeId": "pygments@2.18.0"
+          },
+          {
+            "nodeId": "typing_extensions@4.12.2"
           }
         ]
       },
@@ -377,6 +447,9 @@
             "nodeId": "h11@0.14.0"
           },
           {
+            "nodeId": "typing_extensions@4.12.2"
+          },
+          {
             "nodeId": "httptools@0.6.4"
           },
           {
@@ -399,7 +472,11 @@
       {
         "nodeId": "h11@0.14.0",
         "pkgId": "h11@0.14.0",
-        "deps": []
+        "deps": [
+          {
+            "nodeId": "typing_extensions@4.12.2"
+          }
+        ]
       },
       {
         "nodeId": "httptools@0.6.4",
@@ -490,6 +567,23 @@
       {
         "nodeId": "python-multipart@0.0.17",
         "pkgId": "python-multipart@0.0.17",
+        "deps": []
+      },
+      {
+        "nodeId": "email_validator@2.2.0",
+        "pkgId": "email_validator@2.2.0",
+        "deps": [
+          {
+            "nodeId": "dnspython@2.7.0"
+          },
+          {
+            "nodeId": "idna@3.10.0"
+          }
+        ]
+      },
+      {
+        "nodeId": "dnspython@2.7.0",
+        "pkgId": "dnspython@2.7.0",
         "deps": []
       }
     ]
