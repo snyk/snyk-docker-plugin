@@ -5,6 +5,7 @@ import {
   pipFilesToScannedProjects,
   poetryFilesToScannedProjects,
 } from "./python";
+import { rustFilesToScannedProjects } from "./rust";
 
 export {
   dotnetFilesToScannedProjects,
@@ -12,4 +13,5 @@ export {
   phpFilesToScannedProjects,
   poetryFilesToScannedProjects,
   pipFilesToScannedProjects,
+  rustFilesToScannedProjects,
 };
