@@ -201,13 +201,10 @@ async function depGraphFromNodeModules(
     }
 
     try {
-      const pkgTree: lockFileParser.PkgTree = await resolveDeps(
-        tempProjectPath,
-        {
-          dev: false,
-          noFromArrays: true,
-        },
-      );
+      const pkgTree = (await resolveDeps(tempProjectPath, {
+        dev: false,
+        noFromArrays: true,
+      })) as unknown as lockFileParser.PkgTree;
 
       if ((pkgTree as LogicalRoot).numDependencies === 0) {
         continue;
