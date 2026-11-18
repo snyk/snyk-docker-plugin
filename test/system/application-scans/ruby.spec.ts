@@ -1,4 +1,5 @@
 import { scan } from "../../../lib";
+import { ImageManifestFilesFact } from "../../../lib/facts";
 import { getFixture } from "../../util";
 
 describe("ruby application scans", () => {
@@ -51,5 +52,35 @@ describe("ruby application scans", () => {
     // requirements.txt remains and would produce imageManifestFiles only if
     // present in the image; this fixture has none.
     expect(factTypes).not.toContain("imageManifestFiles");
+  });
+
+  it("should preserve Gemfile.lock contents via a non-Gemfile glob", async () => {
+    // Regression for an extraction encoding bug: contents used to be truncated.
+    // Use **/*.lock so the temporary Gemfile glob filter does not strip it.
+    const fixturePath = getFixture("docker-archives/docker-save/gemfile.tar");
+    const imageNameAndTag = `docker-archive:${fixturePath}`;
+
+    const pluginResult = await scan({
+      path: imageNameAndTag,
+      "app-vulns": true,
+      globsToFind: {
+        include: ["**/*.lock"],
+        exclude: [],
+      },
+    });
+
+    const imageManifestFiles = pluginResult.scanResults[0].facts.find(
+      (fact) => fact.type === "imageManifestFiles",
+    )! as ImageManifestFilesFact;
+    expect(imageManifestFiles).toBeDefined();
+
+    const manifestFile = imageManifestFiles.data.find(
+      (manifest) => manifest.name === "Gemfile.lock",
+    )!;
+    expect(manifestFile).toBeDefined();
+
+    const decodedContents = Buffer.from(manifestFile.contents, "base64");
+    const gemfileLock = decodedContents.toString("utf8");
+    expect(gemfileLock.length).toEqual(28180);
   });
 });
