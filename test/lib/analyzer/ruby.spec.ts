@@ -119,38 +119,42 @@ describe("ruby Gemfile.lock analyzer", () => {
   });
 
   describe("installed gem lockfiles", () => {
-    const installedGemLockfiles = [
+    const skippedLockfiles = [
       "/usr/local/lib/ruby/gems/3.3.0/gems/rbs-3.4.0/Gemfile.lock",
       "/usr/local/lib/ruby/gems/3.3.0/gems/typeprof-0.21.9/Gemfile.lock",
       "/usr/local/bundle/gems/rack-test-0.6.3/Gemfile.lock",
+      "/usr/local/bundle/bundler/gems/rails-abcdef1234567890abcdef12/Gemfile.lock",
+      "/usr/local/bundle/bundler/gems/rails-0123456789abcdef01234567/Gemfile.lock",
     ];
 
-    it("should recognize lockfiles inside gems/<name>-<version> directories", () => {
-      for (const lockPath of installedGemLockfiles) {
+    const reportedLockfiles = [
+      "/app/Gemfile.lock",
+      "/usr/local/bundle/Gemfile.lock",
+      "/srv/gems/myapp-2/Gemfile.lock",
+    ];
+
+    it("should skip gem-home, bundle/gems, and bundler/gems lockfiles", () => {
+      for (const lockPath of skippedLockfiles) {
         expect(isInstalledGemLockfile(lockPath)).toBe(true);
       }
-      expect(isInstalledGemLockfile("/app/Gemfile.lock")).toBe(false);
-      expect(isInstalledGemLockfile("/usr/local/bundle/Gemfile.lock")).toBe(
-        false,
-      );
     });
 
-    it("should skip installed-gem lockfiles but still report an app-root lockfile", async () => {
+    it("should not skip application lockfiles outside install layouts", () => {
+      for (const lockPath of reportedLockfiles) {
+        expect(isInstalledGemLockfile(lockPath)).toBe(false);
+      }
+    });
+
+    it("should skip install-layout lockfiles and still report app lockfiles", async () => {
       const content = loadFixture("simple.Gemfile.lock");
-      const filePathToContent: { [path: string]: string } = {
-        "/app/Gemfile.lock": content,
-        "/usr/local/bundle/Gemfile.lock": content,
-      };
-      for (const lockPath of installedGemLockfiles) {
+      const filePathToContent: { [path: string]: string } = {};
+      for (const lockPath of [...skippedLockfiles, ...reportedLockfiles]) {
         filePathToContent[lockPath] = content;
       }
 
       const results = await rubyFilesToScannedProjects(filePathToContent);
       const targets = results.map((r) => r.identity.targetFile).sort();
-      expect(targets).toEqual([
-        "/app/Gemfile.lock",
-        "/usr/local/bundle/Gemfile.lock",
-      ]);
+      expect(targets).toEqual([...reportedLockfiles].sort());
     });
   });
 });

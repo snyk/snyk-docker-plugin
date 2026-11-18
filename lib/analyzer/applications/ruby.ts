@@ -8,12 +8,16 @@ import { AppDepsScanResultWithoutTarget, FilePathToContent } from "./types";
 const PACKAGE_MANAGER_TYPE = "rubygems";
 
 /**
- * Lockfiles shipped inside an installed gem's source tree
- * (.../gems/<name>-<version>/Gemfile.lock). These are not application
- * lockfiles; scanning them creates noise on stock Ruby/Rails images.
- * Requires a version segment that starts with a digit (RubyGems full_name).
+ * Lockfiles that are not application lockfiles:
+ * - Ruby gem home: .../ruby/gems/<ruby-ver>/gems/<name>-<ver>/Gemfile.lock
+ * - Bundler path:  .../bundle/gems/<name>-<ver>/Gemfile.lock
+ * - Git checkouts: .../bundler/gems/<name>-<sha>/Gemfile.lock
+ *
+ * App lockfiles such as /app/Gemfile.lock, /usr/local/bundle/Gemfile.lock,
+ * or /srv/gems/myapp-2/Gemfile.lock must not match.
  */
-const INSTALLED_GEM_LOCKFILE = /(^|\/)gems\/[^/]+-[0-9][^/]*\/Gemfile\.lock$/;
+const INSTALLED_GEM_LOCKFILE =
+  /(^|\/)(?:ruby\/gems\/[^/]+\/gems\/[^/]+-[0-9][^/]*|bundle\/gems\/[^/]+-[0-9][^/]*|bundler\/gems\/[^/]+)\/Gemfile\.lock$/;
 
 export function isInstalledGemLockfile(filePath: string): boolean {
   // Normalize so Windows-style separators still match the layout rule.
