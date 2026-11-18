@@ -147,4 +147,16 @@ describe("pip analyzer", () => {
     });
     expect(res[0].facts[0].data).toMatchSnapshot();
   });
+
+  it("matches a requirement to metadata whose name differs only in - and _", async () => {
+    const filePathToContent = prepareFiles("normalized-names");
+    const res = await pipFilesToScannedProjects(filePathToContent);
+    const packageList = res[0].facts[0].data._depPkgsList;
+    expect(packageList.map((p) => `${p.name}@${p.version}`).sort()).toEqual([
+      "annotated-types@0.7.0",
+      "pydantic@2.9.2",
+      "pydantic_core@2.23.4",
+      "typing_extensions@4.12.2",
+    ]);
+  });
 });
