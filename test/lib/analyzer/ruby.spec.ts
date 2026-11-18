@@ -1,5 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
+import { win32 as win32Path } from "path";
 import { rubyFilesToScannedProjects } from "../../../lib/analyzer/applications";
 import { isInstalledGemLockfile } from "../../../lib/analyzer/applications/ruby";
 import { getRubyAppFileContentAction } from "../../../lib/inputs/ruby/static";
@@ -12,6 +13,22 @@ function loadFixture(filename: string): string {
 
 describe("ruby Gemfile.lock analyzer", () => {
   describe("basic Gemfile.lock parsing", () => {
+    it("should look up lockfile contents via POSIX archive path keys", async () => {
+      // Archive extraction always stores POSIX keys. Host win32 path.join would
+      // rebuild "/app/Gemfile.lock" as "\\app\\Gemfile.lock" and miss the map.
+      const content = loadFixture("simple.Gemfile.lock");
+      const archiveKey = "/app/Gemfile.lock";
+      const filePathToContent = { [archiveKey]: content };
+      expect(filePathToContent[win32Path.join("/app", "Gemfile.lock")]).toBe(
+        undefined,
+      );
+
+      const results = await rubyFilesToScannedProjects(filePathToContent);
+      expect(results).toHaveLength(1);
+      expect(results[0].identity.targetFile).toBe(archiveKey);
+      expect(filePathToContent[results[0].identity.targetFile!]).toBe(content);
+    });
+
     it("should parse a valid Gemfile.lock and produce a rubygems scan result", async () => {
       const content = loadFixture("simple.Gemfile.lock");
       const results = await rubyFilesToScannedProjects({

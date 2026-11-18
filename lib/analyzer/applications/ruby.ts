@@ -1,6 +1,7 @@
 import { legacy } from "@snyk/dep-graph";
 import * as gemfile from "@snyk/gemfile";
-import * as path from "path";
+// Container archives always use POSIX paths; keep lookups host-independent.
+import { posix as path } from "path";
 import { DepGraphFact, TestedFilesFact } from "../../facts";
 import { DepTreeDep } from "../../types";
 import { AppDepsScanResultWithoutTarget, FilePathToContent } from "./types";
