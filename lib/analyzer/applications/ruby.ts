@@ -7,6 +7,19 @@ import { AppDepsScanResultWithoutTarget, FilePathToContent } from "./types";
 
 const PACKAGE_MANAGER_TYPE = "rubygems";
 
+/**
+ * Lockfiles shipped inside an installed gem's source tree
+ * (.../gems/<name>-<version>/Gemfile.lock). These are not application
+ * lockfiles; scanning them creates noise on stock Ruby/Rails images.
+ * Requires a version segment that starts with a digit (RubyGems full_name).
+ */
+const INSTALLED_GEM_LOCKFILE = /(^|\/)gems\/[^/]+-[0-9][^/]*\/Gemfile\.lock$/;
+
+export function isInstalledGemLockfile(filePath: string): boolean {
+  // Normalize so Windows-style separators still match the layout rule.
+  return INSTALLED_GEM_LOCKFILE.test(filePath.replace(/\\/g, "/"));
+}
+
 interface GemfileLockPath {
   lock: string;
   manifest?: string;
@@ -151,9 +164,12 @@ function findGemfileLockPaths(
       continue;
     }
 
-    const pair: GemfileLockPath = {
-      lock: path.join(directoryPath, "Gemfile.lock"),
-    };
+    const lock = path.join(directoryPath, "Gemfile.lock");
+    if (isInstalledGemLockfile(lock)) {
+      continue;
+    }
+
+    const pair: GemfileLockPath = { lock };
     if (filesInDirectory.includes("Gemfile")) {
       pair.manifest = path.join(directoryPath, "Gemfile");
     }

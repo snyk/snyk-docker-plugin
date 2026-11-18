@@ -1,6 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import { rubyFilesToScannedProjects } from "../../../lib/analyzer/applications";
+import { isInstalledGemLockfile } from "../../../lib/analyzer/applications/ruby";
 import { getRubyAppFileContentAction } from "../../../lib/inputs/ruby/static";
 
 const fixturesPath = path.join(__dirname, "../../fixtures/ruby");
@@ -114,6 +115,42 @@ describe("ruby Gemfile.lock analyzer", () => {
       expect(
         getRubyAppFileContentAction.filePathMatches!("/app/other.txt"),
       ).toBe(false);
+    });
+  });
+
+  describe("installed gem lockfiles", () => {
+    const installedGemLockfiles = [
+      "/usr/local/lib/ruby/gems/3.3.0/gems/rbs-3.4.0/Gemfile.lock",
+      "/usr/local/lib/ruby/gems/3.3.0/gems/typeprof-0.21.9/Gemfile.lock",
+      "/usr/local/bundle/gems/rack-test-0.6.3/Gemfile.lock",
+    ];
+
+    it("should recognize lockfiles inside gems/<name>-<version> directories", () => {
+      for (const lockPath of installedGemLockfiles) {
+        expect(isInstalledGemLockfile(lockPath)).toBe(true);
+      }
+      expect(isInstalledGemLockfile("/app/Gemfile.lock")).toBe(false);
+      expect(isInstalledGemLockfile("/usr/local/bundle/Gemfile.lock")).toBe(
+        false,
+      );
+    });
+
+    it("should skip installed-gem lockfiles but still report an app-root lockfile", async () => {
+      const content = loadFixture("simple.Gemfile.lock");
+      const filePathToContent: { [path: string]: string } = {
+        "/app/Gemfile.lock": content,
+        "/usr/local/bundle/Gemfile.lock": content,
+      };
+      for (const lockPath of installedGemLockfiles) {
+        filePathToContent[lockPath] = content;
+      }
+
+      const results = await rubyFilesToScannedProjects(filePathToContent);
+      const targets = results.map((r) => r.identity.targetFile).sort();
+      expect(targets).toEqual([
+        "/app/Gemfile.lock",
+        "/usr/local/bundle/Gemfile.lock",
+      ]);
     });
   });
 });
