@@ -166,15 +166,19 @@ describe("ruby Gemfile.lock analyzer", () => {
       "/usr/local/bundle/gems/rack-test-0.6.3/Gemfile.lock",
       "/usr/local/bundle/bundler/gems/rails-abcdef1234567890abcdef12/Gemfile.lock",
       "/usr/local/bundle/bundler/gems/rails-0123456789abcdef01234567/Gemfile.lock",
+      // Bundler isolated layout (vendor/bundle, --path, --deployment)
+      "/app/vendor/bundle/ruby/3.3.0/gems/rack-test-0.6.3/Gemfile.lock",
+      "/usr/local/bundle/ruby/3.3.0/gems/rbs-3.4.0/Gemfile.lock",
     ];
 
     const reportedLockfiles = [
       "/app/Gemfile.lock",
       "/usr/local/bundle/Gemfile.lock",
       "/srv/gems/myapp-2/Gemfile.lock",
+      "/srv/ruby/myapp/Gemfile.lock",
     ];
 
-    it("should skip gem-home, bundle/gems, and bundler/gems lockfiles", () => {
+    it("should skip gem-home, Bundler isolated, bundle/gems, and bundler/gems lockfiles", () => {
       for (const lockPath of skippedLockfiles) {
         expect(isInstalledGemLockfile(lockPath)).toBe(true);
       }
@@ -204,7 +208,15 @@ describe("ruby Gemfile.lock analyzer", () => {
           "\\usr\\local\\lib\\ruby\\gems\\3.3.0\\gems\\rbs-3.4.0\\Gemfile.lock",
         ),
       ).toBe(true);
+      expect(
+        isInstalledGemLockfile(
+          "\\app\\vendor\\bundle\\ruby\\3.3.0\\gems\\rack-test-0.6.3\\Gemfile.lock",
+        ),
+      ).toBe(true);
       expect(isInstalledGemLockfile("\\app\\Gemfile.lock")).toBe(false);
+      expect(isInstalledGemLockfile("\\srv\\ruby\\myapp\\Gemfile.lock")).toBe(
+        false,
+      );
     });
   });
 });

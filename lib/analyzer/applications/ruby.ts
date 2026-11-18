@@ -13,14 +13,16 @@ const PACKAGE_MANAGER_TYPE = "rubygems";
 /**
  * Lockfiles that are not application lockfiles:
  * - Ruby gem home: .../ruby/gems/<ruby-ver>/gems/<name>-<ver>/Gemfile.lock
+ * - Bundler isolated: .../ruby/<abi>/gems/<name>-<ver>/Gemfile.lock
+ *   (ABI starts with a digit, e.g. vendor/bundle/ruby/3.3.0/gems/...)
  * - Bundler path:  .../bundle/gems/<name>-<ver>/Gemfile.lock
  * - Git checkouts: .../bundler/gems/<name>-<sha>/Gemfile.lock
  *
  * App lockfiles such as /app/Gemfile.lock, /usr/local/bundle/Gemfile.lock,
- * or /srv/gems/myapp-2/Gemfile.lock must not match.
+ * /srv/gems/myapp-2/Gemfile.lock, or /srv/ruby/myapp/Gemfile.lock must not match.
  */
 const INSTALLED_GEM_LOCKFILE =
-  /(^|\/)(?:ruby\/gems\/[^/]+\/gems\/[^/]+-[0-9][^/]*|bundle\/gems\/[^/]+-[0-9][^/]*|bundler\/gems\/[^/]+)\/Gemfile\.lock$/;
+  /(^|\/)(?:ruby\/gems\/[^/]+\/gems\/[^/]+-[0-9][^/]*|ruby\/[0-9][^/]*\/gems\/[^/]+-[0-9][^/]*|bundle\/gems\/[^/]+-[0-9][^/]*|bundler\/gems\/[^/]+)\/Gemfile\.lock$/;
 
 export function isInstalledGemLockfile(filePath: string): boolean {
   // Normalize so Windows-style separators still match the layout rule.
