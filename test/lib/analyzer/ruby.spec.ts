@@ -14,8 +14,8 @@ function loadFixture(filename: string): string {
 describe("ruby Gemfile.lock analyzer", () => {
   describe("basic Gemfile.lock parsing", () => {
     it("should look up lockfile contents via POSIX archive path keys", async () => {
-      // Archive extraction always stores POSIX keys. Host win32 path.join would
-      // rebuild "/app/Gemfile.lock" as "\\app\\Gemfile.lock" and miss the map.
+      // Host win32 path.join rebuilds "/app/Gemfile.lock" as "\\app\\Gemfile.lock"
+      // and misses the map — keep the original key instead of rebuilding.
       const content = loadFixture("simple.Gemfile.lock");
       const archiveKey = "/app/Gemfile.lock";
       const filePathToContent = { [archiveKey]: content };
@@ -27,6 +27,26 @@ describe("ruby Gemfile.lock analyzer", () => {
       expect(results).toHaveLength(1);
       expect(results[0].identity.targetFile).toBe(archiveKey);
       expect(filePathToContent[results[0].identity.targetFile!]).toBe(content);
+    });
+
+    it("should look up lockfile contents via Windows-style archive path keys", async () => {
+      // On Windows hosts, layer extraction stores keys with backslashes.
+      const content = loadFixture("simple.Gemfile.lock");
+      const archiveKey = "\\app\\Gemfile.lock";
+      const filePathToContent = {
+        [archiveKey]: content,
+        "\\app\\Gemfile": "source 'https://rubygems.org'\ngem 'rack-test'\n",
+      };
+
+      const results = await rubyFilesToScannedProjects(filePathToContent);
+      expect(results).toHaveLength(1);
+      expect(results[0].identity.targetFile).toBe(archiveKey);
+      expect(filePathToContent[results[0].identity.targetFile!]).toBe(content);
+
+      const testedFilesFact = results[0].facts.find(
+        (f) => f.type === "testedFiles",
+      );
+      expect(testedFilesFact!.data).toEqual(["Gemfile", "Gemfile.lock"]);
     });
 
     it("should parse a valid Gemfile.lock and produce a rubygems scan result", async () => {
@@ -172,6 +192,15 @@ describe("ruby Gemfile.lock analyzer", () => {
       const results = await rubyFilesToScannedProjects(filePathToContent);
       const targets = results.map((r) => r.identity.targetFile).sort();
       expect(targets).toEqual([...reportedLockfiles].sort());
+    });
+
+    it("should apply the install-layout skip to Windows-style path keys", () => {
+      expect(
+        isInstalledGemLockfile(
+          "\\usr\\local\\lib\\ruby\\gems\\3.3.0\\gems\\rbs-3.4.0\\Gemfile.lock",
+        ),
+      ).toBe(true);
+      expect(isInstalledGemLockfile("\\app\\Gemfile.lock")).toBe(false);
     });
   });
 });

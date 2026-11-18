@@ -79,6 +79,7 @@ describe("ruby Gemfile.lock scanning", () => {
       (result) => result.identity.type === "rubygems",
     );
     expect(rubyResults).toHaveLength(1);
-    expect(rubyResults[0].identity.targetFile).toBe("/Gemfile.lock");
+    // Extractor keys use the host separator (\Gemfile.lock on Windows).
+    expect(rubyResults[0].identity.targetFile).toMatch(/[/\\]Gemfile\.lock$/);
   });
 });
