@@ -1,10 +1,13 @@
 import { legacy } from "@snyk/dep-graph";
 import * as gemfile from "@snyk/gemfile";
+import * as Debug from "debug";
 import { posix as path } from "path";
+import { getErrorMessage } from "../../error-utils";
 import { DepGraphFact, TestedFilesFact } from "../../facts";
 import { DepTreeDep } from "../../types";
 import { AppDepsScanResultWithoutTarget, FilePathToContent } from "./types";
 
+const debug = Debug("snyk");
 const PACKAGE_MANAGER_TYPE = "rubygems";
 
 /**
@@ -42,13 +45,29 @@ interface LockFileMeta {
 type GemDepTree = DepTreeDep;
 
 /**
+ * @snyk/gemfile writes console.warn for malformed lockfiles. Route that to
+ * the debug logger so scans do not spam the user's terminal.
+ */
+function interpretGemfileLock(fileContents: string): LockFileMeta {
+  const originalWarn = console.warn;
+  console.warn = (...args: unknown[]) => {
+    debug(`@snyk/gemfile: ${args.map(String).join(" ")}`);
+  };
+  try {
+    return gemfile.interpret(fileContents, true) as LockFileMeta;
+  } finally {
+    console.warn = originalWarn;
+  }
+}
+
+/**
  * Convert Gemfile.lock contents into a nested dependency map, matching the
  * Snyk CLI rubygems plugin (gemfile-lock-to-dependencies).
  */
 function gemfileLockToDependencies(fileContents: string): {
   [name: string]: GemDepTree;
 } {
-  const lockFile = gemfile.interpret(fileContents, true) as LockFileMeta;
+  const lockFile = interpretGemfileLock(fileContents);
 
   // Malformed lockfiles that are not Gemfile.lock-shaped yield no DEPENDENCIES
   // section; skip them rather than emitting an empty graph.
@@ -133,8 +152,11 @@ export async function rubyFilesToScannedProjects(
       dependencies = gemfileLockToDependencies(
         filePathToContent[pathPair.lock],
       );
-    } catch {
+    } catch (error) {
       // Skip malformed lockfiles so a single bad file cannot fail the scan.
+      debug(
+        `Skipping Gemfile.lock at ${pathPair.lock}: ${getErrorMessage(error)}`,
+      );
       continue;
     }
 

@@ -102,6 +102,7 @@ describe("ruby Gemfile.lock analyzer", () => {
 
   describe("malformed lockfiles", () => {
     it("should skip a malformed Gemfile.lock and still succeed", async () => {
+      const warnSpy = jest.spyOn(console, "warn");
       const results = await rubyFilesToScannedProjects({
         "/app/Gemfile.lock": "this is not a valid lockfile",
         "/other/Gemfile.lock": loadFixture("simple.Gemfile.lock"),
@@ -109,6 +110,9 @@ describe("ruby Gemfile.lock analyzer", () => {
 
       expect(results).toHaveLength(1);
       expect(results[0].identity.targetFile).toBe("/other/Gemfile.lock");
+      // @snyk/gemfile would console.warn; keep that off the user's terminal.
+      expect(warnSpy).not.toHaveBeenCalled();
+      warnSpy.mockRestore();
     });
   });
 
