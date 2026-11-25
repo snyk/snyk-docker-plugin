@@ -1058,6 +1058,16 @@ exports[`PPC64 platform tests should correctly scan a PPC image and return platf
           "type": "imageNames",
         },
         {
+          "data": {
+            "imageTag": "8.0.0rc1-fpm-alpine3.12",
+            "indexDigest": undefined,
+            "manifestDigest": "sha256:5467f37617a1ad7241977e028052c106d22f3a1b15dbab90abc1f4ce231fe441",
+            "registryHost": "docker.io",
+            "repository": "ppc64le/php",
+          },
+          "type": "ociDistributionMetadata",
+        },
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
@@ -2132,6 +2142,16 @@ exports[`PPC64 platform tests should correctly scan a PPC image when the user pr
             ],
           },
           "type": "imageNames",
+        },
+        {
+          "data": {
+            "imageTag": "8.0.0rc1-fpm-alpine3.12",
+            "indexDigest": undefined,
+            "manifestDigest": "sha256:5467f37617a1ad7241977e028052c106d22f3a1b15dbab90abc1f4ce231fe441",
+            "registryHost": "docker.io",
+            "repository": "ppc64le/php",
+          },
+          "type": "ociDistributionMetadata",
         },
         {
           "data": "0.0.0-local",

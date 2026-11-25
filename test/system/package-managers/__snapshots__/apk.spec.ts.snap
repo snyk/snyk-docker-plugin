@@ -425,6 +425,16 @@ exports[`apk package manager tests should correctly analyze an apk image 1`] = `
           "type": "imageNames",
         },
         {
+          "data": {
+            "imageTag": "3.12.0",
+            "indexDigest": "sha256:185518070891758909c9f839cf4ca393ee977ac378609f700f60a771a2dfe321",
+            "manifestDigest": "sha256:a15790640a6690aa1730c38cf0a440e2aa44aaca9b0e8931a9f2b0d7cc90fd65",
+            "registryHost": "docker.io",
+            "repository": "library/alpine",
+          },
+          "type": "ociDistributionMetadata",
+        },
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
@@ -1336,6 +1346,16 @@ exports[`apk package manager tests should correctly analyze an apk image with ne
             ],
           },
           "type": "imageNames",
+        },
+        {
+          "data": {
+            "imageTag": undefined,
+            "indexDigest": "sha256:642933df66209814502599053ca3dfa97cccf847badc4219d2b1fd6565f6559a",
+            "manifestDigest": "sha256:5d2f9b2be8e472c8b21bcebfd183c27d7abeaaaf0f5b7cc95e5d50e6cff5f0a2",
+            "registryHost": "docker.io",
+            "repository": "chainguard/bash",
+          },
+          "type": "ociDistributionMetadata",
         },
         {
           "data": "0.0.0-local",

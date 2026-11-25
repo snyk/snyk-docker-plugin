@@ -17,6 +17,13 @@ import {
 
 const debug = Debug("snyk");
 
+// Needle has no response or read timeout by default, so without these a registry
+// that accepts the connection and then stalls would hang the scan.
+export const REGISTRY_REQUEST_TIMEOUTS = {
+  response_timeout: 10_000,
+  read_timeout: 20_000,
+};
+
 const MEDIATYPE_IN_TOTO = "application/vnd.in-toto+json";
 const PREDICATE_TYPE_ANNOTATION = "in-toto.io/predicate-type";
 const SLSA_PROVENANCE_PREFIX = "https://slsa.dev/provenance/";
@@ -45,7 +52,7 @@ export async function fetchAttestationsFromRegistry(
       imageReference,
       username,
       password,
-      undefined,
+      REGISTRY_REQUEST_TIMEOUTS,
       platform,
     );
   } catch (error) {
@@ -89,6 +96,7 @@ export async function fetchAttestationsFromRegistry(
         layer.digest,
         username,
         password,
+        REGISTRY_REQUEST_TIMEOUTS,
       );
       inTotoStatements[layer.digest] = JSON.parse(
         blob.toString("utf-8"),
@@ -132,6 +140,66 @@ export async function fetchAttestationsFromRegistry(
       inTotoStatements,
     },
   ];
+}
+
+/**
+ * Keeps only the in-toto statements that attest the scanned image manifest.
+ * A registry index holds one attestation manifest per platform, and the lookup
+ * above can return another platform's, so unverifiable provenance is dropped
+ * rather than attributed to the wrong image.
+ */
+export function keepAttestationsForManifest(
+  attestations: ResolvedAttestationManifest[],
+  scannedManifestDigest: string | undefined,
+): ResolvedAttestationManifest[] {
+  if (!scannedManifestDigest) {
+    return [];
+  }
+
+  const kept: ResolvedAttestationManifest[] = [];
+  for (const attestation of attestations) {
+    const inTotoStatements: Record<string, InTotoStatement> = {};
+    for (const [layerDigest, statement] of Object.entries(
+      attestation.inTotoStatements,
+    )) {
+      if (statementAttests(statement, scannedManifestDigest)) {
+        inTotoStatements[layerDigest] = statement;
+      }
+    }
+    if (Object.keys(inTotoStatements).length > 0) {
+      kept.push({
+        ...attestation,
+        attestedManifestDigest: scannedManifestDigest,
+        inTotoStatements,
+      });
+    } else {
+      debug(
+        `[provenance] dropping attestation manifest ${attestation.manifestDigest}: it does not attest ${scannedManifestDigest}`,
+      );
+    }
+  }
+  return kept;
+}
+
+// Statements come from registry blobs, so their shape is not guaranteed.
+function statementAttests(
+  statement: InTotoStatement | null | undefined,
+  manifestDigest: string,
+): boolean {
+  const subjects: unknown = statement?.subject;
+  if (!Array.isArray(subjects)) {
+    return false;
+  }
+  return subjects.some((subject) => {
+    const digest = subject?.digest;
+    return (
+      typeof digest === "object" &&
+      digest !== null &&
+      Object.entries(digest).some(
+        ([algorithm, value]) => `${algorithm}:${value}` === manifestDigest,
+      )
+    );
+  });
 }
 
 export function parsePlatform(
