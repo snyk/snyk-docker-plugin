@@ -113,6 +113,97 @@ describe("dotnet deps.json analyzer", () => {
     });
   });
 
+  // Fixtures are a `dotnet new web` (net10.0) app referencing Swashbuckle.AspNetCore,
+  // published with and without PreserveCompilationContext=true. The PCC file is
+  // trimmed to 6 of the SDK's 307 "referenceassembly" entries. Swashbuckle.AspNetCore
+  // is hand-marked compileOnly to mirror a shape seen in a production deps.json.
+  describe("PreserveCompilationContext publishes", () => {
+    async function pkgsOf(fixture: string): Promise<string[]> {
+      const results = await dotnetFilesToScannedProjects({
+        "/app/WebApp.deps.json": loadFixture(fixture),
+      });
+      const depGraph = results[0].facts.find(
+        (f) => f.type === "depGraph",
+      )!.data;
+      return depGraph
+        .getPkgs()
+        .map((p) => `${p.name}@${p.version}`)
+        .sort();
+    }
+
+    it("should not report referenceassembly entries as packages", async () => {
+      const pkgs = await pkgsOf("PreserveCompilationContext.deps.json");
+      expect(pkgs).not.toContain(
+        "Microsoft.AspNetCore.DataProtection@10.0.0.0",
+      );
+      expect(pkgs).not.toContain("System.Security.Cryptography.Xml@10.0.0.0");
+      expect(pkgs.filter((p) => p.endsWith("@10.0.0.0"))).toEqual([]);
+    });
+
+    it("should keep compileOnly packages and their runtime children", async () => {
+      const pkgs = await pkgsOf("PreserveCompilationContext.deps.json");
+      expect(pkgs).toEqual([
+        "Microsoft.Extensions.ApiDescription.Server@10.0.0",
+        "Microsoft.OpenApi@2.7.5",
+        "Swashbuckle.AspNetCore.Swagger@10.3.0",
+        "Swashbuckle.AspNetCore.SwaggerGen@10.3.0",
+        "Swashbuckle.AspNetCore.SwaggerUI@10.3.0",
+        "Swashbuckle.AspNetCore@10.3.0",
+        "WebApp@1.0.0",
+      ]);
+    });
+
+    it("should match the default publish plus compile-only packages", async () => {
+      const withPcc = await pkgsOf("PreserveCompilationContext.deps.json");
+      const withoutPcc = await pkgsOf(
+        "PreserveCompilationContextDefault.deps.json",
+      );
+      expect(withoutPcc).toHaveLength(6);
+      expect(withPcc).toEqual(
+        [
+          ...withoutPcc,
+          "Microsoft.Extensions.ApiDescription.Server@10.0.0",
+        ].sort(),
+      );
+    });
+    it("should prefer a real package over a same-named reference assembly", async () => {
+      // The SDK renames clashing reference assemblies to "<name>.Reference", but
+      // other producers may not. Put the reference assembly last, where a
+      // last-wins index would otherwise pick it.
+      const content = JSON.stringify({
+        runtimeTarget: { name: ".NETCoreApp,Version=v10.0" },
+        targets: {
+          ".NETCoreApp,Version=v10.0": {
+            "WebApp/1.0.0": {
+              dependencies: { "System.Security.Cryptography.Xml": "10.0.6" },
+            },
+            "System.Security.Cryptography.Xml/10.0.6": {},
+            "System.Security.Cryptography.Xml/10.0.0.0": { compileOnly: true },
+          },
+        },
+        libraries: {
+          "WebApp/1.0.0": { type: "project" },
+          "System.Security.Cryptography.Xml/10.0.6": { type: "package" },
+          "System.Security.Cryptography.Xml/10.0.0.0": {
+            type: "referenceassembly",
+          },
+        },
+      });
+      const results = await dotnetFilesToScannedProjects({
+        "/app/WebApp.deps.json": content,
+      });
+      const depGraph = results[0].facts.find(
+        (f) => f.type === "depGraph",
+      )!.data;
+      expect(
+        depGraph
+          .getPkgs()
+          .map((p) => `${p.name}@${p.version}`)
+          .sort(),
+      ).toEqual(["System.Security.Cryptography.Xml@10.0.6", "WebApp@1.0.0"]);
+    });
+  });
+
   describe("edge cases", () => {
     it("should return empty array for non-deps.json files", async () => {
       const filePathToContent = {

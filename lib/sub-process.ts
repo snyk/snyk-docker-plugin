@@ -1,4 +1,5 @@
 import * as childProcess from "child_process";
+import { cleanSnykEnv } from "@snyk/cli-interface";
 import * as os from "node:os";
 import { escapeAll, quoteAll } from "shescape/stateless";
 
@@ -37,17 +38,7 @@ function execute(
     }
   }
 
-  // Before spawning an external process, we look if we need to restore the system proxy configuration,
-  // which overrides the cli internal proxy configuration.
-  if (process.env.SNYK_SYSTEM_HTTP_PROXY !== undefined) {
-    spawnOptions.env.HTTP_PROXY = process.env.SNYK_SYSTEM_HTTP_PROXY;
-  }
-  if (process.env.SNYK_SYSTEM_HTTPS_PROXY !== undefined) {
-    spawnOptions.env.HTTPS_PROXY = process.env.SNYK_SYSTEM_HTTPS_PROXY;
-  }
-  if (process.env.SNYK_SYSTEM_NO_PROXY !== undefined) {
-    spawnOptions.env.NO_PROXY = process.env.SNYK_SYSTEM_NO_PROXY;
-  }
+  spawnOptions.env = cleanSnykEnv(spawnOptions.env, process.env);
 
   return new Promise((resolve, reject) => {
     let stdout = "";

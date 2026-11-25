@@ -2036,6 +2036,16 @@ exports[`AMD platform tests should correctly scan an AMD image and return platfo
           "type": "imageNames",
         },
         {
+          "data": {
+            "imageTag": undefined,
+            "indexDigest": undefined,
+            "manifestDigest": "sha256:fed4c3c120450b140aaff9b125306cc58aba99876399b081a6ba054c0328a189",
+            "registryHost": "docker.io",
+            "repository": "library/redis",
+          },
+          "type": "ociDistributionMetadata",
+        },
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
@@ -4088,6 +4098,16 @@ exports[`AMD platform tests should correctly scan an AMD image when the user pro
             ],
           },
           "type": "imageNames",
+        },
+        {
+          "data": {
+            "imageTag": undefined,
+            "indexDigest": undefined,
+            "manifestDigest": "sha256:fed4c3c120450b140aaff9b125306cc58aba99876399b081a6ba054c0328a189",
+            "registryHost": "docker.io",
+            "repository": "library/redis",
+          },
+          "type": "ociDistributionMetadata",
         },
         {
           "data": "0.0.0-local",

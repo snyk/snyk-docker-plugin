@@ -2477,6 +2477,16 @@ exports[`CentOS 7 tests should correctly analyze a centos image by sha256 1`] = 
           "type": "imageNames",
         },
         {
+          "data": {
+            "imageTag": undefined,
+            "indexDigest": undefined,
+            "manifestDigest": "sha256:50b9a3bc27378889210f88d6d0695938e45a912aa99b3fdacfb9a0fef511f15a",
+            "registryHost": "docker.io",
+            "repository": "library/centos",
+          },
+          "type": "ociDistributionMetadata",
+        },
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },
@@ -4970,6 +4980,16 @@ exports[`CentOS 7 tests should correctly analyze a centos image by tag 1`] = `
             ],
           },
           "type": "imageNames",
+        },
+        {
+          "data": {
+            "imageTag": "7.8.2003",
+            "indexDigest": "sha256:8540a199ad51c6b7b51492fa9fee27549fd11b3bb913e888ab2ccf77cbb72cc1",
+            "manifestDigest": "sha256:50b9a3bc27378889210f88d6d0695938e45a912aa99b3fdacfb9a0fef511f15a",
+            "registryHost": "docker.io",
+            "repository": "library/centos",
+          },
+          "type": "ociDistributionMetadata",
         },
         {
           "data": "0.0.0-local",

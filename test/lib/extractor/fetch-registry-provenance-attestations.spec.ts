@@ -5,6 +5,7 @@ import {
 
 import {
   fetchAttestationsFromRegistry,
+  keepAttestationsForManifest,
   parsePlatform,
 } from "../../../lib/extractor/fetch-registry-provenance-attestations";
 
@@ -25,6 +26,11 @@ const ref = {
   repo: "library/myimage",
   imageReference: "latest",
 };
+
+const requestTimeouts = expect.objectContaining({
+  response_timeout: expect.any(Number),
+  read_timeout: expect.any(Number),
+});
 
 const statement = { predicateType: SLSA_PROVENANCE };
 const statementBlob = Buffer.from(JSON.stringify(statement));
@@ -82,7 +88,7 @@ describe("fetch-registry-provenance-attestations", () => {
         ref.imageReference,
         "user",
         "pass",
-        undefined,
+        requestTimeouts,
         platform,
       );
       expect(mockGetLayer).toHaveBeenCalledWith(
@@ -91,6 +97,7 @@ describe("fetch-registry-provenance-attestations", () => {
         "sha256:layer1",
         "user",
         "pass",
+        requestTimeouts,
       );
     });
 
@@ -125,6 +132,7 @@ describe("fetch-registry-provenance-attestations", () => {
         "sha256:prov",
         undefined,
         undefined,
+        requestTimeouts,
       );
       expect(Object.keys(result[0].inTotoStatements)).toEqual(["sha256:prov"]);
     });
@@ -164,6 +172,72 @@ describe("fetch-registry-provenance-attestations", () => {
 
       expect(await fetchAttestationsFromRegistry(ref)).toEqual([]);
       expect(mockGetLayer).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("keepAttestationsForManifest", () => {
+    const AMD64_MANIFEST = `sha256:${"a".repeat(64)}`;
+    const ARM64_MANIFEST = `sha256:${"b".repeat(64)}`;
+    const statementFor = (manifestDigest: string) => ({
+      predicateType: SLSA_PROVENANCE,
+      subject: [{ digest: { sha256: manifestDigest.replace("sha256:", "") } }],
+    });
+    const attestationFor = (manifestDigest: string) => ({
+      manifestDigest: "sha256:attmanifest",
+      manifest: {
+        schemaVersion: "2",
+        config: { digest: "sha256:config" },
+        layers: [{ digest: "sha256:layer1", mediaType: IN_TOTO }],
+      } as any,
+      inTotoStatements: { "sha256:layer1": statementFor(manifestDigest) },
+    });
+
+    it("keeps attestations whose subject is the scanned manifest", () => {
+      const result = keepAttestationsForManifest(
+        [attestationFor(ARM64_MANIFEST)],
+        ARM64_MANIFEST,
+      );
+
+      expect(result).toHaveLength(1);
+      expect(result[0].attestedManifestDigest).toEqual(ARM64_MANIFEST);
+      expect(Object.keys(result[0].inTotoStatements)).toEqual([
+        "sha256:layer1",
+      ]);
+    });
+
+    it("drops attestations for another platform's manifest", () => {
+      expect(
+        keepAttestationsForManifest(
+          [attestationFor(AMD64_MANIFEST)],
+          ARM64_MANIFEST,
+        ),
+      ).toEqual([]);
+    });
+
+    it("drops attestations when the scanned manifest digest is unknown", () => {
+      expect(
+        keepAttestationsForManifest(
+          [attestationFor(ARM64_MANIFEST)],
+          undefined,
+        ),
+      ).toEqual([]);
+    });
+
+    it("skips malformed statements and keeps valid ones", () => {
+      const attestation = attestationFor(ARM64_MANIFEST);
+      attestation.inTotoStatements = {
+        "sha256:null": null,
+        "sha256:badsubject": { predicateType: SLSA_PROVENANCE, subject: "x" },
+        "sha256:baddigest": { subject: [null, { digest: "x" }] },
+        ...attestation.inTotoStatements,
+      } as any;
+
+      const result = keepAttestationsForManifest([attestation], ARM64_MANIFEST);
+
+      expect(result).toHaveLength(1);
+      expect(Object.keys(result[0].inTotoStatements)).toEqual([
+        "sha256:layer1",
+      ]);
     });
   });
 });

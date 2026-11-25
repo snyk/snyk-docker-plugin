@@ -734,3 +734,71 @@ describe("GoFileNameError", () => {
     }
   });
 });
+
+// Vendored file paths carry no module version, so files must be matched to
+// modules on a path boundary, and to the longest matching module only.
+// github.com/aws/aws-sdk-go is a plain string prefix of
+// github.com/aws/aws-sdk-go-v2, and github.com/aws/aws-sdk-go-v2/service/s3 is
+// nested inside github.com/aws/aws-sdk-go-v2.
+describe("match files to modules with overlapping module paths", () => {
+  const goBin = new GoBinary(
+    elf.parse(
+      readFileSync(
+        path.join(__dirname, "../fixtures/go-binaries/go1.13.15_normal"),
+      ),
+    ),
+  );
+
+  const modules = () => [
+    new GoModule("github.com/aws/aws-sdk-go", "v1.55.8"),
+    new GoModule("github.com/aws/aws-sdk-go-v2", "v1.43.4"),
+    new GoModule("github.com/aws/aws-sdk-go-v2/service/s3", "v1.107.0"),
+  ];
+
+  const packagesByModule = () =>
+    Object.fromEntries(
+      goBin.modules.map((mod) => [
+        `${mod.name}@${mod.version}`,
+        [...mod.packages].sort(),
+      ]),
+    );
+
+  const expected = {
+    "github.com/aws/aws-sdk-go@v1.55.8": ["github.com/aws/aws-sdk-go/aws"],
+    "github.com/aws/aws-sdk-go-v2@v1.43.4": [
+      "github.com/aws/aws-sdk-go-v2/aws",
+    ],
+    "github.com/aws/aws-sdk-go-v2/service/s3@v1.107.0": [
+      "github.com/aws/aws-sdk-go-v2/service/s3",
+      "github.com/aws/aws-sdk-go-v2/service/s3/internal/arn",
+    ],
+  };
+
+  beforeEach(() => {
+    goBin.modules = modules();
+  });
+
+  it("assigns each vendored file to exactly one module", () => {
+    goBin.matchFilesToModules([
+      "/app/main.go",
+      "/app/vendor/github.com/aws/aws-sdk-go/aws/config.go",
+      "/app/vendor/github.com/aws/aws-sdk-go-v2/aws/config.go",
+      "/app/vendor/github.com/aws/aws-sdk-go-v2/service/s3/api_client.go",
+      "/app/vendor/github.com/aws/aws-sdk-go-v2/service/s3/internal/arn/arn.go",
+      "/usr/local/go/src/fmt/print.go",
+    ]);
+    expect(packagesByModule()).toEqual(expected);
+  });
+
+  it("assigns each module cache file to exactly one module", () => {
+    goBin.matchFilesToModules([
+      "/app/main.go",
+      "/go/pkg/mod/github.com/aws/aws-sdk-go@v1.55.8/aws/config.go",
+      "/go/pkg/mod/github.com/aws/aws-sdk-go-v2@v1.43.4/aws/config.go",
+      "/go/pkg/mod/github.com/aws/aws-sdk-go-v2/service/s3@v1.107.0/api_client.go",
+      "/go/pkg/mod/github.com/aws/aws-sdk-go-v2/service/s3@v1.107.0/internal/arn/arn.go",
+      "/usr/local/go/src/fmt/print.go",
+    ]);
+    expect(packagesByModule()).toEqual(expected);
+  });
+});
