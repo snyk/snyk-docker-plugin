@@ -1324,6 +1324,16 @@ exports[`ARM platform tests should correctly scan an ARM image 1`] = `
           "type": "imageNames",
         },
         {
+          "data": {
+            "imageTag": "1.19.2-alpine",
+            "indexDigest": undefined,
+            "manifestDigest": "sha256:8d99a3e08d0f07ca0fdf1db5c56b1f30d9cc97af5458ecfac604b8887cba289a",
+            "registryHost": "docker.io",
+            "repository": "arm64v8/nginx",
+          },
+          "type": "ociDistributionMetadata",
+        },
+        {
           "data": "0.0.0-local",
           "type": "pluginVersion",
         },

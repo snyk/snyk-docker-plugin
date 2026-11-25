@@ -61,6 +61,21 @@ function normalizePackageName(name: string): string {
     : name;
 }
 
+// PreserveCompilationContext=true makes the SDK write compile-time-only
+// reference assemblies into deps.json as "referenceassembly" libraries keyed by
+// their 4-part assembly version (e.g. Microsoft.AspNetCore.DataProtection/10.0.0.0).
+// These are mostly the shared framework, plus any <Reference Private="false">
+// DLLs. None is a NuGet package coordinate, and a default publish omits them, so
+// matching them against NuGet advisories yields false positives.
+// Compile-only *packages* ("type": "package") are real NuGet ids and are kept.
+// Library types are compared case-insensitively, as Microsoft.Extensions.DependencyModel does.
+function isReferenceAssembly(
+  key: string,
+  libraries: NonNullable<DepsJson["libraries"]>,
+): boolean {
+  return libraries[key]?.type?.toLowerCase() === "referenceassembly";
+}
+
 async function addDependency(
   parentNodeId: string,
   depName: string,
@@ -174,6 +189,9 @@ async function buildDepGraphFromDepsJson(content: string, filePath: string) {
 
   const packageIndex: PackageIndex = new Map();
   for (const key of allPackages) {
+    if (isReferenceAssembly(key, libraries)) {
+      continue;
+    }
     const parsed = parsePackageKey(key);
     if (!parsed) {
       continue;
