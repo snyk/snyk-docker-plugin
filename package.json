@@ -30,7 +30,7 @@
     "node": ">=22"
   },
   "dependencies": {
-    "@snyk/cli-interface": "^2.16.0",
+    "@snyk/cli-interface": "^2.17.0",
     "@snyk/composer-lockfile-parser": "^1.5.0",
     "@snyk/dep-graph": "^2.16.11",
     "@snyk/docker-registry-v2-client": "^4.0.7",

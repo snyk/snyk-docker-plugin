@@ -1,4 +1,5 @@
 import { execFile } from "child_process";
+import { cleanSnykEnv } from "@snyk/cli-interface";
 import * as Debug from "debug";
 import * as fs from "fs";
 import * as os from "os";
@@ -173,7 +174,10 @@ function runCredentialHelper(
     const child = execFile(
       `docker-credential-${helperName}`,
       ["get"],
-      { timeout: CREDENTIAL_HELPER_TIMEOUT_MS, env: process.env },
+      {
+        timeout: CREDENTIAL_HELPER_TIMEOUT_MS,
+        env: cleanSnykEnv(process.env, process.env),
+      },
       (error, stdout) => {
         if (error) {
           debug(
