@@ -39,6 +39,20 @@ function writeCredentialHelper(
   fs.chmodSync(helperPath, 0o755);
 }
 
+// Writes a fake `docker-credential-<name>` helper that saves its environment to envFile.
+function writeEnvProbeHelper(
+  binDir: string,
+  name: string,
+  envFile: string,
+): void {
+  const helperPath = path.join(binDir, `docker-credential-${name}`);
+  fs.writeFileSync(
+    helperPath,
+    ["#!/bin/sh", `env > "${envFile}"`, "exit 1"].join("\n"),
+  );
+  fs.chmodSync(helperPath, 0o755);
+}
+
 const basicAuth = (username: string, password: string) =>
   Buffer.from(`${username}:${password}`).toString("base64");
 
@@ -64,6 +78,8 @@ describe("resolveRegistryCredentials", () => {
       process.env.DOCKER_CONFIG = originalDockerConfig;
     }
     process.env.PATH = originalPath;
+    delete process.env.SNYK_TOKEN;
+    delete process.env.snyk_lowercase_token;
   });
 
   it("prefers explicitly provided credentials over docker config", async () => {
@@ -224,6 +240,23 @@ describe("resolveRegistryCredentials", () => {
     writeDockerConfig(configDir, { credsStore: "../../bin/sh" });
 
     expect(await resolveRegistryCredentials("myregistry.io")).toEqual({});
+  });
+
+  it("does not pass SNYK_* variables to the credential helper", async () => {
+    const envFile = path.join(binDir, "helper-env");
+    writeEnvProbeHelper(binDir, "envprobe", envFile);
+    writeDockerConfig(configDir, { credsStore: "envprobe" });
+    process.env.SNYK_TOKEN = "test-token";
+    process.env.snyk_lowercase_token = "test-token";
+
+    await resolveRegistryCredentials("myregistry.io");
+
+    const childKeys = fs
+      .readFileSync(envFile, "utf8")
+      .split("\n")
+      .map((line) => line.split("=")[0]);
+    expect(childKeys).toContain("PATH");
+    expect(childKeys.filter((key) => /^snyk_/i.test(key))).toEqual([]);
   });
 
   it("never logs config contents when the config is not valid JSON", async () => {
