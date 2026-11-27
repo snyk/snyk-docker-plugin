@@ -491,8 +491,10 @@ function getUserInstructionDeps(
 ): DockerFilePackages {
   for (const dependencyName in dependencies) {
     if (dependencies.hasOwnProperty(dependencyName)) {
-      const sourceOrName = dependencyName.split("/")[0];
-      const dockerfilePackage = dockerfilePackages[sourceOrName];
+      const dockerfilePackage = findDockerfilePackage(
+        dockerfilePackages,
+        dependencyName,
+      );
 
       if (dockerfilePackage) {
         for (const dep of collectDeps(dependencies[dependencyName])) {
@@ -503,6 +505,34 @@ function getUserInstructionDeps(
   }
 
   return dockerfilePackages;
+}
+
+/**
+ * Dep-tree keys are `<Source>/<Name>` when a Debian or Ubuntu package's dpkg
+ * `Source` differs from its binary name (see `depFullName`), and just `<Name>`
+ * otherwise. Dockerfile packages are keyed by the binary names given to the
+ * install command, so a dep matches on its binary name (the last segment) or
+ * its source name (the first segment). Only lookups consult both: the entries
+ * `getUserInstructionDeps` adds for transitive deps stay keyed by source
+ * segment, which is what the emitted `dockerfilePackages` fact has always held.
+ */
+function dockerfilePackageKeys(depName: string): string[] {
+  const segments = depName.split("/");
+  const source = segments[0];
+  const binary = segments[segments.length - 1];
+  return source === binary ? [binary] : [binary, source];
+}
+
+function findDockerfilePackage(
+  dockerfilePackages: DockerFilePackages,
+  depName: string,
+) {
+  for (const key of [depName, ...dockerfilePackageKeys(depName)]) {
+    if (dockerfilePackages[key] !== undefined) {
+      return dockerfilePackages[key];
+    }
+  }
+  return undefined;
 }
 
 function collectDeps(pkg) {
@@ -536,13 +566,7 @@ function excludeBaseImageDeps(
   }
 
   return Object.keys(deps)
-    .filter((depName) => {
-      if (dockerfilePkgs[depName] !== undefined) {
-        return true;
-      }
-      const source = depName.split("/")[0];
-      return dockerfilePkgs[source] !== undefined;
-    })
+    .filter((depName) => findDockerfilePackage(dockerfilePkgs, depName))
     .reduce((extractedDeps, depName) => {
       extractedDeps[depName] = deps[depName];
       return extractedDeps;
@@ -571,8 +595,7 @@ function annotateLayerIds(
 
   for (const dep of Object.keys(deps)) {
     const pkg = deps[dep];
-    const pkgSource = dep.split("/")[0];
-    const dockerfilePkg = dockerfilePkgs[dep] || dockerfilePkgs[pkgSource];
+    const dockerfilePkg = findDockerfilePackage(dockerfilePkgs, dep);
     if (dockerfilePkg) {
       pkg.labels = {
         ...(pkg.labels || {}),
