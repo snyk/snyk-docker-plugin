@@ -66,6 +66,28 @@ describe("deleted files", () => {
   });
 
   /*
+    The image in the example below was built with the following Dockerfile:
+
+    FROM scratch
+    COPY Gemfile Gemfile.lock /app/
+    RUN rm /app/Gemfile.lock
+  */
+  it("deleted Gemfile.lock should not produce a rubygems scan result", async () => {
+    const fixturePath = getFixture("docker-save/gemfile-deleted.tar");
+    const imagePath = `docker-archive:${fixturePath}`;
+
+    const pluginResult = await plugin.scan({
+      path: imagePath,
+      "app-vulns": true,
+    });
+
+    const rubyResults = pluginResult.scanResults.filter(
+      (result) => result.identity.type === "rubygems",
+    );
+    expect(rubyResults).toHaveLength(0);
+  });
+
+  /*
     The following refers to the case where in several layers the exact same files are added in the same exact path.
     The image in the example below was built with the following Dockerfile:
 

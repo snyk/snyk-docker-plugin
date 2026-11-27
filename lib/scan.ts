@@ -83,10 +83,13 @@ async function getAnalysisParameters(
     );
   }
 
-  // TODO temporary solution to avoid double results for PHP if exists in `globsToFind`
+  // TODO temporary solution to avoid double results for PHP/Ruby if exists in `globsToFind`
+  // Native analyzers already emit dep graphs for these ecosystems; callers (e.g.
+  // docker-registry-agent) that still pass these globs would otherwise get both a
+  // raw imageManifestFiles fact and a composer/rubygems scan result.
   if (options.globsToFind) {
     options.globsToFind.include = options.globsToFind.include.filter(
-      (glob) => !glob.includes("composer"),
+      (glob) => !glob.includes("composer") && !glob.includes("Gemfile"),
     );
   }
 
