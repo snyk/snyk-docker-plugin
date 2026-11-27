@@ -330,6 +330,9 @@ workflows:
           context:
             - nodejs-install
             - snyk-bot-slack
+          filters:
+            branches:
+              ignore: main
           requires:
             - Install
       - build:
@@ -338,7 +341,7 @@ workflows:
             - nodejs-install
             - snyk-bot-slack
           requires:
-            - Lint
+            - Install
       - security-scans:
           name: Security Scans
           context:
